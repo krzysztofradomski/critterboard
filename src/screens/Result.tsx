@@ -1,11 +1,12 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { BUGS, findBug } from '@/data/bugs';
+import { haptics } from '@/lib/haptics';
 import { PERSONAS } from '@/personas';
 import { PB, RARITY_COLOR } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
@@ -31,7 +32,9 @@ export function Result() {
   const showToast = useAppStore((s) => s.showToast);
   const dex = useAppStore((s) => s.dex);
   const route = useCurrentRoute();
-  const id = (route.params as { id?: string } | undefined)?.id ?? 'mona';
+  const params = route.params as { id?: string; photoUri?: string } | undefined;
+  const id = params?.id ?? 'mona';
+  const photoUri = params?.photoUri ?? null;
   const bug = findBug(id) ?? BUGS[0];
   if (!bug) return null;
 
@@ -51,6 +54,7 @@ export function Result() {
       return;
     }
     catchBug(bug.id);
+    haptics.success();
     showToast({ text: `Caught! +${bug.xp} XP · ${bug.tier}`, icon: bug.emoji, bg: PB.green });
     setTimeout(() => go('dex'), 900);
   };
@@ -68,7 +72,11 @@ export function Result() {
       <ScrollView contentContainerStyle={styles.scroll}>
         <Sticker bg={PB.cream} rotate={-1} style={styles.heroSticker}>
           <View style={styles.heroImage}>
-            <CameraScene dark={false} />
+            {photoUri ? (
+              <Image source={{ uri: photoUri }} style={styles.heroPhoto} resizeMode="cover" />
+            ) : (
+              <CameraScene dark={false} />
+            )}
             <View style={[styles.tierBadge, { backgroundColor: RARITY_COLOR[bug.rarity] }]}>
               <Text style={styles.tierText}>
                 {bug.tier} {bug.rarity.toUpperCase()}
@@ -140,6 +148,7 @@ const styles = StyleSheet.create({
   scroll: { paddingVertical: 12, paddingHorizontal: 14 },
   heroSticker: { padding: 0, overflow: 'hidden' },
   heroImage: { height: 200, position: 'relative', backgroundColor: '#fff', overflow: 'hidden' },
+  heroPhoto: { ...StyleSheet.absoluteFillObject },
   tierBadge: {
     position: 'absolute',
     top: 10,

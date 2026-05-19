@@ -1,35 +1,23 @@
+import { mockRuntime } from '@/ai/llm';
 import type { Persona } from '@/personas';
 
 /**
- * Mock for the on-device chat model.
+ * Back-compat shim for the previous `complete(persona, text)` API used by
+ * Chat.tsx. New screens should consume `llm` from `src/ai/index.ts`
+ * directly so they can stream tokens. This function preserves the
+ * single-shot "await reply" contract for now.
  *
- * The prototype called `window.claude.complete(...)` with a fallback to
- * the persona's canned replies. We preserve the same shape and the same
- * fallback contract here so swapping in a real on-device runtime later
- * is a drop-in change.
+ * Behaviour matches the original mock exactly:
+ *   - ~20% of calls throw, exercising the canned-fallback branch in Chat.
+ *   - Otherwise we return a single canned line biased by keywords.
  *
- * Behavior in this mock:
- *  - 80 % of the time we resolve after a short delay with a canned line
- *    chosen by the persona's system prompt + the user's text.
- *  - 20 % of the time we reject (simulating a timeout) so the screen
- *    exercises its fallback branch.
+ * When `USE_LLAMA_RN = true` in `src/ai/index.ts`, swap this to consume
+ * `llm.complete(buildPrompt(...))` and concatenate the streamed chunks.
  */
 export async function complete(persona: Persona, userText: string): Promise<string> {
-  await new Promise((r) => setTimeout(r, 600 + Math.random() * 900));
-
-  if (Math.random() < 0.2) {
-    throw new Error('timeout');
+  let combined = '';
+  for await (const chunk of mockRuntime.completeWithPersona(persona, userText)) {
+    combined += chunk;
   }
-
-  const text = userText.toLowerCase();
-  // Pick a canned reply biased by surface keywords so it feels persona-aware.
-  const idx =
-    text.includes('bee') || text.includes('wasp') || text.includes('hornet')
-      ? 4
-      : text.includes('hover')
-      ? 1
-      : text.includes('photo') || text.includes('blurry')
-      ? 3
-      : Math.floor(Math.random() * persona.canned.length);
-  return persona.canned[idx % persona.canned.length] as string;
+  return combined;
 }

@@ -11,10 +11,11 @@ import {
   View,
 } from 'react-native';
 
+import { mockRuntime } from '@/ai';
 import { IconBtn } from '@/components/IconBtn';
+import { haptics } from '@/lib/haptics';
 import { PERSONAS, PERSONA_IDS, type Persona } from '@/personas';
 import { PB } from '@/tokens/pb';
-import { complete } from '@/ai/chat';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
@@ -38,10 +39,16 @@ export function Chat() {
   const [typing, setTyping] = useState(false);
   const personaRef = useRef(P.id);
   const scrollRef = useRef<ScrollView | null>(null);
+  /** Cancellation token for the in-flight `complete()` iteration. */
+  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     if (personaRef.current !== P.id) {
       personaRef.current = P.id;
+      // A persona switch invalidates any reply currently streaming —
+      // the new persona's system prompt would have answered differently.
+      abortRef.current?.abort();
+      setTyping(false);
       setMsgs(initialMessages(P, topic));
     }
   }, [P.id, P, topic]);
@@ -50,25 +57,47 @@ export function Chat() {
     scrollRef.current?.scrollToEnd({ animated: true });
   }, [msgs, typing]);
 
+  /**
+   * Streamed completion. The mock runtime yields one chunk; production
+   * Llama yields one chunk per token. Either way we append into the
+   * last "larva" bubble live so the user sees the answer materialise.
+   */
   const send = async () => {
     const text = input.trim();
     if (!text) return;
+    abortRef.current?.abort();
+    const ctrl = new AbortController();
+    abortRef.current = ctrl;
+
     setMsgs((m) => [...m, { who: 'me', t: text }]);
     setInput('');
     setTyping(true);
 
-    let reply: string | null = null;
+    // Reserve the assistant bubble so chunks have a place to land.
+    setMsgs((m) => [...m, { who: 'larva', t: '' }]);
+    let received = '';
+
     try {
-      reply = await complete(P, text);
+      for await (const chunk of mockRuntime.completeWithPersona(P, text, topic)) {
+        if (ctrl.signal.aborted) return;
+        received += chunk;
+        setMsgs((m) => {
+          const copy = m.slice();
+          copy[copy.length - 1] = { who: 'larva', t: received };
+          return copy;
+        });
+      }
     } catch {
-      // fall through to canned line
+      // Streaming failed — drop in a canned line so the UI never stalls.
+      const fallback = P.canned[Math.floor(Math.random() * P.canned.length)] ?? '...';
+      setMsgs((m) => {
+        const copy = m.slice();
+        copy[copy.length - 1] = { who: 'larva', t: fallback };
+        return copy;
+      });
+    } finally {
+      if (!ctrl.signal.aborted) setTyping(false);
     }
-    if (!reply) {
-      const fallback = P.canned[Math.floor(Math.random() * P.canned.length)];
-      reply = fallback ?? '...';
-    }
-    setTyping(false);
-    setMsgs((m) => [...m, { who: 'larva', t: reply as string }]);
   };
 
   return (
@@ -89,7 +118,10 @@ export function Chat() {
           {PERSONA_IDS.map((pid) => (
             <Pressable
               key={pid}
-              onPress={() => setPersona(pid)}
+              onPress={() => {
+                haptics.select();
+                setPersona(pid);
+              }}
               style={[
                 styles.switchDot,
                 {

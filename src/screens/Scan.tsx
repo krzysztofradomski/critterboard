@@ -1,13 +1,17 @@
+import { CameraView, useCameraPermissions } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { vision, type Candidate } from '@/ai';
+import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
+import { haptics } from '@/lib/haptics';
 import { PERSONAS } from '@/personas';
 import { PB } from '@/tokens/pb';
-import { useAppStore } from '@/store/useAppStore';
-import { useCurrentRoute } from '@/store/useAppStore';
+import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
 type Phase = 'aim' | 'flash' | 'analyzing';
@@ -15,9 +19,13 @@ type Phase = 'aim' | 'flash' | 'analyzing';
 export function Scan() {
   const { go, back } = useNav();
   const persona = useAppStore((s) => s.persona);
+  const setLastPhotoUri = useAppStore((s) => s.setLastPhotoUri);
   const P = PERSONAS[persona];
   const route = useCurrentRoute();
   const hint = (route.params as { hint?: string } | undefined)?.hint ?? 'mona';
+
+  const [permission, requestPermission] = useCameraPermissions();
+  const cameraRef = useRef<CameraView | null>(null);
 
   const [phase, setPhase] = useState<Phase>('aim');
   const [flash, setFlash] = useState(false);
@@ -45,18 +53,113 @@ export function Scan() {
     }
   }, [phase, reticleRotate]);
 
-  const shutter = () => {
+  /**
+   * Run the (mock or native) classifier on a captured/picked photo and
+   * route to Result / Disambiguate / NoMatch based on the confidence
+   * spread. Holds the analysing animation for ~2 s so the UX feels
+   * deliberate even when inference is sub-100 ms.
+   */
+  const classifyAndRoute = (photoUri: string | null) => {
+    if (photoUri) setLastPhotoUri(photoUri);
+    const startedAt = Date.now();
+    void (async () => {
+      let candidates: Candidate[] = [];
+      try {
+        candidates = await vision.classify(photoUri, { hint, topK: 3 });
+      } catch {
+        candidates = [];
+      }
+      const minHold = 2200 - (Date.now() - startedAt);
+      setTimeout(() => {
+        const top = candidates[0];
+        const second = candidates[1];
+        const confident =
+          top &&
+          top.confidence >= 0.7 &&
+          (!second || top.confidence - second.confidence >= 0.15);
+
+        if (confident && top) {
+          haptics.success();
+          go('result', { id: top.bugId, ...(photoUri ? { photoUri } : {}) });
+        } else if (candidates.length >= 2) {
+          haptics.select();
+          go('disambiguate', {
+            candidates: candidates.map((c) => c.bugId),
+            confs: candidates.map((c) => Math.round(c.confidence * 100)),
+          });
+        } else {
+          haptics.warning();
+          go('nomatch');
+        }
+      }, Math.max(0, minHold));
+    })();
+  };
+
+  const shutter = async () => {
     if (phase !== 'aim') return;
+    haptics.tap();
     setFlash(true);
     setPhase('flash');
     setTimeout(() => setFlash(false), 180);
     setTimeout(() => setPhase('analyzing'), 220);
-    setTimeout(() => go('result', { id: hint }), 2200);
+
+    // Snap a real photo if the camera is mounted; fall back to a null URI
+    // (the mock classifier doesn't care) when running on simulator/web.
+    let photoUri: string | null = null;
+    try {
+      const result = await cameraRef.current?.takePictureAsync({
+        quality: 0.85,
+        skipProcessing: true,
+      });
+      photoUri = result?.uri ?? null;
+    } catch {
+      photoUri = null;
+    }
+    classifyAndRoute(photoUri);
   };
+
+  const pickFromGallery = async () => {
+    if (phase !== 'aim') return;
+    const status = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!status.granted) {
+      haptics.warning();
+      return;
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 0.85,
+      allowsEditing: false,
+    });
+    if (result.canceled || !result.assets?.length) return;
+    const photoUri = result.assets[0]?.uri ?? null;
+    haptics.tap();
+    setPhase('analyzing');
+    classifyAndRoute(photoUri);
+  };
+
+  /**
+   * Permission states:
+   *   - permission is null on first render (hook still bootstrapping)
+   *   - granted: show real camera
+   *   - denied + canAskAgain: show prompt CTA
+   *   - denied + !canAskAgain: explain how to enable in Settings
+   */
+  const cameraReady = permission?.granted;
 
   return (
     <View style={styles.root}>
-      <CameraScene />
+      {cameraReady ? (
+        <CameraView
+          ref={(ref) => {
+            cameraRef.current = ref;
+          }}
+          style={StyleSheet.absoluteFill}
+          facing="back"
+          mute
+        />
+      ) : (
+        <CameraScene />
+      )}
 
       {phase === 'analyzing' && <View style={styles.tint} />}
       {flash && <View style={styles.flash} />}
@@ -76,6 +179,24 @@ export function Scan() {
         </View>
         <IconBtn size={42} fs={18} onPress={() => go('soundid')}>🔊</IconBtn>
       </View>
+
+      {!cameraReady && permission && (
+        <View style={styles.permissionCard}>
+          <Sticker bg={PB.cream} rotate={-1} style={{ padding: 16 }}>
+            <Text style={styles.permissionTitle}>Camera access</Text>
+            <Text style={styles.permissionDesc}>
+              {permission.canAskAgain
+                ? 'Tap allow to let Critterboard see the bug. Photos never leave your device.'
+                : 'Camera was denied. Enable it in Settings → Critterboard → Camera.'}
+            </Text>
+            {permission.canAskAgain && (
+              <Btn full bg={PB.ink} color={PB.yellow} onPress={requestPermission} style={{ marginTop: 12 }}>
+                Allow camera
+              </Btn>
+            )}
+          </Sticker>
+        </View>
+      )}
 
       <Animated.View
         style={[
@@ -113,7 +234,7 @@ export function Scan() {
       </View>
 
       <View style={styles.bottomRow}>
-        <IconBtn size={48} fs={22} onPress={() => phase === 'aim' && go('disambiguate')}>🖼️</IconBtn>
+        <IconBtn size={48} fs={22} onPress={pickFromGallery}>🖼️</IconBtn>
         <Pressable onPress={shutter} style={[styles.shutter, phase !== 'aim' && styles.shutterPressed]}>
           <View style={styles.shutterInner} />
         </Pressable>
@@ -154,6 +275,15 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
   },
   statusText: { fontSize: 13, fontWeight: '800' },
+  permissionCard: {
+    position: 'absolute',
+    top: 110,
+    left: 16,
+    right: 16,
+    zIndex: 20,
+  },
+  permissionTitle: { fontFamily: undefined, fontSize: 18, fontWeight: '800', color: PB.ink },
+  permissionDesc: { marginTop: 6, fontSize: 13, color: PB.ink, opacity: 0.75, lineHeight: 18 },
   reticle: {
     position: 'absolute',
     left: '50%',

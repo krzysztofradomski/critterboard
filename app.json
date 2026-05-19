@@ -8,10 +8,46 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "app.critterboard.ios"
+      "bundleIdentifier": "app.critterboard.ios",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Critterboard uses the camera to identify bugs on-device. Photos never leave your phone.",
+        "NSPhotoLibraryUsageDescription": "Pick an existing photo of a bug to identify it on-device. We never upload your library.",
+        "NSLocationWhenInUseUsageDescription": "Optional. Lets Critterboard prefer species that live near you. City-level fuzz, never shared unless you opt in.",
+        "NSMicrophoneUsageDescription": "Optional. Sound ID listens for cricket and cicada calls on-device only.",
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
-      "package": "app.critterboard.android"
-    }
+      "package": "app.critterboard.android",
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "READ_MEDIA_IMAGES",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "RECORD_AUDIO",
+        "POST_NOTIFICATIONS"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Critterboard uses the camera to identify bugs on-device."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Pick an existing photo of a bug to identify it on-device."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Lets Critterboard prefer species that live near you."
+        }
+      ]
+    ]
   }
 }

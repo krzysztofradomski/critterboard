@@ -18,3 +18,18 @@ web-build/
 
 # Handoff bundle (kept locally for reference only)
 _handoff/
+_training/
+
+# Model binaries (regenerate via training/, see assets/models/README.md)
+assets/models/*.mlpackage/
+assets/models/*.onnx
+assets/models/*.gguf
+assets/models/*.tflite
+
+# Training intermediates
+training/local/data/
+training/local/checkpoints/
+training/local/exported/
+training/kaggle/output/
+__pycache__/
+*.pyc

@@ -1,8 +1,12 @@
+import { Camera } from 'expo-camera';
+import * as Location from 'expo-location';
+import * as Notifications from 'expo-notifications';
 import React, { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Btn } from '@/components/Btn';
 import { Sticker } from '@/components/Sticker';
+import { haptics } from '@/lib/haptics';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
@@ -69,6 +73,32 @@ export function Permissions() {
     if (id === 'camera') setCamera(v);
     if (id === 'location') setLocation(v);
     if (id === 'notifs') setNotifs(v);
+  };
+
+  /**
+   * "Allow" doesn't just paint a green pill — it triggers the OS-level
+   * prompt. If the user denies at the OS layer we still mark our UI as
+   * 'skip' so the flow can continue. Camera being denied is the only
+   * hard blocker for the Continue button.
+   */
+  const requestPermission = async (id: PermissionItem['id']) => {
+    haptics.tap();
+    let granted = false;
+    try {
+      if (id === 'camera') {
+        const status = await Camera.requestCameraPermissionsAsync();
+        granted = status.granted;
+      } else if (id === 'location') {
+        const status = await Location.requestForegroundPermissionsAsync();
+        granted = status.granted;
+      } else {
+        const status = await Notifications.requestPermissionsAsync();
+        granted = status.granted;
+      }
+    } catch {
+      granted = false;
+    }
+    setValue(id, granted ? 'allow' : 'skip');
   };
 
   const cameraAllowed = camera === 'allow';
@@ -169,12 +199,10 @@ export function Permissions() {
                     </Text>
                   </Pressable>
                   <Pressable
-                    onPress={() => setValue(it.id, 'allow')}
+                    onPress={() => requestPermission(it.id)}
                     style={[
                       styles.choiceBtn,
-                      {
-                        backgroundColor: allowed ? PB.green : it.color,
-                      },
+                      { backgroundColor: allowed ? PB.green : it.color },
                     ]}
                   >
                     <Text style={[styles.choiceText, { color: allowed ? PB.cream : PB.ink }]}>Allow</Text>

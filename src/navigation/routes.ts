@@ -15,7 +15,7 @@ export type RouteParamMap = {
   permissions: undefined;
   home: undefined;
   scan: { hint?: ScanHint } | undefined;
-  result: { id: string };
+  result: { id: string; photoUri?: string };
   chat: { topic?: string } | undefined;
   dex: undefined;
   map: undefined;
