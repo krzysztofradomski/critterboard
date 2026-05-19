@@ -1,0 +1,284 @@
+import React, { useMemo, useState } from 'react';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+
+import { Btn } from '@/components/Btn';
+import { Sticker } from '@/components/Sticker';
+import { PB } from '@/tokens/pb';
+import { useAppStore } from '@/store/useAppStore';
+import { useNav } from '@/store/useNav';
+
+type Choice = 'allow' | 'skip' | null;
+
+type PermissionItem = {
+  id: 'camera' | 'location' | 'notifs';
+  emoji: string;
+  color: string;
+  title: string;
+  need: string;
+  desc: string;
+  bullets: string[];
+  required: boolean;
+};
+
+const ITEMS: PermissionItem[] = [
+  {
+    id: 'camera',
+    emoji: '📷',
+    color: PB.green,
+    title: 'Camera',
+    need: 'Required',
+    desc: 'Snap a bug, get an ID. Photos never leave your device.',
+    bullets: ['On-device ML only', 'No cloud upload', 'No photo metadata shared'],
+    required: true,
+  },
+  {
+    id: 'location',
+    emoji: '📍',
+    color: PB.blue,
+    title: 'Location',
+    need: 'Recommended',
+    desc: 'Better range filtering — the model knows what lives near you.',
+    bullets: ['City-level fuzz (~5 km)', 'Stays on device unless you share', 'Toggle off any time'],
+    required: false,
+  },
+  {
+    id: 'notifs',
+    emoji: '🔔',
+    color: PB.orange,
+    title: 'Notifications',
+    need: 'Optional',
+    desc: "Daily streak nudge + Bug of the Day. We'll never spam.",
+    bullets: ['One ping per day, tops', 'No marketing, no engagement bait', 'Off by default after 7 days idle'],
+    required: false,
+  },
+];
+
+export function Permissions() {
+  const { go } = useNav();
+  const showToast = useAppStore((s) => s.showToast);
+  const [camera, setCamera] = useState<Choice>(null);
+  const [location, setLocation] = useState<Choice>(null);
+  const [notifs, setNotifs] = useState<Choice>(null);
+
+  const values: Record<PermissionItem['id'], Choice> = useMemo(
+    () => ({ camera, location, notifs }),
+    [camera, location, notifs],
+  );
+
+  const setValue = (id: PermissionItem['id'], v: Choice) => {
+    if (id === 'camera') setCamera(v);
+    if (id === 'location') setLocation(v);
+    if (id === 'notifs') setNotifs(v);
+  };
+
+  const cameraAllowed = camera === 'allow';
+  const allChosen = camera && location && notifs;
+  const ready = !!(cameraAllowed && allChosen);
+
+  const finish = () => {
+    go('home');
+    if (cameraAllowed) {
+      showToast({ text: 'Ready to hunt!', icon: '🪲', bg: PB.green });
+    }
+  };
+
+  return (
+    <View style={styles.root}>
+      <View style={styles.header}>
+        <View style={styles.headerRow}>
+          <View style={styles.headerIcon}>
+            <Text style={{ fontSize: 22 }}>🔐</Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.title}>Three quick asks.</Text>
+            <Text style={styles.sub}>You can change any of these later in Brains.</Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.dots}>
+        {ITEMS.map((it) => {
+          const v = values[it.id];
+          return (
+            <View
+              key={it.id}
+              style={[
+                styles.dot,
+                { backgroundColor: v === 'allow' ? PB.green : v === 'skip' ? PB.cream2 : PB.paper },
+              ]}
+            />
+          );
+        })}
+      </View>
+
+      <ScrollView contentContainerStyle={styles.scroll}>
+        {ITEMS.map((it) => {
+          const v = values[it.id];
+          const allowed = v === 'allow';
+          const skipped = v === 'skip';
+          const decided = allowed || skipped;
+
+          return (
+            <Sticker key={it.id} bg={PB.paper} style={[styles.card, decided && { opacity: 0.92 }]}>
+              <View style={[styles.cardHead, { backgroundColor: it.color }]}>
+                <View style={styles.cardHeadIcon}>
+                  <Text style={{ fontSize: 22 }}>{it.emoji}</Text>
+                </View>
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <Text style={styles.cardTitle}>{it.title}</Text>
+                  <Text style={styles.cardNeed}>{it.need.toUpperCase()}</Text>
+                </View>
+                {decided ? (
+                  <View
+                    style={[
+                      styles.statusPill,
+                      { backgroundColor: allowed ? PB.green : PB.cream },
+                    ]}
+                  >
+                    <Text style={[styles.statusPillText, { color: allowed ? PB.cream : PB.ink }]}>
+                      {allowed ? '✓ ALLOWED' : 'SKIPPED'}
+                    </Text>
+                  </View>
+                ) : null}
+              </View>
+
+              <View style={{ paddingVertical: 12, paddingHorizontal: 14 }}>
+                <Text style={styles.desc}>{it.desc}</Text>
+                <View style={{ marginTop: 10, gap: 4 }}>
+                  {it.bullets.map((b) => (
+                    <View key={b} style={{ flexDirection: 'row', gap: 8 }}>
+                      <Text style={styles.bulletCheck}>✓</Text>
+                      <Text style={styles.bullet}>{b}</Text>
+                    </View>
+                  ))}
+                </View>
+                <View style={styles.choiceRow}>
+                  <Pressable
+                    disabled={it.required}
+                    onPress={() => setValue(it.id, 'skip')}
+                    style={[
+                      styles.choiceBtn,
+                      {
+                        backgroundColor: skipped ? PB.ink : PB.cream,
+                        opacity: it.required ? 0.4 : 1,
+                      },
+                    ]}
+                  >
+                    <Text style={[styles.choiceText, { color: skipped ? PB.cream : PB.ink }]}>
+                      {it.required ? 'Required' : 'Not now'}
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => setValue(it.id, 'allow')}
+                    style={[
+                      styles.choiceBtn,
+                      {
+                        backgroundColor: allowed ? PB.green : it.color,
+                      },
+                    ]}
+                  >
+                    <Text style={[styles.choiceText, { color: allowed ? PB.cream : PB.ink }]}>Allow</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Sticker>
+          );
+        })}
+      </ScrollView>
+
+      <View style={styles.footer}>
+        <Btn
+          full
+          bg={ready ? PB.ink : PB.cream}
+          color={ready ? PB.yellow : PB.ink}
+          size="lg"
+          onPress={ready ? finish : undefined}
+          disabled={!ready}
+        >
+          {ready ? 'Continue →' : cameraAllowed ? 'Decide on the others' : 'Camera is required'}
+        </Btn>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.cream, paddingTop: 50 },
+  header: { paddingHorizontal: 18, paddingTop: 14, paddingBottom: 8 },
+  headerRow: { flexDirection: 'row', gap: 10, alignItems: 'center' },
+  headerIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    backgroundColor: PB.red,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 2, height: 2 },
+  },
+  title: { fontSize: 24, fontWeight: '800', color: PB.ink, lineHeight: 24 },
+  sub: { fontSize: 12, color: PB.ink, opacity: 0.7, fontWeight: '600', marginTop: 4 },
+  dots: { paddingVertical: 6, paddingHorizontal: 18, flexDirection: 'row', gap: 6 },
+  dot: { flex: 1, height: 6, borderRadius: 99, borderColor: PB.ink, borderWidth: 1.5 },
+  scroll: { paddingHorizontal: 14, paddingVertical: 4, paddingBottom: 14, gap: 12 },
+  card: { padding: 0, overflow: 'hidden' },
+  cardHead: {
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderBottomColor: PB.ink,
+    borderBottomWidth: 2.5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  cardHeadIcon: {
+    width: 42,
+    height: 42,
+    borderRadius: 12,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    backgroundColor: PB.cream,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 2, height: 2 },
+  },
+  cardTitle: { fontSize: 18, fontWeight: '800', color: PB.cream, lineHeight: 18 },
+  cardNeed: { fontSize: 11, color: PB.cream, opacity: 0.95, marginTop: 3, fontWeight: '700', letterSpacing: 0.4 },
+  statusPill: {
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderColor: PB.ink,
+    borderWidth: 2,
+    borderRadius: 99,
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 1.5, height: 1.5 },
+  },
+  statusPillText: { fontSize: 11, fontWeight: '800' },
+  desc: { fontSize: 13, color: PB.ink, fontWeight: '600', lineHeight: 18 },
+  bulletCheck: { marginTop: 2, fontSize: 10, fontWeight: '800', color: PB.green },
+  bullet: { fontSize: 11, color: PB.ink, opacity: 0.75 },
+  choiceRow: { marginTop: 12, flexDirection: 'row', gap: 8 },
+  choiceBtn: {
+    flex: 1,
+    paddingVertical: 9,
+    alignItems: 'center',
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    borderRadius: 12,
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 3, height: 3 },
+  },
+  choiceText: { fontSize: 13, fontWeight: '800' },
+  footer: { paddingHorizontal: 14, paddingBottom: 30, paddingTop: 14, borderTopColor: PB.ink, borderTopWidth: 2.5, backgroundColor: PB.cream2 },
+});

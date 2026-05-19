@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "Critterboard",
+    "slug": "critterboard",
+    "version": "1.4.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "app.critterboard.ios"
+    },
+    "android": {
+      "package": "app.critterboard.android"
+    }
+  }
+}

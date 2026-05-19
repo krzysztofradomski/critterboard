@@ -1,0 +1,20 @@
+node_modules/
+.expo/
+dist/
+web-build/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Local env
+.env*
+
+# Build output
+*.tsbuildinfo
+
+# Handoff bundle (kept locally for reference only)
+_handoff/
