@@ -1,0 +1,24 @@
+# ── Core training stack ───────────────────────────────────────────
+torch>=2.2.0
+transformers>=4.42.0
+peft>=0.12.0                # LoRA / adapter library
+trl>=0.9.0                  # SFTTrainer — clean wrapper around HF Trainer for instruction-tune jobs
+datasets>=2.20.0
+accelerate>=0.32.0
+sentencepiece>=0.2.0
+
+# ── 4-bit base model on CUDA only. Skip on macOS / MPS. ──────────
+# bitsandbytes>=0.43.0
+
+# ── Seed generation (step 01) ─────────────────────────────────────
+anthropic>=0.34.0
+
+# ── Export to GGUF (step 05) ──────────────────────────────────────
+# llama.cpp is cloned as a sibling repo; no pip dep needed.
+# convert_lora_to_gguf.py imports gguf + numpy.
+gguf>=0.10.0
+numpy>=1.26.0
+
+# ── Misc ──────────────────────────────────────────────────────────
+tqdm>=4.66.0
+huggingface_hub>=0.24.0

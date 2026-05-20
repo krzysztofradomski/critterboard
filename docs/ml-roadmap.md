@@ -112,7 +112,10 @@ Three knobs to push accuracy up without retraining from scratch:
 - Per-class precision/recall to find the species the model collapses together — these are usually mimics (hoverfly vs wasp, monarch vs viceroy). Surface them as "lookalikes" in the species DB so `Disambiguate` can explain *why* it's unsure.
 - Confusion matrix exported as a PNG + JSON in `checkpoints/`.
 
-### 2.2  Real local LLM ⟶ `src/ai/llm.ts` *(scaffolded)*
+### 2.2  Real local LLM ⟶ `src/ai/llm.ts` *(scaffolded)* + `training/personas/` *(scaffolded)*
+
+The persona-training pipeline mirrors `training/local/` exactly — five numbered Python scripts plus a Kaggle notebook. See [`training/personas/README.md`](../training/personas/README.md) for the full quickstart. The seam in `src/ai/llm.ts` is designed so that "different system prompt" and "different LoRA adapter on the same base" look identical from the screen's point of view.
+
 
 The seam is already typed:
 
@@ -185,15 +188,26 @@ Each surface keeps its placeholder data and stickered visuals so the app remains
 
 ```
 training/
-  README.md                                   # entry point, both tracks
-  local/
+  README.md                                   # entry point — both vision and personas
+  local/                                      # vision: M2 mini run
     01_setup_and_download.py                  # ~20 min,  iNaturalist S3 → ./data/images/
     02_train.py                               # ~35 min,  EfficientNetV2-S, M2 MPS
     03_inference_test.py                      # CLI sanity check
     04_export.py                              # ONNX + CoreML
     requirements.txt
   kaggle/
-    insect_classifier_training.ipynb          # full EU run, T4 x2
+    insect_classifier_training.ipynb          # vision: full EU run, T4 x2
+  personas/                                   # Llama-3.2-1B LoRA per persona
+    README.md
+    examples/{larva,snail,maywind}.jsonl      # 10 hand-written seeds each
+    01_seed_examples.py                       # bootstrap ~80/persona via Claude
+    02_curate.py                              # CLI accept/edit/reject
+    03_train_lora.py                          # PEFT LoRA, one adapter per persona
+    04_inference_test.py                      # baseline (sysprompt) vs LoRA, side-by-side
+    05_export_adapters.py                     # LoRA → GGUF for llama.rn
+    requirements.txt
+    kaggle/
+      persona_lora_training.ipynb             # T4 x2 variant of step 03
 
 assets/
   models/
@@ -218,4 +232,5 @@ docs/
 | 1 · Run `01..04` once, drop into `assets/models/`, ship | ⏳ pending — one afternoon of work |
 | 2 · Kaggle full-EU run | ⏳ pending |
 | 2 · `llama.rn` integration | ⏳ pending |
+| 2 · `training/personas/` scaffold | ✅ done — run when system-prompt drift > 10% |
 | 3 · Placeholder surfaces | 🅿️ deliberately paused |

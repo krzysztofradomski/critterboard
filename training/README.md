@@ -1,4 +1,15 @@
-# Critterboard — Insect Classifier Training
+# Critterboard — Model Training
+
+Two model families live here:
+
+- **Vision classifier** (this README) — the EfficientNetV2-S that identifies the bug.
+- **Persona LoRA adapters** ([`personas/`](personas/)) — three small adapters on top of Llama-3.2-1B that give Larva / Snail / Maywind their voice.
+
+The vision pipeline is the **MVP blocker**. The persona pipeline is **deferred** — only worth running once the system-prompt approach in the app shows real drift in user testing (see [`docs/ml-roadmap.md`](../docs/ml-roadmap.md) for the decision tree).
+
+---
+
+## Vision classifier
 
 Two tracks for producing the `.onnx` / `.mlpackage` files that the React Native app loads at runtime:
 
