@@ -165,11 +165,24 @@ Goal: features that hook into real OS APIs we already have permission for.
 
 These need either a backend or a substantial change and are explicitly **not** on the current roadmap:
 
-- Real leaderboard / friend graph / suggested feed — needs backend
-- Real activity events from other users — needs backend
-- Real map tiles via `react-native-maps` + provider key — substantial native config
+### Needs backend
+- Real leaderboard / friend graph / suggested feed
+- Real activity events from other users
+- Cross-device sync (intentionally not in the design — the app is account-less by promise)
+
+### Needs substantial native / infra work
+- Real map tiles via `react-native-maps` + provider key + native config
 - Real BugNet / Larva-3B / Regional pack downloads — needs CDN + signing
-- Real lookalike-distinguished signal for badge b5 — needs richer classifier output
+- Real **Sound ID** audio classifier — needs a separate training run on log-mel spectrograms; see [[docs/ml-roadmap]] § 2.4 (called out as an optional Track 2 stretch, ~3 MB model)
+
+### Needs richer classifier output
+- Real lookalike-distinguished signal for badge b5 — current classifier returns argmax, not "distinguished mimics"
+- Real Quest q1 photo-trait detection (currently driven by stored `BUGS.traits`, not by the classifier inferring "this is a pollinator" from the image)
+
+### Localization stretch
+- iOS native locale auto-detection (currently defaults to English on first launch — user opts in via Settings)
+- RTL language support — would need `I18nManager.forceRTL()` + layout review
+- Translation lint script — diff pack keys vs English source, warn on missing
 
 ---
 
