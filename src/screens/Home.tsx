@@ -8,20 +8,14 @@ import { TabBar } from '@/components/TabBar';
 import { useBugName, useT } from '@/i18n/helpers';
 import { bugOfDay } from '@/lib/bugOfDay';
 import { formatXp, useLevel, useRank } from '@/lib/level';
+import { useCalendar, useStreakSummary } from '@/lib/streak';
 import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
-const WEEK_DAYS = [
-  { d: 'M', x: 1 },
-  { d: 'T', x: 1 },
-  { d: 'W', x: 1 },
-  { d: 'T', x: 1 },
-  { d: 'F', x: 0 },
-  { d: 'S', x: 0 },
-  { d: 'S', x: 0 },
-] as const;
+/** First-letter day labels for the rolling 7-day strip, oldest → today. */
+const WEEK_LETTERS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
 export function Home() {
   const { go } = useNav();
@@ -36,6 +30,10 @@ export function Home() {
   const todayName = useBugName(todayBug.id);
   const level = useLevel();
   const rank = useRank();
+  const week = useCalendar(7);
+  const { current: streakDays } = useStreakSummary();
+  // Days until the next 7-day badge boundary (1..7).
+  const daysToBadge = ((7 - (streakDays % 7)) % 7) || 7;
 
   return (
     <View style={styles.root}>
@@ -43,7 +41,7 @@ export function Home() {
         <IconBtn onPress={() => go('activity')}>🔔</IconBtn>
         <Pressable onPress={() => go('streak')} style={styles.streakPill}>
           <Text style={{ fontSize: 14 }}>🔥</Text>
-          <Text style={styles.streakText}>{t('home.streakPill', { days: 4 })}</Text>
+          <Text style={styles.streakText}>{t('home.streakPill', { days: streakDays })}</Text>
         </Pressable>
         <IconBtn onPress={() => go('settings')}>⚙</IconBtn>
       </View>
@@ -83,19 +81,24 @@ export function Home() {
         <Sticker bg={PB.paper} style={{ marginTop: 14 }} onPress={() => go('streak')}>
           <View style={styles.weekHead}>
             <Text style={styles.weekTitle}>{t('home.yourWeek')}</Text>
-            <Text style={styles.weekSub}>{t('home.daysToBadge', { n: 3 })}</Text>
+            <Text style={styles.weekSub}>{t('home.daysToBadge', { n: daysToBadge })}</Text>
           </View>
           <View style={styles.weekRow}>
-            {WEEK_DAYS.map((d, i) => (
+            {week.map((cell, i) => (
               <View
-                key={i}
+                key={cell.key}
                 style={[
                   styles.weekCell,
-                  { backgroundColor: d.x ? PB.green : PB.cream2 },
+                  { backgroundColor: cell.caught ? PB.green : PB.cream2 },
                 ]}
               >
-                <Text style={[styles.weekCellText, { color: d.x ? PB.cream : PB.ink }]}>
-                  {d.x ? '✓' : d.d}
+                <Text
+                  style={[
+                    styles.weekCellText,
+                    { color: cell.caught ? PB.cream : PB.ink },
+                  ]}
+                >
+                  {cell.caught ? '✓' : WEEK_LETTERS[i] ?? '·'}
                 </Text>
               </View>
             ))}

@@ -6,9 +6,10 @@ import { CompletedDrawer } from '@/components/CompletedDrawer';
 import { QuestCard } from '@/components/QuestCard';
 import { QuestDialog } from '@/components/QuestDialog';
 import { BADGES, BADGES_TOTAL, type Badge } from '@/data/badges';
-import { COMPLETED_QUESTS, QUESTS } from '@/data/quests';
+import { COMPLETED_QUESTS } from '@/data/quests';
 import { useT } from '@/i18n/helpers';
 import { useLevel } from '@/lib/level';
+import { useQuests } from '@/lib/quests';
 import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
@@ -20,12 +21,13 @@ export function Quests() {
   const P = usePersona(persona);
   const t = useT();
   const level = useLevel();
+  const quests = useQuests();
 
   const [openId, setOpenId] = useState<string | null>(null);
   const [openBadgeId, setOpenBadgeId] = useState<string | null>(null);
   const [completedOpen, setCompletedOpen] = useState(false);
 
-  const openQuest = QUESTS.find((q) => q.id === openId) ?? null;
+  const openQuest = quests.find((q) => q.id === openId) ?? null;
   const openBadge: Badge | null = BADGES.find((b) => b.id === openBadgeId) ?? null;
 
   return (
@@ -64,11 +66,11 @@ export function Quests() {
       <View style={styles.list}>
         <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
           <Text style={styles.section}>{t('quests.daily')}</Text>
-          {QUESTS.filter((q) => q.kind === 'daily').map((q) => (
+          {quests.filter((q) => q.kind === 'daily').map((q) => (
             <QuestCard key={q.id} quest={q} accent={PB.green} onPress={() => setOpenId(q.id)} />
           ))}
           <Text style={[styles.section, { marginTop: 16 }]}>{t('quests.weekly')}</Text>
-          {QUESTS.filter((q) => q.kind === 'weekly').map((q) => (
+          {quests.filter((q) => q.kind === 'weekly').map((q) => (
             <QuestCard key={q.id} quest={q} accent={PB.purple} onPress={() => setOpenId(q.id)} />
           ))}
 

@@ -1,43 +1,97 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
-import { useT } from '@/i18n/helpers';
+import { findBug } from '@/data/bugs';
+import { bugName, useT } from '@/i18n/helpers';
+import { timeAgo } from '@/lib/timeAgo';
+import { PERSONA_META } from '@/personas';
 import { PB } from '@/tokens/pb';
+import { useAppStore, type ActivityEntry } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
-type Kind = 'social' | 'system';
+/**
+ * UI bucket maps onto the entry kind:
+ *   - 'social' = catches + streak milestones (things the user did)
+ *   - 'system' = persona switches (things the app reacted to)
+ *
+ * The original prototype had richer "system" content (model updates,
+ * pack syncs); those land here automatically once the store grows
+ * the matching action types.
+ */
+type UiKind = 'social' | 'system';
 
-type Item = {
-  id: string;
-  kind: Kind;
+function uiKindOf(entry: ActivityEntry): UiKind {
+  return entry.kind === 'persona' ? 'system' : 'social';
+}
+
+type Resolved = {
+  entry: ActivityEntry;
   emoji: string;
   color: string;
   title: string;
   sub: string;
   cta: string;
-  go: () => void;
-  hot?: boolean;
+  onPress: () => void;
 };
 
 export function Activity() {
   const { go, back } = useNav();
   const t = useT();
-  const [tab, setTab] = useState<'all' | Kind>('all');
+  const language = useAppStore((s) => s.language);
+  const activityLog = useAppStore((s) => s.activityLog);
+  const [tab, setTab] = useState<'all' | UiKind>('all');
 
-  const items: Item[] = [
-    { id: 'a1', kind: 'social', emoji: '🦋', color: PB.orange, title: t('activity.item.a1Title'), sub: t('activity.item.a1Sub'), cta: t('activity.item.a1Cta'), go: () => go('result', { id: 'mona' }) },
-    { id: 'a2', kind: 'system', emoji: '🧠', color: PB.pink,   title: t('activity.item.a2Title'), sub: t('activity.item.a2Sub'), cta: t('activity.item.a2Cta'), go: () => go('settings'), hot: true },
-    { id: 'a3', kind: 'system', emoji: '🔥', color: PB.red,    title: t('activity.item.a3Title'), sub: t('activity.item.a3Sub'), cta: t('activity.item.a3Cta'), go: () => go('scan') },
-    { id: 'a4', kind: 'social', emoji: '🥇', color: PB.yellow, title: t('activity.item.a4Title'), sub: t('activity.item.a4Sub'), cta: t('activity.item.a4Cta'), go: () => go('leaderboard') },
-    { id: 'a5', kind: 'system', emoji: '✨', color: PB.purple, title: t('activity.item.a5Title'), sub: t('activity.item.a5Sub'), cta: t('activity.item.a5Cta'), go: () => go('quests') },
-    { id: 'a6', kind: 'social', emoji: '🌙', color: PB.green,  title: t('activity.item.a6Title'), sub: t('activity.item.a6Sub'), cta: t('activity.item.a6Cta'), go: () => go('map') },
-    { id: 'a7', kind: 'system', emoji: '📦', color: PB.blue,   title: t('activity.item.a7Title'), sub: t('activity.item.a7Sub'), cta: t('activity.item.a7Cta'), go: () => go('region', { id: 'na-ne' }) },
-    { id: 'a8', kind: 'social', emoji: '🤖', color: PB.cream2, title: t('activity.item.a8Title'), sub: t('activity.item.a8Sub'), cta: t('activity.item.a8Cta'), go: () => go('chat', { topic: t('activity.item.a8Topic') }) },
-  ];
+  const resolved: Resolved[] = useMemo(() => {
+    return activityLog.map((entry) => {
+      const when = timeAgo(entry.at, language);
 
-  const filtered = tab === 'all' ? items : items.filter((i) => i.kind === tab);
+      if (entry.kind === 'catch') {
+        const bug = findBug(entry.bugId);
+        const name = bug ? bugName(language, bug.id) : entry.bugId;
+        const xp = bug?.xp ?? 0;
+        return {
+          entry,
+          emoji: bug?.emoji ?? '🐛',
+          color: bug?.color ?? PB.cream2,
+          title: t('activity.kind.catchTitle', { name }),
+          sub: t('activity.kind.catchSub', { xp, when }),
+          cta: t('activity.kind.catchCta'),
+          onPress: () => go('result', { id: entry.bugId }),
+        };
+      }
+
+      if (entry.kind === 'persona') {
+        const meta = PERSONA_META[entry.personaId];
+        const name = t(`personas.${entry.personaId}.name`);
+        return {
+          entry,
+          emoji: meta.emoji,
+          color: meta.avatarBg,
+          title: t('activity.kind.personaTitle', { name }),
+          sub: t('activity.kind.personaSub', { when }),
+          cta: t('activity.kind.personaCta'),
+          onPress: () => go('chat'),
+        };
+      }
+
+      // streak
+      return {
+        entry,
+        emoji: '🔥',
+        color: PB.red,
+        title: t('activity.kind.streakTitle', { days: entry.days }),
+        sub: t('activity.kind.streakSub', { when }),
+        cta: t('activity.kind.streakCta'),
+        onPress: () => go('scan'),
+      };
+    });
+  }, [activityLog, language, t, go]);
+
+  const filtered = tab === 'all'
+    ? resolved
+    : resolved.filter((r) => uiKindOf(r.entry) === tab);
 
   return (
     <View style={styles.root}>
@@ -45,7 +99,7 @@ export function Activity() {
         <IconBtn onPress={back}>←</IconBtn>
         <View style={{ flex: 1 }}>
           <Text style={styles.title}>{t('activity.title')}</Text>
-          <Text style={styles.sub}>{t('activity.sub', { n: items.length })}</Text>
+          <Text style={styles.sub}>{t('activity.sub', { n: activityLog.length })}</Text>
         </View>
         <IconBtn fs={14}>✓</IconBtn>
       </View>
@@ -71,21 +125,16 @@ export function Activity() {
       </View>
 
       <ScrollView contentContainerStyle={styles.list}>
-        {filtered.map((it) => (
-          <Pressable key={it.id} onPress={it.go} style={styles.row}>
-            {it.hot ? (
-              <View style={styles.hot}>
-                <Text style={styles.hotText}>{t('activity.newBadge')}</Text>
-              </View>
-            ) : null}
-            <View style={[styles.icon, { backgroundColor: it.color }]}>
-              <Text style={{ fontSize: 22 }}>{it.emoji}</Text>
+        {filtered.map((r) => (
+          <Pressable key={r.entry.id} onPress={r.onPress} style={styles.row}>
+            <View style={[styles.icon, { backgroundColor: r.color }]}>
+              <Text style={{ fontSize: 22 }}>{r.emoji}</Text>
             </View>
             <View style={{ flex: 1, minWidth: 0 }}>
-              <Text style={styles.rowTitle}>{it.title}</Text>
-              <Text style={styles.rowSub}>{it.sub}</Text>
+              <Text style={styles.rowTitle}>{r.title}</Text>
+              <Text style={styles.rowSub}>{r.sub}</Text>
               <View style={styles.cta}>
-                <Text style={styles.ctaText}>{it.cta} →</Text>
+                <Text style={styles.ctaText}>{r.cta} →</Text>
               </View>
             </View>
           </Pressable>
@@ -144,24 +193,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 0,
     shadowOffset: { width: 3, height: 3 },
-    position: 'relative',
   },
-  hot: {
-    position: 'absolute',
-    top: -6,
-    right: 10,
-    paddingVertical: 2,
-    paddingHorizontal: 8,
-    backgroundColor: PB.red,
-    borderColor: PB.ink,
-    borderWidth: 2,
-    borderRadius: 99,
-    shadowColor: PB.ink,
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    shadowOffset: { width: 1.5, height: 1.5 },
-  },
-  hotText: { fontSize: 9, fontWeight: '800', color: PB.cream, letterSpacing: 0.6 },
   icon: {
     width: 44,
     height: 44,

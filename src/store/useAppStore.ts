@@ -4,9 +4,12 @@ import { persist, type PersistStorage, type StorageValue } from 'zustand/middlew
 
 import { CAUGHT_IDS } from '@/data/bugs';
 import { INITIAL_FOLLOWED } from '@/data/personProfiles';
+import { QUESTS } from '@/data/quests';
 import { DEFAULT_LANG, coerceLang, t, type LangId } from '@/i18n';
 import { type PersonaId, getPersonaName } from '@/personas';
 import { ME_SUB_ALIAS, type RouteName, type RouteParamMap, isMainTab } from '@/navigation/routes';
+import { buildSeedCatchLog, currentStreak, type CatchEvent } from '@/lib/streak';
+import { questsAdvancedBy } from '@/lib/quests';
 
 export type StackEntry<R extends RouteName = RouteName> = {
   name: R;
@@ -26,28 +29,42 @@ export type ToastSpec = {
   bg?: string;
 };
 
+/**
+ * Activity-feed entries. Three kinds for now (catch / persona /
+ * streak); each carries the minimum data the Activity screen needs to
+ * render a localized title + subtitle + CTA route. Production-shape:
+ * if a real backend ever lands, system-side events (model updates,
+ * pack syncs) join this same list.
+ */
+export type ActivityEntry =
+  | { id: string; kind: 'catch';   at: number; bugId: string }
+  | { id: string; kind: 'persona'; at: number; personaId: PersonaId }
+  | { id: string; kind: 'streak';  at: number; days: number };
+
+const ACTIVITY_CAP = 50;
+const STREAK_MILESTONES: ReadonlySet<number> = new Set([3, 7, 14, 30]);
+
 type State = {
   stack: StackEntry[];
   dex: Set<string>;
   /** Display names of users the current trainer follows. Persisted. */
   followed: Set<string>;
   persona: PersonaId;
-  /**
-   * Active UI language. Persisted across launches; set via Settings →
-   * Language. Defaults to English on first run rather than reading the
-   * device locale — letting the user opt in keeps i18n surprises out of
-   * the onboarding flow.
-   */
+  /** Active UI language. Persisted across launches. */
   language: LangId;
   profile: Profile;
-  /**
-   * True once the user has completed the onboarding + permissions flow.
-   * Drives the cold-launch landing page via `onRehydrateStorage`.
-   */
+  /** True once the user has completed onboarding + permissions. */
   hasOnboarded: boolean;
   toast: ToastSpec | null;
   /** URI of the most recently captured or picked photo. */
   lastPhotoUri: string | null;
+
+  /** Append-only catch event log. Drives streak math and recent-catches UI. */
+  catchLog: CatchEvent[];
+  /** Newest-first activity feed, capped at ACTIVITY_CAP entries. */
+  activityLog: ActivityEntry[];
+  /** Live quest counters, keyed by quest id. Resolved against templates by `useQuests`. */
+  questProgress: Record<string, number>;
 };
 
 type Actions = {
@@ -72,15 +89,63 @@ type AppStore = State & Actions;
 let toastTimer: ReturnType<typeof setTimeout> | null = null;
 
 /**
- * Storage adapter that lets us persist `dex` and `followed` (Sets) as arrays.
- *
- * We don't persist nav stack or toast — those should reset on every cold
- * launch so the user always lands on `home` (after onboarding) rather
- * than mid-flow inside, say, a half-finished SoundID session.
+ * Initial quest progress: seed from the static template so the screen
+ * shows the same numbers it always did on first launch. Once the user
+ * catches a matching bug the store-side value supersedes the template.
  */
+function initialQuestProgress(): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const q of QUESTS) out[q.id] = q.progress;
+  return out;
+}
+
+/**
+ * Synthesize an initial activity feed from the seed catch log so the
+ * Activity screen isn't a sea of crickets the first time the user
+ * opens it. Only the 10 most recent catches are turned into entries —
+ * older catches still drive streak math, they just don't show up in
+ * the feed.
+ */
+function initialActivityLog(catchLog: CatchEvent[]): ActivityEntry[] {
+  const sorted = [...catchLog].sort((a, b) => b.at - a.at).slice(0, 10);
+  return sorted.map((e, i) => ({
+    id: `seed-${i}`,
+    kind: 'catch' as const,
+    at: e.at,
+    bugId: e.id,
+  }));
+}
+
+/**
+ * Generate a stable-ish id for activity entries. `at` + a tiny counter
+ * is plenty — we never reconcile across devices.
+ */
+let activityCounter = 0;
+function newActivityId(at: number): string {
+  activityCounter = (activityCounter + 1) % 1_000_000;
+  return `${at}-${activityCounter}`;
+}
+
+function prependActivity(log: ActivityEntry[], entry: ActivityEntry): ActivityEntry[] {
+  const next = [entry, ...log];
+  return next.length > ACTIVITY_CAP ? next.slice(0, ACTIVITY_CAP) : next;
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Persistence wire format
+// ──────────────────────────────────────────────────────────────────────────
+
 type Persisted = Pick<
   State,
-  'dex' | 'followed' | 'persona' | 'language' | 'profile' | 'hasOnboarded'
+  | 'dex'
+  | 'followed'
+  | 'persona'
+  | 'language'
+  | 'profile'
+  | 'hasOnboarded'
+  | 'catchLog'
+  | 'activityLog'
+  | 'questProgress'
 >;
 
 type PersistedWire = {
@@ -90,6 +155,9 @@ type PersistedWire = {
   language?: string;
   profile: Profile;
   hasOnboarded?: boolean;
+  catchLog?: CatchEvent[];
+  activityLog?: ActivityEntry[];
+  questProgress?: Record<string, number>;
 };
 
 const wireStorage: PersistStorage<Persisted> = {
@@ -105,6 +173,9 @@ const wireStorage: PersistStorage<Persisted> = {
         language: coerceLang(wrapped.state.language ?? null),
         profile: wrapped.state.profile,
         hasOnboarded: Boolean(wrapped.state.hasOnboarded),
+        catchLog: wrapped.state.catchLog ?? buildSeedCatchLog(),
+        activityLog: wrapped.state.activityLog ?? [],
+        questProgress: { ...initialQuestProgress(), ...(wrapped.state.questProgress ?? {}) },
       },
       version: wrapped.version,
     };
@@ -118,6 +189,9 @@ const wireStorage: PersistStorage<Persisted> = {
       language: value.state.language,
       profile: value.state.profile,
       hasOnboarded: value.state.hasOnboarded,
+      catchLog: value.state.catchLog,
+      activityLog: value.state.activityLog,
+      questProgress: value.state.questProgress,
     };
     await AsyncStorage.setItem(name, JSON.stringify({ state: wire, version: value.version ?? 0 }));
   },
@@ -125,6 +199,12 @@ const wireStorage: PersistStorage<Persisted> = {
     await AsyncStorage.removeItem(name);
   },
 };
+
+// ──────────────────────────────────────────────────────────────────────────
+// Store
+// ──────────────────────────────────────────────────────────────────────────
+
+const SEED_CATCH_LOG = buildSeedCatchLog();
 
 export const useAppStore = create<AppStore>()(
   persist(
@@ -143,6 +223,10 @@ export const useAppStore = create<AppStore>()(
       hasOnboarded: false,
       toast: null,
       lastPhotoUri: null,
+
+      catchLog: SEED_CATCH_LOG,
+      activityLog: initialActivityLog(SEED_CATCH_LOG),
+      questProgress: initialQuestProgress(),
 
       go: (name, params) => {
         const alias = ME_SUB_ALIAS[name];
@@ -174,12 +258,60 @@ export const useAppStore = create<AppStore>()(
 
       reset: (entry) => set({ stack: [entry] }),
 
+      /**
+       * The hot path. A single catch ripples through four pieces of
+       * state at once: dex (uniqueness set), catchLog (timestamps for
+       * streak math), questProgress (counters for matching quests),
+       * activityLog (catch event + optional streak-milestone event).
+       *
+       * Everything is computed before the `set` so the update is a
+       * single atomic mutation.
+       */
       catchBug: (id) =>
         set((s) => {
-          if (s.dex.has(id)) return s;
-          const next = new Set(s.dex);
-          next.add(id);
-          return { dex: next };
+          const at = Date.now();
+          const event: CatchEvent = { id, at };
+
+          const nextDex = s.dex.has(id) ? s.dex : new Set(s.dex).add(id);
+          const nextCatchLog = [...s.catchLog, event];
+
+          // Quest counters: only bump those advanced by this catch.
+          const advanced = questsAdvancedBy(id, s.questProgress);
+          let nextProgress = s.questProgress;
+          if (advanced.length > 0) {
+            nextProgress = { ...s.questProgress };
+            for (const qid of advanced) {
+              nextProgress[qid] = (nextProgress[qid] ?? 0) + 1;
+            }
+          }
+
+          // Activity log: every catch yields one entry. If today's first
+          // catch crosses a streak milestone, log a second.
+          const catchEntry: ActivityEntry = {
+            id: newActivityId(at),
+            kind: 'catch',
+            at,
+            bugId: id,
+          };
+          let nextActivity = prependActivity(s.activityLog, catchEntry);
+
+          const before = currentStreak(s.catchLog, at);
+          const after = currentStreak(nextCatchLog, at);
+          if (after > before && STREAK_MILESTONES.has(after)) {
+            nextActivity = prependActivity(nextActivity, {
+              id: newActivityId(at + 1),
+              kind: 'streak',
+              at: at + 1,
+              days: after,
+            });
+          }
+
+          return {
+            dex: nextDex,
+            catchLog: nextCatchLog,
+            questProgress: nextProgress,
+            activityLog: nextActivity,
+          };
         }),
 
       followUser: (name) =>
@@ -221,11 +353,20 @@ export const useAppStore = create<AppStore>()(
       clearToast: () => set({ toast: null }),
 
       setPersona: (id) => {
-        const { persona, language, showToast } = get();
+        const { persona, language, showToast, activityLog } = get();
         if (id === persona) return;
         const meta = getPersonaName(language, id);
         if (!meta) return;
-        set({ persona: id });
+        const at = Date.now();
+        set({
+          persona: id,
+          activityLog: prependActivity(activityLog, {
+            id: newActivityId(at),
+            kind: 'persona',
+            at,
+            personaId: id,
+          }),
+        });
         showToast({
           text: t(language, 'settings.guideToast', { name: meta.name }),
           icon: meta.emoji,
@@ -256,12 +397,15 @@ export const useAppStore = create<AppStore>()(
         language: s.language,
         profile: s.profile,
         hasOnboarded: s.hasOnboarded,
+        catchLog: s.catchLog,
+        activityLog: s.activityLog,
+        questProgress: s.questProgress,
       }),
       /**
-       * When persisted state hydrates, jump straight past onboarding for
-       * returning users. Without this, every cold launch parks the user
-       * back at the welcome screen because the nav stack is intentionally
-       * NOT persisted.
+       * Skip past onboarding for returning users. The flag is set in
+       * Permissions.finish() — without this hook every cold launch
+       * would park them back at the welcome screen because the nav
+       * stack is intentionally NOT persisted.
        */
       onRehydrateStorage: () => (state) => {
         if (state?.hasOnboarded) {

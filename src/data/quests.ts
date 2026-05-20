@@ -1,6 +1,33 @@
+import type { BugTrait } from '@/data/bugs';
+import type { Rarity } from '@/tokens/pb';
 import { PB } from '@/tokens/pb';
 
 export type QuestKind = 'daily' | 'weekly';
+
+/**
+ * What does a quest count? Three flavours:
+ *
+ *   - `trait`    — bump on catching a bug carrying the given trait
+ *                  (e.g. q1: pollinator)
+ *   - `rarity`   — bump on catching a bug at-or-above the given rarity
+ *                  tier (e.g. q3: legendary)
+ *   - `streak`   — progress is the current daily streak (q4); derived,
+ *                  not stored
+ *
+ * The store consults this table inside `catchBug` to figure out which
+ * counters to bump. Quests with no entry here are inert.
+ */
+export type QuestRule =
+  | { kind: 'trait'; trait: BugTrait }
+  | { kind: 'rarity'; rarity: Rarity }
+  | { kind: 'streak' };
+
+export const QUEST_RULES: Record<string, QuestRule> = {
+  q1: { kind: 'trait',  trait: 'pollinator' },
+  q2: { kind: 'trait',  trait: 'beetle'     },
+  q3: { kind: 'rarity', rarity: 'legendary' },
+  q4: { kind: 'streak' },
+};
 
 /**
  * Quest definition. The user-facing `label`, dialog `desc`, and tip text

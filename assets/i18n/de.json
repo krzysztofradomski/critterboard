@@ -192,6 +192,25 @@
         "a8Sub": "\"Ziemlich sicher eine Marmalade — Flügelbänder.\"",
         "a8Cta": "Chat öffnen",
         "a8Topic": "Schwebfliegen"
+      },
+      "kind": {
+        "catchTitle": "{name} gefangen",
+        "catchSub": "+{xp} XP · {when}",
+        "catchCta": "Sichtung ansehen",
+        "personaTitle": "Begleiter: {name}",
+        "personaSub": "{when}",
+        "personaCta": "Chat öffnen",
+        "streakTitle": "{days}-Tage-Serie! Nicht abreißen lassen",
+        "streakSub": "{when}",
+        "streakCta": "Scan öffnen"
+      },
+      "when": {
+        "now": "gerade eben",
+        "minAgo": "vor {n} Min.",
+        "hrAgo": "vor {n} Std.",
+        "daysAgo": "vor {n} T.",
+        "today": "heute",
+        "yesterday": "gestern"
       }
     },
     "friends": {

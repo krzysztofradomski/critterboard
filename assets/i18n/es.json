@@ -192,6 +192,25 @@
         "a8Sub": "\"Casi seguro un Marmalade — bandas en las alas.\"",
         "a8Cta": "Abrir chat",
         "a8Topic": "Sírfidos"
+      },
+      "kind": {
+        "catchTitle": "{name} capturado",
+        "catchSub": "+{xp} XP · {when}",
+        "catchCta": "Ver avistamiento",
+        "personaTitle": "Guía: {name}",
+        "personaSub": "{when}",
+        "personaCta": "Abrir chat",
+        "streakTitle": "¡Racha de {days} días! No la rompas",
+        "streakSub": "{when}",
+        "streakCta": "Abrir escáner"
+      },
+      "when": {
+        "now": "ahora mismo",
+        "minAgo": "hace {n} min",
+        "hrAgo": "hace {n} h",
+        "daysAgo": "hace {n} d",
+        "today": "hoy",
+        "yesterday": "ayer"
       }
     },
     "friends": {

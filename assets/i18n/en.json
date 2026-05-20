@@ -192,6 +192,25 @@
         "a8Sub": "\"Pretty sure that's a Marmalade — wing bands.\"",
         "a8Cta": "Open chat",
         "a8Topic": "Hoverflies"
+      },
+      "kind": {
+        "catchTitle": "Caught {name}",
+        "catchSub": "+{xp} XP · {when}",
+        "catchCta": "View sighting",
+        "personaTitle": "Switched guide to {name}",
+        "personaSub": "{when}",
+        "personaCta": "Open chat",
+        "streakTitle": "{days}-day streak! Don't break it",
+        "streakSub": "{when}",
+        "streakCta": "Open scan"
+      },
+      "when": {
+        "now": "just now",
+        "minAgo": "{n} min ago",
+        "hrAgo": "{n} hr ago",
+        "daysAgo": "{n}d ago",
+        "today": "today",
+        "yesterday": "yesterday"
       }
     },
     "friends": {

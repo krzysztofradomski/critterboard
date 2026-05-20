@@ -192,6 +192,25 @@
         "a8Sub": "\"Wygląda na bzyga marmoladowego — paski na skrzydłach.\"",
         "a8Cta": "Otwórz czat",
         "a8Topic": "Bzygi"
+      },
+      "kind": {
+        "catchTitle": "Złapano {name}",
+        "catchSub": "+{xp} XP · {when}",
+        "catchCta": "Zobacz okaz",
+        "personaTitle": "Przewodnik: {name}",
+        "personaSub": "{when}",
+        "personaCta": "Otwórz czat",
+        "streakTitle": "{days} dni z rzędu! Nie przerywaj",
+        "streakSub": "{when}",
+        "streakCta": "Otwórz skan"
+      },
+      "when": {
+        "now": "przed chwilą",
+        "minAgo": "{n} min temu",
+        "hrAgo": "{n} godz. temu",
+        "daysAgo": "{n} d temu",
+        "today": "dziś",
+        "yesterday": "wczoraj"
       }
     },
     "friends": {

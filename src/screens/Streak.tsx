@@ -5,19 +5,12 @@ import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { useT } from '@/i18n/helpers';
+import { useCalendar, useStreakSummary } from '@/lib/streak';
 import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
-const PATTERN = [
-  1, 1, 1, 1, 0, 1, 1,
-  1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 2, 1, 0,
-  1, 1, 0, 0, 1, 1, 1,
-  1, 1, 1, 1, 1, 0, 0,
-];
-const TODAY_IDX = PATTERN.length - 1;
 const DAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
 export function Streak() {
@@ -26,9 +19,11 @@ export function Streak() {
   const P = usePersona(persona);
   const t = useT();
 
-  const cur = 4;
-  const best = 11;
-  const total = 142;
+  // All derived live from the catchLog — drop, kill, restart, the numbers
+  // are right. The "freezes" affordance is still placeholder until we
+  // wire a streak-recovery action; carry a deterministic 2 for now.
+  const { current: cur, best, total } = useStreakSummary();
+  const calendar = useCalendar(35);
   const freezes = 2;
 
   return (
@@ -77,21 +72,19 @@ export function Streak() {
             ))}
           </View>
           <View style={styles.grid}>
-            {PATTERN.map((v, i) => {
-              const isToday = i === TODAY_IDX;
-              const isFreeze = v === 2;
-              const isCaught = v === 1;
-              const bg = isFreeze ? PB.blue : isCaught ? PB.green : PB.cream2;
-              const fg = isFreeze ? PB.cream : isCaught ? PB.cream : PB.ink;
-              const label = isFreeze ? '❄' : isCaught ? '✓' : '·';
+            {calendar.map((cell) => {
+              const { caught, isToday } = cell;
+              const bg = caught ? PB.green : PB.cream2;
+              const fg = caught ? PB.cream : PB.ink;
+              const label = caught ? '✓' : '·';
               return (
                 <View
-                  key={i}
+                  key={cell.key}
                   style={[
                     styles.cell,
                     {
                       backgroundColor: bg,
-                      opacity: !isCaught && !isFreeze && !isToday ? 0.6 : 1,
+                      opacity: !caught && !isToday ? 0.6 : 1,
                       borderWidth: isToday ? 3.5 : 2,
                     },
                   ]}
