@@ -4,33 +4,38 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { PB } from '@/tokens/pb';
 import { IconBtn } from '@/components/IconBtn';
 import { ModalShell } from '@/components/ModalShell';
+import { useT } from '@/i18n/helpers';
 
-type CreditItem = { name: string; role: string; emoji: string; color: string };
-type CreditSection = { role: string; items: CreditItem[] };
+type CreditEntry = { key: string; emoji: string; color: string };
+type CreditSection = { sectionKey: 'team' | 'models' | 'data'; items: CreditEntry[] };
 
+/**
+ * Static credits structure. Names + roles come from translation packs:
+ *   credits.<sectionKey>.<key>.name / .role
+ */
 const CREDITS: CreditSection[] = [
   {
-    role: 'The team',
+    sectionKey: 'team',
     items: [
-      { name: 'Mira Ostrov',     role: 'Design & illustration',  emoji: '🎨', color: PB.pink },
-      { name: 'Theo Bramble',    role: 'iOS engineering',        emoji: '📱', color: PB.blue },
-      { name: 'Junie Halverson', role: 'ML & on-device models',  emoji: '🧠', color: PB.purple },
+      { key: 'mira',  emoji: '🎨', color: PB.pink },
+      { key: 'theo',  emoji: '📱', color: PB.blue },
+      { key: 'junie', emoji: '🧠', color: PB.purple },
     ],
   },
   {
-    role: 'On-device models',
+    sectionKey: 'models',
     items: [
-      { name: 'BugNet v3',         role: 'Vision · 412 MB · 10,247 species', emoji: '👁️', color: PB.blue },
-      { name: 'Larva-3B',          role: 'Chat · 1.9 GB · Q4 quantized',     emoji: '🤖', color: PB.pink },
-      { name: 'Maywind / Snail',   role: 'Persona variants of Larva-3B',     emoji: '🌼', color: PB.yellow },
+      { key: 'bugnet',   emoji: '👁️', color: PB.blue },
+      { key: 'larva',    emoji: '🤖', color: PB.pink },
+      { key: 'variants', emoji: '🌼', color: PB.yellow },
     ],
   },
   {
-    role: 'Data & thanks',
+    sectionKey: 'data',
     items: [
-      { name: 'iNaturalist',       role: 'Reference imagery (CC-BY-NC)', emoji: '🌿', color: PB.green },
-      { name: 'GBIF',              role: 'Range & habitat data',         emoji: '🗺️', color: PB.green },
-      { name: 'Every beta tester', role: 'Field-tested in 14 cities',    emoji: '✨', color: PB.orange },
+      { key: 'iNat', emoji: '🌿', color: PB.green },
+      { key: 'gbif', emoji: '🗺️', color: PB.green },
+      { key: 'beta', emoji: '✨', color: PB.orange },
     ],
   },
 ];
@@ -42,6 +47,7 @@ export function CreditsDialog({
   visible: boolean;
   onClose: () => void;
 }) {
+  const t = useT();
   return (
     <ModalShell visible={visible} onClose={onClose} paddingTop={56}>
       <View style={styles.header}>
@@ -49,31 +55,35 @@ export function CreditsDialog({
           <Text style={styles.logoText}>🪲</Text>
         </View>
         <View style={{ flex: 1, minWidth: 0 }}>
-          <Text style={styles.title}>Critterboard</Text>
-          <Text style={styles.sub}>v1.4.0 · build 2026.05</Text>
+          <Text style={styles.title}>{t('help.appName')}</Text>
+          <Text style={styles.sub}>{t('credits.build')}</Text>
         </View>
         <IconBtn onPress={onClose} size={32} fs={14} bg={PB.cream}>✕</IconBtn>
       </View>
 
       <ScrollView style={{ maxHeight: 480 }} contentContainerStyle={{ padding: 14 }}>
         <View style={styles.intro}>
-          <Text style={styles.introText}>
-            Made by three people who genuinely think bugs are cool. No VC money, no ads, no tracking, no account. Just bugs and a phone.
-          </Text>
+          <Text style={styles.introText}>{t('credits.intro')}</Text>
         </View>
 
         {CREDITS.map((section) => (
-          <View key={section.role} style={{ marginTop: 16 }}>
-            <Text style={styles.section}>{section.role.toUpperCase()}</Text>
+          <View key={section.sectionKey} style={{ marginTop: 16 }}>
+            <Text style={styles.section}>
+              {t(`credits.section.${section.sectionKey}`).toUpperCase()}
+            </Text>
             <View style={{ gap: 8 }}>
               {section.items.map((p) => (
-                <View key={p.name} style={styles.itemRow}>
+                <View key={p.key} style={styles.itemRow}>
                   <View style={[styles.itemIcon, { backgroundColor: p.color }]}>
                     <Text style={{ fontSize: 18 }}>{p.emoji}</Text>
                   </View>
                   <View style={{ flex: 1, minWidth: 0 }}>
-                    <Text style={styles.itemName}>{p.name}</Text>
-                    <Text style={styles.itemRole}>{p.role}</Text>
+                    <Text style={styles.itemName}>
+                      {t(`credits.${section.sectionKey}.${p.key}.name`)}
+                    </Text>
+                    <Text style={styles.itemRole}>
+                      {t(`credits.${section.sectionKey}.${p.key}.role`)}
+                    </Text>
                   </View>
                 </View>
               ))}
@@ -82,14 +92,11 @@ export function CreditsDialog({
         ))}
 
         <View style={styles.contactBox}>
-          <Text style={styles.contactTitle}>Found a bug bug?</Text>
-          <Text style={styles.contactEmail}>hello@critterboard.app</Text>
+          <Text style={styles.contactTitle}>{t('credits.contactTitle')}</Text>
+          <Text style={styles.contactEmail}>{t('credits.contactEmail')}</Text>
         </View>
 
-        <Text style={styles.footer}>
-          All processing happens on your device.{'\n'}No data leaves this phone. We promise.{'\n'}
-          © 2026 Critterboard · MIT-licensed open source
-        </Text>
+        <Text style={styles.footer}>{t('credits.footer')}</Text>
       </ScrollView>
     </ModalShell>
   );

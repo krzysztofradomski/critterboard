@@ -5,7 +5,8 @@ import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { TabBar } from '@/components/TabBar';
-import { PERSONAS } from '@/personas';
+import { useT } from '@/i18n/helpers';
+import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
@@ -24,7 +25,8 @@ export function Home() {
   const { go } = useNav();
   const persona = useAppStore((s) => s.persona);
   const dexSize = useAppStore((s) => s.dex.size);
-  const P = PERSONAS[persona];
+  const P = usePersona(persona);
+  const t = useT();
 
   return (
     <View style={styles.root}>
@@ -32,14 +34,14 @@ export function Home() {
         <IconBtn onPress={() => go('activity')}>🔔</IconBtn>
         <Pressable onPress={() => go('streak')} style={styles.streakPill}>
           <Text style={{ fontSize: 14 }}>🔥</Text>
-          <Text style={styles.streakText}>4-day streak</Text>
+          <Text style={styles.streakText}>{t('home.streakPill', { days: 4 })}</Text>
         </Pressable>
         <IconBtn onPress={() => go('settings')}>⚙</IconBtn>
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll}>
-        <Text style={styles.eyebrow}>BUG OF THE DAY</Text>
-        <Text style={styles.title}>Luna Moth 🌙</Text>
+        <Text style={styles.eyebrow}>{t('home.bugOfDay')}</Text>
+        <Text style={styles.title}>{t('home.bugOfDayName')}</Text>
 
         <Sticker
           bg={PB.purple}
@@ -50,24 +52,25 @@ export function Home() {
           <View style={styles.heroImage}>
             <CameraScene />
             <View style={styles.legendaryBadge}>
-              <Text style={styles.legendaryText}>★★★★★ LEGENDARY</Text>
+              <Text style={styles.legendaryText}>{t('home.legendary')}</Text>
             </View>
             <View style={styles.huntBadge}>
-              <Text style={styles.huntText}>HUNT →</Text>
+              <Text style={styles.huntText}>{t('home.hunt')}</Text>
             </View>
           </View>
           <View style={{ padding: 14 }}>
             <Text style={styles.heroDesc}>
-              Catch one today for{' '}
-              <Text style={styles.xpInline}> +500 XP </Text> and a shiny badge.
+              {t('home.bugOfDayDesc')}
+              <Text style={styles.xpInline}>{t('home.bugOfDayXp')}</Text>
+              {t('home.bugOfDayDescTail')}
             </Text>
           </View>
         </Sticker>
 
         <Sticker bg={PB.paper} style={{ marginTop: 14 }} onPress={() => go('streak')}>
           <View style={styles.weekHead}>
-            <Text style={styles.weekTitle}>Your week</Text>
-            <Text style={styles.weekSub}>3 days till badge</Text>
+            <Text style={styles.weekTitle}>{t('home.yourWeek')}</Text>
+            <Text style={styles.weekSub}>{t('home.daysToBadge', { n: 3 })}</Text>
           </View>
           <View style={styles.weekRow}>
             {WEEK_DAYS.map((d, i) => (
@@ -93,16 +96,16 @@ export function Home() {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.chatLine}>{P.lines.streak}</Text>
-              <Text style={styles.chatCta}>CHAT WITH {P.name.toUpperCase()} →</Text>
+              <Text style={styles.chatCta}>{t('home.chatCta', { name: P.name.toUpperCase() })}</Text>
             </View>
           </View>
         </Sticker>
 
         <View style={styles.statRow}>
           {[
-            { k: 'CAUGHT', v: String(dexSize), c: PB.blue,   route: 'dex' as const },
-            { k: 'XP',     v: '24.6k',          c: PB.orange, route: 'quests' as const },
-            { k: 'RANK',   v: '#6',              c: PB.purple, route: 'leaderboard' as const },
+            { k: t('home.stat.caught'), v: String(dexSize), c: PB.blue,   route: 'dex' as const },
+            { k: t('home.stat.xp'),     v: '24.6k',          c: PB.orange, route: 'quests' as const },
+            { k: t('home.stat.rank'),   v: '#6',              c: PB.purple, route: 'leaderboard' as const },
           ].map((s) => (
             <Pressable
               key={s.k}

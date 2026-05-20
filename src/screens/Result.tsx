@@ -6,23 +6,44 @@ import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { BUGS, findBug } from '@/data/bugs';
+import { useT, useBugName } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
-import { PERSONAS } from '@/personas';
+import { usePersona } from '@/personas/hooks';
 import { PB, RARITY_COLOR } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
-const FACT_TABLE: Record<string, Array<[string, string, string]>> = {
-  mona: [['Habitat', 'Meadows', PB.green], ['Wingspan', '8.9–10.2 cm', PB.blue], ['Range', 'N. America', PB.purple], ['Diet', 'Milkweed', PB.red]],
-  lhoc: [['Habitat', 'Forests', PB.green], ['Wingspan', '10–11 cm', PB.blue], ['Range', 'E. N. America', PB.purple], ['Active', 'Nighttime', PB.red]],
-  hcat: [['Habitat', 'Hives', PB.green], ['Wingspan', '1.2 cm', PB.blue], ['Range', 'Worldwide', PB.purple], ['Diet', 'Nectar', PB.red]],
+/**
+ * Per-bug fact list keyed by translation pack keys. Resolved on render so
+ * a language flip refreshes the labels and the values (e.g. "Meadows"
+ * vs. "Łąki") in the same pass.
+ */
+const FACT_KEYS: Record<string, Array<[string, string, string]>> = {
+  mona: [
+    ['facts.habitat',  'facts.values.meadows',      PB.green],
+    ['facts.wingspan', 'facts.values.monaWingspan', PB.blue],
+    ['facts.range',    'facts.values.naRange',      PB.purple],
+    ['facts.diet',     'facts.values.milkweed',     PB.red],
+  ],
+  lhoc: [
+    ['facts.habitat',  'facts.values.forests',      PB.green],
+    ['facts.wingspan', 'facts.values.lhocWingspan', PB.blue],
+    ['facts.range',    'facts.values.naEastRange',  PB.purple],
+    ['facts.active',   'facts.values.nighttime',    PB.red],
+  ],
+  hcat: [
+    ['facts.habitat',  'facts.values.hives',        PB.green],
+    ['facts.wingspan', 'facts.values.hcatWingspan', PB.blue],
+    ['facts.range',    'facts.values.worldwide',    PB.purple],
+    ['facts.diet',     'facts.values.nectar',       PB.red],
+  ],
 };
 
-const DEFAULT_FACTS: Array<[string, string, string]> = [
-  ['Habitat', 'Various', PB.green],
-  ['Size', '—', PB.blue],
-  ['Range', '—', PB.purple],
-  ['Diet', '—', PB.red],
+const DEFAULT_FACT_KEYS: Array<[string, string, string]> = [
+  ['facts.habitat', 'facts.various', PB.green],
+  ['facts.size',    'facts.unknown', PB.blue],
+  ['facts.range',   'facts.unknown', PB.purple],
+  ['facts.diet',    'facts.unknown', PB.red],
 ];
 
 export function Result() {
@@ -36,14 +57,18 @@ export function Result() {
   const id = params?.id ?? 'mona';
   const photoUri = params?.photoUri ?? null;
   const bug = findBug(id) ?? BUGS[0];
+  const t = useT();
+  const localizedName = useBugName(bug?.id ?? 'mona');
   if (!bug) return null;
 
-  const P = PERSONAS[persona];
+  const P = usePersona(persona);
   const alreadyCaught = dex.has(bug.id);
   const conf = bug.rarity === 'legendary' ? 88 : bug.rarity === 'common' ? 98 : 94;
-  const facts = FACT_TABLE[bug.id] ?? DEFAULT_FACTS;
+  const facts = FACT_KEYS[bug.id] ?? DEFAULT_FACT_KEYS;
 
-  const snarkLine = bug.rarity === 'legendary' ? P.lines.legendary(bug.name) : P.lines.common(bug.name);
+  const snarkLine = bug.rarity === 'legendary'
+    ? P.lines.legendary(localizedName)
+    : P.lines.common(localizedName);
 
   const bg =
     bug.rarity === 'legendary' ? PB.purple : bug.rarity === 'epic' ? PB.pink : PB.orange;
@@ -55,17 +80,22 @@ export function Result() {
     }
     catchBug(bug.id);
     haptics.success();
-    showToast({ text: `Caught! +${bug.xp} XP · ${bug.tier}`, icon: bug.emoji, bg: PB.green });
+    showToast({
+      text: t('result.caughtToast', { xp: bug.xp, tier: bug.tier }),
+      icon: bug.emoji,
+      bg: PB.green,
+    });
     setTimeout(() => go('dex'), 900);
   };
 
   const titleColor = bug.rarity === 'legendary' ? PB.cream : PB.ink;
+  const personaShort = P.name.split(' ').pop()?.toUpperCase() ?? '';
 
   return (
     <View style={[styles.root, { backgroundColor: bg }]}>
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
-        <Text style={[styles.headTitle, { color: titleColor }]}>IDENTIFIED!</Text>
+        <Text style={[styles.headTitle, { color: titleColor }]}>{t('result.headTitle')}</Text>
         <IconBtn fs={14}>↗</IconBtn>
       </View>
 
@@ -79,7 +109,7 @@ export function Result() {
             )}
             <View style={[styles.tierBadge, { backgroundColor: RARITY_COLOR[bug.rarity] }]}>
               <Text style={styles.tierText}>
-                {bug.tier} {bug.rarity.toUpperCase()}
+                {bug.tier} {t(`dex.filter.${bug.rarity}`).toUpperCase()}
               </Text>
             </View>
             <View style={styles.xpBadge}>
@@ -87,10 +117,10 @@ export function Result() {
             </View>
           </View>
           <View style={{ padding: 14 }}>
-            <Text style={styles.bugName}>{bug.name}</Text>
+            <Text style={styles.bugName}>{localizedName}</Text>
             <Text style={styles.bugLatin}>{bug.latin}</Text>
             <View style={styles.confRow}>
-              <Text style={styles.confLabel}>CONFIDENCE</Text>
+              <Text style={styles.confLabel}>{t('result.confidence')}</Text>
               <Text style={[styles.confValue, { color: PB.green }]}>{conf}%</Text>
             </View>
             <View style={styles.confBar}>
@@ -103,7 +133,7 @@ export function Result() {
           bg={P.cardBg}
           rotate={1.5}
           style={{ marginTop: 14, paddingVertical: 10, paddingHorizontal: 12 }}
-          onPress={() => go('chat', { topic: bug.name })}
+          onPress={() => go('chat', { topic: localizedName })}
         >
           <View style={styles.snarkRow}>
             <View style={[styles.snarkAvatar, { backgroundColor: PB.cream }]}>
@@ -111,16 +141,16 @@ export function Result() {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.snarkLine}>{snarkLine}</Text>
-              <Text style={styles.snarkCta}>ASK {P.name.split(' ').pop()?.toUpperCase()} →</Text>
+              <Text style={styles.snarkCta}>{t('result.askCta', { name: personaShort })}</Text>
             </View>
           </View>
         </Sticker>
 
         <View style={styles.factGrid}>
-          {facts.map(([k, v, c]) => (
-            <View key={k} style={styles.factTile}>
-              <Text style={[styles.factLabel, { color: c }]}>{k.toUpperCase()}</Text>
-              <Text style={styles.factValue}>{v}</Text>
+          {facts.map(([labelKey, valueKey, c]) => (
+            <View key={labelKey} style={styles.factTile}>
+              <Text style={[styles.factLabel, { color: c }]}>{t(labelKey).toUpperCase()}</Text>
+              <Text style={styles.factValue}>{t(valueKey)}</Text>
             </View>
           ))}
         </View>
@@ -133,7 +163,7 @@ export function Result() {
             size="lg"
             onPress={onAdd}
           >
-            {alreadyCaught ? 'Already in your Dex ✓' : 'Add to Dex 📔'}
+            {alreadyCaught ? t('result.alreadyInDex') : t('result.addToDex')}
           </Btn>
         </View>
       </ScrollView>

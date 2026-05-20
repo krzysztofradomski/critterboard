@@ -3,6 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
+import { useT } from '@/i18n/helpers';
 import { PB } from '@/tokens/pb';
 import { useNav } from '@/store/useNav';
 
@@ -22,17 +23,18 @@ type Item = {
 
 export function Activity() {
   const { go, back } = useNav();
+  const t = useT();
   const [tab, setTab] = useState<'all' | Kind>('all');
 
   const items: Item[] = [
-    { id: 'a1', kind: 'social', emoji: '🦋', color: PB.orange, title: 'antqueen liked your Monarch', sub: '2 hr ago · Brooklyn cluster', cta: 'View sighting', go: () => go('result', { id: 'mona' }) },
-    { id: 'a2', kind: 'system', emoji: '🧠', color: PB.pink, title: 'Larva-3B v1.4 ready to install', sub: 'New jokes. Same vibe. 240 MB.', cta: 'Update', go: () => go('settings'), hot: true },
-    { id: 'a3', kind: 'system', emoji: '🔥', color: PB.red, title: "4-day streak! Don't break it", sub: 'Catch one bug today. Even a hoverfly.', cta: 'Open scan', go: () => go('scan') },
-    { id: 'a4', kind: 'social', emoji: '🥇', color: PB.yellow, title: 'You passed bug_dad_42', sub: "You're #6 on the global board.", cta: 'Leaderboard', go: () => go('leaderboard') },
-    { id: 'a5', kind: 'system', emoji: '✨', color: PB.purple, title: 'Quest complete: 3 pollinators', sub: '+75 XP. Reward unlocked.', cta: 'Claim', go: () => go('quests') },
-    { id: 'a6', kind: 'social', emoji: '🌙', color: PB.green, title: 'mothwhisperer caught a Luna Moth', sub: '420 m from you · 6 hr ago', cta: 'View on map', go: () => go('map') },
-    { id: 'a7', kind: 'system', emoji: '📦', color: PB.blue, title: 'Regional pack: Northeast NA', sub: 'New seasonal index synced (+38 species).', cta: 'View pack', go: () => go('region', { id: 'na-ne' }) },
-    { id: 'a8', kind: 'social', emoji: '🤖', color: PB.cream2, title: 'wingedfren replied to your hoverfly thread', sub: '"Pretty sure that\'s a Marmalade — wing bands."', cta: 'Open chat', go: () => go('chat', { topic: 'Hoverflies' }) },
+    { id: 'a1', kind: 'social', emoji: '🦋', color: PB.orange, title: t('activity.item.a1Title'), sub: t('activity.item.a1Sub'), cta: t('activity.item.a1Cta'), go: () => go('result', { id: 'mona' }) },
+    { id: 'a2', kind: 'system', emoji: '🧠', color: PB.pink,   title: t('activity.item.a2Title'), sub: t('activity.item.a2Sub'), cta: t('activity.item.a2Cta'), go: () => go('settings'), hot: true },
+    { id: 'a3', kind: 'system', emoji: '🔥', color: PB.red,    title: t('activity.item.a3Title'), sub: t('activity.item.a3Sub'), cta: t('activity.item.a3Cta'), go: () => go('scan') },
+    { id: 'a4', kind: 'social', emoji: '🥇', color: PB.yellow, title: t('activity.item.a4Title'), sub: t('activity.item.a4Sub'), cta: t('activity.item.a4Cta'), go: () => go('leaderboard') },
+    { id: 'a5', kind: 'system', emoji: '✨', color: PB.purple, title: t('activity.item.a5Title'), sub: t('activity.item.a5Sub'), cta: t('activity.item.a5Cta'), go: () => go('quests') },
+    { id: 'a6', kind: 'social', emoji: '🌙', color: PB.green,  title: t('activity.item.a6Title'), sub: t('activity.item.a6Sub'), cta: t('activity.item.a6Cta'), go: () => go('map') },
+    { id: 'a7', kind: 'system', emoji: '📦', color: PB.blue,   title: t('activity.item.a7Title'), sub: t('activity.item.a7Sub'), cta: t('activity.item.a7Cta'), go: () => go('region', { id: 'na-ne' }) },
+    { id: 'a8', kind: 'social', emoji: '🤖', color: PB.cream2, title: t('activity.item.a8Title'), sub: t('activity.item.a8Sub'), cta: t('activity.item.a8Cta'), go: () => go('chat', { topic: t('activity.item.a8Topic') }) },
   ];
 
   const filtered = tab === 'all' ? items : items.filter((i) => i.kind === tab);
@@ -42,8 +44,8 @@ export function Activity() {
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
         <View style={{ flex: 1 }}>
-          <Text style={styles.title}>Buzz</Text>
-          <Text style={styles.sub}>{items.length} new since you opened the app</Text>
+          <Text style={styles.title}>{t('activity.title')}</Text>
+          <Text style={styles.sub}>{t('activity.sub', { n: items.length })}</Text>
         </View>
         <IconBtn fs={14}>✓</IconBtn>
       </View>
@@ -62,7 +64,7 @@ export function Activity() {
             ]}
           >
             <Text style={[styles.tabText, { color: tab === id ? PB.yellow : PB.ink }]}>
-              {id === 'all' ? 'All' : id === 'social' ? 'Social' : 'System'}
+              {t(`activity.tab.${id}`)}
             </Text>
           </Pressable>
         ))}
@@ -73,7 +75,7 @@ export function Activity() {
           <Pressable key={it.id} onPress={it.go} style={styles.row}>
             {it.hot ? (
               <View style={styles.hot}>
-                <Text style={styles.hotText}>NEW</Text>
+                <Text style={styles.hotText}>{t('activity.newBadge')}</Text>
               </View>
             ) : null}
             <View style={[styles.icon, { backgroundColor: it.color }]}>
@@ -92,8 +94,8 @@ export function Activity() {
         {filtered.length === 0 && (
           <Sticker bg={PB.cream2} rotate={-1} style={{ marginTop: 20, padding: 18, alignItems: 'center' }}>
             <Text style={{ fontSize: 40 }}>🦗</Text>
-            <Text style={styles.emptyTitle}>Crickets.</Text>
-            <Text style={styles.emptySub}>Nothing here yet.</Text>
+            <Text style={styles.emptyTitle}>{t('activity.emptyTitle')}</Text>
+            <Text style={styles.emptySub}>{t('activity.emptySub')}</Text>
           </Sticker>
         )}
       </ScrollView>

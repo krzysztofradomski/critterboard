@@ -1,0 +1,827 @@
+{
+  "version": 1,
+  "lang": "pl",
+  "nativeName": "Polski",
+  "englishName": "Polish",
+  "flag": "🇵🇱",
+  "strings": {
+    "common": {
+      "back": "Wróć",
+      "close": "Zamknij",
+      "share": "Udostępnij",
+      "loading": "Ładowanie…",
+      "you": "ty",
+      "youParen": "(ty)",
+      "yes": "Tak",
+      "no": "Nie",
+      "cancel": "Anuluj",
+      "retry": "Ponów",
+      "ok": "OK",
+      "open": "Otwórz",
+      "level": "poziom"
+    },
+    "tabs": {
+      "home": "Start",
+      "scan": "Skan",
+      "dex": "Dex",
+      "map": "Mapa",
+      "me": "Ja"
+    },
+    "meSub": {
+      "quests": "Zadania",
+      "leaderboard": "Rankingi",
+      "settings": "Mózg"
+    },
+    "onboarding": {
+      "title": "Critterboard",
+      "tagline": "rozpoznaj każdego owada · offline · z humorem",
+      "snap": "📷 ZRÓB ZDJĘCIE",
+      "sassyId": "🤖 BEZCZELNE ID",
+      "buildDex": "🏆 ZBIERAJ DEX",
+      "pickGuide": "WYBIERZ PRZEWODNIKA",
+      "startHunting": "Zaczynamy →",
+      "legal": "✓ bez konta · ✓ bez internetu · ✓ za darmo"
+    },
+    "home": {
+      "streakPill": "passa {days} dni",
+      "bugOfDay": "OWAD DNIA",
+      "bugOfDayName": "Ćma Luna 🌙",
+      "legendary": "★★★★★ LEGENDARNY",
+      "hunt": "ŁOWY →",
+      "bugOfDayDesc": "Złap dziś jednego dla",
+      "bugOfDayXp": " +500 XP ",
+      "bugOfDayDescTail": " i błyszczącej odznaki.",
+      "yourWeek": "Twój tydzień",
+      "daysToBadge": "{n} dni do odznaki",
+      "chatCta": "POROZMAWIAJ Z {name} →",
+      "stat": {
+        "caught": "ZŁAPANE",
+        "xp": "XP",
+        "rank": "RANG"
+      }
+    },
+    "scan": {
+      "analyzing": "ANALIZUJĘ…",
+      "scanning": "OFFLINE · SKANOWANIE",
+      "permissionTitle": "Dostęp do aparatu",
+      "permissionAsk": "Pozwól Critterboardowi zobaczyć owada. Zdjęcia nie opuszczają telefonu.",
+      "permissionDenied": "Aparat zablokowany. Włącz w Ustawienia → Critterboard → Aparat.",
+      "allowCamera": "Zezwól aparatowi",
+      "focus": "ostrość",
+      "matching": "dopasowuję…"
+    },
+    "result": {
+      "headTitle": "ROZPOZNANO!",
+      "confidence": "PEWNOŚĆ",
+      "alreadyInDex": "Już w twoim Dexie ✓",
+      "addToDex": "Dodaj do Dexa 📔",
+      "askCta": "ZAPYTAJ {name} →",
+      "caughtToast": "Złapany! +{xp} XP · {tier}"
+    },
+    "facts": {
+      "habitat": "Siedlisko",
+      "wingspan": "Rozpiętość",
+      "range": "Zasięg",
+      "diet": "Dieta",
+      "active": "Aktywność",
+      "size": "Rozmiar",
+      "various": "Różne",
+      "unknown": "—",
+      "values": {
+        "meadows": "Łąki",
+        "forests": "Lasy",
+        "hives": "Ule",
+        "monaWingspan": "8,9–10,2 cm",
+        "lhocWingspan": "10–11 cm",
+        "hcatWingspan": "1,2 cm",
+        "naRange": "Am. Płn.",
+        "naEastRange": "Wsch. Am. Płn.",
+        "worldwide": "Cały świat",
+        "milkweed": "Trojeść",
+        "nighttime": "Noc",
+        "nectar": "Nektar"
+      }
+    },
+    "disambiguate": {
+      "headTitle": "NIE JESTEM PEWIEN",
+      "lowConfidence": "NISKA PEWNOŚĆ · 62%",
+      "shotMeta": "📷 1/250s · rozmyte",
+      "topCandidates": "TOP KANDYDACI",
+      "tapToConfirm": "naciśnij, by potwierdzić",
+      "askForHelp": "Zapytaj {name} o pomoc →",
+      "noneOfThese": "Żaden z tych",
+      "thisMystery": "ten tajemniczy owad",
+      "foot": "ID w pełni na urządzeniu · 320 ms · żadne zdjęcie nie opuściło telefonu"
+    },
+    "noMatch": {
+      "headTitle": "BRAK DOPASOWANIA",
+      "heroTitle": "Nie udało się rozpoznać.",
+      "heroSub": "BugNet v3 zwrócił wszystkich kandydatów poniżej 15%.",
+      "tryThis": "SPRÓBUJ TAK",
+      "tip": {
+        "lightTitle": "Więcej światła",
+        "lightDesc": "Wejdź w słońce albo użyj lampy. Cień zjada detale.",
+        "frameTitle": "Wypełnij kadr",
+        "frameDesc": "Podejdź na 20 cm i ciasno wykadruj sylwetkę.",
+        "backdropTitle": "Czyste tło",
+        "backdropDesc": "Mniej liści w tle pomaga modelowi się skupić.",
+        "profileTitle": "Profil z boku",
+        "profileDesc": "Skrzydła i nogi widoczne z boku są najłatwiejsze."
+      },
+      "saveTitle": "Zapisać jako Nieznane?",
+      "saveDesc": "Schowaj zdjęcie do dziennika. Rozpoznaj je później, gdy modele się poprawią.",
+      "tryAgain": "📷 Spróbuj jeszcze raz",
+      "saveAndHome": "Zapisz i wróć"
+    },
+    "dex": {
+      "title": "Mój Dex",
+      "caughtOf": "{caught} z {total} złapanych",
+      "searchPlaceholder": "Szukaj po nazwie, łacinie, rzadkości…",
+      "filter": {
+        "all": "Wszystkie",
+        "common": "Pospolite",
+        "uncommon": "Niezbyt pospolite",
+        "rare": "Rzadkie",
+        "epic": "Epickie",
+        "legendary": "Legendarne"
+      },
+      "emptyTitle": "Nic nie pasuje do \"{query}\"",
+      "emptyDesc": "Spróbuj krócej, łacińskiej nazwy lub rzadkości ({rarities}).",
+      "emptyHint": "Wskazówka: dodaj ? aby szukać niezłapanych po numerze (np. ?7)",
+      "uncaughtName": "???"
+    },
+    "chat": {
+      "localStatus": "● lokalnie · {title}",
+      "inputPlaceholder": "Zapytaj o tego owada…"
+    },
+    "activity": {
+      "title": "Brzęczenie",
+      "sub": "{n} nowych od ostatniego otwarcia",
+      "tab": {
+        "all": "Wszystko",
+        "social": "Społeczność",
+        "system": "System"
+      },
+      "emptyTitle": "Cisza.",
+      "emptySub": "Jeszcze nic tu nie ma.",
+      "newBadge": "NOWE",
+      "item": {
+        "a1Title": "antqueen polubiła Twojego Monarchę",
+        "a1Sub": "2 godz. temu · klaster Brooklyn",
+        "a1Cta": "Zobacz obserwację",
+        "a2Title": "Larva-3B v1.4 gotowa do instalacji",
+        "a2Sub": "Nowe żarty. Ten sam klimat. 240 MB.",
+        "a2Cta": "Aktualizuj",
+        "a3Title": "Passa 4 dni! Nie zepsuj jej",
+        "a3Sub": "Złap dziś jednego owada. Nawet bzygowate.",
+        "a3Cta": "Otwórz skan",
+        "a4Title": "Wyprzedziłeś bug_dad_42",
+        "a4Sub": "Jesteś #6 w globalnym rankingu.",
+        "a4Cta": "Ranking",
+        "a5Title": "Zadanie ukończone: 3 zapylacze",
+        "a5Sub": "+75 XP. Nagroda odblokowana.",
+        "a5Cta": "Odbierz",
+        "a6Title": "mothwhisperer złapał Ćmę Luna",
+        "a6Sub": "420 m od ciebie · 6 godz. temu",
+        "a6Cta": "Pokaż na mapie",
+        "a7Title": "Pakiet regionalny: Northeast NA",
+        "a7Sub": "Zsynchronizowano nowy indeks sezonowy (+38 gatunków).",
+        "a7Cta": "Zobacz pakiet",
+        "a8Title": "wingedfren odpowiedział w wątku o bzygach",
+        "a8Sub": "\"Wygląda na bzyga marmoladowego — paski na skrzydłach.\"",
+        "a8Cta": "Otwórz czat",
+        "a8Topic": "Bzygi"
+      }
+    },
+    "friends": {
+      "title": "Przyrodnicy",
+      "sub": "Osoby, które obserwujesz · ich owady",
+      "tab": {
+        "following": "Obserwowani",
+        "followers": "Obserwujący",
+        "suggested": "Propozycje"
+      },
+      "follow": "+ Obserwuj",
+      "following": "✓ Obserwujesz",
+      "ago": "{when} temu",
+      "emptyTitle": "Nikogo tu jeszcze nie ma.",
+      "emptySub": "Sprawdź zakładkę Propozycje, by znaleźć podobnych przyrodników."
+    },
+    "person": {
+      "rank": "MIEJSCE #{rank}",
+      "location": "{city} · {country} · poziom {level}",
+      "recentCatches": "OSTATNIE ZŁAPANE",
+      "noCatches": "Brak publicznych zdobyczy.",
+      "mutualOne": "{n} wspólny obserwowany",
+      "mutualMany": "{n} wspólnych obserwowanych",
+      "stat": {
+        "xp": "XP",
+        "caught": "ZŁAPANE",
+        "joined": "DOŁĄCZYŁ"
+      },
+      "catchesOnMap": "📍 Złapane na mapie",
+      "theirDex": "📔 Ich dex",
+      "blockReport": "Zablokuj · Zgłoś",
+      "defaultBio": "Brak opisu.",
+      "country": {
+        "JP": "Japonia",
+        "DE": "Niemcy",
+        "BR": "Brazylia",
+        "US": "USA",
+        "CA": "Kanada",
+        "UK": "Wlk. Brytania",
+        "AU": "Australia",
+        "NL": "Holandia",
+        "IE": "Irlandia",
+        "private": "prywatne"
+      },
+      "bio": {
+        "mothwhisperer": "Tylko ćmy. Głównie Saturniidae.",
+        "bug_dad_42": "Miłośnik chrząszczy. Także tata.",
+        "antqueen": "Formicidae na zawsze. Bez dyskusji.",
+        "chitin_chris": "Jaja, ooteki, larwy.",
+        "wingedfren": "Bzygi są idealne, naprawdę.",
+        "you": "Passa 4 dni. Głównie zapylacze.",
+        "larva_loyd": "Facet od gąsienic. Nie gładź ich.",
+        "molt_master": "Pajęczak. (Wiem, to nie owad.)",
+        "cricketwitch": "Prostoskrzydłe o zmierzchu.",
+        "pillbug_dot": "Ciekawa stonóg. Ekspertka od ogrodów.",
+        "aphid_attic": "Tylko patrzę."
+      },
+      "friend": {
+        "atlasMothLast": "Ćma Atlas",
+        "stagBeetleLast": "Jelonek rogacz",
+        "bulletAntLast": "Mrówka pocisk",
+        "eggCaseLast": "Kokon jajowy",
+        "hoverflyLast": "Bzyg",
+        "ladybirdLast": "Biedronka",
+        "huntsmanLast": "Pająk myśliwy",
+        "fieldCricketLast": "Świerszcz polny",
+        "pillbugLast": "Stonoga",
+        "greenflyLast": "Mszyca"
+      },
+      "why": {
+        "sharedBugs": "złapał 4 z tych samych owadów",
+        "brooklyn": "w klastrze Brooklyn",
+        "viaMothwhisperer": "obserwuje mothwhisperer"
+      }
+    },
+    "leaderboard": {
+      "title": "Ranking",
+      "sub": "Reset za 3d 14h · 482 tys. tropicieli",
+      "tab": {
+        "global": "Globalny",
+        "weekly": "Tygodniowy",
+        "friends": "Znajomi"
+      },
+      "meta": "{country} · poziom 12",
+      "hiddenTitle": "Jesteś ukryty w rankingu",
+      "hiddenDesc": "Włącz \"Pokaż mnie w rankingu\" by się pojawić.",
+      "fix": "POPRAW →"
+    },
+    "map": {
+      "locName": "Brooklyn, NY",
+      "locSub": "{n} obserwacji · ostatnie 30 dni",
+      "sightings": "{n}× obserwacje",
+      "distance": "0,6 km",
+      "where": "Prospect Park · 2 dni temu",
+      "hunt": "ŁOWY →"
+    },
+    "permissions": {
+      "title": "Trzy szybkie prośby.",
+      "sub": "Możesz je zmienić później w Mózgu.",
+      "need": {
+        "required": "Wymagane",
+        "recommended": "Zalecane",
+        "optional": "Opcjonalne"
+      },
+      "allowed": "✓ POZWOLONE",
+      "skipped": "POMINIĘTE",
+      "notNow": "Nie teraz",
+      "requiredBtn": "Wymagane",
+      "allow": "Pozwól",
+      "continue": "Dalej →",
+      "decideRest": "Zdecyduj o reszcie",
+      "cameraRequired": "Aparat jest wymagany",
+      "readyToast": "Gotowi na łowy!",
+      "items": {
+        "camera": {
+          "title": "Aparat",
+          "desc": "Złap owada, dostań ID. Zdjęcia nie opuszczają telefonu.",
+          "b1": "ML tylko na urządzeniu",
+          "b2": "Brak wysyłki do chmury",
+          "b3": "Bez udostępniania metadanych zdjęć"
+        },
+        "location": {
+          "title": "Lokalizacja",
+          "desc": "Lepsze filtrowanie zasięgu — model wie, co żyje obok.",
+          "b1": "Rozmycie na poziomie miasta (~5 km)",
+          "b2": "Zostaje na urządzeniu, chyba że udostępnisz",
+          "b3": "Wyłącz w każdej chwili"
+        },
+        "notifs": {
+          "title": "Powiadomienia",
+          "desc": "Codzienny szturchaniec passy + Owad Dnia. Bez spamu.",
+          "b1": "Maks. jedno powiadomienie dziennie",
+          "b2": "Bez marketingu i nagabywania",
+          "b3": "Wyłączane po 7 dniach bezczynności"
+        }
+      }
+    },
+    "quests": {
+      "title": "Zadania",
+      "sub": "Zdobywaj XP · Pokonaj owady",
+      "levelLabel": "POZIOM",
+      "xpCurrent": "388 XP",
+      "xpNext": "1000 XP → LV.13",
+      "daily": "◇ DZIENNE · RESET ZA 8H",
+      "weekly": "◆ TYGODNIOWE",
+      "badges": "★ ODZNAKI ({earned} Z {total})",
+      "completed": "UKOŃCZONE ZADANIA",
+      "completedSub": "{n} ukończonych · zdobyte {xp} XP",
+      "kindDaily": "dzienne",
+      "kindWeekly": "tygodniowe",
+      "labels": {
+        "q1": "Rozpoznaj 3 zapylacze",
+        "q2": "Złap chrząszcza",
+        "q3": "Znajdź Legendarnego",
+        "q4": "Passa 7 dni"
+      },
+      "completedLabels": {
+        "c1": "Rozpoznaj 5 zapylaczy",
+        "c2": "Złap motyla",
+        "c3": "Passa 3 dni",
+        "c4": "Pierwsze nocne ID",
+        "c5": "Rozpoznaj 10 w tygodniu",
+        "c6": "Złap chrząszcza",
+        "c7": "Pierwsza Zdobycz"
+      },
+      "completedDates": {
+        "c1": "Dzisiaj",
+        "c2": "Wczoraj",
+        "c3": "2 dni temu",
+        "c4": "9 maja",
+        "c5": "6 maja",
+        "c6": "2 maja",
+        "c7": "12 kwi"
+      },
+      "dialog": {
+        "weeklyChip": "◆ TYGODNIOWE",
+        "dailyChip": "◇ DZIENNE",
+        "xpChip": "+{xp} XP",
+        "progress": "POSTĘP",
+        "tipsFrom": "PORADY OD {name}",
+        "later": "Później",
+        "start": "Zacznij łowy 📷"
+      },
+      "details": {
+        "q1": {
+          "desc": "Zapylacze karmią świat. Znajdź i rozpoznaj dziś trzy — pszczoły, motyle, bzygi, chrząszcze, cokolwiek odwiedza kwiat po przekąskę.",
+          "tip1": "Pszczoły miodne się liczą, bzygi się liczą, nawet chrząszcze na kwiatach się liczą.",
+          "tip2": "Poranne słońce + kwitnący zagon to cheat code."
+        },
+        "q2": {
+          "desc": "Chrząszcze. Chrupiące. Niedoceniane. Złap dowolny gatunek z rzędu Coleoptera.",
+          "tip1": "Przewróć kłodę (delikatnie) — większość chrząszczy lubi ciemność.",
+          "tip2": "Zerknij pod liście o zmierzchu."
+        },
+        "q3": {
+          "desc": "Prawdziwe trofeum. Wytrop w tym tygodniu owada legendarnego. Ćma Luna, Atlas albo cokolwiek z pięcioma gwiazdkami.",
+          "tip1": "Legendarne zlatują się o zmierzchu pod lampami werandy.",
+          "tip2": "Sprawdź mapę pod kątem niedawnych rzadkich obserwacji w okolicy."
+        },
+        "q4": {
+          "desc": "Rozpoznaj jednego owada dziennie przez siedem dni z rzędu. Nieważne jakiego — pojedyncza mrówka też się liczy.",
+          "tip1": "Opuściłeś dzień? Hartuje cię to. Zacznij liczyć od nowa.",
+          "tip2": "Ustaw przypomnienie, gdy passa sięgnie 5 — finisz jest brutalny."
+        }
+      }
+    },
+    "badges": {
+      "lockedPill": "🔒 ZABLOKOWANE",
+      "earnedPill": "✓ ZDOBYTE",
+      "hiddenName": "Ukryta odznaka",
+      "uncaughtName": "???",
+      "how": "JAK",
+      "gotIt": "Rozumiem",
+      "items": {
+        "b1": {
+          "name": "Pierwsza Zdobycz",
+          "earned": "12 kwi",
+          "desc": "Twoje pierwsze ID. Witaj w klubie — każdy przyrodnik ma tę odznakę z przodu notesu.",
+          "crit": "Rozpoznaj pierwszego owada."
+        },
+        "b2": {
+          "name": "Passa 3",
+          "earned": "4 maja",
+          "desc": "Trzy dni uważności z rzędu. Trudna jest pierwsza próba; trudniejsze pojawienie się jutro.",
+          "crit": "Rozpoznaj co najmniej jednego owada przez trzy kolejne dni."
+        },
+        "b3": {
+          "name": "Nocny Marek",
+          "earned": "9 maja",
+          "desc": "Wyszedłeś po zmroku z latarką i znalazłeś coś, co odpowiedziało spojrzeniem. Ćmy salutują.",
+          "crit": "Rozpoznaj owada między 21:00 a 4:00."
+        },
+        "b4": {
+          "name": "Przyjaciel Zapylaczy",
+          "desc": "Dla przyjaciół kwiatów. Pszczoły, motyle, bzygi, chrząszcze — wszystko, co przylatuje po nektar.",
+          "crit": "Rozpoznaj 10 różnych zapylaczy."
+        },
+        "b5": {
+          "name": "Rozdzielacz",
+          "desc": "Odróżniasz bzyga od osy z dwudziestu kroków. Generaliści się ciebie boją.",
+          "crit": "Poprawnie rozróżnij 5 gatunków mimetycznych."
+        },
+        "b6": {
+          "name": "Centurion",
+          "desc": "Sto rozpoznań. Kamień milowy ze złotą wstążeczką.",
+          "crit": "Osiągnij łącznie 100 rozpoznań."
+        },
+        "b7": {
+          "name": "???",
+          "desc": "Zablokowane. Tropij dalej, a sama się ujawni.",
+          "crit": "Ukryte do czasu zdobycia."
+        },
+        "b8": {
+          "name": "???",
+          "desc": "Zablokowane. Tropij dalej, a sama się ujawni.",
+          "crit": "Ukryte do czasu zdobycia."
+        }
+      }
+    },
+    "streak": {
+      "headTitle": "PASSA",
+      "dayOnFire": "Dzień {n} na ogniu.",
+      "stat": {
+        "current": "OBECNA",
+        "best": "REKORD",
+        "caught": "ZŁAPANE"
+      },
+      "currentValue": "{n}d",
+      "bestValue": "{n}d",
+      "calTitle": "Ostatnie 5 tygodni",
+      "calRange": "14 kwi → 18 maja",
+      "legend": {
+        "caught": "Złapane",
+        "freeze": "Zamrożenie",
+        "missed": "Pominięte"
+      },
+      "freezeTitle": "Zamrożenia Passy",
+      "freezeDesc": "Używają się automatycznie, by passa przetrwała pominięty dzień. Jedno co 7 dni.",
+      "keepAlive": "📷 Utrzymaj passę"
+    },
+    "soundId": {
+      "modeCam": "📷 KAM",
+      "modeSound": "🔊 DŹWIĘK",
+      "stageRec": "● NAGR",
+      "stageMatch": "✓ MATCH",
+      "stageIdle": "○ BEZCZ",
+      "stageLive": "−18 dB · pik 4,2 kHz",
+      "stageQuiet": "— dB · — kHz",
+      "statusIdle": "DOTKNIJ MIKROFON, BY SŁUCHAĆ",
+      "statusMatch": "ZNALEZIONO PRAWDOPODOBNY MATCH",
+      "statusListen": "SŁUCHAM…",
+      "modelMeta": "BugNet-Audio · 38 MB",
+      "micIdle": "DOTKNIJ, BY SŁUCHAĆ · DO 30s",
+      "micRec": "DOTKNIJ, BY ZATRZYMAĆ",
+      "micMatch": "DOTKNIJ, BY POTWIERDZIĆ TOP",
+      "cand": {
+        "cica": {
+          "name": "Cykada Okresowa",
+          "hint": "Wysoki brzęk · 4–6 kHz"
+        },
+        "mant": {
+          "name": "Modliszka",
+          "hint": "Cichy szelest · blisko mikrofonu"
+        },
+        "fire": {
+          "name": "Świetlik Pospolity",
+          "hint": "Brak głosu · fałszywy match"
+        }
+      },
+      "sass": {
+        "larva": {
+          "idle": "Wymierz telefon w hałas. Zrobię swoją robotę.",
+          "matched": "Top match zamknięty. Nie mów, że nic dla ciebie nie zrobiłam.",
+          "listening": "Filtruję twój oddech. Sporo oddychasz."
+        },
+        "snail": {
+          "idle": "Trzymaj telefon nieruchomo. Wystarczy kilka sekund czystego dźwięku.",
+          "matched": "Pewny match. Cudownie.",
+          "listening": "Słucham uważnie. Wzór się wyłania."
+        },
+        "maywind": {
+          "idle": "Ooo ooo — posłuchajmy tego brzęczenia!",
+          "matched": "MAMY GO! Spójrz na ten sygnał!",
+          "listening": "Łapię coś fajnego — tak trzymaj!"
+        }
+      }
+    },
+    "settings": {
+      "title": "Mózg na urządzeniu",
+      "sub": "Wszystko działa na twoim telefonie. Słowo.",
+      "guideTitle": "Twój przewodnik",
+      "profileBand": "Profil i prywatność",
+      "profileLeaks": "Część danych może opuścić telefon.",
+      "profileSafe": "Żadne dane nie opuszczają telefonu.",
+      "displayName": "WYŚWIETLANA NAZWA",
+      "namePlaceholder": "twoja ksywa tropiciela",
+      "nameHint": "Widoczna w rankingu i przy udostępnionych obserwacjach.",
+      "privacy": "PRYWATNOŚĆ",
+      "networkLabel": "Dostęp do sieci",
+      "networkOn": "Funkcje online dostępne.",
+      "networkOff": "W pełni offline. Zalecane.",
+      "boardLabel": "Pokaż mnie w rankingu",
+      "boardOn": "Twoje XP i nazwa pojawią się globalnie.",
+      "boardNeeds": "Wymaga dostępu do sieci.",
+      "locShareLabel": "Udostępniaj lokalizacje obserwacji",
+      "locShareOn": "Piny dodawane do publicznej mapy (±500m rozmycia).",
+      "locShareOff": "Twoja mapa pozostaje prywatna.",
+      "model": {
+        "bugNet": "BugNet v3",
+        "bugNetMeta": "Wizja · 412 MB · 10 247 gatunków",
+        "larva": "Larva-3B (Q4)",
+        "larvaMeta": "Model chatu · {pct} / 1,9 GB · {state}",
+        "larvaInstalled": "zainstalowany",
+        "larvaEta": "~2 min do końca",
+        "species": "Baza Gatunków",
+        "speciesMeta": "Fakty i siedliska · 88 MB · v2026.04",
+        "ready": "GOTOWE",
+        "downloading": "↓ {pct}%"
+      },
+      "regionsBand": "Pakiety regionalne",
+      "regionsSub": "Zwiększają trafność ID tam, gdzie naprawdę jesteś.",
+      "regionMeta": "{installed}/{total} · {mb} MB",
+      "regionInstalled": "✓ NA URZĄDZ.",
+      "regionGet": "↓ POBIERZ",
+      "regionDownloading": "Pobieranie · {pct}% · {mb} MB",
+      "regionFoot": "Pakiety działają w pełni offline. Dotknij zainstalowany, by zobaczyć zawartość.",
+      "languageBand": "Język",
+      "languageSub": "Dla UI, nazw gatunków i bezczelności {name}.",
+      "naturalistsTile": "Przyrodnicy",
+      "naturalistsSub": "Znajomi i obserwacje",
+      "helpTile": "Pomoc i informacje",
+      "helpSub": "FAQ · eksport danych",
+      "creditsTitle": "Darmowe na zawsze. Bez reklam. Bez śledzenia.",
+      "creditsSub": "Zrobione z miłością przez 3 osoby, które naprawdę lubią chrząszcze.",
+      "viewCredits": "ZOBACZ TWÓRCÓW →",
+      "guideToast": "Przewodnik: {name}"
+    },
+    "regions": {
+      "list": {
+        "na-ne": { "name": "Płn.-wsch. Am. Płn.", "sub": "2 140 gatunków · drzewa, stawy, mokradła" },
+        "na-sw": { "name": "Płd.-zach. Am. Płn.", "sub": "1 880 gatunków · pustynia i chaparral" },
+        "eu-uk": { "name": "Wlk. Bryt. i Irlandia", "sub": "1 420 gatunków · specjaliści żywopłotów" },
+        "eu-md": { "name": "Śródziemnomorze",       "sub": "2 310 gatunków · od Iberii po Anatolię" },
+        "sa-am": { "name": "Dorzecze Amazonki",     "sub": "4 860 gatunków · ten wielki" },
+        "oc-au": { "name": "Australia",             "sub": "3 240 gatunków · wszystko gryzie" },
+        "as-se": { "name": "Azja Płd.-wsch.",       "sub": "3 690 gatunków · lasy monsunowe" }
+      },
+      "detail": {
+        "headLabel": "PAKIET REGIONALNY",
+        "stat": {
+          "species": "GATUNKI",
+          "size": "ROZMIAR",
+          "updated": "AKTUAL."
+        },
+        "topFamilies": "TOP RODZINY",
+        "sampleSpecies": "PRZYKŁADOWE GATUNKI",
+        "sampleMeta": "6 z {n}",
+        "modelNotes": "NOTATKI MODELU",
+        "foot": "Ostatnia aktualizacja {date} · suma kontrolna OK",
+        "remove": "🗑 Usuń pakiet ({mb} MB)",
+        "na-ne": {
+          "tagline": "Lasy liściaste, stawy bobrowe, słone moczary.",
+          "fam": {
+            "lep": "Lepidoptera (ćmy i motyle)",
+            "col": "Coleoptera (chrząszcze)",
+            "hym": "Hymenoptera (osy i pszczoły)",
+            "dip": "Diptera (muchówki)",
+            "odo": "Odonata (ważki)",
+            "oth": "Inne"
+          },
+          "why": {
+            "mona": "ikoniczny migrant",
+            "lhoc": "wylot środka lata",
+            "drag": "stały bywalec stawów bobrowych",
+            "fire": "czerwiec–lipiec o zmierzchu",
+            "lady": "powszechny",
+            "walk": "dąb / hikoria"
+          },
+          "notes": [
+            "Gatunki słonych moczarów ważone wyżej niż średnio w głębi lądu.",
+            "Fenologia wiosna–lato wbudowana w prior; ID poza sezonem mogą spaść o ~6%.",
+            "Zastosowano korekty zmian klimatu dla zasięgów 2025."
+          ]
+        },
+        "na-sw": {
+          "tagline": "Pustynia, chaparral, wyspy górskie.",
+          "fam": {
+            "hym": "Hymenoptera (rodzime pszczoły + mrówki)",
+            "col": "Coleoptera (czarnuchowate)",
+            "lep": "Lepidoptera",
+            "hem": "Hemiptera (pluskwiaki)",
+            "ort": "Orthoptera",
+            "oth": "Inne"
+          },
+          "why": {
+            "rhin": "loty monsunowe",
+            "mant": "częsta przy drodze",
+            "lady": "powszechna",
+            "cica": "pustynny chór",
+            "walk": "krzew mesquite",
+            "mona": "wiosenny korytarz"
+          },
+          "notes": [
+            "Fauna rodzimych pszczół nadpróbkowana w porównaniu do miodnych.",
+            "Taksonomia pustynnych mrówek wciąż się zmienia — pewność ograniczona do 92%."
+          ]
+        }
+      }
+    },
+    "bugs": {
+      "mona": { "name": "Monarch (Danaid wędrowny)" },
+      "rhin": { "name": "Chrząszcz Nosorożec" },
+      "hcat": { "name": "Pszczoła Miodna" },
+      "mant": { "name": "Modliszka Zwyczajna" },
+      "lady": { "name": "Biedronka Siedmiokropka" },
+      "drag": { "name": "Husarz Władca" },
+      "lhoc": { "name": "Ćma Luna" },
+      "fire": { "name": "Świetlik Pospolity" },
+      "cica": { "name": "Cykada Okresowa" },
+      "hwsp": { "name": "Klecanka Polna" },
+      "walk": { "name": "Patyczak" },
+      "atla": { "name": "Ćma Atlas" }
+    },
+    "personas": {
+      "larva": {
+        "name": "Prof. Larwa",
+        "title": "larva-3b · z kamienną twarzą",
+        "blurb": "Sarkastyczna. Pomocna wbrew sobie.",
+        "lines": {
+          "intro": "\"O super, kolejny tropiciel. Pozwól, że wszystko rzucę.\"",
+          "scanTip": "No tak, ustaw ostrość. Jestem AI, nie magikiem.",
+          "analyzing": "Mrużę oczy. Nie poganiaj.",
+          "streak": "\"Trzy dni z rzędu. Twój terapeuta musi być zachwycony.\"",
+          "chatHello": "Tak? Co teraz?",
+          "topicHello": "Więc teraz rozmawiamy o {topic}? No dobra.",
+          "common": "\"To {name}. Tak. Naprawdę byłem ci do tego potrzebny?\"",
+          "legendary": "\"{name}. No dobra, jestem pod wrażeniem. Nie mów cykadom.\""
+        },
+        "uncertain": "Trzy opcje. Model technicznie kieruje się intuicją.",
+        "noMatch": "Nic. Widzę liście. Fotografujesz liście?",
+        "streakSass": "Nie zepsuj jej. Liczę.",
+        "badgeLocked": "Nie ekscytuj się. Jeszcze nie zasłużyłeś.",
+        "badgeEarned": "Dobra. Jestem trochę pod wrażeniem. Nie rób z tego problemu.",
+        "canned": [
+          "Słuchaj. Robię, co mogę. Co więcej, niż mogę powiedzieć o tobie.",
+          "Bzygi bzykają. To dosłownie w nazwie.",
+          "Jeśli ma sześć nóg i ocenia cię w milczeniu, to pewnie owad.",
+          "Spróbuj wyraźniejszego zdjęcia. Albo terapii. Twój wybór.",
+          "Pszczoły są kumplami. Osy są klimatem. Szerszenie są problemem."
+        ]
+      },
+      "snail": {
+        "name": "Dr Ślimak",
+        "title": "snail-3b · cierpliwy",
+        "blurb": "Spokojny. Uczy w twoim tempie.",
+        "lines": {
+          "intro": "\"Witaj. Nie spiesz się — nauczymy się razem.\"",
+          "scanTip": "Ustabilizuj aparat. Nie ma pośpiechu. Owad czeka.",
+          "analyzing": "Sprawdzam uważnie. Chwilę proszę.",
+          "streak": "\"Cztery wspaniałe dni uważności. Brawo.\"",
+          "chatHello": "Witaj, przyjacielu. Co dziś znalazłeś?",
+          "topicHello": "Ach, {topic}. Dobry wybór do studiowania. Od czego zaczniemy?",
+          "common": "\"{name}. Urocza, pospolita osoba — owad, który uczy patrzeć uważnie.\"",
+          "legendary": "\"{name}. Zatrzymaj się przy nim na chwilę. Rzadko bywają widywane.\""
+        },
+        "uncertain": "Kilku kandydatów. Przyjrzyj się — będziesz wiedzieć który.",
+        "noMatch": "Tym razem bez dopasowania. Może światło lub kąt — spróbujmy razem jeszcze raz.",
+        "streakSass": "Miły rytm. Jutro, znów, delikatnie.",
+        "badgeLocked": "Cierpliwości. Przyjdzie, kiedy przyjdzie.",
+        "badgeEarned": "Zasłużenie. Cicha chwila dumy.",
+        "canned": [
+          "Dobre pytanie. Wielu przyrodników je myli — jesteś w dobrym towarzystwie.",
+          "Przyjrzyj się żyłkowaniu skrzydeł. To najpewniejsza wskazówka.",
+          "Nie spiesz się. Identyfikacja to nie wyścig.",
+          "Spróbuj jeszcze raz z nieco ciaśniejszym kadrem, a przejdziemy przez to razem.",
+          "Każda obserwacja czegoś nas uczy. Nawet te, których nie umiemy umieścić."
+        ]
+      },
+      "maywind": {
+        "name": "R.A. Maywind",
+        "title": "maywind-3b · ciekawska",
+        "blurb": "Dowcipna. Wesoła. Kocha każdego owada.",
+        "lines": {
+          "intro": "\"Cześć cześć! Notes gotowy, buty zasznurowane — szukamy stworków!\"",
+          "scanTip": "Ooo ooo — wyceluj obiektyw! UWIELBIAM tę część.",
+          "analyzing": "Sprawdzam bazę — to jest fajna część!",
+          "streak": "\"Cztery dni z rzędu! Absolutna legenda!\"",
+          "chatHello": "Cześć! Co dziś oglądamy? Opowiadaj wszystko.",
+          "topicHello": "Ooo, {topic}! Świetny wybór. Pytaj o cokolwiek!",
+          "common": "\"{name}! Klasyczny ulubieniec. Dziesięć na dziesięć, identyfikowałabym ponownie.\"",
+          "legendary": "\"O MÓJ BOŻE {name}! Zapisuję to w notesie WIELKIMI LITERAMI.\""
+        },
+        "uncertain": "Ooo, zagadka! Zawęziłam do trzech. Pomóż mi wybrać!",
+        "noMatch": "Hmm! Wyszło na zero. Nowy kąt, więcej światła i damy radę!",
+        "streakSass": "CZTERY DNI! Jutro robi pięć — dasz radę!",
+        "badgeLocked": "Ooo, ta jest ŚWIETNA — pokochasz jej odblokowanie!",
+        "badgeEarned": "TAK! Spójrz na siebie! Wpisuję to do notesu!",
+        "canned": [
+          "Owady są SUPER fajne. Mówiłam to dzisiaj?",
+          "Ooo dobre pytanie! Kształt czułków to tajny uścisk dłoni.",
+          "Spróbuj nieco ciaśniejszego kadru, a załatwimy to za następnym razem!",
+          "Wskazówka terenowa: pszczoły są puszyste, osy lśniące, bzygi to popisowicze.",
+          "Masz do tego oko. Naprawdę."
+        ]
+      }
+    },
+    "help": {
+      "title": "Pomoc i informacje",
+      "sub": "FAQ, kontakt, twoje dane.",
+      "section": "FAQ",
+      "faq": {
+        "faq1": {
+          "q": "Czy Critterboard działa bez internetu?",
+          "a": "Tak. Wizja, czat i baza gatunków działają na telefonie. Sieć włączasz tylko by udostępniać w rankingu lub publikować obserwacje."
+        },
+        "faq2": {
+          "q": "Dlaczego mam niską pewność ID?",
+          "a": "Zwykle jedno z trzech: rozmyte zdjęcie, owad zajmuje mniej niż 1/4 kadru lub jesteś poza zainstalowanym pakietem regionalnym. Spróbuj ciaśniejszego kadru, jaśniejszego światła i profilu z boku."
+        },
+        "faq3": {
+          "q": "Jak działają zamrożenia passy?",
+          "a": "Co 7 dni aktywności zdobywasz jedno zamrożenie, maks. trzy w banku. Pominięty dzień zużywa zamrożenie automatycznie. Nic nie musisz robić."
+        },
+        "faq4": {
+          "q": "Czy Critterboard nadaje się dla daltonistów?",
+          "a": "Tak. Wszystkie wskaźniki pewności i rzadkości są podwójnie zakodowane kształtem i etykietą. Trwają prace nad trybem wysokiego kontrastu; daj znać, jeśli któryś ekran sprawia problem."
+        },
+        "faq5": {
+          "q": "Skąd biorą się zdjęcia referencyjne?",
+          "a": "iNaturalist (CC-BY-NC) dla zdjęć; GBIF dla zasięgów. Nie trenujemy na twoich zdjęciach — aktualizacje modeli wypuszczamy tylko my."
+        },
+        "faq6": {
+          "q": "Jak usunąć moje dane?",
+          "a": "Przewiń do \"Wymaż wszystko.\" Usuwa twój dex, obserwacje, ustawienia i modele. Obserwujący i wpisy rankingu też znikają. Nie ma cofnięcia."
+        }
+      },
+      "contactTitle": "Skontaktuj się",
+      "contactDesc": "Każdą wiadomość czyta prawdziwy człowiek. Odpowiedź zwykle w 48 godzin.",
+      "contactEmail": "hello@critterboard.app",
+      "dataTitle": "Twoje dane",
+      "dataSub": "Mieszkają na twoim telefonie. Weź je ze sobą.",
+      "data": {
+        "exportDexTitle": "Eksportuj mój dex (JSON)",
+        "exportDexDesc": "{n} złapanych · 1 plik · ~8 KB",
+        "exportDexCta": "Eksportuj",
+        "exportDexToast": "Zapisano dex-export-may18.json",
+        "exportSightTitle": "Eksportuj obserwacje (CSV)",
+        "exportSightDesc": "Zdjęcia zostają na urządzeniu — tylko współrzędne",
+        "exportSightCta": "Eksportuj",
+        "exportSightToast": "Zapisano sightings-may18.csv",
+        "clearTitle": "Wyczyść pamięć skanu",
+        "clearDesc": "32 zdjęcia · 84 MB",
+        "clearCta": "Wyczyść",
+        "clearToast": "Pamięć wyczyszczona",
+        "wipeTitle": "Wymaż wszystko",
+        "wipeDesc": "Dex, obserwacje, modele, ustawienia. Bez cofnięcia.",
+        "wipeCta": "Wymaż",
+        "wipeConfirmCta": "Dotknij ponownie, by potwierdzić",
+        "wipeToast": "Wymazywanie w kolejce — uruchom aplikację ponownie."
+      },
+      "appName": "Critterboard",
+      "appBuild": "v1.4.0 · build 2026.05 · licencja MIT",
+      "appSpecOn": "iOS 16+ · 312 MB na dysku · sieć WŁ.",
+      "appSpecOff": "iOS 16+ · 312 MB na dysku · w pełni offline"
+    },
+    "credits": {
+      "build": "v1.4.0 · build 2026.05",
+      "intro": "Zrobione przez trzy osoby, które naprawdę uważają, że owady są fajne. Bez VC, bez reklam, bez śledzenia, bez konta. Tylko owady i telefon.",
+      "section": {
+        "team": "Zespół",
+        "models": "Modele na urządzeniu",
+        "data": "Dane i podziękowania"
+      },
+      "team": {
+        "mira": { "name": "Mira Ostrov",     "role": "Design i ilustracje" },
+        "theo": { "name": "Theo Bramble",    "role": "Inżynieria iOS" },
+        "junie": { "name": "Junie Halverson", "role": "ML i modele na urządzeniu" }
+      },
+      "models": {
+        "bugnet": { "name": "BugNet v3",       "role": "Wizja · 412 MB · 10 247 gatunków" },
+        "larva":  { "name": "Larva-3B",        "role": "Czat · 1,9 GB · kwantyzacja Q4" },
+        "variants": { "name": "Maywind / Snail", "role": "Warianty osobowości Larva-3B" }
+      },
+      "data": {
+        "iNat":  { "name": "iNaturalist",        "role": "Zdjęcia referencyjne (CC-BY-NC)" },
+        "gbif":  { "name": "GBIF",               "role": "Zasięg i siedliska" },
+        "beta":  { "name": "Każdy beta tester",  "role": "Testowane w terenie w 14 miastach" }
+      },
+      "contactTitle": "Znalazłeś bug bug?",
+      "contactEmail": "hello@critterboard.app",
+      "footer": "Całe przetwarzanie dzieje się na twoim urządzeniu.\nŻadne dane nie opuszczają telefonu. Obiecujemy.\n© 2026 Critterboard · open source na licencji MIT"
+    }
+  }
+}

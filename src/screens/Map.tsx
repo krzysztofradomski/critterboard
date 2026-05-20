@@ -6,11 +6,13 @@ import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { TabBar } from '@/components/TabBar';
 import { SIGHTINGS } from '@/data/sightings';
+import { useT } from '@/i18n/helpers';
 import { PB } from '@/tokens/pb';
 import { useNav } from '@/store/useNav';
 
 export function MapScreen() {
   const { go } = useNav();
+  const t = useT();
   const [selected, setSelected] = useState(2);
   const s = SIGHTINGS[selected]!;
 
@@ -81,8 +83,8 @@ export function MapScreen() {
         <Sticker bg={PB.cream} style={{ paddingVertical: 10, paddingHorizontal: 14 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
             <View style={{ flex: 1 }}>
-              <Text style={styles.locName}>Brooklyn, NY</Text>
-              <Text style={styles.locSub}>{SIGHTINGS.length} sightings · last 30 days</Text>
+              <Text style={styles.locName}>{t('map.locName')}</Text>
+              <Text style={styles.locSub}>{t('map.locSub', { n: SIGHTINGS.length })}</Text>
             </View>
             <IconBtn bg={PB.yellow}>⌖</IconBtn>
           </View>
@@ -97,13 +99,13 @@ export function MapScreen() {
             </View>
             <View style={{ flex: 1 }}>
               <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 6 }}>
-                <Text style={styles.cardTitle}>{s.size + 1}× sightings</Text>
-                <Text style={styles.cardDistance}>0.4 mi</Text>
+                <Text style={styles.cardTitle}>{t('map.sightings', { n: s.size + 1 })}</Text>
+                <Text style={styles.cardDistance}>{t('map.distance')}</Text>
               </View>
-              <Text style={styles.cardWhere}>Prospect Park · 2 days ago</Text>
+              <Text style={styles.cardWhere}>{t('map.where')}</Text>
             </View>
             <View style={styles.huntPill}>
-              <Text style={styles.huntPillText}>HUNT →</Text>
+              <Text style={styles.huntPillText}>{t('map.hunt')}</Text>
             </View>
           </View>
         </Sticker>

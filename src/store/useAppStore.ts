@@ -3,7 +3,8 @@ import { create } from 'zustand';
 import { createJSONStorage, persist, type PersistStorage, type StorageValue } from 'zustand/middleware';
 
 import { CAUGHT_IDS } from '@/data/bugs';
-import { PERSONAS, type PersonaId } from '@/personas';
+import { DEFAULT_LANG, coerceLang, t, type LangId } from '@/i18n';
+import { type PersonaId, getPersonaName } from '@/personas';
 import { ME_SUB_ALIAS, type RouteName, type RouteParamMap, isMainTab } from '@/navigation/routes';
 
 export type StackEntry<R extends RouteName = RouteName> = {
@@ -28,6 +29,13 @@ type State = {
   stack: StackEntry[];
   dex: Set<string>;
   persona: PersonaId;
+  /**
+   * Active UI language. Persisted across launches; set via Settings →
+   * Language. Defaults to English on first run rather than reading the
+   * device locale — letting the user opt in keeps i18n surprises out of
+   * the onboarding flow.
+   */
+  language: LangId;
   profile: Profile;
   toast: ToastSpec | null;
   /** URI of the most recently captured or picked photo. */
@@ -42,6 +50,7 @@ type Actions = {
   showToast: (toast: ToastSpec) => void;
   clearToast: () => void;
   setPersona: (id: PersonaId) => void;
+  setLanguage: (lang: LangId) => void;
   setProfile: (patch: Partial<Profile>) => void;
   setLastPhotoUri: (uri: string | null) => void;
 };
@@ -57,11 +66,12 @@ let toastTimer: ReturnType<typeof setTimeout> | null = null;
  * launch so the user always lands on `home` (after onboarding) rather
  * than mid-flow inside, say, a half-finished SoundID session.
  */
-type Persisted = Pick<State, 'dex' | 'persona' | 'profile'>;
+type Persisted = Pick<State, 'dex' | 'persona' | 'language' | 'profile'>;
 
 type PersistedWire = {
   dex: string[];
   persona: PersonaId;
+  language?: string;
   profile: Profile;
 };
 
@@ -74,6 +84,7 @@ const wireStorage: PersistStorage<Persisted> = {
       state: {
         dex: new Set(wrapped.state.dex),
         persona: wrapped.state.persona,
+        language: coerceLang(wrapped.state.language ?? null),
         profile: wrapped.state.profile,
       },
       version: wrapped.version,
@@ -84,6 +95,7 @@ const wireStorage: PersistStorage<Persisted> = {
     const wire: PersistedWire = {
       dex: Array.from(value.state.dex),
       persona: value.state.persona,
+      language: value.state.language,
       profile: value.state.profile,
     };
     await AsyncStorage.setItem(name, JSON.stringify({ state: wire, version: value.version ?? 0 }));
@@ -99,6 +111,7 @@ export const useAppStore = create<AppStore>()(
       stack: [{ name: 'onboarding', params: undefined }],
       dex: new Set(CAUGHT_IDS),
       persona: 'larva',
+      language: DEFAULT_LANG,
       profile: {
         name: 'you',
         networkOn: false,
@@ -161,12 +174,19 @@ export const useAppStore = create<AppStore>()(
       clearToast: () => set({ toast: null }),
 
       setPersona: (id) => {
-        const { persona, showToast } = get();
-        if (!PERSONAS[id] || id === persona) return;
+        const { persona, language, showToast } = get();
+        if (id === persona) return;
+        const meta = getPersonaName(language, id);
+        if (!meta) return;
         set({ persona: id });
-        const p = PERSONAS[id];
-        showToast({ text: `Guide: ${p.name}`, icon: p.emoji, bg: p.avatarBg });
+        showToast({
+          text: t(language, 'settings.guideToast', { name: meta.name }),
+          icon: meta.emoji,
+          bg: meta.avatarBg,
+        });
       },
+
+      setLanguage: (lang) => set({ language: lang }),
 
       setProfile: (patch) =>
         set((s) => ({ profile: { ...s.profile, ...patch } })),
@@ -180,6 +200,7 @@ export const useAppStore = create<AppStore>()(
       partialize: (s): Persisted => ({
         dex: s.dex,
         persona: s.persona,
+        language: s.language,
         profile: s.profile,
       }),
     },

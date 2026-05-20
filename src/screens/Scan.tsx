@@ -8,8 +8,9 @@ import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
+import { useT } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
-import { PERSONAS } from '@/personas';
+import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
@@ -20,7 +21,8 @@ export function Scan() {
   const { go, back } = useNav();
   const persona = useAppStore((s) => s.persona);
   const setLastPhotoUri = useAppStore((s) => s.setLastPhotoUri);
-  const P = PERSONAS[persona];
+  const P = usePersona(persona);
+  const t = useT();
   const route = useCurrentRoute();
   const hint = (route.params as { hint?: string } | undefined)?.hint ?? 'mona';
 
@@ -174,7 +176,7 @@ export function Scan() {
         >
           <Animated.View style={[styles.dot, { opacity: pulse }]} />
           <Text style={[styles.statusText, { color: phase === 'analyzing' ? PB.ink : PB.cream }]}>
-            {phase === 'analyzing' ? 'ANALYZING...' : 'OFFLINE · SCANNING'}
+            {phase === 'analyzing' ? t('scan.analyzing') : t('scan.scanning')}
           </Text>
         </View>
         <IconBtn size={42} fs={18} onPress={() => go('soundid')}>🔊</IconBtn>
@@ -183,15 +185,13 @@ export function Scan() {
       {!cameraReady && permission && (
         <View style={styles.permissionCard}>
           <Sticker bg={PB.cream} rotate={-1} style={{ padding: 16 }}>
-            <Text style={styles.permissionTitle}>Camera access</Text>
+            <Text style={styles.permissionTitle}>{t('scan.permissionTitle')}</Text>
             <Text style={styles.permissionDesc}>
-              {permission.canAskAgain
-                ? 'Tap allow to let Critterboard see the bug. Photos never leave your device.'
-                : 'Camera was denied. Enable it in Settings → Critterboard → Camera.'}
+              {permission.canAskAgain ? t('scan.permissionAsk') : t('scan.permissionDenied')}
             </Text>
             {permission.canAskAgain && (
               <Btn full bg={PB.ink} color={PB.yellow} onPress={requestPermission} style={{ marginTop: 12 }}>
-                Allow camera
+                {t('scan.allowCamera')}
               </Btn>
             )}
           </Sticker>
@@ -215,7 +215,7 @@ export function Scan() {
       >
         <View style={styles.focusTag}>
           <Text style={styles.focusTagText}>
-            {phase === 'analyzing' ? 'matching...' : 'focus'}
+            {phase === 'analyzing' ? t('scan.matching') : t('scan.focus')}
           </Text>
         </View>
       </Animated.View>

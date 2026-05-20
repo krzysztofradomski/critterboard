@@ -6,6 +6,7 @@ import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { ModalShell } from '@/components/ModalShell';
 import type { Badge } from '@/data/badges';
+import { useT } from '@/i18n/helpers';
 import type { Persona } from '@/personas';
 
 export function BadgeDialog({
@@ -19,20 +20,13 @@ export function BadgeDialog({
   visible: boolean;
   onClose: () => void;
 }) {
+  const t = useT();
   if (!badge) return null;
   const locked = !badge.unlocked;
 
-  const personaLine = locked
-    ? persona.id === 'larva'
-      ? "Don't get excited. You haven't earned it yet."
-      : persona.id === 'snail'
-      ? 'Patience. It will come when it comes.'
-      : "Ooh, this one's GREAT — you're gonna love unlocking it!"
-    : persona.id === 'larva'
-    ? "Fine. I'm a little impressed. Don't make it weird."
-    : persona.id === 'snail'
-    ? 'Well-earned. A quiet moment to be proud.'
-    : "YES! Look at you! I'm putting this in the notebook!";
+  const personaLine = locked ? persona.badgeLocked : persona.badgeEarned;
+  const localizedName = t(`badges.items.${badge.id}.name`);
+  const isHidden = locked && localizedName === t('badges.uncaughtName');
 
   return (
     <ModalShell visible={visible} onClose={onClose}>
@@ -58,27 +52,27 @@ export function BadgeDialog({
                 ]}
               >
                 <Text style={[styles.pillText, { color: locked ? PB.ink : PB.cream }]}>
-                  {locked ? '🔒 LOCKED' : '✓ EARNED'}
+                  {locked ? t('badges.lockedPill') : t('badges.earnedPill')}
                 </Text>
               </View>
-              {!locked && badge.earned ? (
-                <Text style={styles.earned}>{badge.earned}</Text>
+              {!locked && t(`badges.items.${badge.id}.earned`) ? (
+                <Text style={styles.earned}>{t(`badges.items.${badge.id}.earned`)}</Text>
               ) : null}
             </View>
             <Text style={styles.title}>
-              {locked && badge.name === '???' ? 'Hidden badge' : badge.name}
+              {isHidden ? t('badges.hiddenName') : localizedName}
             </Text>
           </View>
           <IconBtn onPress={onClose} size={32} fs={14}>✕</IconBtn>
         </View>
 
         <View style={styles.descBox}>
-          <Text style={styles.descText}>{badge.desc}</Text>
+          <Text style={styles.descText}>{t(`badges.items.${badge.id}.desc`)}</Text>
         </View>
 
         <View style={styles.howBox}>
-          <Text style={styles.howLabel}>HOW</Text>
-          <Text style={styles.howText}>{badge.crit}</Text>
+          <Text style={styles.howLabel}>{t('badges.how')}</Text>
+          <Text style={styles.howText}>{t(`badges.items.${badge.id}.crit`)}</Text>
         </View>
 
         <View style={[styles.personaBox, { backgroundColor: persona.cardBg }]}>
@@ -89,7 +83,7 @@ export function BadgeDialog({
         </View>
 
         <View style={{ marginTop: 16 }}>
-          <Btn full bg={PB.ink} color={PB.yellow} onPress={onClose}>Got it</Btn>
+          <Btn full bg={PB.ink} color={PB.yellow} onPress={onClose}>{t('badges.gotIt')}</Btn>
         </View>
       </View>
     </ModalShell>

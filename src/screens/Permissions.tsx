@@ -6,6 +6,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Btn } from '@/components/Btn';
 import { Sticker } from '@/components/Sticker';
+import { useT } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
@@ -17,49 +18,21 @@ type PermissionItem = {
   id: 'camera' | 'location' | 'notifs';
   emoji: string;
   color: string;
-  title: string;
-  need: string;
-  desc: string;
-  bullets: string[];
+  /** Required status key under `permissions.need.*` */
+  needKey: 'required' | 'recommended' | 'optional';
   required: boolean;
 };
 
 const ITEMS: PermissionItem[] = [
-  {
-    id: 'camera',
-    emoji: '📷',
-    color: PB.green,
-    title: 'Camera',
-    need: 'Required',
-    desc: 'Snap a bug, get an ID. Photos never leave your device.',
-    bullets: ['On-device ML only', 'No cloud upload', 'No photo metadata shared'],
-    required: true,
-  },
-  {
-    id: 'location',
-    emoji: '📍',
-    color: PB.blue,
-    title: 'Location',
-    need: 'Recommended',
-    desc: 'Better range filtering — the model knows what lives near you.',
-    bullets: ['City-level fuzz (~5 km)', 'Stays on device unless you share', 'Toggle off any time'],
-    required: false,
-  },
-  {
-    id: 'notifs',
-    emoji: '🔔',
-    color: PB.orange,
-    title: 'Notifications',
-    need: 'Optional',
-    desc: "Daily streak nudge + Bug of the Day. We'll never spam.",
-    bullets: ['One ping per day, tops', 'No marketing, no engagement bait', 'Off by default after 7 days idle'],
-    required: false,
-  },
+  { id: 'camera',   emoji: '📷', color: PB.green,  needKey: 'required',    required: true  },
+  { id: 'location', emoji: '📍', color: PB.blue,   needKey: 'recommended', required: false },
+  { id: 'notifs',   emoji: '🔔', color: PB.orange, needKey: 'optional',    required: false },
 ];
 
 export function Permissions() {
   const { go } = useNav();
   const showToast = useAppStore((s) => s.showToast);
+  const t = useT();
   const [camera, setCamera] = useState<Choice>(null);
   const [location, setLocation] = useState<Choice>(null);
   const [notifs, setNotifs] = useState<Choice>(null);
@@ -108,7 +81,7 @@ export function Permissions() {
   const finish = () => {
     go('home');
     if (cameraAllowed) {
-      showToast({ text: 'Ready to hunt!', icon: '🪲', bg: PB.green });
+      showToast({ text: t('permissions.readyToast'), icon: '🪲', bg: PB.green });
     }
   };
 
@@ -120,8 +93,8 @@ export function Permissions() {
             <Text style={{ fontSize: 22 }}>🔐</Text>
           </View>
           <View style={{ flex: 1 }}>
-            <Text style={styles.title}>Three quick asks.</Text>
-            <Text style={styles.sub}>You can change any of these later in Brains.</Text>
+            <Text style={styles.title}>{t('permissions.title')}</Text>
+            <Text style={styles.sub}>{t('permissions.sub')}</Text>
           </View>
         </View>
       </View>
@@ -155,8 +128,8 @@ export function Permissions() {
                   <Text style={{ fontSize: 22 }}>{it.emoji}</Text>
                 </View>
                 <View style={{ flex: 1, minWidth: 0 }}>
-                  <Text style={styles.cardTitle}>{it.title}</Text>
-                  <Text style={styles.cardNeed}>{it.need.toUpperCase()}</Text>
+                  <Text style={styles.cardTitle}>{t(`permissions.items.${it.id}.title`)}</Text>
+                  <Text style={styles.cardNeed}>{t(`permissions.need.${it.needKey}`).toUpperCase()}</Text>
                 </View>
                 {decided ? (
                   <View
@@ -166,19 +139,19 @@ export function Permissions() {
                     ]}
                   >
                     <Text style={[styles.statusPillText, { color: allowed ? PB.cream : PB.ink }]}>
-                      {allowed ? '✓ ALLOWED' : 'SKIPPED'}
+                      {allowed ? t('permissions.allowed') : t('permissions.skipped')}
                     </Text>
                   </View>
                 ) : null}
               </View>
 
               <View style={{ paddingVertical: 12, paddingHorizontal: 14 }}>
-                <Text style={styles.desc}>{it.desc}</Text>
+                <Text style={styles.desc}>{t(`permissions.items.${it.id}.desc`)}</Text>
                 <View style={{ marginTop: 10, gap: 4 }}>
-                  {it.bullets.map((b) => (
-                    <View key={b} style={{ flexDirection: 'row', gap: 8 }}>
+                  {(['b1', 'b2', 'b3'] as const).map((bKey) => (
+                    <View key={bKey} style={{ flexDirection: 'row', gap: 8 }}>
                       <Text style={styles.bulletCheck}>✓</Text>
-                      <Text style={styles.bullet}>{b}</Text>
+                      <Text style={styles.bullet}>{t(`permissions.items.${it.id}.${bKey}`)}</Text>
                     </View>
                   ))}
                 </View>
@@ -195,7 +168,7 @@ export function Permissions() {
                     ]}
                   >
                     <Text style={[styles.choiceText, { color: skipped ? PB.cream : PB.ink }]}>
-                      {it.required ? 'Required' : 'Not now'}
+                      {it.required ? t('permissions.requiredBtn') : t('permissions.notNow')}
                     </Text>
                   </Pressable>
                   <Pressable
@@ -205,7 +178,7 @@ export function Permissions() {
                       { backgroundColor: allowed ? PB.green : it.color },
                     ]}
                   >
-                    <Text style={[styles.choiceText, { color: allowed ? PB.cream : PB.ink }]}>Allow</Text>
+                    <Text style={[styles.choiceText, { color: allowed ? PB.cream : PB.ink }]}>{t('permissions.allow')}</Text>
                   </Pressable>
                 </View>
               </View>
@@ -223,7 +196,11 @@ export function Permissions() {
           onPress={ready ? finish : undefined}
           disabled={!ready}
         >
-          {ready ? 'Continue →' : cameraAllowed ? 'Decide on the others' : 'Camera is required'}
+          {ready
+            ? t('permissions.continue')
+            : cameraAllowed
+            ? t('permissions.decideRest')
+            : t('permissions.cameraRequired')}
         </Btn>
       </View>
     </View>

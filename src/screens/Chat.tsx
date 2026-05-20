@@ -13,8 +13,10 @@ import {
 
 import { mockRuntime } from '@/ai';
 import { IconBtn } from '@/components/IconBtn';
+import { useT } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
-import { PERSONAS, PERSONA_IDS, type Persona } from '@/personas';
+import { PERSONA_META, PERSONA_IDS, type Persona } from '@/personas';
+import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
@@ -27,12 +29,13 @@ function initialMessages(P: Persona, topic?: string): Msg[] {
 }
 
 export function Chat() {
-  const { go, back } = useNav();
+  const { back } = useNav();
   const persona = useAppStore((s) => s.persona);
   const setPersona = useAppStore((s) => s.setPersona);
   const route = useCurrentRoute();
   const topic = (route.params as { topic?: string } | undefined)?.topic;
-  const P = PERSONAS[persona];
+  const P = usePersona(persona);
+  const t = useT();
 
   const [msgs, setMsgs] = useState<Msg[]>(() => initialMessages(P, topic));
   const [input, setInput] = useState('');
@@ -112,7 +115,7 @@ export function Chat() {
         </View>
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text style={styles.headName}>{P.name}</Text>
-          <Text style={styles.headStatus}>● local · {P.title}</Text>
+          <Text style={styles.headStatus}>{t('chat.localStatus', { title: P.title })}</Text>
         </View>
         <View style={styles.switcher}>
           {PERSONA_IDS.map((pid) => (
@@ -125,12 +128,12 @@ export function Chat() {
               style={[
                 styles.switchDot,
                 {
-                  backgroundColor: PERSONAS[pid].avatarBg,
+                  backgroundColor: PERSONA_META[pid].avatarBg,
                   borderWidth: persona === pid ? 2.5 : 1.5,
                 },
               ]}
             >
-              <Text style={{ fontSize: 12 }}>{PERSONAS[pid].emoji}</Text>
+              <Text style={{ fontSize: 12 }}>{PERSONA_META[pid].emoji}</Text>
             </Pressable>
           ))}
         </View>
@@ -149,7 +152,7 @@ export function Chat() {
           onChangeText={setInput}
           onSubmitEditing={send}
           returnKeyType="send"
-          placeholder="Ask about this bug..."
+          placeholder={t('chat.inputPlaceholder')}
           placeholderTextColor={PB.ink + '80'}
           style={styles.input}
         />

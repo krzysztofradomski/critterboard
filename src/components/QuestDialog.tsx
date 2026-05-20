@@ -6,6 +6,7 @@ import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { ModalShell } from '@/components/ModalShell';
 import { QUEST_DETAILS, type Quest } from '@/data/quests';
+import { useT } from '@/i18n/helpers';
 import type { Persona } from '@/personas';
 
 export function QuestDialog({
@@ -21,8 +22,9 @@ export function QuestDialog({
   onClose: () => void;
   onStart: () => void;
 }) {
+  const t = useT();
   if (!quest) return null;
-  const detail = QUEST_DETAILS[quest.id] ?? { icon: '✨', accent: PB.ink, desc: '', tips: [] };
+  const detail = QUEST_DETAILS[quest.id] ?? { icon: '✨', accent: PB.ink, tipCount: 0 };
   const pct = Math.round((100 * quest.progress) / quest.total);
   const isWeekly = quest.kind === 'weekly';
 
@@ -37,25 +39,27 @@ export function QuestDialog({
             <View style={styles.pillRow}>
               <View style={[styles.pill, { backgroundColor: isWeekly ? PB.purple : PB.green }]}>
                 <Text style={[styles.pillText, { color: PB.cream }]}>
-                  {isWeekly ? '◆ WEEKLY' : '◇ DAILY'}
+                  {isWeekly ? t('quests.dialog.weeklyChip') : t('quests.dialog.dailyChip')}
                 </Text>
               </View>
               <View style={[styles.pill, { backgroundColor: PB.yellow }]}>
-                <Text style={[styles.pillText, { color: PB.ink }]}>+{quest.reward} XP</Text>
+                <Text style={[styles.pillText, { color: PB.ink }]}>
+                  {t('quests.dialog.xpChip', { xp: quest.reward })}
+                </Text>
               </View>
             </View>
-            <Text style={styles.title}>{quest.label}</Text>
+            <Text style={styles.title}>{t(`quests.labels.${quest.id}`)}</Text>
           </View>
           <IconBtn onPress={onClose} size={32} fs={14}>✕</IconBtn>
         </View>
 
         <View style={styles.descBox}>
-          <Text style={styles.descText}>{detail.desc}</Text>
+          <Text style={styles.descText}>{t(`quests.details.${quest.id}.desc`)}</Text>
         </View>
 
         <View style={{ marginTop: 14 }}>
           <View style={styles.progressRow}>
-            <Text style={styles.progressLabel}>PROGRESS</Text>
+            <Text style={styles.progressLabel}>{t('quests.dialog.progress')}</Text>
             <Text style={styles.progressValue}>
               {quest.progress} / {quest.total}
             </Text>
@@ -65,16 +69,20 @@ export function QuestDialog({
           </View>
         </View>
 
-        {detail.tips.length > 0 && (
+        {detail.tipCount > 0 && (
           <View style={{ marginTop: 14 }}>
-            <Text style={styles.section}>TIPS FROM {persona.name.toUpperCase()}</Text>
+            <Text style={styles.section}>
+              {t('quests.dialog.tipsFrom', { name: persona.name.toUpperCase() })}
+            </Text>
             <View style={{ gap: 6 }}>
-              {detail.tips.map((t, i) => (
+              {Array.from({ length: detail.tipCount }).map((_, i) => (
                 <View key={i} style={styles.tipRow}>
                   <View style={[styles.tipAvatar, { backgroundColor: persona.avatarBg }]}>
                     <Text style={{ fontSize: 12 }}>{persona.emoji}</Text>
                   </View>
-                  <Text style={styles.tipText}>{t}</Text>
+                  <Text style={styles.tipText}>
+                    {t(`quests.details.${quest.id}.tip${i + 1}`)}
+                  </Text>
                 </View>
               ))}
             </View>
@@ -82,8 +90,12 @@ export function QuestDialog({
         )}
 
         <View style={{ marginTop: 16, flexDirection: 'row', gap: 8 }}>
-          <Btn bg={PB.cream} color={PB.ink} onPress={onClose} style={{ flex: 1 }}>Later</Btn>
-          <Btn bg={PB.ink} color={PB.yellow} onPress={onStart} style={{ flex: 1.4 }}>Start hunt 📷</Btn>
+          <Btn bg={PB.cream} color={PB.ink} onPress={onClose} style={{ flex: 1 }}>
+            {t('quests.dialog.later')}
+          </Btn>
+          <Btn bg={PB.ink} color={PB.yellow} onPress={onStart} style={{ flex: 1.4 }}>
+            {t('quests.dialog.start')}
+          </Btn>
         </View>
       </View>
     </ModalShell>

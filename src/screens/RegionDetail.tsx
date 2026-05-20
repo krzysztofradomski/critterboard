@@ -6,12 +6,14 @@ import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { findBug } from '@/data/bugs';
 import { REGION_DETAILS } from '@/data/regions';
+import { useT, useBugName } from '@/i18n/helpers';
 import { PB } from '@/tokens/pb';
 import { useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
 export function RegionDetail() {
   const { go, back } = useNav();
+  const t = useT();
   const route = useCurrentRoute();
   const regionId = (route.params as { id?: string } | undefined)?.id ?? 'na-ne';
   const r = REGION_DETAILS[regionId] ?? REGION_DETAILS['na-ne']!;
@@ -22,7 +24,7 @@ export function RegionDetail() {
       <View style={[styles.header, { backgroundColor: r.color }]}>
         <View style={styles.headRow}>
           <IconBtn onPress={back} bg={PB.cream}>←</IconBtn>
-          <Text style={styles.headLabel}>REGIONAL PACK</Text>
+          <Text style={styles.headLabel}>{t('regions.detail.headLabel')}</Text>
           <IconBtn bg={PB.cream} fs={14}>↗</IconBtn>
         </View>
         <View style={styles.heroRow}>
@@ -30,8 +32,8 @@ export function RegionDetail() {
             <Text style={{ fontSize: 36 }}>{r.emoji}</Text>
           </View>
           <View style={{ flex: 1, minWidth: 0 }}>
-            <Text style={styles.heroName}>{r.name}</Text>
-            <Text style={styles.heroTagline}>{r.tagline}</Text>
+            <Text style={styles.heroName}>{t(`regions.list.${r.id}.name`)}</Text>
+            <Text style={styles.heroTagline}>{t(`regions.detail.${r.id}.tagline`)}</Text>
           </View>
         </View>
       </View>
@@ -39,9 +41,9 @@ export function RegionDetail() {
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.stats}>
           {[
-            { k: 'SPECIES', v: r.species.toLocaleString(), c: PB.green },
-            { k: 'SIZE', v: `${r.size} MB`, c: PB.blue },
-            { k: 'UPDATED', v: r.version, c: PB.purple },
+            { k: t('regions.detail.stat.species'), v: r.species.toLocaleString(),  c: PB.green },
+            { k: t('regions.detail.stat.size'),    v: `${r.size} MB`,              c: PB.blue },
+            { k: t('regions.detail.stat.updated'), v: r.version,                   c: PB.purple },
           ].map((s) => (
             <View key={s.k} style={styles.stat}>
               <Text style={[styles.statLabel, { color: s.c }]}>{s.k}</Text>
@@ -51,12 +53,14 @@ export function RegionDetail() {
         </View>
 
         <Sticker bg={PB.paper} style={{ padding: 14 }}>
-          <Text style={styles.section}>TOP FAMILIES</Text>
+          <Text style={styles.section}>{t('regions.detail.topFamilies')}</Text>
           <View style={{ gap: 8 }}>
             {r.families.map((f) => (
-              <View key={f.name}>
+              <View key={f.key}>
                 <View style={styles.familyRow}>
-                  <Text numberOfLines={1} style={styles.familyName}>{f.name}</Text>
+                  <Text numberOfLines={1} style={styles.familyName}>
+                    {t(`regions.detail.${r.id}.fam.${f.key}`)}
+                  </Text>
                   <Text style={styles.familyCount}>{f.count}</Text>
                 </View>
                 <View style={styles.familyBar}>
@@ -75,48 +79,62 @@ export function RegionDetail() {
 
         <Sticker bg={PB.paper} style={{ padding: 14 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
-            <Text style={styles.section}>SAMPLE SPECIES</Text>
-            <Text style={styles.sectionMeta}>6 of {r.species.toLocaleString()}</Text>
+            <Text style={styles.section}>{t('regions.detail.sampleSpecies')}</Text>
+            <Text style={styles.sectionMeta}>
+              {t('regions.detail.sampleMeta', { n: r.species.toLocaleString() })}
+            </Text>
           </View>
           <View style={styles.sampleGrid}>
-            {r.samples.map((s) => {
-              const b = findBug(s.id);
-              if (!b) return null;
-              return (
-                <Pressable
-                  key={s.id}
-                  onPress={() => go('result', { id: b.id })}
-                  style={styles.sample}
-                >
-                  <View style={[styles.sampleArt, { backgroundColor: b.color || PB.cream2 }]}>
-                    <Text style={{ fontSize: 18 }}>{b.emoji}</Text>
-                  </View>
-                  <View style={{ flex: 1, minWidth: 0 }}>
-                    <Text numberOfLines={1} style={styles.sampleName}>{b.name}</Text>
-                    <Text numberOfLines={1} style={styles.sampleWhy}>{s.why}</Text>
-                  </View>
-                </Pressable>
-              );
-            })}
+            {r.samples.map((s) => (
+              <SampleRow key={s.id} regionId={r.id} sample={s} onPress={() => go('result', { id: s.id })} />
+            ))}
           </View>
         </Sticker>
 
         <Sticker bg={PB.cream2} style={{ padding: 14 }}>
-          <Text style={styles.section}>MODEL NOTES</Text>
-          {r.notes.map((n, i) => (
+          <Text style={styles.section}>{t('regions.detail.modelNotes')}</Text>
+          {Array.from({ length: r.noteCount }).map((_, i) => (
             <View key={i} style={[styles.note, i === 0 ? { marginTop: 0 } : { marginTop: 6 }]}>
               <Text style={styles.noteBullet}>·</Text>
-              <Text style={styles.noteText}>{n}</Text>
+              <Text style={styles.noteText}>{t(`regions.detail.${r.id}.notes.${i}`)}</Text>
             </View>
           ))}
-          <Text style={styles.noteFoot}>Last updated {r.updated} · checksum verified</Text>
+          <Text style={styles.noteFoot}>{t('regions.detail.foot', { date: r.updated })}</Text>
         </Sticker>
 
         <Btn full bg={PB.red} color={PB.cream} onPress={() => go('settings')}>
-          🗑 Remove pack ({r.size} MB)
+          {t('regions.detail.remove', { mb: r.size })}
         </Btn>
       </ScrollView>
     </View>
+  );
+}
+
+function SampleRow({
+  regionId,
+  sample,
+  onPress,
+}: {
+  regionId: string;
+  sample: { id: string; whyKey: string };
+  onPress: () => void;
+}) {
+  const t = useT();
+  const name = useBugName(sample.id);
+  const b = findBug(sample.id);
+  if (!b) return null;
+  return (
+    <Pressable onPress={onPress} style={styles.sample}>
+      <View style={[styles.sampleArt, { backgroundColor: b.color || PB.cream2 }]}>
+        <Text style={{ fontSize: 18 }}>{b.emoji}</Text>
+      </View>
+      <View style={{ flex: 1, minWidth: 0 }}>
+        <Text numberOfLines={1} style={styles.sampleName}>{name}</Text>
+        <Text numberOfLines={1} style={styles.sampleWhy}>
+          {t(`regions.detail.${regionId}.why.${sample.whyKey}`)}
+        </Text>
+      </View>
+    </Pressable>
   );
 }
 

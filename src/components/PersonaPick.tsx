@@ -2,13 +2,14 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { PB } from '@/tokens/pb';
-import { PERSONAS, type PersonaId } from '@/personas';
+import { usePersona } from '@/personas/hooks';
+import type { PersonaId } from '@/personas';
 import { useAppStore } from '@/store/useAppStore';
 
 export function PersonaPick({ pid, compact }: { pid: PersonaId; compact?: boolean }) {
   const setPersona = useAppStore((s) => s.setPersona);
   const active = useAppStore((s) => s.persona === pid);
-  const p = PERSONAS[pid];
+  const p = usePersona(pid);
 
   return (
     <Pressable

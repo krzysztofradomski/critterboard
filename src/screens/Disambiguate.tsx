@@ -6,7 +6,8 @@ import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { findBug } from '@/data/bugs';
-import { PERSONAS } from '@/personas';
+import { useT, bugName } from '@/i18n/helpers';
+import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
@@ -14,7 +15,9 @@ import { useNav } from '@/store/useNav';
 export function Disambiguate() {
   const { go, back } = useNav();
   const persona = useAppStore((s) => s.persona);
-  const P = PERSONAS[persona];
+  const language = useAppStore((s) => s.language);
+  const P = usePersona(persona);
+  const t = useT();
   const route = useCurrentRoute();
   const params = (route.params as { candidates?: string[]; confs?: number[] } | undefined) ?? {};
   const candIds = params.candidates ?? ['mona', 'atla', 'drag'];
@@ -24,21 +27,18 @@ export function Disambiguate() {
     .map((id, i) => {
       const b = findBug(id);
       if (!b) return null;
-      return { ...b, conf: confs[i] ?? 30 };
+      return { ...b, name: bugName(language, b.id), conf: confs[i] ?? 30 };
     })
     .filter((x): x is NonNullable<typeof x> => !!x);
 
-  const uncertainLine = {
-    larva:   'Three options. The model is, technically, vibes.',
-    snail:   "A few candidates. Look closely — you'll know which.",
-    maywind: 'Ooh, a puzzle! I narrowed it to three. Help me pick!',
-  }[P.id];
+  const uncertainLine = P.uncertain;
+  const personaShort = P.name.split(' ').pop() ?? P.name;
 
   return (
     <View style={styles.root}>
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
-        <Text style={styles.title}>NOT QUITE SURE</Text>
+        <Text style={styles.title}>{t('disambiguate.headTitle')}</Text>
         <IconBtn fs={14}>↗</IconBtn>
       </View>
 
@@ -48,10 +48,10 @@ export function Disambiguate() {
             <CameraScene dark={false} />
             <View style={styles.fuzz} pointerEvents="none" />
             <View style={styles.lowBadge}>
-              <Text style={styles.lowText}>LOW CONFIDENCE · 62%</Text>
+              <Text style={styles.lowText}>{t('disambiguate.lowConfidence')}</Text>
             </View>
             <View style={styles.shotBadge}>
-              <Text style={styles.shotText}>📷 1/250s · blurry</Text>
+              <Text style={styles.shotText}>{t('disambiguate.shotMeta')}</Text>
             </View>
           </View>
         </Sticker>
@@ -66,8 +66,8 @@ export function Disambiguate() {
         </Sticker>
 
         <View style={styles.sectionRow}>
-          <Text style={styles.section}>TOP CANDIDATES</Text>
-          <Text style={styles.sectionHint}>tap to confirm</Text>
+          <Text style={styles.section}>{t('disambiguate.topCandidates')}</Text>
+          <Text style={styles.sectionHint}>{t('disambiguate.tapToConfirm')}</Text>
         </View>
 
         <View style={{ gap: 10 }}>
@@ -101,17 +101,15 @@ export function Disambiguate() {
         </View>
 
         <View style={{ marginTop: 16, gap: 8 }}>
-          <Btn full bg={PB.cream} color={PB.ink} onPress={() => go('chat', { topic: 'this mystery bug' })}>
-            Ask {P.name.split(' ').pop()} for help →
+          <Btn full bg={PB.cream} color={PB.ink} onPress={() => go('chat', { topic: t('disambiguate.thisMystery') })}>
+            {t('disambiguate.askForHelp', { name: personaShort })}
           </Btn>
           <Btn full bg={PB.red} color={PB.cream} onPress={() => go('nomatch')}>
-            None of these
+            {t('disambiguate.noneOfThese')}
           </Btn>
         </View>
 
-        <Text style={styles.foot}>
-          ID ran fully on-device · 320 ms · no photo left your phone
-        </Text>
+        <Text style={styles.foot}>{t('disambiguate.foot')}</Text>
       </ScrollView>
     </View>
   );

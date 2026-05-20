@@ -3,11 +3,12 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { PersonModal } from '@/components/PersonModal';
 import { LEADERS } from '@/data/leaderboard';
+import { countryName, useT } from '@/i18n/helpers';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
-const TABS = ['Global', 'Weekly', 'Friends'] as const;
+const TABS = ['global', 'weekly', 'friends'] as const;
 type TabName = (typeof TABS)[number];
 
 const PODIUM = [
@@ -19,7 +20,9 @@ const PODIUM = [
 export function Leaderboard() {
   const { go } = useNav();
   const profile = useAppStore((s) => s.profile);
-  const [tab, setTab] = useState<TabName>('Global');
+  const language = useAppStore((s) => s.language);
+  const t = useT();
+  const [tab, setTab] = useState<TabName>('global');
   const [openName, setOpenName] = useState<string | null>(null);
 
   const userVisible = profile.networkOn && profile.leaderboardOn;
@@ -28,21 +31,23 @@ export function Leaderboard() {
   return (
     <View style={styles.root}>
       <View style={styles.header}>
-        <Text style={styles.title}>Leaderboard</Text>
-        <Text style={styles.sub}>Resets in 3d 14h · 482k trainers</Text>
+        <Text style={styles.title}>{t('leaderboard.title')}</Text>
+        <Text style={styles.sub}>{t('leaderboard.sub')}</Text>
         <View style={styles.tabs}>
-          {TABS.map((t) => (
+          {TABS.map((tabId) => (
             <Pressable
-              key={t}
-              onPress={() => (t === 'Friends' ? go('friends') : setTab(t))}
+              key={tabId}
+              onPress={() => (tabId === 'friends' ? go('friends') : setTab(tabId))}
               style={[
                 styles.tab,
                 {
-                  backgroundColor: tab === t ? PB.yellow : 'transparent',
+                  backgroundColor: tab === tabId ? PB.yellow : 'transparent',
                 },
               ]}
             >
-              <Text style={[styles.tabText, { color: tab === t ? PB.ink : PB.cream }]}>{t}</Text>
+              <Text style={[styles.tabText, { color: tab === tabId ? PB.ink : PB.cream }]}>
+                {t(`leaderboard.tab.${tabId}`)}
+              </Text>
             </Pressable>
           ))}
         </View>
@@ -94,10 +99,10 @@ export function Leaderboard() {
                 <View style={{ flex: 1, minWidth: 0 }}>
                   <Text numberOfLines={1} style={styles.name}>
                     {name}
-                    {l.self ? ' (you)' : ''}
+                    {l.self ? ` ${t('common.youParen')}` : ''}
                   </Text>
                   <Text style={styles.meta}>
-                    {country} · level 12
+                    {t('leaderboard.meta', { country: countryName(language, country) })}
                   </Text>
                 </View>
                 <Text style={styles.xp}>{l.xp.toLocaleString()}</Text>
@@ -109,11 +114,11 @@ export function Leaderboard() {
             <Pressable onPress={() => go('settings')} style={styles.hiddenRow}>
               <Text style={{ fontSize: 22 }}>🔒</Text>
               <View style={{ flex: 1, minWidth: 0 }}>
-                <Text style={styles.hiddenTitle}>You are hidden from rankings</Text>
-                <Text style={styles.hiddenDesc}>Turn on "Show me on leaderboard" to appear.</Text>
+                <Text style={styles.hiddenTitle}>{t('leaderboard.hiddenTitle')}</Text>
+                <Text style={styles.hiddenDesc}>{t('leaderboard.hiddenDesc')}</Text>
               </View>
               <View style={styles.fix}>
-                <Text style={styles.fixText}>FIX →</Text>
+                <Text style={styles.fixText}>{t('leaderboard.fix')}</Text>
               </View>
             </Pressable>
           )}
