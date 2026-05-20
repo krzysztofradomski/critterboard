@@ -16,10 +16,6 @@ web-build/
 # Build output
 *.tsbuildinfo
 
-# Handoff bundle (kept locally for reference only)
-_handoff/
-_training/
-
 # Model binaries (regenerate via training/, see assets/models/README.md)
 assets/models/*.mlpackage/
 assets/models/*.onnx
