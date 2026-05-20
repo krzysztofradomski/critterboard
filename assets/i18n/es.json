@@ -58,7 +58,8 @@
         "caught": "CAPTURADOS",
         "xp": "XP",
         "rank": "PUESTO"
-      }
+      },
+      "bugOfDayXpAmount": " +{xp} XP "
     },
     "scan": {
       "analyzing": "ANALIZANDO…",
@@ -334,6 +335,8 @@
       "levelLabel": "NIVEL",
       "xpCurrent": "388 XP",
       "xpNext": "1000 XP → LV.13",
+      "xpCurrentDynamic": "{xp} XP",
+      "xpNextDynamic": "{nextXp} XP → LV.{level}",
       "daily": "◇ DIARIA · RESET EN 8H",
       "weekly": "◆ SEMANAL",
       "badges": "★ INSIGNIAS ({earned} DE {total})",

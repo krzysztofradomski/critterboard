@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
-import { createJSONStorage, persist, type PersistStorage, type StorageValue } from 'zustand/middleware';
+import { persist, type PersistStorage, type StorageValue } from 'zustand/middleware';
 
 import { CAUGHT_IDS } from '@/data/bugs';
+import { INITIAL_FOLLOWED } from '@/data/personProfiles';
 import { DEFAULT_LANG, coerceLang, t, type LangId } from '@/i18n';
 import { type PersonaId, getPersonaName } from '@/personas';
 import { ME_SUB_ALIAS, type RouteName, type RouteParamMap, isMainTab } from '@/navigation/routes';
@@ -28,6 +29,8 @@ export type ToastSpec = {
 type State = {
   stack: StackEntry[];
   dex: Set<string>;
+  /** Display names of users the current trainer follows. Persisted. */
+  followed: Set<string>;
   persona: PersonaId;
   /**
    * Active UI language. Persisted across launches; set via Settings →
@@ -37,6 +40,11 @@ type State = {
    */
   language: LangId;
   profile: Profile;
+  /**
+   * True once the user has completed the onboarding + permissions flow.
+   * Drives the cold-launch landing page via `onRehydrateStorage`.
+   */
+  hasOnboarded: boolean;
   toast: ToastSpec | null;
   /** URI of the most recently captured or picked photo. */
   lastPhotoUri: string | null;
@@ -47,12 +55,16 @@ type Actions = {
   back: () => void;
   reset: (entry: StackEntry) => void;
   catchBug: (id: string) => void;
+  followUser: (name: string) => void;
+  unfollowUser: (name: string) => void;
+  toggleFollow: (name: string) => void;
   showToast: (toast: ToastSpec) => void;
   clearToast: () => void;
   setPersona: (id: PersonaId) => void;
   setLanguage: (lang: LangId) => void;
   setProfile: (patch: Partial<Profile>) => void;
   setLastPhotoUri: (uri: string | null) => void;
+  setOnboarded: (value: boolean) => void;
 };
 
 type AppStore = State & Actions;
@@ -60,19 +72,24 @@ type AppStore = State & Actions;
 let toastTimer: ReturnType<typeof setTimeout> | null = null;
 
 /**
- * Storage adapter that lets us persist `dex` (a Set) as an array.
+ * Storage adapter that lets us persist `dex` and `followed` (Sets) as arrays.
  *
  * We don't persist nav stack or toast — those should reset on every cold
  * launch so the user always lands on `home` (after onboarding) rather
  * than mid-flow inside, say, a half-finished SoundID session.
  */
-type Persisted = Pick<State, 'dex' | 'persona' | 'language' | 'profile'>;
+type Persisted = Pick<
+  State,
+  'dex' | 'followed' | 'persona' | 'language' | 'profile' | 'hasOnboarded'
+>;
 
 type PersistedWire = {
   dex: string[];
+  followed?: string[];
   persona: PersonaId;
   language?: string;
   profile: Profile;
+  hasOnboarded?: boolean;
 };
 
 const wireStorage: PersistStorage<Persisted> = {
@@ -83,9 +100,11 @@ const wireStorage: PersistStorage<Persisted> = {
     const value: StorageValue<Persisted> = {
       state: {
         dex: new Set(wrapped.state.dex),
+        followed: new Set(wrapped.state.followed ?? INITIAL_FOLLOWED),
         persona: wrapped.state.persona,
         language: coerceLang(wrapped.state.language ?? null),
         profile: wrapped.state.profile,
+        hasOnboarded: Boolean(wrapped.state.hasOnboarded),
       },
       version: wrapped.version,
     };
@@ -94,9 +113,11 @@ const wireStorage: PersistStorage<Persisted> = {
   async setItem(name, value) {
     const wire: PersistedWire = {
       dex: Array.from(value.state.dex),
+      followed: Array.from(value.state.followed),
       persona: value.state.persona,
       language: value.state.language,
       profile: value.state.profile,
+      hasOnboarded: value.state.hasOnboarded,
     };
     await AsyncStorage.setItem(name, JSON.stringify({ state: wire, version: value.version ?? 0 }));
   },
@@ -110,6 +131,7 @@ export const useAppStore = create<AppStore>()(
     (set, get) => ({
       stack: [{ name: 'onboarding', params: undefined }],
       dex: new Set(CAUGHT_IDS),
+      followed: new Set(INITIAL_FOLLOWED),
       persona: 'larva',
       language: DEFAULT_LANG,
       profile: {
@@ -118,6 +140,7 @@ export const useAppStore = create<AppStore>()(
         leaderboardOn: true,
         locationShareOn: false,
       },
+      hasOnboarded: false,
       toast: null,
       lastPhotoUri: null,
 
@@ -159,6 +182,30 @@ export const useAppStore = create<AppStore>()(
           return { dex: next };
         }),
 
+      followUser: (name) =>
+        set((s) => {
+          if (s.followed.has(name)) return s;
+          const next = new Set(s.followed);
+          next.add(name);
+          return { followed: next };
+        }),
+
+      unfollowUser: (name) =>
+        set((s) => {
+          if (!s.followed.has(name)) return s;
+          const next = new Set(s.followed);
+          next.delete(name);
+          return { followed: next };
+        }),
+
+      toggleFollow: (name) =>
+        set((s) => {
+          const next = new Set(s.followed);
+          if (next.has(name)) next.delete(name);
+          else next.add(name);
+          return { followed: next };
+        }),
+
       showToast: (toast) => {
         if (toastTimer) {
           clearTimeout(toastTimer);
@@ -192,17 +239,35 @@ export const useAppStore = create<AppStore>()(
         set((s) => ({ profile: { ...s.profile, ...patch } })),
 
       setLastPhotoUri: (uri) => set({ lastPhotoUri: uri }),
+
+      setOnboarded: (value) =>
+        set((s) => {
+          if (s.hasOnboarded === value) return s;
+          return { hasOnboarded: value };
+        }),
     }),
     {
       name: 'critterboard:v1',
       storage: wireStorage,
-      // Only persist the slices a user expects to survive an app kill.
       partialize: (s): Persisted => ({
         dex: s.dex,
+        followed: s.followed,
         persona: s.persona,
         language: s.language,
         profile: s.profile,
+        hasOnboarded: s.hasOnboarded,
       }),
+      /**
+       * When persisted state hydrates, jump straight past onboarding for
+       * returning users. Without this, every cold launch parks the user
+       * back at the welcome screen because the nav stack is intentionally
+       * NOT persisted.
+       */
+      onRehydrateStorage: () => (state) => {
+        if (state?.hasOnboarded) {
+          state.stack = [{ name: 'home', params: undefined }];
+        }
+      },
     },
   ),
 );

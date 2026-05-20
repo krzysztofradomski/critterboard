@@ -4,7 +4,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { IconBtn } from '@/components/IconBtn';
 import { PersonModal } from '@/components/PersonModal';
 import { Sticker } from '@/components/Sticker';
-import { FRIENDS, INITIAL_FOLLOWED, PERSON_PROFILES, friendLastKey, friendWhyKey } from '@/data/personProfiles';
+import { FRIENDS, PERSON_PROFILES, friendLastKey, friendWhyKey } from '@/data/personProfiles';
 import { useT } from '@/i18n/helpers';
 import { countryName } from '@/i18n/helpers';
 import { useAppStore } from '@/store/useAppStore';
@@ -17,17 +17,13 @@ export function Friends() {
   const { back } = useNav();
   const t = useT();
   const language = useAppStore((s) => s.language);
+  // `followed` lives in the persisted store so the choice survives a cold
+  // launch. `toggleFollow` is the single mutator — keeping the call sites
+  // tiny here lets the modal share the exact same handler.
+  const followed = useAppStore((s) => s.followed);
+  const toggleFollow = useAppStore((s) => s.toggleFollow);
   const [tab, setTab] = useState<Tab>('following');
   const [openName, setOpenName] = useState<string | null>(null);
-  const [followed, setFollowed] = useState<Set<string>>(() => new Set(INITIAL_FOLLOWED));
-
-  const toggle = (name: string) =>
-    setFollowed((s) => {
-      const n = new Set(s);
-      if (n.has(name)) n.delete(name);
-      else n.add(name);
-      return n;
-    });
 
   const list = FRIENDS.filter((u) => {
     if (tab === 'following') return followed.has(u.name);
@@ -109,7 +105,7 @@ export function Friends() {
                   </Text>
                 </View>
                 <Pressable
-                  onPress={() => toggle(u.name)}
+                  onPress={() => toggleFollow(u.name)}
                   style={[
                     styles.followBtn,
                     { backgroundColor: isFollowed ? PB.cream : PB.green },
@@ -138,7 +134,7 @@ export function Friends() {
         visible={!!openName}
         onClose={() => setOpenName(null)}
         isFollowed={openName ? followed.has(openName) : false}
-        onToggleFollow={openName ? () => toggle(openName) : undefined}
+        onToggleFollow={openName ? () => toggleFollow(openName) : undefined}
         mutuals={openName && PERSON_PROFILES[openName] && followed.has(openName) ? 3 : openName ? 1 : 0}
       />
     </View>

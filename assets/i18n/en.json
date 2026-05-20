@@ -58,7 +58,8 @@
         "caught": "CAUGHT",
         "xp": "XP",
         "rank": "RANK"
-      }
+      },
+      "bugOfDayXpAmount": " +{xp} XP "
     },
     "scan": {
       "analyzing": "ANALYZING…",
@@ -334,6 +335,8 @@
       "levelLabel": "LEVEL",
       "xpCurrent": "388 XP",
       "xpNext": "1000 XP → LV.13",
+      "xpCurrentDynamic": "{xp} XP",
+      "xpNextDynamic": "{nextXp} XP → LV.{level}",
       "daily": "◇ DAILY · RESETS IN 8H",
       "weekly": "◆ WEEKLY",
       "badges": "★ BADGES ({earned} OF {total})",

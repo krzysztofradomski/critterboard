@@ -8,6 +8,7 @@ import { QuestDialog } from '@/components/QuestDialog';
 import { BADGES, BADGES_TOTAL, type Badge } from '@/data/badges';
 import { COMPLETED_QUESTS, QUESTS } from '@/data/quests';
 import { useT } from '@/i18n/helpers';
+import { useLevel } from '@/lib/level';
 import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
@@ -18,6 +19,7 @@ export function Quests() {
   const persona = useAppStore((s) => s.persona);
   const P = usePersona(persona);
   const t = useT();
+  const level = useLevel();
 
   const [openId, setOpenId] = useState<string | null>(null);
   const [openBadgeId, setOpenBadgeId] = useState<string | null>(null);
@@ -36,16 +38,25 @@ export function Quests() {
           </View>
           <View style={styles.levelBox}>
             <Text style={styles.levelLabel}>{t('quests.levelLabel')}</Text>
-            <Text style={styles.levelValue}>12</Text>
+            <Text style={styles.levelValue}>{level.level}</Text>
           </View>
         </View>
         <View style={{ marginTop: 14 }}>
           <View style={styles.xpRow}>
-            <Text style={styles.xpText}>{t('quests.xpCurrent')}</Text>
-            <Text style={styles.xpText}>{t('quests.xpNext')}</Text>
+            <Text style={styles.xpText}>
+              {t('quests.xpCurrentDynamic', { xp: level.xp })}
+            </Text>
+            <Text style={styles.xpText}>
+              {t('quests.xpNextDynamic', { nextXp: level.nextAt, level: level.level + 1 })}
+            </Text>
           </View>
           <View style={styles.xpBar}>
-            <View style={styles.xpFill} />
+            <View
+              style={[
+                styles.xpFill,
+                { width: `${Math.min(100, (100 * level.into) / level.span)}%` },
+              ]}
+            />
           </View>
         </View>
       </View>
@@ -150,7 +161,7 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     shadowOffset: { width: 3, height: 3 },
   },
-  xpFill: { width: '38.8%', height: '100%', backgroundColor: PB.yellow, borderRadius: 99 },
+  xpFill: { height: '100%', backgroundColor: PB.yellow, borderRadius: 99 },
   list: {
     flex: 1,
     backgroundColor: PB.cream,

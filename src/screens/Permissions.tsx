@@ -32,6 +32,7 @@ const ITEMS: PermissionItem[] = [
 export function Permissions() {
   const { go } = useNav();
   const showToast = useAppStore((s) => s.showToast);
+  const setOnboarded = useAppStore((s) => s.setOnboarded);
   const t = useT();
   const [camera, setCamera] = useState<Choice>(null);
   const [location, setLocation] = useState<Choice>(null);
@@ -79,6 +80,9 @@ export function Permissions() {
   const ready = !!(cameraAllowed && allChosen);
 
   const finish = () => {
+    // Mark onboarding done so the next cold launch lands on home directly.
+    // The `onRehydrateStorage` hook on the store reads this flag.
+    setOnboarded(true);
     go('home');
     if (cameraAllowed) {
       showToast({ text: t('permissions.readyToast'), icon: '🪲', bg: PB.green });

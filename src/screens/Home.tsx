@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { TabBar } from '@/components/TabBar';
-import { useT } from '@/i18n/helpers';
+import { useBugName, useT } from '@/i18n/helpers';
+import { bugOfDay } from '@/lib/bugOfDay';
+import { formatXp, useLevel, useRank } from '@/lib/level';
 import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
@@ -28,6 +30,13 @@ export function Home() {
   const P = usePersona(persona);
   const t = useT();
 
+  // Today's hero bug — same calendar day → same pick, so a user
+  // closing and reopening the app doesn't see the card flicker.
+  const todayBug = useMemo(() => bugOfDay(), []);
+  const todayName = useBugName(todayBug.id);
+  const level = useLevel();
+  const rank = useRank();
+
   return (
     <View style={styles.root}>
       <View style={styles.topbar}>
@@ -41,13 +50,15 @@ export function Home() {
 
       <ScrollView contentContainerStyle={styles.scroll}>
         <Text style={styles.eyebrow}>{t('home.bugOfDay')}</Text>
-        <Text style={styles.title}>{t('home.bugOfDayName')}</Text>
+        <Text style={styles.title}>
+          {todayName} {todayBug.emoji}
+        </Text>
 
         <Sticker
           bg={PB.purple}
           rotate={-1.5}
           style={styles.heroSticker}
-          onPress={() => go('scan', { hint: 'lhoc' })}
+          onPress={() => go('scan', { hint: todayBug.id })}
         >
           <View style={styles.heroImage}>
             <CameraScene />
@@ -61,7 +72,9 @@ export function Home() {
           <View style={{ padding: 14 }}>
             <Text style={styles.heroDesc}>
               {t('home.bugOfDayDesc')}
-              <Text style={styles.xpInline}>{t('home.bugOfDayXp')}</Text>
+              <Text style={styles.xpInline}>
+                {t('home.bugOfDayXpAmount', { xp: todayBug.xp })}
+              </Text>
               {t('home.bugOfDayDescTail')}
             </Text>
           </View>
@@ -103,9 +116,9 @@ export function Home() {
 
         <View style={styles.statRow}>
           {[
-            { k: t('home.stat.caught'), v: String(dexSize), c: PB.blue,   route: 'dex' as const },
-            { k: t('home.stat.xp'),     v: '24.6k',          c: PB.orange, route: 'quests' as const },
-            { k: t('home.stat.rank'),   v: '#6',              c: PB.purple, route: 'leaderboard' as const },
+            { k: t('home.stat.caught'), v: String(dexSize),          c: PB.blue,   route: 'dex' as const },
+            { k: t('home.stat.xp'),     v: formatXp(level.xp),       c: PB.orange, route: 'quests' as const },
+            { k: t('home.stat.rank'),   v: `#${rank}`,               c: PB.purple, route: 'leaderboard' as const },
           ].map((s) => (
             <Pressable
               key={s.k}
