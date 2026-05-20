@@ -1,43 +1,184 @@
-# Localization — EN / PL / DE / ES
+# Critterboard — master task tracker
 
-Source of the request: implement on-device i18n for the four target languages, with a hook for OTA translation pack delivery.
+Living checklist of what's shipped and what's left. Treat this as the source of truth for project status; commit changes here in the same commit that lands the work.
 
-## Plan
+`#tasks` `#roadmap`
 
-- [x] Build `src/i18n/` module: types, registry, translate, loader, helpers, public surface
-- [x] Author English source pack (`assets/i18n/en.json`) — every user-facing string across 20 screens + components
-- [x] Translate packs into pl / de / es with identical key shape
-- [x] Add `language` to `useAppStore` (persisted), expose `setLanguage`
-- [x] Wire Settings → Language picker to actually set language
-- [x] Refactor `personas/index.ts`: meta stays static, lines/canned/etc. resolved from packs
-- [x] Refactor data files (bugs, regions, badges, quests, personProfiles) — keep IDs, move strings to packs
-- [x] Replace hardcoded strings with `t()` across every screen + component
-- [x] Document architecture in `docs/i18n.md` + add `docs/README.md` index
-- [x] `npm run typecheck` clean
+> See also: [[docs/ml-roadmap]] (on-device ML), [[docs/architecture]] (system overview), [[tasks/archive]] (past plans).
 
-## Review
+---
 
-### What landed
+## Done
 
-- **Tiny custom i18n** (~150 lines across `src/i18n/`) — no new dependencies. `t(lang, key, vars)` imperative + `useT()` hook + `useBugName()`, `countryName()` helpers.
-- **4 bundled JSON packs** (`assets/i18n/{en,pl,de,es}.json`) covering every screen + component. English is the source of truth; missing keys fall back to English at lookup time.
-- **OTA hook, disabled by default**. `PACK_MANIFEST_URL = null` keeps the loader dormant. Set the URL to enable remote pack downloads cached in AsyncStorage. Manifest schema documented.
-- **Language picker wired**. Settings → Language now actually flips the active language. Persisted across launches via the existing zustand `persist` middleware.
-- **Data file refactor**. `BUGS`, `REGIONS`, `BADGES`, `QUESTS`, `FRIENDS`, `PERSONAS` strip display strings; IDs remain. Display strings resolve from packs by ID. Latin names, ISO country codes, dates, and usernames stay in source (format-stable or conventionally English).
-- **Persona refactor**. `PERSONA_META` is static visual identity. `getPersona(lang, id)` returns a localized `Persona` object with line accessors (`lines.topicHello(topic)`, etc.). `usePersona(id)` hook re-derives on language change.
-- **App boot**. `App.tsx` calls `hydrateCachedPacks()` then `syncRemotePacks()` — both no-op silently when the loader is disabled.
+Most-recent batches first. Older work below the "Foundation" heading.
 
-### App Store concern (raised mid-flight)
+### Tier C — completeness ([commit 3e0c12a](https://github.com/anthropics/critterboard))
 
-Confirmed App Store-safe: Apple 4.7 only restricts downloading executable code. JSON strings are content, same category as remote config / CMS-driven copy / news feeds. Many major apps do this. The user opted to keep the OTA layer as dormant code; if they change their mind it's ~90 lines + 6 lines in App.tsx to rip out.
+- [x] Streak freezes derived from catch history (`computeFreezeState`, ❄ in calendar)
+- [x] Recent finds strip on Home — `useRecentBugIds(4)`
+- [x] `wipeAll` store action — clears AsyncStorage, resets every slice, lang preserved
+- [x] Badges derived from catch data (`useBadges` over `BADGES` static)
 
-### Out of scope
+### Tier B — real progression ([commit b883cfc](https://github.com/anthropics/critterboard))
 
-- iOS native locale auto-detection (could read `expo-localization.getLocales()[0].languageCode` on first launch — currently always defaults to English so users opt in via Settings).
-- Pluralization rules (current packs use `{n} mutual follow` vs `{n} mutual follows` with two separate keys — fine for now, swap to ICU MessageFormat if quest counts get more complex).
-- Translation lint (could add a script that diffs pack keys vs English source and warns on missing ones).
-- Right-to-left languages (no Arabic/Hebrew in scope; would need `I18nManager.forceRTL()` wiring and layout review).
+- [x] `catchLog` + `activityLog` + `questProgress` slices in store, persisted
+- [x] `src/lib/streak.ts` — local-day bucketing, `currentStreak`/`bestStreak`/`calendarGrid`, seed builder
+- [x] `src/lib/quests.ts` + `BUGS.traits` + `QUEST_RULES` — catches bump matching counters
+- [x] `src/lib/timeAgo.ts` — i18n-aware relative timestamps
+- [x] Streak.tsx drops hard-coded `cur=4/best=11/total=142/PATTERN`
+- [x] Home week strip + streak pill from real data; days-to-badge computed
+- [x] Quests.tsx + `QuestCard` read live progress via `useQuests()`
+- [x] Activity.tsx renders real entries with `timeAgo`, three kinds (catch/persona/streak)
+- [x] New i18n keys for activity (`kind.*`, `when.*`) in all four packs
 
-### Verification
+### Tier A — derived numbers ([commit 1588c7e](https://github.com/anthropics/critterboard))
 
-`npm run typecheck` → clean. Manual key audit via grep confirms no hardcoded user-facing English remains in screens.
+- [x] `hasOnboarded` persisted; `onRehydrateStorage` skips returning users past onboarding
+- [x] `followed: Set<string>` persisted; Friends screen reads from store
+- [x] `src/lib/level.ts` — `xpFromDex` / `levelFromXp` / `rankFromXp` / `formatXp` + selector hooks
+- [x] `src/lib/bugOfDay.ts` — day-of-year rotation through the legendary pool
+- [x] Home stat tiles (CAUGHT / XP / RANK) derived live
+- [x] Quests level + xpCurrent + xpNext + progress bar derived
+- [x] `Permissions.finish()` calls `setOnboarded(true)`
+
+### Localization — EN / PL / DE / ES
+
+See [[tasks/archive/2026-05-localization]] for the full plan + review. Highlights:
+
+- [x] Tiny custom i18n module (~150 lines, no new deps)
+- [x] All four packs bundled, English is fallback source of truth
+- [x] OTA loader dormant by default; `setPackManifestUrl(url)` enables it
+- [x] Settings → Language picker is real, persisted
+- [x] Data files (BUGS / REGIONS / BADGES / QUESTS / FRIENDS / PERSONAS) stripped of display strings
+
+### MVP scaffolding — real device features
+
+- [x] Real camera (`expo-camera` `CameraView`) + `takePictureAsync`
+- [x] Image picker (`expo-image-picker`) wired to the 🖼️ button
+- [x] Result.tsx shows captured photo via `Image`
+- [x] Real OS permission requests in Permissions.tsx
+- [x] Zustand `persist` middleware + AsyncStorage adapter (Set ↔ array)
+- [x] Haptics on shutter / catch / persona switch / no-match (`src/lib/haptics.ts`)
+- [x] Persona system prompts threaded through `mockRuntime.completeWithPersona`
+- [x] iOS Info.plist + Android manifest permission strings in `app.json`
+
+### AI seams (scaffolded, awaiting real models)
+
+- [x] `src/ai/vision.ts` — `VisionClassifier` interface, `mockClassifier` (default) + `nativeClassifier` (throws)
+- [x] `src/ai/llm.ts` — `LlmRuntime` interface mirroring `llama.rn`'s streaming API
+- [x] `src/ai/index.ts` — single switchboard with `USE_NATIVE_VISION` / `USE_LLAMA_RN` flags
+- [x] `src/ai/chat.ts` — back-compat shim over the new seam
+- [x] `assets/models/README.md` — exact wiring instructions for the bundle slot
+
+### Training pipelines (full scaffolds, runnable when needed)
+
+- [x] `training/local/` — 20-species M2 mini run (`01_setup_and_download` → `04_export`)
+- [x] `training/kaggle/insect_classifier_training.ipynb` — full EU run on T4 ×2
+- [x] `training/personas/` — five-step LoRA pipeline (seed → curate → train → eval → export GGUF)
+- [x] `training/personas/examples/{larva,snail,maywind}.jsonl` — 10 hand-written examples each
+- [x] `training/personas/kaggle/persona_lora_training.ipynb` — T4 ×2 LoRA notebook
+- [x] [[docs/ml-roadmap]] — three-track master plan, exit criteria per tier
+
+### Foundation
+
+- [x] React Native + TypeScript port of the prototype (20 screens, 54 source files)
+- [x] Zustand store consolidating nav stack + dex + persona + profile + toast
+- [x] Type-safe routes (`RouteParamMap`, `nav.go(route, params)` is type-checked)
+- [x] Shared primitives in `src/components/` (Btn, Sticker, IconBtn, TabBar, dialogs, modals)
+- [x] PB design tokens — colors, ink-border + hard-offset shadow recipes
+- [x] Custom Router + Screen fade-up wrapper
+
+---
+
+## Remaining
+
+Each item is a tracer-bullet vertical slice — touches data / store / UI / i18n in one PR. AFK = agent can ship without human review; HITL = needs a design call or external artifact.
+
+### Batch 1 — "make the privacy story true"
+
+Goal: every claim in Help / Settings about local-first data ownership becomes literally true.
+
+- [ ] **1.1 — Real data export** *(AFK)*
+  - [ ] Add `expo-sharing` dep
+  - [ ] `src/lib/export.ts` builds JSON (dex) and CSV (sightings) blobs from `dex` + `catchLog`
+  - [ ] Help.tsx export buttons call into it + `Sharing.shareAsync`
+  - [ ] Toast updates with the actual filename
+- [ ] **1.2 — Per-catch photo persistence** *(AFK)*
+  - [ ] Extend `CatchEvent` with optional `photoUri?: string`
+  - [ ] `useAppStore.catchBug` accepts photo URI, stores it on the event
+  - [ ] `Scan.tsx` passes the captured/picked URI when calling `catchBug`
+  - [ ] Dex grid swap: tap a caught bug → Result with that URI instead of the default `CameraScene`
+  - [ ] Activity feed entries render the real thumbnail
+- [ ] **1.3 — Real scan-cache deletion** *(AFK, blocked by 1.2)*
+  - [ ] Walk `catchLog` URIs, `FileSystem.deleteAsync` each one
+  - [ ] Strip the URIs from the events post-delete
+  - [ ] Help.tsx "Clear scan cache" toast becomes truthful
+- [ ] **1.4 — Completed quests derived from progress** *(AFK)*
+  - [ ] Add `questCompletedAt: Record<string, number>` slice
+  - [ ] `catchBug` records timestamp when a quest first hits 100%
+  - [ ] `CompletedDrawer` consumes `questCompletedAt` (with localized date) instead of static `COMPLETED_QUESTS`
+  - [ ] Keep static seed as fallback for empty histories
+
+### Batch 2 — "world feels alive"
+
+Goal: features that hook into real OS APIs we already have permission for.
+
+- [ ] **2.1 — Daily streak nudge notification** *(AFK)*
+  - [ ] `src/lib/notify.ts` schedules a single daily local notification at 18:00 local
+  - [ ] Scheduling gated on `currentStreak >= 1` and no catch today
+  - [ ] Notification body uses the active persona's voice
+  - [ ] Cancel + reschedule when a catch lands (so today's notification doesn't fire)
+- [ ] **2.2 — GPS-tagged catches on Map** *(AFK)*
+  - [ ] Extend `CatchEvent` with optional `lat?: number; lng?: number`
+  - [ ] `catchBug` reads position via `expo-location` when `profile.locationShareOn`
+  - [ ] Map.tsx renders user's real catches as additional pins (different style from static `SIGHTINGS`)
+- [ ] **2.3 — Leaderboard user row reflects real XP** *(AFK)*
+  - [ ] Compute user's xp/level via `useXp`/`useLevel`
+  - [ ] Replace `LEADERS.self.xp = 24612` with computed value
+  - [ ] Re-sort the list (podium may shuffle as user passes synthetic rows)
+- [ ] **2.4 — Reverse-geocoded Map header** *(AFK)*
+  - [ ] `expo-location.reverseGeocodeAsync(position)` → city / region
+  - [ ] Gated on `profile.locationShareOn`; falls back to a "private" label
+  - [ ] Cache result in store for 24h so we don't re-geocode on every Map open
+
+### Batch 3 — small polish (one-PR each)
+
+- [ ] **3.1 — Facts table for all 12 species** *(AFK)* — `Result.tsx` populated for every bug, ideally via `bugs.<id>.facts.*` keys
+- [ ] **3.2 — Streak calendar date range computed** *(AFK)* — `Intl.DateTimeFormat`, kill the "Apr 14 → May 18" static string
+- [ ] **3.3 — "Resets in Xh" computed** *(AFK)* — hours to local midnight, formatted via i18n
+- [ ] **3.4 — Onboarding footer reflects network state** *(AFK)* — "✓ no internet" flips to "✓ with internet" when `profile.networkOn`
+- [ ] **3.5 — Streak at-risk banner on Home** *(AFK)* — when `currentStreak >= 1` and no catch today, persona sticker shows urgent line
+- [ ] **3.6 — Dex completion ribbon** *(AFK)* — celebratory sticker at 50% / 100% of dex
+- [ ] **3.7 — Persona switch animation** *(AFK)* — Animated avatar pulse on switch
+- [ ] **3.8 — Display-name char counter** *(AFK)* — `N/18` indicator in Settings
+
+### Batch 4 — HITL or gated
+
+- [ ] **4.1 — Quest claim mechanic + XP grant** *(HITL — design call)* — does quest XP stack with catch XP, or is it independent? Decide first
+- [ ] **4.2 — App icon + splash screen** *(HITL — needs asset)* — `app.json` wiring is small but needs a designed graphic
+- [ ] **4.3 — Wire real insect classifier** *(HITL — gated)* — flip `USE_NATIVE_VISION` once `assets/models/insect_classifier.{mlpackage,onnx}` exists. See [[docs/ml-roadmap]] § Track 1
+- [ ] **4.4 — Wire real Llama runtime** *(HITL — gated)* — flip `USE_LLAMA_RN` once `llama.rn` is added + a GGUF is bundled. See [[docs/ml-roadmap]] § Track 2
+
+---
+
+## Out of scope (deliberately deferred)
+
+These need either a backend or a substantial change and are explicitly **not** on the current roadmap:
+
+- Real leaderboard / friend graph / suggested feed — needs backend
+- Real activity events from other users — needs backend
+- Real map tiles via `react-native-maps` + provider key — substantial native config
+- Real BugNet / Larva-3B / Regional pack downloads — needs CDN + signing
+- Real lookalike-distinguished signal for badge b5 — needs richer classifier output
+
+---
+
+## Workflow
+
+1. Pick a task. Move it to `in-progress` (or just leave the box unchecked and start working).
+2. Implement the slice end-to-end in one branch.
+3. `npm run typecheck` clean before commit.
+4. Tick the box in this file *in the same commit* as the implementation.
+5. After a batch lands, summarize in a "Review" section here and link the commit hash.
+
+Lessons learned mid-task go in [[tasks/lessons]].
