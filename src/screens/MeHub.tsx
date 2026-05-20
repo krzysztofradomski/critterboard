@@ -5,19 +5,17 @@ import { Leaderboard } from '@/screens/Leaderboard';
 import { Quests } from '@/screens/Quests';
 import { Settings } from '@/screens/Settings';
 import { TabBar } from '@/components/TabBar';
+import { useT } from '@/i18n/helpers';
 import { PB } from '@/tokens/pb';
 import type { MeSub } from '@/navigation/routes';
 import { useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
-const SUBTABS: Array<[MeSub, string]> = [
-  ['quests', 'Quests'],
-  ['leaderboard', 'Ranks'],
-  ['settings', 'Brains'],
-];
+const SUBTABS: MeSub[] = ['quests', 'leaderboard', 'settings'];
 
 export function MeHub() {
   const { go } = useNav();
+  const t = useT();
   const route = useCurrentRoute();
   const sub: MeSub = ((route.params as { sub?: MeSub } | undefined)?.sub) ?? 'quests';
 
@@ -28,7 +26,7 @@ export function MeHub() {
       {sub === 'settings' && <Settings />}
 
       <View style={styles.subtabs}>
-        {SUBTABS.map(([id, label]) => (
+        {SUBTABS.map((id) => (
           <Pressable
             key={id}
             onPress={() => go('me', { sub: id })}
@@ -38,7 +36,7 @@ export function MeHub() {
             ]}
           >
             <Text style={[styles.subtabText, { color: sub === id ? PB.ink : PB.cream }]}>
-              {label}
+              {t(`meSub.${id}`)}
             </Text>
           </Pressable>
         ))}

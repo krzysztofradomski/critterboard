@@ -1,0 +1,827 @@
+{
+  "version": 1,
+  "lang": "en",
+  "nativeName": "English",
+  "englishName": "English",
+  "flag": "🇬🇧",
+  "strings": {
+    "common": {
+      "back": "Back",
+      "close": "Close",
+      "share": "Share",
+      "loading": "Loading…",
+      "you": "you",
+      "youParen": "(you)",
+      "yes": "Yes",
+      "no": "No",
+      "cancel": "Cancel",
+      "retry": "Retry",
+      "ok": "OK",
+      "open": "Open",
+      "level": "level"
+    },
+    "tabs": {
+      "home": "Home",
+      "scan": "Scan",
+      "dex": "Dex",
+      "map": "Map",
+      "me": "Me"
+    },
+    "meSub": {
+      "quests": "Quests",
+      "leaderboard": "Ranks",
+      "settings": "Brains"
+    },
+    "onboarding": {
+      "title": "Critterboard",
+      "tagline": "id any bug · stay offline · be smug",
+      "snap": "📷 SNAP A BUG",
+      "sassyId": "🤖 GET A SASSY ID",
+      "buildDex": "🏆 BUILD YOUR DEX",
+      "pickGuide": "PICK YOUR GUIDE",
+      "startHunting": "Start hunting →",
+      "legal": "✓ no account · ✓ no internet · ✓ no $$"
+    },
+    "home": {
+      "streakPill": "{days}-day streak",
+      "bugOfDay": "BUG OF THE DAY",
+      "bugOfDayName": "Luna Moth 🌙",
+      "legendary": "★★★★★ LEGENDARY",
+      "hunt": "HUNT →",
+      "bugOfDayDesc": "Catch one today for",
+      "bugOfDayXp": " +500 XP ",
+      "bugOfDayDescTail": " and a shiny badge.",
+      "yourWeek": "Your week",
+      "daysToBadge": "{n} days till badge",
+      "chatCta": "CHAT WITH {name} →",
+      "stat": {
+        "caught": "CAUGHT",
+        "xp": "XP",
+        "rank": "RANK"
+      }
+    },
+    "scan": {
+      "analyzing": "ANALYZING…",
+      "scanning": "OFFLINE · SCANNING",
+      "permissionTitle": "Camera access",
+      "permissionAsk": "Tap allow to let Critterboard see the bug. Photos never leave your device.",
+      "permissionDenied": "Camera was denied. Enable it in Settings → Critterboard → Camera.",
+      "allowCamera": "Allow camera",
+      "focus": "focus",
+      "matching": "matching…"
+    },
+    "result": {
+      "headTitle": "IDENTIFIED!",
+      "confidence": "CONFIDENCE",
+      "alreadyInDex": "Already in your Dex ✓",
+      "addToDex": "Add to Dex 📔",
+      "askCta": "ASK {name} →",
+      "caughtToast": "Caught! +{xp} XP · {tier}"
+    },
+    "facts": {
+      "habitat": "Habitat",
+      "wingspan": "Wingspan",
+      "range": "Range",
+      "diet": "Diet",
+      "active": "Active",
+      "size": "Size",
+      "various": "Various",
+      "unknown": "—",
+      "values": {
+        "meadows": "Meadows",
+        "forests": "Forests",
+        "hives": "Hives",
+        "monaWingspan": "8.9–10.2 cm",
+        "lhocWingspan": "10–11 cm",
+        "hcatWingspan": "1.2 cm",
+        "naRange": "N. America",
+        "naEastRange": "E. N. America",
+        "worldwide": "Worldwide",
+        "milkweed": "Milkweed",
+        "nighttime": "Nighttime",
+        "nectar": "Nectar"
+      }
+    },
+    "disambiguate": {
+      "headTitle": "NOT QUITE SURE",
+      "lowConfidence": "LOW CONFIDENCE · 62%",
+      "shotMeta": "📷 1/250s · blurry",
+      "topCandidates": "TOP CANDIDATES",
+      "tapToConfirm": "tap to confirm",
+      "askForHelp": "Ask {name} for help →",
+      "noneOfThese": "None of these",
+      "thisMystery": "this mystery bug",
+      "foot": "ID ran fully on-device · 320 ms · no photo left your phone"
+    },
+    "noMatch": {
+      "headTitle": "NO MATCH",
+      "heroTitle": "Couldn't ID this one.",
+      "heroSub": "BugNet v3 returned all candidates below 15%.",
+      "tryThis": "TRY THIS",
+      "tip": {
+        "lightTitle": "Brighter light",
+        "lightDesc": "Move into the sun or use the flash. Shadow eats detail.",
+        "frameTitle": "Fill the frame",
+        "frameDesc": "Get within 20 cm and crop tight on the body.",
+        "backdropTitle": "Plain backdrop",
+        "backdropDesc": "Less foliage clutter helps the model focus.",
+        "profileTitle": "Side profile",
+        "profileDesc": "Wings and legs visible from the side are easiest."
+      },
+      "saveTitle": "Save as Unknown?",
+      "saveDesc": "Stash the photo in your journal. Re-ID it later when models improve.",
+      "tryAgain": "📷 Try again",
+      "saveAndHome": "Save & back to home"
+    },
+    "dex": {
+      "title": "My Dex",
+      "caughtOf": "{caught} of {total} caught",
+      "searchPlaceholder": "Search by name, latin, rarity…",
+      "filter": {
+        "all": "All",
+        "common": "Common",
+        "uncommon": "Uncommon",
+        "rare": "Rare",
+        "epic": "Epic",
+        "legendary": "Legendary"
+      },
+      "emptyTitle": "Nothing matches \"{query}\"",
+      "emptyDesc": "Try fewer letters, a latin name, or a rarity ({rarities}).",
+      "emptyHint": "Tip: prefix with ? to search uncaught slots by number (e.g. ?7)",
+      "uncaughtName": "???"
+    },
+    "chat": {
+      "localStatus": "● local · {title}",
+      "inputPlaceholder": "Ask about this bug…"
+    },
+    "activity": {
+      "title": "Buzz",
+      "sub": "{n} new since you opened the app",
+      "tab": {
+        "all": "All",
+        "social": "Social",
+        "system": "System"
+      },
+      "emptyTitle": "Crickets.",
+      "emptySub": "Nothing here yet.",
+      "newBadge": "NEW",
+      "item": {
+        "a1Title": "antqueen liked your Monarch",
+        "a1Sub": "2 hr ago · Brooklyn cluster",
+        "a1Cta": "View sighting",
+        "a2Title": "Larva-3B v1.4 ready to install",
+        "a2Sub": "New jokes. Same vibe. 240 MB.",
+        "a2Cta": "Update",
+        "a3Title": "4-day streak! Don't break it",
+        "a3Sub": "Catch one bug today. Even a hoverfly.",
+        "a3Cta": "Open scan",
+        "a4Title": "You passed bug_dad_42",
+        "a4Sub": "You're #6 on the global board.",
+        "a4Cta": "Leaderboard",
+        "a5Title": "Quest complete: 3 pollinators",
+        "a5Sub": "+75 XP. Reward unlocked.",
+        "a5Cta": "Claim",
+        "a6Title": "mothwhisperer caught a Luna Moth",
+        "a6Sub": "420 m from you · 6 hr ago",
+        "a6Cta": "View on map",
+        "a7Title": "Regional pack: Northeast NA",
+        "a7Sub": "New seasonal index synced (+38 species).",
+        "a7Cta": "View pack",
+        "a8Title": "wingedfren replied to your hoverfly thread",
+        "a8Sub": "\"Pretty sure that's a Marmalade — wing bands.\"",
+        "a8Cta": "Open chat",
+        "a8Topic": "Hoverflies"
+      }
+    },
+    "friends": {
+      "title": "Naturalists",
+      "sub": "People you follow · their bugs",
+      "tab": {
+        "following": "Following",
+        "followers": "Followers",
+        "suggested": "Suggested"
+      },
+      "follow": "+ Follow",
+      "following": "✓ Following",
+      "ago": "{when} ago",
+      "emptyTitle": "No one here yet.",
+      "emptySub": "Check the Suggested tab to find naturalists like you."
+    },
+    "person": {
+      "rank": "RANK #{rank}",
+      "location": "{city} · {country} · level {level}",
+      "recentCatches": "RECENT CATCHES",
+      "noCatches": "No public catches.",
+      "mutualOne": "{n} mutual follow",
+      "mutualMany": "{n} mutual follows",
+      "stat": {
+        "xp": "XP",
+        "caught": "CAUGHT",
+        "joined": "JOINED"
+      },
+      "catchesOnMap": "📍 Catches on map",
+      "theirDex": "📔 Their dex",
+      "blockReport": "Block · Report",
+      "defaultBio": "No bio yet.",
+      "country": {
+        "JP": "Japan",
+        "DE": "Germany",
+        "BR": "Brazil",
+        "US": "United States",
+        "CA": "Canada",
+        "UK": "United Kingdom",
+        "AU": "Australia",
+        "NL": "Netherlands",
+        "IE": "Ireland",
+        "private": "private"
+      },
+      "bio": {
+        "mothwhisperer": "Moths only. Mostly Saturniidae.",
+        "bug_dad_42": "Coleoptera enjoyer. Also a dad.",
+        "antqueen": "Formicidae forever. Don't @ me.",
+        "chitin_chris": "Eggs, oothecae, instars.",
+        "wingedfren": "Hoverflies are perfect, actually.",
+        "you": "4-day streak. Mostly pollinators.",
+        "larva_loyd": "Caterpillar guy. Don't pet them.",
+        "molt_master": "Arachnid. (I know, not a bug.)",
+        "cricketwitch": "Orthoptera at dusk.",
+        "pillbug_dot": "Isopod-curious. Garden specialist.",
+        "aphid_attic": "Just looking."
+      },
+      "friend": {
+        "atlasMothLast": "Atlas Moth",
+        "stagBeetleLast": "Stag Beetle",
+        "bulletAntLast": "Bullet Ant",
+        "eggCaseLast": "Egg case",
+        "hoverflyLast": "Hoverfly",
+        "ladybirdLast": "Ladybird",
+        "huntsmanLast": "Huntsman",
+        "fieldCricketLast": "Field Cricket",
+        "pillbugLast": "Pillbug",
+        "greenflyLast": "Greenfly"
+      },
+      "why": {
+        "sharedBugs": "caught 4 of the same bugs",
+        "brooklyn": "in Brooklyn cluster",
+        "viaMothwhisperer": "follows mothwhisperer"
+      }
+    },
+    "leaderboard": {
+      "title": "Leaderboard",
+      "sub": "Resets in 3d 14h · 482k trainers",
+      "tab": {
+        "global": "Global",
+        "weekly": "Weekly",
+        "friends": "Friends"
+      },
+      "meta": "{country} · level 12",
+      "hiddenTitle": "You are hidden from rankings",
+      "hiddenDesc": "Turn on \"Show me on leaderboard\" to appear.",
+      "fix": "FIX →"
+    },
+    "map": {
+      "locName": "Brooklyn, NY",
+      "locSub": "{n} sightings · last 30 days",
+      "sightings": "{n}× sightings",
+      "distance": "0.4 mi",
+      "where": "Prospect Park · 2 days ago",
+      "hunt": "HUNT →"
+    },
+    "permissions": {
+      "title": "Three quick asks.",
+      "sub": "You can change any of these later in Brains.",
+      "need": {
+        "required": "Required",
+        "recommended": "Recommended",
+        "optional": "Optional"
+      },
+      "allowed": "✓ ALLOWED",
+      "skipped": "SKIPPED",
+      "notNow": "Not now",
+      "requiredBtn": "Required",
+      "allow": "Allow",
+      "continue": "Continue →",
+      "decideRest": "Decide on the others",
+      "cameraRequired": "Camera is required",
+      "readyToast": "Ready to hunt!",
+      "items": {
+        "camera": {
+          "title": "Camera",
+          "desc": "Snap a bug, get an ID. Photos never leave your device.",
+          "b1": "On-device ML only",
+          "b2": "No cloud upload",
+          "b3": "No photo metadata shared"
+        },
+        "location": {
+          "title": "Location",
+          "desc": "Better range filtering — the model knows what lives near you.",
+          "b1": "City-level fuzz (~5 km)",
+          "b2": "Stays on device unless you share",
+          "b3": "Toggle off any time"
+        },
+        "notifs": {
+          "title": "Notifications",
+          "desc": "Daily streak nudge + Bug of the Day. We'll never spam.",
+          "b1": "One ping per day, tops",
+          "b2": "No marketing, no engagement bait",
+          "b3": "Off by default after 7 days idle"
+        }
+      }
+    },
+    "quests": {
+      "title": "Quests",
+      "sub": "Earn XP · Beat the bugs",
+      "levelLabel": "LEVEL",
+      "xpCurrent": "388 XP",
+      "xpNext": "1000 XP → LV.13",
+      "daily": "◇ DAILY · RESETS IN 8H",
+      "weekly": "◆ WEEKLY",
+      "badges": "★ BADGES ({earned} OF {total})",
+      "completed": "COMPLETED QUESTS",
+      "completedSub": "{n} done · {xp} XP earned",
+      "kindDaily": "daily",
+      "kindWeekly": "weekly",
+      "labels": {
+        "q1": "Identify 3 pollinators",
+        "q2": "Catch a beetle",
+        "q3": "Find a Legendary",
+        "q4": "7-day streak"
+      },
+      "completedLabels": {
+        "c1": "Identify 5 pollinators",
+        "c2": "Catch a butterfly",
+        "c3": "3-day streak",
+        "c4": "First night-time ID",
+        "c5": "Identify 10 in a week",
+        "c6": "Catch a beetle",
+        "c7": "First Catch"
+      },
+      "completedDates": {
+        "c1": "Today",
+        "c2": "Yesterday",
+        "c3": "2 days ago",
+        "c4": "May 09",
+        "c5": "May 06",
+        "c6": "May 02",
+        "c7": "Apr 12"
+      },
+      "dialog": {
+        "weeklyChip": "◆ WEEKLY",
+        "dailyChip": "◇ DAILY",
+        "xpChip": "+{xp} XP",
+        "progress": "PROGRESS",
+        "tipsFrom": "TIPS FROM {name}",
+        "later": "Later",
+        "start": "Start hunt 📷"
+      },
+      "details": {
+        "q1": {
+          "desc": "Pollinators keep the world fed. Find and ID three of them today — bees, butterflies, hoverflies, beetles, anything that visits a flower for a snack.",
+          "tip1": "Honeybees count, hoverflies count, even beetles on flowers count.",
+          "tip2": "Morning sun + a flowering patch is the cheat code."
+        },
+        "q2": {
+          "desc": "Beetles. Crunchy. Misunderstood. Bag yourself any species in order Coleoptera.",
+          "tip1": "Flip a log (gently) — most beetles love the dark.",
+          "tip2": "Try the underside of leaves at dusk."
+        },
+        "q3": {
+          "desc": "A real trophy. Track down a Legendary-tier insect this week. Luna Moth, Atlas Moth, or anything wearing five stars.",
+          "tip1": "Legendaries cluster at dusk near porch lights.",
+          "tip2": "Check the Map for recent rare sightings nearby."
+        },
+        "q4": {
+          "desc": "ID at least one bug a day for seven days in a row. Doesn't matter what — a single ant counts.",
+          "tip1": "Missed a day? Toughens you up. Start the count again.",
+          "tip2": "Set a reminder when your streak hits 5 — the home stretch is brutal."
+        }
+      }
+    },
+    "badges": {
+      "lockedPill": "🔒 LOCKED",
+      "earnedPill": "✓ EARNED",
+      "hiddenName": "Hidden badge",
+      "uncaughtName": "???",
+      "how": "HOW",
+      "gotIt": "Got it",
+      "items": {
+        "b1": {
+          "name": "First Catch",
+          "earned": "Apr 12",
+          "desc": "Your very first ID. Welcome to the club — every naturalist has this one tucked in the front of their notebook.",
+          "crit": "Identify your first bug."
+        },
+        "b2": {
+          "name": "Streak 3",
+          "earned": "May 04",
+          "desc": "Three days of paying attention in a row. The hard part is starting; the harder part is showing up tomorrow.",
+          "crit": "ID at least one bug, three days running."
+        },
+        "b3": {
+          "name": "Night Owl",
+          "earned": "May 09",
+          "desc": "You went out after dark with a flashlight and found something looking back. Moths salute you.",
+          "crit": "Identify a bug between 9pm and 4am."
+        },
+        "b4": {
+          "name": "Pollinator Pal",
+          "desc": "For the friends of flowers. Bees, butterflies, hoverflies, beetles — anything that's there for the nectar.",
+          "crit": "Identify 10 different pollinators."
+        },
+        "b5": {
+          "name": "Splitter",
+          "desc": "You can tell a hoverfly from a wasp at twenty paces. Lumpers fear you.",
+          "crit": "Correctly distinguish 5 mimic species."
+        },
+        "b6": {
+          "name": "Centurion",
+          "desc": "One hundred IDs. The kind of milestone that gets a little gold ribbon on it.",
+          "crit": "Reach 100 total identifications."
+        },
+        "b7": {
+          "name": "???",
+          "desc": "Locked. Keep hunting and this one will reveal itself.",
+          "crit": "Hidden until you earn it."
+        },
+        "b8": {
+          "name": "???",
+          "desc": "Locked. Keep hunting and this one will reveal itself.",
+          "crit": "Hidden until you earn it."
+        }
+      }
+    },
+    "streak": {
+      "headTitle": "STREAK",
+      "dayOnFire": "Day {n} on fire.",
+      "stat": {
+        "current": "CURRENT",
+        "best": "BEST",
+        "caught": "CAUGHT"
+      },
+      "currentValue": "{n}d",
+      "bestValue": "{n}d",
+      "calTitle": "Last 5 weeks",
+      "calRange": "Apr 14 → May 18",
+      "legend": {
+        "caught": "Caught",
+        "freeze": "Freeze",
+        "missed": "Missed"
+      },
+      "freezeTitle": "Streak Freezes",
+      "freezeDesc": "Auto-uses on a missed day so your streak survives. Earn one every 7 days.",
+      "keepAlive": "📷 Keep the streak alive"
+    },
+    "soundId": {
+      "modeCam": "📷 CAM",
+      "modeSound": "🔊 SOUND",
+      "stageRec": "● REC",
+      "stageMatch": "✓ MATCH",
+      "stageIdle": "○ IDLE",
+      "stageLive": "−18 dB · 4.2 kHz peak",
+      "stageQuiet": "— dB · — kHz",
+      "statusIdle": "TAP MIC TO LISTEN",
+      "statusMatch": "PROBABLE MATCH FOUND",
+      "statusListen": "LISTENING…",
+      "modelMeta": "BugNet-Audio · 38 MB",
+      "micIdle": "TAP TO LISTEN · UP TO 30s",
+      "micRec": "TAP TO STOP",
+      "micMatch": "TAP TO CONFIRM TOP MATCH",
+      "cand": {
+        "cica": {
+          "name": "Periodical Cicada",
+          "hint": "High-pitched buzz · 4–6 kHz"
+        },
+        "mant": {
+          "name": "Praying Mantis",
+          "hint": "Soft rasp · close mic"
+        },
+        "fire": {
+          "name": "Common Firefly",
+          "hint": "No call · false match"
+        }
+      },
+      "sass": {
+        "larva": {
+          "idle": "Point the phone at the noise. I'll do my actual job.",
+          "matched": "Top match locked. Don't say I never did anything for you.",
+          "listening": "Filtering out your breathing. You breathe a lot."
+        },
+        "snail": {
+          "idle": "Hold the phone steady. A few seconds of clean audio is enough.",
+          "matched": "A confident match. Lovely.",
+          "listening": "Listening carefully. The pattern is emerging."
+        },
+        "maywind": {
+          "idle": "Ooh ooh — let's hear that buzz!",
+          "matched": "NAILED IT! Look at that signal!",
+          "listening": "Picking up something cool — keep going!"
+        }
+      }
+    },
+    "settings": {
+      "title": "On-device Brains",
+      "sub": "Everything runs on your phone. Promise.",
+      "guideTitle": "Your guide",
+      "profileBand": "Profile & Privacy",
+      "profileLeaks": "Some data may leave your device.",
+      "profileSafe": "Zero data leaves your device.",
+      "displayName": "DISPLAY NAME",
+      "namePlaceholder": "your trainer name",
+      "nameHint": "Shown on the leaderboard and shared sightings.",
+      "privacy": "PRIVACY",
+      "networkLabel": "Network access",
+      "networkOn": "Online features available.",
+      "networkOff": "Fully offline. Recommended.",
+      "boardLabel": "Show me on leaderboard",
+      "boardOn": "Your XP & name appear globally.",
+      "boardNeeds": "Requires network access.",
+      "locShareLabel": "Share spotting locations",
+      "locShareOn": "Pins added to the public map (±500m fuzz).",
+      "locShareOff": "Your map stays private to this device.",
+      "model": {
+        "bugNet": "BugNet v3",
+        "bugNetMeta": "Vision · 412 MB · 10,247 species",
+        "larva": "Larva-3B (Q4)",
+        "larvaMeta": "Chat model · {pct} / 1.9 GB · {state}",
+        "larvaInstalled": "installed",
+        "larvaEta": "~2 min left",
+        "species": "Species Database",
+        "speciesMeta": "Facts & habitats · 88 MB · v2026.04",
+        "ready": "READY",
+        "downloading": "↓ {pct}%"
+      },
+      "regionsBand": "Regional packs",
+      "regionsSub": "Boosts ID accuracy where you actually are.",
+      "regionMeta": "{installed}/{total} · {mb} MB",
+      "regionInstalled": "✓ ON DEVICE",
+      "regionGet": "↓ GET",
+      "regionDownloading": "Downloading · {pct}% · {mb} MB",
+      "regionFoot": "Packs run fully offline. Tap an installed pack to see what's inside.",
+      "languageBand": "Language",
+      "languageSub": "For UI, species names, and {name}'s sass.",
+      "naturalistsTile": "Naturalists",
+      "naturalistsSub": "Friends & follows",
+      "helpTile": "Help & About",
+      "helpSub": "FAQ · data export",
+      "creditsTitle": "Free forever. No ads. No tracking.",
+      "creditsSub": "Built with love by 3 people who really like beetles.",
+      "viewCredits": "VIEW CREDITS →",
+      "guideToast": "Guide: {name}"
+    },
+    "regions": {
+      "list": {
+        "na-ne": { "name": "Northeast NA", "sub": "2,140 species · trees, ponds, wetlands" },
+        "na-sw": { "name": "Southwest NA", "sub": "1,880 species · desert & chaparral" },
+        "eu-uk": { "name": "UK & Ireland", "sub": "1,420 species · hedgerow specialists" },
+        "eu-md": { "name": "Mediterranean", "sub": "2,310 species · Iberia → Anatolia" },
+        "sa-am": { "name": "Amazon Basin", "sub": "4,860 species · the big one" },
+        "oc-au": { "name": "Australia",    "sub": "3,240 species · everything bites" },
+        "as-se": { "name": "SE Asia",       "sub": "3,690 species · monsoon forests" }
+      },
+      "detail": {
+        "headLabel": "REGIONAL PACK",
+        "stat": {
+          "species": "SPECIES",
+          "size": "SIZE",
+          "updated": "UPDATED"
+        },
+        "topFamilies": "TOP FAMILIES",
+        "sampleSpecies": "SAMPLE SPECIES",
+        "sampleMeta": "6 of {n}",
+        "modelNotes": "MODEL NOTES",
+        "foot": "Last updated {date} · checksum verified",
+        "remove": "🗑 Remove pack ({mb} MB)",
+        "na-ne": {
+          "tagline": "Hardwood forests, beaver ponds, salt marsh.",
+          "fam": {
+            "lep": "Lepidoptera (moths & butterflies)",
+            "col": "Coleoptera (beetles)",
+            "hym": "Hymenoptera (wasps & bees)",
+            "dip": "Diptera (flies)",
+            "odo": "Odonata (dragonflies)",
+            "oth": "Other"
+          },
+          "why": {
+            "mona": "iconic migrant",
+            "lhoc": "mid-summer emergence",
+            "drag": "beaver pond regular",
+            "fire": "June–July dusk",
+            "lady": "widespread",
+            "walk": "oak / hickory"
+          },
+          "notes": [
+            "Salt-marsh species weighted higher than inland average.",
+            "Spring–summer phenology baked into the prior; off-season IDs may drop ~6%.",
+            "Climate-shift adjustments applied for 2025 ranges."
+          ]
+        },
+        "na-sw": {
+          "tagline": "Desert, chaparral, montane sky islands.",
+          "fam": {
+            "hym": "Hymenoptera (native bees + ants)",
+            "col": "Coleoptera (darkling beetles)",
+            "lep": "Lepidoptera",
+            "hem": "Hemiptera (true bugs)",
+            "ort": "Orthoptera",
+            "oth": "Other"
+          },
+          "why": {
+            "rhin": "monsoon flights",
+            "mant": "common roadside",
+            "lady": "widespread",
+            "cica": "desert chorus",
+            "walk": "mesquite shrub",
+            "mona": "spring corridor"
+          },
+          "notes": [
+            "Native-bee fauna oversampled vs. honey bees.",
+            "Desert ant taxonomy still in flux — confidence capped at 92%."
+          ]
+        }
+      }
+    },
+    "bugs": {
+      "mona": { "name": "Monarch Butterfly" },
+      "rhin": { "name": "Rhinoceros Beetle" },
+      "hcat": { "name": "Honeybee" },
+      "mant": { "name": "Praying Mantis" },
+      "lady": { "name": "Seven-spot Ladybird" },
+      "drag": { "name": "Emperor Dragonfly" },
+      "lhoc": { "name": "Luna Moth" },
+      "fire": { "name": "Common Firefly" },
+      "cica": { "name": "Periodical Cicada" },
+      "hwsp": { "name": "Paper Wasp" },
+      "walk": { "name": "Walking Stick" },
+      "atla": { "name": "Atlas Moth" }
+    },
+    "personas": {
+      "larva": {
+        "name": "Prof. Larva",
+        "title": "larva-3b · deadpan",
+        "blurb": "Snarky. Helpful in spite of itself.",
+        "lines": {
+          "intro": "\"Oh great, another trainer. Let me drop everything.\"",
+          "scanTip": "Yeah yeah, focus the camera. I'm an AI, not a magician.",
+          "analyzing": "Squinting. Don't rush me.",
+          "streak": "\"Three days in a row. Your therapist must be thrilled.\"",
+          "chatHello": "Yes? What now?",
+          "topicHello": "So we're talking about the {topic} now? Fine.",
+          "common": "\"It's a {name}. Yes. You really needed me for this?\"",
+          "legendary": "\"A {name}. Okay fine, I'm impressed. Don't tell the cicadas.\""
+        },
+        "uncertain": "Three options. The model is, technically, vibes.",
+        "noMatch": "Nothing. I see leaves. Are you photographing leaves?",
+        "streakSass": "Don't break it. I keep score.",
+        "badgeLocked": "Don't get excited. You haven't earned it yet.",
+        "badgeEarned": "Fine. I'm a little impressed. Don't make it weird.",
+        "canned": [
+          "Look. I'm doing my best. Which is more than I can say for you.",
+          "Hoverflies hover. It's literally in the name.",
+          "If it has six legs and judges you silently, it's probably an insect.",
+          "Try a clearer photo. Or therapy. Your call.",
+          "Bees are friends. Wasps are vibes. Hornets are problems."
+        ]
+      },
+      "snail": {
+        "name": "Dr. Snail",
+        "title": "snail-3b · patient",
+        "blurb": "Calm. Teaches at your pace.",
+        "lines": {
+          "intro": "\"Welcome. Take your time — we'll learn together.\"",
+          "scanTip": "Steady the camera. There is no rush. The bug is waiting.",
+          "analyzing": "Examining carefully. One moment, please.",
+          "streak": "\"Four wonderful days of paying attention. Well done.\"",
+          "chatHello": "Hello, friend. What did you find today?",
+          "topicHello": "Ah, the {topic}. A fine choice to study. Where shall we begin?",
+          "common": "\"A {name}. A lovely common visitor — the kind of bug that teaches you to look closely.\"",
+          "legendary": "\"A {name}. Pause a moment with this one. They are not often seen.\""
+        },
+        "uncertain": "A few candidates. Look closely — you'll know which.",
+        "noMatch": "No match this time. The light or the angle may be the issue — let's try again together.",
+        "streakSass": "A lovely rhythm. Tomorrow, again, gently.",
+        "badgeLocked": "Patience. It will come when it comes.",
+        "badgeEarned": "Well-earned. A quiet moment to be proud.",
+        "canned": [
+          "A good question. Many naturalists confuse these — you are in good company.",
+          "Look closely at the wing venation. It is the most reliable clue.",
+          "Take your time. Identification is not a race.",
+          "Try again with a slightly closer crop, and we will work through it together.",
+          "Each sighting teaches us something. Even the ones we cannot place."
+        ]
+      },
+      "maywind": {
+        "name": "R.A. Maywind",
+        "title": "maywind-3b · curious",
+        "blurb": "Witty. Happy. Loves every bug.",
+        "lines": {
+          "intro": "\"Hi hi! Notebook ready, boots laced — let's find a critter!\"",
+          "scanTip": "Ooh ooh — point that lens! I LOVE this part.",
+          "analyzing": "Cross-checking the database — this is the fun bit!",
+          "streak": "\"Four days in a row! You absolute legend!\"",
+          "chatHello": "Hi! What are we looking at today? Tell me everything.",
+          "topicHello": "Ooh, a {topic}! Brilliant pick. Ask me anything!",
+          "common": "\"A {name}! Classic crowd-pleaser. Ten out of ten, would identify again.\"",
+          "legendary": "\"OH MY GOSH a {name}! I'm writing this in the notebook in BIG LETTERS.\""
+        },
+        "uncertain": "Ooh, a puzzle! I narrowed it to three. Help me pick!",
+        "noMatch": "Hmm! Came up empty. New angle, brighter light, and we'll nail it!",
+        "streakSass": "FOUR DAYS! Tomorrow makes five — you've got this!",
+        "badgeLocked": "Ooh, this one's GREAT — you're gonna love unlocking it!",
+        "badgeEarned": "YES! Look at you! I'm putting this in the notebook!",
+        "canned": [
+          "Bugs are SO cool. Have I mentioned that yet today?",
+          "Ooh good question! Antennae shape is the secret handshake.",
+          "Try a slightly closer crop and we'll nail it on the next pass!",
+          "Field tip: bees are fuzzy, wasps are shiny, hoverflies are show-offs.",
+          "You've got the eye for this. Truly."
+        ]
+      }
+    },
+    "help": {
+      "title": "Help & About",
+      "sub": "FAQ, contact, your data.",
+      "section": "FAQ",
+      "faq": {
+        "faq1": {
+          "q": "Does Critterboard work without internet?",
+          "a": "Yes. Vision, chat, and the species database all run on your phone. The only reason to turn on Network access is to share to the leaderboard or post sightings publicly."
+        },
+        "faq2": {
+          "q": "Why is my ID confidence low?",
+          "a": "Usually one of three things: the photo is blurry, the bug fills less than 1/4 of the frame, or you're outside an installed regional pack. Try a closer crop, brighter light, and a side profile."
+        },
+        "faq3": {
+          "q": "How do streak freezes work?",
+          "a": "You earn one freeze every 7 days of activity, capped at three banked. If you miss a day, the freeze auto-spends to keep your streak alive. You don't have to do anything."
+        },
+        "faq4": {
+          "q": "Can I use Critterboard if I'm colorblind?",
+          "a": "Yes. All confidence and rarity cues double-encode with shape and label. There's a high-contrast pass in development; ping us if a specific screen is hurting you."
+        },
+        "faq5": {
+          "q": "Where do reference images come from?",
+          "a": "iNaturalist (CC-BY-NC) for photos; GBIF for ranges. We don't train on your photos — model updates ship from our side only."
+        },
+        "faq6": {
+          "q": "How do I delete my data?",
+          "a": "Scroll down to \"Wipe everything.\" It nukes your dex, sightings, settings, and on-device models. Followers and leaderboard entries go too. There is no undo."
+        }
+      },
+      "contactTitle": "Get in touch",
+      "contactDesc": "A real human reads every message. Reply usually within 48 hours.",
+      "contactEmail": "hello@critterboard.app",
+      "dataTitle": "Your data",
+      "dataSub": "It lives on your phone. Take it with you.",
+      "data": {
+        "exportDexTitle": "Export my dex (JSON)",
+        "exportDexDesc": "{n} catches · 1 file · ~8 KB",
+        "exportDexCta": "Export",
+        "exportDexToast": "dex-export-may18.json saved",
+        "exportSightTitle": "Export sightings (CSV)",
+        "exportSightDesc": "Photos stay on device — coordinates only",
+        "exportSightCta": "Export",
+        "exportSightToast": "sightings-may18.csv saved",
+        "clearTitle": "Clear scan cache",
+        "clearDesc": "32 photos · 84 MB",
+        "clearCta": "Clear",
+        "clearToast": "Cache cleared",
+        "wipeTitle": "Wipe everything",
+        "wipeDesc": "Dex, sightings, models, settings. No undo.",
+        "wipeCta": "Wipe",
+        "wipeConfirmCta": "Tap again to confirm",
+        "wipeToast": "Wipe queued — restart the app."
+      },
+      "appName": "Critterboard",
+      "appBuild": "v1.4.0 · build 2026.05 · MIT-licensed",
+      "appSpecOn": "iOS 16+ · 312 MB on disk · network ON",
+      "appSpecOff": "iOS 16+ · 312 MB on disk · fully offline"
+    },
+    "credits": {
+      "build": "v1.4.0 · build 2026.05",
+      "intro": "Made by three people who genuinely think bugs are cool. No VC money, no ads, no tracking, no account. Just bugs and a phone.",
+      "section": {
+        "team": "The team",
+        "models": "On-device models",
+        "data": "Data & thanks"
+      },
+      "team": {
+        "mira": { "name": "Mira Ostrov",     "role": "Design & illustration" },
+        "theo": { "name": "Theo Bramble",    "role": "iOS engineering" },
+        "junie": { "name": "Junie Halverson", "role": "ML & on-device models" }
+      },
+      "models": {
+        "bugnet": { "name": "BugNet v3",       "role": "Vision · 412 MB · 10,247 species" },
+        "larva":  { "name": "Larva-3B",        "role": "Chat · 1.9 GB · Q4 quantized" },
+        "variants": { "name": "Maywind / Snail", "role": "Persona variants of Larva-3B" }
+      },
+      "data": {
+        "iNat":  { "name": "iNaturalist",       "role": "Reference imagery (CC-BY-NC)" },
+        "gbif":  { "name": "GBIF",              "role": "Range & habitat data" },
+        "beta":  { "name": "Every beta tester", "role": "Field-tested in 14 cities" }
+      },
+      "contactTitle": "Found a bug bug?",
+      "contactEmail": "hello@critterboard.app",
+      "footer": "All processing happens on your device.\nNo data leaves this phone. We promise.\n© 2026 Critterboard · MIT-licensed open source"
+    }
+  }
+}

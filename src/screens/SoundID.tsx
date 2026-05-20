@@ -3,23 +3,25 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
-import { PERSONAS } from '@/personas';
+import { useT } from '@/i18n/helpers';
+import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
 type Phase = 'idle' | 'listening' | 'matched';
 
-const CANDS = [
-  { id: 'cica', name: 'Periodical Cicada', emoji: '🦟', color: PB.purple, hint: 'High-pitched buzz · 4–6 kHz' },
-  { id: 'mant', name: 'Praying Mantis',    emoji: '🦗', color: PB.green,  hint: 'Soft rasp · close mic' },
-  { id: 'fire', name: 'Common Firefly',    emoji: '✨', color: PB.yellow, hint: 'No call · false match' },
-];
+const CAND_META = [
+  { id: 'cica', emoji: '🦟', color: PB.purple },
+  { id: 'mant', emoji: '🦗', color: PB.green },
+  { id: 'fire', emoji: '✨', color: PB.yellow },
+] as const;
 
 export function SoundID() {
   const { go, back } = useNav();
   const persona = useAppStore((s) => s.persona);
-  const P = PERSONAS[persona];
+  const P = usePersona(persona);
+  const t = useT();
   const [phase, setPhase] = useState<Phase>('idle');
   const [secs, setSecs] = useState(0);
   const [topIdx, setTopIdx] = useState(0);
@@ -33,6 +35,7 @@ export function SoundID() {
       arr.push(0.25 + Math.sin(i * 0.5) * 0.15 + Math.random() * 0.4);
     }
     return arr;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
 
   const cleanup = () => {
@@ -54,7 +57,7 @@ export function SoundID() {
     secsRef.current = setInterval(() => setSecs((s) => s + 1), 1000);
     let i = 0;
     topRef.current = setInterval(() => {
-      i = (i + 1) % CANDS.length;
+      i = (i + 1) % CAND_META.length;
       setTopIdx(i);
     }, 1400);
     stopRef.current = setTimeout(() => {
@@ -73,16 +76,21 @@ export function SoundID() {
   const mm = String(Math.floor(secs / 60)).padStart(2, '0');
   const ss = String(secs % 60).padStart(2, '0');
 
+  // Persona sass for each phase — three keys × three personas in the pack.
+  const sassKey =
+    phase === 'idle' ? 'idle' : matched ? 'matched' : 'listening';
+  const sass = t(`soundId.sass.${P.id}.${sassKey}`);
+
   return (
     <View style={styles.root}>
       <View style={styles.topbar}>
         <IconBtn onPress={back} size={42} fs={18}>✕</IconBtn>
         <View style={styles.modeSwitch}>
           <Pressable onPress={() => go('scan')} style={[styles.modeCell, styles.modeInactive]}>
-            <Text style={styles.modeText}>📷 CAM</Text>
+            <Text style={styles.modeText}>{t('soundId.modeCam')}</Text>
           </Pressable>
           <View style={[styles.modeCell, styles.modeActive]}>
-            <Text style={styles.modeText}>🔊 SOUND</Text>
+            <Text style={styles.modeText}>{t('soundId.modeSound')}</Text>
           </View>
         </View>
         <IconBtn size={42} fs={18}>🎚</IconBtn>
@@ -91,10 +99,10 @@ export function SoundID() {
       <View style={styles.stage}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text style={styles.stageMeta}>
-            {phase === 'listening' ? '● REC' : matched ? '✓ MATCH' : '○ IDLE'} · {mm}:{ss}
+            {phase === 'listening' ? t('soundId.stageRec') : matched ? t('soundId.stageMatch') : t('soundId.stageIdle')} · {mm}:{ss}
           </Text>
           <Text style={styles.stageMeta}>
-            {phase === 'listening' ? '−18 dB · 4.2 kHz peak' : '— dB · — kHz'}
+            {phase === 'listening' ? t('soundId.stageLive') : t('soundId.stageQuiet')}
           </Text>
         </View>
 
@@ -121,9 +129,9 @@ export function SoundID() {
 
         <View style={styles.stageFoot}>
           <Text style={styles.stageStatus}>
-            {phase === 'idle' ? 'TAP MIC TO LISTEN' : matched ? 'PROBABLE MATCH FOUND' : 'LISTENING...'}
+            {phase === 'idle' ? t('soundId.statusIdle') : matched ? t('soundId.statusMatch') : t('soundId.statusListen')}
           </Text>
-          <Text style={styles.stageMeta}>BugNet-Audio · 38 MB</Text>
+          <Text style={styles.stageMeta}>{t('soundId.modelMeta')}</Text>
         </View>
       </View>
 
@@ -133,31 +141,13 @@ export function SoundID() {
             <View style={[styles.personaAvatar, { backgroundColor: PB.cream }]}>
               <Text style={{ fontSize: 16 }}>{P.emoji}</Text>
             </View>
-            <Text style={styles.snark}>
-              {phase === 'idle'
-                ? P.id === 'larva'
-                  ? "Point the phone at the noise. I'll do my actual job."
-                  : P.id === 'snail'
-                  ? 'Hold the phone steady. A few seconds of clean audio is enough.'
-                  : "Ooh ooh — let's hear that buzz!"
-                : matched
-                ? P.id === 'larva'
-                  ? "Top match locked. Don't say I never did anything for you."
-                  : P.id === 'snail'
-                  ? 'A confident match. Lovely.'
-                  : 'NAILED IT! Look at that signal!'
-                : P.id === 'larva'
-                ? 'Filtering out your breathing. You breathe a lot.'
-                : P.id === 'snail'
-                ? 'Listening carefully. The pattern is emerging.'
-                : 'Picking up something cool — keep going!'}
-            </Text>
+            <Text style={styles.snark}>{sass}</Text>
           </View>
         </Sticker>
       </View>
 
       <View style={styles.candidates}>
-        {CANDS.map((c, i) => {
+        {CAND_META.map((c, i) => {
           const isTop = i === topIdx;
           const baseConf = matched
             ? i === 0
@@ -189,8 +179,8 @@ export function SoundID() {
                 <Text style={{ fontSize: 16 }}>{c.emoji}</Text>
               </View>
               <View style={{ flex: 1, minWidth: 0 }}>
-                <Text style={styles.candidateName}>{c.name}</Text>
-                <Text style={styles.candidateHint}>{c.hint}</Text>
+                <Text style={styles.candidateName}>{t(`soundId.cand.${c.id}.name`)}</Text>
+                <Text style={styles.candidateHint}>{t(`soundId.cand.${c.id}.hint`)}</Text>
               </View>
               <Text style={[styles.candidateConf, { color: i === 0 && matched ? PB.green : PB.ink }]}>
                 {baseConf}%
@@ -206,7 +196,7 @@ export function SoundID() {
             phase === 'listening'
               ? stop
               : matched
-              ? () => CANDS[0] && go('result', { id: CANDS[0].id })
+              ? () => CAND_META[0] && go('result', { id: CAND_META[0].id })
               : start
           }
           style={[
@@ -217,7 +207,7 @@ export function SoundID() {
           <Text style={styles.micText}>{matched ? '✓' : phase === 'listening' ? '■' : '🎙'}</Text>
         </Pressable>
         <Text style={styles.micLabel}>
-          {phase === 'listening' ? 'TAP TO STOP' : matched ? 'TAP TO CONFIRM TOP MATCH' : 'TAP TO LISTEN · UP TO 30s'}
+          {phase === 'listening' ? t('soundId.micRec') : matched ? t('soundId.micMatch') : t('soundId.micIdle')}
         </Text>
       </View>
     </View>

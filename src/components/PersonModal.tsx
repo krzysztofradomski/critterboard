@@ -7,6 +7,8 @@ import { IconBtn } from '@/components/IconBtn';
 import { ModalShell } from '@/components/ModalShell';
 import { BUGS } from '@/data/bugs';
 import { PERSON_PROFILES, type PersonProfile } from '@/data/personProfiles';
+import { useT, useBugName, countryName } from '@/i18n/helpers';
+import { useAppStore } from '@/store/useAppStore';
 
 const DEFAULT_PROFILE: PersonProfile = {
   emoji: '🐛',
@@ -18,7 +20,6 @@ const DEFAULT_PROFILE: PersonProfile = {
   rank: '—',
   xp: 0,
   badge: '',
-  bio: 'No bio yet.',
   recent: [],
 };
 
@@ -37,8 +38,12 @@ export function PersonModal({
   isFollowed?: boolean;
   mutuals?: number;
 }) {
+  const t = useT();
+  const language = useAppStore((s) => s.language);
   if (!name) return null;
   const p = PERSON_PROFILES[name] ?? DEFAULT_PROFILE;
+
+  const bio = p.bioKey ? t(`person.bio.${p.bioKey}`) : t('person.defaultBio');
 
   return (
     <ModalShell visible={visible} onClose={onClose} paddingTop={56}>
@@ -46,7 +51,7 @@ export function PersonModal({
         <View style={styles.headerTop}>
           <View style={styles.rankPill}>
             <Text style={styles.rankText}>
-              RANK #{p.rank}{p.badge ? ` ${p.badge}` : ''}
+              {t('person.rank', { rank: p.rank })}{p.badge ? ` ${p.badge}` : ''}
             </Text>
           </View>
           <IconBtn onPress={onClose} size={30} fs={13} bg={PB.cream}>✕</IconBtn>
@@ -58,17 +63,23 @@ export function PersonModal({
           </View>
           <View style={{ flex: 1, minWidth: 0 }}>
             <Text numberOfLines={1} style={styles.name}>{name}</Text>
-            <Text style={styles.location}>{p.city} · {p.country} · level {p.level}</Text>
-            <Text numberOfLines={1} style={styles.bio}>{p.bio}</Text>
+            <Text style={styles.location}>
+              {t('person.location', {
+                city: p.city,
+                country: countryName(language, p.country),
+                level: p.level,
+              })}
+            </Text>
+            <Text numberOfLines={1} style={styles.bio}>{bio}</Text>
           </View>
         </View>
       </View>
 
       <View style={styles.statStrip}>
         {[
-          { k: 'XP',     v: p.xp >= 1000 ? `${(p.xp / 1000).toFixed(1)}k` : String(p.xp), c: PB.orange },
-          { k: 'CAUGHT', v: p.recent.length ? String(p.recent.length * 38) : '—',          c: PB.green  },
-          { k: 'JOINED', v: p.joined,                                                       c: PB.blue   },
+          { k: t('person.stat.xp'),     v: p.xp >= 1000 ? `${(p.xp / 1000).toFixed(1)}k` : String(p.xp), c: PB.orange },
+          { k: t('person.stat.caught'), v: p.recent.length ? String(p.recent.length * 38) : '—',          c: PB.green  },
+          { k: t('person.stat.joined'), v: p.joined,                                                       c: PB.blue   },
         ].map((s, i) => (
           <View key={s.k} style={[styles.stat, i < 2 && styles.statBorder]}>
             <Text style={[styles.statLabel, { color: s.c }]}>{s.k}</Text>
@@ -78,24 +89,15 @@ export function PersonModal({
       </View>
 
       <ScrollView style={{ maxHeight: 380 }} contentContainerStyle={{ padding: 14 }}>
-        <Text style={styles.section}>RECENT CATCHES</Text>
+        <Text style={styles.section}>{t('person.recentCatches')}</Text>
         {p.recent.length > 0 ? (
           <View style={styles.recentRow}>
-            {p.recent.slice(0, 4).map((bid, i) => {
-              const b = BUGS.find((x) => x.id === bid);
-              if (!b) return null;
-              return (
-                <View key={i} style={styles.recentCell}>
-                  <View style={[styles.recentArt, { backgroundColor: b.color ?? PB.cream2 }]}>
-                    <Text style={{ fontSize: 22 }}>{b.emoji}</Text>
-                  </View>
-                  <Text numberOfLines={1} style={styles.recentName}>{b.name.split(' ')[0]}</Text>
-                </View>
-              );
-            })}
+            {p.recent.slice(0, 4).map((bid, i) => (
+              <RecentCell key={i} bugId={bid} />
+            ))}
           </View>
         ) : (
-          <Text style={styles.empty}>No public catches.</Text>
+          <Text style={styles.empty}>{t('person.noCatches')}</Text>
         )}
 
         {typeof mutuals === 'number' && mutuals > 0 && (
@@ -114,7 +116,7 @@ export function PersonModal({
               ))}
             </View>
             <Text style={styles.mutualText}>
-              {mutuals} mutual {mutuals === 1 ? 'follow' : 'follows'}
+              {mutuals === 1 ? t('person.mutualOne', { n: mutuals }) : t('person.mutualMany', { n: mutuals })}
             </Text>
           </View>
         )}
@@ -122,17 +124,36 @@ export function PersonModal({
         <View style={{ marginTop: 14, gap: 8 }}>
           {name !== 'you' && onToggleFollow && (
             <Btn full bg={isFollowed ? PB.cream : PB.green} color={isFollowed ? PB.ink : PB.cream} onPress={onToggleFollow}>
-              {isFollowed ? '✓ Following' : '+ Follow'}
+              {isFollowed ? t('friends.following') : t('friends.follow')}
             </Btn>
           )}
           <View style={{ flexDirection: 'row', gap: 8 }}>
-            <Btn bg={PB.cream} color={PB.ink} size="sm" style={{ flex: 1 }}>📍 Catches on map</Btn>
-            <Btn bg={PB.cream} color={PB.ink} size="sm" style={{ flex: 1 }}>📔 Their dex</Btn>
+            <Btn bg={PB.cream} color={PB.ink} size="sm" style={{ flex: 1 }}>
+              {t('person.catchesOnMap')}
+            </Btn>
+            <Btn bg={PB.cream} color={PB.ink} size="sm" style={{ flex: 1 }}>
+              {t('person.theirDex')}
+            </Btn>
           </View>
-          {name !== 'you' && <Text style={styles.blockText}>Block · Report</Text>}
+          {name !== 'you' && <Text style={styles.blockText}>{t('person.blockReport')}</Text>}
         </View>
       </ScrollView>
     </ModalShell>
+  );
+}
+
+function RecentCell({ bugId }: { bugId: string }) {
+  const name = useBugName(bugId);
+  const b = BUGS.find((x) => x.id === bugId);
+  if (!b) return null;
+  const short = name.split(' ')[0] ?? name;
+  return (
+    <View style={styles.recentCell}>
+      <View style={[styles.recentArt, { backgroundColor: b.color ?? PB.cream2 }]}>
+        <Text style={{ fontSize: 22 }}>{b.emoji}</Text>
+      </View>
+      <Text numberOfLines={1} style={styles.recentName}>{short}</Text>
+    </View>
   );
 }
 

@@ -4,7 +4,8 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
-import { PERSONAS } from '@/personas';
+import { useT } from '@/i18n/helpers';
+import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
@@ -22,24 +23,19 @@ const DAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 export function Streak() {
   const { go, back } = useNav();
   const persona = useAppStore((s) => s.persona);
-  const P = PERSONAS[persona];
+  const P = usePersona(persona);
+  const t = useT();
 
   const cur = 4;
   const best = 11;
   const total = 142;
   const freezes = 2;
 
-  const sass = {
-    larva:   "Don't break it. I keep score.",
-    snail:   'A lovely rhythm. Tomorrow, again, gently.',
-    maywind: "FOUR DAYS! Tomorrow makes five — you've got this!",
-  }[P.id];
-
   return (
     <View style={styles.root}>
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
-        <Text style={styles.title}>STREAK</Text>
+        <Text style={styles.title}>{t('streak.headTitle')}</Text>
         <IconBtn fs={14}>↗</IconBtn>
       </View>
 
@@ -51,17 +47,17 @@ export function Streak() {
               <Text style={styles.heroCur}>{cur}</Text>
             </View>
             <View style={{ flex: 1, minWidth: 0 }}>
-              <Text style={styles.heroTitle}>Day {cur} on fire.</Text>
-              <Text style={styles.heroSass}>{sass}</Text>
+              <Text style={styles.heroTitle}>{t('streak.dayOnFire', { n: cur })}</Text>
+              <Text style={styles.heroSass}>{P.streakSass}</Text>
             </View>
           </View>
         </Sticker>
 
         <View style={styles.statRow}>
           {[
-            { k: 'CURRENT', v: `${cur}d`, c: PB.red },
-            { k: 'BEST', v: `${best}d`, c: PB.purple },
-            { k: 'CAUGHT', v: String(total), c: PB.green },
+            { k: t('streak.stat.current'), v: t('streak.currentValue', { n: cur }), c: PB.red },
+            { k: t('streak.stat.best'),    v: t('streak.bestValue',    { n: best }), c: PB.purple },
+            { k: t('streak.stat.caught'),  v: String(total),                           c: PB.green },
           ].map((s) => (
             <View key={s.k} style={styles.stat}>
               <Text style={[styles.statLabel, { color: s.c }]}>{s.k}</Text>
@@ -72,8 +68,8 @@ export function Streak() {
 
         <Sticker bg={PB.paper} style={{ padding: 14 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
-            <Text style={styles.calTitle}>Last 5 weeks</Text>
-            <Text style={styles.calRange}>Apr 14 → May 18</Text>
+            <Text style={styles.calTitle}>{t('streak.calTitle')}</Text>
+            <Text style={styles.calRange}>{t('streak.calRange')}</Text>
           </View>
           <View style={styles.dayLabels}>
             {DAYS.map((d, i) => (
@@ -107,9 +103,9 @@ export function Streak() {
           </View>
           <View style={styles.legend}>
             {[
-              { c: PB.green, l: 'Caught', e: '✓' },
-              { c: PB.blue, l: 'Freeze', e: '❄' },
-              { c: PB.cream2, l: 'Missed', e: '·' },
+              { c: PB.green,  l: t('streak.legend.caught'), e: '✓' },
+              { c: PB.blue,   l: t('streak.legend.freeze'), e: '❄' },
+              { c: PB.cream2, l: t('streak.legend.missed'), e: '·' },
             ].map((L) => (
               <View key={L.l} style={styles.legendItem}>
                 <View style={[styles.legendDot, { backgroundColor: L.c }]}>
@@ -129,10 +125,8 @@ export function Streak() {
               <Text style={{ fontSize: 24 }}>❄</Text>
             </View>
             <View style={{ flex: 1, minWidth: 0 }}>
-              <Text style={styles.freezeTitle}>Streak Freezes</Text>
-              <Text style={styles.freezeDesc}>
-                Auto-uses on a missed day so your streak survives. Earn one every 7 days.
-              </Text>
+              <Text style={styles.freezeTitle}>{t('streak.freezeTitle')}</Text>
+              <Text style={styles.freezeDesc}>{t('streak.freezeDesc')}</Text>
             </View>
             <View style={styles.freezeCount}>
               <Text style={styles.freezeCountText}>{freezes}</Text>
@@ -141,7 +135,7 @@ export function Streak() {
         </Sticker>
 
         <Btn full bg={PB.ink} color={PB.yellow} size="lg" onPress={() => go('scan')}>
-          📷 Keep the streak alive
+          {t('streak.keepAlive')}
         </Btn>
       </ScrollView>
     </View>

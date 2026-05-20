@@ -4,42 +4,38 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
-import { PERSONAS } from '@/personas';
+import { useT } from '@/i18n/helpers';
+import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
-const TIPS = [
-  { emoji: '🔆', title: 'Brighter light',  desc: 'Move into the sun or use the flash. Shadow eats detail.', color: PB.yellow },
-  { emoji: '🔍', title: 'Fill the frame',  desc: 'Get within 20 cm and crop tight on the body.',           color: PB.green  },
-  { emoji: '🌿', title: 'Plain backdrop',  desc: 'Less foliage clutter helps the model focus.',            color: PB.blue   },
-  { emoji: '📐', title: 'Side profile',    desc: 'Wings and legs visible from the side are easiest.',      color: PB.purple },
-];
-
 export function NoMatch() {
   const { go, back } = useNav();
   const persona = useAppStore((s) => s.persona);
-  const P = PERSONAS[persona];
+  const P = usePersona(persona);
+  const t = useT();
 
-  const sass = {
-    larva:   'Nothing. I see leaves. Are you photographing leaves?',
-    snail:   "No match this time. The light or the angle may be the issue — let's try again together.",
-    maywind: "Hmm! Came up empty. New angle, brighter light, and we'll nail it!",
-  }[P.id];
+  const TIPS = [
+    { emoji: '🔆', titleKey: 'noMatch.tip.lightTitle',    descKey: 'noMatch.tip.lightDesc',    color: PB.yellow },
+    { emoji: '🔍', titleKey: 'noMatch.tip.frameTitle',    descKey: 'noMatch.tip.frameDesc',    color: PB.green  },
+    { emoji: '🌿', titleKey: 'noMatch.tip.backdropTitle', descKey: 'noMatch.tip.backdropDesc', color: PB.blue   },
+    { emoji: '📐', titleKey: 'noMatch.tip.profileTitle',  descKey: 'noMatch.tip.profileDesc',  color: PB.purple },
+  ];
 
   return (
     <View style={styles.root}>
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
-        <Text style={styles.title}>NO MATCH</Text>
+        <Text style={styles.title}>{t('noMatch.headTitle')}</Text>
         <IconBtn fs={14}>↗</IconBtn>
       </View>
 
       <ScrollView contentContainerStyle={{ paddingHorizontal: 14, paddingVertical: 12, paddingBottom: 30 }}>
         <Sticker bg={PB.red} rotate={-2} style={{ paddingVertical: 22, paddingHorizontal: 18, alignItems: 'center' }}>
           <Text style={{ fontSize: 60 }}>🤷</Text>
-          <Text style={styles.heroTitle}>Couldn't ID this one.</Text>
-          <Text style={styles.heroSub}>BugNet v3 returned all candidates below 15%.</Text>
+          <Text style={styles.heroTitle}>{t('noMatch.heroTitle')}</Text>
+          <Text style={styles.heroSub}>{t('noMatch.heroSub')}</Text>
         </Sticker>
 
         <Sticker bg={P.cardBg} rotate={1.2} style={{ marginTop: 14, paddingVertical: 10, paddingHorizontal: 12 }}>
@@ -47,19 +43,19 @@ export function NoMatch() {
             <View style={[styles.snarkAvatar, { backgroundColor: PB.cream }]}>
               <Text style={{ fontSize: 16 }}>{P.emoji}</Text>
             </View>
-            <Text style={styles.snark}>{sass}</Text>
+            <Text style={styles.snark}>{P.noMatch}</Text>
           </View>
         </Sticker>
 
-        <Text style={styles.section}>TRY THIS</Text>
+        <Text style={styles.section}>{t('noMatch.tryThis')}</Text>
         <View style={styles.tipGrid}>
-          {TIPS.map((t) => (
-            <View key={t.title} style={styles.tipCard}>
-              <View style={[styles.tipIcon, { backgroundColor: t.color }]}>
-                <Text style={{ fontSize: 18 }}>{t.emoji}</Text>
+          {TIPS.map((tip) => (
+            <View key={tip.titleKey} style={styles.tipCard}>
+              <View style={[styles.tipIcon, { backgroundColor: tip.color }]}>
+                <Text style={{ fontSize: 18 }}>{tip.emoji}</Text>
               </View>
-              <Text style={styles.tipTitle}>{t.title}</Text>
-              <Text style={styles.tipDesc}>{t.desc}</Text>
+              <Text style={styles.tipTitle}>{t(tip.titleKey)}</Text>
+              <Text style={styles.tipDesc}>{t(tip.descKey)}</Text>
             </View>
           ))}
         </View>
@@ -70,20 +66,18 @@ export function NoMatch() {
               <Text style={{ fontSize: 20 }}>❓</Text>
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={styles.qTitle}>Save as Unknown?</Text>
-              <Text style={styles.qDesc}>
-                Stash the photo in your journal. Re-ID it later when models improve.
-              </Text>
+              <Text style={styles.qTitle}>{t('noMatch.saveTitle')}</Text>
+              <Text style={styles.qDesc}>{t('noMatch.saveDesc')}</Text>
             </View>
           </View>
         </Sticker>
 
         <View style={{ marginTop: 16, gap: 10 }}>
           <Btn full bg={PB.ink} color={PB.yellow} size="lg" onPress={() => go('scan')}>
-            📷 Try again
+            {t('noMatch.tryAgain')}
           </Btn>
           <Btn full bg={PB.cream} color={PB.ink} onPress={() => go('home')}>
-            Save & back to home
+            {t('noMatch.saveAndHome')}
           </Btn>
         </View>
       </ScrollView>

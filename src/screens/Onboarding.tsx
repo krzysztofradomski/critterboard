@@ -5,12 +5,14 @@ import Svg, { Circle, Path } from 'react-native-svg';
 import { Btn } from '@/components/Btn';
 import { PersonaPick } from '@/components/PersonaPick';
 import { Sticker } from '@/components/Sticker';
+import { useT } from '@/i18n/helpers';
 import { PERSONA_IDS } from '@/personas';
 import { PB } from '@/tokens/pb';
 import { useNav } from '@/store/useNav';
 
 export function Onboarding() {
   const { go } = useNav();
+  const t = useT();
   return (
     <View style={styles.root}>
       {/* Decorative confetti */}
@@ -33,25 +35,25 @@ export function Onboarding() {
             <Text style={styles.logoEmoji}>🪲</Text>
           </View>
           <View>
-            <Text style={styles.title}>Critterboard</Text>
-            <Text style={styles.tagline}>id any bug · stay offline · be smug</Text>
+            <Text style={styles.title}>{t('onboarding.title')}</Text>
+            <Text style={styles.tagline}>{t('onboarding.tagline')}</Text>
           </View>
         </View>
 
         <View style={styles.choices}>
           <Sticker bg={PB.green} rotate={-4} style={styles.choice} onPress={() => go('scan')}>
-            <Text style={styles.choiceText}>📷 SNAP A BUG</Text>
+            <Text style={styles.choiceText}>{t('onboarding.snap')}</Text>
           </Sticker>
           <Sticker bg={PB.blue} rotate={3} style={styles.choice} onPress={() => go('chat')}>
-            <Text style={styles.choiceText}>🤖 GET A SASSY ID</Text>
+            <Text style={styles.choiceText}>{t('onboarding.sassyId')}</Text>
           </Sticker>
           <Sticker bg={PB.purple} rotate={-2} style={styles.choice} onPress={() => go('dex')}>
-            <Text style={styles.choiceText}>🏆 BUILD YOUR DEX</Text>
+            <Text style={styles.choiceText}>{t('onboarding.buildDex')}</Text>
           </Sticker>
         </View>
 
         <View style={styles.personaBlock}>
-          <Text style={styles.section}>PICK YOUR GUIDE</Text>
+          <Text style={styles.section}>{t('onboarding.pickGuide')}</Text>
           <View style={{ gap: 8 }}>
             {PERSONA_IDS.map((pid) => (
               <PersonaPick key={pid} pid={pid} compact />
@@ -61,9 +63,9 @@ export function Onboarding() {
 
         <View style={styles.footer}>
           <Btn full bg={PB.ink} color={PB.yellow} size="lg" onPress={() => go('permissions')}>
-            Start hunting →
+            {t('onboarding.startHunting')}
           </Btn>
-          <Text style={styles.legal}>✓ no account · ✓ no internet · ✓ no $$</Text>
+          <Text style={styles.legal}>{t('onboarding.legal')}</Text>
         </View>
       </View>
     </View>

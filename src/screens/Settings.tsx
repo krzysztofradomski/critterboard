@@ -6,34 +6,28 @@ import { PersonaPick } from '@/components/PersonaPick';
 import { SettingToggle } from '@/components/SettingToggle';
 import { Sticker } from '@/components/Sticker';
 import { REGIONS, type Region, type RegionStatus } from '@/data/regions';
-import { PERSONAS, PERSONA_IDS } from '@/personas';
+import { LANG_META, type LangId } from '@/i18n';
+import { useT } from '@/i18n/helpers';
+import { PERSONA_IDS } from '@/personas';
+import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
-
-type LangId = 'en' | 'es' | 'pt' | 'fr' | 'de' | 'ja';
-
-const LANGUAGES: Array<{ id: LangId; flag: string; label: string; native: string }> = [
-  { id: 'en', flag: '🇺🇸', label: 'English',    native: 'English' },
-  { id: 'es', flag: '🇪🇸', label: 'Spanish',    native: 'Español' },
-  { id: 'pt', flag: '🇧🇷', label: 'Portuguese', native: 'Português' },
-  { id: 'fr', flag: '🇫🇷', label: 'French',     native: 'Français' },
-  { id: 'de', flag: '🇩🇪', label: 'German',     native: 'Deutsch' },
-  { id: 'ja', flag: '🇯🇵', label: 'Japanese',   native: '日本語' },
-];
 
 export function Settings() {
   const { go } = useNav();
   const persona = useAppStore((s) => s.persona);
   const profile = useAppStore((s) => s.profile);
+  const language = useAppStore((s) => s.language);
   const setProfile = useAppStore((s) => s.setProfile);
-  const P = PERSONAS[persona];
+  const setLanguage = useAppStore((s) => s.setLanguage);
+  const P = usePersona(persona);
+  const t = useT();
 
   const [downloading, setDownloading] = useState(true);
   const [pct, setPct] = useState(64);
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [nameDraft, setNameDraft] = useState(profile.name);
-  const [lang, setLang] = useState<LangId>('en');
   const [regions, setRegions] = useState<Record<string, RegionStatus>>(() => ({
     'na-ne': 'installed',
     'na-sw': 'available',
@@ -77,7 +71,7 @@ export function Settings() {
   );
 
   const commitName = () => {
-    const v = nameDraft.trim().slice(0, 18) || 'you';
+    const v = nameDraft.trim().slice(0, 18) || t('common.you');
     if (v !== profile.name) setProfile({ name: v });
   };
 
@@ -107,11 +101,15 @@ export function Settings() {
     downloadHandles.current[region.id] = handle;
   };
 
+  // The persona name can be multi-word ("Prof. Larva") — strip honorifics
+  // so the "Language for X's sass" copy reads naturally in every locale.
+  const personaShort = P.name.split(' ').pop() ?? P.name;
+
   return (
     <View style={styles.root}>
       <View style={styles.header}>
-        <Text style={styles.title}>On-device Brains</Text>
-        <Text style={styles.sub}>Everything runs on your phone. Promise.</Text>
+        <Text style={styles.title}>{t('settings.title')}</Text>
+        <Text style={styles.sub}>{t('settings.sub')}</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll}>
@@ -121,7 +119,7 @@ export function Settings() {
               <Text style={{ fontSize: 22 }}>{P.emoji}</Text>
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={styles.cardTitle}>Your guide</Text>
+              <Text style={styles.cardTitle}>{t('settings.guideTitle')}</Text>
               <Text style={styles.cardSub}>{P.title}</Text>
             </View>
           </View>
@@ -141,14 +139,14 @@ export function Settings() {
           >
             <Text style={{ fontSize: 26 }}>👤</Text>
             <View style={{ flex: 1, minWidth: 0 }}>
-              <Text style={styles.bandTitle}>Profile & Privacy</Text>
+              <Text style={styles.bandTitle}>{t('settings.profileBand')}</Text>
               <Text style={styles.bandSub}>
-                {profile.networkOn ? 'Some data may leave your device.' : 'Zero data leaves your device.'}
+                {profile.networkOn ? t('settings.profileLeaks') : t('settings.profileSafe')}
               </Text>
             </View>
           </View>
           <View style={{ paddingVertical: 12, paddingHorizontal: 14 }}>
-            <Text style={styles.sectionLabel}>DISPLAY NAME</Text>
+            <Text style={styles.sectionLabel}>{t('settings.displayName')}</Text>
             <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
               <View style={styles.nameAvatar}>
                 <Text style={styles.nameAvatarText}>{(profile.name[0] ?? '?').toUpperCase()}</Text>
@@ -158,21 +156,21 @@ export function Settings() {
                 onChangeText={setNameDraft}
                 onBlur={commitName}
                 onSubmitEditing={commitName}
-                placeholder="your trainer name"
+                placeholder={t('settings.namePlaceholder')}
                 placeholderTextColor={PB.ink + '99'}
                 maxLength={18}
                 style={styles.nameInput}
               />
             </View>
-            <Text style={styles.nameHint}>Shown on the leaderboard and shared sightings.</Text>
+            <Text style={styles.nameHint}>{t('settings.nameHint')}</Text>
 
-            <Text style={[styles.sectionLabel, { marginTop: 10 }]}>PRIVACY</Text>
+            <Text style={[styles.sectionLabel, { marginTop: 10 }]}>{t('settings.privacy')}</Text>
             <View style={{ gap: 8 }}>
               <SettingToggle
                 icon="📡"
                 color={PB.orange}
-                label="Network access"
-                desc={profile.networkOn ? 'Online features available.' : 'Fully offline. Recommended.'}
+                label={t('settings.networkLabel')}
+                desc={profile.networkOn ? t('settings.networkOn') : t('settings.networkOff')}
                 value={profile.networkOn}
                 onChange={(v) =>
                   setProfile({
@@ -184,8 +182,8 @@ export function Settings() {
               <SettingToggle
                 icon="🏆"
                 color={PB.purple}
-                label="Show me on leaderboard"
-                desc={profile.networkOn ? 'Your XP & name appear globally.' : 'Requires network access.'}
+                label={t('settings.boardLabel')}
+                desc={profile.networkOn ? t('settings.boardOn') : t('settings.boardNeeds')}
                 value={profile.leaderboardOn && profile.networkOn}
                 onChange={(v) => setProfile({ leaderboardOn: v })}
                 disabled={!profile.networkOn}
@@ -193,11 +191,11 @@ export function Settings() {
               <SettingToggle
                 icon="📍"
                 color={PB.blue}
-                label="Share spotting locations"
+                label={t('settings.locShareLabel')}
                 desc={
                   profile.locationShareOn && profile.networkOn
-                    ? 'Pins added to the public map (±500m fuzz).'
-                    : 'Your map stays private to this device.'
+                    ? t('settings.locShareOn')
+                    : t('settings.locShareOff')
                 }
                 value={profile.locationShareOn && profile.networkOn}
                 onChange={(v) => setProfile({ locationShareOn: v })}
@@ -211,9 +209,9 @@ export function Settings() {
           <ModelTile
             icon="👁️"
             color={PB.blue}
-            title="BugNet v3"
-            meta="Vision · 412 MB · 10,247 species"
-            statusText="READY"
+            title={t('settings.model.bugNet')}
+            meta={t('settings.model.bugNetMeta')}
+            statusText={t('settings.model.ready')}
             statusBg={PB.green}
             statusFg={PB.cream}
           />
@@ -223,9 +221,12 @@ export function Settings() {
           <ModelTile
             icon="🧠"
             color={PB.pink}
-            title="Larva-3B (Q4)"
-            meta={`Chat model · ${(1.9 * (pct / 100)).toFixed(1)} / 1.9 GB · ${downloading ? '~2 min left' : 'installed'}`}
-            statusText={downloading ? `↓ ${pct}%` : 'READY'}
+            title={t('settings.model.larva')}
+            meta={t('settings.model.larvaMeta', {
+              pct: `${(1.9 * (pct / 100)).toFixed(1)} GB`,
+              state: downloading ? t('settings.model.larvaEta') : t('settings.model.larvaInstalled'),
+            })}
+            statusText={downloading ? t('settings.model.downloading', { pct }) : t('settings.model.ready')}
             statusBg={downloading ? PB.yellow : PB.green}
             statusFg={downloading ? PB.ink : PB.cream}
             progressPct={pct}
@@ -237,9 +238,9 @@ export function Settings() {
           <ModelTile
             icon="📚"
             color={PB.orange}
-            title="Species Database"
-            meta="Facts & habitats · 88 MB · v2026.04"
-            statusText="READY"
+            title={t('settings.model.species')}
+            meta={t('settings.model.speciesMeta')}
+            statusText={t('settings.model.ready')}
             statusBg={PB.green}
             statusFg={PB.cream}
           />
@@ -249,12 +250,16 @@ export function Settings() {
           <View style={[styles.bandHeader, { backgroundColor: PB.green }]}>
             <Text style={{ fontSize: 26 }}>🗺️</Text>
             <View style={{ flex: 1, minWidth: 0 }}>
-              <Text style={styles.bandTitle}>Regional packs</Text>
-              <Text style={styles.bandSub}>Boosts ID accuracy where you actually are.</Text>
+              <Text style={styles.bandTitle}>{t('settings.regionsBand')}</Text>
+              <Text style={styles.bandSub}>{t('settings.regionsSub')}</Text>
             </View>
             <View style={styles.regionMetaPill}>
               <Text style={styles.regionMetaText}>
-                {installedCount}/{REGIONS.length} · {totalInstalledMb} MB
+                {t('settings.regionMeta', {
+                  installed: installedCount,
+                  total: REGIONS.length,
+                  mb: totalInstalledMb,
+                })}
               </Text>
             </View>
           </View>
@@ -291,11 +296,11 @@ export function Settings() {
                     <Text style={{ fontSize: 18 }}>{region.emoji}</Text>
                   </View>
                   <View style={{ flex: 1, minWidth: 0 }}>
-                    <Text style={styles.regionName}>{region.name}</Text>
+                    <Text style={styles.regionName}>{t(`regions.list.${region.id}.name`)}</Text>
                     <Text style={styles.regionSub}>
                       {isDownloading
-                        ? `Downloading · ${Math.floor(downloadPct)}% · ${region.size} MB`
-                        : `${region.sub} · ${region.size} MB`}
+                        ? t('settings.regionDownloading', { pct: Math.floor(downloadPct), mb: region.size })
+                        : `${t(`regions.list.${region.id}.sub`)} · ${region.size} MB`}
                     </Text>
                   </View>
                   <View
@@ -317,18 +322,16 @@ export function Settings() {
                       ]}
                     >
                       {isInstalled
-                        ? '✓ ON DEVICE'
+                        ? t('settings.regionInstalled')
                         : isDownloading
                         ? `${Math.floor(downloadPct)}%`
-                        : '↓ GET'}
+                        : t('settings.regionGet')}
                     </Text>
                   </View>
                 </Pressable>
               );
             })}
-            <Text style={styles.regionFoot}>
-              Packs run fully offline. Tap an installed pack to see what's inside.
-            </Text>
+            <Text style={styles.regionFoot}>{t('settings.regionFoot')}</Text>
           </View>
         </Sticker>
 
@@ -336,19 +339,19 @@ export function Settings() {
           <View style={[styles.bandHeader, { backgroundColor: PB.purple }]}>
             <Text style={{ fontSize: 26 }}>💬</Text>
             <View style={{ flex: 1, minWidth: 0 }}>
-              <Text style={styles.bandTitle}>Language</Text>
+              <Text style={styles.bandTitle}>{t('settings.languageBand')}</Text>
               <Text style={styles.bandSub}>
-                For UI, species names, and {P.name.split(' ').pop()}'s sass.
+                {t('settings.languageSub', { name: personaShort })}
               </Text>
             </View>
           </View>
           <View style={styles.langGrid}>
-            {LANGUAGES.map((L) => {
-              const active = lang === L.id;
+            {LANG_META.map((L) => {
+              const active = language === L.id;
               return (
                 <Pressable
                   key={L.id}
-                  onPress={() => setLang(L.id)}
+                  onPress={() => setLanguage(L.id as LangId)}
                   style={[
                     styles.langCell,
                     {
@@ -368,7 +371,7 @@ export function Settings() {
                         { color: active ? PB.cream : PB.ink, opacity: active ? 0.85 : 0.55 },
                       ]}
                     >
-                      {L.label}
+                      {L.english}
                     </Text>
                   </View>
                   {active && <Text style={{ color: PB.cream, fontWeight: '800', fontSize: 14 }}>✓</Text>}
@@ -381,20 +384,20 @@ export function Settings() {
         <View style={styles.quickRow}>
           <Sticker bg={PB.pink} style={styles.quickTile} onPress={() => go('friends')}>
             <Text style={{ fontSize: 26 }}>🐜</Text>
-            <Text style={styles.quickTitle}>Naturalists</Text>
-            <Text style={styles.quickSub}>Friends & follows</Text>
+            <Text style={styles.quickTitle}>{t('settings.naturalistsTile')}</Text>
+            <Text style={styles.quickSub}>{t('settings.naturalistsSub')}</Text>
           </Sticker>
           <Sticker bg={PB.blue} style={styles.quickTile} onPress={() => go('help')}>
             <Text style={{ fontSize: 26 }}>📖</Text>
-            <Text style={styles.quickTitle}>Help & About</Text>
-            <Text style={styles.quickSub}>FAQ · data export</Text>
+            <Text style={styles.quickTitle}>{t('settings.helpTile')}</Text>
+            <Text style={styles.quickSub}>{t('settings.helpSub')}</Text>
           </Sticker>
         </View>
 
         <Sticker bg={PB.yellow} rotate={-1} style={styles.creditsCard} onPress={() => setCreditsOpen(true)}>
-          <Text style={styles.creditsTitle}>Free forever. No ads. No tracking.</Text>
-          <Text style={styles.creditsSub}>Built with love by 3 people who really like beetles.</Text>
-          <Text style={styles.creditsCta}>VIEW CREDITS →</Text>
+          <Text style={styles.creditsTitle}>{t('settings.creditsTitle')}</Text>
+          <Text style={styles.creditsSub}>{t('settings.creditsSub')}</Text>
+          <Text style={styles.creditsCta}>{t('settings.viewCredits')}</Text>
         </Sticker>
       </ScrollView>
 

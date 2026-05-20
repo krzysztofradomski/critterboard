@@ -3,27 +3,30 @@ import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-
 
 import { TabBar } from '@/components/TabBar';
 import { BUGS } from '@/data/bugs';
+import { useT, bugName } from '@/i18n/helpers';
 import { PB, RARITY_COLOR } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
-const FILTERS = ['All', 'Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'] as const;
-type Filter = (typeof FILTERS)[number];
+const FILTER_KEYS = ['all', 'common', 'uncommon', 'rare', 'epic', 'legendary'] as const;
+type FilterKey = (typeof FILTER_KEYS)[number];
 
 export function Dex() {
   const { go } = useNav();
   const dex = useAppStore((s) => s.dex);
-  const [filter, setFilter] = useState<Filter>('All');
+  const language = useAppStore((s) => s.language);
+  const t = useT();
+  const [filter, setFilter] = useState<FilterKey>('all');
   const [query, setQuery] = useState('');
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return BUGS.filter((b) => {
-      if (filter !== 'All' && b.rarity !== filter.toLowerCase()) return false;
+      if (filter !== 'all' && b.rarity !== filter) return false;
       if (!q) return true;
       if (dex.has(b.id)) {
         return (
-          b.name.toLowerCase().includes(q) ||
+          bugName(language, b.id).toLowerCase().includes(q) ||
           b.latin.toLowerCase().includes(q) ||
           b.rarity.includes(q)
         );
@@ -35,19 +38,20 @@ export function Dex() {
       }
       return false;
     });
-  }, [filter, query, dex]);
+  }, [filter, query, dex, language]);
 
   const total = BUGS.length;
   const caught = dex.size;
   const pct = Math.round((100 * caught) / total);
+  const rarities = FILTER_KEYS.slice(1).map((k) => t(`dex.filter.${k}`).toLowerCase()).join(', ');
 
   return (
     <View style={styles.root}>
       <View style={styles.header}>
         <View style={styles.headTop}>
           <View>
-            <Text style={styles.title}>My Dex</Text>
-            <Text style={styles.sub}>{caught} of {total} caught</Text>
+            <Text style={styles.title}>{t('dex.title')}</Text>
+            <Text style={styles.sub}>{t('dex.caughtOf', { caught, total })}</Text>
           </View>
           <View style={styles.pctBubble}>
             <Text style={styles.pctText}>{pct}%</Text>
@@ -63,7 +67,7 @@ export function Dex() {
             <TextInput
               value={query}
               onChangeText={setQuery}
-              placeholder="Search by name, latin, rarity…"
+              placeholder={t('dex.searchPlaceholder')}
               placeholderTextColor={PB.ink + '99'}
               style={styles.searchInput}
             />
@@ -76,7 +80,7 @@ export function Dex() {
         </View>
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 10 }} contentContainerStyle={{ gap: 8, paddingRight: 16 }}>
-          {FILTERS.map((c) => (
+          {FILTER_KEYS.map((c) => (
             <Pressable
               key={c}
               onPress={() => setFilter(c)}
@@ -88,7 +92,7 @@ export function Dex() {
                 },
               ]}
             >
-              <Text style={styles.filterText}>{c}</Text>
+              <Text style={styles.filterText}>{t(`dex.filter.${c}`)}</Text>
             </Pressable>
           ))}
         </ScrollView>
@@ -98,13 +102,9 @@ export function Dex() {
         {filtered.length === 0 ? (
           <View style={styles.empty}>
             <Text style={{ fontSize: 56 }}>🪰</Text>
-            <Text style={styles.emptyTitle}>Nothing matches "{query}"</Text>
-            <Text style={styles.emptyDesc}>
-              Try fewer letters, a latin name, or a rarity ({FILTERS.slice(1).map((f) => f.toLowerCase()).join(', ')}).
-            </Text>
-            <Text style={styles.emptyHint}>
-              Tip: prefix with <Text style={styles.bold}>?</Text> to search uncaught slots by number (e.g. <Text style={styles.bold}>?7</Text>)
-            </Text>
+            <Text style={styles.emptyTitle}>{t('dex.emptyTitle', { query })}</Text>
+            <Text style={styles.emptyDesc}>{t('dex.emptyDesc', { rarities })}</Text>
+            <Text style={styles.emptyHint}>{t('dex.emptyHint')}</Text>
           </View>
         ) : (
           <ScrollView contentContainerStyle={styles.grid}>
@@ -135,7 +135,9 @@ export function Dex() {
                       {b.emoji}
                     </Text>
                   </View>
-                  <Text style={styles.cellName}>{isCaught ? b.name : '???'}</Text>
+                  <Text style={styles.cellName}>
+                    {isCaught ? bugName(language, b.id) : t('dex.uncaughtName')}
+                  </Text>
                   <Text style={styles.cellId}>#{String(BUGS.indexOf(b) + 1).padStart(3, '0')}</Text>
                 </Pressable>
               );
@@ -273,5 +275,4 @@ const styles = StyleSheet.create({
   emptyTitle: { marginTop: 8, fontSize: 18, fontWeight: '800', color: PB.ink },
   emptyDesc: { marginTop: 4, fontSize: 13, color: PB.ink, opacity: 0.7, fontWeight: '600', textAlign: 'center' },
   emptyHint: { marginTop: 10, fontSize: 10, color: PB.ink, opacity: 0.55, textAlign: 'center' },
-  bold: { fontWeight: '800' },
 });

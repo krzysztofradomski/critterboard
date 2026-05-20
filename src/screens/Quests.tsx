@@ -7,7 +7,8 @@ import { QuestCard } from '@/components/QuestCard';
 import { QuestDialog } from '@/components/QuestDialog';
 import { BADGES, BADGES_TOTAL, type Badge } from '@/data/badges';
 import { COMPLETED_QUESTS, QUESTS } from '@/data/quests';
-import { PERSONAS } from '@/personas';
+import { useT } from '@/i18n/helpers';
+import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
@@ -15,7 +16,8 @@ import { useNav } from '@/store/useNav';
 export function Quests() {
   const { go } = useNav();
   const persona = useAppStore((s) => s.persona);
-  const P = PERSONAS[persona];
+  const P = usePersona(persona);
+  const t = useT();
 
   const [openId, setOpenId] = useState<string | null>(null);
   const [openBadgeId, setOpenBadgeId] = useState<string | null>(null);
@@ -29,18 +31,18 @@ export function Quests() {
       <View style={styles.header}>
         <View style={styles.headTop}>
           <View>
-            <Text style={styles.title}>Quests</Text>
-            <Text style={styles.sub}>Earn XP · Beat the bugs</Text>
+            <Text style={styles.title}>{t('quests.title')}</Text>
+            <Text style={styles.sub}>{t('quests.sub')}</Text>
           </View>
           <View style={styles.levelBox}>
-            <Text style={styles.levelLabel}>LEVEL</Text>
+            <Text style={styles.levelLabel}>{t('quests.levelLabel')}</Text>
             <Text style={styles.levelValue}>12</Text>
           </View>
         </View>
         <View style={{ marginTop: 14 }}>
           <View style={styles.xpRow}>
-            <Text style={styles.xpText}>388 XP</Text>
-            <Text style={styles.xpText}>1000 XP → LV.13</Text>
+            <Text style={styles.xpText}>{t('quests.xpCurrent')}</Text>
+            <Text style={styles.xpText}>{t('quests.xpNext')}</Text>
           </View>
           <View style={styles.xpBar}>
             <View style={styles.xpFill} />
@@ -50,17 +52,17 @@ export function Quests() {
 
       <View style={styles.list}>
         <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
-          <Text style={styles.section}>◇ DAILY · RESETS IN 8H</Text>
+          <Text style={styles.section}>{t('quests.daily')}</Text>
           {QUESTS.filter((q) => q.kind === 'daily').map((q) => (
             <QuestCard key={q.id} quest={q} accent={PB.green} onPress={() => setOpenId(q.id)} />
           ))}
-          <Text style={[styles.section, { marginTop: 16 }]}>◆ WEEKLY</Text>
+          <Text style={[styles.section, { marginTop: 16 }]}>{t('quests.weekly')}</Text>
           {QUESTS.filter((q) => q.kind === 'weekly').map((q) => (
             <QuestCard key={q.id} quest={q} accent={PB.purple} onPress={() => setOpenId(q.id)} />
           ))}
 
           <Text style={[styles.section, { marginTop: 18 }]}>
-            ★ BADGES ({BADGES.filter((b) => b.unlocked).length} OF {BADGES_TOTAL})
+            {t('quests.badges', { earned: BADGES.filter((b) => b.unlocked).length, total: BADGES_TOTAL })}
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingBottom: 6 }}>
             {BADGES.map((b) => (
@@ -77,7 +79,7 @@ export function Quests() {
                   <Text style={{ fontSize: 30 }}>{b.unlocked ? b.icon : '?'}</Text>
                 </View>
                 <Text numberOfLines={1} style={styles.badgeName}>
-                  {b.unlocked ? b.name : '???'}
+                  {b.unlocked ? t(`badges.items.${b.id}.name`) : t('badges.uncaughtName')}
                 </Text>
               </Pressable>
             ))}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { useT } from '@/i18n/helpers';
 import { PB } from '@/tokens/pb';
 import type { Quest } from '@/data/quests';
 
@@ -13,11 +14,12 @@ export function QuestCard({
   accent: string;
   onPress?: () => void;
 }) {
+  const t = useT();
   const pct = (100 * quest.progress) / quest.total;
   return (
     <Pressable onPress={onPress} style={styles.card}>
       <View style={styles.row}>
-        <Text style={styles.label}>{quest.label}</Text>
+        <Text style={styles.label}>{t(`quests.labels.${quest.id}`)}</Text>
         <View style={[styles.pill, { backgroundColor: accent }]}>
           <Text style={styles.pillText}>+{quest.reward} XP</Text>
         </View>

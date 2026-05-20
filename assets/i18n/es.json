@@ -1,0 +1,827 @@
+{
+  "version": 1,
+  "lang": "es",
+  "nativeName": "Español",
+  "englishName": "Spanish",
+  "flag": "🇪🇸",
+  "strings": {
+    "common": {
+      "back": "Atrás",
+      "close": "Cerrar",
+      "share": "Compartir",
+      "loading": "Cargando…",
+      "you": "tú",
+      "youParen": "(tú)",
+      "yes": "Sí",
+      "no": "No",
+      "cancel": "Cancelar",
+      "retry": "Reintentar",
+      "ok": "OK",
+      "open": "Abrir",
+      "level": "nivel"
+    },
+    "tabs": {
+      "home": "Inicio",
+      "scan": "Escanear",
+      "dex": "Dex",
+      "map": "Mapa",
+      "me": "Yo"
+    },
+    "meSub": {
+      "quests": "Misiones",
+      "leaderboard": "Rangos",
+      "settings": "Cerebro"
+    },
+    "onboarding": {
+      "title": "Critterboard",
+      "tagline": "id cualquier bicho · sin conexión · con estilo",
+      "snap": "📷 FOTOGRAFÍA UN BICHO",
+      "sassyId": "🤖 ID CON SALERO",
+      "buildDex": "🏆 CONSTRUYE TU DEX",
+      "pickGuide": "ELIGE TU GUÍA",
+      "startHunting": "A cazar →",
+      "legal": "✓ sin cuenta · ✓ sin internet · ✓ sin $$"
+    },
+    "home": {
+      "streakPill": "racha de {days} días",
+      "bugOfDay": "BICHO DEL DÍA",
+      "bugOfDayName": "Polilla Luna 🌙",
+      "legendary": "★★★★★ LEGENDARIO",
+      "hunt": "CAZAR →",
+      "bugOfDayDesc": "Captura uno hoy por",
+      "bugOfDayXp": " +500 XP ",
+      "bugOfDayDescTail": " y una insignia brillante.",
+      "yourWeek": "Tu semana",
+      "daysToBadge": "{n} días para la insignia",
+      "chatCta": "CHARLA CON {name} →",
+      "stat": {
+        "caught": "CAPTURADOS",
+        "xp": "XP",
+        "rank": "PUESTO"
+      }
+    },
+    "scan": {
+      "analyzing": "ANALIZANDO…",
+      "scanning": "SIN RED · ESCANEANDO",
+      "permissionTitle": "Acceso a la cámara",
+      "permissionAsk": "Pulsa permitir para que Critterboard vea el bicho. Las fotos nunca salen del dispositivo.",
+      "permissionDenied": "Cámara denegada. Actívala en Ajustes → Critterboard → Cámara.",
+      "allowCamera": "Permitir cámara",
+      "focus": "enfoque",
+      "matching": "buscando coincidencia…"
+    },
+    "result": {
+      "headTitle": "¡IDENTIFICADO!",
+      "confidence": "CONFIANZA",
+      "alreadyInDex": "Ya en tu Dex ✓",
+      "addToDex": "Añadir al Dex 📔",
+      "askCta": "PREGUNTA A {name} →",
+      "caughtToast": "¡Capturado! +{xp} XP · {tier}"
+    },
+    "facts": {
+      "habitat": "Hábitat",
+      "wingspan": "Envergadura",
+      "range": "Distribución",
+      "diet": "Dieta",
+      "active": "Activo",
+      "size": "Tamaño",
+      "various": "Varios",
+      "unknown": "—",
+      "values": {
+        "meadows": "Prados",
+        "forests": "Bosques",
+        "hives": "Colmenas",
+        "monaWingspan": "8,9–10,2 cm",
+        "lhocWingspan": "10–11 cm",
+        "hcatWingspan": "1,2 cm",
+        "naRange": "Norteamérica",
+        "naEastRange": "Este de Norteamérica",
+        "worldwide": "Mundial",
+        "milkweed": "Algodoncillo",
+        "nighttime": "Nocturno",
+        "nectar": "Néctar"
+      }
+    },
+    "disambiguate": {
+      "headTitle": "NO MUY SEGURO",
+      "lowConfidence": "POCA CONFIANZA · 62%",
+      "shotMeta": "📷 1/250s · borroso",
+      "topCandidates": "MEJORES CANDIDATOS",
+      "tapToConfirm": "pulsa para confirmar",
+      "askForHelp": "Pide ayuda a {name} →",
+      "noneOfThese": "Ninguno de estos",
+      "thisMystery": "este bicho misterioso",
+      "foot": "ID ejecutada en el dispositivo · 320 ms · ninguna foto salió del teléfono"
+    },
+    "noMatch": {
+      "headTitle": "SIN COINCIDENCIA",
+      "heroTitle": "No pude identificar este.",
+      "heroSub": "BugNet v3 devolvió todos los candidatos por debajo del 15%.",
+      "tryThis": "PRUEBA ESTO",
+      "tip": {
+        "lightTitle": "Más luz",
+        "lightDesc": "Sal al sol o usa el flash. La sombra se come los detalles.",
+        "frameTitle": "Llena el encuadre",
+        "frameDesc": "Acércate a 20 cm y recorta ajustado al cuerpo.",
+        "backdropTitle": "Fondo limpio",
+        "backdropDesc": "Menos follaje ayuda al modelo a enfocar.",
+        "profileTitle": "Perfil lateral",
+        "profileDesc": "Alas y patas visibles de lado son lo más fácil."
+      },
+      "saveTitle": "¿Guardar como Desconocido?",
+      "saveDesc": "Guarda la foto en tu diario. Vuelve a identificarla cuando mejoren los modelos.",
+      "tryAgain": "📷 Intentar de nuevo",
+      "saveAndHome": "Guardar y volver"
+    },
+    "dex": {
+      "title": "Mi Dex",
+      "caughtOf": "{caught} de {total} capturados",
+      "searchPlaceholder": "Buscar por nombre, latín, rareza…",
+      "filter": {
+        "all": "Todos",
+        "common": "Común",
+        "uncommon": "Poco común",
+        "rare": "Raro",
+        "epic": "Épico",
+        "legendary": "Legendario"
+      },
+      "emptyTitle": "Nada coincide con \"{query}\"",
+      "emptyDesc": "Prueba menos letras, un nombre latino o una rareza ({rarities}).",
+      "emptyHint": "Truco: añade ? para buscar huecos sin capturar por número (p. ej. ?7)",
+      "uncaughtName": "???"
+    },
+    "chat": {
+      "localStatus": "● local · {title}",
+      "inputPlaceholder": "Pregunta sobre este bicho…"
+    },
+    "activity": {
+      "title": "Zumbido",
+      "sub": "{n} novedades desde que abriste la app",
+      "tab": {
+        "all": "Todo",
+        "social": "Social",
+        "system": "Sistema"
+      },
+      "emptyTitle": "Grillos.",
+      "emptySub": "Aún no hay nada aquí.",
+      "newBadge": "NUEVO",
+      "item": {
+        "a1Title": "A antqueen le gustó tu Monarca",
+        "a1Sub": "hace 2 h · grupo Brooklyn",
+        "a1Cta": "Ver avistamiento",
+        "a2Title": "Larva-3B v1.4 lista para instalar",
+        "a2Sub": "Chistes nuevos. Mismo rollo. 240 MB.",
+        "a2Cta": "Actualizar",
+        "a3Title": "¡Racha de 4 días! No la rompas",
+        "a3Sub": "Captura un bicho hoy. Aunque sea un sírfido.",
+        "a3Cta": "Abrir escaneo",
+        "a4Title": "Superaste a bug_dad_42",
+        "a4Sub": "Eres el #6 del ranking global.",
+        "a4Cta": "Ranking",
+        "a5Title": "Misión completa: 3 polinizadores",
+        "a5Sub": "+75 XP. Recompensa desbloqueada.",
+        "a5Cta": "Reclamar",
+        "a6Title": "mothwhisperer atrapó una Polilla Luna",
+        "a6Sub": "a 420 m de ti · hace 6 h",
+        "a6Cta": "Ver en mapa",
+        "a7Title": "Pack regional: Nordeste NA",
+        "a7Sub": "Nuevo índice de temporada sincronizado (+38 especies).",
+        "a7Cta": "Ver pack",
+        "a8Title": "wingedfren respondió en tu hilo de sírfidos",
+        "a8Sub": "\"Casi seguro un Marmalade — bandas en las alas.\"",
+        "a8Cta": "Abrir chat",
+        "a8Topic": "Sírfidos"
+      }
+    },
+    "friends": {
+      "title": "Naturalistas",
+      "sub": "A quién sigues · sus bichos",
+      "tab": {
+        "following": "Siguiendo",
+        "followers": "Seguidores",
+        "suggested": "Sugeridos"
+      },
+      "follow": "+ Seguir",
+      "following": "✓ Siguiendo",
+      "ago": "hace {when}",
+      "emptyTitle": "Aún no hay nadie.",
+      "emptySub": "Mira la pestaña Sugeridos para encontrar naturalistas como tú."
+    },
+    "person": {
+      "rank": "PUESTO #{rank}",
+      "location": "{city} · {country} · nivel {level}",
+      "recentCatches": "CAPTURAS RECIENTES",
+      "noCatches": "Sin capturas públicas.",
+      "mutualOne": "{n} seguidor en común",
+      "mutualMany": "{n} seguidores en común",
+      "stat": {
+        "xp": "XP",
+        "caught": "CAPTURADOS",
+        "joined": "DESDE"
+      },
+      "catchesOnMap": "📍 Capturas en el mapa",
+      "theirDex": "📔 Su dex",
+      "blockReport": "Bloquear · Reportar",
+      "defaultBio": "Sin bio todavía.",
+      "country": {
+        "JP": "Japón",
+        "DE": "Alemania",
+        "BR": "Brasil",
+        "US": "EE. UU.",
+        "CA": "Canadá",
+        "UK": "Reino Unido",
+        "AU": "Australia",
+        "NL": "Países Bajos",
+        "IE": "Irlanda",
+        "private": "privado"
+      },
+      "bio": {
+        "mothwhisperer": "Solo polillas. Sobre todo Saturniidae.",
+        "bug_dad_42": "Fan de coleópteros. También padre.",
+        "antqueen": "Formicidae para siempre. Sin discusión.",
+        "chitin_chris": "Huevos, ootecas, mudas.",
+        "wingedfren": "Los sírfidos son perfectos, en serio.",
+        "you": "Racha de 4 días. Sobre todo polinizadores.",
+        "larva_loyd": "Chico oruga. No las acaricies.",
+        "molt_master": "Arácnido. (Ya, no es un bicho.)",
+        "cricketwitch": "Ortópteros al atardecer.",
+        "pillbug_dot": "Curiosa de isópodos. Especialista en jardines.",
+        "aphid_attic": "Solo mirando."
+      },
+      "friend": {
+        "atlasMothLast": "Polilla Atlas",
+        "stagBeetleLast": "Escarabajo ciervo",
+        "bulletAntLast": "Hormiga bala",
+        "eggCaseLast": "Ooteca",
+        "hoverflyLast": "Sírfido",
+        "ladybirdLast": "Mariquita",
+        "huntsmanLast": "Araña cazadora",
+        "fieldCricketLast": "Grillo común",
+        "pillbugLast": "Cochinilla",
+        "greenflyLast": "Pulgón"
+      },
+      "why": {
+        "sharedBugs": "capturó 4 de los mismos bichos",
+        "brooklyn": "en el grupo Brooklyn",
+        "viaMothwhisperer": "sigue a mothwhisperer"
+      }
+    },
+    "leaderboard": {
+      "title": "Ranking",
+      "sub": "Resetea en 3d 14h · 482k entrenadores",
+      "tab": {
+        "global": "Global",
+        "weekly": "Semanal",
+        "friends": "Amigos"
+      },
+      "meta": "{country} · nivel 12",
+      "hiddenTitle": "Estás oculto en el ranking",
+      "hiddenDesc": "Activa \"Mostrarme en el ranking\" para aparecer.",
+      "fix": "ARREGLAR →"
+    },
+    "map": {
+      "locName": "Brooklyn, NY",
+      "locSub": "{n} avistamientos · últimos 30 días",
+      "sightings": "{n}× avistamientos",
+      "distance": "0,6 km",
+      "where": "Prospect Park · hace 2 días",
+      "hunt": "CAZAR →"
+    },
+    "permissions": {
+      "title": "Tres preguntas rápidas.",
+      "sub": "Puedes cambiarlas luego en Cerebro.",
+      "need": {
+        "required": "Obligatorio",
+        "recommended": "Recomendado",
+        "optional": "Opcional"
+      },
+      "allowed": "✓ PERMITIDO",
+      "skipped": "OMITIDO",
+      "notNow": "Ahora no",
+      "requiredBtn": "Obligatorio",
+      "allow": "Permitir",
+      "continue": "Continuar →",
+      "decideRest": "Decide sobre los demás",
+      "cameraRequired": "La cámara es obligatoria",
+      "readyToast": "¡Listo para cazar!",
+      "items": {
+        "camera": {
+          "title": "Cámara",
+          "desc": "Foto al bicho, ID al momento. Las fotos nunca salen del dispositivo.",
+          "b1": "ML solo en el dispositivo",
+          "b2": "Sin subidas a la nube",
+          "b3": "Sin compartir metadatos de foto"
+        },
+        "location": {
+          "title": "Ubicación",
+          "desc": "Mejor filtrado por rango — el modelo sabe qué vive cerca.",
+          "b1": "Difuminado a nivel ciudad (~5 km)",
+          "b2": "Permanece en el dispositivo si no compartes",
+          "b3": "Desactivable en cualquier momento"
+        },
+        "notifs": {
+          "title": "Notificaciones",
+          "desc": "Recordatorio diario de racha + Bicho del Día. Nada de spam.",
+          "b1": "Máximo un aviso al día",
+          "b2": "Sin marketing ni cebos",
+          "b3": "Desactivado por defecto tras 7 días sin uso"
+        }
+      }
+    },
+    "quests": {
+      "title": "Misiones",
+      "sub": "Gana XP · Vence a los bichos",
+      "levelLabel": "NIVEL",
+      "xpCurrent": "388 XP",
+      "xpNext": "1000 XP → LV.13",
+      "daily": "◇ DIARIA · RESET EN 8H",
+      "weekly": "◆ SEMANAL",
+      "badges": "★ INSIGNIAS ({earned} DE {total})",
+      "completed": "MISIONES COMPLETADAS",
+      "completedSub": "{n} hechas · {xp} XP ganados",
+      "kindDaily": "diaria",
+      "kindWeekly": "semanal",
+      "labels": {
+        "q1": "Identifica 3 polinizadores",
+        "q2": "Captura un escarabajo",
+        "q3": "Encuentra un Legendario",
+        "q4": "Racha de 7 días"
+      },
+      "completedLabels": {
+        "c1": "Identifica 5 polinizadores",
+        "c2": "Captura una mariposa",
+        "c3": "Racha de 3 días",
+        "c4": "Primera ID nocturna",
+        "c5": "Identifica 10 en una semana",
+        "c6": "Captura un escarabajo",
+        "c7": "Primera Captura"
+      },
+      "completedDates": {
+        "c1": "Hoy",
+        "c2": "Ayer",
+        "c3": "hace 2 días",
+        "c4": "9 may",
+        "c5": "6 may",
+        "c6": "2 may",
+        "c7": "12 abr"
+      },
+      "dialog": {
+        "weeklyChip": "◆ SEMANAL",
+        "dailyChip": "◇ DIARIA",
+        "xpChip": "+{xp} XP",
+        "progress": "PROGRESO",
+        "tipsFrom": "CONSEJOS DE {name}",
+        "later": "Después",
+        "start": "Empezar caza 📷"
+      },
+      "details": {
+        "q1": {
+          "desc": "Los polinizadores mantienen el mundo. Encuentra e identifica tres hoy — abejas, mariposas, sírfidos, escarabajos, cualquiera que visite una flor.",
+          "tip1": "Las abejas cuentan, los sírfidos cuentan, incluso escarabajos sobre flores cuentan.",
+          "tip2": "Sol de la mañana + parche florido es el truco."
+        },
+        "q2": {
+          "desc": "Escarabajos. Crujientes. Incomprendidos. Caza cualquier especie del orden Coleoptera.",
+          "tip1": "Voltea un tronco (con cuidado) — a la mayoría les encanta la oscuridad.",
+          "tip2": "Prueba el envés de las hojas al atardecer."
+        },
+        "q3": {
+          "desc": "Un trofeo de verdad. Caza un insecto legendario esta semana. Polilla Luna, Atlas o cualquiera con cinco estrellas.",
+          "tip1": "Los legendarios se agrupan al atardecer cerca de luces de porche.",
+          "tip2": "Mira el Mapa para avistamientos raros recientes cerca."
+        },
+        "q4": {
+          "desc": "Identifica al menos un bicho al día durante siete días seguidos. Da igual cuál — una hormiga vale.",
+          "tip1": "¿Te saltaste un día? Te curte. Vuelve a empezar.",
+          "tip2": "Pon un recordatorio al llegar a 5 — la recta final es brutal."
+        }
+      }
+    },
+    "badges": {
+      "lockedPill": "🔒 BLOQUEADA",
+      "earnedPill": "✓ OBTENIDA",
+      "hiddenName": "Insignia oculta",
+      "uncaughtName": "???",
+      "how": "CÓMO",
+      "gotIt": "Entendido",
+      "items": {
+        "b1": {
+          "name": "Primera Captura",
+          "earned": "12 abr",
+          "desc": "Tu primerísima ID. Bienvenido al club — todo naturalista la lleva al inicio de su libreta.",
+          "crit": "Identifica tu primer bicho."
+        },
+        "b2": {
+          "name": "Racha 3",
+          "earned": "4 may",
+          "desc": "Tres días seguidos prestando atención. Lo difícil es empezar; lo más difícil, aparecer mañana.",
+          "crit": "Identifica al menos un bicho tres días seguidos."
+        },
+        "b3": {
+          "name": "Búho Nocturno",
+          "earned": "9 may",
+          "desc": "Saliste al oscurecer con linterna y algo te devolvió la mirada. Las polillas te saludan.",
+          "crit": "Identifica un bicho entre las 21:00 y las 4:00."
+        },
+        "b4": {
+          "name": "Amigo Polinizador",
+          "desc": "Para los amigos de las flores. Abejas, mariposas, sírfidos, escarabajos — todo lo que va al néctar.",
+          "crit": "Identifica 10 polinizadores distintos."
+        },
+        "b5": {
+          "name": "Divisor",
+          "desc": "Distingues un sírfido de una avispa a veinte pasos. Los unificadores te temen.",
+          "crit": "Distingue correctamente 5 especies mimicas."
+        },
+        "b6": {
+          "name": "Centurión",
+          "desc": "Cien IDs. La clase de hito que merece un lacito dorado.",
+          "crit": "Llega a 100 identificaciones totales."
+        },
+        "b7": {
+          "name": "???",
+          "desc": "Bloqueada. Sigue cazando y se revelará.",
+          "crit": "Oculta hasta que la ganes."
+        },
+        "b8": {
+          "name": "???",
+          "desc": "Bloqueada. Sigue cazando y se revelará.",
+          "crit": "Oculta hasta que la ganes."
+        }
+      }
+    },
+    "streak": {
+      "headTitle": "RACHA",
+      "dayOnFire": "Día {n} en llamas.",
+      "stat": {
+        "current": "ACTUAL",
+        "best": "MEJOR",
+        "caught": "CAPTURADOS"
+      },
+      "currentValue": "{n}d",
+      "bestValue": "{n}d",
+      "calTitle": "Últimas 5 semanas",
+      "calRange": "14 abr → 18 may",
+      "legend": {
+        "caught": "Capturado",
+        "freeze": "Congelar",
+        "missed": "Perdido"
+      },
+      "freezeTitle": "Congeladores de racha",
+      "freezeDesc": "Se usan solos en un día perdido para que la racha siga. Ganas uno cada 7 días.",
+      "keepAlive": "📷 Mantén la racha viva"
+    },
+    "soundId": {
+      "modeCam": "📷 CÁM",
+      "modeSound": "🔊 SONIDO",
+      "stageRec": "● REC",
+      "stageMatch": "✓ MATCH",
+      "stageIdle": "○ INACTIVO",
+      "stageLive": "−18 dB · pico 4,2 kHz",
+      "stageQuiet": "— dB · — kHz",
+      "statusIdle": "PULSA EL MICRO PARA OÍR",
+      "statusMatch": "PROBABLE COINCIDENCIA",
+      "statusListen": "ESCUCHANDO…",
+      "modelMeta": "BugNet-Audio · 38 MB",
+      "micIdle": "PULSA PARA OÍR · HASTA 30s",
+      "micRec": "PULSA PARA PARAR",
+      "micMatch": "PULSA PARA CONFIRMAR",
+      "cand": {
+        "cica": {
+          "name": "Cigarra Periódica",
+          "hint": "Zumbido agudo · 4–6 kHz"
+        },
+        "mant": {
+          "name": "Mantis Religiosa",
+          "hint": "Roce suave · micro cercano"
+        },
+        "fire": {
+          "name": "Luciérnaga Común",
+          "hint": "Sin canto · falso positivo"
+        }
+      },
+      "sass": {
+        "larva": {
+          "idle": "Apunta el teléfono al ruido. Yo haré mi trabajo.",
+          "matched": "Coincidencia bloqueada. Que no se diga que no hice nada por ti.",
+          "listening": "Filtrando tu respiración. Respiras mucho."
+        },
+        "snail": {
+          "idle": "Sujeta el teléfono firme. Bastan unos segundos limpios.",
+          "matched": "Coincidencia clara. Encantador.",
+          "listening": "Escuchando con calma. El patrón aparece."
+        },
+        "maywind": {
+          "idle": "¡Ooh ooh — vamos a oír ese zumbido!",
+          "matched": "¡CLAVADO! ¡Mira esa señal!",
+          "listening": "¡Captando algo chulo — sigue así!"
+        }
+      }
+    },
+    "settings": {
+      "title": "Cerebro en el dispositivo",
+      "sub": "Todo corre en tu teléfono. Palabra.",
+      "guideTitle": "Tu guía",
+      "profileBand": "Perfil y privacidad",
+      "profileLeaks": "Algunos datos podrían salir del dispositivo.",
+      "profileSafe": "Cero datos salen del dispositivo.",
+      "displayName": "NOMBRE EN PANTALLA",
+      "namePlaceholder": "tu apodo de entrenador",
+      "nameHint": "Visible en el ranking y avistamientos compartidos.",
+      "privacy": "PRIVACIDAD",
+      "networkLabel": "Acceso a la red",
+      "networkOn": "Funciones online disponibles.",
+      "networkOff": "Totalmente offline. Recomendado.",
+      "boardLabel": "Mostrarme en el ranking",
+      "boardOn": "Tu XP y nombre aparecen globalmente.",
+      "boardNeeds": "Requiere acceso a la red.",
+      "locShareLabel": "Compartir ubicaciones de avistamientos",
+      "locShareOn": "Pines añadidos al mapa público (±500m de difuminado).",
+      "locShareOff": "Tu mapa permanece privado en este dispositivo.",
+      "model": {
+        "bugNet": "BugNet v3",
+        "bugNetMeta": "Visión · 412 MB · 10.247 especies",
+        "larva": "Larva-3B (Q4)",
+        "larvaMeta": "Modelo de chat · {pct} / 1,9 GB · {state}",
+        "larvaInstalled": "instalado",
+        "larvaEta": "~2 min restantes",
+        "species": "Base de Especies",
+        "speciesMeta": "Datos y hábitats · 88 MB · v2026.04",
+        "ready": "LISTO",
+        "downloading": "↓ {pct}%"
+      },
+      "regionsBand": "Packs regionales",
+      "regionsSub": "Mejoran la precisión donde de verdad estás.",
+      "regionMeta": "{installed}/{total} · {mb} MB",
+      "regionInstalled": "✓ EN DISPOSIT.",
+      "regionGet": "↓ DESCARGAR",
+      "regionDownloading": "Descargando · {pct}% · {mb} MB",
+      "regionFoot": "Los packs corren totalmente offline. Pulsa uno instalado para ver su contenido.",
+      "languageBand": "Idioma",
+      "languageSub": "Para UI, nombres de especies y el salero de {name}.",
+      "naturalistsTile": "Naturalistas",
+      "naturalistsSub": "Amigos y seguidos",
+      "helpTile": "Ayuda y acerca de",
+      "helpSub": "FAQ · exportar datos",
+      "creditsTitle": "Gratis para siempre. Sin anuncios. Sin rastreo.",
+      "creditsSub": "Hecho con cariño por 3 personas a las que de verdad les gustan los escarabajos.",
+      "viewCredits": "VER CRÉDITOS →",
+      "guideToast": "Guía: {name}"
+    },
+    "regions": {
+      "list": {
+        "na-ne": { "name": "Nordeste NA",   "sub": "2.140 especies · árboles, lagunas, humedales" },
+        "na-sw": { "name": "Suroeste NA",   "sub": "1.880 especies · desierto y chaparral" },
+        "eu-uk": { "name": "Reino Unido e Irlanda", "sub": "1.420 especies · expertos de seto" },
+        "eu-md": { "name": "Mediterráneo",  "sub": "2.310 especies · de Iberia a Anatolia" },
+        "sa-am": { "name": "Cuenca Amazónica", "sub": "4.860 especies · la grande" },
+        "oc-au": { "name": "Australia",     "sub": "3.240 especies · todo muerde" },
+        "as-se": { "name": "Sudeste Asiático", "sub": "3.690 especies · bosques monzónicos" }
+      },
+      "detail": {
+        "headLabel": "PACK REGIONAL",
+        "stat": {
+          "species": "ESPECIES",
+          "size": "TAMAÑO",
+          "updated": "ACTUAL."
+        },
+        "topFamilies": "TOP FAMILIAS",
+        "sampleSpecies": "ESPECIES DE MUESTRA",
+        "sampleMeta": "6 de {n}",
+        "modelNotes": "NOTAS DEL MODELO",
+        "foot": "Última actualización {date} · suma de comprobación OK",
+        "remove": "🗑 Quitar pack ({mb} MB)",
+        "na-ne": {
+          "tagline": "Bosques caducifolios, lagunas de castor, marismas.",
+          "fam": {
+            "lep": "Lepidoptera (polillas y mariposas)",
+            "col": "Coleoptera (escarabajos)",
+            "hym": "Hymenoptera (avispas y abejas)",
+            "dip": "Diptera (moscas)",
+            "odo": "Odonata (libélulas)",
+            "oth": "Otros"
+          },
+          "why": {
+            "mona": "migrante icónico",
+            "lhoc": "emergencia de pleno verano",
+            "drag": "habitual de lagunas de castor",
+            "fire": "junio–julio al atardecer",
+            "lady": "muy extendido",
+            "walk": "roble / nogal"
+          },
+          "notes": [
+            "Especies de marisma con mayor peso que la media interior.",
+            "Fenología primavera–verano incorporada al prior; IDs fuera de temporada pueden bajar ~6%.",
+            "Ajustes de cambio climático aplicados a las distribuciones de 2025."
+          ]
+        },
+        "na-sw": {
+          "tagline": "Desierto, chaparral, islas montanas de cielo.",
+          "fam": {
+            "hym": "Hymenoptera (abejas nativas + hormigas)",
+            "col": "Coleoptera (tenebriónidos)",
+            "lep": "Lepidoptera",
+            "hem": "Hemiptera (chinches)",
+            "ort": "Orthoptera",
+            "oth": "Otros"
+          },
+          "why": {
+            "rhin": "vuelos del monzón",
+            "mant": "frecuente al borde de la carretera",
+            "lady": "muy extendida",
+            "cica": "coro del desierto",
+            "walk": "arbusto de mesquite",
+            "mona": "corredor de primavera"
+          },
+          "notes": [
+            "Fauna de abejas nativas sobremuestreada frente a abejas melíferas.",
+            "Taxonomía de hormigas del desierto en flujo — confianza limitada al 92%."
+          ]
+        }
+      }
+    },
+    "bugs": {
+      "mona": { "name": "Mariposa Monarca" },
+      "rhin": { "name": "Escarabajo Rinoceronte" },
+      "hcat": { "name": "Abeja Melífera" },
+      "mant": { "name": "Mantis Religiosa" },
+      "lady": { "name": "Mariquita de Siete Puntos" },
+      "drag": { "name": "Libélula Emperador" },
+      "lhoc": { "name": "Polilla Luna" },
+      "fire": { "name": "Luciérnaga Común" },
+      "cica": { "name": "Cigarra Periódica" },
+      "hwsp": { "name": "Avispa Papelera" },
+      "walk": { "name": "Insecto Palo" },
+      "atla": { "name": "Polilla Atlas" }
+    },
+    "personas": {
+      "larva": {
+        "name": "Prof. Larva",
+        "title": "larva-3b · seca",
+        "blurb": "Sarcástica. Útil a su pesar.",
+        "lines": {
+          "intro": "\"Genial, otra entrenadora. Déjame soltarlo todo.\"",
+          "scanTip": "Sí sí, enfoca la cámara. Soy una IA, no maga.",
+          "analyzing": "Entornando los ojos. No me metas prisa.",
+          "streak": "\"Tres días seguidos. Tu terapeuta estará encantado.\"",
+          "chatHello": "¿Sí? ¿Qué ahora?",
+          "topicHello": "¿Así que ahora hablamos del {topic}? Vale.",
+          "common": "\"Es una {name}. Sí. ¿De verdad me necesitabas para esto?\"",
+          "legendary": "\"Una {name}. Vale, me impresiona. No se lo digas a las cigarras.\""
+        },
+        "uncertain": "Tres opciones. El modelo se guía técnicamente por intuición.",
+        "noMatch": "Nada. Veo hojas. ¿Estás fotografiando hojas?",
+        "streakSass": "No la rompas. Yo llevo la cuenta.",
+        "badgeLocked": "No te emociones. Aún no la has ganado.",
+        "badgeEarned": "Vale. Me impresiona un poco. No lo hagas raro.",
+        "canned": [
+          "Mira. Hago lo que puedo. Más de lo que puedo decir de ti.",
+          "Los sírfidos se quedan suspendidos. Está literalmente en el nombre.",
+          "Si tiene seis patas y te juzga en silencio, probablemente sea un insecto.",
+          "Prueba una foto más clara. O terapia. Tú decides.",
+          "Las abejas son amigas. Las avispas, energía. Los avispones, problemas."
+        ]
+      },
+      "snail": {
+        "name": "Dr. Caracol",
+        "title": "snail-3b · paciente",
+        "blurb": "Calmado. Enseña a tu ritmo.",
+        "lines": {
+          "intro": "\"Bienvenido. Tómate tu tiempo — aprenderemos juntos.\"",
+          "scanTip": "Sostén la cámara firme. No hay prisa. El bicho espera.",
+          "analyzing": "Examinando con cuidado. Un momento, por favor.",
+          "streak": "\"Cuatro días maravillosos de atención. Bien hecho.\"",
+          "chatHello": "Hola, amigo. ¿Qué has encontrado hoy?",
+          "topicHello": "Ah, el {topic}. Buen tema. ¿Por dónde empezamos?",
+          "common": "\"Una {name}. Una visita común muy querida — del tipo que enseña a mirar de cerca.\"",
+          "legendary": "\"Una {name}. Detente un instante con esta. No se ven a menudo.\""
+        },
+        "uncertain": "Unos candidatos. Mira de cerca — sabrás cuál es.",
+        "noMatch": "Sin coincidencia esta vez. Quizá la luz o el ángulo — intentémoslo de nuevo.",
+        "streakSass": "Un ritmo precioso. Mañana, otra vez, con calma.",
+        "badgeLocked": "Paciencia. Llegará cuando llegue.",
+        "badgeEarned": "Bien merecida. Un momento sereno para enorgullecerse.",
+        "canned": [
+          "Buena pregunta. Muchos naturalistas las confunden — estás en buena compañía.",
+          "Fíjate en la venación de las alas. Es la pista más fiable.",
+          "Tómate tu tiempo. La identificación no es una carrera.",
+          "Inténtalo otra vez con un encuadre un poco más cerrado y lo resolveremos juntos.",
+          "Cada avistamiento nos enseña algo. Incluso los que no podemos clasificar."
+        ]
+      },
+      "maywind": {
+        "name": "R.A. Maywind",
+        "title": "maywind-3b · curiosa",
+        "blurb": "Ingeniosa. Alegre. Adora cada bicho.",
+        "lines": {
+          "intro": "\"¡Hola hola! Libreta lista, botas atadas — ¡a buscar bichos!\"",
+          "scanTip": "¡Ooh ooh — apunta esa lente! ME ENCANTA esta parte.",
+          "analyzing": "Cruzando la base — ¡esta es la parte divertida!",
+          "streak": "\"¡Cuatro días seguidos! ¡Eres una leyenda!\"",
+          "chatHello": "¡Hola! ¿Qué miramos hoy? Cuéntamelo todo.",
+          "topicHello": "¡Ooh, un {topic}! Genial elección. ¡Pregúntame lo que sea!",
+          "common": "\"¡Una {name}! Clásica favorita. Diez sobre diez, la identificaría de nuevo.\"",
+          "legendary": "\"¡AY POR DIOS una {name}! Lo escribo en MAYÚSCULAS en la libreta.\""
+        },
+        "uncertain": "¡Ooh, un puzle! Lo reduje a tres. ¡Ayúdame a elegir!",
+        "noMatch": "¡Hmm! Salió vacío. ¡Otro ángulo, más luz y lo clavamos!",
+        "streakSass": "¡CUATRO DÍAS! Mañana son cinco — ¡tú puedes!",
+        "badgeLocked": "¡Ooh, esta es GENIAL — te va a encantar desbloquearla!",
+        "badgeEarned": "¡SÍ! ¡Mírate! ¡Va a la libreta!",
+        "canned": [
+          "Los bichos son SUPER guays. ¿Ya lo dije hoy?",
+          "¡Ooh buena pregunta! La forma de las antenas es el apretón secreto.",
+          "¡Prueba un encuadre más cerrado y lo clavamos a la próxima!",
+          "Truco de campo: las abejas son peludas, las avispas brillan, los sírfidos son fantasmones.",
+          "Tienes ojo para esto. De verdad."
+        ]
+      }
+    },
+    "help": {
+      "title": "Ayuda y acerca de",
+      "sub": "FAQ, contacto, tus datos.",
+      "section": "FAQ",
+      "faq": {
+        "faq1": {
+          "q": "¿Funciona Critterboard sin internet?",
+          "a": "Sí. Visión, chat y base de especies corren en tu teléfono. Solo activas la red para aparecer en el ranking o publicar avistamientos."
+        },
+        "faq2": {
+          "q": "¿Por qué tengo poca confianza en la ID?",
+          "a": "Suele ser una de tres: foto borrosa, el bicho ocupa menos de 1/4 del encuadre, o estás fuera de un pack regional instalado. Prueba con un encuadre más cerrado, más luz y un perfil lateral."
+        },
+        "faq3": {
+          "q": "¿Cómo funcionan los congeladores de racha?",
+          "a": "Ganas uno cada 7 días de actividad, hasta tres acumulados. Si pierdes un día, se usa solo para mantener viva la racha. No tienes que hacer nada."
+        },
+        "faq4": {
+          "q": "¿Puedo usar Critterboard si soy daltónico?",
+          "a": "Sí. Todas las pistas de confianza y rareza están codificadas también por forma y etiqueta. Hay un modo de alto contraste en marcha; avísanos si una pantalla te molesta."
+        },
+        "faq5": {
+          "q": "¿De dónde vienen las imágenes de referencia?",
+          "a": "iNaturalist (CC-BY-NC) para fotos; GBIF para distribuciones. No entrenamos con tus fotos — los modelos los actualizamos solo nosotros."
+        },
+        "faq6": {
+          "q": "¿Cómo borro mis datos?",
+          "a": "Baja hasta \"Borrar todo.\" Elimina tu dex, avistamientos, ajustes y modelos en el dispositivo. También seguidores y entradas de ranking. No hay deshacer."
+        }
+      },
+      "contactTitle": "Ponte en contacto",
+      "contactDesc": "Una persona real lee cada mensaje. Responde normalmente en 48 horas.",
+      "contactEmail": "hello@critterboard.app",
+      "dataTitle": "Tus datos",
+      "dataSub": "Viven en tu teléfono. Llévatelos.",
+      "data": {
+        "exportDexTitle": "Exportar mi dex (JSON)",
+        "exportDexDesc": "{n} capturas · 1 archivo · ~8 KB",
+        "exportDexCta": "Exportar",
+        "exportDexToast": "dex-export-may18.json guardado",
+        "exportSightTitle": "Exportar avistamientos (CSV)",
+        "exportSightDesc": "Las fotos quedan en el dispositivo — solo coordenadas",
+        "exportSightCta": "Exportar",
+        "exportSightToast": "sightings-may18.csv guardado",
+        "clearTitle": "Borrar caché de escaneo",
+        "clearDesc": "32 fotos · 84 MB",
+        "clearCta": "Borrar",
+        "clearToast": "Caché borrada",
+        "wipeTitle": "Borrar todo",
+        "wipeDesc": "Dex, avistamientos, modelos, ajustes. Sin deshacer.",
+        "wipeCta": "Borrar",
+        "wipeConfirmCta": "Pulsa otra vez para confirmar",
+        "wipeToast": "Borrado en cola — reinicia la app."
+      },
+      "appName": "Critterboard",
+      "appBuild": "v1.4.0 · build 2026.05 · licencia MIT",
+      "appSpecOn": "iOS 16+ · 312 MB en disco · red ACTIVADA",
+      "appSpecOff": "iOS 16+ · 312 MB en disco · totalmente offline"
+    },
+    "credits": {
+      "build": "v1.4.0 · build 2026.05",
+      "intro": "Hecho por tres personas que de verdad piensan que los bichos molan. Sin dinero de VC, sin anuncios, sin rastreo, sin cuenta. Solo bichos y un teléfono.",
+      "section": {
+        "team": "El equipo",
+        "models": "Modelos en el dispositivo",
+        "data": "Datos y agradecimientos"
+      },
+      "team": {
+        "mira": { "name": "Mira Ostrov",     "role": "Diseño e ilustración" },
+        "theo": { "name": "Theo Bramble",    "role": "Ingeniería iOS" },
+        "junie": { "name": "Junie Halverson", "role": "ML y modelos en dispositivo" }
+      },
+      "models": {
+        "bugnet": { "name": "BugNet v3",       "role": "Visión · 412 MB · 10.247 especies" },
+        "larva":  { "name": "Larva-3B",        "role": "Chat · 1,9 GB · cuantizado Q4" },
+        "variants": { "name": "Maywind / Snail", "role": "Variantes de persona de Larva-3B" }
+      },
+      "data": {
+        "iNat":  { "name": "iNaturalist",         "role": "Imágenes de referencia (CC-BY-NC)" },
+        "gbif":  { "name": "GBIF",                "role": "Distribución y hábitat" },
+        "beta":  { "name": "Todo beta tester",    "role": "Probado en campo en 14 ciudades" }
+      },
+      "contactTitle": "¿Encontraste un bicho de software?",
+      "contactEmail": "hello@critterboard.app",
+      "footer": "Todo el procesamiento ocurre en tu dispositivo.\nNingún dato sale de este teléfono. Lo prometemos.\n© 2026 Critterboard · código abierto MIT"
+    }
+  }
+}

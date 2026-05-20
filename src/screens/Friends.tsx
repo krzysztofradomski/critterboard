@@ -4,7 +4,10 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { IconBtn } from '@/components/IconBtn';
 import { PersonModal } from '@/components/PersonModal';
 import { Sticker } from '@/components/Sticker';
-import { FRIENDS, INITIAL_FOLLOWED, PERSON_PROFILES } from '@/data/personProfiles';
+import { FRIENDS, INITIAL_FOLLOWED, PERSON_PROFILES, friendLastKey, friendWhyKey } from '@/data/personProfiles';
+import { useT } from '@/i18n/helpers';
+import { countryName } from '@/i18n/helpers';
+import { useAppStore } from '@/store/useAppStore';
 import { PB } from '@/tokens/pb';
 import { useNav } from '@/store/useNav';
 
@@ -12,6 +15,8 @@ type Tab = 'following' | 'followers' | 'suggested';
 
 export function Friends() {
   const { back } = useNav();
+  const t = useT();
+  const language = useAppStore((s) => s.language);
   const [tab, setTab] = useState<Tab>('following');
   const [openName, setOpenName] = useState<string | null>(null);
   const [followed, setFollowed] = useState<Set<string>>(() => new Set(INITIAL_FOLLOWED));
@@ -41,8 +46,8 @@ export function Friends() {
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
         <View style={{ flex: 1 }}>
-          <Text style={styles.title}>Naturalists</Text>
-          <Text style={styles.sub}>People you follow · their bugs</Text>
+          <Text style={styles.title}>{t('friends.title')}</Text>
+          <Text style={styles.sub}>{t('friends.sub')}</Text>
         </View>
         <IconBtn fs={14}>🔍</IconBtn>
       </View>
@@ -58,7 +63,7 @@ export function Friends() {
             ]}
           >
             <Text style={[styles.tabText, { color: tab === id ? PB.yellow : PB.ink }]}>
-              {id === 'following' ? 'Following' : id === 'followers' ? 'Followers' : 'Suggested'}{' '}
+              {t(`friends.tab.${id}`)}{' '}
               <Text style={{ opacity: 0.65 }}>· {counts[id]}</Text>
             </Text>
           </Pressable>
@@ -80,15 +85,15 @@ export function Friends() {
               <View style={{ flex: 1, minWidth: 0 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 6 }}>
                   <Text numberOfLines={1} style={styles.name}>{u.name}</Text>
-                  <Text style={styles.country}>· {u.country}</Text>
+                  <Text style={styles.country}>· {countryName(language, u.country)}</Text>
                 </View>
                 {tab === 'suggested' ? (
-                  <Text style={styles.why}>{u.why}</Text>
+                  <Text style={styles.why}>{u.whyKey ? t(friendWhyKey(u.whyKey)) : ''}</Text>
                 ) : (
                   <View style={styles.lastRow}>
                     <Text style={{ fontSize: 12 }}>{u.catchEmoji}</Text>
-                    <Text style={styles.last}>{u.last}</Text>
-                    <Text style={styles.when}>· {u.when} ago</Text>
+                    <Text style={styles.last}>{t(friendLastKey(u.lastKey))}</Text>
+                    <Text style={styles.when}>· {t('friends.ago', { when: u.when })}</Text>
                   </View>
                 )}
               </View>
@@ -111,7 +116,7 @@ export function Friends() {
                   ]}
                 >
                   <Text style={[styles.followText, { color: isFollowed ? PB.ink : PB.cream }]}>
-                    {isFollowed ? '✓ Following' : '+ Follow'}
+                    {isFollowed ? t('friends.following') : t('friends.follow')}
                   </Text>
                 </Pressable>
               </View>
@@ -122,8 +127,8 @@ export function Friends() {
         {list.length === 0 && (
           <Sticker bg={PB.cream2} rotate={-1} style={{ marginTop: 24, padding: 18, alignItems: 'center' }}>
             <Text style={{ fontSize: 40 }}>🐜</Text>
-            <Text style={styles.emptyTitle}>No one here yet.</Text>
-            <Text style={styles.emptySub}>Check the Suggested tab to find naturalists like you.</Text>
+            <Text style={styles.emptyTitle}>{t('friends.emptyTitle')}</Text>
+            <Text style={styles.emptySub}>{t('friends.emptySub')}</Text>
           </Sticker>
         )}
       </ScrollView>

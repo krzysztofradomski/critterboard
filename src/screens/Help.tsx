@@ -4,48 +4,19 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { DataRow } from '@/components/DataRow';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
+import { useT } from '@/i18n/helpers';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
-const FAQ = [
-  {
-    id: 'faq1',
-    q: 'Does Critterboard work without internet?',
-    a: 'Yes. Vision, chat, and the species database all run on your phone. The only reason to turn on Network access is to share to the leaderboard or post sightings publicly.',
-  },
-  {
-    id: 'faq2',
-    q: 'Why is my ID confidence low?',
-    a: "Usually one of three things: the photo is blurry, the bug fills less than 1/4 of the frame, or you're outside an installed regional pack. Try a closer crop, brighter light, and a side profile.",
-  },
-  {
-    id: 'faq3',
-    q: 'How do streak freezes work?',
-    a: "You earn one freeze every 7 days of activity, capped at three banked. If you miss a day, the freeze auto-spends to keep your streak alive. You don't have to do anything.",
-  },
-  {
-    id: 'faq4',
-    q: "Can I use Critterboard if I'm colorblind?",
-    a: "Yes. All confidence and rarity cues double-encode with shape and label. There's a high-contrast pass in development; ping us if a specific screen is hurting you.",
-  },
-  {
-    id: 'faq5',
-    q: 'Where do reference images come from?',
-    a: "iNaturalist (CC-BY-NC) for photos; GBIF for ranges. We don't train on your photos — model updates ship from our side only.",
-  },
-  {
-    id: 'faq6',
-    q: 'How do I delete my data?',
-    a: 'Scroll down to "Wipe everything." It nukes your dex, sightings, settings, and on-device models. Followers and leaderboard entries go too. There is no undo.',
-  },
-];
+const FAQ_IDS = ['faq1', 'faq2', 'faq3', 'faq4', 'faq5', 'faq6'] as const;
 
 export function Help() {
   const { back } = useNav();
   const profile = useAppStore((s) => s.profile);
   const dex = useAppStore((s) => s.dex);
   const showToast = useAppStore((s) => s.showToast);
+  const t = useT();
   const [openId, setOpenId] = useState<string | null>('faq1');
   const [confirmWipe, setConfirmWipe] = useState(false);
 
@@ -54,24 +25,24 @@ export function Help() {
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
         <View style={{ flex: 1 }}>
-          <Text style={styles.title}>Help & About</Text>
-          <Text style={styles.sub}>FAQ, contact, your data.</Text>
+          <Text style={styles.title}>{t('help.title')}</Text>
+          <Text style={styles.sub}>{t('help.sub')}</Text>
         </View>
         <IconBtn fs={14}>↗</IconBtn>
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll}>
         <Sticker bg={PB.paper} style={{ padding: 0 }}>
-          <Text style={styles.section}>FAQ</Text>
-          {FAQ.map((f, i) => {
-            const open = openId === f.id;
+          <Text style={styles.section}>{t('help.section')}</Text>
+          {FAQ_IDS.map((id, i) => {
+            const open = openId === id;
             return (
               <View
-                key={f.id}
+                key={id}
                 style={{ borderTopColor: PB.cream2, borderTopWidth: i === 0 ? 0 : 1.5 }}
               >
-                <Pressable onPress={() => setOpenId(open ? null : f.id)} style={styles.faqRow}>
-                  <Text style={styles.faqQ}>{f.q}</Text>
+                <Pressable onPress={() => setOpenId(open ? null : id)} style={styles.faqRow}>
+                  <Text style={styles.faqQ}>{t(`help.faq.${id}.q`)}</Text>
                   <View style={[styles.plus, { backgroundColor: open ? PB.yellow : PB.cream }]}>
                     <Text
                       style={[
@@ -86,7 +57,7 @@ export function Help() {
                 {open && (
                   <View style={{ paddingHorizontal: 14, paddingBottom: 14 }}>
                     <View style={styles.faqAnswerBox}>
-                      <Text style={styles.faqA}>{f.a}</Text>
+                      <Text style={styles.faqA}>{t(`help.faq.${id}.a`)}</Text>
                     </View>
                   </View>
                 )}
@@ -101,11 +72,9 @@ export function Help() {
               <Text style={{ fontSize: 22 }}>📬</Text>
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={styles.contactTitle}>Get in touch</Text>
-              <Text style={styles.contactDesc}>
-                A real human reads every message. Reply usually within 48 hours.
-              </Text>
-              <Text style={styles.contactEmail}>hello@critterboard.app</Text>
+              <Text style={styles.contactTitle}>{t('help.contactTitle')}</Text>
+              <Text style={styles.contactDesc}>{t('help.contactDesc')}</Text>
+              <Text style={styles.contactEmail}>{t('help.contactEmail')}</Text>
             </View>
           </View>
         </Sticker>
@@ -114,45 +83,45 @@ export function Help() {
           <View style={styles.dataHead}>
             <Text style={{ fontSize: 26 }}>💾</Text>
             <View style={{ flex: 1 }}>
-              <Text style={styles.dataTitle}>Your data</Text>
-              <Text style={styles.dataSub}>It lives on your phone. Take it with you.</Text>
+              <Text style={styles.dataTitle}>{t('help.dataTitle')}</Text>
+              <Text style={styles.dataSub}>{t('help.dataSub')}</Text>
             </View>
           </View>
           <View style={{ padding: 12, gap: 8 }}>
             <DataRow
               icon="⬇️"
               color={PB.cream2}
-              title="Export my dex (JSON)"
-              desc={`${dex.size} catches · 1 file · ~8 KB`}
-              cta="Export"
-              onPress={() => showToast({ text: 'dex-export-may18.json saved', icon: '⬇️', bg: PB.green })}
+              title={t('help.data.exportDexTitle')}
+              desc={t('help.data.exportDexDesc', { n: dex.size })}
+              cta={t('help.data.exportDexCta')}
+              onPress={() => showToast({ text: t('help.data.exportDexToast'), icon: '⬇️', bg: PB.green })}
             />
             <DataRow
               icon="📷"
               color={PB.cream2}
-              title="Export sightings (CSV)"
-              desc="Photos stay on device — coordinates only"
-              cta="Export"
-              onPress={() => showToast({ text: 'sightings-may18.csv saved', icon: '📷', bg: PB.green })}
+              title={t('help.data.exportSightTitle')}
+              desc={t('help.data.exportSightDesc')}
+              cta={t('help.data.exportSightCta')}
+              onPress={() => showToast({ text: t('help.data.exportSightToast'), icon: '📷', bg: PB.green })}
             />
             <DataRow
               icon="🧹"
               color={PB.cream2}
-              title="Clear scan cache"
-              desc="32 photos · 84 MB"
-              cta="Clear"
-              onPress={() => showToast({ text: 'Cache cleared', icon: '🧹', bg: PB.green })}
+              title={t('help.data.clearTitle')}
+              desc={t('help.data.clearDesc')}
+              cta={t('help.data.clearCta')}
+              onPress={() => showToast({ text: t('help.data.clearToast'), icon: '🧹', bg: PB.green })}
             />
             <DataRow
               icon="🔥"
               color={PB.red}
               dark
-              title="Wipe everything"
-              desc="Dex, sightings, models, settings. No undo."
-              cta={confirmWipe ? 'Tap again to confirm' : 'Wipe'}
+              title={t('help.data.wipeTitle')}
+              desc={t('help.data.wipeDesc')}
+              cta={confirmWipe ? t('help.data.wipeConfirmCta') : t('help.data.wipeCta')}
               onPress={() => {
                 if (confirmWipe) {
-                  showToast({ text: 'Wipe queued — restart the app.', icon: '🔥', bg: PB.red });
+                  showToast({ text: t('help.data.wipeToast'), icon: '🔥', bg: PB.red });
                   setConfirmWipe(false);
                 } else {
                   setConfirmWipe(true);
@@ -164,10 +133,10 @@ export function Help() {
         </Sticker>
 
         <Sticker bg={PB.cream2} style={{ padding: 14, alignItems: 'center' }}>
-          <Text style={styles.appName}>Critterboard</Text>
-          <Text style={styles.appBuild}>v1.4.0 · build 2026.05 · MIT-licensed</Text>
+          <Text style={styles.appName}>{t('help.appName')}</Text>
+          <Text style={styles.appBuild}>{t('help.appBuild')}</Text>
           <Text style={styles.appSpec}>
-            iOS 16+ · 312 MB on disk · {profile.networkOn ? 'network ON' : 'fully offline'}
+            {profile.networkOn ? t('help.appSpecOn') : t('help.appSpecOff')}
           </Text>
         </Sticker>
       </ScrollView>

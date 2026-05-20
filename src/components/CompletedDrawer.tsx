@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { useT } from '@/i18n/helpers';
 import { PB } from '@/tokens/pb';
 import type { CompletedQuest } from '@/data/quests';
 
@@ -13,6 +14,7 @@ export function CompletedDrawer({
   onToggle: () => void;
   items: CompletedQuest[];
 }) {
+  const t = useT();
   const totalXp = items.reduce((s, i) => s + i.reward, 0);
 
   return (
@@ -25,9 +27,9 @@ export function CompletedDrawer({
           <Text style={styles.headerIconText}>✓</Text>
         </View>
         <View style={styles.headerBody}>
-          <Text style={styles.headerTitle}>COMPLETED QUESTS</Text>
+          <Text style={styles.headerTitle}>{t('quests.completed')}</Text>
           <Text style={styles.headerSub}>
-            {items.length} done · {totalXp.toLocaleString()} XP earned
+            {t('quests.completedSub', { n: items.length, xp: totalXp.toLocaleString() })}
           </Text>
         </View>
         <View style={styles.chev}>
@@ -47,9 +49,11 @@ export function CompletedDrawer({
                 <Text style={styles.itemIconText}>{it.icon}</Text>
               </View>
               <View style={styles.itemBody}>
-                <Text numberOfLines={1} style={styles.itemTitle}>{it.label}</Text>
+                <Text numberOfLines={1} style={styles.itemTitle}>
+                  {t(`quests.completedLabels.${it.id}`)}
+                </Text>
                 <Text style={styles.itemMeta}>
-                  {it.date} · {it.kind}
+                  {t(`quests.completedDates.${it.id}`)} · {t(`quests.kind${it.kind === 'weekly' ? 'Weekly' : 'Daily'}`)}
                 </Text>
               </View>
               <View style={styles.itemReward}>
