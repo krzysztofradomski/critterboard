@@ -59,7 +59,8 @@
         "xp": "XP",
         "rank": "RANG"
       },
-      "bugOfDayXpAmount": " +{xp} XP "
+      "bugOfDayXpAmount": " +{xp} XP ",
+      "recentFinds": "Zuletzt gefangen"
     },
     "scan": {
       "analyzing": "ANALYSIERE…",

@@ -22,9 +22,11 @@ export function Streak() {
   // All derived live from the catchLog — drop, kill, restart, the numbers
   // are right. The "freezes" affordance is still placeholder until we
   // wire a streak-recovery action; carry a deterministic 2 for now.
-  const { current: cur, best, total } = useStreakSummary();
+  // All derived live from the catchLog. Freezes earned + spent fall out
+  // of a chronological replay (see `computeFreezeState`); when the user
+  // misses a day with a banked freeze the streak survives automatically.
+  const { current: cur, best, total, freezes } = useStreakSummary();
   const calendar = useCalendar(35);
-  const freezes = 2;
 
   return (
     <View style={styles.root}>
@@ -73,10 +75,10 @@ export function Streak() {
           </View>
           <View style={styles.grid}>
             {calendar.map((cell) => {
-              const { caught, isToday } = cell;
-              const bg = caught ? PB.green : PB.cream2;
-              const fg = caught ? PB.cream : PB.ink;
-              const label = caught ? '✓' : '·';
+              const { caught, freeze, isToday } = cell;
+              const bg = freeze ? PB.blue : caught ? PB.green : PB.cream2;
+              const fg = freeze || caught ? PB.cream : PB.ink;
+              const label = freeze ? '❄' : caught ? '✓' : '·';
               return (
                 <View
                   key={cell.key}
@@ -84,7 +86,7 @@ export function Streak() {
                     styles.cell,
                     {
                       backgroundColor: bg,
-                      opacity: !caught && !isToday ? 0.6 : 1,
+                      opacity: !caught && !freeze && !isToday ? 0.6 : 1,
                       borderWidth: isToday ? 3.5 : 2,
                     },
                   ]}

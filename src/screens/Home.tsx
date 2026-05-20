@@ -5,10 +5,11 @@ import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { TabBar } from '@/components/TabBar';
-import { useBugName, useT } from '@/i18n/helpers';
+import { findBug } from '@/data/bugs';
+import { bugName, useBugName, useT } from '@/i18n/helpers';
 import { bugOfDay } from '@/lib/bugOfDay';
 import { formatXp, useLevel, useRank } from '@/lib/level';
-import { useCalendar, useStreakSummary } from '@/lib/streak';
+import { useCalendar, useRecentBugIds, useStreakSummary } from '@/lib/streak';
 import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
@@ -34,6 +35,10 @@ export function Home() {
   const { current: streakDays } = useStreakSummary();
   // Days until the next 7-day badge boundary (1..7).
   const daysToBadge = ((7 - (streakDays % 7)) % 7) || 7;
+
+  // Recent finds — last 4 distinct caught bugs, newest first.
+  const recentIds = useRecentBugIds(4);
+  const language = useAppStore((s) => s.language);
 
   return (
     <View style={styles.root}>
@@ -104,6 +109,30 @@ export function Home() {
             ))}
           </View>
         </Sticker>
+
+        {recentIds.length > 0 && (
+          <View style={styles.recentBlock}>
+            <Text style={styles.recentHeader}>{t('home.recentFinds')}</Text>
+            <View style={styles.recentRow}>
+              {recentIds.map((id) => {
+                const bug = findBug(id);
+                if (!bug) return null;
+                return (
+                  <Pressable
+                    key={id}
+                    onPress={() => go('result', { id })}
+                    style={[styles.recentTile, { backgroundColor: bug.color }]}
+                  >
+                    <Text style={styles.recentEmoji}>{bug.emoji}</Text>
+                    <Text numberOfLines={1} style={styles.recentName}>
+                      {bugName(language, id).split(' ')[0]}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </View>
+          </View>
+        )}
 
         <Sticker bg={PB.yellow} rotate={1} style={{ marginTop: 14, padding: 12 }} onPress={() => go('chat')}>
           <View style={styles.chatRow}>
@@ -235,4 +264,39 @@ const styles = StyleSheet.create({
   },
   statValue: { fontSize: 22, fontWeight: '800', color: PB.cream, lineHeight: 22 },
   statLabel: { fontSize: 10, fontWeight: '800', color: PB.cream, opacity: 0.85, marginTop: 4, letterSpacing: 0.5 },
+  recentBlock: { marginTop: 14 },
+  recentHeader: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: PB.ink,
+    opacity: 0.65,
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
+    marginBottom: 8,
+  },
+  recentRow: { flexDirection: 'row', gap: 8 },
+  recentTile: {
+    flex: 1,
+    aspectRatio: 1,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    borderRadius: 14,
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 3, height: 3 },
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 6,
+  },
+  recentEmoji: { fontSize: 30 },
+  recentName: {
+    marginTop: 4,
+    fontSize: 10,
+    fontWeight: '800',
+    color: PB.cream,
+    textShadowColor: PB.ink,
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 0,
+  },
 });

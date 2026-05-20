@@ -16,6 +16,7 @@ export function Help() {
   const profile = useAppStore((s) => s.profile);
   const dex = useAppStore((s) => s.dex);
   const showToast = useAppStore((s) => s.showToast);
+  const wipeAll = useAppStore((s) => s.wipeAll);
   const t = useT();
   const [openId, setOpenId] = useState<string | null>('faq1');
   const [confirmWipe, setConfirmWipe] = useState(false);
@@ -121,6 +122,10 @@ export function Help() {
               cta={confirmWipe ? t('help.data.wipeConfirmCta') : t('help.data.wipeCta')}
               onPress={() => {
                 if (confirmWipe) {
+                  // The two-tap pattern from the prototype stays — wipe
+                  // is irreversible and the user must confirm. After
+                  // this call the next render starts at onboarding.
+                  void wipeAll();
                   showToast({ text: t('help.data.wipeToast'), icon: '🔥', bg: PB.red });
                   setConfirmWipe(false);
                 } else {

@@ -82,6 +82,14 @@ type Actions = {
   setProfile: (patch: Partial<Profile>) => void;
   setLastPhotoUri: (uri: string | null) => void;
   setOnboarded: (value: boolean) => void;
+  /**
+   * Reset every user-visible slice to its first-run state and drop the
+   * AsyncStorage record. Language is preserved — it's an explicit
+   * preference, not user data, and wiping it would surprise non-English
+   * speakers. Routes back to onboarding so the next interaction is
+   * indistinguishable from a fresh install.
+   */
+  wipeAll: () => Promise<void>;
 };
 
 type AppStore = State & Actions;
@@ -386,6 +394,37 @@ export const useAppStore = create<AppStore>()(
           if (s.hasOnboarded === value) return s;
           return { hasOnboarded: value };
         }),
+
+      wipeAll: async () => {
+        const keepLanguage = get().language;
+        if (toastTimer) {
+          clearTimeout(toastTimer);
+          toastTimer = null;
+        }
+        await AsyncStorage.removeItem('critterboard:v1');
+        // Reset every persisted slice. Note: dex/catchLog go to EMPTY,
+        // not back to the seeded values — "wipe" means lose the
+        // history, not regenerate yesterday's fake catches.
+        set({
+          stack: [{ name: 'onboarding', params: undefined }],
+          dex: new Set(),
+          followed: new Set(INITIAL_FOLLOWED),
+          persona: 'larva',
+          language: keepLanguage,
+          profile: {
+            name: 'you',
+            networkOn: false,
+            leaderboardOn: true,
+            locationShareOn: false,
+          },
+          hasOnboarded: false,
+          toast: null,
+          lastPhotoUri: null,
+          catchLog: [],
+          activityLog: [],
+          questProgress: initialQuestProgress(),
+        });
+      },
     }),
     {
       name: 'critterboard:v1',

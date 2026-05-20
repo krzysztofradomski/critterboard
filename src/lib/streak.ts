@@ -17,11 +17,16 @@ export type DayCell = {
   key: string;
   /** Number of catches on this day. */
   count: number;
-  /** Convenience: `count > 0`. */
+  /** True if the user caught at least one bug that day. */
   caught: boolean;
+  /** True if a banked freeze covered a miss on this day. */
+  freeze: boolean;
   /** True for the rightmost cell. */
   isToday: boolean;
 };
+
+export const MAX_BANKED_FREEZES = 3;
+const CATCHES_PER_FREEZE = 7;
 
 // ──────────────────────────────────────────────────────────────────────────
 // Local-day bucketing
@@ -61,49 +66,123 @@ export function bucketByLocalDay(events: CatchEvent[]): Map<string, number> {
 }
 
 // ──────────────────────────────────────────────────────────────────────────
+// Freeze accounting
+// ──────────────────────────────────────────────────────────────────────────
+
+/**
+ * Replay the catch history chronologically to figure out where freezes
+ * were earned, where they were spent (which missed days got saved),
+ * and how many are banked right now.
+ *
+ * Rules:
+ *   - Every 7 caught days earns +1 freeze. Bank capped at MAX_BANKED_FREEZES.
+ *   - Each missed day immediately spends 1 freeze if the bank > 0.
+ *   - A missed day with an empty bank is a real break.
+ *
+ * The walk only covers the span between the first catch and today
+ * (inclusive). Days before the first catch don't exist for streak
+ * purposes — no need to penalize the user for not using the app
+ * before they installed it.
+ */
+export type FreezeState = {
+  /** dayKeys where a banked freeze covered a missed day. */
+  spent: Set<string>;
+  /** Currently banked freezes (after replay through today). */
+  available: number;
+};
+
+export function computeFreezeState(
+  events: CatchEvent[],
+  now: number = Date.now(),
+): FreezeState {
+  const buckets = bucketByLocalDay(events);
+  if (buckets.size === 0) {
+    return { spent: new Set(), available: 0 };
+  }
+
+  // Find first catch — that's the start of the walk.
+  let firstAt = Infinity;
+  for (const e of events) if (e.at < firstAt) firstAt = e.at;
+
+  // Walk from firstKey through today, day by day.
+  const todayKey = dayKey(now);
+  const spent = new Set<string>();
+  let banked = 0;
+  let caughtRunForEarn = 0;
+
+  const cursor = new Date(firstAt);
+  cursor.setHours(12, 0, 0, 0);
+  // Safety cap so a corrupt clock can't loop forever.
+  for (let i = 0; i < 10_000; i++) {
+    const k = dayKey(cursor.getTime());
+    if (buckets.has(k)) {
+      caughtRunForEarn += 1;
+      if (caughtRunForEarn % CATCHES_PER_FREEZE === 0 && banked < MAX_BANKED_FREEZES) {
+        banked += 1;
+      }
+    } else {
+      // Missed day. Spend a freeze if we have one, else break the run.
+      if (banked > 0) {
+        banked -= 1;
+        spent.add(k);
+      } else {
+        caughtRunForEarn = 0;
+      }
+    }
+    if (k === todayKey) break;
+    cursor.setDate(cursor.getDate() + 1);
+  }
+
+  return { spent, available: banked };
+}
+
+// ──────────────────────────────────────────────────────────────────────────
 // Streak math
 // ──────────────────────────────────────────────────────────────────────────
 
 /**
  * Days the user has caught at least one bug in a row, ending today
- * OR yesterday. The "yesterday" clause is what makes streaks survive
- * the first part of a day before the user opens the app — without it
- * the streak number would drop to 0 every morning until they catch
- * something.
+ * OR yesterday. Days protected by a freeze (per `computeFreezeState`)
+ * count as if caught. The "yesterday" clause is what makes streaks
+ * survive the first part of a day before the user opens the app.
  */
 export function currentStreak(events: CatchEvent[], now: number = Date.now()): number {
   const buckets = bucketByLocalDay(events);
   if (buckets.size === 0) return 0;
+  const { spent } = computeFreezeState(events, now);
 
-  // Anchor at today; if today's empty but yesterday has a catch, walk
-  // back from yesterday. Streak only "breaks" once a full day has gone
-  // by with nothing.
   let startOffset = 0;
-  if (!buckets.has(dayKeyOffset(now, 0)) && buckets.has(dayKeyOffset(now, 1))) {
-    startOffset = 1;
-  }
+  const todayCaught = buckets.has(dayKeyOffset(now, 0));
+  const ydayCaught = buckets.has(dayKeyOffset(now, 1));
+  if (!todayCaught && ydayCaught) startOffset = 1;
+
   let streak = 0;
   for (let i = startOffset; i < 10_000; i++) {
     const k = dayKeyOffset(now, i);
-    if (buckets.has(k)) streak += 1;
+    if (buckets.has(k) || spent.has(k)) streak += 1;
     else break;
   }
   return streak;
 }
 
 /**
- * Longest run of consecutive caught days anywhere in the supplied
- * event list. O(n log n) — fine for ~hundreds of events.
+ * Longest run of consecutive caught-or-freeze-saved days anywhere in
+ * the supplied history. Includes freeze-protected days.
  */
-export function bestStreak(events: CatchEvent[]): number {
-  const days = Array.from(bucketByLocalDay(events).keys()).sort();
-  if (days.length === 0) return 0;
+export function bestStreak(events: CatchEvent[], now: number = Date.now()): number {
+  const caught = bucketByLocalDay(events);
+  if (caught.size === 0) return 0;
+  const { spent } = computeFreezeState(events, now);
+
+  // Combine caught + freeze-spent into one sorted day list.
+  const days = new Set<string>([...caught.keys(), ...spent]);
+  const sorted = Array.from(days).sort();
 
   let best = 1;
   let run = 1;
-  for (let i = 1; i < days.length; i++) {
-    const prev = new Date(days[i - 1] + 'T00:00:00');
-    const cur = new Date(days[i] + 'T00:00:00');
+  for (let i = 1; i < sorted.length; i++) {
+    const prev = new Date(sorted[i - 1] + 'T00:00:00');
+    const cur = new Date(sorted[i] + 'T00:00:00');
     const diff = Math.round((cur.getTime() - prev.getTime()) / 86_400_000);
     if (diff === 1) {
       run += 1;
@@ -135,6 +214,7 @@ export function calendarGrid(
   now: number = Date.now(),
 ): DayCell[] {
   const buckets = bucketByLocalDay(events);
+  const { spent } = computeFreezeState(events, now);
   const out: DayCell[] = [];
   for (let i = days - 1; i >= 0; i--) {
     const key = dayKeyOffset(now, i);
@@ -144,6 +224,7 @@ export function calendarGrid(
       key,
       count,
       caught: count > 0,
+      freeze: spent.has(key),
       isToday: i === 0,
     });
   }
@@ -157,7 +238,11 @@ export function calendarGrid(
 /**
  * The pattern the prototype's Streak.tsx hard-coded — 35 days, 1 = caught,
  * 0 = missed, 2 = freeze used. Rebuilding catchLog from this preserves
- * the prototype's "Day 4 on fire, best 11" feel as the first-run state.
+ * the prototype's "Day 4 on fire" feel as the first-run state.
+ *
+ * Freeze-marked days (`2`) become real missed days in the seed log —
+ * the freeze-replay above derives the protection without needing a
+ * second source of truth.
  */
 const SEED_PATTERN: ReadonlyArray<0 | 1 | 2> = [
   1, 1, 1, 1, 0, 1, 1,
@@ -173,9 +258,6 @@ const SEED_IDS = ['mona', 'hcat', 'lady', 'drag', 'hwsp', 'fire', 'walk',
 /**
  * Build the seeded catch log that the store starts with. Each "caught"
  * day in `SEED_PATTERN` becomes one event, cycling through bug ids.
- *
- * Pass an explicit `now` from the call site so seeding stays
- * deterministic per test invocation; defaults to Date.now() for prod.
  */
 export function buildSeedCatchLog(now: number = Date.now()): CatchEvent[] {
   const out: CatchEvent[] = [];
@@ -183,7 +265,7 @@ export function buildSeedCatchLog(now: number = Date.now()): CatchEvent[] {
   let idIdx = 0;
   for (let i = 0; i < total; i++) {
     const v = SEED_PATTERN[i];
-    if (v === 1 || v === 2) {
+    if (v === 1) {
       const daysAgo = total - 1 - i;
       const d = new Date(now);
       d.setDate(d.getDate() - daysAgo);
@@ -193,9 +275,6 @@ export function buildSeedCatchLog(now: number = Date.now()): CatchEvent[] {
       out.push({ id: SEED_IDS[idIdx++ % SEED_IDS.length]!, at: d.getTime() });
     }
   }
-  // Make sure "today" has a catch in the seed so the user opens the app
-  // with a streak of at least 1, not 0 (the prototype's "Day 4 on fire"
-  // depended on this implicit assumption).
   return out;
 }
 
@@ -207,6 +286,8 @@ export type StreakSummary = {
   current: number;
   best: number;
   total: number;
+  /** Number of freezes currently banked (0..MAX_BANKED_FREEZES). */
+  freezes: number;
 };
 
 export function useStreakSummary(): StreakSummary {
@@ -216,6 +297,7 @@ export function useStreakSummary(): StreakSummary {
       current: currentStreak(log),
       best: bestStreak(log),
       total: totalCatches(log),
+      freezes: computeFreezeState(log).available,
     }),
     [log],
   );
@@ -224,4 +306,32 @@ export function useStreakSummary(): StreakSummary {
 export function useCalendar(days: number): DayCell[] {
   const log = useAppStore((s) => s.catchLog);
   return useMemo(() => calendarGrid(log, days), [log, days]);
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Recent-catch helpers (for Home strip)
+// ──────────────────────────────────────────────────────────────────────────
+
+/**
+ * Last N **distinct** bug ids by catch time, newest first.
+ *
+ * "Distinct" because the Home strip is "Recent finds" — re-catching the
+ * same bug shouldn't push earlier finds out of the strip.
+ */
+export function recentBugIds(events: CatchEvent[], n: number): string[] {
+  const sorted = [...events].sort((a, b) => b.at - a.at);
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const e of sorted) {
+    if (seen.has(e.id)) continue;
+    seen.add(e.id);
+    out.push(e.id);
+    if (out.length >= n) break;
+  }
+  return out;
+}
+
+export function useRecentBugIds(n: number): string[] {
+  const log = useAppStore((s) => s.catchLog);
+  return useMemo(() => recentBugIds(log, n), [log, n]);
 }

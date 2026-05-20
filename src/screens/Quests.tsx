@@ -5,9 +5,10 @@ import { BadgeDialog } from '@/components/BadgeDialog';
 import { CompletedDrawer } from '@/components/CompletedDrawer';
 import { QuestCard } from '@/components/QuestCard';
 import { QuestDialog } from '@/components/QuestDialog';
-import { BADGES, BADGES_TOTAL, type Badge } from '@/data/badges';
+import { BADGES_TOTAL, type Badge } from '@/data/badges';
 import { COMPLETED_QUESTS } from '@/data/quests';
 import { useT } from '@/i18n/helpers';
+import { useBadges } from '@/lib/badges';
 import { useLevel } from '@/lib/level';
 import { useQuests } from '@/lib/quests';
 import { usePersona } from '@/personas/hooks';
@@ -22,13 +23,14 @@ export function Quests() {
   const t = useT();
   const level = useLevel();
   const quests = useQuests();
+  const badges = useBadges();
 
   const [openId, setOpenId] = useState<string | null>(null);
   const [openBadgeId, setOpenBadgeId] = useState<string | null>(null);
   const [completedOpen, setCompletedOpen] = useState(false);
 
   const openQuest = quests.find((q) => q.id === openId) ?? null;
-  const openBadge: Badge | null = BADGES.find((b) => b.id === openBadgeId) ?? null;
+  const openBadge: Badge | null = badges.find((b) => b.id === openBadgeId) ?? null;
 
   return (
     <View style={styles.root}>
@@ -75,10 +77,10 @@ export function Quests() {
           ))}
 
           <Text style={[styles.section, { marginTop: 18 }]}>
-            {t('quests.badges', { earned: BADGES.filter((b) => b.unlocked).length, total: BADGES_TOTAL })}
+            {t('quests.badges', { earned: badges.filter((b) => b.unlocked).length, total: BADGES_TOTAL })}
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingBottom: 6 }}>
-            {BADGES.map((b) => (
+            {badges.map((b) => (
               <Pressable key={b.id} onPress={() => setOpenBadgeId(b.id)} style={styles.badgeCell}>
                 <View
                   style={[
