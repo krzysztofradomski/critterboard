@@ -47,7 +47,8 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Lets Critterboard prefer species that live near you."
         }
-      ]
+      ],
+      "expo-asset"
     ]
   }
 }
