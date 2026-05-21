@@ -103,12 +103,12 @@ Goal: every claim in Help / Settings about local-first data ownership becomes li
   - [x] `src/lib/export.ts` builds JSON (dex) and CSV (sightings) blobs from `dex` + `catchLog`
   - [x] Help.tsx export buttons call into it + `Sharing.shareAsync`
   - [x] Toast updates with the actual filename
-- [ ] **1.2 — Per-catch photo persistence** *(AFK)*
-  - [ ] Extend `CatchEvent` with optional `photoUri?: string`
-  - [ ] `useAppStore.catchBug` accepts photo URI, stores it on the event
-  - [ ] `Scan.tsx` passes the captured/picked URI when calling `catchBug`
-  - [ ] Dex grid swap: tap a caught bug → Result with that URI instead of the default `CameraScene`
-  - [ ] Activity feed entries render the real thumbnail
+- [x] **1.2 — Per-catch photo persistence** *(AFK)*
+  - [x] Extend `CatchEvent` with optional `photoUri?: string`
+  - [x] `useAppStore.catchBug` accepts photo URI, stores it on the event
+  - [x] `Scan.tsx` passes the captured/picked URI when calling `catchBug` (routed via Result params)
+  - [x] Dex grid swap: tap a caught bug → Result with that URI instead of the default `CameraScene`
+  - [x] Activity feed entries render the real thumbnail
 - [ ] **1.3 — Real scan-cache deletion** *(AFK, blocked by 1.2)*
   - [ ] Walk `catchLog` URIs, `FileSystem.deleteAsync` each one
   - [ ] Strip the URIs from the events post-delete

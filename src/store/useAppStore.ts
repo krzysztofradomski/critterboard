@@ -37,7 +37,7 @@ export type ToastSpec = {
  * pack syncs) join this same list.
  */
 export type ActivityEntry =
-  | { id: string; kind: 'catch';   at: number; bugId: string }
+  | { id: string; kind: 'catch';   at: number; bugId: string; photoUri?: string }
   | { id: string; kind: 'persona'; at: number; personaId: PersonaId }
   | { id: string; kind: 'streak';  at: number; days: number };
 
@@ -71,7 +71,7 @@ type Actions = {
   go: <R extends RouteName>(name: R, params?: RouteParamMap[R]) => void;
   back: () => void;
   reset: (entry: StackEntry) => void;
-  catchBug: (id: string) => void;
+  catchBug: (id: string, photoUri?: string) => void;
   followUser: (name: string) => void;
   unfollowUser: (name: string) => void;
   toggleFollow: (name: string) => void;
@@ -275,10 +275,10 @@ export const useAppStore = create<AppStore>()(
        * Everything is computed before the `set` so the update is a
        * single atomic mutation.
        */
-      catchBug: (id) =>
+      catchBug: (id, photoUri) =>
         set((s) => {
           const at = Date.now();
-          const event: CatchEvent = { id, at };
+          const event: CatchEvent = photoUri ? { id, at, photoUri } : { id, at };
 
           const nextDex = s.dex.has(id) ? s.dex : new Set(s.dex).add(id);
           const nextCatchLog = [...s.catchLog, event];
@@ -300,6 +300,7 @@ export const useAppStore = create<AppStore>()(
             kind: 'catch',
             at,
             bugId: id,
+            ...(photoUri ? { photoUri } : {}),
           };
           let nextActivity = prependActivity(s.activityLog, catchEntry);
 

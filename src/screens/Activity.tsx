@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
@@ -30,6 +30,7 @@ type Resolved = {
   entry: ActivityEntry;
   emoji: string;
   color: string;
+  photoUri?: string;
   title: string;
   sub: string;
   cta: string;
@@ -51,14 +52,17 @@ export function Activity() {
         const bug = findBug(entry.bugId);
         const name = bug ? bugName(language, bug.id) : entry.bugId;
         const xp = bug?.xp ?? 0;
+        const photoUri = entry.photoUri;
         return {
           entry,
           emoji: bug?.emoji ?? '🐛',
           color: bug?.color ?? PB.cream2,
+          ...(photoUri ? { photoUri } : {}),
           title: t('activity.kind.catchTitle', { name }),
           sub: t('activity.kind.catchSub', { xp, when }),
           cta: t('activity.kind.catchCta'),
-          onPress: () => go('result', { id: entry.bugId }),
+          onPress: () =>
+            go('result', photoUri ? { id: entry.bugId, photoUri } : { id: entry.bugId }),
         };
       }
 
@@ -127,9 +131,15 @@ export function Activity() {
       <ScrollView contentContainerStyle={styles.list}>
         {filtered.map((r) => (
           <Pressable key={r.entry.id} onPress={r.onPress} style={styles.row}>
-            <View style={[styles.icon, { backgroundColor: r.color }]}>
-              <Text style={{ fontSize: 22 }}>{r.emoji}</Text>
-            </View>
+            {r.photoUri ? (
+              <View style={[styles.icon, { backgroundColor: r.color, overflow: 'hidden' }]}>
+                <Image source={{ uri: r.photoUri }} style={StyleSheet.absoluteFill} resizeMode="cover" />
+              </View>
+            ) : (
+              <View style={[styles.icon, { backgroundColor: r.color }]}>
+                <Text style={{ fontSize: 22 }}>{r.emoji}</Text>
+              </View>
+            )}
             <View style={{ flex: 1, minWidth: 0 }}>
               <Text style={styles.rowTitle}>{r.title}</Text>
               <Text style={styles.rowSub}>{r.sub}</Text>

@@ -6,8 +6,13 @@ import { useAppStore } from '@/store/useAppStore';
  * One catch event. `at` is local-device epoch ms so the streak math
  * uses the user's wall-calendar day (a catch at 23:55 and one at
  * 00:05 the next morning are correctly counted as two separate days).
+ *
+ * `photoUri` (when present) points at a file in the device cache that
+ * was captured or picked during the scan that produced this catch. The
+ * field is optional: seeded history has none, and platforms where the
+ * camera capture failed silently fall back to undefined.
  */
-export type CatchEvent = { id: string; at: number };
+export type CatchEvent = { id: string; at: number; photoUri?: string };
 
 /** Calendar cell — what the Streak grid renders. */
 export type DayCell = {
@@ -334,4 +339,22 @@ export function recentBugIds(events: CatchEvent[], n: number): string[] {
 export function useRecentBugIds(n: number): string[] {
   const log = useAppStore((s) => s.catchLog);
   return useMemo(() => recentBugIds(log, n), [log, n]);
+}
+
+/**
+ * Most-recent stored photo URI for a given bug, or undefined if none of
+ * the catches for that bug carry a photo (e.g. the seeded history).
+ * Used by Dex tile taps to deep-link into Result with the real picture.
+ */
+export function latestPhotoFor(events: ReadonlyArray<CatchEvent>, bugId: string): string | undefined {
+  let bestAt = -Infinity;
+  let bestUri: string | undefined;
+  for (const e of events) {
+    if (e.id !== bugId || !e.photoUri) continue;
+    if (e.at > bestAt) {
+      bestAt = e.at;
+      bestUri = e.photoUri;
+    }
+  }
+  return bestUri;
 }

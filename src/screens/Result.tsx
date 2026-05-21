@@ -78,7 +78,7 @@ export function Result() {
       go('dex');
       return;
     }
-    catchBug(bug.id);
+    catchBug(bug.id, photoUri ?? undefined);
     haptics.success();
     showToast({
       text: t('result.caughtToast', { xp: bug.xp, tier: bug.tier }),

@@ -4,6 +4,7 @@ import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-
 import { TabBar } from '@/components/TabBar';
 import { BUGS } from '@/data/bugs';
 import { useT, bugName } from '@/i18n/helpers';
+import { latestPhotoFor } from '@/lib/streak';
 import { PB, RARITY_COLOR } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
@@ -14,6 +15,7 @@ type FilterKey = (typeof FILTER_KEYS)[number];
 export function Dex() {
   const { go } = useNav();
   const dex = useAppStore((s) => s.dex);
+  const catchLog = useAppStore((s) => s.catchLog);
   const language = useAppStore((s) => s.language);
   const t = useT();
   const [filter, setFilter] = useState<FilterKey>('all');
@@ -113,7 +115,11 @@ export function Dex() {
               return (
                 <Pressable
                   key={b.id}
-                  onPress={() => isCaught && go('result', { id: b.id })}
+                  onPress={() => {
+                    if (!isCaught) return;
+                    const photoUri = latestPhotoFor(catchLog, b.id);
+                    go('result', photoUri ? { id: b.id, photoUri } : { id: b.id });
+                  }}
                   style={[
                     styles.cell,
                     {
