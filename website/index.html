@@ -147,6 +147,77 @@
         box-shadow: 2px 2px 0 var(--bk);
       }
 
+      /* ── LANGUAGE SWITCH ── */
+      .lang-switch {
+        position: relative;
+      }
+      .lang-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: transparent;
+        border: 2px solid var(--bk);
+        border-radius: 100px;
+        padding: 6px 12px;
+        font-family: "Fredoka", sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--bk);
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+      }
+      .lang-btn:hover {
+        background: var(--bk);
+        color: var(--y);
+      }
+      .lang-caret {
+        font-size: 0.7rem;
+        line-height: 1;
+        transition: transform 0.2s;
+      }
+      .lang-btn[aria-expanded="true"] .lang-caret {
+        transform: rotate(180deg);
+      }
+      .lang-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        list-style: none;
+        margin: 0;
+        padding: 6px;
+        background: var(--cr);
+        border: var(--bd);
+        border-radius: 14px;
+        box-shadow: var(--sh);
+        z-index: 50;
+        min-width: 160px;
+      }
+      .lang-menu[hidden] {
+        display: none;
+      }
+      .lang-menu li {
+        list-style: none;
+      }
+      .lang-menu button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        background: transparent;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.9rem;
+        color: var(--bk);
+        cursor: pointer;
+      }
+      .lang-menu button:hover,
+      .lang-menu button[aria-current="true"] {
+        background: var(--y);
+      }
+
       /* ── HERO ── */
       .hero {
         display: grid;
@@ -529,8 +600,20 @@
         Critterboard
       </a>
       <div class="nav-r">
-        <span class="mit">MIT Open Source</span>
-        <a href="#notify" class="nav-btn">Get notified →</a>
+        <div class="lang-switch">
+          <button class="lang-btn" id="lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Language">
+            <span id="lang-current">EN</span>
+            <span class="lang-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="lang-menu" id="lang-menu" role="listbox" hidden>
+            <li><button type="button" role="option" data-lang="en">🇬🇧 English</button></li>
+            <li><button type="button" role="option" data-lang="pl">🇵🇱 Polski</button></li>
+            <li><button type="button" role="option" data-lang="es">🇪🇸 Español</button></li>
+            <li><button type="button" role="option" data-lang="de">🇩🇪 Deutsch</button></li>
+          </ul>
+        </div>
+        <span class="mit" data-i18n="nav_mit">MIT Open Source</span>
+        <a href="#notify" class="nav-btn" data-i18n="nav_cta">Get notified →</a>
       </div>
     </nav>
 
@@ -538,14 +621,16 @@
       <div class="hero-l">
         <div class="pill">
           <div class="dot"></div>
-          Coming soon · iOS &amp; Android
+          <span data-i18n="pill">Coming soon · iOS &amp; Android</span>
         </div>
         <h1>
-          id any bug.<br />stay offline.<br />be smug<span class="dim">~</span>
+          <span data-i18n="h1_l1">id any bug.</span><br />
+          <span data-i18n="h1_l2">stay offline.</span><br />
+          <span data-i18n="h1_l3">be smug</span><span class="dim">~</span>
         </h1>
         <p class="sub">
-          The free insect hunting game that runs entirely on your phone.<br />No
-          cloud. No account. No $$$.
+          <span data-i18n="sub_l1">The free insect hunting game that runs entirely on your phone.</span><br />
+          <span data-i18n="sub_l2">No cloud. No account. No $$$.</span>
         </p>
 
         <form class="form" id="form">
@@ -553,21 +638,22 @@
             class="inp"
             type="email"
             placeholder="your@email.com"
+            data-i18n-placeholder="email_ph"
             required
           />
-          <button class="sub-btn" type="submit">Notify me 🪲</button>
+          <button class="sub-btn" type="submit" data-i18n="submit">Notify me 🪲</button>
         </form>
-        <div class="success" id="ok">
+        <div class="success" id="ok" data-i18n="success">
           🎉 You're on the list. Go find a legendary.
         </div>
-        <p class="note">One email when we launch. Obviously.</p>
+        <p class="note" data-i18n="note">One email when we launch. Obviously.</p>
 
         <div class="promises">
-          <span class="tag">✓ no account</span>
-          <span class="tag">✓ no internet needed</span>
-          <span class="tag">✓ no $$$</span>
-          <span class="tag">✓ no tracking</span>
-          <span class="tag">✓ MIT licensed</span>
+          <span class="tag" data-i18n="tag_acc">✓ no account</span>
+          <span class="tag" data-i18n="tag_net">✓ no internet needed</span>
+          <span class="tag" data-i18n="tag_cost">✓ no $$$</span>
+          <span class="tag" data-i18n="tag_track">✓ no tracking</span>
+          <span class="tag" data-i18n="tag_mit">✓ MIT licensed</span>
         </div>
       </div>
 
@@ -596,29 +682,29 @@
       <div class="strip-item">
         <span class="strip-emoji">📷</span>
         <div class="strip-text">
-          <strong>Snap &amp; ID</strong>
-          <span>Local model. Zero uploads. Ever.</span>
+          <strong data-i18n="s1_t">Snap &amp; ID</strong>
+          <span data-i18n="s1_d">Local model. Zero uploads. Ever.</span>
         </div>
       </div>
       <div class="strip-item">
         <span class="strip-emoji">🏆</span>
         <div class="strip-text">
-          <strong>Hunt &amp; Rank</strong>
-          <span>Quests, XP, rarity tiers, global board.</span>
+          <strong data-i18n="s2_t">Hunt &amp; Rank</strong>
+          <span data-i18n="s2_d">Quests, XP, rarity tiers, global board.</span>
         </div>
       </div>
       <div class="strip-item">
         <span class="strip-emoji">🧠</span>
         <div class="strip-text">
-          <strong>On-Device AI</strong>
-          <span>3 guide personas. Snarky to calm.</span>
+          <strong data-i18n="s3_t">On-Device AI</strong>
+          <span data-i18n="s3_d">3 guide personas. Snarky to calm.</span>
         </div>
       </div>
     </div>
 
     <footer>
       <div class="ft-logo">🪲 Critterboard</div>
-      <p>Free · Open Source · MIT · Continental Europe · Coming Soon</p>
+      <p data-i18n="ft_tag">Free · Open Source · MIT · Continental Europe · Coming Soon</p>
       <div class="ft-links">
         <a
           href="https://github.com/your-username/critterboard"
@@ -626,11 +712,225 @@
           rel="noopener"
           >GitHub</a
         >
-        <a href="mailto:hello@critterboard.app">Contact</a>
+        <a href="mailto:hello@critterboard.app" data-i18n="ft_contact">Contact</a>
       </div>
     </footer>
 
     <script>
+      // ── i18n ──────────────────────────────────────────────────────────────
+      const I18N = {
+        en: {
+          _label: "EN",
+          title: "Critterboard — id any bug · stay offline · be smug",
+          meta_desc:
+            "The free, open-source insect hunting game. No account. No internet. No $$$. Coming soon to iOS & Android.",
+          nav_mit: "MIT Open Source",
+          nav_cta: "Get notified →",
+          pill: "Coming soon · iOS & Android",
+          h1_l1: "id any bug.",
+          h1_l2: "stay offline.",
+          h1_l3: "be smug",
+          sub_l1:
+            "The free insect hunting game that runs entirely on your phone.",
+          sub_l2: "No cloud. No account. No $$$.",
+          email_ph: "your@email.com",
+          submit: "Notify me 🪲",
+          success: "🎉 You're on the list. Go find a legendary.",
+          note: "One email when we launch. Obviously.",
+          tag_acc: "✓ no account",
+          tag_net: "✓ no internet needed",
+          tag_cost: "✓ no $$$",
+          tag_track: "✓ no tracking",
+          tag_mit: "✓ MIT licensed",
+          s1_t: "Snap & ID",
+          s1_d: "Local model. Zero uploads. Ever.",
+          s2_t: "Hunt & Rank",
+          s2_d: "Quests, XP, rarity tiers, global board.",
+          s3_t: "On-Device AI",
+          s3_d: "3 guide personas. Snarky to calm.",
+          ft_tag: "Free · Open Source · MIT · Continental Europe · Coming Soon",
+          ft_contact: "Contact",
+        },
+        pl: {
+          _label: "PL",
+          title: "Critterboard — rozpoznaj robala · bez sieci · ciesz się",
+          meta_desc:
+            "Darmowa gra w polowanie na owady na licencji open source. Bez konta. Bez internetu. Bez kasy. Wkrótce na iOS i Androidzie.",
+          nav_mit: "MIT, open source",
+          nav_cta: "Powiadom mnie →",
+          pill: "Wkrótce · iOS i Android",
+          h1_l1: "rozpoznaj robala.",
+          h1_l2: "zostań offline.",
+          h1_l3: "ciesz się",
+          sub_l1:
+            "Darmowa gra w polowanie na owady, która działa w całości na Twoim telefonie.",
+          sub_l2: "Bez chmury. Bez konta. Bez kasy.",
+          email_ph: "twoj@email.pl",
+          submit: "Powiadom mnie 🪲",
+          success: "🎉 Jesteś na liście. Idź szukać legendarnego.",
+          note: "Jeden mail w dniu premiery. Oczywiście.",
+          tag_acc: "✓ bez konta",
+          tag_net: "✓ bez internetu",
+          tag_cost: "✓ za darmo",
+          tag_track: "✓ bez śledzenia",
+          tag_mit: "✓ licencja MIT",
+          s1_t: "Pstryknij i rozpoznaj",
+          s1_d: "Model lokalny. Zero uploadów. Nigdy.",
+          s2_t: "Poluj i awansuj",
+          s2_d: "Misje, XP, tiery rzadkości, globalny ranking.",
+          s3_t: "AI w telefonie",
+          s3_d: "3 osobowości przewodników. Od kpiarza po spokojnego.",
+          ft_tag:
+            "Darmowe · Open Source · MIT · Europa kontynentalna · Wkrótce",
+          ft_contact: "Kontakt",
+        },
+        es: {
+          _label: "ES",
+          title:
+            "Critterboard — identifica cualquier bicho · sin conexión · presume",
+          meta_desc:
+            "El juego gratuito y de código abierto para cazar bichos. Sin cuenta. Sin internet. Sin €€€. Pronto en iOS y Android.",
+          nav_mit: "Código abierto MIT",
+          nav_cta: "Avísame →",
+          pill: "Próximamente · iOS y Android",
+          h1_l1: "identifica al bicho.",
+          h1_l2: "sin conexión.",
+          h1_l3: "presume",
+          sub_l1:
+            "El juego gratuito de caza de bichos que corre entero en tu móvil.",
+          sub_l2: "Sin nube. Sin cuenta. Sin €€€.",
+          email_ph: "tu@email.com",
+          submit: "Avísame 🪲",
+          success: "🎉 Ya estás en la lista. Ve a por un legendario.",
+          note: "Un email cuando salgamos. Obvio.",
+          tag_acc: "✓ sin cuenta",
+          tag_net: "✓ sin internet",
+          tag_cost: "✓ sin €€€",
+          tag_track: "✓ sin tracking",
+          tag_mit: "✓ licencia MIT",
+          s1_t: "Foto e ID",
+          s1_d: "Modelo local. Cero subidas. Jamás.",
+          s2_t: "Caza y rankea",
+          s2_d: "Misiones, XP, rarezas, ranking global.",
+          s3_t: "IA en el móvil",
+          s3_d: "3 guías con personalidad. De cínico a zen.",
+          ft_tag:
+            "Gratis · Open Source · MIT · Europa continental · Próximamente",
+          ft_contact: "Contacto",
+        },
+        de: {
+          _label: "DE",
+          title: "Critterboard — jeden Käfer erkennen · offline · überlegen",
+          meta_desc:
+            "Das kostenlose Open-Source-Insektenjagdspiel. Kein Konto. Kein Internet. Kein Geld. Bald für iOS und Android.",
+          nav_mit: "MIT Open Source",
+          nav_cta: "Benachrichtige mich →",
+          pill: "Bald verfügbar · iOS & Android",
+          h1_l1: "jeden Käfer erkennen.",
+          h1_l2: "offline bleiben.",
+          h1_l3: "überlegen sein",
+          sub_l1:
+            "Das kostenlose Insektenjagdspiel, das komplett auf deinem Handy läuft.",
+          sub_l2: "Keine Cloud. Kein Konto. Kein Geld.",
+          email_ph: "deine@email.de",
+          submit: "Benachrichtigen 🪲",
+          success: "🎉 Du bist auf der Liste. Such dir ein Legendary.",
+          note: "Eine Mail zum Launch. Versprochen.",
+          tag_acc: "✓ kein Konto",
+          tag_net: "✓ kein Internet nötig",
+          tag_cost: "✓ kein Geld",
+          tag_track: "✓ kein Tracking",
+          tag_mit: "✓ MIT-lizenziert",
+          s1_t: "Knipsen & Erkennen",
+          s1_d: "Lokales Modell. Null Uploads. Niemals.",
+          s2_t: "Jagen & Ranken",
+          s2_d: "Quests, XP, Seltenheitsstufen, globales Board.",
+          s3_t: "KI im Gerät",
+          s3_d: "3 Guide-Personas. Sarkastisch bis ruhig.",
+          ft_tag: "Kostenlos · Open Source · MIT · Kontinentaleuropa · Bald",
+          ft_contact: "Kontakt",
+        },
+      };
+
+      const SUPPORTED = Object.keys(I18N);
+      const STORAGE_KEY = "cb-lang";
+
+      function detectLang() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored && SUPPORTED.includes(stored)) return stored;
+        const nav = (navigator.language || "en").slice(0, 2).toLowerCase();
+        return SUPPORTED.includes(nav) ? nav : "en";
+      }
+
+      function applyLang(lang) {
+        const dict = I18N[lang] || I18N.en;
+        document.documentElement.lang = lang;
+        document.title = dict.title;
+        const md = document.querySelector('meta[name="description"]');
+        if (md) md.setAttribute("content", dict.meta_desc);
+        const ogT = document.querySelector('meta[property="og:title"]');
+        if (ogT) ogT.setAttribute("content", dict.title);
+        const ogD = document.querySelector('meta[property="og:description"]');
+        if (ogD) ogD.setAttribute("content", dict.meta_desc);
+
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          if (dict[key] != null) el.textContent = dict[key];
+        });
+        document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+          const key = el.getAttribute("data-i18n-placeholder");
+          if (dict[key] != null) el.setAttribute("placeholder", dict[key]);
+        });
+
+        const cur = document.getElementById("lang-current");
+        if (cur) cur.textContent = dict._label;
+        document.querySelectorAll("#lang-menu [data-lang]").forEach((btn) => {
+          btn.setAttribute(
+            "aria-current",
+            btn.getAttribute("data-lang") === lang ? "true" : "false"
+          );
+        });
+        try {
+          localStorage.setItem(STORAGE_KEY, lang);
+        } catch {}
+      }
+
+      // ── language toggle ──────────────────────────────────────────────────
+      (function setupLangSwitch() {
+        const btn = document.getElementById("lang-btn");
+        const menu = document.getElementById("lang-menu");
+        if (!btn || !menu) return;
+
+        const close = () => {
+          menu.hidden = true;
+          btn.setAttribute("aria-expanded", "false");
+        };
+        const open = () => {
+          menu.hidden = false;
+          btn.setAttribute("aria-expanded", "true");
+        };
+
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          menu.hidden ? open() : close();
+        });
+        menu.addEventListener("click", (e) => {
+          const t = e.target.closest("[data-lang]");
+          if (!t) return;
+          applyLang(t.getAttribute("data-lang"));
+          close();
+        });
+        document.addEventListener("click", (e) => {
+          if (!menu.hidden && !e.target.closest(".lang-switch")) close();
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") close();
+        });
+      })();
+
+      applyLang(detectLang());
+
+      // ── form ─────────────────────────────────────────────────────────────
       const ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
       document.getElementById("form").addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -639,7 +939,7 @@
         btn.textContent = "...";
         btn.disabled = true;
         try {
-          const r = await fetch(ENDPOINT, {
+          await fetch(ENDPOINT, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -647,12 +947,9 @@
             },
             body: JSON.stringify({ email }),
           });
-          e.target.style.display = "none";
-          document.getElementById("ok").style.display = "block";
-        } catch {
-          e.target.style.display = "none";
-          document.getElementById("ok").style.display = "block";
-        }
+        } catch {}
+        e.target.style.display = "none";
+        document.getElementById("ok").style.display = "block";
       });
     </script>
   </body>
