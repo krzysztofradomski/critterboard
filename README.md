@@ -1,38 +1,48 @@
-# Critterboard
+<p align="center">
+  <img src="assets/icons/icon-stickerbug_1024x1024.png" width="120" alt="Critterboard app icon" />
+</p>
 
-Offline-first insect ID app. React Native + TypeScript.
+<h1 align="center">Critterboard</h1>
 
-Port of the Claude Design handoff prototype (`Critterboard Prototype.html` in the handoff bundle). The visual language, persona system, and offline framing are all preserved 1:1. Data and AI calls are mocked at the seams under `src/data/` and `src/ai/`.
+<p align="center"><strong>id any bug · stay offline · be smug</strong></p>
 
-## Run
+<p align="center">
+  The free insect hunting game that runs entirely on your phone.<br />
+  No cloud. No account. No $$$.
+</p>
 
-```bash
-npm install
-npm run ios       # or `android`, `web`, `start`
-npm run typecheck
-```
+<p align="center">
+  <code>Coming soon · iOS &amp; Android</code> · MIT Open Source
+</p>
 
-## Layout
+## What it does
 
-```
-src/
-  ai/                # mocked on-device chat completion
-  components/        # shared primitives — Btn, Sticker, IconBtn, Toast, TabBar, dialogs, modal shell
-  data/              # mocked species, quests, leaderboard, badges, regions, person profiles
-  navigation/
-    routes.ts        # typed route table
-    Router.tsx       # registry that maps routes to screens
-  personas/          # the three guides (Prof. Larva, Dr. Snail, R.A. Maywind)
-  screens/           # one file per screen
-  store/
-    useAppStore.ts   # Zustand store: nav stack + dex + persona + profile + toast
-    useNav.ts        # `useNav()` hook with type-safe `go(route, params)`
-  tokens/
-    pb.ts            # PB design tokens (colors, fonts, shadow recipes)
-```
+|                  |                                         |
+| ---------------- | --------------------------------------- |
+| **Snap & ID**    | Local model. Zero uploads. Ever.        |
+| **Hunt & Rank**  | Quests, XP, rarity tiers, global board. |
+| **On-Device AI** | 3 guide personas. Snarky to calm.       |
 
-Each screen is presentational — it pulls state from the Zustand store, dispatches navigation via `useNav()`, and renders with the shared primitives. No `window.*` globals; everything imported. Routes are type-safe end-to-end (`go('result', { id: 'mona' })` typechecks, `go('result')` does not).
+✓ no account · ✓ no internet needed · ✓ no $$$ · ✓ no tracking by default · ✓ MIT licensed
 
-## Offline by default
+### Optional social (opt-in)
 
-`profile.networkOn` defaults to `false`. The leaderboard, location sharing, and any "social" affordances stay gated behind that flag — flip it off in Settings and the UI tells you nothing leaves the device. The chat model in `src/ai/chat.ts` is a local mock; the contract matches the prototype's `window.claude.complete` so swapping a real on-device runtime later is a one-file change.
+Bug ID and AI always stay on-device. If you turn **Network** on in Settings, the app may sync **anonymous, pseudonymous** activity — catches, XP, friend links, leaderboard rank — to a [Cloudflare Workers](https://workers.cloudflare.com/) backend so social features work. No account, no email, no ads. Flip Network off and nothing leaves the phone.
+
+## Current work
+
+Project status lives in [`tasks/todo.md`](tasks/todo.md) — the living checklist of what's shipped and what's next.
+
+**Local AI training** — The app UI and seams are done; real models aren't wired yet. Training pipelines are scaffolded and runnable:
+
+- **Vision** — 20-species classifier on an M2 (`training/local/`), full EU run on Kaggle (`training/kaggle/`). Next step: export to `assets/models/` and flip `USE_NATIVE_VISION` in `src/ai/`.
+- **Personas** — LoRA pipeline for on-device Llama 3.2 1B (`training/personas/`). Next step: bundle a GGUF and flip `USE_LLAMA_RN` in `src/ai/`.
+
+See [`docs/ml-roadmap.md`](docs/ml-roadmap.md) for the three-track plan and exit criteria.
+
+**Cloudflare connectivity** — The client-side backend adapter is shipped (leaderboard, friends, activity feed). Social hooks gate on `profile.networkOn`; the mock resolves locally today. The Cloudflare Workers service is not deployed yet — `src/backend/cloudflare.ts` is a stub. Flip `USE_REMOTE_BACKEND` in `src/backend/index.ts` once the Worker is live. See [`docs/decisions/002-backend-adapter-seam.md`](docs/decisions/002-backend-adapter-seam.md).
+
+## Links
+
+- Landing page : [`critterboard.app`](https://critterboard.app)
+- Contact: [hello@critterboard.app](mailto:hello@critterboard.app)
