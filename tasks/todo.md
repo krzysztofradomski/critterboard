@@ -88,6 +88,17 @@ See [[tasks/archive/2026-05-localization]] for the full plan + review. Highlight
 - [x] PB design tokens — colors, ink-border + hard-offset shadow recipes
 - [x] Custom Router + Screen fade-up wrapper
 
+### Batch 1 — "make the privacy story true" (review)
+
+Shipped in four commits on `main`:
+
+- `414abe5` — 1.1 real data export (`src/lib/export.ts`, `expo-sharing`)
+- `d3850f7` — 1.2 per-catch photo persistence (`CatchEvent.photoUri`, Dex tile lookup, Activity thumbnail)
+- `7d8cbb9` — 1.3 real scan-cache deletion (`clearScanCache` action, truthful toast)
+- 1.4 — completed quests from real timestamps (`questCompletedAt` slice, `useCompletedQuests`, localized date in `CompletedDrawer`)
+
+Every claim Help/Settings makes about "your data lives on your phone, take it with you" is now literally true: export gives you the actual JSON/CSV via the OS share sheet; the clear button deletes the actual files and reflects what was freed; completed quests show real catch history (with the static seed as a fallback). All four i18n packs updated; `npm run typecheck` clean throughout.
+
 ---
 
 ## Remaining
@@ -113,11 +124,11 @@ Goal: every claim in Help / Settings about local-first data ownership becomes li
   - [x] Walk `catchLog` URIs, `FileSystem.deleteAsync` each one
   - [x] Strip the URIs from the events (and activity entries) post-delete
   - [x] Help.tsx "Clear scan cache" toast becomes truthful (`N photos · M MB`)
-- [ ] **1.4 — Completed quests derived from progress** *(AFK)*
-  - [ ] Add `questCompletedAt: Record<string, number>` slice
-  - [ ] `catchBug` records timestamp when a quest first hits 100%
-  - [ ] `CompletedDrawer` consumes `questCompletedAt` (with localized date) instead of static `COMPLETED_QUESTS`
-  - [ ] Keep static seed as fallback for empty histories
+- [x] **1.4 — Completed quests derived from progress** *(AFK)*
+  - [x] Add `questCompletedAt: Record<string, number>` slice
+  - [x] `catchBug` records timestamp when a quest first hits 100%
+  - [x] `CompletedDrawer` consumes `questCompletedAt` (with localized date) instead of static `COMPLETED_QUESTS`
+  - [x] Keep static seed as fallback for empty histories
 
 ### Batch 2 — "world feels alive"
 

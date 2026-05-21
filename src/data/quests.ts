@@ -53,14 +53,22 @@ export const QUESTS: Quest[] = [
 ];
 
 /**
- * Completed quest. `label` and `date` come from
- * `quests.completedLabels.<id>` and `quests.completedDates.<id>`.
+ * Completed quest as rendered in the drawer. Two shapes coexist:
+ *
+ *   - Seed entries (`id` like `c1..c7`) have no `completedAt`; the
+ *     drawer renders their label/date from
+ *     `quests.completedLabels.<id>` / `quests.completedDates.<id>`.
+ *   - Real entries (`id` like `q1..q4`) carry a `completedAt` epoch ms
+ *     stamped by `catchBug` the first time the quest hit 100%; the
+ *     drawer renders their label from `quests.labels.<id>` and the date
+ *     via `Intl.DateTimeFormat` in the active language.
  */
 export type CompletedQuest = {
   id: string;
   reward: number;
   kind: QuestKind;
   icon: string;
+  completedAt?: number;
 };
 
 export const COMPLETED_QUESTS: CompletedQuest[] = [

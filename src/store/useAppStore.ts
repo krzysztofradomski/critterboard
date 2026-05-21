@@ -5,7 +5,7 @@ import { persist, type PersistStorage, type StorageValue } from 'zustand/middlew
 
 import { CAUGHT_IDS } from '@/data/bugs';
 import { INITIAL_FOLLOWED } from '@/data/personProfiles';
-import { QUESTS } from '@/data/quests';
+import { QUESTS, QUEST_RULES } from '@/data/quests';
 import { DEFAULT_LANG, coerceLang, t, type LangId } from '@/i18n';
 import { type PersonaId, getPersonaName } from '@/personas';
 import { ME_SUB_ALIAS, type RouteName, type RouteParamMap, isMainTab } from '@/navigation/routes';
@@ -66,6 +66,14 @@ type State = {
   activityLog: ActivityEntry[];
   /** Live quest counters, keyed by quest id. Resolved against templates by `useQuests`. */
   questProgress: Record<string, number>;
+  /**
+   * Epoch ms at which each quest first reached 100%. Sticky — once
+   * stamped, the entry stays even if the rolling counter dips below the
+   * target (a daily quest that hits goal then rolls over still shows in
+   * the completed drawer). Empty on first run; the drawer falls back to
+   * the seeded `COMPLETED_QUESTS` so the screen isn't empty.
+   */
+  questCompletedAt: Record<string, number>;
 };
 
 type Actions = {
@@ -161,6 +169,7 @@ type Persisted = Pick<
   | 'catchLog'
   | 'activityLog'
   | 'questProgress'
+  | 'questCompletedAt'
 >;
 
 type PersistedWire = {
@@ -173,6 +182,7 @@ type PersistedWire = {
   catchLog?: CatchEvent[];
   activityLog?: ActivityEntry[];
   questProgress?: Record<string, number>;
+  questCompletedAt?: Record<string, number>;
 };
 
 const wireStorage: PersistStorage<Persisted> = {
@@ -191,6 +201,7 @@ const wireStorage: PersistStorage<Persisted> = {
         catchLog: wrapped.state.catchLog ?? buildSeedCatchLog(),
         activityLog: wrapped.state.activityLog ?? [],
         questProgress: { ...initialQuestProgress(), ...(wrapped.state.questProgress ?? {}) },
+        questCompletedAt: wrapped.state.questCompletedAt ?? {},
       },
       version: wrapped.version,
     };
@@ -207,6 +218,7 @@ const wireStorage: PersistStorage<Persisted> = {
       catchLog: value.state.catchLog,
       activityLog: value.state.activityLog,
       questProgress: value.state.questProgress,
+      questCompletedAt: value.state.questCompletedAt,
     };
     await AsyncStorage.setItem(name, JSON.stringify({ state: wire, version: value.version ?? 0 }));
   },
@@ -242,6 +254,7 @@ export const useAppStore = create<AppStore>()(
       catchLog: SEED_CATCH_LOG,
       activityLog: initialActivityLog(SEED_CATCH_LOG),
       questProgress: initialQuestProgress(),
+      questCompletedAt: {},
 
       go: (name, params) => {
         const alias = ME_SUB_ALIAS[name];
@@ -322,11 +335,31 @@ export const useAppStore = create<AppStore>()(
             });
           }
 
+          // Stamp first-completion timestamps. Trait/rarity quests stamp
+          // when their counter crosses `total`; the q4 streak quest
+          // stamps when the post-catch streak reaches its target. Sticky
+          // — never clear once set, even if the counter rolls.
+          let nextCompleted = s.questCompletedAt;
+          let touchedCompleted = false;
+          for (const q of QUESTS) {
+            if (nextCompleted[q.id] !== undefined) continue;
+            const rule = QUEST_RULES[q.id];
+            const progress = rule?.kind === 'streak' ? after : (nextProgress[q.id] ?? 0);
+            if (progress >= q.total) {
+              if (!touchedCompleted) {
+                nextCompleted = { ...nextCompleted };
+                touchedCompleted = true;
+              }
+              nextCompleted[q.id] = at;
+            }
+          }
+
           return {
             dex: nextDex,
             catchLog: nextCatchLog,
             questProgress: nextProgress,
             activityLog: nextActivity,
+            ...(touchedCompleted ? { questCompletedAt: nextCompleted } : {}),
           };
         }),
 
@@ -465,6 +498,7 @@ export const useAppStore = create<AppStore>()(
           catchLog: [],
           activityLog: [],
           questProgress: initialQuestProgress(),
+          questCompletedAt: {},
         });
       },
     }),
@@ -481,6 +515,7 @@ export const useAppStore = create<AppStore>()(
         catchLog: s.catchLog,
         activityLog: s.activityLog,
         questProgress: s.questProgress,
+        questCompletedAt: s.questCompletedAt,
       }),
       /**
        * Skip past onboarding for returning users. The flag is set in

@@ -6,11 +6,10 @@ import { CompletedDrawer } from '@/components/CompletedDrawer';
 import { QuestCard } from '@/components/QuestCard';
 import { QuestDialog } from '@/components/QuestDialog';
 import { BADGES_TOTAL, type Badge } from '@/data/badges';
-import { COMPLETED_QUESTS } from '@/data/quests';
 import { useT } from '@/i18n/helpers';
 import { useBadges } from '@/lib/badges';
 import { useLevel } from '@/lib/level';
-import { useQuests } from '@/lib/quests';
+import { useCompletedQuests, useQuests } from '@/lib/quests';
 import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
@@ -23,6 +22,7 @@ export function Quests() {
   const t = useT();
   const level = useLevel();
   const quests = useQuests();
+  const completedQuests = useCompletedQuests();
   const badges = useBadges();
 
   const [openId, setOpenId] = useState<string | null>(null);
@@ -103,7 +103,7 @@ export function Quests() {
           <CompletedDrawer
             open={completedOpen}
             onToggle={() => setCompletedOpen((v) => !v)}
-            items={COMPLETED_QUESTS}
+            items={completedQuests}
           />
         </ScrollView>
       </View>

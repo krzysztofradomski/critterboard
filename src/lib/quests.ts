@@ -1,7 +1,15 @@
 import { useMemo } from 'react';
 
 import { findBug } from '@/data/bugs';
-import { QUESTS, QUEST_RULES, type Quest, type QuestRule } from '@/data/quests';
+import {
+  COMPLETED_QUESTS,
+  QUESTS,
+  QUEST_DETAILS,
+  QUEST_RULES,
+  type CompletedQuest,
+  type Quest,
+  type QuestRule,
+} from '@/data/quests';
 import type { Rarity } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { currentStreak } from '@/lib/streak';
@@ -66,6 +74,36 @@ export function questsAdvancedBy(
  * counter — keeps the streak quest in lock-step with the streak chip
  * on Home and the Streak screen.
  */
+/**
+ * Completed-quest list for the drawer on the Quests screen. If the user
+ * has any real completions stamped in `questCompletedAt`, those win and
+ * are sorted newest-first; otherwise we fall back to the seeded
+ * `COMPLETED_QUESTS` so the drawer isn't empty on a fresh install.
+ */
+export function useCompletedQuests(): CompletedQuest[] {
+  const completedAt = useAppStore((s) => s.questCompletedAt);
+  return useMemo(() => {
+    const realIds = Object.keys(completedAt);
+    if (realIds.length === 0) return COMPLETED_QUESTS;
+    const items: CompletedQuest[] = [];
+    for (const id of realIds) {
+      const q = QUESTS.find((x) => x.id === id);
+      const d = QUEST_DETAILS[id];
+      const at = completedAt[id];
+      if (!q || !d || at === undefined) continue;
+      items.push({
+        id: q.id,
+        reward: q.reward,
+        kind: q.kind,
+        icon: d.icon,
+        completedAt: at,
+      });
+    }
+    items.sort((a, b) => (b.completedAt ?? 0) - (a.completedAt ?? 0));
+    return items;
+  }, [completedAt]);
+}
+
 export function useQuests(): Quest[] {
   const questProgress = useAppStore((s) => s.questProgress);
   const catchLog = useAppStore((s) => s.catchLog);

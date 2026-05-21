@@ -4,6 +4,20 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useT } from '@/i18n/helpers';
 import { PB } from '@/tokens/pb';
 import type { CompletedQuest } from '@/data/quests';
+import { useAppStore } from '@/store/useAppStore';
+
+/**
+ * Localized short date (`Apr 12` in en, `12 abr` in es). The pack lang
+ * IDs already align with BCP-47 root codes so we pass them straight to
+ * `Intl.DateTimeFormat`.
+ */
+function formatShortDate(at: number, lang: string): string {
+  try {
+    return new Intl.DateTimeFormat(lang, { month: 'short', day: 'numeric' }).format(new Date(at));
+  } catch {
+    return new Date(at).toDateString();
+  }
+}
 
 export function CompletedDrawer({
   open,
@@ -15,6 +29,7 @@ export function CompletedDrawer({
   items: CompletedQuest[];
 }) {
   const t = useT();
+  const lang = useAppStore((s) => s.language);
   const totalXp = items.reduce((s, i) => s + i.reward, 0);
 
   return (
@@ -38,29 +53,38 @@ export function CompletedDrawer({
       </Pressable>
       {open && (
         <View style={styles.list}>
-          {items.map((it) => (
-            <View key={it.id} style={styles.item}>
-              <View
-                style={[
-                  styles.itemIcon,
-                  { backgroundColor: it.kind === 'weekly' ? PB.purple : PB.green },
-                ]}
-              >
-                <Text style={styles.itemIconText}>{it.icon}</Text>
+          {items.map((it) => {
+            const isReal = it.completedAt !== undefined;
+            const label = isReal
+              ? t(`quests.labels.${it.id}`)
+              : t(`quests.completedLabels.${it.id}`);
+            const date = isReal
+              ? formatShortDate(it.completedAt!, lang)
+              : t(`quests.completedDates.${it.id}`);
+            return (
+              <View key={it.id} style={styles.item}>
+                <View
+                  style={[
+                    styles.itemIcon,
+                    { backgroundColor: it.kind === 'weekly' ? PB.purple : PB.green },
+                  ]}
+                >
+                  <Text style={styles.itemIconText}>{it.icon}</Text>
+                </View>
+                <View style={styles.itemBody}>
+                  <Text numberOfLines={1} style={styles.itemTitle}>
+                    {label}
+                  </Text>
+                  <Text style={styles.itemMeta}>
+                    {date} · {t(`quests.kind${it.kind === 'weekly' ? 'Weekly' : 'Daily'}`)}
+                  </Text>
+                </View>
+                <View style={styles.itemReward}>
+                  <Text style={styles.itemRewardText}>+{it.reward}</Text>
+                </View>
               </View>
-              <View style={styles.itemBody}>
-                <Text numberOfLines={1} style={styles.itemTitle}>
-                  {t(`quests.completedLabels.${it.id}`)}
-                </Text>
-                <Text style={styles.itemMeta}>
-                  {t(`quests.completedDates.${it.id}`)} · {t(`quests.kind${it.kind === 'weekly' ? 'Weekly' : 'Daily'}`)}
-                </Text>
-              </View>
-              <View style={styles.itemReward}>
-                <Text style={styles.itemRewardText}>+{it.reward}</Text>
-              </View>
-            </View>
-          ))}
+            );
+          })}
         </View>
       )}
     </View>
