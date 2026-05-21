@@ -109,10 +109,10 @@ Goal: every claim in Help / Settings about local-first data ownership becomes li
   - [x] `Scan.tsx` passes the captured/picked URI when calling `catchBug` (routed via Result params)
   - [x] Dex grid swap: tap a caught bug → Result with that URI instead of the default `CameraScene`
   - [x] Activity feed entries render the real thumbnail
-- [ ] **1.3 — Real scan-cache deletion** *(AFK, blocked by 1.2)*
-  - [ ] Walk `catchLog` URIs, `FileSystem.deleteAsync` each one
-  - [ ] Strip the URIs from the events post-delete
-  - [ ] Help.tsx "Clear scan cache" toast becomes truthful
+- [x] **1.3 — Real scan-cache deletion** *(AFK)*
+  - [x] Walk `catchLog` URIs, `FileSystem.deleteAsync` each one
+  - [x] Strip the URIs from the events (and activity entries) post-delete
+  - [x] Help.tsx "Clear scan cache" toast becomes truthful (`N photos · M MB`)
 - [ ] **1.4 — Completed quests derived from progress** *(AFK)*
   - [ ] Add `questCompletedAt: Record<string, number>` slice
   - [ ] `catchBug` records timestamp when a quest first hits 100%

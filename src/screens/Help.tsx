@@ -20,9 +20,26 @@ export function Help() {
   const language = useAppStore((s) => s.language);
   const showToast = useAppStore((s) => s.showToast);
   const wipeAll = useAppStore((s) => s.wipeAll);
+  const clearScanCache = useAppStore((s) => s.clearScanCache);
   const t = useT();
   const [openId, setOpenId] = useState<string | null>('faq1');
   const [confirmWipe, setConfirmWipe] = useState(false);
+
+  const photoCount = catchLog.reduce((n, e) => (e.photoUri ? n + 1 : n), 0);
+
+  const doClearCache = async () => {
+    const { deleted, bytes } = await clearScanCache();
+    if (deleted === 0) {
+      showToast({ text: t('help.data.clearToastEmpty'), icon: '🧹', bg: PB.green });
+      return;
+    }
+    const mb = (bytes / (1024 * 1024)).toFixed(1);
+    showToast({
+      text: t('help.data.clearToast', { n: deleted, mb }),
+      icon: '🧹',
+      bg: PB.green,
+    });
+  };
 
   const doExport = async (kind: 'dex' | 'sightings') => {
     const blob =
@@ -133,9 +150,9 @@ export function Help() {
               icon="🧹"
               color={PB.cream2}
               title={t('help.data.clearTitle')}
-              desc={t('help.data.clearDesc')}
+              desc={t('help.data.clearDesc', { n: photoCount })}
               cta={t('help.data.clearCta')}
-              onPress={() => showToast({ text: t('help.data.clearToast'), icon: '🧹', bg: PB.green })}
+              onPress={() => { void doClearCache(); }}
             />
             <DataRow
               icon="🔥"

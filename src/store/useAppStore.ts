@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as FileSystem from 'expo-file-system';
 import { create } from 'zustand';
 import { persist, type PersistStorage, type StorageValue } from 'zustand/middleware';
 
@@ -90,6 +91,12 @@ type Actions = {
    * indistinguishable from a fresh install.
    */
   wipeAll: () => Promise<void>;
+  /**
+   * Delete every cached scan photo from disk and strip the URIs from
+   * both `catchLog` and `activityLog` entries. Returns counts so the UI
+   * can show a truthful toast (deleted N photos · M MB).
+   */
+  clearScanCache: () => Promise<{ deleted: number; bytes: number }>;
 };
 
 type AppStore = State & Actions;
@@ -395,6 +402,40 @@ export const useAppStore = create<AppStore>()(
           if (s.hasOnboarded === value) return s;
           return { hasOnboarded: value };
         }),
+
+      clearScanCache: async () => {
+        const events = get().catchLog;
+        const uris = new Set<string>();
+        for (const e of events) if (e.photoUri) uris.add(e.photoUri);
+
+        let deleted = 0;
+        let bytes = 0;
+        for (const uri of uris) {
+          try {
+            const info = await FileSystem.getInfoAsync(uri, { size: true });
+            if (info.exists && typeof info.size === 'number') bytes += info.size;
+            await FileSystem.deleteAsync(uri, { idempotent: true });
+            deleted += 1;
+          } catch {
+            // Already gone (e.g. cache evicted by OS) or unreachable — skip
+            // silently. The store-side strip below still drops the URI so
+            // we don't promise the user a photo that isn't there.
+          }
+        }
+
+        set((s) => ({
+          catchLog: s.catchLog.map((e) =>
+            e.photoUri ? { id: e.id, at: e.at } : e,
+          ),
+          activityLog: s.activityLog.map((e) =>
+            e.kind === 'catch' && e.photoUri
+              ? { id: e.id, kind: 'catch', at: e.at, bugId: e.bugId }
+              : e,
+          ),
+        }));
+
+        return { deleted, bytes };
+      },
 
       wipeAll: async () => {
         const keepLanguage = get().language;
