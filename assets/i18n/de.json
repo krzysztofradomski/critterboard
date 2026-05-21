@@ -302,6 +302,7 @@
     },
     "map": {
       "locName": "Brooklyn, NY",
+      "locNamePrivate": "Privater Standort",
       "locSub": "{n} Sichtungen · letzte 30 Tage",
       "sightings": "{n}× Sichtungen",
       "distance": "0,6 km",

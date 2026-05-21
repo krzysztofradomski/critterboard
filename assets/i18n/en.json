@@ -302,6 +302,7 @@
     },
     "map": {
       "locName": "Brooklyn, NY",
+      "locNamePrivate": "Private location",
       "locSub": "{n} sightings · last 30 days",
       "sightings": "{n}× sightings",
       "distance": "0.4 mi",

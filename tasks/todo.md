@@ -147,10 +147,21 @@ Goal: features that hook into real OS APIs we already have permission for.
   - [x] Compute user's xp via `useXp`
   - [x] Replace static `LEADERS.self.xp = 24612` with the derived value
   - [x] Re-sort the roster by XP desc + renumber ranks; podium pulls from the resorted top 3
-- [ ] **2.4 — Reverse-geocoded Map header** *(AFK)*
-  - [ ] `expo-location.reverseGeocodeAsync(position)` → city / region
-  - [ ] Gated on `profile.locationShareOn`; falls back to a "private" label
-  - [ ] Cache result in store for 24h so we don't re-geocode on every Map open
+- [x] **2.4 — Reverse-geocoded Map header** *(AFK)*
+  - [x] `src/lib/geocode.ts` calls `getCurrentPositionAsync` + `reverseGeocodeAsync`
+  - [x] Gated on `profile.locationShareOn`; renders `map.locNamePrivate` when off
+  - [x] Cache persisted in `mapLocation` store slice, 24h TTL, refreshed on every Map mount + share-toggle change
+
+### Batch 2 — "world feels alive" (review)
+
+Shipped in four commits on `main`:
+
+- `8256bc6` — 2.1 daily streak nudge notification (`src/lib/notify.ts`, persona-voiced body, App.tsx effect)
+- `7e998fe` — 2.2 GPS-tagged catches on Map (`CatchEvent.lat/lng`, equirectangular projection, diamond pins)
+- `10b100f` — 2.3 leaderboard with real XP (full re-sort + renumber)
+- 2.4 — reverse-geocoded Map header (`mapLocation` slice + 24h TTL in `src/lib/geocode.ts`)
+
+The app now reacts to real OS state. The streak nudge speaks in the active persona, real catches drop pins where the user was standing, the leaderboard re-orders itself live, and the Map header reads the actual city/region (or shows a private label when share is off).
 
 ### Batch 3 — small polish (one-PR each)
 

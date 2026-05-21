@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle, Defs, Path, Pattern, Rect } from 'react-native-svg';
 
@@ -8,8 +8,10 @@ import { TabBar } from '@/components/TabBar';
 import { findBug } from '@/data/bugs';
 import { SIGHTINGS } from '@/data/sightings';
 import { useT } from '@/i18n/helpers';
+import { refreshMapLocation } from '@/lib/geocode';
 import { useGeotaggedCatches } from '@/lib/streak';
 import { PB } from '@/tokens/pb';
+import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
 /**
@@ -48,6 +50,24 @@ export function MapScreen() {
   const [selected, setSelected] = useState(2);
   const s = SIGHTINGS[selected]!;
   const userCatches = useGeotaggedCatches();
+  const locationShareOn = useAppStore((state) => state.profile.locationShareOn);
+  const mapLocation = useAppStore((state) => state.mapLocation);
+
+  useEffect(() => {
+    void refreshMapLocation();
+  }, [locationShareOn]);
+
+  /**
+   * Header label resolution: respect privacy first, then the cache, and
+   * fall back to the static string while a fresh fetch is in flight.
+   * The cache TTL lives in `refreshMapLocation`; here we only care
+   * whether the cache currently has a usable shape.
+   */
+  const headerLocName = !locationShareOn
+    ? t('map.locNamePrivate')
+    : mapLocation && (mapLocation.city || mapLocation.region)
+      ? [mapLocation.city, mapLocation.region].filter(Boolean).join(', ')
+      : t('map.locName');
 
   const userPins = useMemo(() => {
     if (userCatches.length === 0) return [];
@@ -135,7 +155,7 @@ export function MapScreen() {
         <Sticker bg={PB.cream} style={{ paddingVertical: 10, paddingHorizontal: 14 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
             <View style={{ flex: 1 }}>
-              <Text style={styles.locName}>{t('map.locName')}</Text>
+              <Text style={styles.locName}>{headerLocName}</Text>
               <Text style={styles.locSub}>{t('map.locSub', { n: SIGHTINGS.length })}</Text>
             </View>
             <IconBtn bg={PB.yellow}>⌖</IconBtn>

@@ -302,6 +302,7 @@
     },
     "map": {
       "locName": "Brooklyn, NY",
+      "locNamePrivate": "Lokalizacja ukryta",
       "locSub": "{n} obserwacji · ostatnie 30 dni",
       "sightings": "{n}× obserwacje",
       "distance": "0,6 km",

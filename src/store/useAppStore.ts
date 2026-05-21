@@ -31,6 +31,20 @@ export type ToastSpec = {
 };
 
 /**
+ * Cached reverse-geocode result for the Map header. The lat/lng are
+ * kept alongside the resolved labels so a stale cache can be detected
+ * without re-fetching geocode info (e.g. if the user moves cities, the
+ * 24h TTL expires before the labels go visibly wrong).
+ */
+export type MapLocationCache = {
+  lat: number;
+  lng: number;
+  city: string;
+  region: string;
+  at: number;
+};
+
+/**
  * Activity-feed entries. Three kinds for now (catch / persona /
  * streak); each carries the minimum data the Activity screen needs to
  * render a localized title + subtitle + CTA route. Production-shape:
@@ -75,6 +89,13 @@ type State = {
   catchLog: CatchEvent[];
   /** Newest-first activity feed, capped at ACTIVITY_CAP entries. */
   activityLog: ActivityEntry[];
+  /**
+   * Reverse-geocoded location for the Map header, refreshed at most
+   * every 24h. Null when `profile.locationShareOn` is off or before the
+   * first successful fetch.
+   */
+  mapLocation: MapLocationCache | null;
+
   /** Live quest counters, keyed by quest id. Resolved against templates by `useQuests`. */
   questProgress: Record<string, number>;
   /**
@@ -101,6 +122,7 @@ type Actions = {
   setLanguage: (lang: LangId) => void;
   setProfile: (patch: Partial<Profile>) => void;
   setLastPhotoUri: (uri: string | null) => void;
+  setMapLocation: (loc: MapLocationCache | null) => void;
   setOnboarded: (value: boolean) => void;
   /**
    * Reset every user-visible slice to its first-run state and drop the
@@ -179,6 +201,7 @@ type Persisted = Pick<
   | 'hasOnboarded'
   | 'catchLog'
   | 'activityLog'
+  | 'mapLocation'
   | 'questProgress'
   | 'questCompletedAt'
 >;
@@ -192,6 +215,7 @@ type PersistedWire = {
   hasOnboarded?: boolean;
   catchLog?: CatchEvent[];
   activityLog?: ActivityEntry[];
+  mapLocation?: MapLocationCache | null;
   questProgress?: Record<string, number>;
   questCompletedAt?: Record<string, number>;
 };
@@ -211,6 +235,7 @@ const wireStorage: PersistStorage<Persisted> = {
         hasOnboarded: Boolean(wrapped.state.hasOnboarded),
         catchLog: wrapped.state.catchLog ?? buildSeedCatchLog(),
         activityLog: wrapped.state.activityLog ?? [],
+        mapLocation: wrapped.state.mapLocation ?? null,
         questProgress: { ...initialQuestProgress(), ...(wrapped.state.questProgress ?? {}) },
         questCompletedAt: wrapped.state.questCompletedAt ?? {},
       },
@@ -228,6 +253,7 @@ const wireStorage: PersistStorage<Persisted> = {
       hasOnboarded: value.state.hasOnboarded,
       catchLog: value.state.catchLog,
       activityLog: value.state.activityLog,
+      mapLocation: value.state.mapLocation,
       questProgress: value.state.questProgress,
       questCompletedAt: value.state.questCompletedAt,
     };
@@ -264,6 +290,7 @@ export const useAppStore = create<AppStore>()(
 
       catchLog: SEED_CATCH_LOG,
       activityLog: initialActivityLog(SEED_CATCH_LOG),
+      mapLocation: null,
       questProgress: initialQuestProgress(),
       questCompletedAt: {},
 
@@ -447,6 +474,8 @@ export const useAppStore = create<AppStore>()(
 
       setLastPhotoUri: (uri) => set({ lastPhotoUri: uri }),
 
+      setMapLocation: (loc) => set({ mapLocation: loc }),
+
       setOnboarded: (value) =>
         set((s) => {
           if (s.hasOnboarded === value) return s;
@@ -514,6 +543,7 @@ export const useAppStore = create<AppStore>()(
           lastPhotoUri: null,
           catchLog: [],
           activityLog: [],
+          mapLocation: null,
           questProgress: initialQuestProgress(),
           questCompletedAt: {},
         });
@@ -531,6 +561,7 @@ export const useAppStore = create<AppStore>()(
         hasOnboarded: s.hasOnboarded,
         catchLog: s.catchLog,
         activityLog: s.activityLog,
+        mapLocation: s.mapLocation,
         questProgress: s.questProgress,
         questCompletedAt: s.questCompletedAt,
       }),
