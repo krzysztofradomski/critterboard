@@ -165,7 +165,7 @@ The app now reacts to real OS state. The streak nudge speaks in the active perso
 
 ### Batch 3 — small polish (one-PR each)
 
-- [ ] **3.1 — Facts table for all 12 species** *(AFK)* — `Result.tsx` populated for every bug, ideally via `bugs.<id>.facts.*` keys
+- [x] **3.1 — Facts table for all 12 species** *(AFK)* — `Result.tsx` populated for every bug via 4-fact tiles (habitat/wingspan-or-size/range/diet-or-active). 20 new value keys (`gardens`/`ponds`/`eaves`/per-bug sizes/`tropics`/`europe`/`seAsia`/`insects`/`aphids`/`sap`/`leaves`/`fruit`) added in en/pl/de/es
 - [ ] **3.2 — Streak calendar date range computed** *(AFK)* — `Intl.DateTimeFormat`, kill the "Apr 14 → May 18" static string
 - [ ] **3.3 — "Resets in Xh" computed** *(AFK)* — hours to local midnight, formatted via i18n
 - [ ] **3.4 — Onboarding footer reflects network state** *(AFK)* — "✓ no internet" flips to "✓ with internet" when `profile.networkOn`

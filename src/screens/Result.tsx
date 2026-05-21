@@ -26,17 +26,71 @@ const FACT_KEYS: Record<string, Array<[string, string, string]>> = {
     ['facts.range',    'facts.values.naRange',      PB.purple],
     ['facts.diet',     'facts.values.milkweed',     PB.red],
   ],
-  lhoc: [
+  rhin: [
     ['facts.habitat',  'facts.values.forests',      PB.green],
-    ['facts.wingspan', 'facts.values.lhocWingspan', PB.blue],
-    ['facts.range',    'facts.values.naEastRange',  PB.purple],
-    ['facts.active',   'facts.values.nighttime',    PB.red],
+    ['facts.size',     'facts.values.rhinSize',     PB.blue],
+    ['facts.range',    'facts.values.tropics',      PB.purple],
+    ['facts.diet',     'facts.values.fruit',        PB.red],
   ],
   hcat: [
     ['facts.habitat',  'facts.values.hives',        PB.green],
     ['facts.wingspan', 'facts.values.hcatWingspan', PB.blue],
     ['facts.range',    'facts.values.worldwide',    PB.purple],
     ['facts.diet',     'facts.values.nectar',       PB.red],
+  ],
+  mant: [
+    ['facts.habitat',  'facts.values.meadows',      PB.green],
+    ['facts.size',     'facts.values.mantSize',     PB.blue],
+    ['facts.range',    'facts.values.worldwide',    PB.purple],
+    ['facts.diet',     'facts.values.insects',      PB.red],
+  ],
+  lady: [
+    ['facts.habitat',  'facts.values.gardens',      PB.green],
+    ['facts.size',     'facts.values.ladySize',     PB.blue],
+    ['facts.range',    'facts.values.worldwide',    PB.purple],
+    ['facts.diet',     'facts.values.aphids',       PB.red],
+  ],
+  drag: [
+    ['facts.habitat',  'facts.values.ponds',        PB.green],
+    ['facts.wingspan', 'facts.values.dragWingspan', PB.blue],
+    ['facts.range',    'facts.values.europe',       PB.purple],
+    ['facts.diet',     'facts.values.insects',      PB.red],
+  ],
+  lhoc: [
+    ['facts.habitat',  'facts.values.forests',      PB.green],
+    ['facts.wingspan', 'facts.values.lhocWingspan', PB.blue],
+    ['facts.range',    'facts.values.naEastRange',  PB.purple],
+    ['facts.active',   'facts.values.nighttime',    PB.red],
+  ],
+  fire: [
+    ['facts.habitat',  'facts.values.meadows',      PB.green],
+    ['facts.size',     'facts.values.fireSize',     PB.blue],
+    ['facts.range',    'facts.values.naRange',      PB.purple],
+    ['facts.active',   'facts.values.nighttime',    PB.red],
+  ],
+  cica: [
+    ['facts.habitat',  'facts.values.forests',      PB.green],
+    ['facts.size',     'facts.values.cicaSize',     PB.blue],
+    ['facts.range',    'facts.values.naEastRange',  PB.purple],
+    ['facts.diet',     'facts.values.sap',          PB.red],
+  ],
+  hwsp: [
+    ['facts.habitat',  'facts.values.eaves',        PB.green],
+    ['facts.size',     'facts.values.hwspSize',     PB.blue],
+    ['facts.range',    'facts.values.worldwide',    PB.purple],
+    ['facts.diet',     'facts.values.nectar',       PB.red],
+  ],
+  walk: [
+    ['facts.habitat',  'facts.values.forests',      PB.green],
+    ['facts.size',     'facts.values.walkSize',     PB.blue],
+    ['facts.range',    'facts.values.worldwide',    PB.purple],
+    ['facts.diet',     'facts.values.leaves',       PB.red],
+  ],
+  atla: [
+    ['facts.habitat',  'facts.values.forests',      PB.green],
+    ['facts.wingspan', 'facts.values.atlaWingspan', PB.blue],
+    ['facts.range',    'facts.values.seAsia',       PB.purple],
+    ['facts.active',   'facts.values.nighttime',    PB.red],
   ],
 };
 
