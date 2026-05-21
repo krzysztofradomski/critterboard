@@ -189,7 +189,8 @@
       "tab": {
         "all": "Todo",
         "social": "Social",
-        "system": "Sistema"
+        "system": "Sistema",
+        "friends": "Amigos"
       },
       "emptyTitle": "Grillos.",
       "emptySub": "Aún no hay nada aquí.",
@@ -230,7 +231,19 @@
         "personaCta": "Abrir chat",
         "streakTitle": "¡Racha de {days} días! No la rompas",
         "streakSub": "{when}",
-        "streakCta": "Abrir escáner"
+        "streakCta": "Abrir escáner",
+        "friendCatchTitle": "{name} cazó {bug}",
+        "friendCatchSub": "{when}",
+        "friendStreakTitle": "{name} · racha de {days} días",
+        "friendStreakSub": "{when}",
+        "friendBadgeTitle": "{name} ganó una insignia",
+        "friendBadgeSub": "{when}",
+        "friendRankUpTitle": "{name} subió a #{rank}",
+        "friendRankUpSub": "{when}",
+        "friendFollowTitle": "{name} te sigue",
+        "friendFollowSub": "{when}",
+        "friendCta": "Ver perfil",
+        "feedOffline": "Activa la red para ver la actividad de tus amigos."
       },
       "when": {
         "now": "ahora mismo",

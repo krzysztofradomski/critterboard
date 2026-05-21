@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { useLeaderboard } from '@/backend/hooks';
+import type { LeaderboardEntry, LeaderboardScope } from '@/backend';
 import { PersonModal } from '@/components/PersonModal';
 import { LEADERS, type LeaderRow } from '@/data/leaderboard';
 import { countryName, useT } from '@/i18n/helpers';
@@ -9,8 +11,8 @@ import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
-const TABS = ['global', 'weekly', 'friends'] as const;
-type TabName = (typeof TABS)[number];
+const TABS: LeaderboardScope[] = ['global', 'weekly', 'friends'];
+type TabName = LeaderboardScope;
 
 const PODIUM_STYLE = [
   { h: 80,  c: PB.cream2, place: '2', medal: '🥈' },
@@ -30,17 +32,29 @@ export function Leaderboard() {
   const userVisible = profile.networkOn && profile.leaderboardOn;
   const userCountry = profile.locationShareOn && profile.networkOn ? 'US' : 'private';
 
-  /**
-   * Rebuild the leaderboard with the user's real XP in their slot, then
-   * re-sort the whole roster by XP desc and renumber ranks. The user
-   * may now overtake (or fall behind) synthetic peers; the podium
-   * naturally reflects whoever is in the top 3 after the resort.
-   */
-  const sorted = useMemo<LeaderRow[]>(() => {
-    const next = LEADERS.map((l) => (l.self ? { ...l, xp: userXp } : l));
+  // Backend-fed leaderboard. While offline (`networkOn === false`) the
+  // hook short-circuits to `data: null` — fall back to the same in-app
+  // synthesis we used before the seam was introduced so the screen
+  // still has something to render. When online the data comes from the
+  // mock adapter today, swappable to Cloudflare with one flag flip.
+  const { data: page } = useLeaderboard(tab);
+
+  const sorted = useMemo<LeaderboardEntry[]>(() => {
+    if (page) return page.entries;
+    // Offline fallback: same synthesis as Tier B — user's XP in their
+    // slot, re-sorted, ranks renumbered.
+    const next = LEADERS.map<LeaderRow>((l) => (l.self ? { ...l, xp: userXp } : l));
     next.sort((a, b) => b.xp - a.xp);
-    return next.map((l, i) => ({ ...l, rank: i + 1 }));
-  }, [userXp]);
+    return next.map<LeaderboardEntry>((l, i) => ({
+      userId: l.self ? profile.name : l.name,
+      displayName: l.name,
+      xp: l.xp,
+      rank: i + 1,
+      country: l.country,
+      rankDelta: null,
+      ...(l.self ? { isSelf: true } : {}),
+    }));
+  }, [page, userXp, profile.name]);
 
   const podium = useMemo(() => {
     const top = [sorted[0], sorted[1], sorted[2]];
@@ -80,11 +94,11 @@ export function Leaderboard() {
         {podium.map((p) => {
           if (!p.row) return null;
           const row = p.row;
-          const displayName = row.self ? profile.name : row.name;
+          const displayName = row.isSelf ? profile.name : row.displayName;
           return (
             <Pressable
               key={row.rank}
-              onPress={() => setOpenName(row.self ? 'you' : row.name)}
+              onPress={() => setOpenName(row.isSelf ? 'you' : row.displayName)}
               style={{ flex: 1, alignItems: 'center' }}
             >
               <View style={styles.medal}>
@@ -108,16 +122,16 @@ export function Leaderboard() {
       <View style={styles.list}>
         <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
           {sorted.slice(3).map((l) => {
-            if (l.self && !userVisible) return null;
-            const name = l.self ? profile.name : l.name;
-            const country = l.self ? userCountry : l.country;
+            if (l.isSelf && !userVisible) return null;
+            const name = l.isSelf ? profile.name : l.displayName;
+            const country = l.isSelf ? userCountry : (l.country ?? 'private');
             return (
               <Pressable
-                key={l.rank}
-                onPress={() => setOpenName(l.self ? 'you' : l.name)}
+                key={`${l.userId}-${l.rank}`}
+                onPress={() => setOpenName(l.isSelf ? 'you' : l.displayName)}
                 style={[
                   styles.row,
-                  { backgroundColor: l.self ? PB.yellow : PB.paper },
+                  { backgroundColor: l.isSelf ? PB.yellow : PB.paper },
                 ]}
               >
                 <Text style={styles.rank}>{l.rank}</Text>
@@ -127,7 +141,7 @@ export function Leaderboard() {
                 <View style={{ flex: 1, minWidth: 0 }}>
                   <Text numberOfLines={1} style={styles.name}>
                     {name}
-                    {l.self ? ` ${t('common.youParen')}` : ''}
+                    {l.isSelf ? ` ${t('common.youParen')}` : ''}
                   </Text>
                   <Text style={styles.meta}>
                     {t('leaderboard.meta', { country: countryName(language, country) })}

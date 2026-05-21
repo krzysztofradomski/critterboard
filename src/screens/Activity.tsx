@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { useFeed } from '@/backend/hooks';
+import type { FeedEvent } from '@/backend';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { findBug } from '@/data/bugs';
@@ -21,13 +23,15 @@ import { useNav } from '@/store/useNav';
  * the matching action types.
  */
 type UiKind = 'social' | 'system';
+type Tab = 'all' | UiKind | 'friends';
 
 function uiKindOf(entry: ActivityEntry): UiKind {
   return entry.kind === 'persona' ? 'system' : 'social';
 }
 
 type Resolved = {
-  entry: ActivityEntry;
+  /** Stable list key. */
+  id: string;
   emoji: string;
   color: string;
   photoUri?: string;
@@ -35,18 +39,116 @@ type Resolved = {
   sub: string;
   cta: string;
   onPress: () => void;
+  uiKind: UiKind | 'friends';
 };
+
+type LangId = Parameters<typeof timeAgo>[1];
+type TFn = (key: string, vars?: Record<string, string | number>) => string;
+type GoFn = ReturnType<typeof useNav>['go'];
+
+/**
+ * Project a backend `FeedEvent` onto the same `Resolved` row shape the
+ * local-activity stream uses. Keeps the list rendering branch-free at
+ * the JSX layer.
+ */
+function resolveFeedEvent(
+  ev: FeedEvent,
+  language: LangId,
+  t: TFn,
+  go: GoFn,
+): Resolved {
+  const when = timeAgo(ev.at, language);
+  const baseEmoji = ev.actor.avatarEmoji ?? '🐛';
+  const baseColor = PB.cream2;
+  const profileGo = () => go('friends');
+
+  if (ev.kind === 'catch') {
+    const bug = findBug(ev.bugId);
+    return {
+      id: ev.id,
+      emoji: bug?.emoji ?? baseEmoji,
+      color: bug?.color ?? baseColor,
+      title: t('activity.kind.friendCatchTitle', {
+        name: ev.actor.displayName,
+        bug: bug ? bugName(language, bug.id) : ev.bugId,
+      }),
+      sub: t('activity.kind.friendCatchSub', { when }),
+      cta: t('activity.kind.friendCta'),
+      onPress: profileGo,
+      uiKind: 'friends',
+    };
+  }
+  if (ev.kind === 'streak') {
+    return {
+      id: ev.id,
+      emoji: '🔥',
+      color: PB.red,
+      title: t('activity.kind.friendStreakTitle', {
+        name: ev.actor.displayName,
+        days: ev.days,
+      }),
+      sub: t('activity.kind.friendStreakSub', { when }),
+      cta: t('activity.kind.friendCta'),
+      onPress: profileGo,
+      uiKind: 'friends',
+    };
+  }
+  if (ev.kind === 'badge') {
+    return {
+      id: ev.id,
+      emoji: '🏅',
+      color: PB.yellow,
+      title: t('activity.kind.friendBadgeTitle', { name: ev.actor.displayName }),
+      sub: t('activity.kind.friendBadgeSub', { when }),
+      cta: t('activity.kind.friendCta'),
+      onPress: profileGo,
+      uiKind: 'friends',
+    };
+  }
+  if (ev.kind === 'rankUp') {
+    return {
+      id: ev.id,
+      emoji: '📈',
+      color: PB.green,
+      title: t('activity.kind.friendRankUpTitle', {
+        name: ev.actor.displayName,
+        rank: ev.to,
+      }),
+      sub: t('activity.kind.friendRankUpSub', { when }),
+      cta: t('activity.kind.friendCta'),
+      onPress: () => go('leaderboard'),
+      uiKind: 'friends',
+    };
+  }
+  return {
+    id: ev.id,
+    emoji: baseEmoji,
+    color: baseColor,
+    title: t('activity.kind.friendFollowTitle', { name: ev.actor.displayName }),
+    sub: t('activity.kind.friendFollowSub', { when }),
+    cta: t('activity.kind.friendCta'),
+    onPress: profileGo,
+    uiKind: 'friends',
+  };
+}
 
 export function Activity() {
   const { go, back } = useNav();
   const t = useT();
   const language = useAppStore((s) => s.language);
+  const networkOn = useAppStore((s) => s.profile.networkOn);
   const activityLog = useAppStore((s) => s.activityLog);
-  const [tab, setTab] = useState<'all' | UiKind>('all');
+  const [tab, setTab] = useState<Tab>('all');
 
-  const resolved: Resolved[] = useMemo(() => {
+  // Backend-fed friend activity. Only queried when `networkOn` is on;
+  // the hook returns an offline error otherwise and the screen renders
+  // the dedicated empty state.
+  const { data: feedPage } = useFeed();
+
+  const localResolved: Resolved[] = useMemo(() => {
     return activityLog.map((entry) => {
       const when = timeAgo(entry.at, language);
+      const uiKind = uiKindOf(entry);
 
       if (entry.kind === 'catch') {
         const bug = findBug(entry.bugId);
@@ -54,7 +156,7 @@ export function Activity() {
         const xp = bug?.xp ?? 0;
         const photoUri = entry.photoUri;
         return {
-          entry,
+          id: entry.id,
           emoji: bug?.emoji ?? '🐛',
           color: bug?.color ?? PB.cream2,
           ...(photoUri ? { photoUri } : {}),
@@ -63,6 +165,7 @@ export function Activity() {
           cta: t('activity.kind.catchCta'),
           onPress: () =>
             go('result', photoUri ? { id: entry.bugId, photoUri } : { id: entry.bugId }),
+          uiKind,
         };
       }
 
@@ -70,32 +173,41 @@ export function Activity() {
         const meta = PERSONA_META[entry.personaId];
         const name = t(`personas.${entry.personaId}.name`);
         return {
-          entry,
+          id: entry.id,
           emoji: meta.emoji,
           color: meta.avatarBg,
           title: t('activity.kind.personaTitle', { name }),
           sub: t('activity.kind.personaSub', { when }),
           cta: t('activity.kind.personaCta'),
           onPress: () => go('chat'),
+          uiKind,
         };
       }
 
-      // streak
       return {
-        entry,
+        id: entry.id,
         emoji: '🔥',
         color: PB.red,
         title: t('activity.kind.streakTitle', { days: entry.days }),
         sub: t('activity.kind.streakSub', { when }),
         cta: t('activity.kind.streakCta'),
         onPress: () => go('scan'),
+        uiKind,
       };
     });
   }, [activityLog, language, t, go]);
 
-  const filtered = tab === 'all'
-    ? resolved
-    : resolved.filter((r) => uiKindOf(r.entry) === tab);
+  const friendResolved: Resolved[] = useMemo(() => {
+    const events: FeedEvent[] = feedPage?.events ?? [];
+    return events.map((ev) => resolveFeedEvent(ev, language, t, go));
+  }, [feedPage, language, t, go]);
+
+  const filtered =
+    tab === 'all'
+      ? localResolved
+      : tab === 'friends'
+        ? friendResolved
+        : localResolved.filter((r) => r.uiKind === tab);
 
   return (
     <View style={styles.root}>
@@ -109,7 +221,7 @@ export function Activity() {
       </View>
 
       <View style={styles.tabs}>
-        {(['all', 'social', 'system'] as const).map((id) => (
+        {(['all', 'social', 'system', 'friends'] as const).map((id) => (
           <Pressable
             key={id}
             onPress={() => setTab(id)}
@@ -129,8 +241,14 @@ export function Activity() {
       </View>
 
       <ScrollView contentContainerStyle={styles.list}>
+        {tab === 'friends' && !networkOn && (
+          <Sticker bg={PB.cream2} rotate={-1} style={{ marginTop: 20, padding: 18, alignItems: 'center' }}>
+            <Text style={{ fontSize: 40 }}>📡</Text>
+            <Text style={styles.emptyTitle}>{t('activity.kind.feedOffline')}</Text>
+          </Sticker>
+        )}
         {filtered.map((r) => (
-          <Pressable key={r.entry.id} onPress={r.onPress} style={styles.row}>
+          <Pressable key={r.id} onPress={r.onPress} style={styles.row}>
             {r.photoUri ? (
               <View style={[styles.icon, { backgroundColor: r.color, overflow: 'hidden' }]}>
                 <Image source={{ uri: r.photoUri }} style={StyleSheet.absoluteFill} resizeMode="cover" />

@@ -189,7 +189,8 @@
       "tab": {
         "all": "Wszystko",
         "social": "Społeczność",
-        "system": "System"
+        "system": "System",
+        "friends": "Znajomi"
       },
       "emptyTitle": "Cisza.",
       "emptySub": "Jeszcze nic tu nie ma.",
@@ -230,7 +231,19 @@
         "personaCta": "Otwórz czat",
         "streakTitle": "{days} dni z rzędu! Nie przerywaj",
         "streakSub": "{when}",
-        "streakCta": "Otwórz skan"
+        "streakCta": "Otwórz skan",
+        "friendCatchTitle": "{name} złapał(a) {bug}",
+        "friendCatchSub": "{when}",
+        "friendStreakTitle": "{name} · seria {days} dni",
+        "friendStreakSub": "{when}",
+        "friendBadgeTitle": "{name} zdobył(a) odznakę",
+        "friendBadgeSub": "{when}",
+        "friendRankUpTitle": "{name} skoczył(a) na #{rank}",
+        "friendRankUpSub": "{when}",
+        "friendFollowTitle": "{name} cię obserwuje",
+        "friendFollowSub": "{when}",
+        "friendCta": "Zobacz profil",
+        "feedOffline": "Włącz sieć, by zobaczyć aktywność znajomych."
       },
       "when": {
         "now": "przed chwilą",

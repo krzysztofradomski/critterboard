@@ -1,40 +1,65 @@
 import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { useFriends, useToggleFollow } from '@/backend/hooks';
+import type { FriendScope } from '@/backend';
 import { IconBtn } from '@/components/IconBtn';
 import { PersonModal } from '@/components/PersonModal';
 import { Sticker } from '@/components/Sticker';
-import { FRIENDS, PERSON_PROFILES, friendLastKey, friendWhyKey } from '@/data/personProfiles';
-import { useT } from '@/i18n/helpers';
+import { PERSON_PROFILES, friendWhyKey, type FriendWhyKey } from '@/data/personProfiles';
+import { bugName, useT } from '@/i18n/helpers';
 import { countryName } from '@/i18n/helpers';
 import { useAppStore } from '@/store/useAppStore';
 import { PB } from '@/tokens/pb';
 import { useNav } from '@/store/useNav';
 
-type Tab = 'following' | 'followers' | 'suggested';
+type Tab = FriendScope;
+
+/**
+ * Adapter-row fields aren't 1:1 with the legacy display strings (`when`
+ * is now `lastCatch.at`, the suggestion `whyKey` lives in
+ * `reason.kind`). Resolve to translation-key shims at render time.
+ */
+const REASON_TO_WHY_KEY: Record<string, FriendWhyKey> = {
+  sharedBugs: 'sharedBugs',
+  nearby: 'brooklyn',
+  viaFriend: 'viaMothwhisperer',
+};
+
+/**
+ * Compact "2 hr" / "18 m" / "1 d" label for the last-catch snippet.
+ * Wrapped by the `friends.ago` template (kept English-shaped to match
+ * the legacy seed data — full localization is in `lib/timeAgo`).
+ */
+function formatAgo(deltaMs: number): string {
+  const min = Math.floor(deltaMs / 60_000);
+  if (min < 60) return `${Math.max(1, min)} m`;
+  const hr = Math.floor(min / 60);
+  if (hr < 24) return `${hr} hr`;
+  return `${Math.floor(hr / 24)} d`;
+}
 
 export function Friends() {
   const { back } = useNav();
   const t = useT();
   const language = useAppStore((s) => s.language);
-  // `followed` lives in the persisted store so the choice survives a cold
-  // launch. `toggleFollow` is the single mutator — keeping the call sites
-  // tiny here lets the modal share the exact same handler.
   const followed = useAppStore((s) => s.followed);
-  const toggleFollow = useAppStore((s) => s.toggleFollow);
+  // Backend-aware toggle: updates the local persisted set *and* notifies
+  // the server (no-op in mock today).
+  const toggleFollow = useToggleFollow();
   const [tab, setTab] = useState<Tab>('following');
   const [openName, setOpenName] = useState<string | null>(null);
 
-  const list = FRIENDS.filter((u) => {
-    if (tab === 'following') return followed.has(u.name);
-    if (tab === 'followers') return u.rel === 'follower' || followed.has(u.name);
-    return u.rel === 'suggested';
-  });
+  const { data: page } = useFriends(tab);
+  const list = page?.entries ?? [];
 
+  // Count badges in the tabs need to reflect *all three* scopes
+  // simultaneously — but we only fetched one. Cheap workaround: fall
+  // back to local cardinality for the inactive tabs.
   const counts = {
-    following: FRIENDS.filter((u) => followed.has(u.name)).length,
-    followers: FRIENDS.filter((u) => u.rel === 'follower' || followed.has(u.name)).length,
-    suggested: FRIENDS.filter((u) => u.rel === 'suggested').length,
+    following: tab === 'following' ? list.length : followed.size,
+    followers: tab === 'followers' ? list.length : followed.size,
+    suggested: tab === 'suggested' ? list.length : (page?.totalCount ?? 0),
   };
 
   return (
@@ -68,44 +93,53 @@ export function Friends() {
 
       <ScrollView contentContainerStyle={styles.list}>
         {list.map((u) => {
-          const isFollowed = followed.has(u.name);
+          const isFollowed = followed.has(u.userId);
+          const whyKey = u.reason ? REASON_TO_WHY_KEY[u.reason.kind] : undefined;
+          // Render the last-catch snippet from the live bug catalogue
+          // (localized via the existing `bugName` helper) rather than
+          // the legacy hand-curated `person.friend.*` strings.
+          const lastBugName = u.lastCatch ? bugName(language, u.lastCatch.bugId) : '';
+          const when = u.lastCatch
+            ? formatAgo(Date.now() - u.lastCatch.at)
+            : '';
+          const delta = u.rankDelta;
           return (
             <Pressable
-              key={u.name}
-              onPress={() => setOpenName(u.name)}
+              key={u.userId}
+              onPress={() => setOpenName(u.displayName)}
               style={styles.row}
             >
-              <View style={[styles.avatar, { backgroundColor: u.color }]}>
-                <Text style={{ fontSize: 22 }}>{u.emoji}</Text>
+              <View style={[styles.avatar, { backgroundColor: u.avatarColor ?? PB.cream2 }]}>
+                <Text style={{ fontSize: 22 }}>{u.avatarEmoji ?? '🐛'}</Text>
               </View>
               <View style={{ flex: 1, minWidth: 0 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 6 }}>
-                  <Text numberOfLines={1} style={styles.name}>{u.name}</Text>
-                  <Text style={styles.country}>· {countryName(language, u.country)}</Text>
+                  <Text numberOfLines={1} style={styles.name}>{u.displayName}</Text>
+                  <Text style={styles.country}>· {countryName(language, u.country ?? 'private')}</Text>
                 </View>
                 {tab === 'suggested' ? (
-                  <Text style={styles.why}>{u.whyKey ? t(friendWhyKey(u.whyKey)) : ''}</Text>
+                  <Text style={styles.why}>{whyKey ? t(friendWhyKey(whyKey)) : ''}</Text>
                 ) : (
                   <View style={styles.lastRow}>
-                    <Text style={{ fontSize: 12 }}>{u.catchEmoji}</Text>
-                    <Text style={styles.last}>{t(friendLastKey(u.lastKey))}</Text>
-                    <Text style={styles.when}>· {t('friends.ago', { when: u.when })}</Text>
+                    <Text style={{ fontSize: 12 }}>{u.lastCatch?.emoji ?? '🐛'}</Text>
+                    <Text style={styles.last}>{lastBugName}</Text>
+                    <Text style={styles.when}>· {t('friends.ago', { when })}</Text>
                   </View>
                 )}
               </View>
               <View style={{ alignItems: 'flex-end', gap: 4 }}>
                 <View style={styles.rank}>
                   <Text style={styles.rankText}>
-                    #{u.rank}
-                    {u.delta && u.delta !== '+0' ? (
-                      <Text style={{ color: u.delta.startsWith('+') ? PB.green : PB.red }}>
-                        {' '}{u.delta.startsWith('+') ? '↑' : '↓'}
+                    #{u.rank ?? '—'}
+                    {delta != null && delta !== 0 ? (
+                      <Text style={{ color: delta < 0 ? PB.green : PB.red }}>
+                        {' '}{delta < 0 ? '↑' : '↓'}
                       </Text>
                     ) : null}
                   </Text>
                 </View>
                 <Pressable
-                  onPress={() => toggleFollow(u.name)}
+                  onPress={() => toggleFollow(u.userId)}
                   style={[
                     styles.followBtn,
                     { backgroundColor: isFollowed ? PB.cream : PB.green },

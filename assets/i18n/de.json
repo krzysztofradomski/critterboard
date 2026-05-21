@@ -189,7 +189,8 @@
       "tab": {
         "all": "Alle",
         "social": "Sozial",
-        "system": "System"
+        "system": "System",
+        "friends": "Freunde"
       },
       "emptyTitle": "Grillen.",
       "emptySub": "Hier ist noch nichts.",
@@ -230,7 +231,19 @@
         "personaCta": "Chat öffnen",
         "streakTitle": "{days}-Tage-Serie! Nicht abreißen lassen",
         "streakSub": "{when}",
-        "streakCta": "Scan öffnen"
+        "streakCta": "Scan öffnen",
+        "friendCatchTitle": "{name} fing {bug}",
+        "friendCatchSub": "{when}",
+        "friendStreakTitle": "{name} · {days}-Tage-Serie",
+        "friendStreakSub": "{when}",
+        "friendBadgeTitle": "{name} hat ein Abzeichen geholt",
+        "friendBadgeSub": "{when}",
+        "friendRankUpTitle": "{name} stieg auf #{rank}",
+        "friendRankUpSub": "{when}",
+        "friendFollowTitle": "{name} folgt dir",
+        "friendFollowSub": "{when}",
+        "friendCta": "Profil ansehen",
+        "feedOffline": "Netzwerk aktivieren, um Freundesaktivität zu sehen."
       },
       "when": {
         "now": "gerade eben",

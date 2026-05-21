@@ -10,6 +10,32 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 ## Done
 
+### Backend adapter seam (mock today, Cloudflare tomorrow)
+
+Single seam between the UI and any out-of-process service. Mock implementation resolves today; the Cloudflare Workers impl is a stub behind one flag. Leaderboard / friend graph / suggested feed all read through the seam.
+
+- [x] `src/backend/types.ts` — schemas (`BackendUser`, `LeaderboardEntry`, `FriendNode`, `FeedEvent`, page envelopes, `BackendError`)
+- [x] `src/backend/adapter.ts` — `BackendAdapter` interface (`identity / syncProfile / publishCatch / fetchLeaderboard / fetchFriends / fetchFeed / follow / unfollow / ready`)
+- [x] `src/backend/mock.ts` — default impl, synthesizes from `LEADERS` + `FRIENDS` + deterministic peer-activity ticker. Identity via `bindMockIdentity`
+- [x] `src/backend/cloudflare.ts` — placeholder, throws `BackendError('unavailable')` everywhere
+- [x] `src/backend/index.ts` — switchboard with `USE_REMOTE_BACKEND` flag
+- [x] `src/backend/hooks.ts` — `useLeaderboard / useFriends / useFeed / useToggleFollow / usePublishCatch / useBackendIdentityBridge` with network gating + offline error state
+- [x] `backendUserId` slice in `useAppStore` (lazy UUID v4, persisted, rotated on `wipeAll`, backfilled for legacy profiles)
+- [x] `App.tsx` mounts `useBackendIdentityBridge` so the mock sees fresh xp/followed on every adapter call
+- [x] `Leaderboard.tsx` reads `useLeaderboard(scope)` (with the prior in-screen synthesis kept as an offline fallback)
+- [x] `Friends.tsx` reads `useFriends(scope)` + `useToggleFollow`; suggestion reasons render via the existing `person.why.*` keys
+- [x] `Activity.tsx` grows a 4th tab — "Friends" — fed by `useFeed()`, with a dedicated offline empty state
+- [x] i18n: `activity.tab.friends` + `activity.kind.friend{Catch,Streak,Badge,RankUp,Follow}*` + `friendCta` + `feedOffline` in en/pl/de/es
+- [x] `docs/modules/backend-adapter.md` + `docs/decisions/002-backend-adapter-seam.md` + index update
+- [x] `npx tsc --noEmit` clean
+
+#### Review
+
+- The hooks layer is the single chokepoint — screens never `import { backend } from '@/backend'` directly.
+- `profile.networkOn` gates every hook, so flipping `USE_REMOTE_BACKEND` true with network off still issues zero requests. Same opt-in posture as crash reporting.
+- The mock is good enough for screenshots and dev work without a server; flipping in the Cloudflare adapter is a one-line change in `src/backend/index.ts` (plus actually shipping the Worker — see ADR 002 for the planned wiring).
+- `wipeAll` rotates `backendUserId` so a wiped install is indistinguishable from a fresh one to the server.
+
 ### Crash reporting (opt-in)
 
 Sentry behind an opt-in toggle. Off by default; gated by `networkOn`. DSN read from `EXPO_PUBLIC_SENTRY_DSN`; missing DSN or missing native SDK degrades to a console fallback.
@@ -221,8 +247,8 @@ Every visible "fake number" or "fake date" from the prototype is now derived. Se
 These need either a backend or a substantial change and are explicitly **not** on the current roadmap:
 
 ### Needs backend
-- Real leaderboard / friend graph / suggested feed
-- Real activity events from other users
+- ~~Real leaderboard / friend graph / suggested feed~~ — now behind the [[#Backend adapter seam (mock today, Cloudflare tomorrow)]] seam. Mock impl ships today; flip `USE_REMOTE_BACKEND` once the Cloudflare Worker is deployed.
+- ~~Real activity events from other users~~ — see above; surfaced as the new "Friends" tab on the Activity screen, fed by `useFeed()`.
 - Cross-device sync (intentionally not in the design — the app is account-less by promise)
 
 ### Needs substantial native / infra work

@@ -189,7 +189,8 @@
       "tab": {
         "all": "All",
         "social": "Social",
-        "system": "System"
+        "system": "System",
+        "friends": "Friends"
       },
       "emptyTitle": "Crickets.",
       "emptySub": "Nothing here yet.",
@@ -230,7 +231,19 @@
         "personaCta": "Open chat",
         "streakTitle": "{days}-day streak! Don't break it",
         "streakSub": "{when}",
-        "streakCta": "Open scan"
+        "streakCta": "Open scan",
+        "friendCatchTitle": "{name} caught {bug}",
+        "friendCatchSub": "{when}",
+        "friendStreakTitle": "{name} · {days}-day streak",
+        "friendStreakSub": "{when}",
+        "friendBadgeTitle": "{name} earned a badge",
+        "friendBadgeSub": "{when}",
+        "friendRankUpTitle": "{name} climbed to #{rank}",
+        "friendRankUpSub": "{when}",
+        "friendFollowTitle": "{name} followed you",
+        "friendFollowSub": "{when}",
+        "friendCta": "View profile",
+        "feedOffline": "Turn on network to see friends' activity."
       },
       "when": {
         "now": "just now",

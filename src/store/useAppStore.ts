@@ -30,6 +30,24 @@ export type Profile = {
   crashReportingOn: boolean;
 };
 
+/**
+ * Generate a device-local pseudonymous user id. The backend treats
+ * this as the caller's identity; there is no email / phone / OAuth
+ * handshake. Reset by `wipeAll` so a fresh install is genuinely
+ * indistinguishable from a new user.
+ *
+ * Format is a v4-shaped string but synthesized from `Math.random` to
+ * avoid pulling a UUID dep — the only invariant the server cares
+ * about is "stable + unguessable enough to act as a bearer token".
+ */
+function newBackendUserId(): string {
+  const hex = (n: number) =>
+    Math.floor(Math.random() * 16 ** n)
+      .toString(16)
+      .padStart(n, '0');
+  return `${hex(8)}-${hex(4)}-4${hex(3)}-${(8 + Math.floor(Math.random() * 4)).toString(16)}${hex(3)}-${hex(12)}`;
+}
+
 export type ToastSpec = {
   text: string;
   icon?: string;
@@ -120,6 +138,14 @@ type State = {
    * the wipe).
    */
   questClaimedAt: Record<string, number>;
+  /**
+   * Device-local pseudonymous identity used by the backend adapter
+   * (see `src/backend/`). Lazily generated on first run, persisted,
+   * and rotated by `wipeAll`. Never sent to a server until the user
+   * flips `profile.networkOn` on — the value is *eligible* to be sent,
+   * not *committed* to be sent. There is no account.
+   */
+  backendUserId: string;
 };
 
 type Actions = {
@@ -226,6 +252,7 @@ type Persisted = Pick<
   | 'questProgress'
   | 'questCompletedAt'
   | 'questClaimedAt'
+  | 'backendUserId'
 >;
 
 type PersistedWire = {
@@ -243,6 +270,8 @@ type PersistedWire = {
   questProgress?: Record<string, number>;
   questCompletedAt?: Record<string, number>;
   questClaimedAt?: Record<string, number>;
+  /** Backfilled to a fresh id for users persisted before the slice existed. */
+  backendUserId?: string;
 };
 
 const wireStorage: PersistStorage<Persisted> = {
@@ -268,6 +297,7 @@ const wireStorage: PersistStorage<Persisted> = {
         questProgress: { ...initialQuestProgress(), ...(wrapped.state.questProgress ?? {}) },
         questCompletedAt: wrapped.state.questCompletedAt ?? {},
         questClaimedAt: wrapped.state.questClaimedAt ?? {},
+        backendUserId: wrapped.state.backendUserId ?? newBackendUserId(),
       },
       version: wrapped.version,
     };
@@ -287,6 +317,7 @@ const wireStorage: PersistStorage<Persisted> = {
       questProgress: value.state.questProgress,
       questCompletedAt: value.state.questCompletedAt,
       questClaimedAt: value.state.questClaimedAt,
+      backendUserId: value.state.backendUserId,
     };
     await AsyncStorage.setItem(name, JSON.stringify({ state: wire, version: value.version ?? 0 }));
   },
@@ -326,6 +357,7 @@ export const useAppStore = create<AppStore>()(
       questProgress: initialQuestProgress(),
       questCompletedAt: {},
       questClaimedAt: {},
+      backendUserId: newBackendUserId(),
 
       go: (name, params) => {
         const alias = ME_SUB_ALIAS[name];
@@ -592,6 +624,9 @@ export const useAppStore = create<AppStore>()(
           questProgress: initialQuestProgress(),
           questCompletedAt: {},
           questClaimedAt: {},
+          // Rotate the backend identity on every wipe so a fresh install
+          // and a wiped install look identical to the server.
+          backendUserId: newBackendUserId(),
         });
       },
     }),
@@ -611,6 +646,7 @@ export const useAppStore = create<AppStore>()(
         questProgress: s.questProgress,
         questCompletedAt: s.questCompletedAt,
         questClaimedAt: s.questClaimedAt,
+        backendUserId: s.backendUserId,
       }),
       /**
        * Skip past onboarding for returning users. The flag is set in
