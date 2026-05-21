@@ -473,6 +473,11 @@
         }
       }
     },
+    "notify": {
+      "streak": {
+        "title": "Nie przerywaj passy"
+      }
+    },
     "streak": {
       "headTitle": "PASSA",
       "dayOnFire": "Dzień {n} na ogniu.",

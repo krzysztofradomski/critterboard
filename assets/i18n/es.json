@@ -473,6 +473,11 @@
         }
       }
     },
+    "notify": {
+      "streak": {
+        "title": "No rompas tu racha"
+      }
+    },
     "streak": {
       "headTitle": "RACHA",
       "dayOnFire": "Día {n} en llamas.",

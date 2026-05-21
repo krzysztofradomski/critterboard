@@ -134,11 +134,11 @@ Goal: every claim in Help / Settings about local-first data ownership becomes li
 
 Goal: features that hook into real OS APIs we already have permission for.
 
-- [ ] **2.1 — Daily streak nudge notification** *(AFK)*
-  - [ ] `src/lib/notify.ts` schedules a single daily local notification at 18:00 local
-  - [ ] Scheduling gated on `currentStreak >= 1` and no catch today
-  - [ ] Notification body uses the active persona's voice
-  - [ ] Cancel + reschedule when a catch lands (so today's notification doesn't fire)
+- [x] **2.1 — Daily streak nudge notification** *(AFK)*
+  - [x] `src/lib/notify.ts` schedules a single daily local notification at 18:00 local
+  - [x] Scheduling gated on `currentStreak >= 1` and no catch today
+  - [x] Notification body uses the active persona's voice (`personas.<id>.streakSass`)
+  - [x] Cancel + reschedule on every catchLog/persona/language change (App.tsx effect)
 - [ ] **2.2 — GPS-tagged catches on Map** *(AFK)*
   - [ ] Extend `CatchEvent` with optional `lat?: number; lng?: number`
   - [ ] `catchBug` reads position via `expo-location` when `profile.locationShareOn`

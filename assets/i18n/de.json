@@ -473,6 +473,11 @@
         }
       }
     },
+    "notify": {
+      "streak": {
+        "title": "Lass deine Serie nicht abreißen"
+      }
+    },
     "streak": {
       "headTitle": "SERIE",
       "dayOnFire": "Tag {n} in Flammen.",

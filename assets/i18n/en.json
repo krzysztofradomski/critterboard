@@ -473,6 +473,11 @@
         }
       }
     },
+    "notify": {
+      "streak": {
+        "title": "Don't break your streak"
+      }
+    },
     "streak": {
       "headTitle": "STREAK",
       "dayOnFire": "Day {n} on fire.",
