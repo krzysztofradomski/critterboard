@@ -36,6 +36,16 @@ export function Home() {
   // Days until the next 7-day badge boundary (1..7).
   const daysToBadge = ((7 - (streakDays % 7)) % 7) || 7;
 
+  /**
+   * "At risk" = the user has a live streak but hasn't caught anything
+   * today. Drives the urgency variant of the persona sticker — same
+   * card slot, redder background, sharper line.
+   */
+  const streakAtRisk = streakDays >= 1 && !week.some((c) => c.isToday && c.caught);
+  const personaLine = streakAtRisk ? P.streakSass : P.lines.streak;
+  const personaStickerBg = streakAtRisk ? PB.red : PB.yellow;
+  const personaTextColor = streakAtRisk ? PB.cream : PB.ink;
+
   // Recent finds — last 4 distinct caught bugs, newest first.
   const recentIds = useRecentBugIds(4);
   const language = useAppStore((s) => s.language);
@@ -134,14 +144,16 @@ export function Home() {
           </View>
         )}
 
-        <Sticker bg={PB.yellow} rotate={1} style={{ marginTop: 14, padding: 12 }} onPress={() => go('chat')}>
+        <Sticker bg={personaStickerBg} rotate={1} style={{ marginTop: 14, padding: 12 }} onPress={() => go('chat')}>
           <View style={styles.chatRow}>
             <View style={[styles.chatAvatar, { backgroundColor: P.avatarBg }]}>
               <Text style={{ fontSize: 16 }}>{P.emoji}</Text>
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={styles.chatLine}>{P.lines.streak}</Text>
-              <Text style={styles.chatCta}>{t('home.chatCta', { name: P.name.toUpperCase() })}</Text>
+              <Text style={[styles.chatLine, { color: personaTextColor }]}>{personaLine}</Text>
+              <Text style={[styles.chatCta, { color: personaTextColor }]}>
+                {t('home.chatCta', { name: P.name.toUpperCase() })}
+              </Text>
             </View>
           </View>
         </Sticker>

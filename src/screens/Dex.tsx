@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
+import { Sticker } from '@/components/Sticker';
 import { TabBar } from '@/components/TabBar';
 import { BUGS } from '@/data/bugs';
 import { useT, bugName } from '@/i18n/helpers';
@@ -46,6 +47,15 @@ export function Dex() {
   const caught = dex.size;
   const pct = Math.round((100 * caught) / total);
   const rarities = FILTER_KEYS.slice(1).map((k) => t(`dex.filter.${k}`).toLowerCase()).join(', ');
+
+  // Celebratory ribbon at 50 % and 100 %. The 100 % case wins over 50 %
+  // — once the dex is full we never re-show the halfway line.
+  const ribbon: { key: 'full' | 'half'; bg: string; rotate: number } | null =
+    caught === total
+      ? { key: 'full', bg: PB.yellow, rotate: -2 }
+      : pct >= 50
+        ? { key: 'half', bg: PB.purple, rotate: 1.5 }
+        : null;
 
   return (
     <View style={styles.root}>
@@ -101,6 +111,25 @@ export function Dex() {
       </View>
 
       <View style={styles.list}>
+        {ribbon && (
+          <Sticker
+            bg={ribbon.bg}
+            rotate={ribbon.rotate}
+            style={{ paddingVertical: 10, paddingHorizontal: 14, marginBottom: 12 }}
+          >
+            <View style={styles.ribbonRow}>
+              <Text style={styles.ribbonIcon}>{ribbon.key === 'full' ? '🏆' : '✨'}</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.ribbonTitle}>
+                  {t(`dex.ribbon.${ribbon.key}Title`)}
+                </Text>
+                <Text style={styles.ribbonSub}>
+                  {t(`dex.ribbon.${ribbon.key}Sub`, { caught, total })}
+                </Text>
+              </View>
+            </View>
+          </Sticker>
+        )}
         {filtered.length === 0 ? (
           <View style={styles.empty}>
             <Text style={{ fontSize: 56 }}>🪰</Text>
@@ -281,4 +310,8 @@ const styles = StyleSheet.create({
   emptyTitle: { marginTop: 8, fontSize: 18, fontWeight: '800', color: PB.ink },
   emptyDesc: { marginTop: 4, fontSize: 13, color: PB.ink, opacity: 0.7, fontWeight: '600', textAlign: 'center' },
   emptyHint: { marginTop: 10, fontSize: 10, color: PB.ink, opacity: 0.55, textAlign: 'center' },
+  ribbonRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  ribbonIcon: { fontSize: 28 },
+  ribbonTitle: { fontSize: 14, fontWeight: '800', color: PB.cream, lineHeight: 16 },
+  ribbonSub: { fontSize: 11, color: PB.cream, opacity: 0.9, marginTop: 2, fontWeight: '600' },
 });

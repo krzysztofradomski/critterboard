@@ -40,7 +40,8 @@
       "buildDex": "🏆 BUILD YOUR DEX",
       "pickGuide": "PICK YOUR GUIDE",
       "startHunting": "Start hunting →",
-      "legal": "✓ no account · ✓ no internet · ✓ no $$"
+      "legal": "✓ no account · ✓ no internet · ✓ no $$",
+      "legalOnline": "✓ no account · ✓ with internet · ✓ no $$"
     },
     "home": {
       "streakPill": "{days}-day streak",
@@ -170,7 +171,13 @@
       "emptyTitle": "Nothing matches \"{query}\"",
       "emptyDesc": "Try fewer letters, a latin name, or a rarity ({rarities}).",
       "emptyHint": "Tip: prefix with ? to search uncaught slots by number (e.g. ?7)",
-      "uncaughtName": "???"
+      "uncaughtName": "???",
+      "ribbon": {
+        "halfTitle": "Halfway there",
+        "halfSub": "{caught} of {total} species. Keep going.",
+        "fullTitle": "Full dex!",
+        "fullSub": "Every species caught. Legend."
+      }
     },
     "chat": {
       "localStatus": "● local · {title}",

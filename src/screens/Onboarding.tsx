@@ -8,10 +8,12 @@ import { Sticker } from '@/components/Sticker';
 import { useT } from '@/i18n/helpers';
 import { PERSONA_IDS } from '@/personas';
 import { PB } from '@/tokens/pb';
+import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
 export function Onboarding() {
   const { go } = useNav();
+  const networkOn = useAppStore((s) => s.profile.networkOn);
   const t = useT();
   return (
     <View style={styles.root}>
@@ -65,7 +67,9 @@ export function Onboarding() {
           <Btn full bg={PB.ink} color={PB.yellow} size="lg" onPress={() => go('permissions')}>
             {t('onboarding.startHunting')}
           </Btn>
-          <Text style={styles.legal}>{t('onboarding.legal')}</Text>
+          <Text style={styles.legal}>
+            {t(networkOn ? 'onboarding.legalOnline' : 'onboarding.legal')}
+          </Text>
         </View>
       </View>
     </View>

@@ -40,7 +40,8 @@
       "buildDex": "🏆 ZBIERAJ DEX",
       "pickGuide": "WYBIERZ PRZEWODNIKA",
       "startHunting": "Zaczynamy →",
-      "legal": "✓ bez konta · ✓ bez internetu · ✓ za darmo"
+      "legal": "✓ bez konta · ✓ bez internetu · ✓ za darmo",
+      "legalOnline": "✓ bez konta · ✓ z internetem · ✓ za darmo"
     },
     "home": {
       "streakPill": "passa {days} dni",
@@ -170,7 +171,13 @@
       "emptyTitle": "Nic nie pasuje do \"{query}\"",
       "emptyDesc": "Spróbuj krócej, łacińskiej nazwy lub rzadkości ({rarities}).",
       "emptyHint": "Wskazówka: dodaj ? aby szukać niezłapanych po numerze (np. ?7)",
-      "uncaughtName": "???"
+      "uncaughtName": "???",
+      "ribbon": {
+        "halfTitle": "Półmetek",
+        "halfSub": "{caught} z {total} gatunków. Tak trzymaj.",
+        "fullTitle": "Dex pełny!",
+        "fullSub": "Wszystkie gatunki złapane. Legenda."
+      }
     },
     "chat": {
       "localStatus": "● lokalnie · {title}",

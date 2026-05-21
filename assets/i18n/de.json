@@ -40,7 +40,8 @@
       "buildDex": "🏆 BAU DEINEN DEX",
       "pickGuide": "WÄHLE DEINEN GUIDE",
       "startHunting": "Auf die Jagd →",
-      "legal": "✓ kein Konto · ✓ kein Internet · ✓ kein Geld"
+      "legal": "✓ kein Konto · ✓ kein Internet · ✓ kein Geld",
+      "legalOnline": "✓ kein Konto · ✓ mit Internet · ✓ kein Geld"
     },
     "home": {
       "streakPill": "{days}-Tage-Serie",
@@ -170,7 +171,13 @@
       "emptyTitle": "Nichts passt zu \"{query}\"",
       "emptyDesc": "Probiere weniger Buchstaben, einen lateinischen Namen oder eine Seltenheit ({rarities}).",
       "emptyHint": "Tipp: Mit ? voranstellen, um ungefangene Plätze per Nummer zu suchen (z. B. ?7)",
-      "uncaughtName": "???"
+      "uncaughtName": "???",
+      "ribbon": {
+        "halfTitle": "Halbzeit",
+        "halfSub": "{caught} von {total} Arten. Weiter so.",
+        "fullTitle": "Voller Dex!",
+        "fullSub": "Alle Arten gefangen. Legende."
+      }
     },
     "chat": {
       "localStatus": "● lokal · {title}",

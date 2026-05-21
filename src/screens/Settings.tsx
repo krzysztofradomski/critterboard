@@ -14,6 +14,8 @@ import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
+const NAME_MAX = 18;
+
 export function Settings() {
   const { go } = useNav();
   const persona = useAppStore((s) => s.persona);
@@ -146,7 +148,17 @@ export function Settings() {
             </View>
           </View>
           <View style={{ paddingVertical: 12, paddingHorizontal: 14 }}>
-            <Text style={styles.sectionLabel}>{t('settings.displayName')}</Text>
+            <View style={styles.nameHeader}>
+              <Text style={styles.sectionLabel}>{t('settings.displayName')}</Text>
+              <Text
+                style={[
+                  styles.nameCounter,
+                  nameDraft.length >= NAME_MAX && styles.nameCounterFull,
+                ]}
+              >
+                {nameDraft.length}/{NAME_MAX}
+              </Text>
+            </View>
             <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}>
               <View style={styles.nameAvatar}>
                 <Text style={styles.nameAvatarText}>{(profile.name[0] ?? '?').toUpperCase()}</Text>
@@ -158,7 +170,7 @@ export function Settings() {
                 onSubmitEditing={commitName}
                 placeholder={t('settings.namePlaceholder')}
                 placeholderTextColor={PB.ink + '99'}
-                maxLength={18}
+                maxLength={NAME_MAX}
                 style={styles.nameInput}
               />
             </View>
@@ -523,6 +535,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
   },
   nameHint: { marginTop: 6, fontSize: 10, color: PB.ink, opacity: 0.55 },
+  nameHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 4 },
+  nameCounter: { fontSize: 10, fontWeight: '700', color: PB.ink, opacity: 0.55 },
+  nameCounterFull: { color: PB.red, opacity: 1 },
   modelIcon: {
     width: 48,
     height: 48,

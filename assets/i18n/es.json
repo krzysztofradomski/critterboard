@@ -40,7 +40,8 @@
       "buildDex": "🏆 CONSTRUYE TU DEX",
       "pickGuide": "ELIGE TU GUÍA",
       "startHunting": "A cazar →",
-      "legal": "✓ sin cuenta · ✓ sin internet · ✓ sin $$"
+      "legal": "✓ sin cuenta · ✓ sin internet · ✓ sin $$",
+      "legalOnline": "✓ sin cuenta · ✓ con internet · ✓ sin $$"
     },
     "home": {
       "streakPill": "racha de {days} días",
@@ -170,7 +171,13 @@
       "emptyTitle": "Nada coincide con \"{query}\"",
       "emptyDesc": "Prueba menos letras, un nombre latino o una rareza ({rarities}).",
       "emptyHint": "Truco: añade ? para buscar huecos sin capturar por número (p. ej. ?7)",
-      "uncaughtName": "???"
+      "uncaughtName": "???",
+      "ribbon": {
+        "halfTitle": "A medio camino",
+        "halfSub": "{caught} de {total} especies. Sigue así.",
+        "fullTitle": "¡Dex completo!",
+        "fullSub": "Todas las especies capturadas. Leyenda."
+      }
     },
     "chat": {
       "localStatus": "● local · {title}",

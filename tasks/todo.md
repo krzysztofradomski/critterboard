@@ -168,11 +168,21 @@ The app now reacts to real OS state. The streak nudge speaks in the active perso
 - [x] **3.1 — Facts table for all 12 species** *(AFK)* — `Result.tsx` populated for every bug via 4-fact tiles (habitat/wingspan-or-size/range/diet-or-active). 20 new value keys (`gardens`/`ponds`/`eaves`/per-bug sizes/`tropics`/`europe`/`seAsia`/`insects`/`aphids`/`sap`/`leaves`/`fruit`) added in en/pl/de/es
 - [x] **3.2 — Streak calendar date range computed** *(AFK)* — `Intl.DateTimeFormat(lang, {month:'short', day:'numeric'})` over the trailing 35-day window
 - [x] **3.3 — "Resets in Xh" computed** *(AFK)* — `Math.ceil((midnight - now) / 3 600 000)` (min 1H); `{h}` placeholder in `quests.daily`
-- [ ] **3.4 — Onboarding footer reflects network state** *(AFK)* — "✓ no internet" flips to "✓ with internet" when `profile.networkOn`
-- [ ] **3.5 — Streak at-risk banner on Home** *(AFK)* — when `currentStreak >= 1` and no catch today, persona sticker shows urgent line
-- [ ] **3.6 — Dex completion ribbon** *(AFK)* — celebratory sticker at 50% / 100% of dex
-- [ ] **3.7 — Persona switch animation** *(AFK)* — Animated avatar pulse on switch
-- [ ] **3.8 — Display-name char counter** *(AFK)* — `N/18` indicator in Settings
+- [x] **3.4 — Onboarding footer reflects network state** *(AFK)* — `onboarding.legalOnline` picked when `profile.networkOn`
+- [x] **3.5 — Streak at-risk banner on Home** *(AFK)* — when streak ≥ 1 and `week.today.caught === false`, persona sticker swaps to red bg + `streakSass` line
+- [x] **3.6 — Dex completion ribbon** *(AFK)* — purple "Halfway there" at 50 %, gold "Full dex!" at 100 % (purple loses to gold)
+- [x] **3.7 — Persona switch animation** *(AFK)* — `Animated` 1 → 1.18 → 1 spring on the active avatar in `PersonaPick`
+- [x] **3.8 — Display-name char counter** *(AFK)* — `N/18` next to the section label, turns red at the cap
+
+### Batch 3 — small polish (review)
+
+Shipped in three commits on `main`:
+
+- `9b9a513` — 3.1 facts table for all 12 species (20 new value keys × 4 packs)
+- `3a08a88` — 3.2 calendar range + 3.3 reset countdown (`Intl.DateTimeFormat` + ceil-to-midnight math)
+- 3.4 – 3.8 — onboarding footer toggle, Home at-risk banner, Dex 50 %/100 % ribbon, persona pulse animation, name char counter (one commit)
+
+Every visible "fake number" or "fake date" from the prototype is now derived. Settings/Help promises about local-only data export and per-catch photos are now demonstrable.
 
 ### Batch 4 — HITL or gated
 

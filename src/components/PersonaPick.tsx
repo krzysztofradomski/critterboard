@@ -1,5 +1,5 @@
-import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { PB } from '@/tokens/pb';
 import { usePersona } from '@/personas/hooks';
@@ -10,6 +10,25 @@ export function PersonaPick({ pid, compact }: { pid: PersonaId; compact?: boolea
   const setPersona = useAppStore((s) => s.setPersona);
   const active = useAppStore((s) => s.persona === pid);
   const p = usePersona(pid);
+
+  /**
+   * Avatar pulse on activation. We watch the `active` flag and replay a
+   * 1 → 1.18 → 1 spring/timing sequence whenever it flips on (deactivation
+   * is silent — only the new pick "lights up"). The animation drives a
+   * scale transform on the avatar circle; everything else stays still.
+   */
+  const pulse = useRef(new Animated.Value(1)).current;
+  const wasActive = useRef(active);
+  useEffect(() => {
+    if (active && !wasActive.current) {
+      pulse.setValue(1);
+      Animated.sequence([
+        Animated.timing(pulse, { toValue: 1.18, duration: 140, useNativeDriver: true }),
+        Animated.spring(pulse, { toValue: 1, friction: 4, tension: 80, useNativeDriver: true }),
+      ]).start();
+    }
+    wasActive.current = active;
+  }, [active, pulse]);
 
   return (
     <Pressable
@@ -25,9 +44,11 @@ export function PersonaPick({ pid, compact }: { pid: PersonaId; compact?: boolea
         },
       ]}
     >
-      <View style={[styles.avatar, { backgroundColor: p.avatarBg }]}>
+      <Animated.View
+        style={[styles.avatar, { backgroundColor: p.avatarBg, transform: [{ scale: pulse }] }]}
+      >
         <Text style={styles.avatarEmoji}>{p.emoji}</Text>
-      </View>
+      </Animated.View>
       <View style={styles.body}>
         <Text style={styles.name}>{p.name}</Text>
         <Text style={styles.blurb}>{p.blurb}</Text>
