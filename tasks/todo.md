@@ -139,10 +139,10 @@ Goal: features that hook into real OS APIs we already have permission for.
   - [x] Scheduling gated on `currentStreak >= 1` and no catch today
   - [x] Notification body uses the active persona's voice (`personas.<id>.streakSass`)
   - [x] Cancel + reschedule on every catchLog/persona/language change (App.tsx effect)
-- [ ] **2.2 — GPS-tagged catches on Map** *(AFK)*
-  - [ ] Extend `CatchEvent` with optional `lat?: number; lng?: number`
-  - [ ] `catchBug` reads position via `expo-location` when `profile.locationShareOn`
-  - [ ] Map.tsx renders user's real catches as additional pins (different style from static `SIGHTINGS`)
+- [x] **2.2 — GPS-tagged catches on Map** *(AFK)*
+  - [x] Extend `CatchEvent` with optional `lat?: number; lng?: number`
+  - [x] `catchBug` accepts opts; Result.tsx reads position via `expo-location` when `profile.locationShareOn` (2.5s GPS budget, never blocks the catch)
+  - [x] Map.tsx renders user's real catches as diamond pins, projected from the newest user catch via a coarse equirectangular formula
 - [ ] **2.3 — Leaderboard user row reflects real XP** *(AFK)*
   - [ ] Compute user's xp/level via `useXp`/`useLevel`
   - [ ] Replace `LEADERS.self.xp = 24612` with computed value

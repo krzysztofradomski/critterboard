@@ -45,6 +45,17 @@ export type ActivityEntry =
 const ACTIVITY_CAP = 50;
 const STREAK_MILESTONES: ReadonlySet<number> = new Set([3, 7, 14, 30]);
 
+/**
+ * Options bag for a `catchBug` call. Both photo URI and coordinates
+ * are optional and independent: a user with locationShareOn but a
+ * camera failure stamps coords-only, and vice versa.
+ */
+export type CatchBugOptions = {
+  photoUri?: string;
+  lat?: number;
+  lng?: number;
+};
+
 type State = {
   stack: StackEntry[];
   dex: Set<string>;
@@ -80,7 +91,7 @@ type Actions = {
   go: <R extends RouteName>(name: R, params?: RouteParamMap[R]) => void;
   back: () => void;
   reset: (entry: StackEntry) => void;
-  catchBug: (id: string, photoUri?: string) => void;
+  catchBug: (id: string, opts?: CatchBugOptions) => void;
   followUser: (name: string) => void;
   unfollowUser: (name: string) => void;
   toggleFollow: (name: string) => void;
@@ -295,10 +306,16 @@ export const useAppStore = create<AppStore>()(
        * Everything is computed before the `set` so the update is a
        * single atomic mutation.
        */
-      catchBug: (id, photoUri) =>
+      catchBug: (id, opts) =>
         set((s) => {
           const at = Date.now();
-          const event: CatchEvent = photoUri ? { id, at, photoUri } : { id, at };
+          const photoUri = opts?.photoUri;
+          const event: CatchEvent = { id, at };
+          if (photoUri) event.photoUri = photoUri;
+          if (opts?.lat !== undefined && opts?.lng !== undefined) {
+            event.lat = opts.lat;
+            event.lng = opts.lng;
+          }
 
           const nextDex = s.dex.has(id) ? s.dex : new Set(s.dex).add(id);
           const nextCatchLog = [...s.catchLog, event];

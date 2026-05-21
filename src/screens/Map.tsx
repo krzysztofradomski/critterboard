@@ -1,20 +1,63 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle, Defs, Path, Pattern, Rect } from 'react-native-svg';
 
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { TabBar } from '@/components/TabBar';
+import { findBug } from '@/data/bugs';
 import { SIGHTINGS } from '@/data/sightings';
 import { useT } from '@/i18n/helpers';
+import { useGeotaggedCatches } from '@/lib/streak';
 import { PB } from '@/tokens/pb';
 import { useNav } from '@/store/useNav';
+
+/**
+ * The "map" is a decorative SVG, not a real basemap — but lat/lng pins
+ * should still feel spatially correct relative to each other. We
+ * project each user catch around the most-recent one using a coarse
+ * equirectangular formula: 1° lat ≈ 111 km, longitude scales by
+ * cos(lat). Output is clamped to [4, 96]% so the pin always stays
+ * on-screen, even for absurd outliers.
+ */
+const USER_PIN_SCALE_PCT_PER_KM = 5;
+const PIN_X_CENTER = 46;
+const PIN_Y_CENTER = 52;
+
+function project(
+  lat: number,
+  lng: number,
+  centerLat: number,
+  centerLng: number,
+): { x: number; y: number } {
+  const kmPerDegLat = 111;
+  const kmPerDegLng = 111 * Math.cos((centerLat * Math.PI) / 180);
+  const dxKm = (lng - centerLng) * kmPerDegLng;
+  const dyKm = (lat - centerLat) * kmPerDegLat;
+  const x = PIN_X_CENTER + dxKm * USER_PIN_SCALE_PCT_PER_KM;
+  const y = PIN_Y_CENTER - dyKm * USER_PIN_SCALE_PCT_PER_KM;
+  return {
+    x: Math.max(4, Math.min(96, x)),
+    y: Math.max(4, Math.min(96, y)),
+  };
+}
 
 export function MapScreen() {
   const { go } = useNav();
   const t = useT();
   const [selected, setSelected] = useState(2);
   const s = SIGHTINGS[selected]!;
+  const userCatches = useGeotaggedCatches();
+
+  const userPins = useMemo(() => {
+    if (userCatches.length === 0) return [];
+    const center = userCatches[0]!; // newest first
+    return userCatches.map((c) => {
+      const { x, y } = project(c.lat!, c.lng!, center.lat!, center.lng!);
+      const bug = findBug(c.id);
+      return { id: `${c.id}-${c.at}`, x, y, emoji: bug?.emoji ?? '🐛' };
+    });
+  }, [userCatches]);
 
   return (
     <View style={styles.root}>
@@ -73,6 +116,15 @@ export function MapScreen() {
           </View>
           <View style={styles.pinTail} />
         </Pressable>
+      ))}
+
+      {userPins.map((p) => (
+        <View key={p.id} style={[styles.userPin, { left: `${p.x}%`, top: `${p.y}%` }]}>
+          <View style={styles.userPinHead}>
+            <Text style={styles.userPinEmoji}>{p.emoji}</Text>
+          </View>
+          <View style={styles.userPinTail} />
+        </View>
       ))}
 
       <View style={styles.youPin}>
@@ -137,6 +189,38 @@ const styles = StyleSheet.create({
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
     borderTopWidth: 7,
+    borderTopColor: PB.ink,
+    marginTop: -1,
+  },
+  userPin: {
+    position: 'absolute',
+    transform: [{ translateX: -16 }, { translateY: -38 }],
+    alignItems: 'center',
+  },
+  userPinHead: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    backgroundColor: PB.purple,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 2, height: 2 },
+    transform: [{ rotate: '45deg' }],
+  },
+  userPinEmoji: { fontSize: 16, transform: [{ rotate: '-45deg' }] },
+  userPinTail: {
+    width: 0,
+    height: 0,
+    borderLeftWidth: 4,
+    borderRightWidth: 4,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderTopWidth: 6,
     borderTopColor: PB.ink,
     marginTop: -1,
   },

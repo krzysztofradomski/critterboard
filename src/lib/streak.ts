@@ -11,8 +11,18 @@ import { useAppStore } from '@/store/useAppStore';
  * was captured or picked during the scan that produced this catch. The
  * field is optional: seeded history has none, and platforms where the
  * camera capture failed silently fall back to undefined.
+ *
+ * `lat` / `lng` (when present) come from `expo-location` at catch time,
+ * gated on `profile.locationShareOn`. Drives the user's pins on the
+ * Map screen. Both fields are optional and travel together.
  */
-export type CatchEvent = { id: string; at: number; photoUri?: string };
+export type CatchEvent = {
+  id: string;
+  at: number;
+  photoUri?: string;
+  lat?: number;
+  lng?: number;
+};
 
 /** Calendar cell — what the Streak grid renders. */
 export type DayCell = {
@@ -339,6 +349,25 @@ export function recentBugIds(events: CatchEvent[], n: number): string[] {
 export function useRecentBugIds(n: number): string[] {
   const log = useAppStore((s) => s.catchLog);
   return useMemo(() => recentBugIds(log, n), [log, n]);
+}
+
+/**
+ * Newest-first list of catch events that carry GPS coordinates. The Map
+ * screen uses this to render real user catches as pins alongside the
+ * synthetic `SIGHTINGS` dataset.
+ */
+export function geotaggedCatches(events: ReadonlyArray<CatchEvent>): CatchEvent[] {
+  const out: CatchEvent[] = [];
+  for (const e of events) {
+    if (e.lat !== undefined && e.lng !== undefined) out.push(e);
+  }
+  out.sort((a, b) => b.at - a.at);
+  return out;
+}
+
+export function useGeotaggedCatches(): CatchEvent[] {
+  const log = useAppStore((s) => s.catchLog);
+  return useMemo(() => geotaggedCatches(log), [log]);
 }
 
 /**

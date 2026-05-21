@@ -1,3 +1,4 @@
+import * as Location from 'expo-location';
 import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
@@ -52,6 +53,7 @@ export function Result() {
   const catchBug = useAppStore((s) => s.catchBug);
   const showToast = useAppStore((s) => s.showToast);
   const dex = useAppStore((s) => s.dex);
+  const locationShareOn = useAppStore((s) => s.profile.locationShareOn);
   const route = useCurrentRoute();
   const params = route.params as { id?: string; photoUri?: string } | undefined;
   const id = params?.id ?? 'mona';
@@ -78,7 +80,6 @@ export function Result() {
       go('dex');
       return;
     }
-    catchBug(bug.id, photoUri ?? undefined);
     haptics.success();
     showToast({
       text: t('result.caughtToast', { xp: bug.xp, tier: bug.tier }),
@@ -86,6 +87,46 @@ export function Result() {
       bg: PB.green,
     });
     setTimeout(() => go('dex'), 900);
+
+    // Capture coords in the background — never block the catch on a
+    // slow GPS fix. The store mutation lands immediately with the photo;
+    // when the location resolves we file a single follow-up edit via a
+    // second catchBug-shaped path? No — better: fire-and-forget the
+    // location read and pass coords to catchBug only after it lands.
+    // To avoid two store writes, we stage the catch atomically once
+    // the position is in (with a short timeout fallback for refusal).
+    const finalize = (coords?: { lat: number; lng: number }) => {
+      catchBug(bug.id, {
+        ...(photoUri ? { photoUri } : {}),
+        ...(coords ? { lat: coords.lat, lng: coords.lng } : {}),
+      });
+    };
+
+    if (!locationShareOn) {
+      finalize();
+      return;
+    }
+
+    let settled = false;
+    const timer = setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      finalize();
+    }, 2500);
+
+    void Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced })
+      .then((pos) => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        finalize({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+      })
+      .catch(() => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        finalize();
+      });
   };
 
   const titleColor = bug.rarity === 'legendary' ? PB.cream : PB.ink;
