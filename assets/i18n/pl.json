@@ -599,6 +599,10 @@
       "locShareLabel": "Udostępniaj lokalizacje obserwacji",
       "locShareOn": "Piny dodawane do publicznej mapy (±500m rozmycia).",
       "locShareOff": "Twoja mapa pozostaje prywatna.",
+      "crashLabel": "Wysyłaj raporty o awariach",
+      "crashOn": "Anonimowe dane pomagają nam łapać błędy.",
+      "crashOff": "Żadne dane o awariach nie opuszczają urządzenia.",
+      "crashNeeds": "Wymaga dostępu do sieci.",
       "model": {
         "bugNet": "BugNet v3",
         "bugNetMeta": "Wizja · 412 MB · 10 247 gatunków",

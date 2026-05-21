@@ -187,7 +187,13 @@ export function Settings() {
                 onChange={(v) =>
                   setProfile({
                     networkOn: v,
-                    ...(v ? {} : { leaderboardOn: false, locationShareOn: false }),
+                    ...(v
+                      ? {}
+                      : {
+                          leaderboardOn: false,
+                          locationShareOn: false,
+                          crashReportingOn: false,
+                        }),
                   })
                 }
               />
@@ -211,6 +217,21 @@ export function Settings() {
                 }
                 value={profile.locationShareOn && profile.networkOn}
                 onChange={(v) => setProfile({ locationShareOn: v })}
+                disabled={!profile.networkOn}
+              />
+              <SettingToggle
+                icon="🛟"
+                color={PB.red}
+                label={t('settings.crashLabel')}
+                desc={
+                  !profile.networkOn
+                    ? t('settings.crashNeeds')
+                    : profile.crashReportingOn
+                    ? t('settings.crashOn')
+                    : t('settings.crashOff')
+                }
+                value={profile.crashReportingOn && profile.networkOn}
+                onChange={(v) => setProfile({ crashReportingOn: v })}
                 disabled={!profile.networkOn}
               />
             </View>

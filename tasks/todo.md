@@ -10,6 +10,29 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 ## Done
 
+### Crash reporting (opt-in)
+
+Sentry behind an opt-in toggle. Off by default; gated by `networkOn`. DSN read from `EXPO_PUBLIC_SENTRY_DSN`; missing DSN or missing native SDK degrades to a console fallback.
+
+- [x] `@sentry/react-native` added to `package.json`
+- [x] `src/lib/crashReporting.ts` — `initCrashReporting` / `setCrashReportingEnabled` / `captureException` / `captureMessage`, lazy-loaded via `require()` inside try/catch
+- [x] `profile.crashReportingOn` (default `false`) in `useAppStore` + `wipeAll` reset + wire backfill for legacy profiles
+- [x] `App.tsx` initializes wrapper at mount and reacts to toggle flips
+- [x] `Settings.tsx` — 🛟 toggle below location-share, cascades off when `networkOn` flips off
+- [x] i18n keys `settings.crashLabel / crashOn / crashOff / crashNeeds` in en/pl/de/es
+- [x] `docs/modules/crash-reporting.md` + `docs/decisions/001-crash-reporting-opt-in.md` + index update
+- [x] `npx tsc --noEmit` clean
+
+#### Review
+
+- The wrapper is the single chokepoint for crash reporting — never import `@sentry/react-native` outside `src/lib/crashReporting.ts`.
+- The toggle reacts to `networkOn`: turning network off clears `crashReportingOn` in the same `setProfile` call, mirroring the leaderboard/locShare cascade.
+- For a real build: `npm install`, set `EXPO_PUBLIC_SENTRY_DSN`, then run with a dev client (Expo Go won't capture native crashes).
+
+---
+
+## Done
+
 Most-recent batches first. Older work below the "Foundation" heading.
 
 ### Tier C — completeness ([commit 3e0c12a](https://github.com/anthropics/critterboard))

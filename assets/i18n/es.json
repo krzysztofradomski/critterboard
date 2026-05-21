@@ -599,6 +599,10 @@
       "locShareLabel": "Compartir ubicaciones de avistamientos",
       "locShareOn": "Pines añadidos al mapa público (±500m de difuminado).",
       "locShareOff": "Tu mapa permanece privado en este dispositivo.",
+      "crashLabel": "Enviar informes de errores",
+      "crashOn": "Los diagnósticos anónimos nos ayudan a arreglar bugs.",
+      "crashOff": "No sale ningún dato de errores de tu dispositivo.",
+      "crashNeeds": "Requiere acceso a la red.",
       "model": {
         "bugNet": "BugNet v3",
         "bugNetMeta": "Visión · 412 MB · 10.247 especies",

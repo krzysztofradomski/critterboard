@@ -22,6 +22,12 @@ export type Profile = {
   networkOn: boolean;
   leaderboardOn: boolean;
   locationShareOn: boolean;
+  /**
+   * Opt-in crash reporting. Off on first run. When `networkOn` flips
+   * off the Settings screen drops this back to `false` too — crash
+   * reports can't leave a fully-offline device.
+   */
+  crashReportingOn: boolean;
 };
 
 export type ToastSpec = {
@@ -227,7 +233,9 @@ type PersistedWire = {
   followed?: string[];
   persona: PersonaId;
   language?: string;
-  profile: Profile;
+  // `crashReportingOn` was added after the first ship, so legacy blobs
+  // won't have it. Loosen the wire type so the deserializer can backfill.
+  profile: Omit<Profile, 'crashReportingOn'> & { crashReportingOn?: boolean };
   hasOnboarded?: boolean;
   catchLog?: CatchEvent[];
   activityLog?: ActivityEntry[];
@@ -248,7 +256,11 @@ const wireStorage: PersistStorage<Persisted> = {
         followed: new Set(wrapped.state.followed ?? INITIAL_FOLLOWED),
         persona: wrapped.state.persona,
         language: coerceLang(wrapped.state.language ?? null),
-        profile: wrapped.state.profile,
+        // Backfill `crashReportingOn` for users persisted before the
+        // flag existed. Defaulting to false keeps the opt-in invariant
+        // intact — upgrading the app should never start sending crash
+        // reports without an explicit user action.
+        profile: { crashReportingOn: false, ...wrapped.state.profile },
         hasOnboarded: Boolean(wrapped.state.hasOnboarded),
         catchLog: wrapped.state.catchLog ?? buildSeedCatchLog(),
         activityLog: wrapped.state.activityLog ?? [],
@@ -302,6 +314,7 @@ export const useAppStore = create<AppStore>()(
         networkOn: false,
         leaderboardOn: true,
         locationShareOn: false,
+        crashReportingOn: false,
       },
       hasOnboarded: false,
       toast: null,
@@ -568,6 +581,7 @@ export const useAppStore = create<AppStore>()(
             networkOn: false,
             leaderboardOn: true,
             locationShareOn: false,
+            crashReportingOn: false,
           },
           hasOnboarded: false,
           toast: null,

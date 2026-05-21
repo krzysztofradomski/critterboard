@@ -599,6 +599,10 @@
       "locShareLabel": "Sichtungsorte teilen",
       "locShareOn": "Pins erscheinen auf der öffentlichen Karte (±500m Unschärfe).",
       "locShareOff": "Deine Karte bleibt auf diesem Gerät.",
+      "crashLabel": "Absturzberichte senden",
+      "crashOn": "Anonyme Diagnosen helfen uns, Bugs zu beheben.",
+      "crashOff": "Keine Absturzdaten verlassen dein Gerät.",
+      "crashNeeds": "Erfordert Netzwerkzugriff.",
       "model": {
         "bugNet": "BugNet v3",
         "bugNetMeta": "Vision · 412 MB · 10.247 Arten",

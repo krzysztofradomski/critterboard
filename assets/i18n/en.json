@@ -599,6 +599,10 @@
       "locShareLabel": "Share spotting locations",
       "locShareOn": "Pins added to the public map (±500m fuzz).",
       "locShareOff": "Your map stays private to this device.",
+      "crashLabel": "Send crash reports",
+      "crashOn": "Anonymous diagnostics help us fix bugs.",
+      "crashOff": "No crash data leaves your device.",
+      "crashNeeds": "Requires network access.",
       "model": {
         "bugNet": "BugNet v3",
         "bugNetMeta": "Vision · 412 MB · 10,247 species",

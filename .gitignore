@@ -13,6 +13,7 @@ web-build/
 
 # Local env
 .env*
+!.env.example
 
 # Build output
 *.tsbuildinfo
