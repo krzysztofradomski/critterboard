@@ -6,6 +6,12 @@
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "icon": "./assets/icons/icon-butterfly_1024x1024.png",
+    "splash": {
+      "image": "./assets/splashes/splash-stickerbug_1170x2532.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "app.critterboard.ios",
@@ -19,6 +25,10 @@
     },
     "android": {
       "package": "app.critterboard.android",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icons/icon-butterfly_1024x1024.png",
+        "backgroundColor": "#ffffff"
+      },
       "permissions": [
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
