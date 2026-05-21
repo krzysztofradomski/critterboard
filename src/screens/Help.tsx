@@ -5,6 +5,7 @@ import { DataRow } from '@/components/DataRow';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { useT } from '@/i18n/helpers';
+import { buildDexJson, buildSightingsCsv, shareBlob } from '@/lib/export';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
@@ -15,11 +16,34 @@ export function Help() {
   const { back } = useNav();
   const profile = useAppStore((s) => s.profile);
   const dex = useAppStore((s) => s.dex);
+  const catchLog = useAppStore((s) => s.catchLog);
+  const language = useAppStore((s) => s.language);
   const showToast = useAppStore((s) => s.showToast);
   const wipeAll = useAppStore((s) => s.wipeAll);
   const t = useT();
   const [openId, setOpenId] = useState<string | null>('faq1');
   const [confirmWipe, setConfirmWipe] = useState(false);
+
+  const doExport = async (kind: 'dex' | 'sightings') => {
+    const blob =
+      kind === 'dex'
+        ? buildDexJson(dex, catchLog, language, profile.name)
+        : buildSightingsCsv(catchLog, language);
+    const outcome = await shareBlob(blob);
+    if (outcome.ok) {
+      showToast({
+        text: t('help.data.exportToast', { filename: outcome.filename }),
+        icon: kind === 'dex' ? '⬇️' : '📷',
+        bg: PB.green,
+      });
+    } else {
+      showToast({
+        text: t('help.data.exportUnavailable'),
+        icon: '⚠️',
+        bg: PB.red,
+      });
+    }
+  };
 
   return (
     <View style={styles.root}>
@@ -95,15 +119,15 @@ export function Help() {
               title={t('help.data.exportDexTitle')}
               desc={t('help.data.exportDexDesc', { n: dex.size })}
               cta={t('help.data.exportDexCta')}
-              onPress={() => showToast({ text: t('help.data.exportDexToast'), icon: '⬇️', bg: PB.green })}
+              onPress={() => { void doExport('dex'); }}
             />
             <DataRow
               icon="📷"
               color={PB.cream2}
               title={t('help.data.exportSightTitle')}
-              desc={t('help.data.exportSightDesc')}
+              desc={t('help.data.exportSightDesc', { n: catchLog.length })}
               cta={t('help.data.exportSightCta')}
-              onPress={() => showToast({ text: t('help.data.exportSightToast'), icon: '📷', bg: PB.green })}
+              onPress={() => { void doExport('sightings'); }}
             />
             <DataRow
               icon="🧹"

@@ -98,11 +98,11 @@ Each item is a tracer-bullet vertical slice — touches data / store / UI / i18n
 
 Goal: every claim in Help / Settings about local-first data ownership becomes literally true.
 
-- [ ] **1.1 — Real data export** *(AFK)*
-  - [ ] Add `expo-sharing` dep
-  - [ ] `src/lib/export.ts` builds JSON (dex) and CSV (sightings) blobs from `dex` + `catchLog`
-  - [ ] Help.tsx export buttons call into it + `Sharing.shareAsync`
-  - [ ] Toast updates with the actual filename
+- [x] **1.1 — Real data export** *(AFK)*
+  - [x] Add `expo-sharing` dep
+  - [x] `src/lib/export.ts` builds JSON (dex) and CSV (sightings) blobs from `dex` + `catchLog`
+  - [x] Help.tsx export buttons call into it + `Sharing.shareAsync`
+  - [x] Toast updates with the actual filename
 - [ ] **1.2 — Per-catch photo persistence** *(AFK)*
   - [ ] Extend `CatchEvent` with optional `photoUri?: string`
   - [ ] `useAppStore.catchBug` accepts photo URI, stores it on the event
