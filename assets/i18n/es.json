@@ -392,6 +392,9 @@
       "completedSub": "{n} hechas · {xp} XP ganados",
       "kindDaily": "diaria",
       "kindWeekly": "semanal",
+      "claim": "RECLAMAR +{xp}",
+      "claimed": "RECLAMADO",
+      "claimToast": "Misión reclamada · +{xp} XP",
       "labels": {
         "q1": "Identifica 3 polinizadores",
         "q2": "Captura un escarabajo",
@@ -423,7 +426,9 @@
         "progress": "PROGRESO",
         "tipsFrom": "CONSEJOS DE {name}",
         "later": "Después",
-        "start": "Empezar caza 📷"
+        "start": "Empezar caza 📷",
+        "claim": "Reclamar +{xp} XP",
+        "claimed": "Ya reclamado"
       },
       "details": {
         "q1": {

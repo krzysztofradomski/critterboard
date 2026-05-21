@@ -8,6 +8,7 @@ import { QuestDialog } from '@/components/QuestDialog';
 import { BADGES_TOTAL, type Badge } from '@/data/badges';
 import { useT } from '@/i18n/helpers';
 import { useBadges } from '@/lib/badges';
+import { haptics } from '@/lib/haptics';
 import { useLevel } from '@/lib/level';
 import { useCompletedQuests, useQuests } from '@/lib/quests';
 import { usePersona } from '@/personas/hooks';
@@ -18,6 +19,8 @@ import { useNav } from '@/store/useNav';
 export function Quests() {
   const { go } = useNav();
   const persona = useAppStore((s) => s.persona);
+  const claimQuest = useAppStore((s) => s.claimQuest);
+  const showToast = useAppStore((s) => s.showToast);
   const P = usePersona(persona);
   const t = useT();
   const level = useLevel();
@@ -129,6 +132,18 @@ export function Quests() {
         onStart={() => {
           setOpenId(null);
           go('scan');
+        }}
+        onClaim={(questId) => {
+          const result = claimQuest(questId);
+          setOpenId(null);
+          if (result) {
+            haptics.success();
+            showToast({
+              text: t('quests.claimToast', { xp: result.reward }),
+              icon: '✨',
+              bg: PB.yellow,
+            });
+          }
         }}
       />
       <BadgeDialog

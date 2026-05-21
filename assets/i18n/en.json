@@ -392,6 +392,9 @@
       "completedSub": "{n} done · {xp} XP earned",
       "kindDaily": "daily",
       "kindWeekly": "weekly",
+      "claim": "CLAIM +{xp}",
+      "claimed": "CLAIMED",
+      "claimToast": "Quest claimed · +{xp} XP",
       "labels": {
         "q1": "Identify 3 pollinators",
         "q2": "Catch a beetle",
@@ -423,7 +426,9 @@
         "progress": "PROGRESS",
         "tipsFrom": "TIPS FROM {name}",
         "later": "Later",
-        "start": "Start hunt 📷"
+        "start": "Start hunt 📷",
+        "claim": "Claim +{xp} XP",
+        "claimed": "Already claimed"
       },
       "details": {
         "q1": {

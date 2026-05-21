@@ -104,6 +104,36 @@ export function useCompletedQuests(): CompletedQuest[] {
   }, [completedAt]);
 }
 
+/**
+ * For a quest with progress vs total, decide its claim state:
+ *   - `unready`  → progress < total, no claim CTA
+ *   - `claimable` → progress >= total, reward not yet collected
+ *   - `claimed`  → reward already collected, sticky for the dex lifetime
+ *
+ * The component picks the right CTA off this. The store enforces the
+ * same rules in `claimQuest` — this hook is just for rendering.
+ */
+export type ClaimState = 'unready' | 'claimable' | 'claimed';
+
+export function claimStateOf(
+  questId: string,
+  progress: number,
+  total: number,
+  claimed: Record<string, number>,
+): ClaimState {
+  if (claimed[questId] !== undefined) return 'claimed';
+  if (progress >= total) return 'claimable';
+  return 'unready';
+}
+
+export function useClaimState(quest: Quest): ClaimState {
+  const claimed = useAppStore((s) => s.questClaimedAt);
+  return useMemo(
+    () => claimStateOf(quest.id, quest.progress, quest.total, claimed),
+    [quest.id, quest.progress, quest.total, claimed],
+  );
+}
+
 export function useQuests(): Quest[] {
   const questProgress = useAppStore((s) => s.questProgress);
   const catchLog = useAppStore((s) => s.catchLog);

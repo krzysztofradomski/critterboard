@@ -392,6 +392,9 @@
       "completedSub": "{n} erfüllt · {xp} XP verdient",
       "kindDaily": "täglich",
       "kindWeekly": "wöchentlich",
+      "claim": "EINFORDERN +{xp}",
+      "claimed": "EINGEFORDERT",
+      "claimToast": "Quest eingefordert · +{xp} XP",
       "labels": {
         "q1": "3 Bestäuber bestimmen",
         "q2": "Käfer fangen",
@@ -423,7 +426,9 @@
         "progress": "FORTSCHRITT",
         "tipsFrom": "TIPPS VON {name}",
         "later": "Später",
-        "start": "Jagd starten 📷"
+        "start": "Jagd starten 📷",
+        "claim": "+{xp} XP einfordern",
+        "claimed": "Bereits eingefordert"
       },
       "details": {
         "q1": {

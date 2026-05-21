@@ -7,6 +7,7 @@ import { IconBtn } from '@/components/IconBtn';
 import { ModalShell } from '@/components/ModalShell';
 import { QUEST_DETAILS, type Quest } from '@/data/quests';
 import { useT } from '@/i18n/helpers';
+import { useClaimState } from '@/lib/quests';
 import type { Persona } from '@/personas';
 
 export function QuestDialog({
@@ -15,14 +16,17 @@ export function QuestDialog({
   visible,
   onClose,
   onStart,
+  onClaim,
 }: {
   quest: Quest | null;
   persona: Persona;
   visible: boolean;
   onClose: () => void;
   onStart: () => void;
+  onClaim: (questId: string) => void;
 }) {
   const t = useT();
+  const claim = useClaimState(quest ?? ({ id: '', progress: 0, total: 1 } as Quest));
   if (!quest) return null;
   const detail = QUEST_DETAILS[quest.id] ?? { icon: '✨', accent: PB.ink, tipCount: 0 };
   const pct = Math.round((100 * quest.progress) / quest.total);
@@ -93,9 +97,24 @@ export function QuestDialog({
           <Btn bg={PB.cream} color={PB.ink} onPress={onClose} style={{ flex: 1 }}>
             {t('quests.dialog.later')}
           </Btn>
-          <Btn bg={PB.ink} color={PB.yellow} onPress={onStart} style={{ flex: 1.4 }}>
-            {t('quests.dialog.start')}
-          </Btn>
+          {claim === 'claimable' ? (
+            <Btn
+              bg={PB.yellow}
+              color={PB.ink}
+              onPress={() => onClaim(quest.id)}
+              style={{ flex: 1.4 }}
+            >
+              ✨ {t('quests.dialog.claim', { xp: quest.reward })}
+            </Btn>
+          ) : claim === 'claimed' ? (
+            <Btn bg={PB.cream2} color={PB.ink} onPress={onClose} style={{ flex: 1.4 }}>
+              ✓ {t('quests.dialog.claimed')}
+            </Btn>
+          ) : (
+            <Btn bg={PB.ink} color={PB.yellow} onPress={onStart} style={{ flex: 1.4 }}>
+              {t('quests.dialog.start')}
+            </Btn>
+          )}
         </View>
       </View>
     </ModalShell>

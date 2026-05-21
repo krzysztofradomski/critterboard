@@ -106,6 +106,14 @@ type State = {
    * the seeded `COMPLETED_QUESTS` so the screen isn't empty.
    */
   questCompletedAt: Record<string, number>;
+  /**
+   * Epoch ms at which each quest reward was claimed. Distinct from
+   * `questCompletedAt`: a quest hits 100% automatically, but the XP
+   * reward is only granted once the user taps Claim. Once claimed, the
+   * quest can't be re-claimed (the entry is sticky for the lifetime of
+   * the wipe).
+   */
+  questClaimedAt: Record<string, number>;
 };
 
 type Actions = {
@@ -138,6 +146,13 @@ type Actions = {
    * can show a truthful toast (deleted N photos · M MB).
    */
   clearScanCache: () => Promise<{ deleted: number; bytes: number }>;
+  /**
+   * Claim a completed quest's reward. Returns the reward amount on
+   * success, or null if the quest doesn't exist, isn't complete, or has
+   * already been claimed. Caller uses the returned value to drive the
+   * toast / haptic.
+   */
+  claimQuest: (id: string) => { reward: number } | null;
 };
 
 type AppStore = State & Actions;
@@ -204,6 +219,7 @@ type Persisted = Pick<
   | 'mapLocation'
   | 'questProgress'
   | 'questCompletedAt'
+  | 'questClaimedAt'
 >;
 
 type PersistedWire = {
@@ -218,6 +234,7 @@ type PersistedWire = {
   mapLocation?: MapLocationCache | null;
   questProgress?: Record<string, number>;
   questCompletedAt?: Record<string, number>;
+  questClaimedAt?: Record<string, number>;
 };
 
 const wireStorage: PersistStorage<Persisted> = {
@@ -238,6 +255,7 @@ const wireStorage: PersistStorage<Persisted> = {
         mapLocation: wrapped.state.mapLocation ?? null,
         questProgress: { ...initialQuestProgress(), ...(wrapped.state.questProgress ?? {}) },
         questCompletedAt: wrapped.state.questCompletedAt ?? {},
+        questClaimedAt: wrapped.state.questClaimedAt ?? {},
       },
       version: wrapped.version,
     };
@@ -256,6 +274,7 @@ const wireStorage: PersistStorage<Persisted> = {
       mapLocation: value.state.mapLocation,
       questProgress: value.state.questProgress,
       questCompletedAt: value.state.questCompletedAt,
+      questClaimedAt: value.state.questClaimedAt,
     };
     await AsyncStorage.setItem(name, JSON.stringify({ state: wire, version: value.version ?? 0 }));
   },
@@ -293,6 +312,7 @@ export const useAppStore = create<AppStore>()(
       mapLocation: null,
       questProgress: initialQuestProgress(),
       questCompletedAt: {},
+      questClaimedAt: {},
 
       go: (name, params) => {
         const alias = ME_SUB_ALIAS[name];
@@ -482,6 +502,17 @@ export const useAppStore = create<AppStore>()(
           return { hasOnboarded: value };
         }),
 
+      claimQuest: (id) => {
+        const s = get();
+        const quest = QUESTS.find((q) => q.id === id);
+        if (!quest) return null;
+        if (s.questClaimedAt[id] !== undefined) return null;
+        if (s.questCompletedAt[id] === undefined) return null;
+        const at = Date.now();
+        set({ questClaimedAt: { ...s.questClaimedAt, [id]: at } });
+        return { reward: quest.reward };
+      },
+
       clearScanCache: async () => {
         const events = get().catchLog;
         const uris = new Set<string>();
@@ -546,6 +577,7 @@ export const useAppStore = create<AppStore>()(
           mapLocation: null,
           questProgress: initialQuestProgress(),
           questCompletedAt: {},
+          questClaimedAt: {},
         });
       },
     }),
@@ -564,6 +596,7 @@ export const useAppStore = create<AppStore>()(
         mapLocation: s.mapLocation,
         questProgress: s.questProgress,
         questCompletedAt: s.questCompletedAt,
+        questClaimedAt: s.questClaimedAt,
       }),
       /**
        * Skip past onboarding for returning users. The flag is set in

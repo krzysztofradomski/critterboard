@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import { BUGS, findBug } from '@/data/bugs';
 import { LEADERS } from '@/data/leaderboard';
+import { QUESTS } from '@/data/quests';
 import { useAppStore } from '@/store/useAppStore';
 
 /**
@@ -47,6 +48,22 @@ export function xpFromDex(dex: Iterable<string>): number {
   for (const id of dex) {
     const b = findBug(id);
     if (b) total += b.xp;
+  }
+  return total;
+}
+
+/**
+ * Pure: sum of quest rewards over every quest id present in
+ * `questClaimedAt`. Stacks with `xpFromDex` so claiming a +75 XP quest
+ * after catching 3 pollinators rewards the bug XP AND the quest XP.
+ * Unknown ids (e.g. a deleted seed quest in old persisted state) are
+ * silently skipped.
+ */
+export function xpFromClaimedQuests(claimed: Record<string, number>): number {
+  let total = 0;
+  for (const id of Object.keys(claimed)) {
+    const q = QUESTS.find((x) => x.id === id);
+    if (q) total += q.reward;
   }
   return total;
 }
@@ -104,7 +121,8 @@ export function formatXp(xp: number): string {
  */
 export function useXp(): number {
   const dex = useAppStore((s) => s.dex);
-  return useMemo(() => xpFromDex(dex), [dex]);
+  const claimed = useAppStore((s) => s.questClaimedAt);
+  return useMemo(() => xpFromDex(dex) + xpFromClaimedQuests(claimed), [dex, claimed]);
 }
 
 export function useLevel(): LevelInfo {

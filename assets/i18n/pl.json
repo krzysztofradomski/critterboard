@@ -392,6 +392,9 @@
       "completedSub": "{n} ukończonych · zdobyte {xp} XP",
       "kindDaily": "dzienne",
       "kindWeekly": "tygodniowe",
+      "claim": "ODBIERZ +{xp}",
+      "claimed": "ODEBRANE",
+      "claimToast": "Zadanie odebrane · +{xp} XP",
       "labels": {
         "q1": "Rozpoznaj 3 zapylacze",
         "q2": "Złap chrząszcza",
@@ -423,7 +426,9 @@
         "progress": "POSTĘP",
         "tipsFrom": "PORADY OD {name}",
         "later": "Później",
-        "start": "Zacznij łowy 📷"
+        "start": "Zacznij łowy 📷",
+        "claim": "Odbierz +{xp} XP",
+        "claimed": "Już odebrane"
       },
       "details": {
         "q1": {
