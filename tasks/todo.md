@@ -143,10 +143,10 @@ Goal: features that hook into real OS APIs we already have permission for.
   - [x] Extend `CatchEvent` with optional `lat?: number; lng?: number`
   - [x] `catchBug` accepts opts; Result.tsx reads position via `expo-location` when `profile.locationShareOn` (2.5s GPS budget, never blocks the catch)
   - [x] Map.tsx renders user's real catches as diamond pins, projected from the newest user catch via a coarse equirectangular formula
-- [ ] **2.3 — Leaderboard user row reflects real XP** *(AFK)*
-  - [ ] Compute user's xp/level via `useXp`/`useLevel`
-  - [ ] Replace `LEADERS.self.xp = 24612` with computed value
-  - [ ] Re-sort the list (podium may shuffle as user passes synthetic rows)
+- [x] **2.3 — Leaderboard user row reflects real XP** *(AFK)*
+  - [x] Compute user's xp via `useXp`
+  - [x] Replace static `LEADERS.self.xp = 24612` with the derived value
+  - [x] Re-sort the roster by XP desc + renumber ranks; podium pulls from the resorted top 3
 - [ ] **2.4 — Reverse-geocoded Map header** *(AFK)*
   - [ ] `expo-location.reverseGeocodeAsync(position)` → city / region
   - [ ] Gated on `profile.locationShareOn`; falls back to a "private" label

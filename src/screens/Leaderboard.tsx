@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { PersonModal } from '@/components/PersonModal';
-import { LEADERS } from '@/data/leaderboard';
+import { LEADERS, type LeaderRow } from '@/data/leaderboard';
 import { countryName, useT } from '@/i18n/helpers';
+import { useXp } from '@/lib/level';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
@@ -11,22 +12,44 @@ import { useNav } from '@/store/useNav';
 const TABS = ['global', 'weekly', 'friends'] as const;
 type TabName = (typeof TABS)[number];
 
-const PODIUM = [
-  { ...(LEADERS[1] as (typeof LEADERS)[number]), h: 80, c: PB.cream2, place: '2', medal: '🥈' },
-  { ...(LEADERS[0] as (typeof LEADERS)[number]), h: 110, c: PB.yellow, place: '1', medal: '👑' },
-  { ...(LEADERS[2] as (typeof LEADERS)[number]), h: 64, c: PB.orange, place: '3', medal: '🥉' },
+const PODIUM_STYLE = [
+  { h: 80,  c: PB.cream2, place: '2', medal: '🥈' },
+  { h: 110, c: PB.yellow, place: '1', medal: '👑' },
+  { h: 64,  c: PB.orange, place: '3', medal: '🥉' },
 ];
 
 export function Leaderboard() {
   const { go } = useNav();
   const profile = useAppStore((s) => s.profile);
   const language = useAppStore((s) => s.language);
+  const userXp = useXp();
   const t = useT();
   const [tab, setTab] = useState<TabName>('global');
   const [openName, setOpenName] = useState<string | null>(null);
 
   const userVisible = profile.networkOn && profile.leaderboardOn;
   const userCountry = profile.locationShareOn && profile.networkOn ? 'US' : 'private';
+
+  /**
+   * Rebuild the leaderboard with the user's real XP in their slot, then
+   * re-sort the whole roster by XP desc and renumber ranks. The user
+   * may now overtake (or fall behind) synthetic peers; the podium
+   * naturally reflects whoever is in the top 3 after the resort.
+   */
+  const sorted = useMemo<LeaderRow[]>(() => {
+    const next = LEADERS.map((l) => (l.self ? { ...l, xp: userXp } : l));
+    next.sort((a, b) => b.xp - a.xp);
+    return next.map((l, i) => ({ ...l, rank: i + 1 }));
+  }, [userXp]);
+
+  const podium = useMemo(() => {
+    const top = [sorted[0], sorted[1], sorted[2]];
+    return [
+      { row: top[1], ...PODIUM_STYLE[0] },
+      { row: top[0], ...PODIUM_STYLE[1] },
+      { row: top[2], ...PODIUM_STYLE[2] },
+    ];
+  }, [sorted]);
 
   return (
     <View style={styles.root}>
@@ -54,32 +77,37 @@ export function Leaderboard() {
       </View>
 
       <View style={styles.podium}>
-        {PODIUM.map((p) => (
-          <Pressable
-            key={p.rank}
-            onPress={() => setOpenName(p.name)}
-            style={{ flex: 1, alignItems: 'center' }}
-          >
-            <View style={styles.medal}>
-              <Text style={{ fontSize: 20 }}>{p.medal}</Text>
-            </View>
-            <Text style={styles.podiumName}>{p.name}</Text>
-            <View
-              style={[
-                styles.podiumBar,
-                { backgroundColor: p.c, height: p.h },
-              ]}
+        {podium.map((p) => {
+          if (!p.row) return null;
+          const row = p.row;
+          const displayName = row.self ? profile.name : row.name;
+          return (
+            <Pressable
+              key={row.rank}
+              onPress={() => setOpenName(row.self ? 'you' : row.name)}
+              style={{ flex: 1, alignItems: 'center' }}
             >
-              <Text style={styles.podiumPlace}>{p.place}</Text>
-              <Text style={styles.podiumXp}>{p.xp.toLocaleString()}</Text>
-            </View>
-          </Pressable>
-        ))}
+              <View style={styles.medal}>
+                <Text style={{ fontSize: 20 }}>{p.medal}</Text>
+              </View>
+              <Text style={styles.podiumName}>{displayName}</Text>
+              <View
+                style={[
+                  styles.podiumBar,
+                  { backgroundColor: p.c, height: p.h },
+                ]}
+              >
+                <Text style={styles.podiumPlace}>{p.place}</Text>
+                <Text style={styles.podiumXp}>{row.xp.toLocaleString()}</Text>
+              </View>
+            </Pressable>
+          );
+        })}
       </View>
 
       <View style={styles.list}>
         <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
-          {LEADERS.slice(3).map((l) => {
+          {sorted.slice(3).map((l) => {
             if (l.self && !userVisible) return null;
             const name = l.self ? profile.name : l.name;
             const country = l.self ? userCountry : l.country;
