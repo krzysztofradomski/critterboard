@@ -601,15 +601,38 @@
       </a>
       <div class="nav-r">
         <div class="lang-switch">
-          <button class="lang-btn" id="lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Language">
+          <button
+            class="lang-btn"
+            id="lang-btn"
+            type="button"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            aria-label="Language"
+          >
             <span id="lang-current">EN</span>
             <span class="lang-caret" aria-hidden="true">▾</span>
           </button>
           <ul class="lang-menu" id="lang-menu" role="listbox" hidden>
-            <li><button type="button" role="option" data-lang="en">🇬🇧 English</button></li>
-            <li><button type="button" role="option" data-lang="pl">🇵🇱 Polski</button></li>
-            <li><button type="button" role="option" data-lang="es">🇪🇸 Español</button></li>
-            <li><button type="button" role="option" data-lang="de">🇩🇪 Deutsch</button></li>
+            <li>
+              <button type="button" role="option" data-lang="en">
+                🇬🇧 English
+              </button>
+            </li>
+            <li>
+              <button type="button" role="option" data-lang="pl">
+                🇵🇱 Polski
+              </button>
+            </li>
+            <li>
+              <button type="button" role="option" data-lang="es">
+                🇪🇸 Español
+              </button>
+            </li>
+            <li>
+              <button type="button" role="option" data-lang="de">
+                🇩🇪 Deutsch
+              </button>
+            </li>
           </ul>
         </div>
         <span class="mit" data-i18n="nav_mit">MIT Open Source</span>
@@ -629,7 +652,10 @@
           <span data-i18n="h1_l3">be smug</span><span class="dim">~</span>
         </h1>
         <p class="sub">
-          <span data-i18n="sub_l1">The free insect hunting game that runs entirely on your phone.</span><br />
+          <span data-i18n="sub_l1"
+            >The free insect hunting game that runs entirely on your
+            phone.</span
+          ><br />
           <span data-i18n="sub_l2">No cloud. No account. No $$$.</span>
         </p>
 
@@ -637,16 +663,21 @@
           <input
             class="inp"
             type="email"
-            placeholder="your@email.com"
+            placeholder="Sign-up not available yet"
             data-i18n-placeholder="email_ph"
             required
+            disabled
           />
-          <button class="sub-btn" type="submit" data-i18n="submit">Notify me 🪲</button>
+          <button class="sub-btn" type="submit" data-i18n="submit" disabled>
+            Notify me 🪲
+          </button>
         </form>
         <div class="success" id="ok" data-i18n="success">
           🎉 You're on the list. Go find a legendary.
         </div>
-        <p class="note" data-i18n="note">One email when we launch. Obviously.</p>
+        <p class="note" data-i18n="note">
+          One email when we launch. Obviously.
+        </p>
 
         <div class="promises">
           <span class="tag" data-i18n="tag_acc">✓ no account</span>
@@ -704,7 +735,9 @@
 
     <footer>
       <div class="ft-logo">🪲 Critterboard</div>
-      <p data-i18n="ft_tag">Free · Open Source · MIT · Continental Europe · Coming Soon</p>
+      <p data-i18n="ft_tag">
+        Free · Open Source · MIT · Continental Europe · Coming Soon
+      </p>
       <div class="ft-links">
         <a
           href="https://github.com/your-username/critterboard"
@@ -712,7 +745,9 @@
           rel="noopener"
           >GitHub</a
         >
-        <a href="mailto:hello@critterboard.app" data-i18n="ft_contact">Contact</a>
+        <a href="mailto:hello@critterboard.app" data-i18n="ft_contact"
+          >Contact</a
+        >
       </div>
     </footer>
 
@@ -733,7 +768,7 @@
           sub_l1:
             "The free insect hunting game that runs entirely on your phone.",
           sub_l2: "No cloud. No account. No $$$.",
-          email_ph: "your@email.com",
+          email_ph: "Sign-up not available yet",
           submit: "Notify me 🪲",
           success: "🎉 You're on the list. Go find a legendary.",
           note: "One email when we launch. Obviously.",
@@ -765,7 +800,7 @@
           sub_l1:
             "Darmowa gra w łapanie robali — działa w całości na Twoim telefonie.",
           sub_l2: "Bez chmury. Bez konta. Bez kasy.",
-          email_ph: "twoj@email.pl",
+          email_ph: "Zapis na razie niedostępny",
           submit: "Powiadom 🪲",
           success: "🎉 Jesteś na liście. Idź złap legendarnego.",
           note: "Jeden mail w dniu premiery. Tyle.",
@@ -786,8 +821,7 @@
         },
         es: {
           _label: "ES",
-          title:
-            "Critterboard — caza al bicho · vete offline · presume",
+          title: "Critterboard — caza al bicho · vete offline · presume",
           meta_desc:
             "El juego gratis y open source para cazar bichos. Sin cuenta. Sin internet. Sin €€€. Pronto en iOS y Android.",
           nav_mit: "Open source · MIT",
@@ -799,7 +833,7 @@
           sub_l1:
             "El juego gratis de caza de bichos que corre entero en tu móvil.",
           sub_l2: "Sin nube. Sin cuenta. Sin €€€.",
-          email_ph: "tu@email.com",
+          email_ph: "Registro aún no disponible",
           submit: "Avísame 🪲",
           success: "🎉 Estás en la lista. Ve a por un legendario.",
           note: "Un email el día del lanzamiento. Ya está.",
@@ -833,7 +867,7 @@
           sub_l1:
             "Das kostenlose Insektenjagdspiel, das komplett auf deinem Handy läuft.",
           sub_l2: "Keine Cloud. Kein Konto. Kein Geld.",
-          email_ph: "deine@email.de",
+          email_ph: "Anmeldung noch nicht möglich",
           submit: "Bescheid geben 🪲",
           success: "🎉 Du bist auf der Liste. Schnapp dir ein Legendary.",
           note: "Eine Mail zum Launch. Versprochen.",
@@ -888,7 +922,7 @@
         document.querySelectorAll("#lang-menu [data-lang]").forEach((btn) => {
           btn.setAttribute(
             "aria-current",
-            btn.getAttribute("data-lang") === lang ? "true" : "false"
+            btn.getAttribute("data-lang") === lang ? "true" : "false",
           );
         });
         try {
