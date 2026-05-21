@@ -378,7 +378,7 @@
       "xpNext": "1000 XP → LV.13",
       "xpCurrentDynamic": "{xp} XP",
       "xpNextDynamic": "{nextXp} XP → LV.{level}",
-      "daily": "◇ DZIENNE · RESET ZA 8H",
+      "daily": "◇ DZIENNE · RESET ZA {h}H",
       "weekly": "◆ TYGODNIOWE",
       "badges": "★ ODZNAKI ({earned} Z {total})",
       "completed": "UKOŃCZONE ZADANIA",

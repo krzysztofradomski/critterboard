@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Btn } from '@/components/Btn';
@@ -12,6 +12,24 @@ import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
 const DAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const CAL_DAYS = 35;
+
+/**
+ * Localised "Apr 14 → May 18"-style range covering the last `days`
+ * calendar days. Falls back to ISO if Intl is unavailable on the
+ * runtime (rare; web/jest fixtures).
+ */
+function formatCalRange(days: number, lang: string, now: number = Date.now()): string {
+  const end = new Date(now);
+  const start = new Date(now);
+  start.setDate(start.getDate() - (days - 1));
+  try {
+    const fmt = new Intl.DateTimeFormat(lang, { month: 'short', day: 'numeric' });
+    return `${fmt.format(start)} → ${fmt.format(end)}`;
+  } catch {
+    return `${start.toDateString()} → ${end.toDateString()}`;
+  }
+}
 
 export function Streak() {
   const { go, back } = useNav();
@@ -26,7 +44,9 @@ export function Streak() {
   // of a chronological replay (see `computeFreezeState`); when the user
   // misses a day with a banked freeze the streak survives automatically.
   const { current: cur, best, total, freezes } = useStreakSummary();
-  const calendar = useCalendar(35);
+  const calendar = useCalendar(CAL_DAYS);
+  const language = useAppStore((s) => s.language);
+  const calRange = useMemo(() => formatCalRange(CAL_DAYS, language), [language]);
 
   return (
     <View style={styles.root}>
@@ -66,7 +86,7 @@ export function Streak() {
         <Sticker bg={PB.paper} style={{ padding: 14 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
             <Text style={styles.calTitle}>{t('streak.calTitle')}</Text>
-            <Text style={styles.calRange}>{t('streak.calRange')}</Text>
+            <Text style={styles.calRange}>{calRange}</Text>
           </View>
           <View style={styles.dayLabels}>
             {DAYS.map((d, i) => (

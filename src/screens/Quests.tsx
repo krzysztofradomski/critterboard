@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { BadgeDialog } from '@/components/BadgeDialog';
@@ -24,6 +24,19 @@ export function Quests() {
   const quests = useQuests();
   const completedQuests = useCompletedQuests();
   const badges = useBadges();
+
+  /**
+   * Hours remaining until local midnight (rounded up so "<1 h left"
+   * surfaces as 1H rather than 0H). Recomputed once per mount — close
+   * enough for a header label; the user will see a fresh value when
+   * they next open the screen.
+   */
+  const hoursToReset = useMemo(() => {
+    const now = Date.now();
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0);
+    return Math.max(1, Math.ceil((midnight.getTime() - now) / 3_600_000));
+  }, []);
 
   const [openId, setOpenId] = useState<string | null>(null);
   const [openBadgeId, setOpenBadgeId] = useState<string | null>(null);
@@ -67,7 +80,7 @@ export function Quests() {
 
       <View style={styles.list}>
         <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
-          <Text style={styles.section}>{t('quests.daily')}</Text>
+          <Text style={styles.section}>{t('quests.daily', { h: hoursToReset })}</Text>
           {quests.filter((q) => q.kind === 'daily').map((q) => (
             <QuestCard key={q.id} quest={q} accent={PB.green} onPress={() => setOpenId(q.id)} />
           ))}
