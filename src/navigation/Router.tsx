@@ -13,6 +13,7 @@ import { MapScreen } from '@/screens/Map';
 import { MeHub } from '@/screens/MeHub';
 import { NoMatch } from '@/screens/NoMatch';
 import { Onboarding } from '@/screens/Onboarding';
+import { OpenSourceLibraries } from '@/screens/OpenSourceLibraries';
 import { Permissions } from '@/screens/Permissions';
 import { RegionDetail } from '@/screens/RegionDetail';
 import { Result } from '@/screens/Result';
@@ -43,6 +44,7 @@ const REGISTRY: Record<RouteName, React.ComponentType> = {
   region: RegionDetail,
   streak: Streak,
   friends: Friends,
+  openSourceLibraries: OpenSourceLibraries,
   help: Help,
 };
 

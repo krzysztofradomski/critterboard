@@ -30,6 +30,7 @@ export type RouteParamMap = {
   region: { id: string };
   streak: undefined;
   friends: undefined;
+  openSourceLibraries: undefined;
   help: undefined;
 };
 
