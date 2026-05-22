@@ -82,7 +82,10 @@ export function Leaderboard() {
                 },
               ]}
             >
-              <Text style={[styles.tabText, { color: tab === tabId ? PB.ink : PB.cream }]}>
+              <Text
+                numberOfLines={1}
+                style={[styles.tabText, { color: tab === tabId ? PB.ink : PB.cream }]}
+              >
                 {t(`leaderboard.tab.${tabId}`)}
               </Text>
             </Pressable>
@@ -179,7 +182,7 @@ export function Leaderboard() {
 
 const styles = StyleSheet.create({
   root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.purple },
-  header: { paddingTop: 60, paddingHorizontal: 16, paddingBottom: 14 },
+  header: { paddingTop: 112, paddingHorizontal: 16, paddingBottom: 14 },
   title: { fontSize: 30, fontWeight: '800', color: PB.cream, lineHeight: 30 },
   sub: { fontSize: 13, color: PB.cream, opacity: 0.85, fontWeight: '600', marginTop: 4 },
   tabs: {
@@ -192,8 +195,8 @@ const styles = StyleSheet.create({
     borderColor: PB.ink,
     borderWidth: 2.5,
   },
-  tab: { flex: 1, paddingVertical: 8, borderRadius: 10, alignItems: 'center' },
-  tabText: { fontSize: 13, fontWeight: '800' },
+  tab: { flex: 1, minWidth: 0, paddingVertical: 8, paddingHorizontal: 4, borderRadius: 10, alignItems: 'center' },
+  tabText: { fontSize: 13, fontWeight: '800', flexShrink: 1 },
   podium: { paddingHorizontal: 16, paddingBottom: 14, flexDirection: 'row', alignItems: 'flex-end', gap: 8 },
   medal: {
     width: 48,
@@ -235,7 +238,7 @@ const styles = StyleSheet.create({
     borderWidth: 2.5,
     borderBottomWidth: 0,
     padding: 12,
-    marginBottom: 100,
+    marginBottom: 120,
   },
   row: {
     flexDirection: 'row',

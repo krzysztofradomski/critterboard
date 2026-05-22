@@ -52,7 +52,7 @@ export function Quests() {
     <View style={styles.root}>
       <View style={styles.header}>
         <View style={styles.headTop}>
-          <View>
+          <View style={styles.headCopy}>
             <Text style={styles.title}>{t('quests.title')}</Text>
             <Text style={styles.sub}>{t('quests.sub')}</Text>
           </View>
@@ -158,10 +158,11 @@ export function Quests() {
 
 const styles = StyleSheet.create({
   root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.red },
-  header: { paddingTop: 60, paddingHorizontal: 16, paddingBottom: 14 },
+  header: { paddingTop: 112, paddingHorizontal: 16, paddingBottom: 14 },
   headTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  headCopy: { flex: 1, minWidth: 0, paddingRight: 10 },
   title: { fontSize: 30, fontWeight: '800', color: PB.cream, lineHeight: 30 },
-  sub: { fontSize: 13, color: PB.cream, opacity: 0.85, fontWeight: '600', marginTop: 4 },
+  sub: { fontSize: 13, color: PB.cream, opacity: 0.85, fontWeight: '600', marginTop: 4, flexShrink: 1 },
   levelBox: {
     width: 78,
     height: 78,
@@ -178,8 +179,8 @@ const styles = StyleSheet.create({
   },
   levelLabel: { fontSize: 11, fontWeight: '800', color: PB.ink, lineHeight: 11 },
   levelValue: { fontSize: 28, fontWeight: '800', color: PB.ink, lineHeight: 28 },
-  xpRow: { flexDirection: 'row', justifyContent: 'space-between' },
-  xpText: { fontSize: 11, color: PB.cream, opacity: 0.85, fontWeight: '700' },
+  xpRow: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
+  xpText: { fontSize: 11, color: PB.cream, opacity: 0.85, fontWeight: '700', flexShrink: 1 },
   xpBar: {
     marginTop: 4,
     height: 14,
@@ -203,7 +204,7 @@ const styles = StyleSheet.create({
     borderWidth: 2.5,
     borderBottomWidth: 0,
     padding: 14,
-    marginBottom: 100,
+    marginBottom: 120,
   },
   section: { fontSize: 13, fontWeight: '800', color: PB.ink, letterSpacing: 0.6, marginBottom: 8 },
   badgeCell: { width: 80, alignItems: 'center' },

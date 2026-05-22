@@ -10,6 +10,20 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 ## Done
 
+### Responsive shell for larger screens
+
+Prevented desktop/tablet stretch by constraining the whole app to a centered mobile viewport. This applies once in `App.tsx`, so every route inherits the same max-width behavior.
+
+- [x] Added global shell + centered `maxWidth` app frame in `App.tsx`
+- [x] Preserved existing screen internals (no per-screen layout forks)
+- [x] Updated docs index + module note for future contributors
+- [x] Run `npm run typecheck` after this batch
+
+#### Review
+
+- The fix is intentionally global and low-risk: all existing absolute-positioned UI and tab bars now anchor to a stable app frame on larger displays.
+- Mobile behavior is unchanged because devices under `520px` still use full width.
+
 ### Backend adapter seam (mock today, Cloudflare tomorrow)
 
 Single seam between the UI and any out-of-process service. Mock implementation resolves today; the Cloudflare Workers impl is a stub behind one flag. Leaderboard / friend graph / suggested feed all read through the seam.

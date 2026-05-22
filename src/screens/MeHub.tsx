@@ -35,7 +35,10 @@ export function MeHub() {
               { backgroundColor: sub === id ? PB.yellow : 'transparent' },
             ]}
           >
-            <Text style={[styles.subtabText, { color: sub === id ? PB.ink : PB.cream }]}>
+            <Text
+              numberOfLines={1}
+              style={[styles.subtabText, { color: sub === id ? PB.ink : PB.cream }]}
+            >
               {t(`meSub.${id}`)}
             </Text>
           </Pressable>
@@ -66,6 +69,6 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     shadowOffset: { width: 3, height: 3 },
   },
-  subtab: { flex: 1, paddingVertical: 8, alignItems: 'center', borderRadius: 10 },
-  subtabText: { fontSize: 13, fontWeight: '800' },
+  subtab: { flex: 1, minWidth: 0, paddingVertical: 8, paddingHorizontal: 4, alignItems: 'center', borderRadius: 10 },
+  subtabText: { fontSize: 13, fontWeight: '800', flexShrink: 1 },
 });

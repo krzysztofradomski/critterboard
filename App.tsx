@@ -55,18 +55,27 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <View style={styles.root}>
-        <StatusBar style="dark" />
-        <Router />
-        <Toast toast={toast} />
+      <View style={styles.shell}>
+        <View style={styles.root}>
+          <StatusBar style="dark" />
+          <Router />
+          <Toast toast={toast} />
+        </View>
       </View>
     </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  shell: {
+    flex: 1,
+    backgroundColor: PB.cream2,
+    alignItems: 'center',
+  },
   root: {
     flex: 1,
+    width: '100%',
+    maxWidth: 520,
     backgroundColor: PB.cream,
   },
 });
