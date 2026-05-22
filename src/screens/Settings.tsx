@@ -23,12 +23,17 @@ export function Settings() {
   const language = useAppStore((s) => s.language);
   const setProfile = useAppStore((s) => s.setProfile);
   const setLanguage = useAppStore((s) => s.setLanguage);
+  const clearConversationData = useAppStore((s) => s.clearConversationData);
+  const conversationThreadCount = useAppStore((s) => Object.keys(s.chatThreads).length);
+  const conversationMemoryCount = useAppStore((s) => s.conversationMemory.length);
+  const showToast = useAppStore((s) => s.showToast);
   const P = usePersona(persona);
   const t = useT();
 
   const [downloading, setDownloading] = useState(true);
   const [pct, setPct] = useState(64);
   const [creditsOpen, setCreditsOpen] = useState(false);
+  const [confirmMemoryWipe, setConfirmMemoryWipe] = useState(false);
   const [nameDraft, setNameDraft] = useState(profile.name);
   const [regions, setRegions] = useState<Record<string, RegionStatus>>(() => ({
     'na-ne': 'installed',
@@ -106,6 +111,16 @@ export function Settings() {
   // The persona name can be multi-word ("Prof. Larva") — strip honorifics
   // so the "Language for X's sass" copy reads naturally in every locale.
   const personaShort = P.name.split(' ').pop() ?? P.name;
+
+  const wipeConversationMemory = () => {
+    if (!confirmMemoryWipe) {
+      setConfirmMemoryWipe(true);
+      return;
+    }
+    setConfirmMemoryWipe(false);
+    clearConversationData();
+    showToast({ text: t('settings.memoryClearToast'), icon: '🧹', bg: PB.blue });
+  };
 
   return (
     <View style={styles.root}>
@@ -414,6 +429,33 @@ export function Settings() {
           </View>
         </Sticker>
 
+        <Sticker bg={PB.paper} style={{ padding: 0 }}>
+          <View style={[styles.bandHeader, { backgroundColor: PB.blue }]}>
+            <Text style={{ fontSize: 26 }}>🧠</Text>
+            <View style={{ flex: 1, minWidth: 0 }}>
+              <Text style={styles.bandTitle}>{t('settings.memoryBand')}</Text>
+              <Text style={styles.bandSub}>{t('settings.memorySub')}</Text>
+            </View>
+          </View>
+          <View style={{ padding: 12, gap: 8 }}>
+            <View style={styles.memoryMetaRow}>
+              <Text style={styles.memoryMetaText}>
+                {t('settings.memoryThreadsMeta', { n: conversationThreadCount })}
+              </Text>
+              <Text style={styles.memoryMetaText}>
+                {t('settings.memoryEntriesMeta', { n: conversationMemoryCount })}
+              </Text>
+            </View>
+            <Pressable onPress={wipeConversationMemory} style={styles.memoryClearBtn}>
+              <Text style={styles.memoryClearBtnText}>
+                {confirmMemoryWipe
+                  ? t('settings.memoryClearConfirmCta')
+                  : t('settings.memoryClearCta')}
+              </Text>
+            </Pressable>
+          </View>
+        </Sticker>
+
         <View style={styles.quickRow}>
           <Sticker bg={PB.pink} style={styles.quickTile} onPress={() => go('friends')}>
             <Text style={{ fontSize: 26 }}>🐜</Text>
@@ -636,6 +678,23 @@ const styles = StyleSheet.create({
   },
   regionStatusText: { fontSize: 10, fontWeight: '800', letterSpacing: 0.4 },
   regionFoot: { fontSize: 10, color: PB.ink, opacity: 0.55, padding: 4 },
+  memoryMetaRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  memoryMetaText: { fontSize: 11, fontWeight: '700', color: PB.ink, opacity: 0.75 },
+  memoryClearBtn: {
+    marginTop: 2,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    backgroundColor: PB.cream,
+    alignItems: 'center',
+  },
+  memoryClearBtnText: { fontSize: 12, fontWeight: '800', color: PB.ink, letterSpacing: 0.4 },
   langGrid: { padding: 12, flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   langCell: {
     flexDirection: 'row',

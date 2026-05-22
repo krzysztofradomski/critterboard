@@ -118,6 +118,13 @@ See [[tasks/archive/2026-05-localization]] for the full plan + review. Highlight
 - [x] `src/ai/index.ts` — single switchboard with `USE_NATIVE_VISION` / `USE_LLAMA_RN` flags
 - [x] `src/ai/chat.ts` — back-compat shim over the new seam
 - [x] `assets/models/README.md` — exact wiring instructions for the bundle slot
+- [x] `src/ai/chatAdapter.ts` — chat adapter seam with AI SDK Gemini cloud POC (`GEMINI_API_KEY`) + mock fallback
+- [x] `Chat.tsx` now streams through `chatAdapter`, passing user-state + insects dataset context for grounded replies
+- [x] `docs/modules/chat-gemini-poc.md` + roadmap/index updates mark cloud Gemini as temporary proof-of-concept
+- [x] Chat history now persists by default in `chatThreads` (Zustand persist, keyed `persona::topic`)
+- [x] Chat header includes a current-thread wipe button (trash icon) that clears only active transcript
+- [x] Cross-thread conversation memory index (`conversationMemory`) with keyword tagging + retrieval into prompt context
+- [x] Brains screen adds "Wipe stored conversations" action to clear transcripts + memory index
 
 ### Training pipelines (full scaffolds, runnable when needed)
 

@@ -181,7 +181,8 @@
     },
     "chat": {
       "localStatus": "● local · {title}",
-      "inputPlaceholder": "Pregunta sobre este bicho…"
+      "inputPlaceholder": "Pregunta sobre este bicho…",
+      "clearCta": "Borrar chat"
     },
     "activity": {
       "title": "Zumbido",

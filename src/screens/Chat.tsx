@@ -11,54 +11,81 @@ import {
   View,
 } from 'react-native';
 
-import { mockRuntime } from '@/ai';
+import { chatAdapter, chatMode, type ChatHistoryTurn } from '@/ai';
 import { IconBtn } from '@/components/IconBtn';
+import { BUGS, findBug } from '@/data/bugs';
 import { useT } from '@/i18n/helpers';
+import { xpFromClaimedQuests, xpFromDex } from '@/lib/level';
+import { currentStreak } from '@/lib/streak';
 import { haptics } from '@/lib/haptics';
+import { searchConversationMemories } from '@/lib/conversationMemory';
 import { PERSONA_META, PERSONA_IDS, type Persona } from '@/personas';
 import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
-import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
+import { type ChatMessage, useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
 type Msg = { who: 'me' | 'larva'; t: string };
 
 function initialMessages(P: Persona, topic?: string): Msg[] {
-  if (topic) return [{ who: 'larva', t: P.lines.topicHello(topic) }];
-  return [{ who: 'larva', t: P.lines.chatHello }];
+  const intro = topic ? P.lines.topicHello(topic) : P.lines.chatHello;
+  if (chatMode === 'gemini') return [{ who: 'larva', t: intro }];
+  return [
+    { who: 'larva', t: intro },
+    {
+      who: 'larva',
+      t: 'Cloud LLM is not active. Set EXPO_PUBLIC_GEMINI_API_KEY (or use a server route) to chat with Gemini.',
+    },
+  ];
 }
 
 export function Chat() {
   const { back } = useNav();
   const persona = useAppStore((s) => s.persona);
   const setPersona = useAppStore((s) => s.setPersona);
+  const language = useAppStore((s) => s.language);
+  const profile = useAppStore((s) => s.profile);
+  const dex = useAppStore((s) => s.dex);
+  const catchLog = useAppStore((s) => s.catchLog);
+  const followed = useAppStore((s) => s.followed);
+  const questClaimedAt = useAppStore((s) => s.questClaimedAt);
+  const saveChatThread = useAppStore((s) => s.saveChatThread);
+  const indexConversationMessage = useAppStore((s) => s.indexConversationMessage);
+  const clearChatThread = useAppStore((s) => s.clearChatThread);
+  const conversationMemory = useAppStore((s) => s.conversationMemory);
   const route = useCurrentRoute();
   const topic = (route.params as { topic?: string } | undefined)?.topic;
   const P = usePersona(persona);
   const t = useT();
+  const threadId = `${P.id}::${topic ?? 'general'}`;
+  const storedThread = useAppStore((s) => s.chatThreads[threadId]);
 
-  const [msgs, setMsgs] = useState<Msg[]>(() => initialMessages(P, topic));
+  const [msgs, setMsgs] = useState<Msg[]>(
+    () =>
+      (storedThread?.messages.length ? storedThread.messages : initialMessages(P, topic)) as Msg[],
+  );
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
-  const personaRef = useRef(P.id);
   const scrollRef = useRef<ScrollView | null>(null);
   /** Cancellation token for the in-flight `complete()` iteration. */
   const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    if (personaRef.current !== P.id) {
-      personaRef.current = P.id;
-      // A persona switch invalidates any reply currently streaming —
-      // the new persona's system prompt would have answered differently.
-      abortRef.current?.abort();
-      setTyping(false);
-      setMsgs(initialMessages(P, topic));
-    }
-  }, [P.id, P, topic]);
+    // Switching thread/persona should cancel in-flight replies and load the
+    // persisted transcript for that thread.
+    abortRef.current?.abort();
+    setTyping(false);
+    setMsgs((storedThread?.messages.length ? storedThread.messages : initialMessages(P, topic)) as Msg[]);
+  }, [threadId, P, topic]);
 
   useEffect(() => {
     scrollRef.current?.scrollToEnd({ animated: true });
   }, [msgs, typing]);
+
+  useEffect(() => {
+    const persisted: ChatMessage[] = msgs.filter((m) => m.t.trim().length > 0);
+    saveChatThread(threadId, persisted);
+  }, [msgs, threadId, saveChatThread]);
 
   /**
    * Streamed completion. The mock runtime yields one chunk; production
@@ -75,13 +102,55 @@ export function Chat() {
     setMsgs((m) => [...m, { who: 'me', t: text }]);
     setInput('');
     setTyping(true);
+    indexConversationMessage(threadId, { who: 'me', t: text });
 
     // Reserve the assistant bubble so chunks have a place to land.
     setMsgs((m) => [...m, { who: 'larva', t: '' }]);
     let received = '';
+    const xp = xpFromDex(dex) + xpFromClaimedQuests(questClaimedAt);
+    const history: ChatHistoryTurn[] = msgs
+      .map((m) => ({
+        role: m.who === 'me' ? ('user' as const) : ('assistant' as const),
+        text: m.t,
+      }))
+      .filter((m) => m.text.trim().length > 0);
+    const recentCatches = [...catchLog]
+      .sort((a, b) => b.at - a.at)
+      .slice(0, 8)
+      .map((e) => ({
+        bugId: e.id,
+        bugName: findBug(e.id)?.name ?? e.id,
+        at: e.at,
+      }));
+    const memorySnippets = searchConversationMemories(conversationMemory, text, 6).map((hit) => ({
+      threadId: hit.entry.threadId,
+      who: hit.entry.who,
+      text: hit.entry.text,
+      at: hit.entry.createdAt,
+      keywords: hit.entry.keywords,
+    }));
 
     try {
-      for await (const chunk of mockRuntime.completeWithPersona(P, text, topic)) {
+      for await (const chunk of chatAdapter.streamReply({
+        persona: P,
+        topic,
+        userText: text,
+        history,
+        userContext: {
+          language,
+          profileName: profile.name,
+          networkOn: profile.networkOn,
+          locationShareOn: profile.locationShareOn,
+          caughtSpecies: dex.size,
+          totalSpecies: BUGS.length,
+          xp,
+          streakDays: currentStreak(catchLog),
+          followedUsers: Array.from(followed).slice(0, 12),
+          recentCatches,
+        },
+        memorySnippets,
+        signal: ctrl.signal,
+      })) {
         if (ctrl.signal.aborted) return;
         received += chunk;
         setMsgs((m) => {
@@ -90,17 +159,30 @@ export function Chat() {
           return copy;
         });
       }
-    } catch {
-      // Streaming failed — drop in a canned line so the UI never stalls.
-      const fallback = P.canned[Math.floor(Math.random() * P.canned.length)] ?? '...';
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'unknown error';
       setMsgs((m) => {
         const copy = m.slice();
-        copy[copy.length - 1] = { who: 'larva', t: fallback };
+        copy[copy.length - 1] = {
+          who: 'larva',
+          t: `LLM error: ${message}.`,
+        };
         return copy;
       });
     } finally {
+      if (!ctrl.signal.aborted && received.trim().length > 0) {
+        indexConversationMessage(threadId, { who: 'larva', t: received.trim() });
+      }
       if (!ctrl.signal.aborted) setTyping(false);
     }
+  };
+
+  const clearCurrentThread = () => {
+    haptics.select();
+    abortRef.current?.abort();
+    setTyping(false);
+    clearChatThread(threadId);
+    setMsgs(initialMessages(P, topic));
   };
 
   return (
@@ -116,6 +198,20 @@ export function Chat() {
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text style={styles.headName}>{P.name}</Text>
           <Text style={styles.headStatus}>{t('chat.localStatus', { title: P.title })}</Text>
+        </View>
+        <View style={styles.clearWrap}>
+          <IconBtn
+            onPress={clearCurrentThread}
+            size={34}
+            fs={14}
+            bg={PB.cream}
+            style={styles.clearBtn}
+          >
+            🗑
+          </IconBtn>
+          <Pressable onPress={clearCurrentThread}>
+            <Text style={styles.clearText}>{t('chat.clearCta')}</Text>
+          </Pressable>
         </View>
         <View style={styles.switcher}>
           {PERSONA_IDS.map((pid) => (
@@ -249,6 +345,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 0,
     shadowOffset: { width: 2, height: 2 },
+  },
+  clearBtn: {
+    borderRadius: 999,
+  },
+  clearWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  clearText: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: PB.ink,
   },
   switchDot: {
     width: 22,

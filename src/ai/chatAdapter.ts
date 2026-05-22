@@ -1,0 +1,173 @@
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { streamText } from 'ai';
+
+import { BUGS } from '@/data/bugs';
+import { mockRuntime } from '@/ai/llm';
+import type { Persona } from '@/personas';
+
+export type ChatHistoryTurn = {
+  role: 'user' | 'assistant';
+  text: string;
+};
+
+export type ChatCatchSummary = {
+  bugId: string;
+  bugName: string;
+  at: number;
+};
+
+export type ChatUserContext = {
+  language: string;
+  profileName: string;
+  networkOn: boolean;
+  locationShareOn: boolean;
+  caughtSpecies: number;
+  totalSpecies: number;
+  xp: number;
+  streakDays: number;
+  followedUsers: string[];
+  recentCatches: ChatCatchSummary[];
+};
+
+export type ChatMemorySnippet = {
+  threadId: string;
+  who: 'me' | 'larva';
+  text: string;
+  at: number;
+  keywords: string[];
+};
+
+export type ChatReplyParams = {
+  persona: Persona;
+  topic?: string;
+  userText: string;
+  history: ChatHistoryTurn[];
+  userContext: ChatUserContext;
+  memorySnippets?: ChatMemorySnippet[];
+  signal?: AbortSignal;
+};
+
+export interface ChatAdapter {
+  streamReply(params: ChatReplyParams): AsyncIterable<string>;
+  ready(): boolean;
+}
+
+const INSECT_DATASET_PROMPT = BUGS.map(
+  (b) =>
+    `- ${b.id}: ${b.name} (${b.latin}), rarity=${b.rarity}, xp=${b.xp}, traits=${b.traits.join(',') || 'none'}`,
+).join('\n');
+
+function geminiApiKey(): string {
+  const key = process.env.GEMINI_API_KEY ?? process.env.EXPO_PUBLIC_GEMINI_API_KEY;
+  if (!key) {
+    throw new Error('GEMINI_API_KEY (or EXPO_PUBLIC_GEMINI_API_KEY for Expo client-side POC) is missing');
+  }
+  return key;
+}
+
+function buildSystemPrompt(
+  persona: Persona,
+  topic: string | undefined,
+  ctx: ChatUserContext,
+  memorySnippets: ChatMemorySnippet[] = [],
+): string {
+  const recent = ctx.recentCatches.length
+    ? ctx.recentCatches
+        .map((c) => `${c.bugName} (${c.bugId}) @ ${new Date(c.at).toISOString()}`)
+        .join('\n')
+    : '- none yet';
+
+  const follows = ctx.followedUsers.length ? ctx.followedUsers.join(', ') : 'none';
+  const memoryBlock = memorySnippets.length
+    ? memorySnippets
+        .slice(0, 6)
+        .map((m) => {
+          const role = m.who === 'me' ? 'user' : 'assistant';
+          const tags = m.keywords.length ? ` #${m.keywords.join(' #')}` : '';
+          return `- [${new Date(m.at).toISOString()} | ${m.threadId} | ${role}] ${m.text}${tags}`;
+        })
+        .join('\n')
+    : '- none retrieved';
+
+  return [
+    persona.systemPrompt,
+    '',
+    'You are inside Critterboard, a privacy-first insect ID app.',
+    `Current user language: ${ctx.language}. Reply in that language unless the user asks otherwise.`,
+    'Keep answers concise (1-3 short sentences) unless the user explicitly asks for depth.',
+    '',
+    `Topic focus: ${topic ?? 'general insect chat'}`,
+    '',
+    'User context (live app state):',
+    `- profileName: ${ctx.profileName}`,
+    `- networkOn: ${ctx.networkOn}`,
+    `- locationShareOn: ${ctx.locationShareOn}`,
+    `- caughtSpecies: ${ctx.caughtSpecies}/${ctx.totalSpecies}`,
+    `- xp: ${ctx.xp}`,
+    `- streakDays: ${ctx.streakDays}`,
+    `- followedUsers: ${follows}`,
+    `- recentCatches:\n${recent}`,
+    '',
+    'Retrieved conversation memory (cross-thread):',
+    memoryBlock,
+    '',
+    'Known insects dataset in this build:',
+    INSECT_DATASET_PROMPT,
+    '',
+    'Never claim this is authoritative biological advice. If uncertain, say so briefly.',
+  ].join('\n');
+}
+
+function toConversation(history: ChatHistoryTurn[], userText: string) {
+  const trimmed = history
+    .filter((h) => h.text.trim().length > 0)
+    .slice(-12)
+    .map((h) => ({
+      role: h.role,
+      content: h.text,
+    }));
+
+  return [...trimmed, { role: 'user' as const, content: userText }];
+}
+
+export const mockChatAdapter: ChatAdapter = {
+  async *streamReply(params) {
+    for await (const chunk of mockRuntime.completeWithPersona(
+      params.persona,
+      params.userText,
+      params.topic,
+    )) {
+      if (params.signal?.aborted) return;
+      yield chunk;
+    }
+  },
+  ready() {
+    return true;
+  },
+};
+
+export const geminiChatAdapter: ChatAdapter = {
+  async *streamReply(params) {
+    const google = createGoogleGenerativeAI({ apiKey: geminiApiKey() });
+    const result = streamText({
+      model: google('gemini-2.5-flash'),
+      system: buildSystemPrompt(
+        params.persona,
+        params.topic,
+        params.userContext,
+        params.memorySnippets,
+      ),
+      messages: toConversation(params.history, params.userText),
+      temperature: 0.7,
+      abortSignal: params.signal,
+    });
+
+    for await (const chunk of result.textStream) {
+      if (params.signal?.aborted) return;
+      yield chunk;
+    }
+  },
+  ready() {
+    return Boolean(process.env.GEMINI_API_KEY ?? process.env.EXPO_PUBLIC_GEMINI_API_KEY);
+  },
+};

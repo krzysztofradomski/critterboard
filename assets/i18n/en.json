@@ -181,7 +181,8 @@
     },
     "chat": {
       "localStatus": "● local · {title}",
-      "inputPlaceholder": "Ask about this bug…"
+      "inputPlaceholder": "Ask about this bug…",
+      "clearCta": "Clear chat"
     },
     "activity": {
       "title": "Buzz",
@@ -637,6 +638,13 @@
       "regionFoot": "Packs run fully offline. Tap an installed pack to see what's inside.",
       "languageBand": "Language",
       "languageSub": "For UI, species names, and {name}'s sass.",
+      "memoryBand": "Conversation memory",
+      "memorySub": "Stored locally for context-aware replies.",
+      "memoryThreadsMeta": "{n} threads saved",
+      "memoryEntriesMeta": "{n} memory entries indexed",
+      "memoryClearCta": "Wipe stored conversations",
+      "memoryClearConfirmCta": "Tap again to confirm wipe",
+      "memoryClearToast": "Conversation memory wiped",
       "naturalistsTile": "Naturalists",
       "naturalistsSub": "Friends & follows",
       "helpTile": "Help & About",

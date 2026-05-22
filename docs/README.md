@@ -10,6 +10,7 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 |---|---|
 | [[ml-roadmap]] | On-device ML plan — MVP, full training, deferred placeholders. The master "what's next". |
 | [[i18n]] | i18n architecture — bundled JSON packs, `t()` helper, remote OTA pack manifest, App Store notes. |
+| [[modules/chat-gemini-poc]] | AI SDK chat adapter with Gemini cloud fallback as a temporary proof-of-concept. |
 | [[modules/crash-reporting]] | Opt-in Sentry wrapper — toggle, DSN config, graceful degradation, what we send. |
 | [[modules/backend-adapter]] | Backend adapter seam — mock today, Cloudflare Workers tomorrow. Schemas, hooks, privacy gating. |
 | [[decisions/001-crash-reporting-opt-in]] | ADR — why crash reporting is opt-in and why Sentry. |

@@ -31,3 +31,5 @@ training/local/exported/
 training/kaggle/output/
 __pycache__/
 *.pyc
+
+*.tmp*

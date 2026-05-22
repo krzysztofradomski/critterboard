@@ -181,7 +181,8 @@
     },
     "chat": {
       "localStatus": "● lokalnie · {title}",
-      "inputPlaceholder": "Zapytaj o tego owada…"
+      "inputPlaceholder": "Zapytaj o tego owada…",
+      "clearCta": "Wyczyść czat"
     },
     "activity": {
       "title": "Brzęczenie",

@@ -10,6 +10,10 @@ import { DEFAULT_LANG, coerceLang, t, type LangId } from '@/i18n';
 import { type PersonaId, getPersonaName } from '@/personas';
 import { ME_SUB_ALIAS, type RouteName, type RouteParamMap, isMainTab } from '@/navigation/routes';
 import { buildSeedCatchLog, currentStreak, type CatchEvent } from '@/lib/streak';
+import {
+  buildConversationMemoryEntry,
+  type ConversationMemoryEntry,
+} from '@/lib/conversationMemory';
 import { questsAdvancedBy } from '@/lib/quests';
 
 export type StackEntry<R extends RouteName = RouteName> = {
@@ -81,6 +85,7 @@ export type ActivityEntry =
   | { id: string; kind: 'streak';  at: number; days: number };
 
 const ACTIVITY_CAP = 50;
+const MEMORY_CAP = 1200;
 const STREAK_MILESTONES: ReadonlySet<number> = new Set([3, 7, 14, 30]);
 
 /**
@@ -92,6 +97,16 @@ export type CatchBugOptions = {
   photoUri?: string;
   lat?: number;
   lng?: number;
+};
+
+export type ChatMessage = {
+  who: 'me' | 'larva';
+  t: string;
+};
+
+export type ChatThread = {
+  messages: ChatMessage[];
+  updatedAt: number;
 };
 
 type State = {
@@ -146,6 +161,10 @@ type State = {
    * not *committed* to be sent. There is no account.
    */
   backendUserId: string;
+  /** Persisted chat transcripts keyed by `persona::topic`. */
+  chatThreads: Record<string, ChatThread>;
+  /** Searchable conversation index for cross-thread memory retrieval. */
+  conversationMemory: ConversationMemoryEntry[];
 };
 
 type Actions = {
@@ -185,6 +204,10 @@ type Actions = {
    * toast / haptic.
    */
   claimQuest: (id: string) => { reward: number } | null;
+  saveChatThread: (threadId: string, messages: ChatMessage[]) => void;
+  indexConversationMessage: (threadId: string, message: ChatMessage) => void;
+  clearChatThread: (threadId: string) => void;
+  clearConversationData: () => void;
 };
 
 type AppStore = State & Actions;
@@ -253,6 +276,8 @@ type Persisted = Pick<
   | 'questCompletedAt'
   | 'questClaimedAt'
   | 'backendUserId'
+  | 'chatThreads'
+  | 'conversationMemory'
 >;
 
 type PersistedWire = {
@@ -272,6 +297,8 @@ type PersistedWire = {
   questClaimedAt?: Record<string, number>;
   /** Backfilled to a fresh id for users persisted before the slice existed. */
   backendUserId?: string;
+  chatThreads?: Record<string, ChatThread>;
+  conversationMemory?: ConversationMemoryEntry[];
 };
 
 const wireStorage: PersistStorage<Persisted> = {
@@ -298,6 +325,8 @@ const wireStorage: PersistStorage<Persisted> = {
         questCompletedAt: wrapped.state.questCompletedAt ?? {},
         questClaimedAt: wrapped.state.questClaimedAt ?? {},
         backendUserId: wrapped.state.backendUserId ?? newBackendUserId(),
+        chatThreads: wrapped.state.chatThreads ?? {},
+        conversationMemory: wrapped.state.conversationMemory ?? [],
       },
       version: wrapped.version,
     };
@@ -318,6 +347,8 @@ const wireStorage: PersistStorage<Persisted> = {
       questCompletedAt: value.state.questCompletedAt,
       questClaimedAt: value.state.questClaimedAt,
       backendUserId: value.state.backendUserId,
+      chatThreads: value.state.chatThreads,
+      conversationMemory: value.state.conversationMemory,
     };
     await AsyncStorage.setItem(name, JSON.stringify({ state: wire, version: value.version ?? 0 }));
   },
@@ -358,6 +389,8 @@ export const useAppStore = create<AppStore>()(
       questCompletedAt: {},
       questClaimedAt: {},
       backendUserId: newBackendUserId(),
+      chatThreads: {},
+      conversationMemory: [],
 
       go: (name, params) => {
         const alias = ME_SUB_ALIAS[name];
@@ -558,6 +591,47 @@ export const useAppStore = create<AppStore>()(
         return { reward: quest.reward };
       },
 
+      saveChatThread: (threadId, messages) =>
+        set((s) => ({
+          chatThreads: {
+            ...s.chatThreads,
+            [threadId]: {
+              messages,
+              updatedAt: Date.now(),
+            },
+          },
+        })),
+
+      indexConversationMessage: (threadId, message) =>
+        set((s) => {
+          const trimmed = message.t.trim();
+          if (!trimmed) return s;
+          const nextEntry = buildConversationMemoryEntry(threadId, {
+            who: message.who,
+            t: trimmed,
+          });
+          const next = [nextEntry, ...s.conversationMemory];
+          return {
+            conversationMemory: next.length > MEMORY_CAP ? next.slice(0, MEMORY_CAP) : next,
+          };
+        }),
+
+      clearChatThread: (threadId) =>
+        set((s) => {
+          if (!s.chatThreads[threadId]) return s;
+          const { [threadId]: _removed, ...rest } = s.chatThreads;
+          return {
+            chatThreads: rest,
+            conversationMemory: s.conversationMemory.filter((entry) => entry.threadId !== threadId),
+          };
+        }),
+
+      clearConversationData: () =>
+        set({
+          chatThreads: {},
+          conversationMemory: [],
+        }),
+
       clearScanCache: async () => {
         const events = get().catchLog;
         const uris = new Set<string>();
@@ -624,6 +698,8 @@ export const useAppStore = create<AppStore>()(
           questProgress: initialQuestProgress(),
           questCompletedAt: {},
           questClaimedAt: {},
+          chatThreads: {},
+          conversationMemory: [],
           // Rotate the backend identity on every wipe so a fresh install
           // and a wiped install look identical to the server.
           backendUserId: newBackendUserId(),
@@ -647,6 +723,8 @@ export const useAppStore = create<AppStore>()(
         questCompletedAt: s.questCompletedAt,
         questClaimedAt: s.questClaimedAt,
         backendUserId: s.backendUserId,
+        chatThreads: s.chatThreads,
+        conversationMemory: s.conversationMemory,
       }),
       /**
        * Skip past onboarding for returning users. The flag is set in

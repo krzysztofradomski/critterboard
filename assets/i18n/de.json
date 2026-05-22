@@ -181,7 +181,8 @@
     },
     "chat": {
       "localStatus": "● lokal · {title}",
-      "inputPlaceholder": "Frag etwas über dieses Insekt…"
+      "inputPlaceholder": "Frag etwas über dieses Insekt…",
+      "clearCta": "Chat leeren"
     },
     "activity": {
       "title": "Summen",
