@@ -12,7 +12,8 @@ import { cloudflareAdapter } from '@/backend/cloudflare';
 import { mockAdapter } from '@/backend/mock';
 import type { BackendAdapter } from '@/backend/adapter';
 
-const USE_REMOTE_BACKEND = false; // flip once the Workers service is reachable
+// Auto-activates when EXPO_PUBLIC_BACKEND_URL is set; can also be forced true.
+const USE_REMOTE_BACKEND = !!(process.env.EXPO_PUBLIC_BACKEND_URL?.trim());
 
 export const backend: BackendAdapter = USE_REMOTE_BACKEND
   ? cloudflareAdapter

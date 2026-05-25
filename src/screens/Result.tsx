@@ -13,6 +13,7 @@ import { usePersona } from '@/personas/hooks';
 import { PB, RARITY_COLOR } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
+import { usePublishCatch } from '@/backend/hooks';
 
 /**
  * Per-bug fact list keyed by translation pack keys. Resolved on render so
@@ -117,6 +118,7 @@ export function Result() {
   const localizedName = useBugName(bug?.id ?? 'mona');
   if (!bug) return null;
 
+  const publishCatch = usePublishCatch();
   const P = usePersona(persona);
   const alreadyCaught = dex.has(bug.id);
   const conf = bug.rarity === 'legendary' ? 88 : bug.rarity === 'common' ? 98 : 94;
@@ -150,10 +152,12 @@ export function Result() {
     // To avoid two store writes, we stage the catch atomically once
     // the position is in (with a short timeout fallback for refusal).
     const finalize = (coords?: { lat: number; lng: number }) => {
+      const at = Date.now();
       catchBug(bug.id, {
         ...(photoUri ? { photoUri } : {}),
         ...(coords ? { lat: coords.lat, lng: coords.lng } : {}),
       });
+      publishCatch(bug.id, at, coords?.lat, coords?.lng);
     };
 
     if (!locationShareOn) {

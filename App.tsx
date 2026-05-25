@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StyleSheet, View } from 'react-native';
 
-import { useBackendIdentityBridge } from '@/backend/hooks';
+import { useBackendIdentityBridge, useSyncProfile } from '@/backend/hooks';
 import { Toast } from '@/components/Toast';
 import { hydrateCachedPacks, syncRemotePacks } from '@/i18n';
 import { Router } from '@/navigation/Router';
@@ -19,10 +19,11 @@ export default function App() {
   const language = useAppStore((s) => s.language);
   const crashReportingOn = useAppStore((s) => s.profile.crashReportingOn);
 
-  // Keep the backend adapter's view of the caller in sync with the
-  // live store. Mock-only today; the real Cloudflare adapter will read
-  // the same identity via a Bearer token derived from `backendUserId`.
+  // Keep the mock adapter's self-view in sync with live store state.
   useBackendIdentityBridge();
+  // Push profile changes (name, leaderboard visibility, location share)
+  // to the Cloudflare Worker whenever they change. Gated on networkOn.
+  useSyncProfile();
 
   // Replay any cached remote translation packs before first paint
   // (cheap — AsyncStorage reads in parallel) then opportunistically
