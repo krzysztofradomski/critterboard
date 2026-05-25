@@ -7,6 +7,17 @@ Two model families live here:
 
 The vision pipeline is the **MVP blocker**. The persona pipeline is **deferred** — only worth running once the system-prompt approach in the app shows real drift in user testing (see [`../docs/ml-roadmap.md`](../docs/ml-roadmap.md) for the decision tree).
 
+## Training dashboard (recommended)
+
+A local Streamlit GUI in [`../tools/training-ui/`](../tools/training-ui/) wraps both pipelines with a visual interface — live logs, training-curve charts, an interactive inference tester, and one-click model copying. Use it instead of running the scripts by hand:
+
+```bash
+pip install -r tools/training-ui/requirements.txt
+streamlit run tools/training-ui/app.py
+```
+
+The scripts can still be run directly from the command line as documented below — the dashboard just calls the same scripts as subprocesses.
+
 ---
 
 ## Vision classifier

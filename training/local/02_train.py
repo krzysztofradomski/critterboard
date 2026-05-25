@@ -12,6 +12,7 @@ Usage:
 """
 
 import json
+import os
 import time
 from pathlib import Path
 from collections import defaultdict, Counter
@@ -40,18 +41,20 @@ CHECKPOINT_DIR.mkdir(exist_ok=True)
 
 CFG = {
     "model_name":       "efficientnetv2_s",
-    "image_size":       224,
-    "batch_size":       32,        # safe for 16GB unified memory
-    "epochs":           20,
-    "warmup_epochs":    3,
-    "lr":               3e-4,
+    # CB_* env vars allow the training-ui dashboard to pass config without
+    # editing this file. All have sensible defaults so CLI usage is unchanged.
+    "image_size":       int(os.environ.get("CB_IMAGE_SIZE",    "224")),
+    "batch_size":       int(os.environ.get("CB_BATCH_SIZE",    "32")),   # safe for 16GB unified memory
+    "epochs":           int(os.environ.get("CB_EPOCHS",        "20")),
+    "warmup_epochs":    int(os.environ.get("CB_WARMUP_EPOCHS", "3")),
+    "lr":               float(os.environ.get("CB_LR",          "3e-4")),
     "weight_decay":     1e-4,
     "label_smoothing":  0.1,
     "train_frac":       0.75,
     "val_frac":         0.15,
     # test_frac = remaining 0.10
     "num_workers":      0,         # 0 is safer on macOS MPS
-    "min_images":       30,        # skip species below this threshold
+    "min_images":       int(os.environ.get("CB_MIN_IMAGES",    "30")),   # skip species below this threshold
 }
 
 # ── Device ───────────────────────────────────────────────────────────────────

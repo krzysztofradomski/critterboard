@@ -40,6 +40,8 @@ Project status lives in [`tasks/todo.md`](tasks/todo.md) — the living checklis
 
 See [`docs/ml-roadmap.md`](docs/ml-roadmap.md) for the three-track plan and exit criteria.
 
+A local **Streamlit training dashboard** lives at [`tools/training-ui/`](tools/training-ui/) — run it to manage dataset downloads, kick off training jobs, test inference interactively, and copy exported models into `assets/models/`. See that folder's README for setup.
+
 **Cloudflare connectivity** — The client-side backend adapter is shipped (leaderboard, friends, activity feed). Social hooks gate on `profile.networkOn`; the mock resolves locally today. The Cloudflare Workers service is not deployed yet — `src/backend/cloudflare.ts` is a stub. Flip `USE_REMOTE_BACKEND` in `src/backend/index.ts` once the Worker is live. See [`docs/decisions/002-backend-adapter-seam.md`](docs/decisions/002-backend-adapter-seam.md).
 
 ## Links
