@@ -1,0 +1,38 @@
+name = "critterboard-api"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+# After cloning, run these once to provision real IDs, then replace the
+# placeholder strings below:
+#
+#   wrangler d1 create critterboard
+#   wrangler kv namespace create LEADERBOARD
+#   wrangler secret put JWT_SECRET
+#   wrangler d1 execute critterboard --file=schema.sql
+#
+# Then deploy:
+#   wrangler deploy
+
+[[d1_databases]]
+binding = "DB"
+database_name = "critterboard"
+database_id = "replace-with-output-of-wrangler-d1-create"
+
+[[kv_namespaces]]
+binding = "LEADERBOARD"
+id = "replace-with-output-of-wrangler-kv-create"
+
+[[durable_objects.bindings]]
+name = "FEED_INBOX"
+class_name = "FeedInbox"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["FeedInbox"]
+
+# JWT_SECRET is a Workers secret (never put real values in wrangler.toml).
+# Add it with: wrangler secret put JWT_SECRET
+# [vars] section intentionally omitted — secrets only.
+
+[triggers]
+crons = ["*/5 * * * *"]

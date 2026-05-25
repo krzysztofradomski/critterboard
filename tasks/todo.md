@@ -268,8 +268,8 @@ Every visible "fake number" or "fake date" from the prototype is now derived. Se
 These need either a backend or a substantial change and are explicitly **not** on the current roadmap:
 
 ### Needs backend
-- ~~Real leaderboard / friend graph / suggested feed~~ — now behind the [[#Backend adapter seam (mock today, Cloudflare tomorrow)]] seam. Mock impl ships today; flip `USE_REMOTE_BACKEND` once the Cloudflare Worker is deployed.
-- ~~Real activity events from other users~~ — see above; surfaced as the new "Friends" tab on the Activity screen, fed by `useFeed()`.
+- ~~Real leaderboard / friend graph / suggested feed~~ — Worker shipped in `worker/`. Set `EXPO_PUBLIC_BACKEND_URL` to activate (`USE_REMOTE_BACKEND` auto-flips). Provision D1 + KV + secret per `worker/wrangler.toml`.
+- ~~Real activity events from other users~~ — see above; `FeedInbox` Durable Object fans out catch/follow events to follower inboxes server-side.
 - Cross-device sync (intentionally not in the design — the app is account-less by promise)
 
 ### Needs substantial native / infra work

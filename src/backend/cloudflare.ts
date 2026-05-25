@@ -1,72 +1,179 @@
 /**
- * Cloudflare backend adapter — placeholder.
+ * Cloudflare backend adapter — real HTTP client.
  *
- * Throws on every call today. Flip `USE_REMOTE_BACKEND` in
- * `src/backend/index.ts` once the Workers service is reachable.
+ * Exchanges the device-local `backendUserId` for a signed JWT on first
+ * call, then sends every subsequent request with `Authorization: Bearer
+ * <jwt>`. Token is cached in memory (warm across navigations, reset on
+ * cold start — cheap because auth is one D1 upsert + JWT mint).
  *
- * Planned wiring (see `docs/decisions/002-backend-adapter-seam.md` and
- * `docs/modules/backend-adapter.md`):
+ * Base URL is read from `EXPO_PUBLIC_BACKEND_URL`. Flip
+ * `USE_REMOTE_BACKEND` in `src/backend/index.ts` once the Worker is
+ * deployed (or it auto-flips when the env var is set — see index.ts).
  *
- *   - **Worker entrypoint.** Single Worker fronting routes like
- *     `GET /v1/leaderboard?scope=global`, `POST /v1/catches`,
- *     `POST /v1/follows`, `GET /v1/feed`.
- *
- *   - **Storage.** D1 for the user table + follow edges (relational
- *     queries for "friends of friends" suggestions); a Durable Object
- *     per user for the personalized feed inbox; KV for the cached
- *     global leaderboard snapshot (recomputed every N minutes).
- *
- *   - **Auth.** Bearer token derived from the local `backendUserId`
- *     (a UUID v4 generated on first launch). The Worker mints a signed
- *     JWT on the first call so subsequent calls don't have to round-trip
- *     the raw id.
- *
- *   - **Privacy.** Same opt-in posture as crash reporting: nothing
- *     leaves the device unless `profile.networkOn` is on. The hook
- *     layer is the chokepoint — `cloudflareAdapter` itself is unaware
- *     of the toggle.
- *
- *   - **Rate limits.** Worker uses CF's `cf.rateLimiting` per
- *     userId. Adapter surfaces 429 as `BackendError('rate-limited')`.
+ * See `worker/` for the Cloudflare Workers service that answers these
+ * calls, and `docs/decisions/002-backend-adapter-seam.md` for the ADR.
  */
 
-import type { BackendAdapter } from '@/backend/adapter';
-import { BackendError } from '@/backend/types';
+import { useAppStore } from '@/store/useAppStore';
+import type { BackendAdapter, PageOpts } from '@/backend/adapter';
+import {
+  BackendError,
+  type BackendUser,
+  type FeedPage,
+  type FriendScope,
+  type FriendsPage,
+  type LeaderboardPage,
+  type LeaderboardScope,
+  type ProfileSnapshot,
+  type PublishCatchInput,
+  type UserId,
+} from '@/backend/types';
 
-function notWired(method: string): never {
-  throw new BackendError(
-    'unavailable',
-    `cloudflareAdapter.${method} not wired yet. ` +
-      'Deploy the Worker, set EXPO_PUBLIC_BACKEND_URL, then flip USE_REMOTE_BACKEND in src/backend/index.ts.',
-  );
+// ──────────────────────────────────────────────────────────────────────────
+// Base URL
+// ──────────────────────────────────────────────────────────────────────────
+
+function getBaseUrl(): string {
+  const url = (process.env.EXPO_PUBLIC_BACKEND_URL ?? '').replace(/\/$/, '');
+  if (!url) {
+    throw new BackendError(
+      'unavailable',
+      'EXPO_PUBLIC_BACKEND_URL is not set. ' +
+        'Deploy the Worker, set the env var, and the adapter auto-activates.',
+    );
+  }
+  return url;
 }
 
+// ──────────────────────────────────────────────────────────────────────────
+// In-memory JWT cache
+// ──────────────────────────────────────────────────────────────────────────
+
+let cachedToken: string | null = null;
+let adapterReady = false;
+
+async function fetchToken(userId: string): Promise<string> {
+  const base = getBaseUrl();
+  let resp: Response;
+  try {
+    resp = await fetch(`${base}/v1/auth`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId }),
+    });
+  } catch {
+    throw new BackendError('offline', 'Network request failed during auth');
+  }
+  if (resp.status === 429) throw new BackendError('rate-limited', 'Auth rate-limited');
+  if (!resp.ok) throw new BackendError('unavailable', `Auth failed: HTTP ${resp.status}`);
+  const data = (await resp.json()) as { token: string };
+  return data.token;
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Authenticated fetch
+// ──────────────────────────────────────────────────────────────────────────
+
+async function authedFetch(path: string, init?: RequestInit): Promise<Response> {
+  const base = getBaseUrl();
+  const userId = useAppStore.getState().backendUserId;
+
+  if (!cachedToken) {
+    cachedToken = await fetchToken(userId);
+    adapterReady = true;
+  }
+
+  const doRequest = async (token: string): Promise<Response> => {
+    let resp: Response;
+    try {
+      resp = await fetch(`${base}${path}`, {
+        ...init,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(init?.headers as Record<string, string> | undefined),
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch {
+      throw new BackendError('offline', 'Network request failed');
+    }
+    return resp;
+  };
+
+  let resp = await doRequest(cachedToken);
+
+  // Re-auth on 401 (expired / invalidated token).
+  if (resp.status === 401) {
+    cachedToken = null;
+    adapterReady = false;
+    cachedToken = await fetchToken(userId);
+    adapterReady = true;
+    resp = await doRequest(cachedToken);
+  }
+
+  if (resp.status === 429) throw new BackendError('rate-limited', 'Rate limit exceeded');
+  if (!resp.ok) throw new BackendError('unavailable', `HTTP ${resp.status}`);
+  return resp;
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Adapter
+// ──────────────────────────────────────────────────────────────────────────
+
 export const cloudflareAdapter: BackendAdapter = {
-  async identity() {
-    return notWired('identity');
+  async identity(): Promise<BackendUser> {
+    const resp = await authedFetch('/v1/identity');
+    return (await resp.json()) as BackendUser;
   },
-  async syncProfile() {
-    return notWired('syncProfile');
+
+  async syncProfile(snapshot: ProfileSnapshot): Promise<void> {
+    await authedFetch('/v1/profile', {
+      method: 'POST',
+      body: JSON.stringify(snapshot),
+    });
   },
-  async publishCatch() {
-    return notWired('publishCatch');
+
+  async publishCatch(input: PublishCatchInput): Promise<void> {
+    await authedFetch('/v1/catches', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
   },
-  async fetchLeaderboard() {
-    return notWired('fetchLeaderboard');
+
+  async fetchLeaderboard(scope: LeaderboardScope, opts?: PageOpts): Promise<LeaderboardPage> {
+    const params = new URLSearchParams({ scope });
+    if (opts?.cursor) params.set('cursor', opts.cursor);
+    if (opts?.limit != null) params.set('limit', String(opts.limit));
+    const resp = await authedFetch(`/v1/leaderboard?${params}`);
+    return (await resp.json()) as LeaderboardPage;
   },
-  async fetchFriends() {
-    return notWired('fetchFriends');
+
+  async fetchFriends(scope: FriendScope, opts?: PageOpts): Promise<FriendsPage> {
+    const params = new URLSearchParams({ scope });
+    if (opts?.cursor) params.set('cursor', opts.cursor);
+    if (opts?.limit != null) params.set('limit', String(opts.limit));
+    const resp = await authedFetch(`/v1/friends?${params}`);
+    return (await resp.json()) as FriendsPage;
   },
-  async fetchFeed() {
-    return notWired('fetchFeed');
+
+  async fetchFeed(opts?: PageOpts): Promise<FeedPage> {
+    const params = new URLSearchParams();
+    if (opts?.cursor) params.set('cursor', opts.cursor);
+    if (opts?.limit != null) params.set('limit', String(opts.limit));
+    const query = params.toString();
+    const resp = await authedFetch(`/v1/feed${query ? `?${query}` : ''}`);
+    return (await resp.json()) as FeedPage;
   },
-  async follow() {
-    return notWired('follow');
+
+  async follow(userId: UserId): Promise<void> {
+    await authedFetch(`/v1/follows/${encodeURIComponent(userId)}`, { method: 'POST' });
   },
-  async unfollow() {
-    return notWired('unfollow');
+
+  async unfollow(userId: UserId): Promise<void> {
+    await authedFetch(`/v1/follows/${encodeURIComponent(userId)}`, { method: 'DELETE' });
   },
-  ready() {
-    return false;
+
+  ready(): boolean {
+    return adapterReady;
   },
 };
