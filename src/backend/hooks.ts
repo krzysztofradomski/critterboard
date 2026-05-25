@@ -26,6 +26,7 @@ import type {
   LeaderboardPage,
   LeaderboardScope,
   PageOpts,
+  ProfileSnapshot,
   UserId,
 } from '@/backend';
 import { useAppStore } from '@/store/useAppStore';
@@ -218,9 +219,33 @@ export function useToggleFollow(): (userId: UserId) => void {
 }
 
 /**
+ * Sync the caller's profile snapshot to the server whenever any
+ * identity-visible field changes (display name, leaderboard visibility,
+ * location share). Fire-and-forget — local state is already the source
+ * of truth; a sync failure just means the server lags by one session.
+ * Gated on `networkOn`, same as every other adapter call.
+ */
+export function useSyncProfile(): void {
+  const name = useAppStore((s) => s.profile.name);
+  const leaderboardOn = useAppStore((s) => s.profile.leaderboardOn);
+  const locationShareOn = useAppStore((s) => s.profile.locationShareOn);
+  const networkOn = useAppStore((s) => s.profile.networkOn);
+  const region = useAppStore((s) => s.mapLocation?.region);
+
+  useEffect(() => {
+    if (!networkOn) return;
+    const snapshot: ProfileSnapshot = {
+      displayName: name,
+      leaderboardVisible: leaderboardOn,
+      country: locationShareOn ? (region ?? undefined) : 'private',
+    };
+    void backend.syncProfile(snapshot).catch(() => undefined);
+  }, [name, leaderboardOn, locationShareOn, networkOn, region]);
+}
+
+/**
  * Push a catch to the backend. Called from the local `catchBug`
- * pipeline (currently a no-op in the mock; will fan out feed events
- * server-side once the real adapter ships).
+ * pipeline — fans out feed events to followers server-side.
  */
 export function usePublishCatch(): (bugId: string, at: number, lat?: number, lng?: number) => void {
   const networkOn = useAppStore((s) => s.profile.networkOn);
