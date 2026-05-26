@@ -4,24 +4,37 @@ A local Streamlit GUI for training both the insect vision classifier and the per
 
 ## Setup
 
+All commands assume you are at the **repo root**. On macOS (Homebrew Python) and
+most modern Linux distros, the system Python is "externally managed" (PEP 668),
+so install everything into a project-local virtual environment:
+
 ```bash
+# One-time: create the venv (Python 3.10+ recommended)
+python3 -m venv .venv
+
+# Activate it (do this in every new shell)
+source .venv/bin/activate
+
 # Install dashboard dependencies (streamlit + pandas + Pillow)
-pip install -r tools/training-ui/requirements.txt
+python -m pip install --upgrade pip
+python -m pip install -r tools/training-ui/requirements.txt
 
 # Install ML dependencies for the pipeline(s) you want to run
-pip install -r training/local/requirements.txt        # vision classifier
-pip install -r training/personas/requirements.txt     # persona LoRA
+python -m pip install -r training/local/requirements.txt        # vision classifier
+python -m pip install -r training/personas/requirements.txt     # persona LoRA
 ```
+
+> Don't want to activate? You can always call binaries directly via
+> `./.venv/bin/python` and `./.venv/bin/streamlit`.
 
 ## Launch
 
 ```bash
-# From the repo root:
+# With the venv activated:
 streamlit run tools/training-ui/app.py
 
-# Or from this directory:
-cd tools/training-ui
-streamlit run app.py
+# Or without activating:
+./.venv/bin/streamlit run tools/training-ui/app.py
 ```
 
 Opens at `http://localhost:8501` in your browser.
