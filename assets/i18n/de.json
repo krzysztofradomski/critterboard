@@ -366,6 +366,8 @@
       "continue": "Weiter →",
       "decideRest": "Über den Rest entscheiden",
       "cameraRequired": "Kamera ist erforderlich",
+      "cameraUnavailableWeb": "Kamera hier nicht verfügbar — wähle stattdessen ein Foto aus.",
+      "cameraNeedsHttps": "iOS Safari braucht HTTPS für die Kamera. Wähle stattdessen ein Foto aus.",
       "readyToast": "Bereit zur Jagd!",
       "items": {
         "camera": {

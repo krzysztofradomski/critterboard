@@ -366,6 +366,8 @@
       "continue": "Dalej →",
       "decideRest": "Zdecyduj o reszcie",
       "cameraRequired": "Aparat jest wymagany",
+      "cameraUnavailableWeb": "Aparat niedostępny w przeglądarce — wybierz zdjęcie z galerii.",
+      "cameraNeedsHttps": "iOS Safari potrzebuje HTTPS, by włączyć aparat. Wybierz zdjęcie z galerii.",
       "readyToast": "Gotowi na łowy!",
       "items": {
         "camera": {

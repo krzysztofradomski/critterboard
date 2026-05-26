@@ -10,6 +10,23 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 ## Done
 
+### Mobile-Safari camera unblock
+
+Fixed a soft-brick on the Permissions screen for mobile-Safari (and any non-secure-context web) users: tapping "Allow" silently failed because `navigator.mediaDevices` is undefined over HTTP, but the camera was marked `required` so the Continue button stayed disabled with no explanation.
+
+- [x] `Permissions.tsx` — camera is now `recommended` (not `required`) on web; user can tap "Not now" and proceed
+- [x] Web-only pre-flight (`diagnoseWebCameraAvailability`) distinguishes HTTPS-missing from API-missing and shows an actionable toast
+- [x] Native (iOS/Android) gate unchanged: camera is still required, "Not now" still disabled
+- [x] Two new i18n keys (`permissions.cameraUnavailableWeb`, `permissions.cameraNeedsHttps`) in en/pl/de/es
+- [x] `docs/modules/permissions-web.md` + index update explains the rationale and Safari constraints
+- [x] `npx tsc --noEmit` clean
+
+#### Review
+
+- Worst-case web flow is now "snap" → "use the photo picker" instead of "dead button", because `expo-image-picker` on web is a `<input type="file">` and needs no runtime permission.
+- The classifier and the rest of the app already accept a `null` photo URI, so no downstream changes were needed.
+- The Sticker pill on the camera card now reads "RECOMMENDED" on web, which also doubles as a hint to the user that they can proceed without granting.
+
 ### Responsive shell for larger screens
 
 Prevented desktop/tablet stretch by constraining the whole app to a centered mobile viewport. This applies once in `App.tsx`, so every route inherits the same max-width behavior.

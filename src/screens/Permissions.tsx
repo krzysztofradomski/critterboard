@@ -2,7 +2,7 @@ import { Camera } from 'expo-camera';
 import * as Location from 'expo-location';
 import * as Notifications from 'expo-notifications';
 import React, { useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Btn } from '@/components/Btn';
 import { Sticker } from '@/components/Sticker';
@@ -23,11 +23,46 @@ type PermissionItem = {
   required: boolean;
 };
 
+/**
+ * On native, the camera is hard-required: without it the core "snap a bug"
+ * flow can't run. On web (especially mobile Safari) the API is frequently
+ * unreachable — it requires HTTPS, and `navigator.mediaDevices` is
+ * `undefined` on non-secure origins. Since the gallery picker / file input
+ * still works there, we relax the gate to "recommended" so the user can
+ * proceed and use the photo picker instead.
+ */
+const IS_WEB = Platform.OS === 'web';
+
 const ITEMS: PermissionItem[] = [
-  { id: 'camera',   emoji: '📷', color: PB.green,  needKey: 'required',    required: true  },
+  {
+    id: 'camera',
+    emoji: '📷',
+    color: PB.green,
+    needKey: IS_WEB ? 'recommended' : 'required',
+    required: !IS_WEB,
+  },
   { id: 'location', emoji: '📍', color: PB.blue,   needKey: 'recommended', required: false },
   { id: 'notifs',   emoji: '🔔', color: PB.orange, needKey: 'optional',    required: false },
 ];
+
+/**
+ * Detect whether the running browser can actually prompt for camera
+ * access. Mobile Safari requires:
+ *   - A secure context (HTTPS or localhost). Non-HTTPS pages have
+ *     `window.isSecureContext === false` and `navigator.mediaDevices`
+ *     undefined, so `getUserMedia` is unreachable.
+ *   - The `navigator.mediaDevices.getUserMedia` API.
+ *
+ * Returns a tagged reason so the UI can give the user a useful hint.
+ */
+function diagnoseWebCameraAvailability(): 'ok' | 'insecure' | 'unsupported' {
+  if (typeof window === 'undefined' || typeof navigator === 'undefined') return 'unsupported';
+  if (window.isSecureContext === false) return 'insecure';
+  if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== 'function') {
+    return 'unsupported';
+  }
+  return 'ok';
+}
 
 export function Permissions() {
   const { go } = useNav();
@@ -52,11 +87,30 @@ export function Permissions() {
   /**
    * "Allow" doesn't just paint a green pill — it triggers the OS-level
    * prompt. If the user denies at the OS layer we still mark our UI as
-   * 'skip' so the flow can continue. Camera being denied is the only
-   * hard blocker for the Continue button.
+   * 'skip' so the flow can continue.
+   *
+   * Camera on the web is special: `expo-camera`'s web shim swallows the
+   * underlying `getUserMedia` failure and returns DENIED, leaving the
+   * user stuck with no explanation. So before delegating, we run a
+   * cheap pre-flight on web that distinguishes:
+   *   - HTTP (non-secure context) — common on Expo dev servers
+   *   - Missing `mediaDevices.getUserMedia` API
+   * and surface a toast explaining the gallery-picker fallback.
    */
   const requestPermission = async (id: PermissionItem['id']) => {
     haptics.tap();
+    if (id === 'camera' && IS_WEB) {
+      const diag = diagnoseWebCameraAvailability();
+      if (diag !== 'ok') {
+        const key =
+          diag === 'insecure'
+            ? 'permissions.cameraNeedsHttps'
+            : 'permissions.cameraUnavailableWeb';
+        showToast({ text: t(key), icon: '📷', bg: PB.cream2 });
+        setValue('camera', 'skip');
+        return;
+      }
+    }
     let granted = false;
     try {
       if (id === 'camera') {
@@ -72,12 +126,18 @@ export function Permissions() {
     } catch {
       granted = false;
     }
+    if (id === 'camera' && IS_WEB && !granted) {
+      showToast({ text: t('permissions.cameraUnavailableWeb'), icon: '📷', bg: PB.cream2 });
+    }
     setValue(id, granted ? 'allow' : 'skip');
   };
 
   const cameraAllowed = camera === 'allow';
+  // On web the camera isn't a hard gate: the user can fall through to the
+  // gallery picker. So we accept any *decision* (allow or skip) as ready.
+  const cameraReady = IS_WEB ? !!camera : cameraAllowed;
   const allChosen = camera && location && notifs;
-  const ready = !!(cameraAllowed && allChosen);
+  const ready = !!(cameraReady && allChosen);
 
   const finish = () => {
     // Mark onboarding done so the next cold launch lands on home directly.
@@ -202,7 +262,7 @@ export function Permissions() {
         >
           {ready
             ? t('permissions.continue')
-            : cameraAllowed
+            : cameraReady
             ? t('permissions.decideRest')
             : t('permissions.cameraRequired')}
         </Btn>
