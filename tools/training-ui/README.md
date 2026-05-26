@@ -62,6 +62,46 @@ Opens at `http://localhost:8501` in your browser.
 4. **Test** — side-by-side comparison: base model + system prompt vs base + LoRA
 5. **Export** — GGUF adapter files ready for `llama.rn`, then copy to `assets/models/`
 
+## Cleanup / Uninstall
+
+Use `tools/training-ui/cleanup.sh` to remove anything the dashboard installed
+or generated. It always shows a size preview and asks for confirmation
+(use `-y` to skip, `--dry-run` to just preview).
+
+```bash
+# Preview a full project wipe (no deletion):
+bash tools/training-ui/cleanup.sh --all --dry-run
+
+# Remove just the virtualenv (all pip packages: streamlit, torch, transformers, …):
+bash tools/training-ui/cleanup.sh --venv
+
+# Remove downloaded datasets + seed/curated examples:
+bash tools/training-ui/cleanup.sh --data
+
+# Remove training checkpoints + exported .onnx / .mlpackage / .gguf:
+bash tools/training-ui/cleanup.sh --artifacts
+
+# Full project wipe (venv + data + artifacts; keeps global caches):
+bash tools/training-ui/cleanup.sh --all
+
+# Nuke everything, including the global HuggingFace + PyTorch caches:
+bash tools/training-ui/cleanup.sh --nuke
+```
+
+Notes:
+
+- Files copied to `assets/models/` are **not** touched — those are deliverables,
+  not training infrastructure. Delete them manually if you want a full reset.
+- `--hf-cache` and `--torch-cache` are opt-in because those directories
+  (`~/.cache/huggingface`, `~/.cache/torch`) are global and may be shared with
+  other projects on your machine.
+- If you installed the requirements globally (no venv), uninstall packages with:
+  ```bash
+  python -m pip uninstall -y -r tools/training-ui/requirements.txt \
+                              -r training/local/requirements.txt \
+                              -r training/personas/requirements.txt
+  ```
+
 ## Notes
 
 - The dashboard runs the existing training scripts as subprocesses — it does not contain its own ML code.
