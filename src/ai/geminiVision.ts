@@ -90,12 +90,12 @@ export const geminiVisionClassifier: VisionClassifier = {
     const google = createGoogleGenerativeAI({ apiKey: apiKey() });
     const { text } = await generateText({
       model: google('gemini-2.5-flash'),
-      maxTokens: 256,
+      maxOutputTokens: 256,
       messages: [
         {
           role: 'user',
           content: [
-            { type: 'image', image: base64, mimeType },
+            { type: 'image', image: base64, mediaType: mimeType },
             { type: 'text', text: IDENTIFY_PROMPT },
           ],
         },

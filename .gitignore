@@ -32,4 +32,8 @@ training/kaggle/output/
 __pycache__/
 *.pyc
 
+# Python virtual envs
+.venv/
+venv/
+
 *.tmp*
