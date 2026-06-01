@@ -3,7 +3,7 @@ import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { vision, type Candidate } from '@/ai';
+import { vision, USE_NATIVE_VISION, useExecutorchClassifier, type Candidate } from '@/ai';
 import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
@@ -24,7 +24,11 @@ export function Scan() {
   const P = usePersona(persona);
   const t = useT();
   const route = useCurrentRoute();
-  const hint = (route.params as { hint?: string } | undefined)?.hint ?? 'mona';
+  const hint = (route.params as { hint?: string } | undefined)?.hint ?? 'lady';
+
+  // ExecuTorch on-device classifier. preventLoad=true keeps it dormant until
+  // USE_NATIVE_VISION is flipped to true in src/ai/index.ts.
+  const executorch = useExecutorchClassifier(!USE_NATIVE_VISION);
 
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView | null>(null);
@@ -67,7 +71,12 @@ export function Scan() {
     void (async () => {
       let candidates: Candidate[] = [];
       try {
-        candidates = await vision.classify(photoUri, { hint, topK: 3 });
+        // Use ExecuTorch when native is enabled and the .pte is loaded;
+        // otherwise fall through to gemini/mock.
+        const classifyFn = USE_NATIVE_VISION && executorch.isReady
+          ? executorch.classify
+          : vision.classify.bind(vision);
+        candidates = await classifyFn(photoUri, { hint, topK: 3 });
       } catch {
         candidates = [];
       }
@@ -195,6 +204,16 @@ export function Scan() {
               </Btn>
             )}
           </Sticker>
+        </View>
+      )}
+
+      {USE_NATIVE_VISION && !executorch.isReady && !executorch.error && (
+        <View style={styles.modelBanner}>
+          <Text style={styles.modelBannerText}>
+            {executorch.downloadProgress > 0
+              ? `Fetching model… ${Math.round(executorch.downloadProgress * 100)}%`
+              : 'Loading model…'}
+          </Text>
         </View>
       )}
 
@@ -353,5 +372,22 @@ const styles = StyleSheet.create({
     backgroundColor: PB.cream,
     borderColor: PB.ink,
     borderWidth: 3,
+  },
+  modelBanner: {
+    position: 'absolute',
+    bottom: 160,
+    left: 12,
+    right: 12,
+    backgroundColor: PB.ink,
+    borderRadius: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  modelBannerText: {
+    color: PB.yellow,
+    fontSize: 12,
+    fontWeight: '700',
   },
 });
