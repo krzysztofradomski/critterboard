@@ -2,8 +2,9 @@
 STEP 4: Export Model for Mobile Deployment
 ==========================================
 Converts your trained PyTorch model to:
-  - ONNX  → Android / cross-platform (ONNX Runtime)
-  - CoreML → iOS (CoreML / Vision framework / Neural Engine)
+  - ExecuTorch .pte → react-native-executorch (primary mobile path)
+  - ONNX            → Android / cross-platform fallback (ONNX Runtime)
+  - CoreML          → iOS fallback (Vision framework / Neural Engine)
 
 Supports both training pipelines:
   - train_lite.py  → best_model_lite.pth  (MobileNetV3-Small, torchvision)
@@ -15,8 +16,12 @@ Also writes:
 
 Usage:
     pip install onnx onnxruntime
-    python 04_export.py
-    # add --lite to force the lite checkpoint, --full to force the full one
+    python 04_export.py          # ONNX + CoreML + classMap.ts
+    python 04_export.py --pte    # also attempt ExecuTorch .pte export
+
+ExecuTorch requires a separate install (Linux/Mac only):
+    pip install executorch
+    See: https://pytorch.org/executorch/stable/getting-started-setup.html
 """
 
 import json
@@ -194,6 +199,41 @@ def export_coreml(model, dummy_input, class_map, out_dir):
     print("    Drag into Xcode → ready for Vision framework on iOS/macOS")
 
 
+def export_pte(model, dummy_input, out_dir):
+    """Export to ExecuTorch .pte for react-native-executorch."""
+    try:
+        from torch.export import export as torch_export
+        from executorch.exir import to_edge_transform_and_lower
+    except ImportError:
+        print("  Skipping .pte — executorch not installed")
+        print("    pip install executorch")
+        print("    https://pytorch.org/executorch/stable/getting-started-setup.html")
+        print("  After install:")
+        print("    1. Re-run: python 04_export.py --pte")
+        print("    2. Set MODEL_SOURCE in src/ai/executorchVision.ts to:")
+        print("         require('../../assets/models/insect_classifier.pte')")
+        print("    3. Set USE_NATIVE_VISION = true in src/ai/index.ts")
+        return
+
+    try:
+        with torch.no_grad():
+            exported = torch_export(model, (dummy_input,))
+        edge_prog  = to_edge_transform_and_lower(exported)
+        exec_prog  = edge_prog.to_executorch()
+        out_path   = out_dir / "insect_classifier.pte"
+        with open(out_path, "wb") as f:
+            f.write(exec_prog.buffer)
+        size_mb = out_path.stat().st_size / 1e6
+        print(f"  ✓ ExecuTorch .pte: {out_path}  ({size_mb:.1f} MB)")
+        print("  Next steps:")
+        print("    Set MODEL_SOURCE in src/ai/executorchVision.ts to:")
+        print("      require('../../assets/models/insect_classifier.pte')")
+        print("    Then set USE_NATIVE_VISION = true in src/ai/index.ts")
+    except Exception as e:
+        print(f"  ExecuTorch export failed: {e}")
+        print("    Try updating executorch: pip install -U executorch")
+
+
 def copy_class_map(class_map, out_dir):
     out_path = out_dir / "class_map.json"
     with open(out_path, "w") as f:
@@ -251,6 +291,7 @@ def main():
     parser = argparse.ArgumentParser(description="Export insect classifier for mobile")
     parser.add_argument("--lite", action="store_true", help="Force lite checkpoint (MobileNetV3-Small)")
     parser.add_argument("--full", action="store_true", help="Force full checkpoint (EfficientNetV2-S)")
+    parser.add_argument("--pte",  action="store_true", help="Also attempt ExecuTorch .pte export (requires pip install executorch)")
     args = parser.parse_args()
 
     ASSETS_DIR.mkdir(parents=True, exist_ok=True)
@@ -260,6 +301,10 @@ def main():
     model, class_map, num_classes = load_model(ckpt_path)
 
     dummy = torch.randn(1, 3, IMAGE_SIZE, IMAGE_SIZE)
+
+    if args.pte:
+        print("\nExporting to ExecuTorch .pte...")
+        export_pte(model, dummy, ASSETS_DIR)
 
     print("\nExporting to ONNX...")
     export_onnx(model, dummy, ASSETS_DIR)
@@ -276,15 +321,20 @@ def main():
     print(f"\n{'─' * 56}")
     print(f"Export complete → {ASSETS_DIR}")
     print("""
-Next steps:
-  Android: copy assets/models/insect_classifier.onnx
-           → android/app/src/main/assets/
+Primary path (react-native-executorch):
+  1. python 04_export.py --pte   (needs: pip install executorch)
+  2. Set MODEL_SOURCE in src/ai/executorchVision.ts to:
+       require('../../assets/models/insect_classifier.pte')
+  3. Set USE_NATIVE_VISION = true in src/ai/index.ts
+  4. expo prebuild && npx pod-install   (iOS)
+     expo prebuild && ./gradlew build  (Android)
 
-  iOS:     drag assets/models/insect_classifier.mlpackage
-           into Xcode, tick "Copy items if needed"
-
-  Both:    flip USE_NATIVE_VISION = true in src/ai/index.ts
-           and wire INDEX_TO_BUG_ID into the native module
+Fallback paths:
+  Android ONNX Runtime:
+    copy assets/models/insect_classifier.onnx
+      → android/app/src/main/assets/
+  iOS CoreML:
+    drag assets/models/insect_classifier.mlpackage into Xcode
 """)
 
 

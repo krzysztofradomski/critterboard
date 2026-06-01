@@ -58,7 +58,8 @@
           "locationAlwaysAndWhenInUsePermission": "Lets Critterboard prefer species that live near you."
         }
       ],
-      "expo-asset"
+      "expo-asset",
+      "react-native-executorch"
     ]
   }
 }

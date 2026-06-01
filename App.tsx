@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { initExecutorch } from 'react-native-executorch';
+import { ExpoResourceFetcher } from 'react-native-executorch-expo-resource-fetcher';
+
+// Configure ExecuTorch to use Expo's file-system for caching downloaded models.
+// Must be called before any ClassificationModule is instantiated.
+initExecutorch({ resourceFetcher: ExpoResourceFetcher });
 import { StyleSheet, View } from 'react-native';
 
 import { useBackendIdentityBridge, useSyncProfile } from '@/backend/hooks';
