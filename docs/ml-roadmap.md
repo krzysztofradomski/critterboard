@@ -5,7 +5,7 @@ This is the master plan for swapping the mock AI seams in `src/ai/` with real on
 It has **three tracks**, executed in order:
 
 1. **MVP** — 20-species classifier + mocked LLM, end-to-end on a real iPhone.
-2. **Full training** — the 200/1000-species Kaggle pipeline + real Llama 3.2 1B on device.
+2. **Full training** — the 200/1000-species Kaggle pipeline + real Gemma 3 1B-IT on device.
 3. **Out-of-scope placeholders** — social, online sync, real map tiles, localization. Stubbed for now, deferred until the ML core ships.
 
 Every step here maps to either a file in `training/` (Python) or a file in `src/ai/` (TypeScript). Nothing speculative — only work that produces a runnable artifact.
@@ -93,7 +93,7 @@ Anything slower than 250 ms feels laggy and is treated as a bug.
 
 ## Track 2 — Full training (weeks 2–4)
 
-> **Goal:** Same UX, 200 species instead of 20, plus a real Llama 3.2 1B running locally for the persona chat.
+> **Goal:** Same UX, 200 species instead of 20, plus a real Gemma 3 1B-IT running locally for the persona chat.
 
 ### 2.1  Scale the classifier ⟶ `training/kaggle/insect_classifier_training.ipynb`
 
@@ -144,7 +144,24 @@ Drop-in implementations:
 - **`mockRuntime`** *(today)* — picks a canned line keyword-biased by the user's input. Already in `src/ai/chat.ts`, just moved behind the seam.
 - **`llamaRn`** *(production)* — wraps [`llama.rn`](https://github.com/mybigday/llama.rn). Singleton load, streamed `complete()`, persona system prompt built from `PERSONAS[persona].systemPrompt`.
 
-Model: `Llama-3.2-1B-Instruct-Q4_K_M.gguf` (≈ 800 MB RAM, ≈ 10–15 tok/s on iPhone 13 with Metal).
+Model: `gemma-3-1b-it-q4_k_m.gguf` (≈ 670 MB RAM, ≈ 12–18 tok/s on iPhone 13 with Metal).
+Source: `https://huggingface.co/google/gemma-3-1b-it-GGUF`
+
+Gemma 3 1B-IT was chosen over Llama 3.2 1B for three reasons:
+- ~20% smaller RAM footprint at the same Q4_K_M quantisation level
+- Better multilingual output quality (important: the app ships in EN/DE/ES/PL)
+- Newer architecture (Feb 2025) with stronger instruction-following per parameter
+
+Chat template (used by `buildPrompt` in `src/ai/llm.ts`):
+```
+<start_of_turn>system
+{system}<end_of_turn>
+<start_of_turn>user
+{user}<end_of_turn>
+<start_of_turn>model
+```
+
+LoRA adapters (≈ 15 MB each) are trained on top of the Gemma 3 1B base via the pipeline in `training/personas/`. The base model stays loaded; adapters hot-swap on persona change.
 
 Tone guarantees come from the per-persona `systemPrompt` strings already in [`src/personas/index.ts`](../src/personas/index.ts) — no new copy required.
 
@@ -152,8 +169,10 @@ Tone guarantees come from the per-persona `systemPrompt` strings already in [`sr
 
 ```ts
 // src/ai/llm.ts
-if (totalMemoryMB() < 4_000) {
+if (totalMemoryMB() < 2_000) {
   // Fall back to mockRuntime, show a "lite mode" badge in Settings.
+  // Gemma 3 1B-IT Q4_K_M needs ~670 MB for the base + ~15 MB per adapter;
+  // 2 GB leaves headroom for the OS, the vision model, and the rest of the app.
 }
 ```
 
@@ -173,7 +192,7 @@ The `SoundID` screen is already wired to the same router. Reuse `efficientnet_li
 ### 2.5  Exit criteria for full training
 
 - [ ] 200-species model ships in `assets/models/`, top-3 > 85% on held-out test
-- [ ] Llama 3.2 1B Q4 loads in < 4 s on iPhone 13
+- [ ] Gemma 3 1B-IT Q4_K_M loads in < 4 s on iPhone 13
 - [ ] First streamed token visible in < 600 ms
 - [ ] Lite-mode fallback verified on a 3 GB Android device
 
@@ -209,7 +228,7 @@ training/
     requirements.txt
   kaggle/
     insect_classifier_training.ipynb          # vision: full EU run, T4 x2
-  personas/                                   # Llama-3.2-1B LoRA per persona
+  personas/                                   # Gemma-3-1B-IT LoRA per persona
     README.md
     examples/{larva,snail,maywind}.jsonl      # 10 hand-written seeds each
     01_seed_examples.py                       # bootstrap ~80/persona via Claude

@@ -37,7 +37,7 @@ APP_ROOT   = ROOT.parent.parent
 PERSONA_TS = APP_ROOT / "src" / "personas" / "index.ts"
 ADAPTER_DIR = ROOT / "adapters"
 
-BASE_MODEL = "meta-llama/Llama-3.2-1B-Instruct"
+BASE_MODEL = "google/gemma-3-1b-it"
 DEFAULT_PROMPTS = [
     "what's the difference between a moth and a butterfly?",
     "is this hoverfly going to sting me?",
