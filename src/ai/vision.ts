@@ -8,10 +8,10 @@
  *      `nav.params.hint` behaviour so the rest of the app keeps working
  *      while the real model is still in training.
  *
- *   2. `nativeClassifier` — wraps the on-device EfficientNetV2-S exported
- *      by `training/local/04_export.py`. iOS reads the `.mlpackage` via
- *      CoreML/Vision; Android reads the `.onnx` via ONNX Runtime or
- *      `react-native-fast-tflite`. The TS surface is identical.
+ *   2. `nativeClassifier` — wraps the on-device MobileNetV3-Small (lite) or
+ *      EfficientNetV2-S (full) exported by `training/local/04_export.py`.
+ *      iOS reads the `.mlpackage` via CoreML/Vision; Android reads the
+ *      `.onnx` via ONNX Runtime. The TS surface is identical.
  *
  * Swap is one line in `src/ai/index.ts`. See `docs/ml-roadmap.md` § Track 1.
  */
@@ -81,7 +81,7 @@ function mockTopK(hint: string, topK: number): Candidate[] {
 export const mockClassifier: VisionClassifier = {
   async classify(_frame, opts) {
     const topK = opts?.topK ?? 3;
-    const hint = opts?.hint ?? 'mona';
+    const hint = opts?.hint ?? 'lady';
     // Tiny artificial delay so the loading state in Scan has time to render.
     await new Promise((r) => setTimeout(r, 120));
     return mockTopK(hint, topK);
@@ -102,9 +102,11 @@ export const mockClassifier: VisionClassifier = {
  *
  * Expected flow:
  *   1. Resize the frame to 224×224.
- *   2. Normalize with ImageNet mean/std (same as training).
+ *   2. Normalize with ImageNet mean/std (mean=[0.485,0.456,0.406],
+ *      std=[0.229,0.224,0.225]) — same normalization used during training.
  *   3. Run CoreML (iOS) or ONNX Runtime (Android).
- *   4. Map argmax → class_map.json → bugs.ts via `src/ai/classMap.ts`.
+ *   4. Apply softmax; take top-K argmax indices.
+ *   5. Map each index → bug ID via `INDEX_TO_BUG_ID` in `src/ai/classMap.ts`.
  *
  * Throws if called today — keep `mockClassifier` selected in `index.ts`
  * until the native module ships.

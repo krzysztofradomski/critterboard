@@ -267,8 +267,8 @@ const SEED_PATTERN: ReadonlyArray<0 | 1 | 2> = [
   1, 1, 1, 1, 1, 0, 0,
 ];
 
-const SEED_IDS = ['mona', 'hcat', 'lady', 'drag', 'hwsp', 'fire', 'walk',
-                  'mant', 'lhoc', 'atla', 'cica', 'rhin'];
+const SEED_IDS = ['hcat', 'lady', 'buff', 'brim', 'tort', 'wasp',
+                  'peac', 'radm', 'swhi', 'gshb', 'bdam', 'orng'];
 
 /**
  * Build the seeded catch log that the store starts with. Each "caught"

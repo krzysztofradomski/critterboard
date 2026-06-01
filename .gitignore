@@ -21,6 +21,7 @@ web-build/
 # Model binaries (regenerate via training/, see assets/models/README.md)
 assets/models/*.mlpackage/
 assets/models/*.onnx
+assets/models/*.onnx.data
 assets/models/*.gguf
 assets/models/*.tflite
 
