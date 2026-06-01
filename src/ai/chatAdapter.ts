@@ -2,7 +2,7 @@ import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { streamText } from 'ai';
 
 import { BUGS } from '@/data/bugs';
-import { mockRuntime } from '@/ai/llm';
+import { buildPrompt, llamaRnRuntime, mockRuntime } from '@/ai/llm';
 import type { Persona } from '@/personas';
 
 export type ChatHistoryTurn = {
@@ -169,5 +169,30 @@ export const geminiChatAdapter: ChatAdapter = {
   },
   ready() {
     return Boolean(process.env.GEMINI_API_KEY ?? process.env.EXPO_PUBLIC_GEMINI_API_KEY);
+  },
+};
+
+/**
+ * On-device LLM adapter. Wraps `llamaRnRuntime` (llama.cpp via llama.rn).
+ *
+ * When the model binary isn't loaded yet — either because the GGUF file
+ * hasn't been downloaded or the native module isn't wired — it surfaces a
+ * prompt to the user inside the chat bubble rather than silently failing.
+ * This gives a graceful degradation path until the on-device model ships.
+ */
+export const localLlmChatAdapter: ChatAdapter = {
+  async *streamReply(params) {
+    if (!llamaRnRuntime.ready()) {
+      yield 'On-device model not loaded yet. Download Larva-3B from Settings → On-device Brains to enable private, offline chat.';
+      return;
+    }
+    const prompt = buildPrompt(params.persona, params.userText, params.topic);
+    for await (const chunk of llamaRnRuntime.complete(prompt, { signal: params.signal })) {
+      if (params.signal?.aborted) return;
+      yield chunk;
+    }
+  },
+  ready() {
+    return llamaRnRuntime.ready();
   },
 };

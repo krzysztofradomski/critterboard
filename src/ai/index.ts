@@ -42,7 +42,7 @@ export const chatMode: 'gemini' | 'mock' =
 export { mockClassifier, nativeClassifier } from '@/ai/vision';
 export { geminiVisionClassifier } from '@/ai/geminiVision';
 export { mockRuntime, llamaRnRuntime, buildPrompt } from '@/ai/llm';
-export { geminiChatAdapter, mockChatAdapter } from '@/ai/chatAdapter';
+export { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter } from '@/ai/chatAdapter';
 export type { Candidate, VisionClassifier, VisionFrame, ClassifyOptions } from '@/ai/vision';
 export type { LlmRuntime, CompleteOpts } from '@/ai/llm';
 export type {

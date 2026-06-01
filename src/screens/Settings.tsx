@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -331,6 +332,22 @@ export function Settings() {
             statusFg={downloading ? PB.ink : PB.cream}
             progressPct={pct}
             progressColor={PB.pink}
+          />
+          <View style={{ height: 12 }} />
+          <SettingToggle
+            icon="📱"
+            color={PB.pink}
+            label={t("settings.localLlmLabel")}
+            desc={
+              Platform.OS === "web"
+                ? t("settings.localLlmNoWeb")
+                : profile.localLlmOn
+                  ? t("settings.localLlmOn")
+                  : t("settings.localLlmOff")
+            }
+            value={profile.localLlmOn && Platform.OS !== "web"}
+            onChange={(v) => setProfile({ localLlmOn: v })}
+            disabled={Platform.OS === "web"}
           />
         </Sticker>
 
