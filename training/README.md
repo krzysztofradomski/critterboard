@@ -2,41 +2,44 @@
 
 Two model families live here:
 
-- **Vision classifier** (this README) — the EfficientNetV2-S that identifies the bug.
-- **Persona LoRA adapters** ([`personas/`](personas/)) — three small adapters on top of Llama-3.2-1B that give Larva / Snail / Maywind their voice.
+- **Vision classifier** (this file) — identifies the insect from a photo.
+- **Persona LoRA adapters** ([`personas/`](personas/)) — small adapters on top of
+  Llama-3.2-1B that give Larva / Snail / Maywind their voice.
 
-The vision pipeline is the **MVP blocker**. The persona pipeline is **deferred** — only worth running once the system-prompt approach in the app shows real drift in user testing (see [`../docs/ml-roadmap.md`](../docs/ml-roadmap.md) for the decision tree).
+The vision pipeline is the **MVP blocker**. The persona pipeline is **deferred** — only
+worth running once the system-prompt approach shows real drift in user testing.
 
-## Training dashboard (recommended)
+## Quick reference — which pipeline to use
 
-A local Streamlit GUI in [`../tools/training-ui/`](../tools/training-ui/) wraps both pipelines with a visual interface — live logs, training-curve charts, an interactive inference tester, and one-click model copying. Use it instead of running the scripts by hand:
+| Goal | Pipeline | Time | Hardware |
+|------|----------|------|----------|
+| Prove the end-to-end on your laptop | `local/train_lite.py` | ~40 min | Any CPU |
+| Offline / no internet | `local/train_lite.py --demo` | ~5 min | Any CPU |
+| Production-quality 20-species model | `local/02_train.py` | ~35 min | M-series Mac |
+| 200+ species, full EU | `kaggle/insect_classifier_training.ipynb` | ~8–10 h | Kaggle T4 ×2 |
+| New insect pack (different region/theme) | See § Creating a new pack below | — | — |
+
+---
+
+## Training dashboard (optional GUI)
+
+A local Streamlit GUI in [`../tools/training-ui/`](../tools/training-ui/) wraps both
+pipelines with live logs, training curves, an inference tester, and one-click export:
 
 ```bash
 pip install -r tools/training-ui/requirements.txt
 streamlit run tools/training-ui/app.py
 ```
 
-The scripts can still be run directly from the command line as documented below — the dashboard just calls the same scripts as subprocesses.
+The dashboard calls the same scripts underneath — everything below works equally well
+from the command line.
 
 ---
 
-## Vision classifier
+## `local/` — Lite pipeline  _(recommended starting point)_
 
-Two tracks for producing the `.onnx` / `.mlpackage` files that the React Native app loads at runtime:
-
-| Track | Where it runs | Species | Images | Wall clock | Top-1 | Top-3 |
-|-------|---------------|---------|--------|-----------|-------|-------|
-| **local/** | M2 MacBook (MPS) | 20 (Central EU) | ~3k | ~35 min | 70–85% | 90–97% |
-| **kaggle/** | Kaggle T4 ×2 | 200 (full EU) | ~50k | ~8–10 h | 68–78% | 85–93% |
-| **kaggle/** *(stretch)* | Kaggle T4 ×2 | 1000 | ~250k | ~15–20 h | 65–75% | 82–90% |
-
-> Accuracy drops as the species count climbs — that's expected. The app UX leans on **top-3 candidates** in `Disambiguate` to absorb the slack.
-
----
-
-## `local/` — MVP pipeline (20 species, ~2 GB, M2 Mac)
-
-Use this to prove the whole pipeline end-to-end in an afternoon, then drop the resulting `insect_classifier.mlpackage` into the iOS bundle and watch `Scan` light up with real predictions instead of the hint string.
+`train_lite.py` uses **MobileNetV3-Small** (torchvision, 6 MB checkpoint) with frozen
+ImageNet weights. It runs on any CPU in under an hour without a GPU.
 
 ### One-time setup
 
@@ -45,134 +48,255 @@ cd training/local
 pip install -r requirements.txt
 ```
 
-### Step 1 — Download mini dataset (~20 min)
+### Offline / demo mode (no internet needed)
+
+Generates synthetic per-species colour+pattern images and trains on them. Useful for
+CI, testing the export pipeline, or environments where iNaturalist is unreachable:
 
 ```bash
-python 01_setup_and_download.py
+python train_lite.py --demo
 ```
 
-Downloads ~150 images × 20 species from iNaturalist S3.
-Output: `./data/images/<taxon_id>/` folders.
+Training finishes in ~5 minutes. Accuracy will be 100% on synthetic images — the model
+is not usable for real photos until trained on real data (see next step).
 
-### Step 2 — Train (~30–40 min on M2)
+### With real iNaturalist data
+
+Downloads ~40 photos per species from iNaturalist's European bounding box
+(lat 34–71, lon −25–45):
 
 ```bash
-python 02_train.py
+python train_lite.py
 ```
 
-Two-phase fine-tune of `EfficientNetV2-S`:
+Options:
 
-- **Phase 1** — 3 epochs warming up the classifier head only (rest of the network frozen)
-- **Phase 2** — 17 epochs full fine-tune (all layers trainable, cosine LR schedule)
+```
+--images N     photos per class to download  (default: 40)
+--epochs N     training epochs               (default: 40)
+--batch N      batch size                    (default: 16)
+--lr N         learning rate                 (default: 1e-3)
+--workers N    dataloader workers            (default: 2)
+--no-download  skip download, use existing ./data/ images
+--demo         use synthetic images instead of downloading
+```
 
-Best checkpoint saved to `./checkpoints/best_model.pth`.
+Outputs:
+- `checkpoints/best_model_lite.pth` — MobileNetV3-Small checkpoint (6 MB)
+- `checkpoints/class_map_lite.json` — `{ "0": "Palomena prasina", … }`
+- `checkpoints/history_lite.json` — per-epoch loss/accuracy
 
-### Step 3 — Verify inference works
+### Verify inference
 
 ```bash
-python 03_inference_test.py --demo
+python 03_inference_test.py --demo          # random image from the training set
+python 03_inference_test.py --image ~/Desktop/bee.jpg --top 5
 ```
 
-Runs on a random dataset image and prints top-3 predictions with a tiny ASCII bar chart.
-
-Point it at your own photo:
+### Export for mobile
 
 ```bash
-python 03_inference_test.py --image ~/Desktop/bee_photo.jpg
-python 03_inference_test.py --image ~/Desktop/bee_photo.jpg --top 5
+pip install onnx onnxruntime
+python 04_export.py                   # ONNX + CoreML + updates src/ai/classMap.ts
+
+# For react-native-executorch (.pte) — primary mobile path:
+pip install executorch               # see https://pytorch.org/executorch/stable/getting-started-setup.html
+python 04_export.py --pte
 ```
 
-### Step 4 — Export for mobile
+Then activate in the app:
 
-```bash
-python 04_export.py
-```
-
-Produces:
-
-- `./exported/insect_classifier.onnx` → Android (ONNX Runtime)
-- `./exported/insect_classifier.mlpackage` → iOS (drag into Xcode, use via `VNCoreMLModel`)
-
-Drop both into [`../assets/models/`](../assets/models/) and flip `USE_NATIVE_VISION = true` in [`../src/ai/index.ts`](../src/ai/index.ts).
+1. Set `MODEL_SOURCE` in `src/ai/executorchVision.ts` to:
+   ```ts
+   require('../../assets/models/insect_classifier.pte')
+   ```
+2. Set `USE_NATIVE_VISION = true` in `src/ai/index.ts`
+3. `npm install && expo prebuild && npx pod-install`
 
 ---
 
-## `kaggle/` — Full EU pipeline (200+ species)
+## `local/` — Full pipeline  _(higher accuracy, needs M-series Mac)_
 
-Uses Kaggle's free T4 ×2 GPU quota. Same `EfficientNetV2-S`, same two-phase recipe — just more data, more epochs, AMP (mixed precision) enabled.
+`02_train.py` fine-tunes **EfficientNetV2-S** (timm) in two phases for better accuracy
+on real photos. Requires `pip install timm` and works best with Apple MPS.
 
-### One-time Kaggle setup
+### Steps
 
-1. Create account at [kaggle.com](https://kaggle.com)
-2. `New Notebook`
-3. `Settings → Accelerator → GPU T4 x2`
-4. `Settings → Internet → On` (needed for the iNaturalist API)
-5. Upload `kaggle/insect_classifier_training.ipynb`
+```bash
+cd training/local
 
-### Configuration (top of notebook)
+# Step 1 — download ~150 images × 20 species (~20 min)
+python 01_setup_and_download.py
+
+# Step 2 — two-phase fine-tune (~35 min on M2)
+python 02_train.py
+# Outputs: checkpoints/best_model.pth
+
+# Step 3 — sanity check
+python 03_inference_test.py --demo
+
+# Step 4 — export
+python 04_export.py [--pte]
+```
+
+Two-phase training:
+- **Phase 1** (3 epochs) — classifier head only, backbone frozen
+- **Phase 2** (17 epochs) — full fine-tune, cosine LR schedule
+
+---
+
+## `kaggle/` — Full EU pipeline  _(200+ species)_
+
+Same EfficientNetV2-S recipe with three config knobs. Uses Kaggle's free T4 ×2 GPU.
+
+### Setup
+
+1. [kaggle.com](https://kaggle.com) → New Notebook
+2. Settings → Accelerator → **GPU T4 x2**
+3. Settings → Internet → **On**
+4. Upload `kaggle/insect_classifier_training.ipynb`
+
+### Configuration
 
 ```python
 CFG = {
-    'iconic_taxon':         'Insecta',   # or 'Lepidoptera' for a faster first run
-    'min_obs_per_species':  200,         # lower = more species, less per-class quality
-    'images_per_species':   250,
-    'max_species':          200,         # ~50k images, ~8h training
-    # ...
+    'iconic_taxon':        'Insecta',   # or 'Lepidoptera' for a faster first run
+    'min_obs_per_species': 200,         # lower = more species, less per-class quality
+    'images_per_species':  250,
+    'max_species':         200,         # 200 → ~50k images, ~8h
 }
 ```
 
-Three quality knobs that change everything:
+Start with `'Lepidoptera'` and `max_species=50` for a fast sanity run (~1 h).
 
-- **`iconic_taxon`** — start with `Lepidoptera` (butterflies/moths). Fewer visually-similar species = higher per-class accuracy. Add `Coleoptera`, then full `Insecta` once the head is stable.
-- **`min_obs_per_species`** — `200` gives ~800–1200 EU species. `500` is faster (~400–600 species).
-- **`max_species`** — hard cap; first full run should be `200` to get an ~8h baseline.
+### After training
 
-### Run
+Download `best_model.pth` + `class_map.json` from Kaggle Output → copy both to
+`training/local/checkpoints/` → run `python 04_export.py` locally.
 
-Click **Run All**. The notebook:
+---
 
-1. Queries iNaturalist API for the European species list
-2. Downloads images directly into Kaggle scratch space (100 GB free)
-3. Trains 30 epochs with AMP
-4. Saves checkpoint to `/kaggle/working/output/`
+## Creating a new insect pack
 
-### Download results
+A "pack" is a combination of: a trained model, an updated `bugs.ts`, and an updated
+`classMap.ts`. The steps below create a pack for a different region (e.g. North American
+insects) or a different theme (e.g. UK garden species only).
 
-In the Kaggle Output panel, download:
+### 1 — Define your species list
 
-- `best_model.pth` (~80–150 MB)
-- `class_map.json` (~10 KB)
+Open `training/local/insect_data.py` and add an entry for each new species following
+the existing pattern. Each entry needs at minimum:
 
-Copy both to your Mac's `training/local/checkpoints/`, then run `python 04_export.py` locally to produce the iOS/Android files.
+```python
+{
+    'taxon_id':       12345,           # iNaturalist taxon ID — find at inaturalist.org
+    'scientific_name':'Apis mellifera',
+    'common_name':    'Honey Bee',
+    'order':          'Hymenoptera',
+    'sources': [
+        'https://www.inaturalist.org/taxa/12345',
+        'https://en.wikipedia.org/wiki/Western_honey_bee',
+    ],
+    # … description, habitat, distribution, etc.
+}
+```
+
+Find taxon IDs at `inaturalist.org/taxa/<name>` or via the search bar.
+
+### 2 — Update the training species list
+
+Open `training/local/train_lite.py` and update `SPECIES` (or the equivalent list) to
+contain the taxon IDs for your new pack. The order here determines the class indices
+in the exported model.
+
+### 3 — Train
+
+```bash
+cd training/local
+python train_lite.py                  # downloads iNaturalist photos for your species
+# or
+python train_lite.py --demo           # offline test with synthetic images
+```
+
+### 4 — Update the React Native app
+
+**`src/data/bugs.ts`** — add a `Bug` entry for each new species:
+
+```ts
+{ id: 'mona', name: 'Monarch Butterfly', latin: 'Danaus plexippus',
+  rarity: 'uncommon', xp: 40, tier: '★★', emoji: '🦋',
+  color: '#e8782c', traits: ['butterfly', 'pollinator'] },
+```
+
+Choose a short 4-letter `id` that doesn't clash with existing ones.
+
+**`src/ai/classMap.ts`** — either re-run `04_export.py` (which regenerates this file
+automatically), or manually update `SCIENTIFIC_TO_BUG_ID` and `INDEX_TO_BUG_ID` to
+match the new class order.
+
+**`src/ai/executorchVision.ts`** — update `INSECT_LABELS` to match the new species and
+their class indices.
+
+### 5 — Export and activate
+
+```bash
+python 04_export.py --pte
+```
+
+Then follow the activation steps in `assets/models/README.md`.
+
+---
+
+## Species data sources
+
+`training/local/insect_data.py` contains curated descriptions, habitat info, and
+source links for all 20 current Central European species. Sources per species:
+
+- **iNaturalist** — taxon page, observation photos, range maps
+- **Wikipedia EN** — description and ecology
+- **GBIF** — occurrence data and distribution
+- **Butterfly Conservation UK** — butterfly/moth species profiles
+- **Bumblebee Conservation Trust** — bumblebee species profiles
+- **Buglife** — invertebrate fact sheets
+- **IUCN Red List** — conservation status
+
+When adding a new species, list at least one URL source in the `sources` array so the
+Streamlit training UI and app species guide can link to it.
 
 ---
 
 ## Troubleshooting
 
+**iNaturalist 403 / network errors** — the cloud training environment blocks outbound
+HTTP. Use `--demo` for offline synthetic training, or run locally.
+
 **MPS errors on Mac:**
 
 ```bash
-# Fall back to CPU
 PYTORCH_ENABLE_MPS_FALLBACK=1 python 02_train.py
 ```
 
-**Out of memory on Kaggle:**
+**PyTorch pretrained weight download fails:**
 
-In `CFG`, drop `batch_size` from `128` to `64`.
-
-**Download failures:**
-
-iNaturalist API has rate limits. The scripts include delays — if you see many failures (e.g. `>10%` per species), increase `time.sleep(...)` in the fetch functions of `01_setup_and_download.py`.
+`train_lite.py` falls back to random weights automatically. Accuracy will be lower on
+real photos — use the Kaggle pipeline or a Mac with internet for production.
 
 **CoreML export fails:**
 
 ```bash
 pip install --upgrade coremltools
-xcode-select --install                # macOS 12+ only
+xcode-select --install    # macOS 12+ only
 ```
+
+**ExecuTorch install fails:**
+
+ExecuTorch is Linux/Mac only and requires a C++ toolchain. Follow the official guide:
+https://pytorch.org/executorch/stable/getting-started-setup.html
 
 ---
 
 ## Persona LoRAs
 
-See [`personas/README.md`](personas/README.md) for the five-step pipeline (seed → curate → train → eval → export GGUF). **Do not run that pipeline until system-prompt-only personas show drift in real user testing** — the decision criteria are in [`../docs/ml-roadmap.md`](../docs/ml-roadmap.md) § 2.2.
+See [`personas/README.md`](personas/README.md) for the five-step pipeline.
+**Do not run until system-prompt-only personas show drift in real user testing** —
+the decision criteria are in [`../docs/ml-roadmap.md`](../docs/ml-roadmap.md) § 2.2.

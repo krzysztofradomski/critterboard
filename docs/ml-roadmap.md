@@ -200,36 +200,43 @@ Each surface keeps its placeholder data and stickered visuals so the app remains
 
 ```
 training/
-  README.md                                   # entry point — both vision and personas
-  local/                                      # vision: M2 mini run
-    01_setup_and_download.py                  # ~20 min,  iNaturalist S3 → ./data/images/
-    02_train.py                               # ~35 min,  EfficientNetV2-S, M2 MPS
+  README.md                                   # entry point + new-pack guide
+  local/
+    insect_data.py                            # 20-species DB with descriptions + sources
+    train_lite.py                             # MobileNetV3-Small, any CPU (~40 min)
+    generate_demo_data.py                     # synthetic images for offline/CI use
+    01_setup_and_download.py                  # iNaturalist S3 → ./data/images/ (~20 min)
+    02_train.py                               # EfficientNetV2-S, M2 MPS (~35 min)
     03_inference_test.py                      # CLI sanity check
-    04_export.py                              # ONNX + CoreML
+    04_export.py                              # .pte + ONNX + CoreML + classMap.ts
     requirements.txt
   kaggle/
     insect_classifier_training.ipynb          # vision: full EU run, T4 x2
-  personas/                                   # Llama-3.2-1B LoRA per persona
+  personas/
     README.md
-    examples/{larva,snail,maywind}.jsonl      # 10 hand-written seeds each
-    01_seed_examples.py                       # bootstrap ~80/persona via Claude
-    02_curate.py                              # CLI accept/edit/reject
-    03_train_lora.py                          # PEFT LoRA, one adapter per persona
-    04_inference_test.py                      # baseline (sysprompt) vs LoRA, side-by-side
-    05_export_adapters.py                     # LoRA → GGUF for llama.rn
+    examples/{larva,snail,maywind}.jsonl
+    01_seed_examples.py … 05_export_adapters.py
     requirements.txt
-    kaggle/
-      persona_lora_training.ipynb             # T4 x2 variant of step 03
 
 assets/
   models/
-    README.md                                 # what to drop here and from where
+    README.md                                 # drop-zone instructions
+    class_map.json                            # committed — index → scientific name
+    insect_classifier.pte   (gitignored)      # ExecuTorch — primary mobile path
+    insect_classifier.onnx  (gitignored)      # ONNX Runtime fallback
+    insect_classifier.mlpackage (gitignored)  # CoreML fallback (iOS)
 
 src/ai/
-  index.ts                                    # picks mock vs production impls
-  vision.ts                                   # Candidate[], swap-in seam
+  index.ts                                    # USE_NATIVE_VISION flag + all AI exports
+  vision.ts                                   # VisionClassifier interface + mock impl
+  executorchVision.ts                         # useExecutorchClassifier() hook
+  classMap.ts                                 # scientific name + index → bug ID (auto-generated)
+  geminiVision.ts                             # cloud fallback (POC)
   llm.ts                                      # AsyncIterable<token>, swap-in seam
   chat.ts                                     # delegates to llm.ts
+
+src/data/
+  bugs.ts                                     # 20 Central EU species, BugTrait, CAUGHT_IDS
 
 docs/
   ml-roadmap.md                               # this file
@@ -239,10 +246,17 @@ docs/
 
 | Track | Status |
 |-------|--------|
-| 1 · MVP scaffold (TypeScript seams in `src/ai/`) | ✅ done |
-| 1 · `training/local/` scripts present | ✅ done |
-| 1 · Run `01..04` once, drop into `assets/models/`, ship | ⏳ pending — one afternoon of work |
-| 2 · Kaggle full-EU run | ⏳ pending |
+| 1 · TypeScript seams in `src/ai/` | ✅ done |
+| 1 · `training/local/` scripts (full + lite pipelines) | ✅ done |
+| 1 · 20-species `insect_data.py` with sources | ✅ done |
+| 1 · MobileNetV3-Small checkpoint trained (synthetic data) | ✅ done — `checkpoints/best_model_lite.pth` |
+| 1 · `src/data/bugs.ts` — 20 Central EU species | ✅ done |
+| 1 · `src/ai/classMap.ts` — scientific name + index → bug ID | ✅ done |
+| 1 · `src/ai/executorchVision.ts` — `useExecutorchClassifier()` hook | ✅ done |
+| 1 · `react-native-executorch` wired into `Scan.tsx` | ✅ done — activate by setting `MODEL_SOURCE` + `USE_NATIVE_VISION = true` |
+| 1 · Generate real `.pte` from iNaturalist-trained weights | ⏳ pending — run `04_export.py --pte` after `pip install executorch` |
+| 1 · Bench shutter → Result round-trip on device | ⏳ pending |
+| 2 · Kaggle full-EU run (200 species) | ⏳ pending |
 | 2 · `llama.rn` integration | ⏳ pending |
 | 2 · `training/personas/` scaffold | ✅ done — run when system-prompt drift > 10% |
 | 3 · Placeholder surfaces | 🅿️ deliberately paused |
