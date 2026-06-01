@@ -5,7 +5,7 @@
  * to enable each real model once it's ready.
  *
  * Vision priority: native > gemini > mock
- * Chat priority:   gemini > mock
+ * Chat priority:   local (device) > gemini > mock
  *
  * See `docs/ml-roadmap.md` for the full plan.
  */
@@ -13,7 +13,7 @@
 import { mockClassifier, nativeClassifier, type VisionClassifier } from '@/ai/vision';
 import { geminiVisionClassifier } from '@/ai/geminiVision';
 import { llamaRnRuntime, mockRuntime, type LlmRuntime } from '@/ai/llm';
-import { geminiChatAdapter, mockChatAdapter, type ChatAdapter } from '@/ai/chatAdapter';
+import { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter, type ChatAdapter } from '@/ai/chatAdapter';
 
 const USE_NATIVE_VISION = false;  // flip after 04_export.py drops files into assets/models/
 const USE_GEMINI_VISION = true;   // cloud POC until on-device EfficientNetV2-S ships
@@ -42,7 +42,9 @@ export const chatMode: 'gemini' | 'mock' =
 export { mockClassifier, nativeClassifier } from '@/ai/vision';
 export { geminiVisionClassifier } from '@/ai/geminiVision';
 export { mockRuntime, llamaRnRuntime, buildPrompt } from '@/ai/llm';
-export { geminiChatAdapter, mockChatAdapter } from '@/ai/chatAdapter';
+export { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter } from '@/ai/chatAdapter';
+export { webNativeLlmChatAdapter, checkWebNativeLlmStatus } from '@/ai/webNativeLlm';
+export type { WebNativeLlmStatus } from '@/ai/webNativeLlm';
 export type { Candidate, VisionClassifier, VisionFrame, ClassifyOptions } from '@/ai/vision';
 export type { LlmRuntime, CompleteOpts } from '@/ai/llm';
 export type {
