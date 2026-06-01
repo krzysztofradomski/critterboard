@@ -8,8 +8,9 @@
  *      by the user's input and yields it as one chunk after a short delay.
  *
  *   2. `llamaRnRuntime` — production. Wraps `llama.rn` (a `llama.cpp` port
- *      for React Native). Loads `Llama-3.2-1B-Instruct-Q4_K_M.gguf` from
- *      the app bundle, runs Metal/GPU acceleration on iOS, NEON on Android.
+ *      for React Native). Loads `gemma-3-1b-it-q4_k_m.gguf` from the app
+ *      bundle plus optional per-persona LoRA adapters (~15 MB each). Runs
+ *      Metal/GPU acceleration on iOS, NEON on Android.
  *
  * The seam intentionally mirrors `llama.rn`'s streaming API so swapping the
  * production runtime is a single import in `src/ai/index.ts`. See
@@ -41,7 +42,7 @@ export interface LlmRuntime {
    */
   complete(prompt: string, opts?: CompleteOpts): AsyncIterable<string>;
 
-  /** Free the model. Call on app background to reclaim ~800 MB of RAM. */
+  /** Free the model. Call on app background to reclaim ~670 MB of RAM. */
   unload(): Promise<void>;
 
   /** `true` after `load()` resolves. */
@@ -49,15 +50,25 @@ export interface LlmRuntime {
 }
 
 /**
- * Build a persona-flavoured prompt. Each persona's `systemPrompt` already
- * pins tone + length in `src/personas/index.ts`; this just stitches it into
- * the Llama chat template.
+ * Build a persona-flavoured prompt using Gemma 3's chat template.
+ *
+ * Gemma 3 1B-IT uses `<start_of_turn>` / `<end_of_turn>` markers.
+ * The system persona is placed in the `system` turn; llama.cpp passes it
+ * through verbatim when using the raw `complete()` API.
+ *
+ * If llama.rn exposes a `chat()` method that reads the template from the
+ * GGUF tokenizer config, prefer that and drop this builder — keeping it
+ * here only for the raw-text path.
  */
 export function buildPrompt(persona: Persona, userText: string, topic?: string): string {
   const opener = topic
     ? `We're talking about: ${topic}. The user just said: "${userText}"`
-    : `The user just said: "${userText}"`;
-  return `<|system|>\n${persona.systemPrompt}\n<|user|>\n${opener}\n<|assistant|>\n`;
+    : userText;
+  return (
+    `<start_of_turn>system\n${persona.systemPrompt}<end_of_turn>\n` +
+    `<start_of_turn>user\n${opener}<end_of_turn>\n` +
+    `<start_of_turn>model\n`
+  );
 }
 
 // ──────────────────────────────────────────────────────────────────────────
@@ -67,7 +78,7 @@ export function buildPrompt(persona: Persona, userText: string, topic?: string):
 /**
  * Picks a canned line from the persona, biased by surface keywords in the
  * user's text. Mirrors the previous behaviour of `src/ai/chat.ts` so the
- * Chat screen renders the same content whether or not Llama is loaded.
+ * Chat screen renders the same content whether or not the model is loaded.
  *
  * The bias logic is fully synchronous; the artificial delay just makes the
  * typing indicator visible. Real runtime replaces this entirely.
@@ -132,8 +143,11 @@ export const mockRuntime: LlmRuntime & {
  * Stub for the production runtime. Wire this up once:
  *
  *   - `llama.rn` is added to package.json
- *   - `assets/models/llama-3.2-1b-instruct-q4_k_m.gguf` is in the bundle
- *   - The 4 GB RAM guard in `index.ts` enables this branch
+ *   - `assets/models/gemma-3-1b-it-q4_k_m.gguf` is in the bundle
+ *      (source: https://huggingface.co/google/gemma-3-1b-it-GGUF)
+ *   - Per-persona LoRA adapters from training/personas/ are built and
+ *     placed in `assets/models/{larva,snail,maywind}.gguf`
+ *   - The 2 GB RAM guard in `index.ts` enables this branch
  *
  * Throws today. Keep `mockRuntime` selected in `index.ts` until the
  * native module ships.

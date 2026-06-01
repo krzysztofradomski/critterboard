@@ -1,6 +1,6 @@
 # Critterboard — Persona LoRA Training
 
-Pipeline for fine-tuning per-persona LoRA adapters on top of a shared `Llama-3.2-1B-Instruct` base. **Do not run this until the system-prompt approach has shipped and you've measured real drift in user chats** — see `docs/ml-roadmap.md` § Track 2 for the decision criteria.
+Pipeline for fine-tuning per-persona LoRA adapters on top of a shared `google/gemma-3-1b-it` base. **Do not run this until the system-prompt approach has shipped and you've measured real drift in user chats** — see `docs/ml-roadmap.md` § Track 2 for the decision criteria.
 
 ## What this produces
 
@@ -10,7 +10,7 @@ Pipeline for fine-tuning per-persona LoRA adapters on top of a shared `Llama-3.2
 | `exported/snail.gguf` | ~15 MB | `llamaRnRuntime` (persona = snail) |
 | `exported/maywind.gguf` | ~15 MB | `llamaRnRuntime` (persona = maywind) |
 
-Adapters are **swapped at persona-change time** — the base model stays loaded once. ~800 MB base + 3 × 15 MB adapters = ~845 MB total bundle weight.
+Adapters are **swapped at persona-change time** — the base model stays loaded once. ~670 MB base + 3 × 15 MB adapters = ~715 MB total bundle weight.
 
 ## Pipeline (5 steps)
 
@@ -79,4 +79,4 @@ The bottleneck is **curation hours**, not GPU minutes. Plan one full day of huma
 
 - **Bundle size**: a full 1B fine-tune is ~700 MB. Three personas = 2.1 GB → app gets rejected from the App Store.
 - **LoRA**: ~15 MB per adapter, hot-swappable at runtime via `llama.cpp`'s adapter API.
-- **Base upgrades for free**: when Llama 3.3 ships, swap the base, train the LoRAs again — same data, same script.
+- **Base upgrades for free**: when a newer Gemma ships, swap `CFG["base_model"]` in `03_train_lora.py`, retrain — same data, same script.
