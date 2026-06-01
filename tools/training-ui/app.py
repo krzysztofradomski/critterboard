@@ -1,13 +1,11 @@
 """
 Critterboard Training Dashboard
 =================================
-Streamlit GUI for training both the vision classifier and persona LoRA adapters.
+Streamlit GUI for training the vision classifier and persona LoRA adapters,
+plus live insect identification using the trained model.
 
 Run from anywhere in the repo:
     streamlit run tools/training-ui/app.py
-
-Or from this directory:
-    streamlit run app.py
 """
 
 import json
@@ -21,11 +19,11 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+from PIL import Image
 
 # ── Path constants ─────────────────────────────────────────────────────────────
-
 TOOL_DIR     = Path(__file__).resolve().parent
-ROOT_DIR     = TOOL_DIR.parent.parent            # critterboard root
+ROOT_DIR     = TOOL_DIR.parent.parent
 TRAINING_DIR = ROOT_DIR / "training"
 LOCAL_DIR    = TRAINING_DIR / "local"
 PERSONAS_DIR = TRAINING_DIR / "personas"
@@ -43,8 +41,26 @@ PERSONAS_EXPO_DIR    = PERSONAS_DIR / "exported"
 
 PERSONA_NAMES = ["larva", "snail", "maywind"]
 
-# ── Page config ────────────────────────────────────────────────────────────────
+# ── Load insect data module ────────────────────────────────────────────────────
+sys.path.insert(0, str(LOCAL_DIR))
+try:
+    from insect_data import SPECIES_DATA, SPECIES_BY_SCIENTIFIC, SPECIES_BY_COMMON, get_by_label
+    INSECT_DATA_AVAILABLE = True
+except ImportError:
+    INSECT_DATA_AVAILABLE = False
+    SPECIES_DATA = []
 
+# ── Optional torch import (needed for inference only) ─────────────────────────
+try:
+    import torch
+    import torch.nn as nn
+    import torchvision.models as tv_models
+    import torchvision.transforms as T
+    TORCH_AVAILABLE = True
+except ImportError:
+    TORCH_AVAILABLE = False
+
+# ── Page config ────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Critterboard Training",
     page_icon="🦗",
@@ -55,12 +71,24 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-    /* tighter metric cards */
     [data-testid="metric-container"] { padding: 4px 0; }
-    /* muted caption color */
     .step-caption { color: #94a3b8; font-size: 0.85rem; margin-bottom: 0.5rem; }
-    /* code output scrollable */
     .stCodeBlock { max-height: 400px; overflow-y: auto; }
+    .species-card {
+        border: 1px solid #334155;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 8px;
+        background: #1e293b;
+    }
+    .source-chip {
+        display: inline-block;
+        background: #1e3a5f;
+        border-radius: 4px;
+        padding: 2px 8px;
+        margin: 2px;
+        font-size: 0.8rem;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -109,7 +137,6 @@ def save_jsonl(path: Path, rows: list[dict]) -> None:
 
 
 def file_size_str(path: Path) -> str:
-    """Human-readable file/dir size."""
     try:
         if path.is_file():
             sz = path.stat().st_size
@@ -136,10 +163,6 @@ def run_script(
     env: dict = None,
     spinner_text: str = "Running…",
 ) -> tuple[int, str]:
-    """
-    Spawn a subprocess and stream its stdout+stderr into a Streamlit code block.
-    Returns (returncode, full_output_string).
-    """
     merged_env = {**os.environ, **(env or {})}
     lines: list[str] = []
     output_box = st.empty()
@@ -172,11 +195,100 @@ def run_script(
 
 
 # ════════════════════════════════════════════════════════════════════════════════
-# SIDEBAR — live status
+# INFERENCE HELPERS
+# ════════════════════════════════════════════════════════════════════════════════
+
+def _find_model_and_class_map() -> tuple[Path | None, Path | None]:
+    """Locate the best available trained model and its class map."""
+    candidates = [
+        (LOCAL_CKPT_DIR / "best_model_lite.pth", LOCAL_CKPT_DIR / "class_map_lite.json"),
+        (LOCAL_CKPT_DIR / "best_model.pth",       LOCAL_CKPT_DIR / "class_map.json"),
+    ]
+    for model_path, cm_path in candidates:
+        if model_path.exists() and cm_path.exists():
+            return model_path, cm_path
+    return None, None
+
+
+@st.cache_resource
+def load_classifier():
+    """Load the trained model. Cached across Streamlit reruns."""
+    if not TORCH_AVAILABLE:
+        return None, None, "PyTorch not installed."
+
+    model_path, cm_path = _find_model_and_class_map()
+    if model_path is None:
+        return None, None, "No trained model found. Train one first."
+
+    try:
+        class_map: dict = json.loads(cm_path.read_text())
+        num_classes = len(class_map)
+
+        ckpt = torch.load(model_path, map_location="cpu", weights_only=False)
+        arch = ckpt.get("model_arch", "mobilenet_v3_small")
+
+        if arch == "mobilenet_v3_small":
+            model = tv_models.mobilenet_v3_small(weights=None)
+            in_features = model.classifier[-1].in_features
+            model.classifier[-1] = nn.Linear(in_features, num_classes)
+        else:
+            # EfficientNetV2-S from full training pipeline (uses timm)
+            try:
+                import timm
+                model = timm.create_model(
+                    "efficientnetv2_s", pretrained=False, num_classes=num_classes
+                )
+            except ImportError:
+                return None, None, "timm not installed; needed for efficientnetv2_s."
+
+        model.load_state_dict(ckpt["model_state"])
+        model.eval()
+        return model, class_map, None
+    except Exception as exc:
+        return None, None, f"Failed to load model: {exc}"
+
+
+def predict_image(pil_img: Image.Image, top_k: int = 3) -> list[dict]:
+    """
+    Run the trained classifier on a PIL image.
+    Returns list of dicts: [{label, confidence, species_info}, …].
+    """
+    model, class_map, err = load_classifier()
+    if model is None:
+        return []
+
+    transform = T.Compose([
+        T.Resize(256),
+        T.CenterCrop(224),
+        T.ToTensor(),
+        T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+    ])
+
+    tensor = transform(pil_img.convert("RGB")).unsqueeze(0)
+    with torch.no_grad():
+        logits = model(tensor)
+        probs  = torch.softmax(logits, dim=1)[0]
+
+    k = min(top_k, len(class_map))
+    top_idx = probs.argsort(descending=True)[:k].tolist()
+
+    results = []
+    for idx in top_idx:
+        label = class_map.get(str(idx), f"Class {idx}")
+        conf  = probs[idx].item()
+        info  = get_by_label(label) if INSECT_DATA_AVAILABLE else None
+        results.append({"label": label, "confidence": conf, "species_info": info})
+    return results
+
+
+# ════════════════════════════════════════════════════════════════════════════════
+# SIDEBAR
 # ════════════════════════════════════════════════════════════════════════════════
 
 data_exists  = dir_has_files(LOCAL_DATA_DIR)
-ckpt_exists  = (LOCAL_CKPT_DIR / "best_model.pth").exists()
+ckpt_lite    = (LOCAL_CKPT_DIR / "best_model_lite.pth").exists()
+ckpt_full    = (LOCAL_CKPT_DIR / "best_model.pth").exists()
+ckpt_exists  = ckpt_lite or ckpt_full
 onnx_exists  = (LOCAL_EXPO_DIR / "insect_classifier.onnx").exists()
 mlpkg_exists = (LOCAL_EXPO_DIR / "insect_classifier.mlpackage").exists()
 
@@ -187,10 +299,11 @@ with st.sidebar:
 
     st.markdown("**Vision Classifier**")
     for ok, label in [
-        (data_exists,  "Dataset downloaded"),
-        (ckpt_exists,  "Model checkpoint"),
-        (onnx_exists,  "ONNX export"),
-        (mlpkg_exists, "CoreML export"),
+        (data_exists,   "Dataset downloaded"),
+        (ckpt_lite,     "Lite model  (MobileNetV3)"),
+        (ckpt_full,     "Full model  (EfficientNetV2)"),
+        (onnx_exists,   "ONNX export"),
+        (mlpkg_exists,  "CoreML export"),
     ]:
         st.markdown(f"{'🟢' if ok else '⚪'} {label}")
 
@@ -220,7 +333,9 @@ with st.sidebar:
 # MAIN TABS
 # ════════════════════════════════════════════════════════════════════════════════
 
-tab_vision, tab_persona, tab_status = st.tabs([
+tab_identify, tab_guide, tab_vision, tab_persona, tab_status = st.tabs([
+    "🔍  Identify",
+    "📚  Species Guide",
     "🦋  Vision Classifier",
     "🧠  Persona Training",
     "📦  Model Status",
@@ -228,18 +343,350 @@ tab_vision, tab_persona, tab_status = st.tabs([
 
 
 # ════════════════════════════════════════════════════════════════════════════════
-# TAB 1 · VISION CLASSIFIER
+# TAB 1 · IDENTIFY
+# ════════════════════════════════════════════════════════════════════════════════
+
+with tab_identify:
+    st.header("🔍 Identify an Insect")
+    st.markdown(
+        "Upload a photo and the trained classifier will suggest which of the "
+        "**20 common Central European insect species** it might be, along with "
+        "detailed species information."
+    )
+
+    # ── Status check ─────────────────────────────────────────────────────────
+    model, class_map_loaded, model_err = load_classifier()
+
+    if not TORCH_AVAILABLE:
+        st.error(
+            "PyTorch is not installed in this environment.  \n"
+            "Install it with:  \n"
+            "```bash\npip install torch torchvision\n```"
+        )
+    elif model is None:
+        st.warning(
+            "No trained model found yet. "
+            "Go to the **🦋 Vision Classifier** tab and run **Quick Train** "
+            "to train a model in ~15–30 minutes on CPU, or run the full "
+            "pipeline for higher accuracy."
+        )
+        if st.button("→ Go to Vision Classifier tab", key="goto_vc"):
+            st.info("Click the **🦋 Vision Classifier** tab above.")
+    else:
+        arch_label = "MobileNetV3-Small (lite)" if ckpt_lite else "EfficientNetV2-S (full)"
+        # Detect if this was trained on synthetic demo data
+        demo_data = (LOCAL_DATA_DIR / "47219" / "demo_0000.jpg").exists()
+        if demo_data and not ckpt_full:
+            st.warning(
+                f"Model loaded: **{arch_label}** — {len(class_map_loaded)} classes  \n"
+                "⚠️ **Demo model:** Trained on synthetic images — will classify "
+                "the synthetic colour-pattern images correctly but will NOT identify "
+                "real insect photos accurately.  "
+                "Retrain with real iNaturalist data for live identification.",
+                icon="⚠️",
+            )
+        else:
+            st.success(f"Model loaded: **{arch_label}** — {len(class_map_loaded)} classes")
+
+    st.divider()
+
+    col_upload, col_results = st.columns([1, 1])
+
+    with col_upload:
+        st.subheader("Upload photo")
+        uploaded = st.file_uploader(
+            "Insect photo", type=["jpg", "jpeg", "png", "webp"], key="id_upload",
+            label_visibility="collapsed",
+        )
+        top_k = st.slider("Show top predictions", 1, 5, 3, key="id_topk")
+
+        if uploaded:
+            pil_img = Image.open(uploaded).convert("RGB")
+            st.image(pil_img, caption="Uploaded image", use_container_width=True)
+
+        run_id = st.button(
+            "🔍  Identify", type="primary", key="btn_identify",
+            disabled=(not uploaded or model is None),
+            use_container_width=True,
+        )
+
+        if run_id and uploaded:
+            with st.spinner("Running classifier…"):
+                preds = predict_image(pil_img, top_k=top_k)
+            st.session_state["id_preds"] = preds
+
+    with col_results:
+        st.subheader("Predictions")
+        preds = st.session_state.get("id_preds", [])
+
+        if not preds and model is not None:
+            st.info("Upload a photo and click **Identify** to see results.")
+        elif preds:
+            for rank, pred in enumerate(preds, 1):
+                label = pred["label"]
+                conf  = pred["confidence"]
+                conf_pct = conf * 100
+                emoji = "🥇" if rank == 1 else ("🥈" if rank == 2 else "🥉" if rank == 3 else f"#{rank}")
+                st.progress(conf, text=f"{emoji}  **{label}**  —  {conf_pct:.1f}%")
+
+    # ── Species detail for top prediction ─────────────────────────────────────
+    preds = st.session_state.get("id_preds", [])
+    if preds:
+        st.divider()
+        top_pred = preds[0]
+        info = top_pred.get("species_info")
+
+        if info:
+            _render_species_detail(info) if "render" in dir() else None  # forward ref guard
+            col_name, col_meta = st.columns([3, 2])
+            with col_name:
+                st.subheader(f"{info['common_name']}")
+                st.markdown(f"*{info['scientific_name']}*  \n"
+                            f"**Order:** {info['order']} | **Family:** {info['family']}")
+            with col_meta:
+                if info.get("size_mm"):
+                    st.metric("Length", f"{info['size_mm']} mm")
+                if info.get("wingspan_mm"):
+                    st.metric("Wingspan", f"{info['wingspan_mm']} mm")
+                status = info.get("conservation_status", "")
+                if status:
+                    colour = "green" if "Least" in status else ("orange" if "Near" in status else "red")
+                    st.markdown(f"**Conservation:** :{colour}[{status}]")
+
+            st.markdown("**Description**")
+            st.markdown(info["description"])
+
+            desc_cols = st.columns(2)
+            with desc_cols[0]:
+                if info.get("habitat"):
+                    st.markdown("**Habitat**")
+                    st.markdown(info["habitat"])
+                if info.get("distribution"):
+                    st.markdown("**Distribution**")
+                    st.markdown(info["distribution"])
+            with desc_cols[1]:
+                if info.get("diet"):
+                    st.markdown("**Diet**")
+                    st.markdown(info["diet"])
+                if info.get("behavior"):
+                    st.markdown("**Behaviour**")
+                    st.markdown(info["behavior"])
+
+            if info.get("identification_tips"):
+                st.info(f"🔎 **ID tips:** {info['identification_tips']}")
+
+            if info.get("interesting_facts"):
+                st.markdown("**Interesting facts**")
+                for fact in info["interesting_facts"]:
+                    st.markdown(f"- {fact}")
+
+            if info.get("sources"):
+                st.markdown("**Sources & further reading**")
+                source_html = " ".join(
+                    f'<a href="{s["url"]}" target="_blank" '
+                    f'style="background:#1e3a5f;border-radius:4px;padding:3px 10px;'
+                    f'margin:2px;display:inline-block;text-decoration:none;color:#93c5fd;">'
+                    f'{s["name"]}</a>'
+                    for s in info["sources"]
+                )
+                st.markdown(source_html, unsafe_allow_html=True)
+        else:
+            label = top_pred["label"]
+            st.info(
+                f"Top prediction: **{label}** ({top_pred['confidence']:.1%} confidence)  \n"
+                "Detailed species information not available for this label."
+            )
+
+
+# ════════════════════════════════════════════════════════════════════════════════
+# TAB 2 · SPECIES GUIDE
+# ════════════════════════════════════════════════════════════════════════════════
+
+with tab_guide:
+    st.header("📚 Species Guide")
+    st.markdown(
+        "Reference guide for the **20 common Central European insect species** "
+        "included in the classifier. Tap a species to expand full information."
+    )
+
+    if not INSECT_DATA_AVAILABLE:
+        st.error(
+            "Species data not found. Make sure `insect_data.py` is present in "
+            f"`{LOCAL_DIR}`."
+        )
+    else:
+        # Order filter
+        orders = sorted({s["order"] for s in SPECIES_DATA})
+        sel_orders = st.multiselect(
+            "Filter by Order", orders, default=orders, key="guide_orders"
+        )
+
+        filtered = [s for s in SPECIES_DATA if s["order"] in sel_orders]
+        st.caption(f"Showing {len(filtered)} of {len(SPECIES_DATA)} species")
+
+        for sp in filtered:
+            label = (
+                f"**{sp['common_name']}** — *{sp['scientific_name']}*  "
+                f"| {sp['order']} / {sp['family']}"
+            )
+            with st.expander(label):
+                col_info, col_meta = st.columns([3, 1])
+
+                with col_info:
+                    st.markdown(sp["description"])
+
+                    if sp.get("habitat"):
+                        st.markdown(f"🌿 **Habitat:** {sp['habitat']}")
+                    if sp.get("distribution"):
+                        st.markdown(f"🗺️ **Distribution:** {sp['distribution']}")
+                    if sp.get("diet"):
+                        st.markdown(f"🍽️ **Diet:** {sp['diet']}")
+                    if sp.get("behavior"):
+                        st.markdown(f"🔄 **Behaviour:** {sp['behavior']}")
+                    if sp.get("identification_tips"):
+                        st.info(f"🔎 **ID tips:** {sp['identification_tips']}")
+
+                with col_meta:
+                    if sp.get("size_mm"):
+                        st.metric("Length", f"{sp['size_mm']} mm")
+                    if sp.get("wingspan_mm"):
+                        st.metric("Wingspan", f"{sp['wingspan_mm']} mm")
+
+                    status = sp.get("conservation_status", "")
+                    if status:
+                        if "Least" in status:
+                            st.success(f"**{status}**")
+                        elif "Near" in status or "Vulnerable" in status:
+                            st.warning(f"**{status}**")
+                        else:
+                            st.error(f"**{status}**")
+
+                    st.markdown(
+                        f"[iNaturalist](https://www.inaturalist.org/taxa/{sp['taxon_id']})",
+                    )
+
+                if sp.get("interesting_facts"):
+                    st.markdown("**Interesting facts**")
+                    for fact in sp["interesting_facts"]:
+                        st.markdown(f"- {fact}")
+
+                if sp.get("sources"):
+                    st.markdown("**Sources**")
+                    for src in sp["sources"]:
+                        st.markdown(f"- [{src['name']}]({src['url']})")
+
+
+# ════════════════════════════════════════════════════════════════════════════════
+# TAB 3 · VISION CLASSIFIER
 # ════════════════════════════════════════════════════════════════════════════════
 
 with tab_vision:
     st.header("Vision Classifier Pipeline")
+
+    # ── Quick Train section (CPU/cloud friendly) ──────────────────────────────
+    st.subheader("⚡ Quick Train (CPU-friendly)")
+    st.markdown(
+        "Trains a **MobileNetV3-Small** classifier using feature extraction — "
+        "suitable for CPU-only environments including cloud containers.  \n"
+        "**Total time: ~15–30 min** (mostly download).  "
+        "Produces `best_model_lite.pth` used by the 🔍 Identify tab."
+    )
+
+    qt_col1, qt_col2 = st.columns([3, 2])
+
+    with qt_col1:
+        with st.form("quick_train_form"):
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                qt_images  = st.number_input("Images per class", value=40,  min_value=15, max_value=150, step=5)
+                qt_epochs  = st.number_input("Epochs",           value=30,  min_value=5,  max_value=100)
+            with c2:
+                qt_bs      = st.number_input("Batch size",       value=32,  min_value=4,  max_value=128, step=4)
+                qt_lr      = st.number_input("Learning rate",    value=1e-3, format="%.0e",
+                                              min_value=1e-5, max_value=1e-1)
+            with c3:
+                qt_workers = st.number_input("Download workers", value=8,   min_value=1, max_value=16)
+                qt_skip_dl = st.checkbox("Skip download (use existing data)", value=data_exists)
+
+            qt_demo = st.checkbox(
+                "Use synthetic demo data (offline / no iNaturalist access)",
+                value=False,
+                help=(
+                    "Generates synthetic colour-pattern images for each species. "
+                    "The model will classify these synthetic images well but will NOT "
+                    "generalise to real insect photos. "
+                    "Use this to test the full pipeline without internet access. "
+                    "For real-world performance, leave unchecked and allow iNaturalist download."
+                ),
+            )
+
+            qt_submit = st.form_submit_button("⚡  Quick Train", type="primary")
+
+        if qt_demo:
+            st.info(
+                "**Demo mode:** Synthetic images give the classifier something to learn "
+                "and prove the end-to-end pipeline works, but the resulting model will "
+                "not identify real insect photos accurately.  \n"
+                "For real identification, clear the `data/images/` folder and retrain "
+                "without demo mode once iNaturalist API access is available.",
+                icon="ℹ️",
+            )
+
+        if qt_submit:
+            cmd = [sys.executable, "train_lite.py",
+                   "--images", str(int(qt_images)),
+                   "--epochs", str(int(qt_epochs)),
+                   "--batch-size", str(int(qt_bs)),
+                   "--lr", str(qt_lr),
+                   "--workers", str(int(qt_workers))]
+            if qt_demo:
+                cmd.append("--demo")
+            elif qt_skip_dl:
+                cmd.append("--no-download")
+            load_classifier.clear()
+            run_script(cmd, cwd=LOCAL_DIR,
+                       spinner_text="Quick training… (download + feature extraction + training)")
+            st.rerun()
+
+    with qt_col2:
+        st.markdown("**Quick Train vs Full Training**")
+        st.markdown(
+            "| | Quick Train | Full Train |\n"
+            "|---|---|---|\n"
+            "| Model | MobileNetV3-S | EfficientNetV2-S |\n"
+            "| Backbone | Frozen | Fine-tuned |\n"
+            "| Images | 40/class | 150/class |\n"
+            "| Time | ~15–30 min | ~45 min (M2) |\n"
+            "| Top-1 acc | ~60–75% | ~75–90% |\n"
+            "| GPU needed | No | Recommended |\n"
+        )
+
+        history_lite = LOCAL_CKPT_DIR / "history_lite.json"
+        if history_lite.exists():
+            h = json.loads(history_lite.read_text())
+            if h:
+                df_h = pd.DataFrame(h)
+                st.markdown("**Lite training curve**")
+                st.line_chart(
+                    df_h.set_index("epoch")[["train_acc", "top1_acc", "top3_acc"]],
+                    use_container_width=True, height=160,
+                )
+                best = df_h.loc[df_h["top1_acc"].idxmax()]
+                c1, c2 = st.columns(2)
+                c1.metric("Best val top-1", f"{best['top1_acc']:.1%}")
+                c2.metric("Best val top-3", f"{best['top3_acc']:.1%}")
+
+        if ckpt_lite:
+            st.success(f"✅ Lite checkpoint present ({file_size_str(LOCAL_CKPT_DIR / 'best_model_lite.pth')})")
+
+    st.divider()
+    st.markdown("### Full Training Pipeline")
     st.markdown(
         "EfficientNetV2-S fine-tuned on Central European insect photos.  \n"
         "Four steps: **Download → Train → Test → Export**."
     )
 
     # ── Step 1: Download ──────────────────────────────────────────────────────
-
     with st.expander("### Step 1 · Download Dataset", expanded=not data_exists):
         left, right = st.columns([3, 2])
 
@@ -261,10 +708,10 @@ with tab_vision:
 
                 sp_rows = [
                     {
-                        "Common Name": m["common_name"],
+                        "Common Name":    m["common_name"],
                         "Scientific Name": m["scientific_name"],
-                        "Taxon ID": m["taxon_id"],
-                        "Images": _img_count(m["taxon_id"]),
+                        "Taxon ID":       m["taxon_id"],
+                        "Images":         _img_count(m["taxon_id"]),
                     }
                     for m in manifest
                 ]
@@ -296,13 +743,12 @@ with tab_vision:
                 run_script(
                     [sys.executable, "01_setup_and_download.py"],
                     cwd=LOCAL_DIR,
-                    spinner_text="Downloading dataset… (15–30 min, check console for progress)",
+                    spinner_text="Downloading dataset… (15–30 min)",
                 )
                 st.rerun()
 
     # ── Step 2: Train ─────────────────────────────────────────────────────────
-
-    with st.expander("### Step 2 · Train Model", expanded=data_exists and not ckpt_exists):
+    with st.expander("### Step 2 · Train Full Model", expanded=data_exists and not ckpt_full):
         left, right = st.columns([3, 2])
 
         with left:
@@ -310,14 +756,14 @@ with tab_vision:
                 "Two-phase EfficientNetV2-S fine-tune:  \n"
                 "• **Phase 1** — head-only warm-up (frozen backbone)  \n"
                 "• **Phase 2** — full fine-tune with cosine LR decay  \n\n"
-                "Runtime: ~**30–40 min** on M2 Mac (MPS), ~**2–4 h** on CPU."
+                "Runtime: ~**30–40 min** on M2 Mac, ~**2–4 h** on CPU."
             )
 
             if not data_exists:
                 st.warning("⚠️  Dataset not found — complete Step 1 first.")
 
             with st.form("train_config_form"):
-                st.markdown("**Hyperparameters** *(passed to training script via env vars)*")
+                st.markdown("**Hyperparameters**")
                 c1, c2, c3 = st.columns(3)
                 with c1:
                     f_batch  = st.number_input("Batch size",     value=32,  min_value=4,   max_value=256, step=4)
@@ -331,14 +777,11 @@ with tab_vision:
                     f_minimages = st.number_input("Min images/class",value=30,  min_value=5,   max_value=200)
 
                 mps_fallback = st.checkbox(
-                    "PYTORCH_ENABLE_MPS_FALLBACK (macOS — fixes some MPS ops)",
+                    "PYTORCH_ENABLE_MPS_FALLBACK (macOS)",
                     value=sys.platform == "darwin",
                 )
-
                 submitted = st.form_submit_button(
-                    "🚀  Start Training",
-                    type="primary",
-                    disabled=not data_exists,
+                    "🚀  Start Training", type="primary", disabled=not data_exists,
                 )
 
             if submitted and data_exists:
@@ -352,10 +795,10 @@ with tab_vision:
                 }
                 if mps_fallback:
                     env_patch["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
+                load_classifier.clear()
                 run_script(
                     [sys.executable, "02_train.py"],
-                    cwd=LOCAL_DIR,
-                    env=env_patch,
+                    cwd=LOCAL_DIR, env=env_patch,
                     spinner_text="Training… (30–40 min on M2, longer on CPU)",
                 )
                 st.rerun()
@@ -369,8 +812,7 @@ with tab_vision:
                     df_h = pd.DataFrame(h)
                     st.line_chart(
                         df_h.set_index("epoch")[["train_acc", "top1_acc", "top3_acc"]],
-                        use_container_width=True,
-                        height=220,
+                        use_container_width=True, height=220,
                     )
                     best = df_h.loc[df_h["top1_acc"].idxmax()]
                     c1, c2 = st.columns(2)
@@ -381,14 +823,13 @@ with tab_vision:
             else:
                 st.info("Training history will appear here once Step 2 completes.")
 
-            if ckpt_exists:
-                st.success(f"✅ Checkpoint exists  ({file_size_str(LOCAL_CKPT_DIR / 'best_model.pth')})")
+            if ckpt_full:
+                st.success(f"✅ Checkpoint  ({file_size_str(LOCAL_CKPT_DIR / 'best_model.pth')})")
 
     # ── Step 3: Inference test ─────────────────────────────────────────────────
-
     with st.expander("### Step 3 · Test Inference", expanded=False):
         if not ckpt_exists:
-            st.warning("⚠️  No checkpoint found — complete Step 2 first.")
+            st.warning("⚠️  No checkpoint found — complete Step 1 (Quick Train) or Step 2 first.")
         else:
             left, right = st.columns(2)
 
@@ -397,7 +838,7 @@ with tab_vision:
                 uploaded = st.file_uploader(
                     "Insect photo", type=["jpg", "jpeg", "png", "webp"], key="v_upload",
                 )
-                top_k     = st.slider("Top-K predictions", 1, 5, 3, key="v_topk")
+                top_k_v   = st.slider("Top-K predictions", 1, 5, 3, key="v_topk")
                 use_demo  = st.checkbox("Use random dataset image (--demo)", key="v_demo")
 
                 if uploaded:
@@ -412,71 +853,61 @@ with tab_vision:
                 st.markdown("**Predictions**")
 
                 if run_infer and can_run:
-                    tmp_path = None
                     if uploaded:
-                        with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as tmp:
-                            tmp.write(uploaded.getvalue())
-                            tmp_path = tmp.name
-                        cmd = [sys.executable, "03_inference_test.py",
-                               "--image", tmp_path, "--top", str(top_k)]
+                        pil_img = Image.open(uploaded).convert("RGB")
+                        with st.spinner("Running inference…"):
+                            preds_v = predict_image(pil_img, top_k=top_k_v)
+                        st.session_state["v_last_preds"] = preds_v
                     else:
-                        cmd = [sys.executable, "03_inference_test.py",
-                               "--demo", "--top", str(top_k)]
+                        # fall back to subprocess for --demo mode
+                        script = "03_inference_test.py" if ckpt_full else "train_lite.py"
+                        if ckpt_full:
+                            cmd_v = [sys.executable, "03_inference_test.py",
+                                     "--demo", "--top", str(top_k_v)]
+                            rc, output = run_script(
+                                cmd_v, cwd=LOCAL_DIR, spinner_text="Running inference…"
+                            )
+                            preds_v = []
+                            for line in output.splitlines():
+                                m = re.match(r"\s+#(\d+)\s+([\d.]+)%\s+[█\s]*\s+(.+)", line)
+                                if m:
+                                    preds_v.append({
+                                        "label":      m.group(3).strip(),
+                                        "confidence": float(m.group(2)) / 100,
+                                        "species_info": None,
+                                    })
+                            st.session_state["v_last_preds"] = preds_v
 
-                    rc, output = run_script(
-                        cmd, cwd=LOCAL_DIR, spinner_text="Running inference…"
-                    )
-                    if tmp_path:
-                        try:
-                            os.unlink(tmp_path)
-                        except OSError:
-                            pass
-
-                    # Parse: "  #1  87.3%  ████████  Apis mellifera"
-                    preds = []
-                    for line in output.splitlines():
-                        m = re.match(r"\s+#(\d+)\s+([\d.]+)%\s+[█\s]*\s+(.+)", line)
-                        if m:
-                            preds.append({
-                                "rank":       int(m.group(1)),
-                                "confidence": float(m.group(2)),
-                                "species":    m.group(3).strip(),
-                            })
-                    if preds:
-                        st.session_state["v_last_preds"] = preds
-
-                preds = st.session_state.get("v_last_preds", [])
-                if preds:
-                    for p in preds:
-                        conf_frac = p["confidence"] / 100
+                preds_v = st.session_state.get("v_last_preds", [])
+                if preds_v:
+                    for p in preds_v:
                         st.progress(
-                            conf_frac,
-                            text=f"#{p['rank']}  {p['species']}  —  {p['confidence']:.1f}%",
+                            p["confidence"],
+                            text=f"**{p['label']}**  —  {p['confidence']*100:.1f}%",
                         )
-                    st.caption("Values from most recent identification")
                 else:
                     st.info("Run identification to see predictions here.")
 
     # ── Step 4: Export ────────────────────────────────────────────────────────
-
     with st.expander("### Step 4 · Export for Mobile", expanded=False):
         st.markdown(
-            "Converts the best checkpoint to `.onnx` (Android) and `.mlpackage` (iOS).  \n"
-            "After exporting, copy to `assets/models/` and flip `USE_NATIVE_VISION = true` "
-            "in `src/ai/index.ts`."
+            "Converts the best full checkpoint to `.onnx` (Android) and "
+            "`.mlpackage` (iOS).  \n"
+            "After exporting, copy to `assets/models/` and flip "
+            "`USE_NATIVE_VISION = true` in `src/ai/index.ts`."
         )
 
-        if not ckpt_exists:
-            st.warning("⚠️  No checkpoint — complete Step 2 first.")
+        if not ckpt_full:
+            st.warning("⚠️  No full checkpoint — complete Step 2 first.")
         else:
             c_files, c_actions = st.columns([2, 1])
 
             with c_files:
                 st.markdown("**Export targets**")
                 for path, label in [
-                    (LOCAL_EXPO_DIR / "insect_classifier.onnx",     "ONNX — Android (ONNX Runtime)"),
-                    (LOCAL_EXPO_DIR / "insect_classifier.mlpackage", "CoreML — iOS (Vision framework)"),
-                    (LOCAL_CKPT_DIR / "class_map.json",              "class_map.json — label index"),
+                    (LOCAL_EXPO_DIR / "insect_classifier.onnx",     "ONNX — Android"),
+                    (LOCAL_EXPO_DIR / "insect_classifier.mlpackage", "CoreML — iOS"),
+                    (LOCAL_CKPT_DIR / "class_map.json",              "class_map.json"),
                 ]:
                     exists = path.exists()
                     size   = file_size_str(path) if exists else ""
@@ -490,8 +921,7 @@ with tab_vision:
                              use_container_width=True):
                     run_script(
                         [sys.executable, "04_export.py"],
-                        cwd=LOCAL_DIR,
-                        spinner_text="Exporting to ONNX + CoreML…",
+                        cwd=LOCAL_DIR, spinner_text="Exporting to ONNX + CoreML…",
                     )
                     st.rerun()
 
@@ -527,7 +957,7 @@ with tab_vision:
 
 
 # ════════════════════════════════════════════════════════════════════════════════
-# TAB 2 · PERSONA TRAINING
+# TAB 4 · PERSONA TRAINING
 # ════════════════════════════════════════════════════════════════════════════════
 
 with tab_persona:
@@ -537,36 +967,30 @@ with tab_persona:
         "Five steps: **Seed → Curate → Train → Test → Export**."
     )
     st.info(
-        "💡 Only start this pipeline after the system-prompt approach shows noticeable "
-        "drift in real user testing — see `docs/ml-roadmap.md` § Track 2 for the decision criteria.",
+        "💡 Only start this pipeline after the system-prompt approach shows "
+        "noticeable drift in real user testing — see `docs/ml-roadmap.md` "
+        "§ Track 2 for the decision criteria.",
         icon="💡",
     )
-
-    # ── Step 1: Seed generation ───────────────────────────────────────────────
 
     with st.expander("### Step 1 · Generate Seed Examples", expanded=True):
         st.markdown(
             "Bootstraps ~80 dialogue examples per persona using the Anthropic API.  \n"
-            "Reads system prompts directly from `src/personas/index.ts` "
-            "(the app's prompts are the ground truth).  \n"
+            "Reads system prompts directly from `src/personas/index.ts`.  \n"
             "Estimated cost: **~$1–3** with claude-haiku-4-5."
         )
 
         c_key, c_opts = st.columns(2)
         with c_key:
             api_key = st.text_input(
-                "ANTHROPIC_API_KEY",
-                type="password",
-                placeholder="sk-ant-…",
+                "ANTHROPIC_API_KEY", type="password", placeholder="sk-ant-…",
                 value=os.environ.get("ANTHROPIC_API_KEY", ""),
-                help="Used only locally to call the Anthropic API. Never stored.",
+                help="Used only locally. Never stored.",
             )
         with c_opts:
             seed_model = st.selectbox(
                 "Model",
                 options=["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
-                index=0,
-                help="Haiku is fastest & cheapest. Opus produces richer examples but costs more.",
             )
             seed_personas = st.multiselect(
                 "Personas to seed", PERSONA_NAMES, default=PERSONA_NAMES,
@@ -593,17 +1017,13 @@ with tab_persona:
                 )
                 st.rerun()
 
-    # ── Step 2: Curation ──────────────────────────────────────────────────────
-
     with st.expander("### Step 2 · Curate Examples", expanded=False):
         st.markdown(
-            "Review each AI-generated example. Accept it as-is, edit it, or reject it.  \n"
-            "**Target: 300 curated examples per persona** for stable fine-tuning.  \n"
-            "This step is the real bottleneck — budget a full day of review time."
+            "Review each AI-generated example. Accept, edit, or reject.  \n"
+            "**Target: 300 curated examples per persona.**"
         )
 
         curate_persona = st.selectbox("Persona", PERSONA_NAMES, key="curate_persona_sel")
-
         seed_path    = PERSONAS_SEED_DIR    / f"{curate_persona}.jsonl"
         curated_path = PERSONAS_CURATED_DIR / f"{curate_persona}.jsonl"
         seed_rows    = load_jsonl(seed_path)
@@ -615,10 +1035,8 @@ with tab_persona:
         c3.metric("Target",        300)
 
         if curated_rows:
-            st.progress(
-                min(len(curated_rows) / 300, 1.0),
-                text=f"{len(curated_rows)} / 300  ({len(curated_rows)/300*100:.0f}%)",
-            )
+            st.progress(min(len(curated_rows) / 300, 1.0),
+                        text=f"{len(curated_rows)} / 300  ({len(curated_rows)/300*100:.0f}%)")
 
         if not seed_rows:
             st.info("No seed examples yet — run Step 1 first.")
@@ -627,16 +1045,14 @@ with tab_persona:
             if idx_key not in st.session_state:
                 st.session_state[idx_key] = 0
 
-            idx = max(0, min(int(st.session_state[idx_key]), len(seed_rows) - 1))
+            idx     = max(0, min(int(st.session_state[idx_key]), len(seed_rows) - 1))
             current = seed_rows[idx]
 
             st.divider()
             c_prog, c_nav = st.columns([3, 1])
             with c_prog:
-                st.progress(
-                    (idx + 1) / len(seed_rows),
-                    text=f"Example {idx + 1} of {len(seed_rows)} — use arrows or jump below",
-                )
+                st.progress((idx + 1) / len(seed_rows),
+                            text=f"Example {idx + 1} of {len(seed_rows)}")
             with c_nav:
                 new_idx = st.number_input(
                     "Jump to #", min_value=1, max_value=len(seed_rows),
@@ -658,66 +1074,54 @@ with tab_persona:
             )
 
             c_acc, c_rej, c_skip = st.columns(3)
-
             with c_acc:
                 if st.button("✅  Accept", key=f"acc_{curate_persona}_{idx}",
                              use_container_width=True, type="primary"):
                     curated_rows.append({
                         "instruction": current["instruction"],
-                        "input":       "",
-                        "output":      edited_output,
+                        "input": "",
+                        "output": edited_output,
                     })
                     save_jsonl(curated_path, curated_rows)
                     st.session_state[idx_key] = min(idx + 1, len(seed_rows) - 1)
                     st.rerun()
-
             with c_rej:
                 if st.button("❌  Reject", key=f"rej_{curate_persona}_{idx}",
                              use_container_width=True):
                     st.session_state[idx_key] = min(idx + 1, len(seed_rows) - 1)
                     st.rerun()
-
             with c_skip:
-                if st.button("⏭️  Skip for now", key=f"skip_{curate_persona}_{idx}",
+                if st.button("⏭️  Skip", key=f"skip_{curate_persona}_{idx}",
                              use_container_width=True):
                     st.session_state[idx_key] = min(idx + 1, len(seed_rows) - 1)
                     st.rerun()
 
-            # Browse saved curated examples
             if curated_rows:
-                with st.expander(f"Browse saved curated examples ({len(curated_rows)})"):
+                with st.expander(f"Browse saved examples ({len(curated_rows)})"):
                     df_cur = pd.DataFrame(curated_rows)
-                    if "instruction" in df_cur.columns and "output" in df_cur.columns:
+                    if "instruction" in df_cur.columns:
                         st.dataframe(
                             df_cur[["instruction", "output"]].rename(
                                 columns={"instruction": "Question", "output": "Response"}
                             ),
-                            use_container_width=True,
-                            hide_index=True,
-                            height=300,
+                            use_container_width=True, hide_index=True, height=300,
                         )
                     csv_bytes = df_cur.to_csv(index=False).encode()
                     st.download_button(
-                        "⬇️ Export curated as CSV",
-                        data=csv_bytes,
-                        file_name=f"{curate_persona}_curated.csv",
-                        mime="text/csv",
+                        "⬇️ Export as CSV", data=csv_bytes,
+                        file_name=f"{curate_persona}_curated.csv", mime="text/csv",
                     )
-
-    # ── Step 3: LoRA training ─────────────────────────────────────────────────
 
     with st.expander("### Step 3 · Train LoRA Adapters", expanded=False):
         st.markdown(
             "Trains one 15 MB LoRA adapter per persona on top of Llama-3.2-1B-Instruct.  \n"
-            "Best on Kaggle T4 GPU (`training/personas/kaggle/`). Works on M-series Mac (slower).  \n"
-            "Hot-swappable at runtime — base model stays loaded between persona switches."
+            "Best on Kaggle T4 GPU. Works on M-series Mac (slower)."
         )
 
         curated_counts = {
             p: jsonl_count(PERSONAS_CURATED_DIR / f"{p}.jsonl")
             for p in PERSONA_NAMES
         }
-
         c1, c2, c3 = st.columns(3)
         for col, (persona, count) in zip([c1, c2, c3], curated_counts.items()):
             icon = "🟢" if count >= 300 else ("🟡" if count >= 100 else "🔴")
@@ -725,36 +1129,29 @@ with tab_persona:
                        delta="ready" if count >= 100 else "need more")
 
         with st.form("lora_config_form"):
-            st.markdown("**LoRA config**")
             c_cfg1, c_cfg2 = st.columns(2)
             with c_cfg1:
                 lora_r      = st.number_input("Rank (r)",       value=8,   min_value=2,   max_value=64)
                 lora_alpha  = st.number_input("Alpha",          value=16,  min_value=4,   max_value=256)
                 lora_epochs = st.number_input("Epochs",         value=3,   min_value=1,   max_value=20)
             with c_cfg2:
-                lora_lr  = st.number_input("Learning rate",  value=2e-4, format="%.0e",
-                                           min_value=1e-5, max_value=1e-2)
-                lora_bs  = st.number_input("Batch size",     value=4,   min_value=1,   max_value=64)
+                lora_lr = st.number_input("Learning rate", value=2e-4, format="%.0e",
+                                          min_value=1e-5, max_value=1e-2)
+                lora_bs = st.number_input("Batch size",    value=4,   min_value=1,   max_value=64)
 
-            mps_lora = st.checkbox(
-                "PYTORCH_ENABLE_MPS_FALLBACK (macOS)", value=sys.platform == "darwin"
-            )
-
-            eligible_personas = [p for p, c in curated_counts.items() if c >= 30]
+            mps_lora = st.checkbox("PYTORCH_ENABLE_MPS_FALLBACK (macOS)",
+                                   value=sys.platform == "darwin")
+            eligible = [p for p, c in curated_counts.items() if c >= 30]
             train_personas = st.multiselect(
-                "Personas to train (need ≥ 30 curated each)",
-                options=eligible_personas,
-                default=eligible_personas,
+                "Personas to train (need ≥ 30 curated)", options=eligible, default=eligible,
             )
-
             start_lora = st.form_submit_button(
-                "🚀  Start LoRA Training",
-                type="primary",
-                disabled=not eligible_personas or not train_personas,
+                "🚀  Start LoRA Training", type="primary",
+                disabled=not eligible or not train_personas,
             )
 
-        if not eligible_personas:
-            st.warning("⚠️  No persona has ≥ 30 curated examples — complete Step 2 first.")
+        if not eligible:
+            st.warning("⚠️  No persona has ≥ 30 curated examples.")
 
         if start_lora and train_personas:
             env_lora: dict[str, str] = {}
@@ -762,50 +1159,32 @@ with tab_persona:
                 env_lora["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
             run_script(
                 [sys.executable, "03_train_lora.py"],
-                cwd=PERSONAS_DIR,
-                env=env_lora,
-                spinner_text="Training LoRA adapters… (may take hours on CPU)",
+                cwd=PERSONAS_DIR, env=env_lora,
+                spinner_text="Training LoRA adapters…",
             )
             st.rerun()
 
-    # ── Step 4: Inference test ─────────────────────────────────────────────────
-
     with st.expander("### Step 4 · Test Persona Inference", expanded=False):
-        st.markdown(
-            "Side-by-side comparison: **base model + system prompt** vs "
-            "**base model + LoRA adapter**.  \n"
-            "Use this to verify the adapter actually shifts the voice as intended."
-        )
-
+        st.markdown("Side-by-side: base model vs base + LoRA adapter.")
         c_inp, c_out = st.columns(2)
         with c_inp:
             test_persona = st.selectbox("Persona", PERSONA_NAMES, key="p_test_sel")
             test_prompt  = st.text_area(
                 "Question",
                 value="What's the difference between a moth and a butterfly?",
-                height=100,
-                key="p_test_prompt",
+                height=100, key="p_test_prompt",
             )
             run_p_test = st.button("🔬  Run Comparison", key="btn_p_test", type="primary")
-
         with c_out:
-            st.markdown("**Script output**")
             if run_p_test:
                 run_script(
                     [sys.executable, "04_inference_test.py",
-                     "--persona", test_persona,
-                     "--prompt", test_prompt],
-                    cwd=PERSONAS_DIR,
-                    spinner_text="Running inference comparison…",
+                     "--persona", test_persona, "--prompt", test_prompt],
+                    cwd=PERSONAS_DIR, spinner_text="Running comparison…",
                 )
 
-    # ── Step 5: Export adapters ────────────────────────────────────────────────
-
     with st.expander("### Step 5 · Export GGUF Adapters", expanded=False):
-        st.markdown(
-            "Converts LoRA safetensors → GGUF adapter format for `llama.rn`.  \n"
-            "~15 MB per adapter, hot-swappable without reloading the base model."
-        )
+        st.markdown("Converts LoRA → GGUF for `llama.rn`. ~15 MB per adapter.")
 
         c_files, c_btn = st.columns([2, 1])
         ckpts_any = False
@@ -816,11 +1195,9 @@ with tab_persona:
                 gguf_ok = (PERSONAS_EXPO_DIR / f"{persona}.gguf").exists()
                 if ckpt_ok:
                     ckpts_any = True
-                gguf_size = file_size_str(PERSONAS_EXPO_DIR / f"{persona}.gguf") if gguf_ok else ""
                 st.markdown(
                     f"{tick(ckpt_ok)} Checkpoint: `checkpoints/{persona}/`  \n"
                     f"{tick(gguf_ok)} GGUF: `exported/{persona}.gguf`"
-                    + (f"  ({gguf_size})" if gguf_size else "")
                 )
 
         with c_btn:
@@ -831,14 +1208,12 @@ with tab_persona:
                              use_container_width=True):
                     run_script(
                         [sys.executable, "05_export_adapters.py"],
-                        cwd=PERSONAS_DIR,
-                        spinner_text="Exporting GGUF adapters…",
+                        cwd=PERSONAS_DIR, spinner_text="Exporting GGUF adapters…",
                     )
                     st.rerun()
 
                 all_ggufs = all(
-                    (PERSONAS_EXPO_DIR / f"{p}.gguf").exists()
-                    for p in PERSONA_NAMES
+                    (PERSONAS_EXPO_DIR / f"{p}.gguf").exists() for p in PERSONA_NAMES
                 )
                 if all_ggufs:
                     if st.button("📋  Copy to assets/models/", key="btn_copy_p",
@@ -848,12 +1223,12 @@ with tab_persona:
                             src = PERSONAS_EXPO_DIR / f"{persona}.gguf"
                             if src.exists():
                                 shutil.copy2(src, MODELS_DIR / f"{persona}.gguf")
-                        st.success("✅ All adapters copied to assets/models/!")
+                        st.success("✅ All adapters copied!")
                         st.rerun()
 
 
 # ════════════════════════════════════════════════════════════════════════════════
-# TAB 3 · MODEL STATUS
+# TAB 5 · MODEL STATUS
 # ════════════════════════════════════════════════════════════════════════════════
 
 with tab_status:
@@ -864,18 +1239,16 @@ with tab_status:
         if st.button("🔄 Refresh", key="btn_refresh_status", use_container_width=True):
             st.rerun()
 
-    # ── assets/models/ ────────────────────────────────────────────────────────
-
     st.subheader(f"📁 `{MODELS_DIR.relative_to(ROOT_DIR)}/`")
 
     expected_models = [
-        ("insect_classifier.onnx",             "Android vision classifier",              False),
-        ("insect_classifier.mlpackage",         "iOS vision classifier",                  False),
-        ("class_map.json",                      "Label → species mapping",                False),
+        ("insect_classifier.onnx",             "Android vision classifier",               False),
+        ("insect_classifier.mlpackage",         "iOS vision classifier",                   False),
+        ("class_map.json",                      "Label → species mapping (full model)",    False),
         ("llama-3.2-1b-instruct-q4_k_m.gguf",  "Base LLM — download separately (~800 MB)", True),
-        ("larva.gguf",                          "Larva persona adapter (~15 MB)",         False),
-        ("snail.gguf",                          "Snail persona adapter (~15 MB)",         False),
-        ("maywind.gguf",                        "Maywind persona adapter (~15 MB)",       False),
+        ("larva.gguf",                          "Larva persona adapter (~15 MB)",          False),
+        ("snail.gguf",                          "Snail persona adapter (~15 MB)",          False),
+        ("maywind.gguf",                        "Maywind persona adapter (~15 MB)",        False),
     ]
 
     asset_rows = []
@@ -883,50 +1256,31 @@ with tab_status:
         path   = MODELS_DIR / fname
         exists = path.exists()
         size   = file_size_str(path) if exists else "—"
-        if exists:
-            status = "✅ Present"
-        elif manual:
-            status = "⚠️ Download manually"
-        else:
-            status = "❌ Missing"
+        status = "✅ Present" if exists else ("⚠️ Download manually" if manual else "❌ Missing")
         asset_rows.append({"File": fname, "Description": desc, "Status": status, "Size": size})
 
     st.dataframe(pd.DataFrame(asset_rows), use_container_width=True, hide_index=True)
 
-    if not any((MODELS_DIR / f).exists() for f, *_ in expected_models):
-        st.info(
-            "No model files yet. Complete both pipelines and use the "
-            "'Copy to assets/models/' buttons in the tabs above."
-        )
-
-    # ── Manual LLM download note ─────────────────────────────────────────────
-
     with st.expander("How to get the base LLM weights"):
         st.markdown("""
-The base LLM (`llama-3.2-1b-instruct-q4_k_m.gguf`, ~800 MB) must be downloaded manually
-from the Hugging Face hub since it's too large to include in training scripts:
-
 ```bash
-# Option A: huggingface-cli
 pip install huggingface_hub
 huggingface-cli download bartowski/Llama-3.2-1B-Instruct-GGUF \\
     Llama-3.2-1B-Instruct-Q4_K_M.gguf \\
-    --local-dir assets/models/ \\
-    --local-dir-use-symlinks False
+    --local-dir assets/models/ --local-dir-use-symlinks False
 
-# Rename to match expected filename:
 mv assets/models/Llama-3.2-1B-Instruct-Q4_K_M.gguf \\
    assets/models/llama-3.2-1b-instruct-q4_k_m.gguf
-```
-""")
-
-    # ── Vision training artifacts ──────────────────────────────────────────────
+```""")
 
     st.subheader("🦋 Vision Training Artifacts")
 
     v_artifacts = [
         LOCAL_DATA_DIR,
         LOCAL_META_DIR / "species_manifest.json",
+        LOCAL_CKPT_DIR / "best_model_lite.pth",
+        LOCAL_CKPT_DIR / "class_map_lite.json",
+        LOCAL_CKPT_DIR / "history_lite.json",
         LOCAL_CKPT_DIR / "best_model.pth",
         LOCAL_CKPT_DIR / "class_map.json",
         LOCAL_CKPT_DIR / "history.json",
@@ -938,34 +1292,35 @@ mv assets/models/Llama-3.2-1B-Instruct-Q4_K_M.gguf \\
     for path in v_artifacts:
         exists = path.exists()
         v_rows.append({
-            "Path": str(path.relative_to(ROOT_DIR)),
+            "Path":   str(path.relative_to(ROOT_DIR)),
             "Status": tick(exists),
-            "Size": file_size_str(path) if exists else "—",
+            "Size":   file_size_str(path) if exists else "—",
         })
     st.dataframe(pd.DataFrame(v_rows), use_container_width=True, hide_index=True)
 
-    history_path = LOCAL_CKPT_DIR / "history.json"
-    if history_path.exists():
-        h = json.loads(history_path.read_text())
-        if h:
-            df_h = pd.DataFrame(h)
-            c_chart, c_metrics = st.columns([3, 1])
-            with c_chart:
-                st.markdown("**Training curve**")
-                st.line_chart(
-                    df_h.set_index("epoch")[["train_acc", "top1_acc", "top3_acc"]],
-                    use_container_width=True,
-                    height=220,
-                )
-            with c_metrics:
-                best = df_h.loc[df_h["top1_acc"].idxmax()]
-                st.metric("Best epoch", int(best["epoch"]))
-                st.metric("Top-1 acc",  f"{best['top1_acc']:.1%}")
-                st.metric("Top-3 acc",  f"{best['top3_acc']:.1%}")
-                last = df_h.iloc[-1]
-                st.metric("Train epochs", int(last["epoch"]))
-
-    # ── Persona training artifacts ─────────────────────────────────────────────
+    # Show training curves side by side
+    h_lite_path = LOCAL_CKPT_DIR / "history_lite.json"
+    h_full_path = LOCAL_CKPT_DIR / "history.json"
+    if h_lite_path.exists() or h_full_path.exists():
+        cols = st.columns(2)
+        for col, path, title in [
+            (cols[0], h_lite_path, "Lite model (MobileNetV3)"),
+            (cols[1], h_full_path, "Full model (EfficientNetV2)"),
+        ]:
+            if path.exists():
+                h = json.loads(path.read_text())
+                if h:
+                    df_h = pd.DataFrame(h)
+                    with col:
+                        st.markdown(f"**{title}**")
+                        st.line_chart(
+                            df_h.set_index("epoch")[["train_acc", "top1_acc", "top3_acc"]],
+                            use_container_width=True, height=180,
+                        )
+                        best = df_h.loc[df_h["top1_acc"].idxmax()]
+                        c1, c2 = st.columns(2)
+                        c1.metric("Top-1 acc", f"{best['top1_acc']:.1%}")
+                        c2.metric("Top-3 acc", f"{best['top3_acc']:.1%}")
 
     st.subheader("🧠 Persona Training Artifacts")
 
@@ -987,34 +1342,35 @@ mv assets/models/Llama-3.2-1B-Instruct-Q4_K_M.gguf \\
 
     st.dataframe(pd.DataFrame(p_rows), use_container_width=True, hide_index=True)
 
-    # ── Environment check ──────────────────────────────────────────────────────
-
     st.subheader("⚙️ Environment")
 
     c_sys1, c_sys2 = st.columns(2)
 
     with c_sys1:
         st.markdown(f"**Python** `{sys.version.split()[0]}`  \n**Platform** `{sys.platform}`")
-        try:
-            import torch
+        if TORCH_AVAILABLE:
             if torch.backends.mps.is_available():
                 accel = "✅ Apple MPS (M-series GPU)"
             elif torch.cuda.is_available():
                 accel = f"✅ CUDA — {torch.cuda.get_device_name(0)}"
             else:
-                accel = "⚠️ CPU only (training will be slow)"
+                accel = "⚠️ CPU only"
             st.markdown(f"**PyTorch** ✅ `{torch.__version__}`  \n**Accelerator** {accel}")
-        except ImportError:
+        else:
             st.markdown("**PyTorch** ❌ not installed")
-            st.code("pip install -r training/local/requirements.txt", language="bash")
+
+        if INSECT_DATA_AVAILABLE:
+            st.markdown(f"**Insect data** ✅ {len(SPECIES_DATA)} species loaded")
+        else:
+            st.markdown("**Insect data** ❌ insect_data.py not found")
 
     with c_sys2:
         for pkg, label in [
-            ("timm",          "timm (vision models)"),
+            ("timm",          "timm (EfficientNetV2)"),
+            ("torchvision",   "torchvision (MobileNetV3)"),
             ("transformers",  "Transformers"),
             ("peft",          "PEFT (LoRA)"),
             ("anthropic",     "Anthropic SDK"),
-            ("coremltools",   "CoreML Tools"),
             ("onnxruntime",   "ONNX Runtime"),
         ]:
             try:
@@ -1025,9 +1381,9 @@ mv assets/models/Llama-3.2-1B-Instruct-Q4_K_M.gguf \\
                 st.markdown(f"❌ **{label}** — not installed")
 
     with st.expander("Install dependencies"):
-        st.markdown("**Vision classifier requirements:**")
+        st.markdown("**Vision classifier (full pipeline):**")
         st.code("pip install -r training/local/requirements.txt", language="bash")
-        st.markdown("**Persona training requirements:**")
-        st.code("pip install -r training/personas/requirements.txt", language="bash")
-        st.markdown("**This dashboard:**")
+        st.markdown("**Dashboard + lite training:**")
         st.code("pip install -r tools/training-ui/requirements.txt", language="bash")
+        st.markdown("**Persona training:**")
+        st.code("pip install -r training/personas/requirements.txt", language="bash")
