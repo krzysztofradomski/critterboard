@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 
-import { chatAdapter, chatMode, localLlmChatAdapter, type ChatHistoryTurn } from '@/ai';
+import { chatAdapter, chatMode, localLlmChatAdapter, webNativeLlmChatAdapter, type ChatHistoryTurn } from '@/ai';
 import { IconBtn } from '@/components/IconBtn';
 import { BUGS, findBug } from '@/data/bugs';
 import { useT } from '@/i18n/helpers';
@@ -30,9 +30,15 @@ type Msg = { who: 'me' | 'larva'; t: string };
 type ActiveChatMode = 'local' | 'cloud' | 'offline';
 
 function resolveActiveMode(preferLocal: boolean): ActiveChatMode {
-  if (preferLocal && Platform.OS !== 'web') return 'local';
+  if (preferLocal) return 'local'; // web uses Gemini Nano; native uses llamaRn
   if (chatMode === 'gemini') return 'cloud';
   return 'offline';
+}
+
+function selectLocalAdapter() {
+  // On web: Chrome Built-in AI (Gemini Nano via Prompt API).
+  // On iOS/Android: on-device llama.rn runtime (Larva-3B GGUF).
+  return Platform.OS === 'web' ? webNativeLlmChatAdapter : localLlmChatAdapter;
 }
 
 function initialMessages(P: Persona, mode: ActiveChatMode, topic?: string): Msg[] {
@@ -69,7 +75,7 @@ export function Chat() {
   const storedThread = useAppStore((s) => s.chatThreads[threadId]);
 
   const activeMode = resolveActiveMode(profile.localLlmOn);
-  const activeChatAdapter = activeMode === 'local' ? localLlmChatAdapter : chatAdapter;
+  const activeChatAdapter = activeMode === 'local' ? selectLocalAdapter() : chatAdapter;
 
   const [msgs, setMsgs] = useState<Msg[]>(
     () =>
@@ -216,7 +222,9 @@ export function Chat() {
           <Text style={styles.headName}>{P.name}</Text>
           <Text style={styles.headStatus}>
             {activeMode === 'local'
-              ? t('chat.localStatus', { title: P.title })
+              ? Platform.OS === 'web'
+                ? t('chat.webNativeStatus', { title: P.title })
+                : t('chat.localStatus', { title: P.title })
               : activeMode === 'cloud'
                 ? t('chat.cloudStatus', { title: P.title })
                 : t('chat.offlineStatus', { title: P.title })}

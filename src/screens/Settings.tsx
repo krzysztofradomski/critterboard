@@ -14,6 +14,7 @@ import { PersonaPick } from "@/components/PersonaPick";
 import { SettingToggle } from "@/components/SettingToggle";
 import { Sticker } from "@/components/Sticker";
 import { REGIONS, type Region, type RegionStatus } from "@/data/regions";
+import { checkWebNativeLlmStatus, type WebNativeLlmStatus } from "@/ai";
 import { LANG_META, type LangId } from "@/i18n";
 import { useT } from "@/i18n/helpers";
 import { PERSONA_IDS } from "@/personas";
@@ -23,6 +24,20 @@ import { useAppStore } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
 
 const NAME_MAX = 18;
+
+function localLlmDesc(
+  os: string,
+  webStatus: WebNativeLlmStatus,
+  localLlmOn: boolean,
+  t: (key: string, vars?: Record<string, string | number>) => string,
+): string {
+  if (os === 'web') {
+    if (webStatus === 'readily') return t('settings.localLlmWebReady');
+    if (webStatus === 'after-download') return t('settings.localLlmWebDownloading');
+    return t('settings.localLlmNoWeb');
+  }
+  return localLlmOn ? t('settings.localLlmOn') : t('settings.localLlmOff');
+}
 
 export function Settings() {
   const { go } = useNav();
@@ -45,6 +60,12 @@ export function Settings() {
   const [downloading, setDownloading] = useState(true);
   const [pct, setPct] = useState(64);
   const [creditsOpen, setCreditsOpen] = useState(false);
+  const [webLlmStatus, setWebLlmStatus] = useState<WebNativeLlmStatus>('unavailable');
+
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+    checkWebNativeLlmStatus().then(setWebLlmStatus);
+  }, []);
   const [confirmMemoryWipe, setConfirmMemoryWipe] = useState(false);
   const [nameDraft, setNameDraft] = useState(profile.name);
   const [regions, setRegions] = useState<Record<string, RegionStatus>>(() => ({
@@ -335,19 +356,16 @@ export function Settings() {
           />
           <View style={{ height: 12 }} />
           <SettingToggle
-            icon="📱"
+            icon={Platform.OS === "web" ? "🌐" : "📱"}
             color={PB.pink}
             label={t("settings.localLlmLabel")}
-            desc={
-              Platform.OS === "web"
-                ? t("settings.localLlmNoWeb")
-                : profile.localLlmOn
-                  ? t("settings.localLlmOn")
-                  : t("settings.localLlmOff")
+            desc={localLlmDesc(Platform.OS, webLlmStatus, profile.localLlmOn, t)}
+            value={
+              profile.localLlmOn &&
+              (Platform.OS !== "web" || webLlmStatus !== "unavailable")
             }
-            value={profile.localLlmOn && Platform.OS !== "web"}
             onChange={(v) => setProfile({ localLlmOn: v })}
-            disabled={Platform.OS === "web"}
+            disabled={Platform.OS === "web" && webLlmStatus === "unavailable"}
           />
         </Sticker>
 

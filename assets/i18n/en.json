@@ -183,6 +183,7 @@
       "localStatus": "● on-device · {title}",
       "cloudStatus": "☁ cloud · {title}",
       "offlineStatus": "○ offline · {title}",
+      "webNativeStatus": "● Gemini Nano · {title}",
       "inputPlaceholder": "Ask about this bug…",
       "clearCta": "Clear chat"
     },
@@ -636,7 +637,9 @@
       "localLlmLabel": "Use on-device model",
       "localLlmOn": "Chat runs on your device. Private & offline.",
       "localLlmOff": "Uses cloud API when available, offline mock otherwise.",
-      "localLlmNoWeb": "On-device model not available in browser.",
+      "localLlmNoWeb": "Requires Chrome 127+ with Built-in AI (Gemini Nano).",
+      "localLlmWebReady": "Gemini Nano is on this device. Fully private.",
+      "localLlmWebDownloading": "Gemini Nano is downloading — toggle on once ready.",
       "regionsBand": "Regional packs",
       "regionsSub": "Boosts ID accuracy where you actually are.",
       "regionMeta": "{installed}/{total} · {mb} MB",
