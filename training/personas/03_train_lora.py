@@ -1,7 +1,7 @@
 """
 STEP 3: Train one LoRA adapter per persona.
 ===========================================
-Uses PEFT + TRL's SFTTrainer on top of meta-llama/Llama-3.2-1B-Instruct.
+Uses PEFT + TRL's SFTTrainer on top of google/gemma-3-1b-it.
 Each persona's curated dataset becomes a small adapter (~15 MB) that we
 hot-swap at runtime via llama.rn.
 
@@ -46,7 +46,7 @@ OUT_DIR    = ROOT / "adapters"
 OUT_DIR.mkdir(exist_ok=True)
 
 CFG = {
-    "base_model":     "meta-llama/Llama-3.2-1B-Instruct",
+    "base_model":     "google/gemma-3-1b-it",
     "max_seq_len":    512,
     "batch_size":     8,         # 8 on T4, drop to 2 on MPS
     "grad_accum":     2,
@@ -57,7 +57,7 @@ CFG = {
     "lora_dropout":   0.05,
     "warmup_steps":   10,
     "weight_decay":   0.01,
-    # Target the attention + MLP projections (standard Llama LoRA recipe).
+    # Gemma 3 shares the same attention + MLP projection names as Llama.
     "lora_targets":   ["q_proj", "k_proj", "v_proj", "o_proj",
                        "gate_proj", "up_proj", "down_proj"],
 }
@@ -78,9 +78,10 @@ def load_persona_prompts() -> dict[str, str]:
 # ── Dataset shaping ────────────────────────────────────────────────────────
 def to_chat(row: dict, system_prompt: str) -> dict:
     """
-    Format one curated row into the Llama-3 chat template. The persona's
-    systemPrompt comes from the app source — keeping the format identical
-    between training and inference is what makes the adapter generalize.
+    Format one curated row using the standard HuggingFace messages dict.
+    SFTTrainer calls tokenizer.apply_chat_template() which automatically
+    applies Gemma 3's <start_of_turn> format. The system prompt is folded
+    into the first user turn by the tokenizer (Gemma 3 style).
     """
     return {
         "messages": [

@@ -180,7 +180,10 @@
       }
     },
     "chat": {
-      "localStatus": "● local · {title}",
+      "localStatus": "● on-device · {title}",
+      "cloudStatus": "☁ cloud · {title}",
+      "offlineStatus": "○ offline · {title}",
+      "webNativeStatus": "● Gemini Nano · {title}",
       "inputPlaceholder": "Ask about this bug…",
       "clearCta": "Clear chat"
     },
@@ -200,7 +203,7 @@
         "a1Title": "antqueen liked your Monarch",
         "a1Sub": "2 hr ago · Brooklyn cluster",
         "a1Cta": "View sighting",
-        "a2Title": "Larva-3B v1.4 ready to install",
+        "a2Title": "Gemma 3 1B v1.4 ready to install",
         "a2Sub": "New jokes. Same vibe. 240 MB.",
         "a2Cta": "Update",
         "a3Title": "4-day streak! Don't break it",
@@ -622,15 +625,21 @@
       "model": {
         "bugNet": "BugNet v3",
         "bugNetMeta": "Vision · 412 MB · 10,247 species",
-        "larva": "Larva-3B (Q4)",
-        "larvaMeta": "Chat model · {pct} / 1.9 GB · {state}",
+        "larva": "Gemma 3 1B-IT (Q4)",
+        "larvaMeta": "Chat model · {pct} / 670 MB · {state}",
         "larvaInstalled": "installed",
-        "larvaEta": "~2 min left",
+        "larvaEta": "~1 min left",
         "species": "Species Database",
         "speciesMeta": "Facts & habitats · 88 MB · v2026.04",
         "ready": "READY",
         "downloading": "↓ {pct}%"
       },
+      "localLlmLabel": "Use on-device model",
+      "localLlmOn": "Chat runs on your device. Private & offline.",
+      "localLlmOff": "Uses cloud API when available, offline mock otherwise.",
+      "localLlmNoWeb": "Requires Chrome 127+ with Built-in AI (Gemini Nano).",
+      "localLlmWebReady": "Gemini Nano is on this device. Fully private.",
+      "localLlmWebDownloading": "Gemini Nano is downloading — toggle on once ready.",
       "regionsBand": "Regional packs",
       "regionsSub": "Boosts ID accuracy where you actually are.",
       "regionMeta": "{installed}/{total} · {mb} MB",
@@ -745,7 +754,7 @@
     "personas": {
       "larva": {
         "name": "Prof. Larva",
-        "title": "larva-3b · deadpan",
+        "title": "gemma-3-1b · deadpan",
         "blurb": "Snarky. Helpful in spite of itself.",
         "lines": {
           "intro": "\"Oh great, another trainer. Let me drop everything.\"",
@@ -772,7 +781,7 @@
       },
       "snail": {
         "name": "Dr. Snail",
-        "title": "snail-3b · patient",
+        "title": "gemma-3-1b · patient",
         "blurb": "Calm. Teaches at your pace.",
         "lines": {
           "intro": "\"Welcome. Take your time — we'll learn together.\"",
@@ -799,7 +808,7 @@
       },
       "maywind": {
         "name": "R.A. Maywind",
-        "title": "maywind-3b · curious",
+        "title": "gemma-3-1b · curious",
         "blurb": "Witty. Happy. Loves every bug.",
         "lines": {
           "intro": "\"Hi hi! Notebook ready, boots laced — let's find a critter!\"",
@@ -900,8 +909,8 @@
       },
       "models": {
         "bugnet": { "name": "BugNet v3",       "role": "Vision · 412 MB · 10,247 species" },
-        "larva":  { "name": "Larva-3B",        "role": "Chat · 1.9 GB · Q4 quantized" },
-        "variants": { "name": "Maywind / Snail", "role": "Persona variants of Larva-3B" }
+        "larva":  { "name": "Gemma 3 1B-IT",    "role": "Chat · 670 MB · Q4_K_M quantized" },
+        "variants": { "name": "Maywind / Snail", "role": "Persona LoRA adapters · 15 MB each" }
       },
       "data": {
         "iNat":  { "name": "iNaturalist",       "role": "Reference imagery (CC-BY-NC)" },

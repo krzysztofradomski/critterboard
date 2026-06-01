@@ -5,7 +5,7 @@
  * to enable each real model once it's ready.
  *
  * Vision priority: native > gemini > mock
- * Chat priority:   gemini > mock
+ * Chat priority:   local (device) > gemini > mock
  *
  * See `docs/ml-roadmap.md` for the full plan.
  */
@@ -13,7 +13,7 @@
 import { mockClassifier, nativeClassifier, type VisionClassifier } from '@/ai/vision';
 import { geminiVisionClassifier } from '@/ai/geminiVision';
 import { llamaRnRuntime, mockRuntime, type LlmRuntime } from '@/ai/llm';
-import { geminiChatAdapter, mockChatAdapter, type ChatAdapter } from '@/ai/chatAdapter';
+import { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter, type ChatAdapter } from '@/ai/chatAdapter';
 
 // Flip to true once MODEL_SOURCE is set in src/ai/executorchVision.ts
 // and insect_classifier.pte is available (run: python training/local/04_export.py --pte)
@@ -45,7 +45,9 @@ export { mockClassifier, nativeClassifier } from '@/ai/vision';
 export { useExecutorchClassifier } from '@/ai/executorchVision';
 export { geminiVisionClassifier } from '@/ai/geminiVision';
 export { mockRuntime, llamaRnRuntime, buildPrompt } from '@/ai/llm';
-export { geminiChatAdapter, mockChatAdapter } from '@/ai/chatAdapter';
+export { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter } from '@/ai/chatAdapter';
+export { webNativeLlmChatAdapter, checkWebNativeLlmStatus } from '@/ai/webNativeLlm';
+export type { WebNativeLlmStatus } from '@/ai/webNativeLlm';
 export type { Candidate, VisionClassifier, VisionFrame, ClassifyOptions } from '@/ai/vision';
 export type { ExecutorchState } from '@/ai/executorchVision';
 export type { LlmRuntime, CompleteOpts } from '@/ai/llm';

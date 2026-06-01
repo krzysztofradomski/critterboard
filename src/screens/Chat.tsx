@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 
-import { chatAdapter, chatMode, type ChatHistoryTurn } from '@/ai';
+import { chatAdapter, chatMode, localLlmChatAdapter, webNativeLlmChatAdapter, type ChatHistoryTurn } from '@/ai';
 import { IconBtn } from '@/components/IconBtn';
 import { BUGS, findBug } from '@/data/bugs';
 import { useT } from '@/i18n/helpers';
@@ -27,9 +27,23 @@ import { useNav } from '@/store/useNav';
 
 type Msg = { who: 'me' | 'larva'; t: string };
 
-function initialMessages(P: Persona, topic?: string): Msg[] {
+type ActiveChatMode = 'local' | 'cloud' | 'offline';
+
+function resolveActiveMode(preferLocal: boolean): ActiveChatMode {
+  if (preferLocal) return 'local'; // web uses Gemini Nano; native uses llamaRn
+  if (chatMode === 'gemini') return 'cloud';
+  return 'offline';
+}
+
+function selectLocalAdapter() {
+  // On web: Chrome Built-in AI (Gemini Nano via Prompt API).
+  // On iOS/Android: on-device llama.rn runtime (Larva-3B GGUF).
+  return Platform.OS === 'web' ? webNativeLlmChatAdapter : localLlmChatAdapter;
+}
+
+function initialMessages(P: Persona, mode: ActiveChatMode, topic?: string): Msg[] {
   const intro = topic ? P.lines.topicHello(topic) : P.lines.chatHello;
-  if (chatMode === 'gemini') return [{ who: 'larva', t: intro }];
+  if (mode === 'local' || mode === 'cloud') return [{ who: 'larva', t: intro }];
   return [
     { who: 'larva', t: intro },
     {
@@ -60,9 +74,14 @@ export function Chat() {
   const threadId = `${P.id}::${topic ?? 'general'}`;
   const storedThread = useAppStore((s) => s.chatThreads[threadId]);
 
+  const activeMode = resolveActiveMode(profile.localLlmOn);
+  const activeChatAdapter = activeMode === 'local' ? selectLocalAdapter() : chatAdapter;
+
   const [msgs, setMsgs] = useState<Msg[]>(
     () =>
-      (storedThread?.messages.length ? storedThread.messages : initialMessages(P, topic)) as Msg[],
+      (storedThread?.messages.length
+        ? storedThread.messages
+        : initialMessages(P, activeMode, topic)) as Msg[],
   );
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
@@ -71,12 +90,16 @@ export function Chat() {
   const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    // Switching thread/persona should cancel in-flight replies and load the
-    // persisted transcript for that thread.
+    // Switching thread/persona/mode should cancel in-flight replies and load
+    // the persisted transcript for that thread.
     abortRef.current?.abort();
     setTyping(false);
-    setMsgs((storedThread?.messages.length ? storedThread.messages : initialMessages(P, topic)) as Msg[]);
-  }, [threadId, P, topic]);
+    setMsgs(
+      (storedThread?.messages.length
+        ? storedThread.messages
+        : initialMessages(P, activeMode, topic)) as Msg[],
+    );
+  }, [threadId, P, topic, activeMode]);
 
   useEffect(() => {
     scrollRef.current?.scrollToEnd({ animated: true });
@@ -131,7 +154,7 @@ export function Chat() {
     }));
 
     try {
-      for await (const chunk of chatAdapter.streamReply({
+      for await (const chunk of activeChatAdapter.streamReply({
         persona: P,
         topic,
         userText: text,
@@ -197,7 +220,15 @@ export function Chat() {
         </View>
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text style={styles.headName}>{P.name}</Text>
-          <Text style={styles.headStatus}>{t('chat.localStatus', { title: P.title })}</Text>
+          <Text style={styles.headStatus}>
+            {activeMode === 'local'
+              ? Platform.OS === 'web'
+                ? t('chat.webNativeStatus', { title: P.title })
+                : t('chat.localStatus', { title: P.title })
+              : activeMode === 'cloud'
+                ? t('chat.cloudStatus', { title: P.title })
+                : t('chat.offlineStatus', { title: P.title })}
+          </Text>
         </View>
         <View style={styles.clearWrap}>
           <IconBtn
