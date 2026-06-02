@@ -667,6 +667,7 @@
     },
     "regions": {
       "list": {
+        "eu-ce": { "name": "Central Europe", "sub": "20 species · demo pack · pre-installed" },
         "na-ne": { "name": "Northeast NA", "sub": "2,140 species · trees, ponds, wetlands" },
         "na-sw": { "name": "Southwest NA", "sub": "1,880 species · desert & chaparral" },
         "eu-uk": { "name": "UK & Ireland", "sub": "1,420 species · hedgerow specialists" },
@@ -688,6 +689,30 @@
         "modelNotes": "MODEL NOTES",
         "foot": "Last updated {date} · checksum verified",
         "remove": "🗑 Remove pack ({mb} MB)",
+        "eu-ce": {
+          "tagline": "Gardens, meadows, woodland edges.",
+          "fam": {
+            "lep": "Lepidoptera (moths & butterflies)",
+            "hym": "Hymenoptera (bees & wasps)",
+            "col": "Coleoptera (beetles)",
+            "hem": "Hemiptera (true bugs)",
+            "odo": "Odonata (damselflies)",
+            "oth": "Other"
+          },
+          "why": {
+            "peac": "unmistakeable eyespot wings",
+            "swal": "largest European butterfly",
+            "stag": "UK & EU protected species",
+            "lady": "most recognised beetle",
+            "hcat": "essential pollinator",
+            "bdam": "common waterside damselfly"
+          },
+          "notes": [
+            "Demo pack — 20 Central European species.",
+            "MobileNetV3-Small, trained on iNaturalist photos.",
+            "Activate native model: set USE_NATIVE_VISION=true in src/ai/index.ts."
+          ]
+        },
         "na-ne": {
           "tagline": "Hardwood forests, beaver ponds, salt marsh.",
           "fam": {
@@ -699,12 +724,12 @@
             "oth": "Other"
           },
           "why": {
-            "mona": "iconic migrant",
-            "lhoc": "mid-summer emergence",
-            "drag": "beaver pond regular",
-            "fire": "June–July dusk",
+            "peac": "garden visitor",
+            "swal": "open meadow species",
+            "stag": "old woodland indicator",
             "lady": "widespread",
-            "walk": "oak / hickory"
+            "hcat": "common pollinator",
+            "bdam": "freshwater margin"
           },
           "notes": [
             "Salt-marsh species weighted higher than inland average.",
@@ -723,12 +748,12 @@
             "oth": "Other"
           },
           "why": {
-            "rhin": "monsoon flights",
-            "mant": "common roadside",
+            "buff": "widespread bumblebee",
+            "rchf": "iridescent flower visitor",
             "lady": "widespread",
-            "cica": "desert chorus",
-            "walk": "mesquite shrub",
-            "mona": "spring corridor"
+            "tort": "nettles & garden species",
+            "brim": "early spring flier",
+            "harl": "invasive but distinctive"
           },
           "notes": [
             "Native-bee fauna oversampled vs. honey bees.",
@@ -738,18 +763,26 @@
       }
     },
     "bugs": {
-      "mona": { "name": "Monarch Butterfly" },
-      "rhin": { "name": "Rhinoceros Beetle" },
-      "hcat": { "name": "Honeybee" },
-      "mant": { "name": "Praying Mantis" },
+      "hcat": { "name": "Honey Bee" },
+      "buff": { "name": "Buff-tailed Bumblebee" },
+      "gbee": { "name": "Garden Bumblebee" },
+      "wasp": { "name": "Common Wasp" },
+      "horn": { "name": "European Hornet" },
       "lady": { "name": "Seven-spot Ladybird" },
-      "drag": { "name": "Emperor Dragonfly" },
-      "lhoc": { "name": "Luna Moth" },
-      "fire": { "name": "Common Firefly" },
-      "cica": { "name": "Periodical Cicada" },
-      "hwsp": { "name": "Paper Wasp" },
-      "walk": { "name": "Walking Stick" },
-      "atla": { "name": "Atlas Moth" }
+      "harl": { "name": "Harlequin Ladybird" },
+      "stag": { "name": "Stag Beetle" },
+      "rchf": { "name": "Rose Chafer" },
+      "gshb": { "name": "Green Shield Bug" },
+      "bdam": { "name": "Common Blue Damselfly" },
+      "brim": { "name": "Common Brimstone" },
+      "peac": { "name": "Peacock Butterfly" },
+      "lwhi": { "name": "Large White" },
+      "swhi": { "name": "Small White" },
+      "orng": { "name": "Orange Tip" },
+      "radm": { "name": "Red Admiral" },
+      "tort": { "name": "Small Tortoiseshell" },
+      "pntl": { "name": "Painted Lady" },
+      "swal": { "name": "Common Swallowtail" }
     },
     "personas": {
       "larva": {

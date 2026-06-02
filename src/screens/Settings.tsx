@@ -69,7 +69,8 @@ export function Settings() {
   const [confirmMemoryWipe, setConfirmMemoryWipe] = useState(false);
   const [nameDraft, setNameDraft] = useState(profile.name);
   const [regions, setRegions] = useState<Record<string, RegionStatus>>(() => ({
-    "na-ne": "installed",
+    "eu-ce": "installed",
+    "na-ne": "available",
     "na-sw": "available",
     "eu-uk": "available",
     "eu-md": "available",
