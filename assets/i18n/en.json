@@ -632,7 +632,11 @@
         "species": "Species Database",
         "speciesMeta": "Facts & habitats · 88 MB · v2026.04",
         "ready": "READY",
-        "downloading": "↓ {pct}%"
+        "downloading": "↓ {pct}%",
+        "loading": "LOADING",
+        "error": "ERROR",
+        "get": "↓ GET",
+        "larvaIdle": "not on device"
       },
       "localLlmLabel": "Use on-device model",
       "localLlmOn": "Chat runs on your device. Private & offline.",

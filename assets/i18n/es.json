@@ -629,7 +629,11 @@
         "species": "Base de Especies",
         "speciesMeta": "Datos y hábitats · 88 MB · v2026.04",
         "ready": "LISTO",
-        "downloading": "↓ {pct}%"
+        "downloading": "↓ {pct}%",
+        "loading": "CARGANDO",
+        "error": "ERROR",
+        "get": "↓ GET",
+        "larvaIdle": "no en dispositivo"
       },
       "regionsBand": "Packs regionales",
       "regionsSub": "Mejoran la precisión donde de verdad estás.",
