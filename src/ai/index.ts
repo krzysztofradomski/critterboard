@@ -14,6 +14,8 @@ import { mockClassifier, nativeClassifier, type VisionClassifier } from '@/ai/vi
 import { geminiVisionClassifier } from '@/ai/geminiVision';
 import { llamaRnRuntime, mockRuntime, type LlmRuntime } from '@/ai/llm';
 import { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter, type ChatAdapter } from '@/ai/chatAdapter';
+import { withGuardrails } from '@/ai/guardrails';
+import { webNativeLlmChatAdapter } from '@/ai/webNativeLlm';
 
 // Flip to true once MODEL_SOURCE is set in src/ai/executorchVision.ts
 // and insect_classifier.pte is available (run: python training/local/04_export.py --pte)
@@ -37,10 +39,16 @@ export const visionMode: 'native' | 'gemini' | 'mock' =
   'mock';
 
 export const llm: LlmRuntime = USE_LLAMA_RN ? llamaRnRuntime : mockRuntime;
-export const chatAdapter: ChatAdapter =
-  USE_CLOUD_GEMINI_POC && HAS_GEMINI_API_KEY ? geminiChatAdapter : mockChatAdapter;
+export const chatAdapter: ChatAdapter = withGuardrails(
+  USE_CLOUD_GEMINI_POC && HAS_GEMINI_API_KEY ? geminiChatAdapter : mockChatAdapter,
+);
 export const chatMode: 'gemini' | 'mock' =
   USE_CLOUD_GEMINI_POC && HAS_GEMINI_API_KEY ? 'gemini' : 'mock';
+
+// Guarded singletons for the on-device adapters used in Chat.tsx.
+// These share the same guardrails config as the cloud adapter above.
+export const guardedLocalLlmChatAdapter: ChatAdapter = withGuardrails(localLlmChatAdapter);
+export const guardedWebNativeLlmChatAdapter: ChatAdapter = withGuardrails(webNativeLlmChatAdapter);
 
 export { mockClassifier, nativeClassifier } from '@/ai/vision';
 export { useExecutorchClassifier } from '@/ai/executorchVision';
@@ -48,6 +56,8 @@ export { geminiVisionClassifier } from '@/ai/geminiVision';
 export { mockRuntime, llamaRnRuntime, buildPrompt, MODEL_GGUF_FILENAME } from '@/ai/llm';
 export { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter } from '@/ai/chatAdapter';
 export { webNativeLlmChatAdapter, checkWebNativeLlmStatus } from '@/ai/webNativeLlm';
+export { withGuardrails, checkInput, redactPii } from '@/ai/guardrails';
+export type { GuardCode, GuardResult, GuardrailsConfig } from '@/ai/guardrails';
 export type { WebNativeLlmStatus } from '@/ai/webNativeLlm';
 export type { Candidate, VisionClassifier, VisionFrame, ClassifyOptions } from '@/ai/vision';
 export type { ExecutorchState } from '@/ai/executorchVision';
