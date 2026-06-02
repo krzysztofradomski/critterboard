@@ -10,7 +10,7 @@
  * A null URI (simulator / no camera) returns [] → NoMatch flow.
  */
 
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { generateText } from 'ai';
 
