@@ -33,16 +33,14 @@ Bug ID and AI always stay on-device. If you turn **Network** on in Settings, the
 
 Project status lives in [`tasks/todo.md`](tasks/todo.md) — the living checklist of what's shipped and what's next.
 
-**Local AI training** — The app UI and seams are done; real models aren't wired yet. Training pipelines are scaffolded and runnable:
+**Local AI training** — The app seams, training pipelines, and React Native integration are complete. One step remains before native vision is live on-device:
 
-- **Vision** — 20-species classifier on an M2 (`training/local/`), full EU run on Kaggle (`training/kaggle/`). Next step: export to `assets/models/` and flip `USE_NATIVE_VISION` in `src/ai/`.
-- **Personas** — LoRA pipeline for on-device Llama 3.2 1B (`training/personas/`). Next step: bundle a GGUF and flip `USE_LLAMA_RN` in `src/ai/`.
+- **Vision** — MobileNetV3-Small trained on 20 Central European species. `react-native-executorch` is wired into `Scan.tsx` and dormant until the `.pte` is generated. To activate: `pip install executorch && python training/local/04_export.py --pte`, then set `MODEL_SOURCE` in `src/ai/executorchVision.ts` and flip `USE_NATIVE_VISION = true` in `src/ai/index.ts`. Full pipeline docs in [`training/README.md`](training/README.md).
+- **Personas** — LoRA pipeline for on-device Gemma 3 1B-IT (`training/personas/`). Next step: bundle a GGUF and flip `USE_LLAMA_RN` in `src/ai/`.
 
 See [`docs/ml-roadmap.md`](docs/ml-roadmap.md) for the three-track plan and exit criteria.
 
 A local **Streamlit training dashboard** lives at [`tools/training-ui/`](tools/training-ui/) — run it to manage dataset downloads, kick off training jobs, test inference interactively, and copy exported models into `assets/models/`. See that folder's README for setup.
-
-**Cloudflare connectivity** — The client-side backend adapter is shipped (leaderboard, friends, activity feed). Social hooks gate on `profile.networkOn`; the mock resolves locally today. The Cloudflare Workers service is not deployed yet — `src/backend/cloudflare.ts` is a stub. Flip `USE_REMOTE_BACKEND` in `src/backend/index.ts` once the Worker is live. See [`docs/decisions/002-backend-adapter-seam.md`](docs/decisions/002-backend-adapter-seam.md).
 
 ## Links
 
