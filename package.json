@@ -2,7 +2,7 @@
   "name": "critterboard",
   "version": "1.4.0",
   "private": true,
-  "description": "Critterboard — offline insect ID with sass. React Native + TypeScript port of the handoff prototype.",
+  "description": "Critterboard \u2014 offline insect ID with sass. React Native + TypeScript port of the handoff prototype.",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -10,7 +10,10 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
-    "check": "npm run typecheck && npm run lint && npm run test"
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.79",
@@ -22,8 +25,6 @@
     "expo-asset": "~12.0.0",
     "expo-camera": "~16.0.18",
     "expo-file-system": "~19.0.0",
-    "react-native-executorch": "^0.10.0",
-    "react-native-executorch-expo-resource-fetcher": "^0.10.0",
     "expo-haptics": "~14.0.1",
     "expo-image-picker": "~16.0.6",
     "expo-location": "~18.0.10",
@@ -46,6 +47,7 @@
     "@types/react": "~18.3.12",
     "babel-plugin-module-resolver": "^5.0.3",
     "babel-preset-expo": "~12.0.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "vitest": "^2.0.0"
   }
 }
