@@ -205,7 +205,7 @@ export function Chat() {
     abortRef.current?.abort();
     setTyping(false);
     clearChatThread(threadId);
-    setMsgs(initialMessages(P, topic));
+    setMsgs(initialMessages(P, activeMode, topic));
   };
 
   return (

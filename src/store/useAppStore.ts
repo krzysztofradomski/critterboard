@@ -654,7 +654,7 @@ export const useAppStore = create<AppStore>()(
         let bytes = 0;
         for (const uri of uris) {
           try {
-            const info = await FileSystem.getInfoAsync(uri, { size: true });
+            const info = await FileSystem.getInfoAsync(uri);
             if (info.exists && typeof info.size === 'number') bytes += info.size;
             await FileSystem.deleteAsync(uri, { idempotent: true });
             deleted += 1;
