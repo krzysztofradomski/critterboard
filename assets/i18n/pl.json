@@ -629,7 +629,11 @@
         "species": "Baza Gatunków",
         "speciesMeta": "Fakty i siedliska · 88 MB · v2026.04",
         "ready": "GOTOWE",
-        "downloading": "↓ {pct}%"
+        "downloading": "↓ {pct}%",
+        "loading": "ŁADOWANIE",
+        "error": "BŁĄD",
+        "get": "↓ GET",
+        "larvaIdle": "nie na urządzeniu"
       },
       "regionsBand": "Pakiety regionalne",
       "regionsSub": "Zwiększają trafność ID tam, gdzie naprawdę jesteś.",

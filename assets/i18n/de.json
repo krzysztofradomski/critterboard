@@ -629,7 +629,11 @@
         "species": "Artendatenbank",
         "speciesMeta": "Fakten & Habitate · 88 MB · v2026.04",
         "ready": "BEREIT",
-        "downloading": "↓ {pct}%"
+        "downloading": "↓ {pct}%",
+        "loading": "LADEN",
+        "error": "FEHLER",
+        "get": "↓ GET",
+        "larvaIdle": "nicht auf Gerät"
       },
       "regionsBand": "Regionalpakete",
       "regionsSub": "Verbessert ID-Genauigkeit dort, wo du tatsächlich bist.",

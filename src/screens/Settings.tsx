@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import * as FileSystem from 'expo-file-system';
 import {
   Platform,
   Pressable,
@@ -14,7 +15,7 @@ import { PersonaPick } from "@/components/PersonaPick";
 import { SettingToggle } from "@/components/SettingToggle";
 import { Sticker } from "@/components/Sticker";
 import { REGIONS, type Region, type RegionStatus } from "@/data/regions";
-import { checkWebNativeLlmStatus, type WebNativeLlmStatus } from "@/ai";
+import { checkWebNativeLlmStatus, llamaRnRuntime, MODEL_GGUF_FILENAME, MODEL_GGUF_HF_URL, type WebNativeLlmStatus } from "@/ai";
 import { LANG_META, type LangId } from "@/i18n";
 import { useT } from "@/i18n/helpers";
 import { PERSONA_IDS } from "@/personas";
@@ -57,8 +58,11 @@ export function Settings() {
   const P = usePersona(persona);
   const t = useT();
 
-  const [downloading, setDownloading] = useState(true);
-  const [pct, setPct] = useState(64);
+  type ModelState = 'idle' | 'downloading' | 'loading' | 'ready' | 'error';
+  const [modelState, setModelState] = useState<ModelState>('idle');
+  const [downloadPct, setDownloadPct] = useState(0);
+  const dlRef = useRef<FileSystem.DownloadResumable | null>(null);
+  const modelPath = `${FileSystem.documentDirectory ?? ''}models/${MODEL_GGUF_FILENAME}`;
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [webLlmStatus, setWebLlmStatus] = useState<WebNativeLlmStatus>('unavailable');
 
@@ -86,25 +90,26 @@ export function Settings() {
     setNameDraft(profile.name);
   }, [profile.name]);
 
+  // Check on mount whether the model file is already on disk; if so, load it.
   useEffect(() => {
-    if (!downloading) return;
-    const id = setInterval(() => {
-      setPct((p) => {
-        if (p >= 100) {
-          setDownloading(false);
-          return 100;
-        }
-        return p + 1;
-      });
-    }, 220);
-    return () => clearInterval(id);
-  }, [downloading]);
+    if (Platform.OS === 'web') return;
+    FileSystem.getInfoAsync(modelPath).then(({ exists }) => {
+      if (!exists) return;
+      setModelState('loading');
+      llamaRnRuntime.load(modelPath)
+        .then(() => setModelState('ready'))
+        .catch(() => setModelState('error'));
+    });
+  // modelPath is derived from a constant; one-time check is intentional.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(
     () => () => {
       Object.values(downloadHandles.current).forEach(
         (h) => h && clearInterval(h),
       );
+      dlRef.current?.pauseAsync().catch(() => {});
     },
     [],
   );
@@ -116,6 +121,34 @@ export function Settings() {
     (acc, r) => (regions[r.id] === "installed" ? acc + r.size : acc),
     0,
   );
+
+  const startModelDownload = async () => {
+    if (modelState !== 'idle' && modelState !== 'error') return;
+    try {
+      const dir = `${FileSystem.documentDirectory ?? ''}models/`;
+      await FileSystem.makeDirectoryAsync(dir, { intermediates: true });
+      setModelState('downloading');
+      setDownloadPct(0);
+      const dl = FileSystem.createDownloadResumable(
+        MODEL_GGUF_HF_URL,
+        modelPath,
+        {},
+        ({ totalBytesWritten, totalBytesExpectedToWrite }) => {
+          if (totalBytesExpectedToWrite <= 0) return;
+          setDownloadPct(
+            Math.floor((totalBytesWritten / totalBytesExpectedToWrite) * 100),
+          );
+        },
+      );
+      dlRef.current = dl;
+      await dl.downloadAsync();
+      setModelState('loading');
+      await llamaRnRuntime.load(modelPath);
+      setModelState('ready');
+    } catch {
+      setModelState('error');
+    }
+  };
 
   const commitName = () => {
     const v = nameDraft.trim().slice(0, 18) || t("common.you");
@@ -340,19 +373,39 @@ export function Settings() {
             color={PB.pink}
             title={t("settings.model.larva")}
             meta={t("settings.model.larvaMeta", {
-              pct: `${(1.9 * (pct / 100)).toFixed(1)} GB`,
-              state: downloading
-                ? t("settings.model.larvaEta")
-                : t("settings.model.larvaInstalled"),
+              pct: `${(1.9 * (downloadPct / 100)).toFixed(1)} GB`,
+              state:
+                modelState === 'downloading'
+                  ? t("settings.model.larvaEta")
+                  : modelState === 'ready' || modelState === 'loading'
+                    ? t("settings.model.larvaInstalled")
+                    : t("settings.model.larvaIdle"),
             })}
             statusText={
-              downloading
-                ? t("settings.model.downloading", { pct })
-                : t("settings.model.ready")
+              modelState === 'ready'
+                ? t("settings.model.ready")
+                : modelState === 'downloading'
+                  ? t("settings.model.downloading", { pct: downloadPct })
+                  : modelState === 'loading'
+                    ? t("settings.model.loading")
+                    : modelState === 'error'
+                      ? t("settings.model.error")
+                      : t("settings.model.get")
             }
-            statusBg={downloading ? PB.yellow : PB.green}
-            statusFg={downloading ? PB.ink : PB.cream}
-            progressPct={pct}
+            statusBg={
+              modelState === 'ready' ? PB.green
+                : modelState === 'error' ? PB.red
+                : modelState === 'downloading' || modelState === 'loading' ? PB.yellow
+                : PB.cream2
+            }
+            statusFg={
+              modelState === 'ready' || modelState === 'error' ? PB.cream : PB.ink
+            }
+            progressPct={
+              modelState === 'downloading' ? downloadPct
+                : modelState === 'loading' || modelState === 'ready' ? 100
+                : undefined
+            }
             progressColor={PB.pink}
           />
           <View style={{ height: 12 }} />
@@ -365,7 +418,10 @@ export function Settings() {
               profile.localLlmOn &&
               (Platform.OS !== "web" || webLlmStatus !== "unavailable")
             }
-            onChange={(v) => setProfile({ localLlmOn: v })}
+            onChange={(v) => {
+              setProfile({ localLlmOn: v });
+              if (v && Platform.OS !== 'web') startModelDownload();
+            }}
             disabled={Platform.OS === "web" && webLlmStatus === "unavailable"}
           />
         </Sticker>

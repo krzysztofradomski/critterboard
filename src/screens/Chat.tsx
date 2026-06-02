@@ -11,7 +11,9 @@ import {
   View,
 } from 'react-native';
 
-import { chatAdapter, chatMode, localLlmChatAdapter, webNativeLlmChatAdapter, type ChatHistoryTurn } from '@/ai';
+import * as FileSystem from 'expo-file-system';
+
+import { chatAdapter, chatMode, localLlmChatAdapter, llamaRnRuntime, MODEL_GGUF_FILENAME, webNativeLlmChatAdapter, type ChatHistoryTurn } from '@/ai';
 import { IconBtn } from '@/components/IconBtn';
 import { BUGS, findBug } from '@/data/bugs';
 import { useT } from '@/i18n/helpers';
@@ -100,6 +102,15 @@ export function Chat() {
         : initialMessages(P, activeMode, topic)) as Msg[],
     );
   }, [threadId, P, topic, activeMode]);
+
+  // Eagerly load the on-device model when local mode is active on native so
+  // the first message doesn't wait for a cold-start. Silently no-ops when the
+  // GGUF hasn't been downloaded yet — localLlmChatAdapter shows the prompt.
+  useEffect(() => {
+    if (activeMode !== 'local' || Platform.OS === 'web') return;
+    const path = `${FileSystem.documentDirectory ?? ''}models/${MODEL_GGUF_FILENAME}`;
+    llamaRnRuntime.load(path).catch(() => {});
+  }, [activeMode]);
 
   useEffect(() => {
     scrollRef.current?.scrollToEnd({ animated: true });
