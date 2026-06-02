@@ -19,7 +19,7 @@ import { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter, type ChatAdapt
 // and insect_classifier.pte is available (run: python training/local/04_export.py --pte)
 export const USE_NATIVE_VISION = false;
 const USE_GEMINI_VISION = true;
-const USE_LLAMA_RN = false;       // flip after llama.rn is added + GGUF bundled
+const USE_LLAMA_RN = true;        // llama.rn wired; model downloaded on first launch
 const USE_CLOUD_GEMINI_POC = true; // temporary POC until on-device LLM ships
 const HAS_GEMINI_API_KEY = Boolean(
   process.env.GEMINI_API_KEY ??
@@ -45,7 +45,7 @@ export const chatMode: 'gemini' | 'mock' =
 export { mockClassifier, nativeClassifier } from '@/ai/vision';
 export { useExecutorchClassifier } from '@/ai/executorchVision';
 export { geminiVisionClassifier } from '@/ai/geminiVision';
-export { mockRuntime, llamaRnRuntime, buildPrompt } from '@/ai/llm';
+export { mockRuntime, llamaRnRuntime, buildPrompt, MODEL_GGUF_FILENAME } from '@/ai/llm';
 export { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter } from '@/ai/chatAdapter';
 export { webNativeLlmChatAdapter, checkWebNativeLlmStatus } from '@/ai/webNativeLlm';
 export type { WebNativeLlmStatus } from '@/ai/webNativeLlm';

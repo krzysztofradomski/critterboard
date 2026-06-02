@@ -136,33 +136,134 @@ export const mockRuntime: LlmRuntime & {
 };
 
 // ──────────────────────────────────────────────────────────────────────────
-// llama.rn implementation (placeholder)
+// llama.rn implementation
 // ──────────────────────────────────────────────────────────────────────────
 
-/**
- * Stub for the production runtime. Wire this up once:
- *
- *   - `llama.rn` is added to package.json
- *   - `assets/models/gemma-3-1b-it-q4_k_m.gguf` is in the bundle
- *      (source: https://huggingface.co/google/gemma-3-1b-it-GGUF)
- *   - Per-persona LoRA adapters from training/personas/ are built and
- *     placed in `assets/models/{larva,snail,maywind}.gguf`
- *   - The 2 GB RAM guard in `index.ts` enables this branch
- *
- * Throws today. Keep `mockRuntime` selected in `index.ts` until the
- * native module ships.
- */
+// Minimal local type — avoids a static import that would crash Metro when the
+// native module hasn't been linked yet. Mirrors the public llama.rn surface.
+type LlamaCtx = {
+  completion(
+    params: {
+      prompt: string;
+      n_predict?: number;
+      temperature?: number;
+      top_p?: number;
+      stop?: string[];
+      emit_partial_completion?: boolean;
+    },
+    callback?: (data: { token: string }) => void,
+  ): Promise<{ text: string }>;
+  stopCompletion(): Promise<void>;
+  release(): Promise<void>;
+};
+
+// Gemma 3 chat template stop tokens (matches buildPrompt above).
+const GEMMA_STOP = ['<end_of_turn>', '<eos>'];
+
+// Model asset — downloaded on first launch, not bundled (670 MB).
+// See assets/models/README.md for the download source.
+export const MODEL_GGUF_FILENAME = 'gemma-3-1b-it-q4_k_m.gguf';
+export const MODEL_GGUF_HF_URL =
+  'https://huggingface.co/google/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-q4_k_m.gguf';
+
+let _ctx: LlamaCtx | null = null;
+
 export const llamaRnRuntime: LlmRuntime = {
-  async load() {
-    throw new Error('llamaRnRuntime not wired yet. See docs/ml-roadmap.md § 2.2.');
+  async load(modelPath: string) {
+    if (_ctx) return;
+    // Dynamic import so the app doesn't crash on platforms where the native
+    // module isn't linked (Expo Go, web, CI). Load fails gracefully instead.
+    let initLlama: (params: {
+      model: string;
+      n_ctx?: number;
+      n_batch?: number;
+      n_threads?: number;
+      n_gpu_layers?: number;
+    }) => Promise<LlamaCtx>;
+    try {
+      ({ initLlama } = await import('llama.rn') as { initLlama: typeof initLlama });
+    } catch {
+      throw new Error(
+        'llama.rn native module not available. Run `npm install llama.rn` and rebuild the native app.',
+      );
+    }
+    _ctx = await initLlama({
+      model: modelPath,
+      n_ctx: 2048,
+      n_batch: 512,
+      n_threads: 4,
+      n_gpu_layers: 99, // Metal on iOS; silently capped to 0 on Android without Vulkan
+    });
   },
-  complete() {
-    throw new Error('llamaRnRuntime not wired yet. See docs/ml-roadmap.md § 2.2.');
+
+  async *complete(prompt: string, opts?: CompleteOpts): AsyncIterable<string> {
+    if (!_ctx) throw new Error('llamaRnRuntime: call load() before complete()');
+    const ctx = _ctx;
+
+    // Bridge the callback-based llama.rn API into an async generator using a
+    // simple token queue. Each partial token wakes the generator via a promise
+    // resolver so we yield as fast as the model produces.
+    const queue: string[] = [];
+    let wake: (() => void) | null = null;
+    let done = false;
+    let completionErr: unknown;
+
+    const completionPromise = ctx
+      .completion(
+        {
+          prompt,
+          n_predict: opts?.maxTokens ?? 512,
+          temperature: opts?.temperature ?? 0.7,
+          top_p: 0.9,
+          stop: GEMMA_STOP,
+          emit_partial_completion: true,
+        },
+        (data: { token: string }) => {
+          queue.push(data.token);
+          wake?.();
+          wake = null;
+        },
+      )
+      .then(() => {
+        done = true;
+        wake?.();
+        wake = null;
+      })
+      .catch((e: unknown) => {
+        completionErr = e;
+        done = true;
+        wake?.();
+        wake = null;
+      });
+
+    // Stop native generation on abort; remaining queued tokens still drain.
+    opts?.signal?.addEventListener('abort', () => {
+      ctx.stopCompletion().catch(() => {});
+    });
+
+    while (!done || queue.length > 0) {
+      if (queue.length === 0 && !done) {
+        await new Promise<void>((r) => {
+          wake = r;
+        });
+      }
+      while (queue.length > 0) {
+        yield queue.shift()!;
+      }
+    }
+
+    await completionPromise.catch(() => {});
+    if (completionErr && !opts?.signal?.aborted) throw completionErr;
   },
+
   async unload() {
-    /* no-op */
+    if (_ctx) {
+      await _ctx.release();
+      _ctx = null;
+    }
   },
+
   ready() {
-    return false;
+    return _ctx !== null;
   },
 };
