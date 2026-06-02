@@ -26,6 +26,8 @@ export interface Env {
   LEADERBOARD: KVNamespace;
   FEED_INBOX: DurableObjectNamespace;
   JWT_SECRET: string;
+  /** Comma-separated allowed origins, e.g. "https://app.critterboard.com". Defaults to '*' if unset. */
+  CORS_ORIGIN?: string;
 }
 
 // ── Wire types (mirrors src/backend/types.ts — kept in sync by hand) ─────────
@@ -178,7 +180,7 @@ async function hmacKey(secret: string): Promise<CryptoKey> {
 async function signJWT(userId: string, secret: string): Promise<string> {
   const header = b64urlStr(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
   const now = Math.floor(Date.now() / 1000);
-  const body = b64urlStr(JSON.stringify({ sub: userId, iat: now, exp: now + 30 * 24 * 3600 }));
+  const body = b64urlStr(JSON.stringify({ sub: userId, iat: now, exp: now + 7 * 24 * 3600 }));
   const unsigned = `${header}.${body}`;
   const key = await hmacKey(secret);
   const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(unsigned));
@@ -245,7 +247,7 @@ async function authenticate(request: Request, env: Env): Promise<string | Respon
 
 function parsePage(url: URL): { offset: number; limit: number } {
   const cursor = url.searchParams.get('cursor');
-  const offset = cursor ? Math.max(0, parseInt(cursor, 10)) : 0;
+  const offset = cursor ? Math.min(10_000, Math.max(0, parseInt(cursor, 10))) : 0;
   const limit = Math.min(100, Math.max(1, parseInt(url.searchParams.get('limit') ?? '20', 10)));
   return { offset, limit };
 }
@@ -272,6 +274,20 @@ function rowToUser(row: UserRow): BackendUser {
 // ── Handlers ──────────────────────────────────────────────────────────────────
 
 async function handleAuth(request: Request, env: Env): Promise<Response> {
+  // Rate-limit auth attempts to 10 per IP per minute using the LEADERBOARD KV.
+  const ip = request.headers.get('CF-Connecting-IP') ?? request.headers.get('X-Forwarded-For') ?? 'unknown';
+  const rlKey = `ratelimit:auth:${ip}`;
+  const rlNow = Math.floor(Date.now() / 1000);
+  const rlWindow = 60;
+  const rlMax = 10;
+  const rl = await env.LEADERBOARD.get<{ count: number; reset: number }>(rlKey, 'json');
+  if (rl && rl.reset > rlNow) {
+    if (rl.count >= rlMax) return json({ error: 'too many requests' }, 429);
+    await env.LEADERBOARD.put(rlKey, JSON.stringify({ count: rl.count + 1, reset: rl.reset }), { expirationTtl: rlWindow });
+  } else {
+    await env.LEADERBOARD.put(rlKey, JSON.stringify({ count: 1, reset: rlNow + rlWindow }), { expirationTtl: rlWindow });
+  }
+
   const body = (await request.json()) as { userId?: unknown };
   if (typeof body.userId !== 'string' || !body.userId) return json({ error: 'userId required' }, 400);
   const userId = body.userId;
@@ -620,38 +636,62 @@ export class FeedInbox implements DurableObject {
   }
 }
 
+// ── CORS origin helper ────────────────────────────────────────────────────────
+
+function resolveOrigin(request: Request, env: Env): string {
+  const configured = env.CORS_ORIGIN;
+  if (!configured) return '*';
+  const reqOrigin = request.headers.get('Origin') ?? '';
+  const allowed = configured.split(',').map((s) => s.trim());
+  return allowed.includes(reqOrigin) ? reqOrigin : (allowed[0] ?? '*');
+}
+
+function applyOrigin(response: Response, request: Request, env: Env): Response {
+  const origin = resolveOrigin(request, env);
+  if (origin === '*') return response; // static header already set to '*'
+  const headers = new Headers(response.headers);
+  headers.set('Access-Control-Allow-Origin', origin);
+  headers.set('Vary', 'Origin');
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+}
+
 // ── Main export ───────────────────────────────────────────────────────────────
+
+async function routeRequest(request: Request, env: Env): Promise<Response> {
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
+  }
+
+  const url = new URL(request.url);
+  const { pathname: path, method } = { pathname: url.pathname, method: request.method };
+
+  if (method === 'POST' && path === '/v1/auth') return handleAuth(request, env);
+
+  const authResult = await authenticate(request, env);
+  if (authResult instanceof Response) return authResult;
+  const userId = authResult;
+
+  if (method === 'GET'  && path === '/v1/identity')   return handleIdentity(userId, env);
+  if (method === 'POST' && path === '/v1/profile')    return handleSyncProfile(userId, request, env);
+  if (method === 'POST' && path === '/v1/catches')    return handlePublishCatch(userId, request, env);
+  if (method === 'GET'  && path === '/v1/leaderboard') return handleLeaderboard(userId, url, env);
+  if (method === 'GET'  && path === '/v1/friends')    return handleFriends(userId, url, env);
+  if (method === 'GET'  && path === '/v1/feed')       return handleFeed(userId, url, env);
+
+  const followMatch = /^\/v1\/follows\/([a-zA-Z0-9_-]{1,128})$/.exec(path);
+  if (followMatch) {
+    const targetId = followMatch[1]!;
+    if (method === 'POST')   return handleFollow(userId, targetId, env);
+    if (method === 'DELETE') return handleUnfollow(userId, targetId, env);
+  }
+
+  return json({ error: 'not found' }, 404);
+}
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    if (request.method === 'OPTIONS') {
-      return new Response(null, { status: 204, headers: CORS_HEADERS });
-    }
-
-    const url = new URL(request.url);
-    const { pathname: path, method } = { pathname: url.pathname, method: request.method };
-
-    if (method === 'POST' && path === '/v1/auth') return handleAuth(request, env);
-
-    const authResult = await authenticate(request, env);
-    if (authResult instanceof Response) return authResult;
-    const userId = authResult;
-
-    if (method === 'GET'  && path === '/v1/identity')   return handleIdentity(userId, env);
-    if (method === 'POST' && path === '/v1/profile')    return handleSyncProfile(userId, request, env);
-    if (method === 'POST' && path === '/v1/catches')    return handlePublishCatch(userId, request, env);
-    if (method === 'GET'  && path === '/v1/leaderboard') return handleLeaderboard(userId, url, env);
-    if (method === 'GET'  && path === '/v1/friends')    return handleFriends(userId, url, env);
-    if (method === 'GET'  && path === '/v1/feed')       return handleFeed(userId, url, env);
-
-    const followMatch = /^\/v1\/follows\/(.+)$/.exec(path);
-    if (followMatch) {
-      const targetId = decodeURIComponent(followMatch[1]!);
-      if (method === 'POST')   return handleFollow(userId, targetId, env);
-      if (method === 'DELETE') return handleUnfollow(userId, targetId, env);
-    }
-
-    return json({ error: 'not found' }, 404);
+    const response = await routeRequest(request, env);
+    return applyOrigin(response, request, env);
   },
 
   async scheduled(_event: ScheduledEvent, env: Env, _ctx: ExecutionContext): Promise<void> {

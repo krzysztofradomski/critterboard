@@ -58,11 +58,22 @@ const INSECT_DATASET_PROMPT = BUGS.map(
 ).join('\n');
 
 function geminiApiKey(): string {
-  const key = process.env.GEMINI_API_KEY ?? process.env.EXPO_PUBLIC_GEMINI_API_KEY;
-  if (!key) {
-    throw new Error('GEMINI_API_KEY (or EXPO_PUBLIC_GEMINI_API_KEY for Expo client-side POC) is missing');
+  const serverKey = process.env.GEMINI_API_KEY;
+  if (serverKey) return serverKey;
+  const clientKey = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
+  if (clientKey) {
+    // EXPO_PUBLIC_ vars are bundled into the app binary and readable by
+    // anyone who decompiles it. Only permit in development; production
+    // builds must proxy Gemini requests through the Cloudflare Worker.
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error(
+        'EXPO_PUBLIC_GEMINI_API_KEY must not be used in production builds. ' +
+          'Proxy Gemini requests through the Cloudflare Worker instead.',
+      );
+    }
+    return clientKey;
   }
-  return key;
+  throw new Error('GEMINI_API_KEY is missing');
 }
 
 function buildSystemPrompt(
@@ -168,7 +179,10 @@ export const geminiChatAdapter: ChatAdapter = {
     }
   },
   ready() {
-    return Boolean(process.env.GEMINI_API_KEY ?? process.env.EXPO_PUBLIC_GEMINI_API_KEY);
+    return Boolean(
+      process.env.GEMINI_API_KEY ??
+        (process.env.NODE_ENV !== 'production' ? process.env.EXPO_PUBLIC_GEMINI_API_KEY : undefined),
+    );
   },
 };
 

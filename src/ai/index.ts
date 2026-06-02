@@ -22,7 +22,8 @@ const USE_GEMINI_VISION = true;
 const USE_LLAMA_RN = false;       // flip after llama.rn is added + GGUF bundled
 const USE_CLOUD_GEMINI_POC = true; // temporary POC until on-device LLM ships
 const HAS_GEMINI_API_KEY = Boolean(
-  process.env.GEMINI_API_KEY ?? process.env.EXPO_PUBLIC_GEMINI_API_KEY,
+  process.env.GEMINI_API_KEY ??
+    (process.env.NODE_ENV !== 'production' ? process.env.EXPO_PUBLIC_GEMINI_API_KEY : undefined),
 );
 
 export const vision: VisionClassifier =

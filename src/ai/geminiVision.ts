@@ -44,9 +44,21 @@ Rules:
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 function apiKey(): string {
-  const k = process.env.GEMINI_API_KEY ?? process.env.EXPO_PUBLIC_GEMINI_API_KEY;
-  if (!k) throw new Error('GEMINI_API_KEY or EXPO_PUBLIC_GEMINI_API_KEY is not set');
-  return k;
+  const serverKey = process.env.GEMINI_API_KEY;
+  if (serverKey) return serverKey;
+  const clientKey = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
+  if (clientKey) {
+    // EXPO_PUBLIC_ vars are embedded in the app bundle. Only permit in
+    // development; production must proxy via the Cloudflare Worker.
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error(
+        'EXPO_PUBLIC_GEMINI_API_KEY must not be used in production builds. ' +
+          'Proxy Gemini requests through the Cloudflare Worker instead.',
+      );
+    }
+    return clientKey;
+  }
+  throw new Error('GEMINI_API_KEY is not set');
 }
 
 function mimeFromUri(uri: string): 'image/jpeg' | 'image/png' | 'image/webp' {
@@ -65,7 +77,13 @@ function parseCandidates(raw: string, topK: number): Candidate[] {
   if (!Array.isArray(parsed)) return [];
 
   return (parsed as { bugId?: unknown; confidence?: unknown }[])
-    .filter((c) => typeof c.bugId === 'string' && KNOWN_IDS.has(c.bugId) && typeof c.confidence === 'number')
+    .filter(
+      (c) =>
+        typeof c.bugId === 'string' &&
+        KNOWN_IDS.has(c.bugId) &&
+        typeof c.confidence === 'number' &&
+        isFinite(c.confidence),
+    )
     .map((c) => ({
       bugId: c.bugId as string,
       confidence: Math.min(1, Math.max(0, c.confidence as number)),
@@ -110,6 +128,9 @@ export const geminiVisionClassifier: VisionClassifier = {
   },
 
   ready(): boolean {
-    return Boolean(process.env.GEMINI_API_KEY ?? process.env.EXPO_PUBLIC_GEMINI_API_KEY);
+    return Boolean(
+      process.env.GEMINI_API_KEY ??
+        (process.env.NODE_ENV !== 'production' ? process.env.EXPO_PUBLIC_GEMINI_API_KEY : undefined),
+    );
   },
 };

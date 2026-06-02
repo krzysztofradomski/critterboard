@@ -42,6 +42,12 @@ function getBaseUrl(): string {
         'Deploy the Worker, set the env var, and the adapter auto-activates.',
     );
   }
+  if (process.env.NODE_ENV === 'production' && !url.startsWith('https://')) {
+    throw new BackendError(
+      'unavailable',
+      'EXPO_PUBLIC_BACKEND_URL must use HTTPS in production builds.',
+    );
+  }
   return url;
 }
 

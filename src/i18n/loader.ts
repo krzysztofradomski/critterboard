@@ -66,6 +66,7 @@ export async function syncRemotePacks(): Promise<void> {
   try {
     const res = await fetch(PACK_MANIFEST_URL, { method: 'GET' });
     if (!res.ok) return;
+    if (!(res.headers.get('content-type') ?? '').includes('application/json')) return;
     const manifest = (await res.json()) as RemotePackManifest;
     if (manifest.manifest !== 1) return;
     await Promise.all(
@@ -77,6 +78,7 @@ export async function syncRemotePacks(): Promise<void> {
           try {
             const pr = await fetch(entry.url);
             if (!pr.ok) return;
+            if (!(pr.headers.get('content-type') ?? '').includes('application/json')) return;
             const pack = (await pr.json()) as Pack;
             if (pack.lang !== lang) return;
             registerPack(pack);
