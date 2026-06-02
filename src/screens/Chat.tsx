@@ -13,7 +13,7 @@ import {
 
 import * as FileSystem from 'expo-file-system';
 
-import { chatAdapter, chatMode, localLlmChatAdapter, llamaRnRuntime, MODEL_GGUF_FILENAME, webNativeLlmChatAdapter, type ChatHistoryTurn } from '@/ai';
+import { chatAdapter, chatMode, guardedLocalLlmChatAdapter, guardedWebNativeLlmChatAdapter, llamaRnRuntime, MODEL_GGUF_FILENAME, type ChatHistoryTurn } from '@/ai';
 import { IconBtn } from '@/components/IconBtn';
 import { BUGS, findBug } from '@/data/bugs';
 import { useT } from '@/i18n/helpers';
@@ -40,7 +40,7 @@ function resolveActiveMode(preferLocal: boolean): ActiveChatMode {
 function selectLocalAdapter() {
   // On web: Chrome Built-in AI (Gemini Nano via Prompt API).
   // On iOS/Android: on-device llama.rn runtime (Larva-3B GGUF).
-  return Platform.OS === 'web' ? webNativeLlmChatAdapter : localLlmChatAdapter;
+  return Platform.OS === 'web' ? guardedWebNativeLlmChatAdapter : guardedLocalLlmChatAdapter;
 }
 
 function initialMessages(P: Persona, mode: ActiveChatMode, topic?: string): Msg[] {
