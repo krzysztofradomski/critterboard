@@ -16,6 +16,7 @@ export type Region = {
 };
 
 export const REGIONS: Region[] = [
+  { id: 'eu-ce', emoji: '🌿', size: 6,   color: PB.green  },
   { id: 'na-ne', emoji: '🍁', size: 84,  color: PB.orange },
   { id: 'na-sw', emoji: '🌵', size: 76,  color: PB.yellow },
   { id: 'eu-uk', emoji: '🇬🇧', size: 62,  color: PB.green  },
@@ -52,6 +53,27 @@ export type RegionDetail = {
 };
 
 export const REGION_DETAILS: Record<string, RegionDetail> = {
+  'eu-ce': {
+    id: 'eu-ce',
+    emoji: '🌿', color: PB.green,
+    species: 20, size: 6, version: 'v2026.06', updated: 'Jun 2, 2026',
+    families: [
+      { key: 'lep', count: 9,  color: PB.purple },
+      { key: 'hym', count: 5,  color: PB.yellow },
+      { key: 'col', count: 4,  color: PB.green  },
+      { key: 'hem', count: 1,  color: PB.blue   },
+      { key: 'odo', count: 1,  color: PB.red    },
+    ],
+    samples: [
+      { id: 'peac', whyKey: 'peac' },
+      { id: 'swal', whyKey: 'swal' },
+      { id: 'stag', whyKey: 'stag' },
+      { id: 'lady', whyKey: 'lady' },
+      { id: 'hcat', whyKey: 'hcat' },
+      { id: 'bdam', whyKey: 'bdam' },
+    ],
+    noteCount: 3,
+  },
   'na-ne': {
     id: 'na-ne',
     emoji: '🍁', color: PB.orange,
@@ -65,12 +87,12 @@ export const REGION_DETAILS: Record<string, RegionDetail> = {
       { key: 'oth', count: 278, color: PB.cream2 },
     ],
     samples: [
-      { id: 'mona', whyKey: 'mona' },
-      { id: 'lhoc', whyKey: 'lhoc' },
-      { id: 'drag', whyKey: 'drag' },
-      { id: 'fire', whyKey: 'fire' },
+      { id: 'peac', whyKey: 'peac' },
+      { id: 'swal', whyKey: 'swal' },
+      { id: 'stag', whyKey: 'stag' },
       { id: 'lady', whyKey: 'lady' },
-      { id: 'walk', whyKey: 'walk' },
+      { id: 'hcat', whyKey: 'hcat' },
+      { id: 'bdam', whyKey: 'bdam' },
     ],
     noteCount: 3,
   },
@@ -87,12 +109,12 @@ export const REGION_DETAILS: Record<string, RegionDetail> = {
       { key: 'oth', count: 142, color: PB.cream2 },
     ],
     samples: [
-      { id: 'rhin', whyKey: 'rhin' },
-      { id: 'mant', whyKey: 'mant' },
+      { id: 'buff', whyKey: 'buff' },
+      { id: 'rchf', whyKey: 'rchf' },
       { id: 'lady', whyKey: 'lady' },
-      { id: 'cica', whyKey: 'cica' },
-      { id: 'walk', whyKey: 'walk' },
-      { id: 'mona', whyKey: 'mona' },
+      { id: 'tort', whyKey: 'tort' },
+      { id: 'brim', whyKey: 'brim' },
+      { id: 'harl', whyKey: 'harl' },
     ],
     noteCount: 2,
   },

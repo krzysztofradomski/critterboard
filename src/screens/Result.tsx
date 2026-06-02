@@ -115,7 +115,7 @@ export function Result() {
   const photoUri = params?.photoUri ?? null;
   const bug = findBug(id) ?? BUGS[0];
   const t = useT();
-  const localizedName = useBugName(bug?.id ?? 'mona');
+  const localizedName = useBugName(bug?.id ?? 'lady');
   if (!bug) return null;
 
   const publishCatch = usePublishCatch();
