@@ -47,16 +47,17 @@ export type Profile = {
  * handshake. Reset by `wipeAll` so a fresh install is genuinely
  * indistinguishable from a new user.
  *
- * Format is a v4-shaped string but synthesized from `Math.random` to
- * avoid pulling a UUID dep — the only invariant the server cares
- * about is "stable + unguessable enough to act as a bearer token".
+ * Generates a RFC-4122 v4 UUID using crypto.getRandomValues so the
+ * result is cryptographically random — required because the ID acts
+ * as a bearer token.
  */
 function newBackendUserId(): string {
-  const hex = (n: number) =>
-    Math.floor(Math.random() * 16 ** n)
-      .toString(16)
-      .padStart(n, '0');
-  return `${hex(8)}-${hex(4)}-4${hex(3)}-${(8 + Math.floor(Math.random() * 4)).toString(16)}${hex(3)}-${hex(12)}`;
+  const bytes = new Uint8Array(16);
+  crypto.getRandomValues(bytes);
+  bytes[6] = (bytes[6]! & 0x0f) | 0x40; // version 4
+  bytes[8] = (bytes[8]! & 0x3f) | 0x80; // variant bits
+  const h = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
 }
 
 export type ToastSpec = {

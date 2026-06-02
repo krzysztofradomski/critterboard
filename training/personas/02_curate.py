@@ -25,6 +25,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -54,12 +55,17 @@ def save_jsonl(path: Path, rows: list[dict]) -> None:
 
 def edit_in_editor(text: str) -> str:
     """Open $EDITOR (falls back to nano) on a temp file containing `text`."""
-    editor = os.environ.get("EDITOR", "nano")
+    editor_env = os.environ.get("EDITOR", "nano")
+    # Support "code --wait" style values; guard against malformed strings.
+    try:
+        editor_parts = shlex.split(editor_env) or ["nano"]
+    except ValueError:
+        editor_parts = ["nano"]
     with tempfile.NamedTemporaryFile(suffix=".txt", mode="w+", delete=False) as f:
         f.write(text)
         path = f.name
     try:
-        subprocess.run([editor, path], check=False)
+        subprocess.run([*editor_parts, path], check=False)
         return Path(path).read_text(encoding="utf-8").strip()
     finally:
         try:
