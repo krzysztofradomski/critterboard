@@ -608,6 +608,7 @@
       "displayName": "DISPLAY NAME",
       "namePlaceholder": "your trainer name",
       "nameHint": "Shown on the leaderboard and shared sightings.",
+      "nameOffensive": "This name isn't allowed. Please choose another.",
       "privacy": "PRIVACY",
       "networkLabel": "Network access",
       "networkOn": "Online features available.",

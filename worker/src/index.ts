@@ -258,6 +258,33 @@ function slice<T>(list: T[], offset: number, limit: number): { items: T[]; nextC
   return { items, nextCursor: next < list.length ? String(next) : null };
 }
 
+// ── Display-name moderation ───────────────────────────────────────────────────
+
+const BLOCKED_NAME_TERMS = [
+  'fuck', 'fvck', 'fucc',
+  'shit',
+  'cunt',
+  'nigger', 'nigga',
+  'faggot', 'fagot',
+  'chink', 'spick', 'spic', 'wetback', 'gook', 'kike', 'beaner',
+  'retard', 'tranny',
+  'rape',
+  'bitch', 'whore', 'slut', 'asshole', 'twat', 'wanker',
+];
+
+function normalizeForModeration(s: string): string {
+  return s.toLowerCase()
+    .replace(/\s+/g, '').replace(/0/g, 'o').replace(/1/g, 'i')
+    .replace(/3/g, 'e').replace(/4/g, 'a').replace(/5/g, 's')
+    .replace(/@/g, 'a').replace(/\$/g, 's').replace(/!/g, 'i')
+    .replace(/\+/g, 't');
+}
+
+function isOffensiveName(name: string): boolean {
+  const n = normalizeForModeration(name);
+  return BLOCKED_NAME_TERMS.some((term) => n.includes(term));
+}
+
 // ── XP per confirmed catch ────────────────────────────────────────────────────
 
 const XP_PER_CATCH = 100;
@@ -316,6 +343,9 @@ async function handleIdentity(userId: string, env: Env): Promise<Response> {
 
 async function handleSyncProfile(userId: string, request: Request, env: Env): Promise<Response> {
   const snap = (await request.json()) as ProfileSnapshot;
+  if (typeof snap.displayName === 'string' && isOffensiveName(snap.displayName)) {
+    return json({ error: 'display_name_not_allowed' }, 422);
+  }
   await env.DB.prepare(
     `UPDATE users
      SET display_name = ?, avatar_emoji = ?, country = ?, leaderboard_visible = ?
