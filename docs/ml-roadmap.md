@@ -185,9 +185,18 @@ Hard-disable Llama on devices with < 4 GB RAM. The mock fallback is good enough 
 - `complete()` returns an `AsyncIterable<string>` of token chunks → append to the last bubble live instead of waiting for the full reply.
 - On persona switch, cancel any in-flight generation and reset the system prompt.
 
-### 2.4  Sound ID model (optional Track 2 stretch)
+### 2.4  Sound ID model (deferred — entry point hidden)
 
-The `SoundID` screen is already wired to the same router. Reuse `efficientnet_lite` on log-mel spectrograms; same export pipeline, smaller model (~3 MB). Defer until visual ID is stable.
+The `SoundID` screen exists in the router but the navigation button has been removed from `Scan.tsx`. The screen remains reachable via deep-link for future work; it is **not** a regression to add it back later.
+
+Sound ID is a separate ML problem from visual ID and cannot share the regional pack `labelMap`:
+
+- **Different taxonomy**: acoustic species (crickets, cicadas, katydids) are largely disjoint from the 20 Central European visual species. A shared `labelMap` would need separate class indices and a separate training dataset.
+- **Different preprocessing**: audio inference requires real-time PCM capture → STFT → log-mel spectrogram before any classifier runs. `expo-av` is not in the dependency tree; adding it requires native config on both platforms.
+- **Different training data**: suitable datasets (Freesound, GBIF sound observations, Xeno-canto) are entirely separate from the iNaturalist photo corpus used for the visual pipeline.
+- **Different model size/latency profile**: a log-mel spectrogram classifier needs ~2–4 s of audio per inference pass, making it fundamentally different from the sub-200 ms shutter→result budget of visual ID.
+
+For implementation requirements, see `tasks/todo.md` — Sound ID is tracked there with full sub-tasks.
 
 ### 2.5  Exit criteria for full training
 
@@ -278,4 +287,5 @@ docs/
 | 2 · Kaggle full-EU run (200 species) | ⏳ pending |
 | 2 · `llama.rn` integration | ⏳ pending |
 | 2 · `training/personas/` scaffold | ✅ done — run when system-prompt drift > 10% |
+| 2 · Sound ID nav entry point | ✅ removed — screen kept in router, full plan in `tasks/todo.md` |
 | 3 · Placeholder surfaces | 🅿️ deliberately paused |

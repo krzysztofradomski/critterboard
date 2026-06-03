@@ -203,7 +203,7 @@ export function Scan() {
             {phase === 'analyzing' ? t('scan.analyzing') : t('scan.scanning')}
           </Text>
         </View>
-        <IconBtn size={42} fs={18} onPress={() => go('soundid')}>🔊</IconBtn>
+        <View style={{ width: 42 }} />
       </View>
 
       {!cameraReady && permission && (
