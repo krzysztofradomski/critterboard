@@ -1,0 +1,9 @@
+{
+  "manifest": 1,
+  "packs": {
+    "eu-ce": {
+      "version": 1,
+      "url": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/eu-ce.json"
+    }
+  }
+}
