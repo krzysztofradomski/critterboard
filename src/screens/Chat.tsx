@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 
 import { chatAdapter, chatMode, guardedLocalLlmChatAdapter, guardedWebNativeLlmChatAdapter, llamaRnRuntime, MODEL_GGUF_FILENAME, type ChatHistoryTurn } from '@/ai';
 import { IconBtn } from '@/components/IconBtn';
