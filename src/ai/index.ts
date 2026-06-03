@@ -53,7 +53,7 @@ export const guardedWebNativeLlmChatAdapter: ChatAdapter = withGuardrails(webNat
 export { mockClassifier, nativeClassifier } from '@/ai/vision';
 export { useExecutorchClassifier } from '@/ai/executorchVision';
 export { geminiVisionClassifier } from '@/ai/geminiVision';
-export { mockRuntime, llamaRnRuntime, buildPrompt, MODEL_GGUF_FILENAME } from '@/ai/llm';
+export { mockRuntime, llamaRnRuntime, buildPrompt, MODEL_GGUF_FILENAME, MODEL_GGUF_HF_URL } from '@/ai/llm';
 export { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter } from '@/ai/chatAdapter';
 export { webNativeLlmChatAdapter, checkWebNativeLlmStatus } from '@/ai/webNativeLlm';
 export { withGuardrails, checkInput, redactPii } from '@/ai/guardrails';

@@ -3,7 +3,7 @@ import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import { vision, USE_NATIVE_VISION, useExecutorchClassifier, type Candidate } from '@/ai';
 import { getModelPath } from '@/data/regionPacks';
 import { Btn } from '@/components/Btn';
