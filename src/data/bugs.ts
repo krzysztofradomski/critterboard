@@ -53,6 +53,14 @@ export const CAUGHT_IDS: ReadonlySet<string> = new Set([
   'hcat', 'lady', 'buff', 'brim', 'peac', 'wasp', 'gshb',
 ]);
 
+// Mutable registry seeded from the bundled list. Regional pack downloads
+// call mergeBugs() at boot to extend it with their species.
+const _registry = new Map<string, Bug>(BUGS.map((b) => [b.id, b]));
+
+export function mergeBugs(bugs: Bug[]): void {
+  for (const b of bugs) _registry.set(b.id, b);
+}
+
 export function findBug(id: string): Bug | undefined {
-  return BUGS.find((b) => b.id === id);
+  return _registry.get(id);
 }

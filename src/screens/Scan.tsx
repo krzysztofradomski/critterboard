@@ -3,7 +3,9 @@ import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 
+import * as FileSystem from 'expo-file-system';
 import { vision, USE_NATIVE_VISION, useExecutorchClassifier, type Candidate } from '@/ai';
+import { getModelPath } from '@/data/regionPacks';
 import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
@@ -26,9 +28,22 @@ export function Scan() {
   const route = useCurrentRoute();
   const hint = (route.params as { hint?: string } | undefined)?.hint ?? 'lady';
 
-  // ExecuTorch on-device classifier. preventLoad=true keeps it dormant until
-  // USE_NATIVE_VISION is flipped to true in src/ai/index.ts.
-  const executorch = useExecutorchClassifier(!USE_NATIVE_VISION);
+  const installedRegions = useAppStore((s) => s.installedRegions);
+  const activeLabelMap = useAppStore((s) => s.activeLabelMap);
+  const activeRegionId = installedRegions[0] ?? null;
+  const modelSource = activeRegionId && FileSystem.documentDirectory
+    ? getModelPath(FileSystem.documentDirectory, activeRegionId)
+    : null;
+
+  // ExecuTorch on-device classifier. Driven by the first installed region
+  // pack — modelSource is its .pte path on disk, labelMap maps scientific
+  // names to class indices. preventLoad keeps it dormant until both
+  // USE_NATIVE_VISION is on and a pack has been installed.
+  const executorch = useExecutorchClassifier({
+    modelSource,
+    labelMap: activeLabelMap,
+    preventLoad: !USE_NATIVE_VISION || !activeRegionId,
+  });
 
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView | null>(null);

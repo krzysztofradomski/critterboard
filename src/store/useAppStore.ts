@@ -173,6 +173,14 @@ type State = {
   chatThreads: Record<string, ChatThread>;
   /** Searchable conversation index for cross-thread memory retrieval. */
   conversationMemory: ConversationMemoryEntry[];
+  /** Region IDs for which the pack JSON + model .pte have been downloaded. */
+  installedRegions: string[];
+  /**
+   * Label map from the first installed region pack (scientific name →
+   * class index). Persisted so Scan can load the model without waiting
+   * for hydrateInstalledPacks() to replay AsyncStorage on each boot.
+   */
+  activeLabelMap: Record<string, number>;
 };
 
 type Actions = {
@@ -216,6 +224,8 @@ type Actions = {
   indexConversationMessage: (threadId: string, message: ChatMessage) => void;
   clearChatThread: (threadId: string) => void;
   clearConversationData: () => void;
+  installRegion: (id: string, labelMap: Record<string, number>) => void;
+  uninstallRegion: (id: string) => void;
 };
 
 type AppStore = State & Actions;
@@ -286,6 +296,8 @@ type Persisted = Pick<
   | 'backendUserId'
   | 'chatThreads'
   | 'conversationMemory'
+  | 'installedRegions'
+  | 'activeLabelMap'
 >;
 
 type PersistedWire = {
@@ -311,6 +323,8 @@ type PersistedWire = {
   backendUserId?: string;
   chatThreads?: Record<string, ChatThread>;
   conversationMemory?: ConversationMemoryEntry[];
+  installedRegions?: string[];
+  activeLabelMap?: Record<string, number>;
 };
 
 const wireStorage: PersistStorage<Persisted> = {
@@ -339,6 +353,8 @@ const wireStorage: PersistStorage<Persisted> = {
         backendUserId: wrapped.state.backendUserId ?? newBackendUserId(),
         chatThreads: wrapped.state.chatThreads ?? {},
         conversationMemory: wrapped.state.conversationMemory ?? [],
+        installedRegions: wrapped.state.installedRegions ?? [],
+        activeLabelMap: wrapped.state.activeLabelMap ?? {},
       },
       version: wrapped.version,
     };
@@ -361,6 +377,8 @@ const wireStorage: PersistStorage<Persisted> = {
       backendUserId: value.state.backendUserId,
       chatThreads: value.state.chatThreads,
       conversationMemory: value.state.conversationMemory,
+      installedRegions: value.state.installedRegions,
+      activeLabelMap: value.state.activeLabelMap,
     };
     await AsyncStorage.setItem(name, JSON.stringify({ state: wire, version: value.version ?? 0 }));
   },
@@ -404,6 +422,8 @@ export const useAppStore = create<AppStore>()(
       backendUserId: newBackendUserId(),
       chatThreads: {},
       conversationMemory: [],
+      installedRegions: [],
+      activeLabelMap: {},
 
       go: (name, params) => {
         const alias = ME_SUB_ALIAS[name];
@@ -645,6 +665,28 @@ export const useAppStore = create<AppStore>()(
           conversationMemory: [],
         }),
 
+      installRegion: (id, labelMap) =>
+        set((s) => ({
+          installedRegions: s.installedRegions.includes(id)
+            ? s.installedRegions
+            : [...s.installedRegions, id],
+          // First installed region becomes the active classifier source.
+          activeLabelMap: s.installedRegions.length === 0 ? labelMap : s.activeLabelMap,
+        })),
+
+      uninstallRegion: (id) =>
+        set((s) => {
+          const next = s.installedRegions.filter((r) => r !== id);
+          // If the removed region was the active (first) one, clear the label
+          // map — the classifier falls back to mock/Gemini until a region is
+          // installed again.
+          const removedActive = s.installedRegions[0] === id;
+          return {
+            installedRegions: next,
+            activeLabelMap: removedActive ? {} : s.activeLabelMap,
+          };
+        }),
+
       clearScanCache: async () => {
         const events = get().catchLog;
         const uris = new Set<string>();
@@ -714,6 +756,8 @@ export const useAppStore = create<AppStore>()(
           questClaimedAt: {},
           chatThreads: {},
           conversationMemory: [],
+          installedRegions: [],
+          activeLabelMap: {},
           // Rotate the backend identity on every wipe so a fresh install
           // and a wiped install look identical to the server.
           backendUserId: newBackendUserId(),
@@ -739,6 +783,8 @@ export const useAppStore = create<AppStore>()(
         backendUserId: s.backendUserId,
         chatThreads: s.chatThreads,
         conversationMemory: s.conversationMemory,
+        installedRegions: s.installedRegions,
+        activeLabelMap: s.activeLabelMap,
       }),
       /**
        * Skip past onboarding for returning users. The flag is set in
