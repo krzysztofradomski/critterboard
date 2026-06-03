@@ -11,7 +11,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { useBackendIdentityBridge, useSyncProfile } from '@/backend/hooks';
 import { Toast } from '@/components/Toast';
-import { hydrateCachedPacks, syncRemotePacks } from '@/i18n';
+import { hydrateCachedPacks, syncRemotePacks, isKnownLang } from '@/i18n';
 import { Router } from '@/navigation/Router';
 import { initCrashReporting, setCrashReportingEnabled } from '@/lib/crashReporting';
 import { syncStreakNudge } from '@/lib/notify';
@@ -24,12 +24,29 @@ export default function App() {
   const persona = useAppStore((s) => s.persona);
   const language = useAppStore((s) => s.language);
   const crashReportingOn = useAppStore((s) => s.profile.crashReportingOn);
+  const hasOnboarded = useAppStore((s) => s.hasOnboarded);
+  const setLanguage = useAppStore((s) => s.setLanguage);
 
   // Keep the mock adapter's self-view in sync with live store state.
   useBackendIdentityBridge();
   // Push profile changes (name, leaderboard visibility, location share)
   // to the Cloudflare Worker whenever they change. Gated on networkOn.
   useSyncProfile();
+
+  // On first launch, seed the language from the device locale so users
+  // with a supported language don't have to visit Settings manually.
+  // Only runs before onboarding; after that the user's explicit choice wins.
+  useEffect(() => {
+    if (hasOnboarded) return;
+    try {
+      const locale = Intl.DateTimeFormat().resolvedOptions().locale; // e.g. "de-DE"
+      const tag = locale.split('-')[0]?.toLowerCase();               // "de"
+      if (tag && isKnownLang(tag)) setLanguage(tag);
+    } catch {
+      // Intl unavailable — keep the default English.
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Replay any cached remote translation packs before first paint
   // (cheap — AsyncStorage reads in parallel) then opportunistically
