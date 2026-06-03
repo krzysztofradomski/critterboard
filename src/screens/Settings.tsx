@@ -15,6 +15,10 @@ import { PersonaPick } from "@/components/PersonaPick";
 import { SettingToggle } from "@/components/SettingToggle";
 import { Sticker } from "@/components/Sticker";
 import { REGIONS, type Region, type RegionStatus } from "@/data/regions";
+import {
+  cachePackData, getModelPath, PACK_MANIFEST_URL, removeCachedPack,
+  type PackManifest, type RegionPack,
+} from "@/data/regionPacks";
 import { checkWebNativeLlmStatus, llamaRnRuntime, MODEL_GGUF_FILENAME, MODEL_GGUF_HF_URL, type WebNativeLlmStatus } from "@/ai";
 import { LANG_META, type LangId } from "@/i18n";
 import { useT } from "@/i18n/helpers";
@@ -56,6 +60,9 @@ export function Settings() {
     (s) => s.conversationMemory.length,
   );
   const showToast = useAppStore((s) => s.showToast);
+  const installedRegions = useAppStore((s) => s.installedRegions);
+  const installRegion = useAppStore((s) => s.installRegion);
+  const uninstallRegion = useAppStore((s) => s.uninstallRegion);
   const P = usePersona(persona);
   const t = useT();
 
@@ -74,19 +81,12 @@ export function Settings() {
   const [confirmMemoryWipe, setConfirmMemoryWipe] = useState(false);
   const [nameDraft, setNameDraft] = useState(profile.name);
   const [nameError, setNameError] = useState(false);
-  const [regions, setRegions] = useState<Record<string, RegionStatus>>(() => ({
-    "eu-ce": "installed",
-    "na-ne": "available",
-    "na-sw": "available",
-    "eu-uk": "available",
-    "eu-md": "available",
-    "sa-am": "available",
-    "oc-au": "available",
-    "as-se": "available",
-  }));
-  const downloadHandles = useRef<
-    Record<string, ReturnType<typeof setInterval> | null>
-  >({});
+  const [regions, setRegions] = useState<Record<string, RegionStatus>>(() =>
+    Object.fromEntries(
+      REGIONS.map((r) => [r.id, installedRegions.includes(r.id) ? 'installed' : 'available']),
+    ),
+  );
+  const packDownloadHandles = useRef<Record<string, FileSystem.DownloadResumable | null>>({});
 
   useEffect(() => {
     setNameDraft(profile.name);
@@ -108,8 +108,8 @@ export function Settings() {
 
   useEffect(
     () => () => {
-      Object.values(downloadHandles.current).forEach(
-        (h) => h && clearInterval(h),
+      Object.values(packDownloadHandles.current).forEach(
+        (h) => h?.pauseAsync().catch(() => {}),
       );
       dlRef.current?.pauseAsync().catch(() => {});
     },
@@ -162,30 +162,69 @@ export function Settings() {
     if (v !== profile.name) setProfile({ name: v });
   };
 
-  const startDownload = (region: Region) => {
+  const startDownload = async (region: Region) => {
     const status = regions[region.id];
+    if (typeof status === "object") return; // already in progress
+
     if (status === "installed") {
+      // Uninstall: remove from store, clear AsyncStorage, delete model file.
+      uninstallRegion(region.id);
+      void removeCachedPack(region.id);
+      if (FileSystem.documentDirectory) {
+        void FileSystem.deleteAsync(
+          getModelPath(FileSystem.documentDirectory, region.id),
+          { idempotent: true },
+        );
+      }
       setRegions((r) => ({ ...r, [region.id]: "available" }));
       return;
     }
-    if (typeof status === "object") return;
+
     setRegions((r) => ({ ...r, [region.id]: { downloading: 0 } }));
-    const tickMs = Math.max(40, Math.min(220, region.size * 1.2));
-    const handle = setInterval(() => {
-      setRegions((prev) => {
-        const cur = prev[region.id];
-        if (typeof cur !== "object") return prev;
-        const nextPct = cur.downloading + (3 + Math.random() * 7);
-        if (nextPct >= 100) {
-          const h = downloadHandles.current[region.id];
-          if (h) clearInterval(h);
-          downloadHandles.current[region.id] = null;
-          return { ...prev, [region.id]: "installed" };
-        }
-        return { ...prev, [region.id]: { downloading: nextPct } };
-      });
-    }, tickMs);
-    downloadHandles.current[region.id] = handle;
+
+    try {
+      // Step 1: Fetch the pack manifest to resolve the pack JSON URL.
+      const manifestRes = await fetch(PACK_MANIFEST_URL);
+      if (!manifestRes.ok) throw new Error(`manifest ${manifestRes.status}`);
+      const manifest = (await manifestRes.json()) as PackManifest;
+      const packEntry = manifest.packs[region.id];
+      if (!packEntry?.url) throw new Error(`no pack entry for ${region.id}`);
+
+      // Step 2: Fetch the pack JSON (bugs + labelMap + modelUrl).
+      const packRes = await fetch(packEntry.url);
+      if (!packRes.ok) throw new Error(`pack fetch ${packRes.status}`);
+      const pack = (await packRes.json()) as RegionPack;
+
+      // Cache the pack data in AsyncStorage and merge bugs into the registry.
+      await cachePackData(pack);
+
+      // Step 3: Download the .pte model file to the filesystem.
+      if (!FileSystem.documentDirectory) throw new Error('no documentDirectory');
+      const modelDir = `${FileSystem.documentDirectory}models/packs/`;
+      await FileSystem.makeDirectoryAsync(modelDir, { intermediates: true });
+      const modelPath = getModelPath(FileSystem.documentDirectory, region.id);
+
+      const dl = FileSystem.createDownloadResumable(
+        pack.modelUrl,
+        modelPath,
+        {},
+        ({ totalBytesWritten, totalBytesExpectedToWrite }) => {
+          if (totalBytesExpectedToWrite <= 0) return;
+          const pct = Math.floor((totalBytesWritten / totalBytesExpectedToWrite) * 100);
+          setRegions((prev) => ({ ...prev, [region.id]: { downloading: pct } }));
+        },
+      );
+      packDownloadHandles.current[region.id] = dl;
+      await dl.downloadAsync();
+      packDownloadHandles.current[region.id] = null;
+
+      // Step 4: Persist installed state.
+      installRegion(region.id, pack.labelMap);
+      setRegions((r) => ({ ...r, [region.id]: "installed" }));
+    } catch {
+      setRegions((r) => ({ ...r, [region.id]: "available" }));
+      showToast({ text: `Failed to download ${region.id}`, bg: '#e53935' });
+    }
   };
 
   // The persona name can be multi-word ("Prof. Larva") — strip honorifics

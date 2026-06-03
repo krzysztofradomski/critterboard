@@ -12,6 +12,7 @@ import { StyleSheet, View } from 'react-native';
 import { useBackendIdentityBridge, useSyncProfile } from '@/backend/hooks';
 import { Toast } from '@/components/Toast';
 import { hydrateCachedPacks, syncRemotePacks, isKnownLang } from '@/i18n';
+import { hydrateInstalledPacks } from '@/data/regionPacks';
 import { Router } from '@/navigation/Router';
 import { initCrashReporting, setCrashReportingEnabled } from '@/lib/crashReporting';
 import { syncStreakNudge } from '@/lib/notify';
@@ -26,6 +27,7 @@ export default function App() {
   const crashReportingOn = useAppStore((s) => s.profile.crashReportingOn);
   const hasOnboarded = useAppStore((s) => s.hasOnboarded);
   const setLanguage = useAppStore((s) => s.setLanguage);
+  const installedRegions = useAppStore((s) => s.installedRegions);
 
   // Keep the mock adapter's self-view in sync with live store state.
   useBackendIdentityBridge();
@@ -47,6 +49,14 @@ export default function App() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Merge each installed region pack's species into the in-memory bug
+  // registry so findBug() covers all downloaded packs after every cold
+  // launch. Runs again after store rehydration (installedRegions dependency)
+  // in case the store wasn't ready on the first render.
+  useEffect(() => {
+    if (installedRegions.length > 0) void hydrateInstalledPacks(installedRegions);
+  }, [installedRegions]);
 
   // Replay any cached remote translation packs before first paint
   // (cheap — AsyncStorage reads in parallel) then opportunistically

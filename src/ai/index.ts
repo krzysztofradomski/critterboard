@@ -60,7 +60,7 @@ export { withGuardrails, checkInput, redactPii } from '@/ai/guardrails';
 export type { GuardCode, GuardResult, GuardrailsConfig } from '@/ai/guardrails';
 export type { WebNativeLlmStatus } from '@/ai/webNativeLlm';
 export type { Candidate, VisionClassifier, VisionFrame, ClassifyOptions } from '@/ai/vision';
-export type { ExecutorchState } from '@/ai/executorchVision';
+export type { ExecutorchState, ExecutorchClassifierConfig } from '@/ai/executorchVision';
 export type { LlmRuntime, CompleteOpts } from '@/ai/llm';
 export type {
   ChatAdapter,
