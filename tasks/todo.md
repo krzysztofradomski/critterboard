@@ -291,17 +291,62 @@ These need either a backend or a substantial change and are explicitly **not** o
 
 ### Needs substantial native / infra work
 - Real map tiles via `react-native-maps` + provider key + native config
-- Real BugNet / Larva-3B / Regional pack downloads — needs CDN + signing
-- Real **Sound ID** audio classifier — needs a separate training run on log-mel spectrograms; see [[docs/ml-roadmap]] § 2.4 (called out as an optional Track 2 stretch, ~3 MB model)
+- ~~Real BugNet / Larva-3B / Regional pack downloads~~ — regional pack system shipped (PR #22): manifest → pack JSON → `.pte` model download chain, `installRegion` / `uninstallRegion` store actions, `useExecutorchClassifier` parameterised hook. Activate by hosting pack files and flipping `USE_NATIVE_VISION = true`.
+- **Sound ID** — UI entry point removed from `Scan.tsx` (PR #23); `SoundID` screen kept in router for future work. See sub-tasks below.
 
 ### Needs richer classifier output
 - Real lookalike-distinguished signal for badge b5 — current classifier returns argmax, not "distinguished mimics"
 - Real Quest q1 photo-trait detection (currently driven by stored `BUGS.traits`, not by the classifier inferring "this is a pollinator" from the image)
 
 ### Localization stretch
-- iOS native locale auto-detection (currently defaults to English on first launch — user opts in via Settings)
+- [x] iOS/Android native locale auto-detection — `Intl.DateTimeFormat().resolvedOptions().locale` on first launch (PR #21)
 - RTL language support — would need `I18nManager.forceRTL()` + layout review
 - Translation lint script — diff pack keys vs English source, warn on missing
+
+---
+
+## Sound ID — full implementation plan (deferred)
+
+Entry point removed. `SoundID` screen is router-reachable but not navigable from the UI. All sub-tasks below are HITL / gated on a dedicated sprint.
+
+### SI-1 — Audio capture (HITL)
+
+- [ ] Add `expo-av` dependency + update `app.json` permission strings (`NSMicrophoneUsageDescription`, `android.permission.RECORD_AUDIO`)
+- [ ] `src/screens/SoundID.tsx` — replace mock timer with real `Audio.Recording` session (`RecordingOptionsPresets.HIGH_QUALITY`, 16 kHz mono)
+- [ ] Stream PCM buffer to JS via `onRecordingStatusUpdate` (or native module) at ~100 ms intervals
+- [ ] Replace synthetic waveform bars with real amplitude envelope derived from the PCM RMS
+
+### SI-2 — Preprocessing: log-mel spectrogram (HITL)
+
+- [ ] Decide whether to run STFT on-device (ExecuTorch preprocessing op) or pre-process in JS before inference
+- [ ] If JS: implement `src/lib/stft.ts` — sliding window FFT (512 samples, 256 hop, Hann window) → magnitude spectrum → mel filterbank (64 bins, 8 kHz max) → log10 + normalise
+- [ ] If native: bundle a preprocessing `.pte` op alongside the classifier model; adjust `ExecutorchClassifierConfig` to accept an optional `preprocessorSource`
+- [ ] Unit-test spectrogram output against librosa reference values (Python `training/soundid/test_spectrogram.py`)
+
+### SI-3 — Acoustic species database
+
+- [ ] Decide scope: subset of existing 20 CE species that are acoustically identifiable (crickets, katydids) vs. a fresh acoustic-only list
+- [ ] Add `AcousticBug` type to `src/data/bugs.ts` (or a separate `src/data/soundBugs.ts`) with `soundDescription` and `frequencyRangeHz` fields
+- [ ] Extend `RegionPack` format with optional `soundModelUrl?: string` and `soundLabelMap?: Record<string, number>` fields (separate from the visual `modelUrl`/`labelMap`)
+- [ ] Update `src/data/regionPacks.ts` `RegionPack` type and `cachePackData` to persist sound model metadata
+- [ ] Update Settings.tsx pack download flow: if `soundModelUrl` present, offer separate sound model download
+
+### SI-4 — Training pipeline (HITL)
+
+- [ ] `training/soundid/01_dataset_download.py` — fetch from Freesound API and/or GBIF sound observations; ~500 recordings per species target
+- [ ] `training/soundid/02_train.py` — EfficientNet-Lite on 64×64 log-mel spectrograms, 2-second windows with 50% overlap; MobileNetV3-Small as a lighter alternative
+- [ ] `training/soundid/03_export.py` — export to `.pte` (ExecuTorch) matching the visual export pipeline; output `sound_class_map.json`
+- [ ] Add `training/soundid/requirements.txt` (librosa, soundfile, torchaudio)
+- [ ] Benchmark: target < 150 ms end-to-end (2 s audio → spectrogram → inference) on iPhone 13
+
+### SI-5 — Integration
+
+- [ ] `src/ai/soundClassifier.ts` — `SoundClassifier` interface mirroring `VisionClassifier` (`classify(audioUri, opts) → Candidate[]`)
+- [ ] `useExecutorchSoundClassifier` hook in `src/ai/executorchSound.ts` — parameterised equivalent of `useExecutorchClassifier` for sound models
+- [ ] Wire into `SoundID.tsx`: replace mock `candidates` with real classifier output
+- [ ] `src/ai/index.ts` — add `USE_NATIVE_SOUND` flag; export sound seam alongside vision seam
+- [ ] Re-add `🔊` button to `Scan.tsx` (or as a dedicated entry point) once SI-1 through SI-4 pass review
+- [ ] i18n: add `soundid.permissionTitle`, `soundid.permissionAsk`, `soundid.permissionDenied`, `soundid.allowMic` keys in all four packs
 
 ---
 
