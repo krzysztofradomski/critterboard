@@ -21,6 +21,7 @@ import { useT } from "@/i18n/helpers";
 import { PERSONA_IDS } from "@/personas";
 import { usePersona } from "@/personas/hooks";
 import { PB } from "@/tokens/pb";
+import { isOffensiveName } from "@/lib/moderation";
 import { useAppStore } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
 
@@ -72,6 +73,7 @@ export function Settings() {
   }, []);
   const [confirmMemoryWipe, setConfirmMemoryWipe] = useState(false);
   const [nameDraft, setNameDraft] = useState(profile.name);
+  const [nameError, setNameError] = useState(false);
   const [regions, setRegions] = useState<Record<string, RegionStatus>>(() => ({
     "eu-ce": "installed",
     "na-ne": "available",
@@ -152,6 +154,11 @@ export function Settings() {
 
   const commitName = () => {
     const v = nameDraft.trim().slice(0, 18) || t("common.you");
+    if (isOffensiveName(v)) {
+      setNameError(true);
+      return;
+    }
+    setNameError(false);
     if (v !== profile.name) setProfile({ name: v });
   };
 
@@ -272,7 +279,7 @@ export function Settings() {
               </View>
               <TextInput
                 value={nameDraft}
-                onChangeText={setNameDraft}
+                onChangeText={(v) => { setNameDraft(v); setNameError(false); }}
                 onBlur={commitName}
                 onSubmitEditing={commitName}
                 placeholder={t("settings.namePlaceholder")}
@@ -282,6 +289,9 @@ export function Settings() {
               />
             </View>
             <Text style={styles.nameHint}>{t("settings.nameHint")}</Text>
+            {nameError && (
+              <Text style={styles.nameError}>{t("settings.nameOffensive")}</Text>
+            )}
 
             <Text style={[styles.sectionLabel, { marginTop: 10 }]}>
               {t("settings.privacy")}
@@ -838,6 +848,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
   },
   nameHint: { marginTop: 6, fontSize: 10, color: PB.ink, opacity: 0.55 },
+  nameError: { marginTop: 4, fontSize: 11, fontWeight: "700", color: PB.red },
   nameHeader: {
     flexDirection: "row",
     justifyContent: "space-between",

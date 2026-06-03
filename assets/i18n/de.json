@@ -605,6 +605,7 @@
       "displayName": "ANZEIGENAME",
       "namePlaceholder": "dein Trainer-Name",
       "nameHint": "In Rangliste und geteilten Sichtungen sichtbar.",
+      "nameOffensive": "Dieser Name ist nicht erlaubt. Bitte wähle einen anderen.",
       "privacy": "PRIVATSPHÄRE",
       "networkLabel": "Netzwerkzugriff",
       "networkOn": "Online-Funktionen verfügbar.",

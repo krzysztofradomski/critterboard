@@ -605,6 +605,7 @@
       "displayName": "WYŚWIETLANA NAZWA",
       "namePlaceholder": "twoja ksywa tropiciela",
       "nameHint": "Widoczna w rankingu i przy udostępnionych obserwacjach.",
+      "nameOffensive": "Ta nazwa jest niedozwolona. Wybierz inną.",
       "privacy": "PRYWATNOŚĆ",
       "networkLabel": "Dostęp do sieci",
       "networkOn": "Funkcje online dostępne.",

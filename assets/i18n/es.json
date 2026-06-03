@@ -605,6 +605,7 @@
       "displayName": "NOMBRE EN PANTALLA",
       "namePlaceholder": "tu apodo de entrenador",
       "nameHint": "Visible en el ranking y avistamientos compartidos.",
+      "nameOffensive": "Este nombre no está permitido. Por favor elige otro.",
       "privacy": "PRIVACIDAD",
       "networkLabel": "Acceso a la red",
       "networkOn": "Funciones online disponibles.",
