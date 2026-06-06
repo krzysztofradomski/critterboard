@@ -120,6 +120,11 @@
         color: var(--y);
         padding: 4px 11px;
         border-radius: 100px;
+        text-decoration: none;
+        transition: opacity 0.15s;
+      }
+      .mit:hover {
+        opacity: 0.8;
       }
 
       .nav-btn {
@@ -396,40 +401,45 @@
         animation: fc 6.5s ease-in-out infinite;
       }
 
-      /* ── STRIP ── */
-      .strip {
-        background: var(--bk);
+      /* ── ZEROES GRID ── */
+      .zeroes {
         border-top: var(--bd);
-        padding: 36px 6%;
-        display: flex;
-        justify-content: center;
-        gap: 0;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1px;
+        background: rgba(255, 255, 255, 0.1);
       }
-
-      .strip-item {
+      .zero-card {
+        background: var(--bk);
+        padding: 36px 18px;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 12px;
+        text-align: center;
+        gap: 6px;
+      }
+      .zero-pct {
+        font-family: "Fredoka", sans-serif;
+        font-size: 3rem;
+        font-weight: 700;
         color: var(--y);
-        padding: 0 40px;
-        font-size: 0.95rem;
+        line-height: 1;
       }
-      .strip-item + .strip-item {
-        border-left: 1.5px solid rgba(255, 255, 255, 0.12);
+      .zero-card--full .zero-pct {
+        color: var(--gn);
       }
-      .strip-emoji {
-        font-size: 1.5rem;
-        flex-shrink: 0;
-      }
-      .strip-text strong {
+      .zero-title {
         font-family: "Fredoka", sans-serif;
         font-size: 1.05rem;
-        display: block;
-        margin-bottom: 2px;
+        font-weight: 600;
+        color: #fff;
       }
-      .strip-text span {
-        opacity: 0.5;
-        font-size: 0.82rem;
+      .zero-desc {
+        font-size: 0.8rem;
+        color: var(--y);
+        opacity: 0.55;
+        line-height: 1.45;
+        margin-top: 2px;
       }
 
       /* ── FOOTER ── */
@@ -464,6 +474,10 @@
       }
       .ft-links a:hover {
         opacity: 1;
+      }
+      .ft-links .gh-star {
+        opacity: 0.85;
+        font-weight: 600;
       }
       footer p {
         font-size: 0.75rem;
@@ -535,6 +549,163 @@
         }
       }
 
+      /* ── TECH SECTION ── */
+      .tech {
+        background: var(--bk);
+        border-top: var(--bd);
+        padding: 72px 8%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: start;
+      }
+      .tech-label {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+        color: var(--y);
+        opacity: 0.55;
+        margin-bottom: 14px;
+      }
+      .tech-h2 {
+        font-family: "Fredoka", sans-serif;
+        font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+        font-weight: 700;
+        color: #fff;
+        line-height: 1.1;
+        margin-bottom: 20px;
+      }
+      .tech-body {
+        font-size: 0.92rem;
+        color: var(--y);
+        opacity: 0.6;
+        line-height: 1.75;
+      }
+      .tech-body + .tech-body {
+        margin-top: 14px;
+      }
+      .tech-specs {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .spec-card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1.5px solid rgba(255, 255, 255, 0.09);
+        border-radius: 14px;
+        padding: 18px 20px;
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+      }
+      .spec-icon {
+        font-size: 1.35rem;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .spec-title {
+        font-family: "Fredoka", sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--y);
+        display: block;
+        margin-bottom: 4px;
+      }
+      .spec-desc {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.4);
+        line-height: 1.55;
+      }
+
+      /* ── MODEL DOWNLOAD CALLOUT ── */
+      .model-dl {
+        background: var(--cr);
+        border-top: var(--bd);
+        border-bottom: var(--bd);
+        padding: 40px 8%;
+        display: flex;
+        align-items: flex-start;
+        gap: 24px;
+      }
+      .model-dl-icon {
+        font-size: 2.4rem;
+        flex-shrink: 0;
+        line-height: 1;
+        margin-top: 2px;
+      }
+      .model-dl-title {
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--bk);
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .model-dl-badge {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        background: var(--bk);
+        color: var(--y);
+        padding: 3px 10px;
+        border-radius: 100px;
+      }
+      .model-dl-body {
+        font-size: 0.88rem;
+        color: var(--bk);
+        opacity: 0.65;
+        line-height: 1.7;
+        max-width: 700px;
+      }
+
+      /* ── CITIZEN SCIENCE BANNER ── */
+      .science {
+        background: var(--bk);
+        border-top: var(--bd);
+        padding: 36px 8%;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+      .science-icon {
+        font-size: 2rem;
+        flex-shrink: 0;
+      }
+      .science-copy {
+        flex: 1;
+      }
+      .science-title {
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 5px;
+      }
+      .science-body {
+        font-size: 0.85rem;
+        color: var(--y);
+        opacity: 0.6;
+        line-height: 1.65;
+      }
+      .science-badge {
+        flex-shrink: 0;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.7px;
+        text-transform: uppercase;
+        background: var(--gn);
+        color: #fff;
+        padding: 7px 16px;
+        border-radius: 100px;
+        border: var(--bd);
+        white-space: nowrap;
+      }
+
       /* ── RESPONSIVE ── */
       @media (max-width: 768px) {
         .hero {
@@ -573,17 +744,36 @@
         .sub-btn {
           border-radius: 12px;
         }
-        .strip {
-          flex-direction: column;
-          gap: 20px;
-          padding: 28px 6%;
+        .zeroes {
+          grid-template-columns: repeat(2, 1fr);
         }
-        .strip-item {
-          padding: 0;
-          border-left: none !important;
+        .zero-card--full {
+          grid-column: 1 / -1;
+        }
+        .zero-pct {
+          font-size: 2.4rem;
         }
         .mit {
           display: none;
+        }
+        .tech {
+          grid-template-columns: 1fr;
+          gap: 36px;
+          padding: 52px 5%;
+        }
+        .model-dl {
+          flex-direction: column;
+          gap: 14px;
+          padding: 36px 5%;
+        }
+        .science {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 36px 5%;
+          gap: 16px;
+        }
+        .science-badge {
+          align-self: flex-start;
         }
         footer {
           flex-direction: column;
@@ -635,7 +825,14 @@
             </li>
           </ul>
         </div>
-        <span class="mit" data-i18n="nav_mit">MIT Open Source</span>
+        <a
+          href="https://github.com/krzysztofradomski/critterboard"
+          target="_blank"
+          rel="noopener"
+          class="mit"
+          data-i18n="nav_mit"
+          >MIT Open Source</a
+        >
         <a href="#notify" class="nav-btn" data-i18n="nav_cta">Get notified →</a>
       </div>
     </nav>
@@ -659,16 +856,17 @@
           <span data-i18n="sub_l2">No cloud. No account. No $$$.</span>
         </p>
 
-        <form class="form" id="form">
+        <form class="form" id="form" name="waitlist" netlify>
+          <input type="hidden" name="form-name" value="waitlist" />
           <input
             class="inp"
             type="email"
-            placeholder="Sign-up not available yet"
+            name="email"
+            placeholder="your@email.com"
             data-i18n-placeholder="email_ph"
             required
-            disabled
           />
-          <button class="sub-btn" type="submit" data-i18n="submit" disabled>
+          <button class="sub-btn" type="submit" data-i18n="submit">
             Notify me 🪲
           </button>
         </form>
@@ -709,28 +907,87 @@
       </div>
     </section>
 
-    <div class="strip">
-      <div class="strip-item">
-        <span class="strip-emoji">📷</span>
-        <div class="strip-text">
-          <strong data-i18n="s1_t">Snap &amp; ID</strong>
-          <span data-i18n="s1_d">Local model. Zero uploads. Ever.</span>
+    <div class="zeroes">
+      <div class="zero-card">
+        <span class="zero-pct">0%</span>
+        <strong class="zero-title" data-i18n="z1_t">Cloud</strong>
+        <span class="zero-desc" data-i18n="z1_d">Fully offline local AI models.</span>
+      </div>
+      <div class="zero-card">
+        <span class="zero-pct">0%</span>
+        <strong class="zero-title" data-i18n="z2_t">Tracking</strong>
+        <span class="zero-desc" data-i18n="z2_d">No data leaves your device.</span>
+      </div>
+      <div class="zero-card">
+        <span class="zero-pct">0%</span>
+        <strong class="zero-title" data-i18n="z3_t">Accounts</strong>
+        <span class="zero-desc" data-i18n="z3_d">Open the app and start exploring instantly.</span>
+      </div>
+      <div class="zero-card">
+        <span class="zero-pct">0%</span>
+        <strong class="zero-title" data-i18n="z4_t">Cost</strong>
+        <span class="zero-desc" data-i18n="z4_d">100% free and MIT open-source.</span>
+      </div>
+      <div class="zero-card zero-card--full">
+        <span class="zero-pct">100%</span>
+        <strong class="zero-title" data-i18n="z5_t">Gamified</strong>
+        <span class="zero-desc" data-i18n="z5_d">Collect, explore, and view your world on an interactive 3D globe.</span>
+      </div>
+    </div>
+
+    <!-- ── TECH SECTION ── -->
+    <section class="tech" id="tech">
+      <div class="tech-l">
+        <p class="tech-label" data-i18n="tech_label">How it works</p>
+        <h2 class="tech-h2" data-i18n="tech_h2">On-device intelligence, no cloud required.</h2>
+        <p class="tech-body" data-i18n="tech_p1">Critterboard bundles lightweight, hardware-accelerated vision models directly into the app. Identification runs on your phone's neural engine — never on a remote server, never over a network.</p>
+        <p class="tech-body" data-i18n="tech_p2">Models are quantized and optimized for mobile inference, delivering identification accuracy comparable to server-side systems at a fraction of the compute cost. No API key. No rate limit. No latency.</p>
+      </div>
+      <div class="tech-specs">
+        <div class="spec-card">
+          <span class="spec-icon">🧠</span>
+          <div>
+            <span class="spec-title" data-i18n="spec1_t">Quantized Vision Models</span>
+            <span class="spec-desc" data-i18n="spec1_d">4-bit quantized models optimized for iOS Neural Engine and Android NNAPI. Runs in under 200 ms per frame on mid-range hardware.</span>
+          </div>
+        </div>
+        <div class="spec-card">
+          <span class="spec-icon">⚡</span>
+          <div>
+            <span class="spec-title" data-i18n="spec2_t">Hardware Acceleration</span>
+            <span class="spec-desc" data-i18n="spec2_d">Delegates inference to the on-device NPU or GPU via Core ML on iOS and NNAPI / GPU delegate on Android. CPU fallback guaranteed.</span>
+          </div>
+        </div>
+        <div class="spec-card">
+          <span class="spec-icon">🗺️</span>
+          <div>
+            <span class="spec-title" data-i18n="spec3_t">Regional Model Packages</span>
+            <span class="spec-desc" data-i18n="spec3_d">Models are scoped to your region's insect fauna, keeping file sizes small and accuracy high for the species you'll actually encounter.</span>
+          </div>
         </div>
       </div>
-      <div class="strip-item">
-        <span class="strip-emoji">🏆</span>
-        <div class="strip-text">
-          <strong data-i18n="s2_t">Hunt &amp; Rank</strong>
-          <span data-i18n="s2_d">Quests, XP, rarity tiers, global board.</span>
-        </div>
+    </section>
+
+    <!-- ── MODEL DOWNLOAD CALLOUT ── -->
+    <div class="model-dl">
+      <span class="model-dl-icon">📦</span>
+      <div>
+        <p class="model-dl-title">
+          <span data-i18n="dl_title">One-time model download on first launch</span>
+          <span class="model-dl-badge">~50–100 MB</span>
+        </p>
+        <p class="model-dl-body" data-i18n="dl_body">The regional AI model package is fetched once on first launch, or pre-downloaded over Wi-Fi before you head out. After that, everything runs fully offline. We recommend completing this step at home before going into the field. Once done, Critterboard works anywhere — forest, meadow, or no-bars wilderness.</p>
       </div>
-      <div class="strip-item">
-        <span class="strip-emoji">🧠</span>
-        <div class="strip-text">
-          <strong data-i18n="s3_t">On-Device AI</strong>
-          <span data-i18n="s3_d">3 guide personas. Snarky to calm.</span>
-        </div>
+    </div>
+
+    <!-- ── CITIZEN SCIENCE BANNER ── -->
+    <div class="science">
+      <span class="science-icon">🔬</span>
+      <div class="science-copy">
+        <p class="science-title" data-i18n="sci_title">Citizen Science Ready</p>
+        <p class="science-body" data-i18n="sci_body">Built with data interoperability in mind. Supports one-click exports compliant with universal Darwin Core biodiversity standards — the same schema used by GBIF and research institutions worldwide.</p>
       </div>
+      <span class="science-badge" data-i18n="sci_badge">GBIF Compatible</span>
     </div>
 
     <footer>
@@ -743,7 +1000,8 @@
           href="https://github.com/krzysztofradomski/critterboard"
           target="_blank"
           rel="noopener"
-          >GitHub</a
+          class="gh-star"
+          >★ Star on GitHub</a
         >
         <a href="mailto:hello@critterboard.app" data-i18n="ft_contact"
           >Contact</a
@@ -768,23 +1026,42 @@
           sub_l1:
             "The free insect hunting game that runs entirely on your phone.",
           sub_l2: "No cloud. No account. No $$$.",
-          email_ph: "Sign-up not available yet",
-          submit: "Notify me 🪲",
-          success: "🎉 You're on the list. Go find a legendary.",
-          note: "One email when we launch. Obviously.",
+          email_ph: "your@email.com",
+          submit: "Join the European Beta 🪲",
+          success: "🎉 You're in. European beta, limited spots.",
+          note: "Early access for Europe. Limited spots.",
           tag_acc: "✓ no account",
           tag_net: "✓ no internet needed",
           tag_cost: "✓ no $$$",
           tag_track: "✓ no tracking",
           tag_mit: "✓ MIT licensed",
-          s1_t: "Snap & ID",
-          s1_d: "Local model. Zero uploads. Ever.",
-          s2_t: "Hunt & Rank",
-          s2_d: "Quests, XP, rarity tiers, global board.",
-          s3_t: "On-Device AI",
-          s3_d: "3 guide personas. Snarky to calm.",
+          z1_t: "Cloud",
+          z1_d: "Fully offline local AI models.",
+          z2_t: "Tracking",
+          z2_d: "No data leaves your device.",
+          z3_t: "Accounts",
+          z3_d: "Open the app and start exploring instantly.",
+          z4_t: "Cost",
+          z4_d: "100% free and MIT open-source.",
+          z5_t: "Gamified",
+          z5_d: "Collect, explore, and view your world on an interactive 3D globe.",
           ft_tag: "Free · Open Source · MIT · Continental Europe · Coming Soon",
           ft_contact: "Contact",
+          tech_label: "How it works",
+          tech_h2: "On-device intelligence, no cloud required.",
+          tech_p1: "Critterboard bundles lightweight, hardware-accelerated vision models directly into the app. Identification runs on your phone's neural engine — never on a remote server, never over a network.",
+          tech_p2: "Models are quantized and optimized for mobile inference, delivering identification accuracy comparable to server-side systems at a fraction of the compute cost. No API key. No rate limit. No latency.",
+          spec1_t: "Quantized Vision Models",
+          spec1_d: "4-bit quantized models optimized for iOS Neural Engine and Android NNAPI. Runs in under 200 ms per frame on mid-range hardware.",
+          spec2_t: "Hardware Acceleration",
+          spec2_d: "Delegates inference to the on-device NPU or GPU via Core ML on iOS and NNAPI / GPU delegate on Android. CPU fallback guaranteed.",
+          spec3_t: "Regional Model Packages",
+          spec3_d: "Models are scoped to your region's insect fauna, keeping file sizes small and accuracy high for the species you'll actually encounter.",
+          dl_title: "One-time model download on first launch",
+          dl_body: "The regional AI model package is fetched once on first launch, or pre-downloaded over Wi-Fi before you head out. After that, everything runs fully offline. We recommend completing this step at home before going into the field. Once done, Critterboard works anywhere — forest, meadow, or no-bars wilderness.",
+          sci_title: "Citizen Science Ready",
+          sci_body: "Built with data interoperability in mind. Supports one-click exports compliant with universal Darwin Core biodiversity standards — the same schema used by GBIF and research institutions worldwide.",
+          sci_badge: "GBIF Compatible",
         },
         pl: {
           _label: "PL",
@@ -800,24 +1077,43 @@
           sub_l1:
             "Darmowa gra w łapanie robali — działa w całości na Twoim telefonie.",
           sub_l2: "Bez chmury. Bez konta. Bez kasy.",
-          email_ph: "Zapis na razie niedostępny",
-          submit: "Powiadom 🪲",
-          success: "🎉 Jesteś na liście. Idź złap legendarnego.",
-          note: "Jeden mail w dniu premiery. Tyle.",
+          email_ph: "twoj@email.com",
+          submit: "Dołącz do europejskiej bety 🪲",
+          success: "🎉 Jesteś w środku. Europejska beta, ograniczona liczba miejsc.",
+          note: "Wczesny dostęp dla Europy. Ograniczona liczba miejsc.",
           tag_acc: "✓ bez konta",
           tag_net: "✓ bez netu",
           tag_cost: "✓ za darmo",
           tag_track: "✓ bez śledzenia",
           tag_mit: "✓ licencja MIT",
-          s1_t: "Pstryk i ID",
-          s1_d: "Model lokalny. Zero uploadów. Nigdy.",
-          s2_t: "Poluj i awansuj",
-          s2_d: "Misje, XP, tiery rzadkości, globalny ranking.",
-          s3_t: "AI w telefonie",
-          s3_d: "3 osobowości przewodników. Od ironicznej po spokojną.",
+          z1_t: "Chmura",
+          z1_d: "W pełni offline. Lokalne modele AI.",
+          z2_t: "Śledzenie",
+          z2_d: "Żadne dane nie opuszczają Twojego urządzenia.",
+          z3_t: "Konta",
+          z3_d: "Otwórz apkę i zaczynaj eksplorować od razu.",
+          z4_t: "Koszty",
+          z4_d: "100% darmowe i MIT open-source.",
+          z5_t: "Grywalizacja",
+          z5_d: "Zbieraj, odkrywaj i oglądaj swój świat na interaktywnym globusie 3D.",
           ft_tag:
             "Darmowe · Open Source · MIT · Europa kontynentalna · Wkrótce",
           ft_contact: "Kontakt",
+          tech_label: "Jak to działa",
+          tech_h2: "Inteligencja na urządzeniu, bez chmury.",
+          tech_p1: "Critterboard zawiera lekkie, akcelerowane sprzętowo modele wizji działające bezpośrednio w aplikacji. Identyfikacja odbywa się na silniku neuronowym Twojego telefonu — bez zdalnego serwera, bez sieci.",
+          tech_p2: "Modele są skwantyzowane i zoptymalizowane pod kątem wnioskowania mobilnego, osiągając dokładność porównywalną z systemami serwerowymi. Bez klucza API. Bez limitów. Bez opóźnień.",
+          spec1_t: "Skwantyzowane modele wizji",
+          spec1_d: "Modele kwantyzowane do 4 bitów pod iOS Neural Engine i Android NNAPI. Poniżej 200 ms na klatkę na sprzęcie średniej klasy.",
+          spec2_t: "Akceleracja sprzętowa",
+          spec2_d: "Wnioskowanie delegowane do NPU/GPU via Core ML (iOS) i NNAPI / GPU delegate (Android). Fallback na CPU gwarantowany.",
+          spec3_t: "Regionalne pakiety modeli",
+          spec3_d: "Modele skrojone pod faunę owadzią Twojego regionu — małe pliki, wysoka trafność dla gatunków, które faktycznie spotkasz.",
+          dl_title: "Jednorazowe pobieranie modelu przy pierwszym uruchomieniu",
+          dl_body: "Regionalny pakiet AI jest pobierany raz przy pierwszym uruchomieniu lub z wyprzedzeniem przez Wi-Fi. Potem wszystko działa w pełni offline. Zalecamy ten krok w domu przed wyjściem w teren. Po zakończeniu Critterboard działa wszędzie — las, łąka, brak zasięgu.",
+          sci_title: "Gotowy na citizen science",
+          sci_body: "Zbudowany z myślą o interoperacyjności danych. Obsługuje jednorazowy eksport zgodny z Darwin Core — standardem używanym przez GBIF i instytucje badawcze na całym świecie.",
+          sci_badge: "Zgodny z GBIF",
         },
         es: {
           _label: "ES",
@@ -833,24 +1129,43 @@
           sub_l1:
             "El juego gratis de caza de bichos que corre entero en tu móvil.",
           sub_l2: "Sin nube. Sin cuenta. Sin €€€.",
-          email_ph: "Registro aún no disponible",
-          submit: "Avísame 🪲",
-          success: "🎉 Estás en la lista. Ve a por un legendario.",
-          note: "Un email el día del lanzamiento. Ya está.",
+          email_ph: "tu@email.com",
+          submit: "Únete a la beta europea 🪲",
+          success: "🎉 Estás dentro. Beta europea, plazas limitadas.",
+          note: "Acceso anticipado para Europa. Plazas limitadas.",
           tag_acc: "✓ sin cuenta",
           tag_net: "✓ sin internet",
           tag_cost: "✓ sin €€€",
           tag_track: "✓ sin tracking",
           tag_mit: "✓ licencia MIT",
-          s1_t: "Foto e ID",
-          s1_d: "Modelo local. Cero subidas. Jamás.",
-          s2_t: "Caza y rankea",
-          s2_d: "Misiones, XP, rarezas, ranking global.",
-          s3_t: "IA en el móvil",
-          s3_d: "3 guías con personalidad. De cínico a zen.",
+          z1_t: "Nube",
+          z1_d: "IA local totalmente offline.",
+          z2_t: "Rastreo",
+          z2_d: "Ningún dato sale de tu dispositivo.",
+          z3_t: "Cuentas",
+          z3_d: "Abre la app y empieza a explorar al instante.",
+          z4_t: "Coste",
+          z4_d: "100% gratis y MIT open-source.",
+          z5_t: "Gamificado",
+          z5_d: "Colecciona, explora y ve tu mundo en un globo 3D interactivo.",
           ft_tag:
             "Gratis · Open Source · MIT · Europa continental · Próximamente",
           ft_contact: "Contacto",
+          tech_label: "Cómo funciona",
+          tech_h2: "Inteligencia en tu dispositivo, sin nube.",
+          tech_p1: "Critterboard incluye modelos de visión ligeros y acelerados por hardware directamente en la app. La identificación se ejecuta en el motor neuronal de tu móvil — nunca en un servidor remoto, nunca por red.",
+          tech_p2: "Los modelos están cuantizados y optimizados para inferencia móvil, logrando una precisión comparable a los sistemas en servidor. Sin clave API. Sin límites. Sin latencia.",
+          spec1_t: "Modelos de visión cuantizados",
+          spec1_d: "Modelos a 4 bits optimizados para iOS Neural Engine y Android NNAPI. Menos de 200 ms por fotograma en hardware de gama media.",
+          spec2_t: "Aceleración por hardware",
+          spec2_d: "Inferencia delegada al NPU/GPU del dispositivo via Core ML (iOS) y NNAPI / GPU delegate (Android). Fallback en CPU garantizado.",
+          spec3_t: "Paquetes de modelos regionales",
+          spec3_d: "Modelos orientados a la fauna insecto de tu región — archivos pequeños, alta precisión para las especies que realmente encontrarás.",
+          dl_title: "Descarga única del modelo en el primer lanzamiento",
+          dl_body: "El paquete regional de IA se descarga una vez al primer lanzamiento, o por Wi-Fi de antemano. Después todo funciona completamente offline. Recomendamos hacerlo en casa antes de salir al campo. Una vez listo, Critterboard funciona en cualquier lugar — bosque, pradera o sin cobertura.",
+          sci_title: "Listo para ciencia ciudadana",
+          sci_body: "Construido con interoperabilidad de datos en mente. Soporta exportaciones con un clic conformes al estándar Darwin Core — el mismo esquema usado por GBIF e instituciones de investigación en todo el mundo.",
+          sci_badge: "Compatible con GBIF",
         },
         de: {
           _label: "DE",
@@ -867,23 +1182,42 @@
           sub_l1:
             "Das kostenlose Insektenjagdspiel, das komplett auf deinem Handy läuft.",
           sub_l2: "Keine Cloud. Kein Konto. Kein Geld.",
-          email_ph: "Anmeldung noch nicht möglich",
-          submit: "Bescheid geben 🪲",
-          success: "🎉 Du bist auf der Liste. Schnapp dir ein Legendary.",
-          note: "Eine Mail zum Launch. Versprochen.",
+          email_ph: "deine@email.com",
+          submit: "Europa-Beta beitreten 🪲",
+          success: "🎉 Du bist dabei. Europa-Beta, begrenzte Plätze.",
+          note: "Früher Zugang für Europa. Begrenzte Plätze.",
           tag_acc: "✓ kein Konto",
           tag_net: "✓ kein Internet nötig",
           tag_cost: "✓ kein Geld",
           tag_track: "✓ kein Tracking",
           tag_mit: "✓ MIT-lizenziert",
-          s1_t: "Knipsen & Erkennen",
-          s1_d: "Lokales Modell. Null Uploads. Niemals.",
-          s2_t: "Jagen & Ranken",
-          s2_d: "Quests, XP, Seltenheitsstufen, globales Board.",
-          s3_t: "KI im Gerät",
-          s3_d: "3 Guide-Personas. Frech bis ruhig.",
+          z1_t: "Cloud",
+          z1_d: "Vollständig offline. Lokale KI-Modelle.",
+          z2_t: "Tracking",
+          z2_d: "Keine Daten verlassen dein Gerät.",
+          z3_t: "Konten",
+          z3_d: "App öffnen und sofort loslegen.",
+          z4_t: "Kosten",
+          z4_d: "100% kostenlos und MIT open-source.",
+          z5_t: "Gamifiziert",
+          z5_d: "Sammle, entdecke und sieh deine Welt auf einem interaktiven 3D-Globus.",
           ft_tag: "Kostenlos · Open Source · MIT · Kontinentaleuropa · Bald",
           ft_contact: "Kontakt",
+          tech_label: "So funktioniert es",
+          tech_h2: "KI auf dem Gerät, ohne Cloud.",
+          tech_p1: "Critterboard enthält leichte, hardwarebeschleunigte Vision-Modelle direkt in der App. Die Identifikation läuft auf dem Neuronenmotor deines Telefons — niemals auf einem Remote-Server, niemals über ein Netzwerk.",
+          tech_p2: "Die Modelle sind quantisiert und für mobile Inferenz optimiert, mit Genauigkeit vergleichbar zu Server-seitigen Systemen. Kein API-Schlüssel. Kein Rate Limit. Keine Latenz.",
+          spec1_t: "Quantisierte Visionsmodelle",
+          spec1_d: "4-Bit-quantisierte Modelle für iOS Neural Engine und Android NNAPI. Unter 200 ms pro Frame auf Mittelklasse-Hardware.",
+          spec2_t: "Hardwarebeschleunigung",
+          spec2_d: "Inferenz an den NPU/GPU via Core ML (iOS) und NNAPI / GPU Delegate (Android) delegiert. CPU-Fallback garantiert.",
+          spec3_t: "Regionale Modellpakete",
+          spec3_d: "Modelle auf die Insektenfauna deiner Region zugeschnitten — kleine Dateien, hohe Genauigkeit für die Arten, die du antreffen wirst.",
+          dl_title: "Einmaliger Modell-Download beim ersten Start",
+          dl_body: "Das regionale KI-Modellpaket wird beim ersten Start einmalig heruntergeladen oder vorab per WLAN. Danach läuft alles vollständig offline. Wir empfehlen diesen Schritt zu Hause vor dem Gang ins Gelände. Danach funktioniert Critterboard überall — Wald, Wiese oder ohne Netz.",
+          sci_title: "Citizen Science bereit",
+          sci_body: "Mit Dateninteroperabilität im Blick entwickelt. Unterstützt Ein-Klick-Exporte konform zum universellen Darwin Core Biodiversitätsstandard — dasselbe Schema, das GBIF und Forschungseinrichtungen weltweit verwenden.",
+          sci_badge: "GBIF-kompatibel",
         },
       };
 
@@ -966,24 +1300,21 @@
       applyLang(detectLang());
 
       // ── form ─────────────────────────────────────────────────────────────
-      const ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
       document.getElementById("form").addEventListener("submit", async (e) => {
         e.preventDefault();
-        const btn = e.target.querySelector("button");
-        const email = e.target.querySelector("input").value;
+        const form = e.target;
+        const btn = form.querySelector("button");
+        const email = form.querySelector("input[type=email]").value;
         btn.textContent = "...";
         btn.disabled = true;
         try {
-          await fetch(ENDPOINT, {
+          await fetch("/", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify({ email }),
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ "form-name": "waitlist", email }).toString(),
           });
         } catch {}
-        e.target.style.display = "none";
+        form.style.display = "none";
         document.getElementById("ok").style.display = "block";
       });
     </script>
