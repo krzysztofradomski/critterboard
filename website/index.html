@@ -659,16 +659,17 @@
           <span data-i18n="sub_l2">No cloud. No account. No $$$.</span>
         </p>
 
-        <form class="form" id="form">
+        <form class="form" id="form" name="waitlist" netlify>
+          <input type="hidden" name="form-name" value="waitlist" />
           <input
             class="inp"
             type="email"
-            placeholder="Sign-up not available yet"
+            name="email"
+            placeholder="your@email.com"
             data-i18n-placeholder="email_ph"
             required
-            disabled
           />
-          <button class="sub-btn" type="submit" data-i18n="submit" disabled>
+          <button class="sub-btn" type="submit" data-i18n="submit">
             Notify me 🪲
           </button>
         </form>
@@ -768,7 +769,7 @@
           sub_l1:
             "The free insect hunting game that runs entirely on your phone.",
           sub_l2: "No cloud. No account. No $$$.",
-          email_ph: "Sign-up not available yet",
+          email_ph: "your@email.com",
           submit: "Notify me 🪲",
           success: "🎉 You're on the list. Go find a legendary.",
           note: "One email when we launch. Obviously.",
@@ -800,7 +801,7 @@
           sub_l1:
             "Darmowa gra w łapanie robali — działa w całości na Twoim telefonie.",
           sub_l2: "Bez chmury. Bez konta. Bez kasy.",
-          email_ph: "Zapis na razie niedostępny",
+          email_ph: "twoj@email.com",
           submit: "Powiadom 🪲",
           success: "🎉 Jesteś na liście. Idź złap legendarnego.",
           note: "Jeden mail w dniu premiery. Tyle.",
@@ -833,7 +834,7 @@
           sub_l1:
             "El juego gratis de caza de bichos que corre entero en tu móvil.",
           sub_l2: "Sin nube. Sin cuenta. Sin €€€.",
-          email_ph: "Registro aún no disponible",
+          email_ph: "tu@email.com",
           submit: "Avísame 🪲",
           success: "🎉 Estás en la lista. Ve a por un legendario.",
           note: "Un email el día del lanzamiento. Ya está.",
@@ -867,7 +868,7 @@
           sub_l1:
             "Das kostenlose Insektenjagdspiel, das komplett auf deinem Handy läuft.",
           sub_l2: "Keine Cloud. Kein Konto. Kein Geld.",
-          email_ph: "Anmeldung noch nicht möglich",
+          email_ph: "deine@email.com",
           submit: "Bescheid geben 🪲",
           success: "🎉 Du bist auf der Liste. Schnapp dir ein Legendary.",
           note: "Eine Mail zum Launch. Versprochen.",
@@ -966,24 +967,21 @@
       applyLang(detectLang());
 
       // ── form ─────────────────────────────────────────────────────────────
-      const ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
       document.getElementById("form").addEventListener("submit", async (e) => {
         e.preventDefault();
-        const btn = e.target.querySelector("button");
-        const email = e.target.querySelector("input").value;
+        const form = e.target;
+        const btn = form.querySelector("button");
+        const email = form.querySelector("input[type=email]").value;
         btn.textContent = "...";
         btn.disabled = true;
         try {
-          await fetch(ENDPOINT, {
+          await fetch("/", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify({ email }),
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ "form-name": "waitlist", email }).toString(),
           });
         } catch {}
-        e.target.style.display = "none";
+        form.style.display = "none";
         document.getElementById("ok").style.display = "block";
       });
     </script>
