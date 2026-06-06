@@ -348,7 +348,8 @@
       "sightings": "{n}× obserwacje",
       "distance": "0,6 km",
       "where": "Prospect Park · 2 dni temu",
-      "hunt": "ŁOWY →"
+      "hunt": "ŁOWY →",
+      "pinRemove": "Usuń pin"
     },
     "permissions": {
       "title": "Trzy szybkie prośby.",
@@ -656,13 +657,34 @@
     },
     "regions": {
       "list": {
-        "na-ne": { "name": "Płn.-wsch. Am. Płn.", "sub": "2 140 gatunków · drzewa, stawy, mokradła" },
-        "na-sw": { "name": "Płd.-zach. Am. Płn.", "sub": "1 880 gatunków · pustynia i chaparral" },
-        "eu-uk": { "name": "Wlk. Bryt. i Irlandia", "sub": "1 420 gatunków · specjaliści żywopłotów" },
-        "eu-md": { "name": "Śródziemnomorze",       "sub": "2 310 gatunków · od Iberii po Anatolię" },
-        "sa-am": { "name": "Dorzecze Amazonki",     "sub": "4 860 gatunków · ten wielki" },
-        "oc-au": { "name": "Australia",             "sub": "3 240 gatunków · wszystko gryzie" },
-        "as-se": { "name": "Azja Płd.-wsch.",       "sub": "3 690 gatunków · lasy monsunowe" }
+        "na-ne": {
+          "name": "Płn.-wsch. Am. Płn.",
+          "sub": "2 140 gatunków · drzewa, stawy, mokradła"
+        },
+        "na-sw": {
+          "name": "Płd.-zach. Am. Płn.",
+          "sub": "1 880 gatunków · pustynia i chaparral"
+        },
+        "eu-uk": {
+          "name": "Wlk. Bryt. i Irlandia",
+          "sub": "1 420 gatunków · specjaliści żywopłotów"
+        },
+        "eu-md": {
+          "name": "Śródziemnomorze",
+          "sub": "2 310 gatunków · od Iberii po Anatolię"
+        },
+        "sa-am": {
+          "name": "Dorzecze Amazonki",
+          "sub": "4 860 gatunków · ten wielki"
+        },
+        "oc-au": {
+          "name": "Australia",
+          "sub": "3 240 gatunków · wszystko gryzie"
+        },
+        "as-se": {
+          "name": "Azja Płd.-wsch.",
+          "sub": "3 690 gatunków · lasy monsunowe"
+        }
       },
       "detail": {
         "headLabel": "PAKIET REGIONALNY",
@@ -727,18 +749,42 @@
       }
     },
     "bugs": {
-      "mona": { "name": "Monarch (Danaid wędrowny)" },
-      "rhin": { "name": "Chrząszcz Nosorożec" },
-      "hcat": { "name": "Pszczoła Miodna" },
-      "mant": { "name": "Modliszka Zwyczajna" },
-      "lady": { "name": "Biedronka Siedmiokropka" },
-      "drag": { "name": "Husarz Władca" },
-      "lhoc": { "name": "Ćma Luna" },
-      "fire": { "name": "Świetlik Pospolity" },
-      "cica": { "name": "Cykada Okresowa" },
-      "hwsp": { "name": "Klecanka Polna" },
-      "walk": { "name": "Patyczak" },
-      "atla": { "name": "Ćma Atlas" }
+      "mona": {
+        "name": "Monarch (Danaid wędrowny)"
+      },
+      "rhin": {
+        "name": "Chrząszcz Nosorożec"
+      },
+      "hcat": {
+        "name": "Pszczoła Miodna"
+      },
+      "mant": {
+        "name": "Modliszka Zwyczajna"
+      },
+      "lady": {
+        "name": "Biedronka Siedmiokropka"
+      },
+      "drag": {
+        "name": "Husarz Władca"
+      },
+      "lhoc": {
+        "name": "Ćma Luna"
+      },
+      "fire": {
+        "name": "Świetlik Pospolity"
+      },
+      "cica": {
+        "name": "Cykada Okresowa"
+      },
+      "hwsp": {
+        "name": "Klecanka Polna"
+      },
+      "walk": {
+        "name": "Patyczak"
+      },
+      "atla": {
+        "name": "Ćma Atlas"
+      }
     },
     "personas": {
       "larva": {
@@ -898,19 +944,46 @@
         "data": "Dane i podziękowania"
       },
       "team": {
-        "mira": { "name": "Mira Ostrov",     "role": "Design i ilustracje" },
-        "theo": { "name": "Theo Bramble",    "role": "Inżynieria iOS" },
-        "junie": { "name": "Junie Halverson", "role": "ML i modele na urządzeniu" }
+        "mira": {
+          "name": "Mira Ostrov",
+          "role": "Design i ilustracje"
+        },
+        "theo": {
+          "name": "Theo Bramble",
+          "role": "Inżynieria iOS"
+        },
+        "junie": {
+          "name": "Junie Halverson",
+          "role": "ML i modele na urządzeniu"
+        }
       },
       "models": {
-        "bugnet": { "name": "BugNet v3",       "role": "Wizja · 412 MB · 10 247 gatunków" },
-        "larva":  { "name": "Larva-3B",        "role": "Czat · 1,9 GB · kwantyzacja Q4" },
-        "variants": { "name": "Maywind / Snail", "role": "Warianty osobowości Larva-3B" }
+        "bugnet": {
+          "name": "BugNet v3",
+          "role": "Wizja · 412 MB · 10 247 gatunków"
+        },
+        "larva": {
+          "name": "Larva-3B",
+          "role": "Czat · 1,9 GB · kwantyzacja Q4"
+        },
+        "variants": {
+          "name": "Maywind / Snail",
+          "role": "Warianty osobowości Larva-3B"
+        }
       },
       "data": {
-        "iNat":  { "name": "iNaturalist",        "role": "Zdjęcia referencyjne (CC-BY-NC)" },
-        "gbif":  { "name": "GBIF",               "role": "Zasięg i siedliska" },
-        "beta":  { "name": "Każdy beta tester",  "role": "Testowane w terenie w 14 miastach" }
+        "iNat": {
+          "name": "iNaturalist",
+          "role": "Zdjęcia referencyjne (CC-BY-NC)"
+        },
+        "gbif": {
+          "name": "GBIF",
+          "role": "Zasięg i siedliska"
+        },
+        "beta": {
+          "name": "Każdy beta tester",
+          "role": "Testowane w terenie w 14 miastach"
+        }
       },
       "contactTitle": "Znalazłeś bug bug?",
       "contactEmail": "hello@critterboard.app",

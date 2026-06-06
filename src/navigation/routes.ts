@@ -15,7 +15,7 @@ export type RouteParamMap = {
   permissions: undefined;
   home: undefined;
   scan: { hint?: ScanHint } | undefined;
-  result: { id: string; photoUri?: string };
+  result: { id: string; photoUri?: string; conf?: number };
   chat: { topic?: string } | undefined;
   dex: undefined;
   map: undefined;
@@ -23,7 +23,7 @@ export type RouteParamMap = {
   quests: undefined;
   leaderboard: undefined;
   settings: undefined;
-  disambiguate: { candidates?: string[]; confs?: number[] } | undefined;
+  disambiguate: { candidates?: string[]; confs?: number[]; photoUri?: string } | undefined;
   nomatch: undefined;
   soundid: undefined;
   activity: undefined;

@@ -106,12 +106,17 @@ export function Scan() {
 
         if (confident && top) {
           haptics.success();
-          go('result', { id: top.bugId, ...(photoUri ? { photoUri } : {}) });
+          go('result', {
+            id: top.bugId,
+            conf: Math.round(top.confidence * 100),
+            ...(photoUri ? { photoUri } : {}),
+          });
         } else if (candidates.length >= 2) {
           haptics.select();
           go('disambiguate', {
             candidates: candidates.map((c) => c.bugId),
             confs: candidates.map((c) => Math.round(c.confidence * 100)),
+            ...(photoUri ? { photoUri } : {}),
           });
         } else {
           haptics.warning();

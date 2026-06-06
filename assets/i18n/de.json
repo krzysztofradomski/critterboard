@@ -348,7 +348,8 @@
       "sightings": "{n}× Sichtungen",
       "distance": "0,6 km",
       "where": "Prospect Park · vor 2 Tagen",
-      "hunt": "JAGD →"
+      "hunt": "JAGD →",
+      "pinRemove": "Pin entfernen"
     },
     "permissions": {
       "title": "Drei kurze Fragen.",
@@ -656,13 +657,34 @@
     },
     "regions": {
       "list": {
-        "na-ne": { "name": "Nordosten NA", "sub": "2.140 Arten · Bäume, Teiche, Feuchtgebiete" },
-        "na-sw": { "name": "Südwesten NA", "sub": "1.880 Arten · Wüste & Chaparral" },
-        "eu-uk": { "name": "UK & Irland",  "sub": "1.420 Arten · Heckenspezialisten" },
-        "eu-md": { "name": "Mittelmeerraum","sub": "2.310 Arten · Iberien → Anatolien" },
-        "sa-am": { "name": "Amazonasbecken","sub": "4.860 Arten · das Große" },
-        "oc-au": { "name": "Australien",    "sub": "3.240 Arten · alles beißt" },
-        "as-se": { "name": "Südostasien",   "sub": "3.690 Arten · Monsunwälder" }
+        "na-ne": {
+          "name": "Nordosten NA",
+          "sub": "2.140 Arten · Bäume, Teiche, Feuchtgebiete"
+        },
+        "na-sw": {
+          "name": "Südwesten NA",
+          "sub": "1.880 Arten · Wüste & Chaparral"
+        },
+        "eu-uk": {
+          "name": "UK & Irland",
+          "sub": "1.420 Arten · Heckenspezialisten"
+        },
+        "eu-md": {
+          "name": "Mittelmeerraum",
+          "sub": "2.310 Arten · Iberien → Anatolien"
+        },
+        "sa-am": {
+          "name": "Amazonasbecken",
+          "sub": "4.860 Arten · das Große"
+        },
+        "oc-au": {
+          "name": "Australien",
+          "sub": "3.240 Arten · alles beißt"
+        },
+        "as-se": {
+          "name": "Südostasien",
+          "sub": "3.690 Arten · Monsunwälder"
+        }
       },
       "detail": {
         "headLabel": "REGIONALPAKET",
@@ -727,18 +749,42 @@
       }
     },
     "bugs": {
-      "mona": { "name": "Monarchfalter" },
-      "rhin": { "name": "Nashornkäfer" },
-      "hcat": { "name": "Honigbiene" },
-      "mant": { "name": "Gottesanbeterin" },
-      "lady": { "name": "Siebenpunkt-Marienkäfer" },
-      "drag": { "name": "Große Königslibelle" },
-      "lhoc": { "name": "Mondspinner" },
-      "fire": { "name": "Gemeines Leuchtkäferchen" },
-      "cica": { "name": "Periodische Zikade" },
-      "hwsp": { "name": "Haus-Feldwespe" },
-      "walk": { "name": "Stabschrecke" },
-      "atla": { "name": "Atlasspinner" }
+      "mona": {
+        "name": "Monarchfalter"
+      },
+      "rhin": {
+        "name": "Nashornkäfer"
+      },
+      "hcat": {
+        "name": "Honigbiene"
+      },
+      "mant": {
+        "name": "Gottesanbeterin"
+      },
+      "lady": {
+        "name": "Siebenpunkt-Marienkäfer"
+      },
+      "drag": {
+        "name": "Große Königslibelle"
+      },
+      "lhoc": {
+        "name": "Mondspinner"
+      },
+      "fire": {
+        "name": "Gemeines Leuchtkäferchen"
+      },
+      "cica": {
+        "name": "Periodische Zikade"
+      },
+      "hwsp": {
+        "name": "Haus-Feldwespe"
+      },
+      "walk": {
+        "name": "Stabschrecke"
+      },
+      "atla": {
+        "name": "Atlasspinner"
+      }
     },
     "personas": {
       "larva": {
@@ -898,19 +944,46 @@
         "data": "Daten & Dank"
       },
       "team": {
-        "mira": { "name": "Mira Ostrov",     "role": "Design & Illustration" },
-        "theo": { "name": "Theo Bramble",    "role": "iOS-Entwicklung" },
-        "junie": { "name": "Junie Halverson", "role": "ML & Modelle auf dem Gerät" }
+        "mira": {
+          "name": "Mira Ostrov",
+          "role": "Design & Illustration"
+        },
+        "theo": {
+          "name": "Theo Bramble",
+          "role": "iOS-Entwicklung"
+        },
+        "junie": {
+          "name": "Junie Halverson",
+          "role": "ML & Modelle auf dem Gerät"
+        }
       },
       "models": {
-        "bugnet": { "name": "BugNet v3",       "role": "Vision · 412 MB · 10.247 Arten" },
-        "larva":  { "name": "Larva-3B",        "role": "Chat · 1,9 GB · Q4 quantisiert" },
-        "variants": { "name": "Maywind / Snail", "role": "Persona-Varianten von Larva-3B" }
+        "bugnet": {
+          "name": "BugNet v3",
+          "role": "Vision · 412 MB · 10.247 Arten"
+        },
+        "larva": {
+          "name": "Larva-3B",
+          "role": "Chat · 1,9 GB · Q4 quantisiert"
+        },
+        "variants": {
+          "name": "Maywind / Snail",
+          "role": "Persona-Varianten von Larva-3B"
+        }
       },
       "data": {
-        "iNat":  { "name": "iNaturalist",        "role": "Referenzbilder (CC-BY-NC)" },
-        "gbif":  { "name": "GBIF",               "role": "Verbreitung & Habitat" },
-        "beta":  { "name": "Jeder Beta-Tester",  "role": "Feldgetestet in 14 Städten" }
+        "iNat": {
+          "name": "iNaturalist",
+          "role": "Referenzbilder (CC-BY-NC)"
+        },
+        "gbif": {
+          "name": "GBIF",
+          "role": "Verbreitung & Habitat"
+        },
+        "beta": {
+          "name": "Jeder Beta-Tester",
+          "role": "Feldgetestet in 14 Städten"
+        }
       },
       "contactTitle": "Einen Bug-Bug gefunden?",
       "contactEmail": "hello@critterboard.app",

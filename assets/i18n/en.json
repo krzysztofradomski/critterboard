@@ -351,7 +351,8 @@
       "sightings": "{n}× sightings",
       "distance": "0.4 mi",
       "where": "Prospect Park · 2 days ago",
-      "hunt": "HUNT →"
+      "hunt": "HUNT →",
+      "pinRemove": "Remove pin"
     },
     "permissions": {
       "title": "Three quick asks.",
@@ -672,14 +673,38 @@
     },
     "regions": {
       "list": {
-        "eu-ce": { "name": "Central Europe", "sub": "20 species · demo pack · pre-installed" },
-        "na-ne": { "name": "Northeast NA", "sub": "2,140 species · trees, ponds, wetlands" },
-        "na-sw": { "name": "Southwest NA", "sub": "1,880 species · desert & chaparral" },
-        "eu-uk": { "name": "UK & Ireland", "sub": "1,420 species · hedgerow specialists" },
-        "eu-md": { "name": "Mediterranean", "sub": "2,310 species · Iberia → Anatolia" },
-        "sa-am": { "name": "Amazon Basin", "sub": "4,860 species · the big one" },
-        "oc-au": { "name": "Australia",    "sub": "3,240 species · everything bites" },
-        "as-se": { "name": "SE Asia",       "sub": "3,690 species · monsoon forests" }
+        "eu-ce": {
+          "name": "Central Europe",
+          "sub": "20 species · demo pack · pre-installed"
+        },
+        "na-ne": {
+          "name": "Northeast NA",
+          "sub": "2,140 species · trees, ponds, wetlands"
+        },
+        "na-sw": {
+          "name": "Southwest NA",
+          "sub": "1,880 species · desert & chaparral"
+        },
+        "eu-uk": {
+          "name": "UK & Ireland",
+          "sub": "1,420 species · hedgerow specialists"
+        },
+        "eu-md": {
+          "name": "Mediterranean",
+          "sub": "2,310 species · Iberia → Anatolia"
+        },
+        "sa-am": {
+          "name": "Amazon Basin",
+          "sub": "4,860 species · the big one"
+        },
+        "oc-au": {
+          "name": "Australia",
+          "sub": "3,240 species · everything bites"
+        },
+        "as-se": {
+          "name": "SE Asia",
+          "sub": "3,690 species · monsoon forests"
+        }
       },
       "detail": {
         "headLabel": "REGIONAL PACK",
@@ -768,26 +793,66 @@
       }
     },
     "bugs": {
-      "hcat": { "name": "Honey Bee" },
-      "buff": { "name": "Buff-tailed Bumblebee" },
-      "gbee": { "name": "Garden Bumblebee" },
-      "wasp": { "name": "Common Wasp" },
-      "horn": { "name": "European Hornet" },
-      "lady": { "name": "Seven-spot Ladybird" },
-      "harl": { "name": "Harlequin Ladybird" },
-      "stag": { "name": "Stag Beetle" },
-      "rchf": { "name": "Rose Chafer" },
-      "gshb": { "name": "Green Shield Bug" },
-      "bdam": { "name": "Common Blue Damselfly" },
-      "brim": { "name": "Common Brimstone" },
-      "peac": { "name": "Peacock Butterfly" },
-      "lwhi": { "name": "Large White" },
-      "swhi": { "name": "Small White" },
-      "orng": { "name": "Orange Tip" },
-      "radm": { "name": "Red Admiral" },
-      "tort": { "name": "Small Tortoiseshell" },
-      "pntl": { "name": "Painted Lady" },
-      "swal": { "name": "Common Swallowtail" }
+      "hcat": {
+        "name": "Honey Bee"
+      },
+      "buff": {
+        "name": "Buff-tailed Bumblebee"
+      },
+      "gbee": {
+        "name": "Garden Bumblebee"
+      },
+      "wasp": {
+        "name": "Common Wasp"
+      },
+      "horn": {
+        "name": "European Hornet"
+      },
+      "lady": {
+        "name": "Seven-spot Ladybird"
+      },
+      "harl": {
+        "name": "Harlequin Ladybird"
+      },
+      "stag": {
+        "name": "Stag Beetle"
+      },
+      "rchf": {
+        "name": "Rose Chafer"
+      },
+      "gshb": {
+        "name": "Green Shield Bug"
+      },
+      "bdam": {
+        "name": "Common Blue Damselfly"
+      },
+      "brim": {
+        "name": "Common Brimstone"
+      },
+      "peac": {
+        "name": "Peacock Butterfly"
+      },
+      "lwhi": {
+        "name": "Large White"
+      },
+      "swhi": {
+        "name": "Small White"
+      },
+      "orng": {
+        "name": "Orange Tip"
+      },
+      "radm": {
+        "name": "Red Admiral"
+      },
+      "tort": {
+        "name": "Small Tortoiseshell"
+      },
+      "pntl": {
+        "name": "Painted Lady"
+      },
+      "swal": {
+        "name": "Common Swallowtail"
+      }
     },
     "personas": {
       "larva": {
@@ -947,19 +1012,46 @@
         "data": "Data & thanks"
       },
       "team": {
-        "mira": { "name": "Mira Ostrov",     "role": "Design & illustration" },
-        "theo": { "name": "Theo Bramble",    "role": "iOS engineering" },
-        "junie": { "name": "Junie Halverson", "role": "ML & on-device models" }
+        "mira": {
+          "name": "Mira Ostrov",
+          "role": "Design & illustration"
+        },
+        "theo": {
+          "name": "Theo Bramble",
+          "role": "iOS engineering"
+        },
+        "junie": {
+          "name": "Junie Halverson",
+          "role": "ML & on-device models"
+        }
       },
       "models": {
-        "bugnet": { "name": "BugNet v3",       "role": "Vision · 412 MB · 10,247 species" },
-        "larva":  { "name": "Gemma 3 1B-IT",    "role": "Chat · 670 MB · Q4_K_M quantized" },
-        "variants": { "name": "Maywind / Snail", "role": "Persona LoRA adapters · 15 MB each" }
+        "bugnet": {
+          "name": "BugNet v3",
+          "role": "Vision · 412 MB · 10,247 species"
+        },
+        "larva": {
+          "name": "Gemma 3 1B-IT",
+          "role": "Chat · 670 MB · Q4_K_M quantized"
+        },
+        "variants": {
+          "name": "Maywind / Snail",
+          "role": "Persona LoRA adapters · 15 MB each"
+        }
       },
       "data": {
-        "iNat":  { "name": "iNaturalist",       "role": "Reference imagery (CC-BY-NC)" },
-        "gbif":  { "name": "GBIF",              "role": "Range & habitat data" },
-        "beta":  { "name": "Every beta tester", "role": "Field-tested in 14 cities" }
+        "iNat": {
+          "name": "iNaturalist",
+          "role": "Reference imagery (CC-BY-NC)"
+        },
+        "gbif": {
+          "name": "GBIF",
+          "role": "Range & habitat data"
+        },
+        "beta": {
+          "name": "Every beta tester",
+          "role": "Field-tested in 14 cities"
+        }
       },
       "contactTitle": "Found a bug bug?",
       "contactEmail": "hello@critterboard.app",

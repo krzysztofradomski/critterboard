@@ -19,9 +19,10 @@ export function Disambiguate() {
   const P = usePersona(persona);
   const t = useT();
   const route = useCurrentRoute();
-  const params = (route.params as { candidates?: string[]; confs?: number[] } | undefined) ?? {};
+  const params = (route.params as { candidates?: string[]; confs?: number[]; photoUri?: string } | undefined) ?? {};
   const candIds = params.candidates ?? ['mona', 'atla', 'drag'];
   const confs = params.confs ?? [62, 41, 23];
+  const photoUri = params.photoUri;
 
   const candidates = candIds
     .map((id, i) => {
@@ -76,7 +77,7 @@ export function Disambiguate() {
             return (
               <Pressable
                 key={c.id}
-                onPress={() => go('result', { id: c.id })}
+                onPress={() => go('result', { id: c.id, conf: c.conf, ...(photoUri ? { photoUri } : {}) })}
                 style={styles.candidate}
               >
                 <View style={[styles.candidateArt, { backgroundColor: c.color || PB.cream2 }]}>
