@@ -2,12 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle, Defs, Path, Pattern, Rect } from 'react-native-svg';
 
+import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { TabBar } from '@/components/TabBar';
 import { findBug } from '@/data/bugs';
 import { SIGHTINGS } from '@/data/sightings';
-import { useT } from '@/i18n/helpers';
+import { bugName, useT } from '@/i18n/helpers';
 import { refreshMapLocation } from '@/lib/geocode';
 import { useGeotaggedCatches } from '@/lib/streak';
 import { PB } from '@/tokens/pb';
@@ -44,6 +45,17 @@ function project(
   };
 }
 
+type UserPinData = {
+  id: string;
+  at: number;
+  x: number;
+  y: number;
+  emoji: string;
+  name: string;
+  lat: number;
+  lng: number;
+};
+
 export function MapScreen() {
   const { go } = useNav();
   const t = useT();
@@ -52,6 +64,9 @@ export function MapScreen() {
   const userCatches = useGeotaggedCatches();
   const locationShareOn = useAppStore((state) => state.profile.locationShareOn);
   const mapLocation = useAppStore((state) => state.mapLocation);
+  const language = useAppStore((state) => state.language);
+  const removeMapPin = useAppStore((state) => state.removeMapPin);
+  const [selectedPin, setSelectedPin] = useState<UserPinData | null>(null);
 
   useEffect(() => {
     void refreshMapLocation();
@@ -69,15 +84,24 @@ export function MapScreen() {
       ? [mapLocation.city, mapLocation.region].filter(Boolean).join(', ')
       : t('map.locName');
 
-  const userPins = useMemo(() => {
+  const userPins = useMemo((): UserPinData[] => {
     if (userCatches.length === 0) return [];
     const center = userCatches[0]!; // newest first
     return userCatches.map((c) => {
       const { x, y } = project(c.lat!, c.lng!, center.lat!, center.lng!);
       const bug = findBug(c.id);
-      return { id: `${c.id}-${c.at}`, x, y, emoji: bug?.emoji ?? '🐛' };
+      return {
+        id: `${c.id}-${c.at}`,
+        at: c.at,
+        x,
+        y,
+        emoji: bug?.emoji ?? '🐛',
+        name: bugName(language, c.id),
+        lat: c.lat!,
+        lng: c.lng!,
+      };
     });
-  }, [userCatches]);
+  }, [userCatches, language]);
 
   return (
     <View style={styles.root}>
@@ -139,12 +163,16 @@ export function MapScreen() {
       ))}
 
       {userPins.map((p) => (
-        <View key={p.id} style={[styles.userPin, { left: `${p.x}%`, top: `${p.y}%` }]}>
-          <View style={styles.userPinHead}>
+        <Pressable
+          key={p.id}
+          onPress={() => setSelectedPin(p)}
+          style={[styles.userPin, { left: `${p.x}%`, top: `${p.y}%` }]}
+        >
+          <View style={[styles.userPinHead, selectedPin?.id === p.id && styles.userPinHeadSelected]}>
             <Text style={styles.userPinEmoji}>{p.emoji}</Text>
           </View>
           <View style={styles.userPinTail} />
-        </View>
+        </Pressable>
       ))}
 
       <View style={styles.youPin}>
@@ -164,23 +192,53 @@ export function MapScreen() {
       </View>
 
       <View style={styles.bottombar}>
-        <Sticker bg={PB.cream} style={{ padding: 12 }} onPress={() => go('scan')}>
-          <View style={styles.cardRow}>
-            <View style={styles.cardArt}>
-              <Text style={{ fontSize: 26 }}>{s.bug}</Text>
-            </View>
-            <View style={{ flex: 1 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 6 }}>
-                <Text style={styles.cardTitle}>{t('map.sightings', { n: s.size + 1 })}</Text>
-                <Text style={styles.cardDistance}>{t('map.distance')}</Text>
+        {selectedPin ? (
+          <Sticker bg={PB.cream} style={{ padding: 12 }}>
+            <View style={styles.cardRow}>
+              <View style={styles.cardArt}>
+                <Text style={{ fontSize: 26 }}>{selectedPin.emoji}</Text>
               </View>
-              <Text style={styles.cardWhere}>{t('map.where')}</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.cardTitle}>{selectedPin.name}</Text>
+                <Text style={styles.cardWhere}>
+                  {selectedPin.lat.toFixed(4)}°, {selectedPin.lng.toFixed(4)}°
+                </Text>
+              </View>
+              <View style={{ gap: 6 }}>
+                <Pressable
+                  onPress={() => {
+                    removeMapPin(selectedPin.at);
+                    setSelectedPin(null);
+                  }}
+                  style={styles.removePill}
+                >
+                  <Text style={styles.removePillText}>{t('map.pinRemove')}</Text>
+                </Pressable>
+                <Pressable onPress={() => setSelectedPin(null)} style={styles.closePill}>
+                  <Text style={styles.closePillText}>✕</Text>
+                </Pressable>
+              </View>
             </View>
-            <View style={styles.huntPill}>
-              <Text style={styles.huntPillText}>{t('map.hunt')}</Text>
+          </Sticker>
+        ) : (
+          <Sticker bg={PB.cream} style={{ padding: 12 }} onPress={() => go('scan')}>
+            <View style={styles.cardRow}>
+              <View style={styles.cardArt}>
+                <Text style={{ fontSize: 26 }}>{s.bug}</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 6 }}>
+                  <Text style={styles.cardTitle}>{t('map.sightings', { n: s.size + 1 })}</Text>
+                  <Text style={styles.cardDistance}>{t('map.distance')}</Text>
+                </View>
+                <Text style={styles.cardWhere}>{t('map.where')}</Text>
+              </View>
+              <View style={styles.huntPill}>
+                <Text style={styles.huntPillText}>{t('map.hunt')}</Text>
+              </View>
             </View>
-          </View>
-        </Sticker>
+          </Sticker>
+        )}
       </View>
 
       <TabBar active="map" />
@@ -231,6 +289,10 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     shadowOffset: { width: 2, height: 2 },
     transform: [{ rotate: '45deg' }],
+  },
+  userPinHeadSelected: {
+    backgroundColor: PB.yellow,
+    shadowOffset: { width: 3, height: 3 },
   },
   userPinEmoji: { fontSize: 16, transform: [{ rotate: '-45deg' }] },
   userPinTail: {
@@ -292,4 +354,28 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
   },
   huntPillText: { fontSize: 11, fontWeight: '800', color: PB.ink },
+  removePill: {
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    backgroundColor: PB.red,
+    borderColor: PB.ink,
+    borderWidth: 2,
+    borderRadius: 99,
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 2, height: 2 },
+    alignItems: 'center',
+  },
+  removePillText: { fontSize: 11, fontWeight: '800', color: PB.cream },
+  closePill: {
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    backgroundColor: PB.cream2,
+    borderColor: PB.ink,
+    borderWidth: 2,
+    borderRadius: 99,
+    alignItems: 'center',
+  },
+  closePillText: { fontSize: 11, fontWeight: '800', color: PB.ink },
 });

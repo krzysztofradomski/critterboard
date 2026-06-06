@@ -348,7 +348,8 @@
       "sightings": "{n}× avistamientos",
       "distance": "0,6 km",
       "where": "Prospect Park · hace 2 días",
-      "hunt": "CAZAR →"
+      "hunt": "CAZAR →",
+      "pinRemove": "Eliminar pin"
     },
     "permissions": {
       "title": "Tres preguntas rápidas.",
@@ -656,13 +657,34 @@
     },
     "regions": {
       "list": {
-        "na-ne": { "name": "Nordeste NA",   "sub": "2.140 especies · árboles, lagunas, humedales" },
-        "na-sw": { "name": "Suroeste NA",   "sub": "1.880 especies · desierto y chaparral" },
-        "eu-uk": { "name": "Reino Unido e Irlanda", "sub": "1.420 especies · expertos de seto" },
-        "eu-md": { "name": "Mediterráneo",  "sub": "2.310 especies · de Iberia a Anatolia" },
-        "sa-am": { "name": "Cuenca Amazónica", "sub": "4.860 especies · la grande" },
-        "oc-au": { "name": "Australia",     "sub": "3.240 especies · todo muerde" },
-        "as-se": { "name": "Sudeste Asiático", "sub": "3.690 especies · bosques monzónicos" }
+        "na-ne": {
+          "name": "Nordeste NA",
+          "sub": "2.140 especies · árboles, lagunas, humedales"
+        },
+        "na-sw": {
+          "name": "Suroeste NA",
+          "sub": "1.880 especies · desierto y chaparral"
+        },
+        "eu-uk": {
+          "name": "Reino Unido e Irlanda",
+          "sub": "1.420 especies · expertos de seto"
+        },
+        "eu-md": {
+          "name": "Mediterráneo",
+          "sub": "2.310 especies · de Iberia a Anatolia"
+        },
+        "sa-am": {
+          "name": "Cuenca Amazónica",
+          "sub": "4.860 especies · la grande"
+        },
+        "oc-au": {
+          "name": "Australia",
+          "sub": "3.240 especies · todo muerde"
+        },
+        "as-se": {
+          "name": "Sudeste Asiático",
+          "sub": "3.690 especies · bosques monzónicos"
+        }
       },
       "detail": {
         "headLabel": "PACK REGIONAL",
@@ -727,18 +749,42 @@
       }
     },
     "bugs": {
-      "mona": { "name": "Mariposa Monarca" },
-      "rhin": { "name": "Escarabajo Rinoceronte" },
-      "hcat": { "name": "Abeja Melífera" },
-      "mant": { "name": "Mantis Religiosa" },
-      "lady": { "name": "Mariquita de Siete Puntos" },
-      "drag": { "name": "Libélula Emperador" },
-      "lhoc": { "name": "Polilla Luna" },
-      "fire": { "name": "Luciérnaga Común" },
-      "cica": { "name": "Cigarra Periódica" },
-      "hwsp": { "name": "Avispa Papelera" },
-      "walk": { "name": "Insecto Palo" },
-      "atla": { "name": "Polilla Atlas" }
+      "mona": {
+        "name": "Mariposa Monarca"
+      },
+      "rhin": {
+        "name": "Escarabajo Rinoceronte"
+      },
+      "hcat": {
+        "name": "Abeja Melífera"
+      },
+      "mant": {
+        "name": "Mantis Religiosa"
+      },
+      "lady": {
+        "name": "Mariquita de Siete Puntos"
+      },
+      "drag": {
+        "name": "Libélula Emperador"
+      },
+      "lhoc": {
+        "name": "Polilla Luna"
+      },
+      "fire": {
+        "name": "Luciérnaga Común"
+      },
+      "cica": {
+        "name": "Cigarra Periódica"
+      },
+      "hwsp": {
+        "name": "Avispa Papelera"
+      },
+      "walk": {
+        "name": "Insecto Palo"
+      },
+      "atla": {
+        "name": "Polilla Atlas"
+      }
     },
     "personas": {
       "larva": {
@@ -898,19 +944,46 @@
         "data": "Datos y agradecimientos"
       },
       "team": {
-        "mira": { "name": "Mira Ostrov",     "role": "Diseño e ilustración" },
-        "theo": { "name": "Theo Bramble",    "role": "Ingeniería iOS" },
-        "junie": { "name": "Junie Halverson", "role": "ML y modelos en dispositivo" }
+        "mira": {
+          "name": "Mira Ostrov",
+          "role": "Diseño e ilustración"
+        },
+        "theo": {
+          "name": "Theo Bramble",
+          "role": "Ingeniería iOS"
+        },
+        "junie": {
+          "name": "Junie Halverson",
+          "role": "ML y modelos en dispositivo"
+        }
       },
       "models": {
-        "bugnet": { "name": "BugNet v3",       "role": "Visión · 412 MB · 10.247 especies" },
-        "larva":  { "name": "Larva-3B",        "role": "Chat · 1,9 GB · cuantizado Q4" },
-        "variants": { "name": "Maywind / Snail", "role": "Variantes de persona de Larva-3B" }
+        "bugnet": {
+          "name": "BugNet v3",
+          "role": "Visión · 412 MB · 10.247 especies"
+        },
+        "larva": {
+          "name": "Larva-3B",
+          "role": "Chat · 1,9 GB · cuantizado Q4"
+        },
+        "variants": {
+          "name": "Maywind / Snail",
+          "role": "Variantes de persona de Larva-3B"
+        }
       },
       "data": {
-        "iNat":  { "name": "iNaturalist",         "role": "Imágenes de referencia (CC-BY-NC)" },
-        "gbif":  { "name": "GBIF",                "role": "Distribución y hábitat" },
-        "beta":  { "name": "Todo beta tester",    "role": "Probado en campo en 14 ciudades" }
+        "iNat": {
+          "name": "iNaturalist",
+          "role": "Imágenes de referencia (CC-BY-NC)"
+        },
+        "gbif": {
+          "name": "GBIF",
+          "role": "Distribución y hábitat"
+        },
+        "beta": {
+          "name": "Todo beta tester",
+          "role": "Probado en campo en 14 ciudades"
+        }
       },
       "contactTitle": "¿Encontraste un bicho de software?",
       "contactEmail": "hello@critterboard.app",

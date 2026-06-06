@@ -110,7 +110,7 @@ export function Result() {
   const dex = useAppStore((s) => s.dex);
   const locationShareOn = useAppStore((s) => s.profile.locationShareOn);
   const route = useCurrentRoute();
-  const params = route.params as { id?: string; photoUri?: string } | undefined;
+  const params = route.params as { id?: string; photoUri?: string; conf?: number } | undefined;
   const id = params?.id ?? 'mona';
   const photoUri = params?.photoUri ?? null;
   const bug = findBug(id) ?? BUGS[0];
@@ -121,7 +121,7 @@ export function Result() {
   const publishCatch = usePublishCatch();
   const P = usePersona(persona);
   const alreadyCaught = dex.has(bug.id);
-  const conf = bug.rarity === 'legendary' ? 88 : bug.rarity === 'common' ? 98 : 94;
+  const conf = params?.conf ?? (bug.rarity === 'legendary' ? 88 : bug.rarity === 'common' ? 98 : 94);
   const facts = FACT_KEYS[bug.id] ?? DEFAULT_FACT_KEYS;
 
   const snarkLine = bug.rarity === 'legendary'

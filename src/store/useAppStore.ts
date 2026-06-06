@@ -226,6 +226,12 @@ type Actions = {
   clearConversationData: () => void;
   installRegion: (id: string, labelMap: Record<string, number>) => void;
   uninstallRegion: (id: string) => void;
+  /**
+   * Strip the GPS coordinates from a catch event so it no longer appears
+   * as a pin on the map. The catch itself stays in the log and dex.
+   * Identified by the event's `at` timestamp (unique per session).
+   */
+  removeMapPin: (catchAt: number) => void;
 };
 
 type AppStore = State & Actions;
@@ -686,6 +692,15 @@ export const useAppStore = create<AppStore>()(
             activeLabelMap: removedActive ? {} : s.activeLabelMap,
           };
         }),
+
+      removeMapPin: (catchAt) =>
+        set((s) => ({
+          catchLog: s.catchLog.map((e) => {
+            if (e.at !== catchAt) return e;
+            const { lat: _lat, lng: _lng, ...rest } = e;
+            return rest;
+          }),
+        })),
 
       clearScanCache: async () => {
         const events = get().catchLog;
