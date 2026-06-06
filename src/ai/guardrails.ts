@@ -4,7 +4,7 @@ import type { ChatAdapter, ChatReplyParams } from '@/ai/chatAdapter';
 // Types
 // ---------------------------------------------------------------------------
 
-export type GuardCode = 'INPUT_TOO_LONG' | 'PROMPT_INJECTION' | 'BLOCKED_CONTENT';
+export type GuardCode = 'INPUT_TOO_LONG' | 'PROMPT_INJECTION' | 'BLOCKED_CONTENT' | 'PII_DETECTED';
 
 export type GuardResult =
   | { pass: true }
@@ -17,6 +17,22 @@ export type GuardrailsConfig = {
   detectPromptInjection?: boolean;
   /** Redact PII patterns (emails, phone numbers) from LLM output chunks. Default: true */
   redactOutputPii?: boolean;
+
+  // Presidio integration — all optional; falls back to regex when absent or unreachable
+
+  /** Base URL of the Presidio guard-rails service (e.g. http://localhost:8000).
+   *  When set, async checks use Presidio for richer, NLP-backed PII detection. */
+  presidioUrl?: string;
+  /** Entities Presidio should look for in user INPUT. Defaults to high-confidence
+   *  PII that should never appear in a chat message (credit cards, SSNs, etc.). */
+  presidioInputEntities?: string[];
+  /** Presidio confidence threshold for input checks (0–1). Default: 0.7 */
+  presidioInputScoreThreshold?: number;
+  /** Entities Presidio should detect and replace in LLM OUTPUT. Defaults to a
+   *  broad PII set including email, phone, names, and locations. */
+  presidioOutputEntities?: string[];
+  /** Presidio confidence threshold for output redaction (0–1). Default: 0.5 */
+  presidioOutputScoreThreshold?: number;
 };
 
 // ---------------------------------------------------------------------------
@@ -27,7 +43,22 @@ const DEFAULTS = {
   maxInputLength: 600,
   detectPromptInjection: true,
   redactOutputPii: true,
-} satisfies Required<GuardrailsConfig>;
+} satisfies Required<Pick<GuardrailsConfig, 'maxInputLength' | 'detectPromptInjection' | 'redactOutputPii'>>;
+
+// PII entity types that are always suspicious in user input to an LLM persona.
+// PERSON / LOCATION are intentionally excluded here — mentioning "I saw a bug
+// near London" or a name in context is legitimate in an insect-ID app.
+const DEFAULT_INPUT_ENTITIES = [
+  'EMAIL_ADDRESS',
+  'PHONE_NUMBER',
+  'CREDIT_CARD',
+  'IBAN_CODE',
+  'US_SSN',
+  'US_DRIVER_LICENSE',
+  'US_PASSPORT',
+  'IP_ADDRESS',
+  'MEDICAL_LICENSE',
+] as const;
 
 // ---------------------------------------------------------------------------
 // Prompt injection patterns
@@ -54,7 +85,7 @@ const INJECTION_PATTERNS: RegExp[] = [
 ];
 
 // ---------------------------------------------------------------------------
-// PII patterns for output redaction
+// PII patterns for output redaction (synchronous / regex fallback)
 // ---------------------------------------------------------------------------
 
 const PII_PATTERNS: Array<{ re: RegExp; sub: string }> = [
@@ -71,7 +102,85 @@ const PII_PATTERNS: Array<{ re: RegExp; sub: string }> = [
 ];
 
 // ---------------------------------------------------------------------------
-// Public API
+// Presidio helpers
+// ---------------------------------------------------------------------------
+
+type PresidioEntityHit = {
+  entity_type: string;
+  start: number;
+  end: number;
+  score: number;
+  text: string;
+};
+
+type PresidioAnonymizeResponse = {
+  text: string;
+  entities_found: string[];
+};
+
+async function presidioAnalyze(
+  text: string,
+  presidioUrl: string,
+  options: {
+    entities?: readonly string[];
+    score_threshold?: number;
+    language?: string;
+  } = {},
+): Promise<PresidioEntityHit[]> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 5_000);
+  try {
+    const res = await fetch(`${presidioUrl}/analyze`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text,
+        language: options.language ?? 'en',
+        entities: options.entities ? [...options.entities] : undefined,
+        score_threshold: options.score_threshold ?? 0.5,
+      }),
+      signal: controller.signal,
+    });
+    if (!res.ok) return [];
+    return (await res.json()) as PresidioEntityHit[];
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function presidioAnonymize(
+  text: string,
+  presidioUrl: string,
+  options: {
+    entities?: readonly string[];
+    score_threshold?: number;
+    language?: string;
+  } = {},
+): Promise<string> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 5_000);
+  try {
+    const res = await fetch(`${presidioUrl}/anonymize`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text,
+        language: options.language ?? 'en',
+        entities: options.entities ? [...options.entities] : undefined,
+        score_threshold: options.score_threshold ?? 0.5,
+      }),
+      signal: controller.signal,
+    });
+    if (!res.ok) return text;
+    const data = (await res.json()) as PresidioAnonymizeResponse;
+    return data.text;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Public sync API (unchanged — safe to call from anywhere)
 // ---------------------------------------------------------------------------
 
 /**
@@ -106,7 +215,7 @@ export function checkInput(text: string, config?: GuardrailsConfig): GuardResult
 }
 
 /**
- * Redact PII patterns (emails, phone numbers) from a string.
+ * Redact PII patterns (emails, phone numbers) from a string using regex.
  * Applied chunk-by-chunk on LLM output; cross-chunk PII is an accepted
  * limitation given the streaming model.
  */
@@ -114,13 +223,76 @@ export function redactPii(text: string): string {
   return PII_PATTERNS.reduce((s, { re, sub }) => s.replace(re, sub), text);
 }
 
+// ---------------------------------------------------------------------------
+// Public async API — uses Presidio when presidioUrl is configured, falls back
+// to the sync regex-based implementations when Presidio is unavailable.
+// ---------------------------------------------------------------------------
+
+/**
+ * Async version of `checkInput` that also queries Presidio for high-confidence
+ * PII (credit cards, SSNs, IBANs, etc.) when `config.presidioUrl` is set.
+ * Falls back gracefully to the sync regex checks if the service is unreachable.
+ */
+export async function checkInputAsync(text: string, config?: GuardrailsConfig): Promise<GuardResult> {
+  // Sync checks first — fast, no network
+  const syncResult = checkInput(text, config);
+  if (!syncResult.pass) return syncResult;
+
+  if (!config?.presidioUrl) return { pass: true };
+
+  try {
+    const entities = await presidioAnalyze(text, config.presidioUrl, {
+      entities: config.presidioInputEntities ?? DEFAULT_INPUT_ENTITIES,
+      score_threshold: config.presidioInputScoreThreshold ?? 0.7,
+    });
+
+    if (entities.length > 0) {
+      const types = [...new Set(entities.map((e) => e.entity_type.toLowerCase().replace(/_/g, ' ')))];
+      return {
+        pass: false,
+        code: 'PII_DETECTED',
+        reason: `Your message appears to contain sensitive info (${types.join(', ')}). Please remove it before chatting.`,
+      };
+    }
+  } catch {
+    // Presidio unavailable — fail open and allow the message through
+  }
+
+  return { pass: true };
+}
+
+/**
+ * Async version of `redactPii` that uses Presidio's anonymizer for richer,
+ * NLP-backed redaction when `config.presidioUrl` is set.
+ * Falls back to the sync regex implementation if the service is unreachable.
+ */
+export async function redactPiiAsync(text: string, config?: GuardrailsConfig): Promise<string> {
+  if (config?.presidioUrl) {
+    try {
+      return await presidioAnonymize(text, config.presidioUrl, {
+        entities: config.presidioOutputEntities,
+        score_threshold: config.presidioOutputScoreThreshold ?? 0.5,
+      });
+    } catch {
+      // Presidio unavailable — fall through to regex
+    }
+  }
+  return redactPii(text);
+}
+
+// ---------------------------------------------------------------------------
+// Chat adapter wrapper
+// ---------------------------------------------------------------------------
+
 /**
  * Wrap any `ChatAdapter` with input and output guardrails.
  *
- * - Input: rejected messages yield a friendly error string and return early
- *   so the underlying adapter is never called.
- * - Output: each chunk is run through PII redaction before being yielded to
- *   the caller.
+ * - Input: uses async Presidio check (if `presidioUrl` is configured) then
+ *   regex injection detection.  Rejected messages yield a friendly error string
+ *   and return early so the underlying adapter is never called.
+ * - Output: each chunk is run through regex PII redaction before being yielded.
+ *   For full-document Presidio redaction, callers can post-process the assembled
+ *   response with `redactPiiAsync`.
  */
 export function withGuardrails(adapter: ChatAdapter, config?: GuardrailsConfig): ChatAdapter {
   const cfg = { ...DEFAULTS, ...config };
@@ -129,7 +301,7 @@ export function withGuardrails(adapter: ChatAdapter, config?: GuardrailsConfig):
     ready: () => adapter.ready(),
 
     async *streamReply(params: ChatReplyParams): AsyncIterable<string> {
-      const check = checkInput(params.userText, cfg);
+      const check = await checkInputAsync(params.userText, cfg);
       if (!check.pass) {
         yield check.reason;
         return;

@@ -1,0 +1,19 @@
+services:
+  presidio:
+    build: .
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+
+# Usage:
+#   docker compose up --build
+#
+# Then set in .env:
+#   EXPO_PUBLIC_PRESIDIO_URL=http://localhost:8000
+#   (Worker) add PRESIDIO_ANALYZER_URL as a wrangler secret or [vars] entry
