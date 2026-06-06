@@ -129,6 +129,155 @@ export function buildSightingsCsv(
 }
 
 // ──────────────────────────────────────────────────────────────────────────
+// GBIF Darwin Core occurrence CSV
+// ──────────────────────────────────────────────────────────────────────────
+
+const GBIF_COLUMNS = [
+  'occurrenceID',
+  'basisOfRecord',
+  'eventDate',
+  'scientificName',
+  'vernacularName',
+  'taxonRank',
+  'kingdom',
+  'phylum',
+  'class',
+  'order',
+  'decimalLatitude',
+  'decimalLongitude',
+  'coordinateUncertaintyInMeters',
+  'geodeticDatum',
+  'datasetName',
+  'recordedBy',
+  'identifiedBy',
+] as const;
+
+function bugOrder(traits: readonly string[]): string {
+  if (traits.includes('beetle'))     return 'Coleoptera';
+  if (traits.includes('butterfly'))  return 'Lepidoptera';
+  if (traits.includes('wasp'))       return 'Hymenoptera';
+  if (traits.includes('damselfly'))  return 'Odonata';
+  if (traits.includes('bug'))        return 'Hemiptera';
+  if (traits.includes('pollinator')) return 'Hymenoptera';
+  return '';
+}
+
+/**
+ * Darwin Core occurrence CSV compatible with GBIF's occurrence upload
+ * format. One row per catch event. Coordinates are only included when the
+ * user had locationShareOn at catch time (i.e. lat/lng are present on the
+ * event). Uncertainty is set to 500 m to match the app's coarse-location
+ * pledge.
+ */
+export function buildGbifOccurrenceCsv(
+  catchLog: ReadonlyArray<CatchEvent>,
+  lang: LangId,
+  trainerName: string,
+  now: number = Date.now(),
+): ExportBlob {
+  const lines: string[] = [GBIF_COLUMNS.join(',')];
+  const sorted = [...catchLog].sort((a, b) => a.at - b.at);
+  for (const e of sorted) {
+    const bug = findBug(e.id);
+    const hasCoords = typeof e.lat === 'number' && typeof e.lng === 'number';
+    lines.push(
+      [
+        `critterboard:${e.id}:${e.at}`,
+        'HumanObservation',
+        new Date(e.at).toISOString(),
+        bug?.latin ?? e.id,
+        bugName(lang, e.id),
+        'SPECIES',
+        'Animalia',
+        'Arthropoda',
+        'Insecta',
+        bug ? bugOrder(bug.traits) : '',
+        hasCoords ? String(e.lat) : '',
+        hasCoords ? String(e.lng) : '',
+        hasCoords ? '500' : '',
+        hasCoords ? 'WGS84' : '',
+        'Critterboard',
+        trainerName,
+        'Critterboard BugNet v3',
+      ]
+        .map(csvField)
+        .join(','),
+    );
+  }
+  return {
+    filename: `critterboard-gbif-${todayStamp(now)}.csv`,
+    mimeType: 'text/csv',
+    body: lines.join('\n') + '\n',
+  };
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Full user-data export — single JSON bundle (dex + sightings + profile)
+// ──────────────────────────────────────────────────────────────────────────
+
+/**
+ * Bundles all locally stored user data into one JSON file. Suitable for a
+ * "download my data" GDPR-style flow. Includes the pseudonymous device ID
+ * so the user can cross-reference any server-side records.
+ */
+export function buildAllDataJson(
+  dex: ReadonlySet<string>,
+  catchLog: ReadonlyArray<CatchEvent>,
+  lang: LangId,
+  trainerName: string,
+  deviceUserId: string,
+  now: number = Date.now(),
+): ExportBlob {
+  const firstAt = new Map<string, number>();
+  for (const e of catchLog) {
+    const prev = firstAt.get(e.id);
+    if (prev === undefined || e.at < prev) firstAt.set(e.id, e.at);
+  }
+
+  const payload = {
+    schema: 'critterboard.userdata.v1',
+    exportedAt: new Date(now).toISOString(),
+    trainer: trainerName,
+    deviceUserId,
+    dex: {
+      caught: dex.size,
+      total: BUGS.length,
+      species: BUGS.map((b) => ({
+        id: b.id,
+        name: bugName(lang, b.id),
+        latin: b.latin,
+        rarity: b.rarity,
+        caught: dex.has(b.id),
+        firstCaughtAt: firstAt.has(b.id)
+          ? new Date(firstAt.get(b.id)!).toISOString()
+          : null,
+      })),
+    },
+    sightings: [...catchLog]
+      .sort((a, b) => a.at - b.at)
+      .map((e) => {
+        const bug = findBug(e.id);
+        const entry: Record<string, unknown> = {
+          eventDate: new Date(e.at).toISOString(),
+          speciesId: e.id,
+          scientificName: bug?.latin ?? e.id,
+          vernacularName: bugName(lang, e.id),
+          basisOfRecord: 'HumanObservation',
+        };
+        if (typeof e.lat === 'number') entry.decimalLatitude = e.lat;
+        if (typeof e.lng === 'number') entry.decimalLongitude = e.lng;
+        return entry;
+      }),
+  };
+
+  return {
+    filename: `critterboard-mydata-${todayStamp(now)}.json`,
+    mimeType: 'application/json',
+    body: JSON.stringify(payload, null, 2),
+  };
+}
+
+// ──────────────────────────────────────────────────────────────────────────
 // Share — write blob to cache + hand to OS share sheet
 // ──────────────────────────────────────────────────────────────────────────
 
