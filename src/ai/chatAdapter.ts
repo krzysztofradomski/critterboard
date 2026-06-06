@@ -45,6 +45,8 @@ export type ChatReplyParams = {
   userContext: ChatUserContext;
   memorySnippets?: ChatMemorySnippet[];
   signal?: AbortSignal;
+  /** Live app-state context for tool-based adapters (see `src/ai/toolChatAdapter.ts`). */
+  toolContext?: import('@/ai/tools').ToolContext;
 };
 
 export interface ChatAdapter {

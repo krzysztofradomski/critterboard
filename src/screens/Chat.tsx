@@ -13,7 +13,7 @@ import {
 
 import * as FileSystem from 'expo-file-system/legacy';
 
-import { chatAdapter, chatMode, guardedLocalLlmChatAdapter, guardedWebNativeLlmChatAdapter, llamaRnRuntime, MODEL_GGUF_FILENAME, type ChatHistoryTurn } from '@/ai';
+import { chatAdapter, chatMode, guardedLocalLlmChatAdapter, guardedWebNativeLlmChatAdapter, llamaRnRuntime, MODEL_GGUF_FILENAME, type ChatHistoryTurn, type ToolContext } from '@/ai';
 import { IconBtn } from '@/components/IconBtn';
 import { BUGS, findBug } from '@/data/bugs';
 import { useT } from '@/i18n/helpers';
@@ -64,7 +64,12 @@ export function Chat() {
   const dex = useAppStore((s) => s.dex);
   const catchLog = useAppStore((s) => s.catchLog);
   const followed = useAppStore((s) => s.followed);
+  const questProgress = useAppStore((s) => s.questProgress);
+  const questCompletedAt = useAppStore((s) => s.questCompletedAt);
   const questClaimedAt = useAppStore((s) => s.questClaimedAt);
+  const chatThreads = useAppStore((s) => s.chatThreads);
+  const installedRegions = useAppStore((s) => s.installedRegions);
+  const setProfile = useAppStore((s) => s.setProfile);
   const saveChatThread = useAppStore((s) => s.saveChatThread);
   const indexConversationMessage = useAppStore((s) => s.indexConversationMessage);
   const clearChatThread = useAppStore((s) => s.clearChatThread);
@@ -164,6 +169,23 @@ export function Chat() {
       keywords: hit.entry.keywords,
     }));
 
+    // Live context snapshot for tool-based adapters. Built here so tools
+    // always see the current store state at the moment the user sends.
+    const toolContext: ToolContext = {
+      profile,
+      dex,
+      catchLog,
+      questProgress,
+      questCompletedAt,
+      questClaimedAt,
+      chatThreads,
+      conversationMemory,
+      followed,
+      language,
+      installedRegions,
+      onUpdateSettings: setProfile,
+    };
+
     try {
       for await (const chunk of activeChatAdapter.streamReply({
         persona: P,
@@ -183,6 +205,7 @@ export function Chat() {
           recentCatches,
         },
         memorySnippets,
+        toolContext,
         signal: ctrl.signal,
       })) {
         if (ctrl.signal.aborted) return;
