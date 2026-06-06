@@ -321,10 +321,22 @@
         background: var(--gn);
       }
 
+      .honeypot-field {
+        position: absolute;
+        left: -9999px;
+        overflow: hidden;
+      }
       .note {
         font-size: 0.75rem;
         opacity: 0.45;
         margin-bottom: 22px;
+      }
+      .privacy-note {
+        font-size: 0.72rem;
+        opacity: 0.4;
+        margin-top: -16px;
+        margin-bottom: 16px;
+        max-width: 420px;
       }
 
       .promises {
@@ -856,8 +868,9 @@
           <span data-i18n="sub_l2">No cloud. No account. No $$$.</span>
         </p>
 
-        <form class="form" id="form" name="waitlist" netlify>
+        <form class="form" id="form" name="waitlist" netlify netlify-honeypot="bot-field">
           <input type="hidden" name="form-name" value="waitlist" />
+          <p class="honeypot-field"><label>Don't fill this out: <input name="bot-field" /></label></p>
           <input
             class="inp"
             type="email"
@@ -870,6 +883,7 @@
             Notify me 🪲
           </button>
         </form>
+        <p class="privacy-note" data-i18n="privacy_note">We only store your email address and the date of submission. Nothing else.</p>
         <div class="success" id="ok" data-i18n="success">
           🎉 You're on the list. Go find a legendary.
         </div>
@@ -1062,6 +1076,7 @@
           sci_title: "Citizen Science Ready",
           sci_body: "Built with data interoperability in mind. Supports one-click exports compliant with universal Darwin Core biodiversity standards — the same schema used by GBIF and research institutions worldwide.",
           sci_badge: "GBIF Compatible",
+          privacy_note: "We only store your email address and the date of submission. Nothing else.",
         },
         pl: {
           _label: "PL",
@@ -1114,6 +1129,7 @@
           sci_title: "Gotowy na citizen science",
           sci_body: "Zbudowany z myślą o interoperacyjności danych. Obsługuje jednorazowy eksport zgodny z Darwin Core — standardem używanym przez GBIF i instytucje badawcze na całym świecie.",
           sci_badge: "Zgodny z GBIF",
+          privacy_note: "Przechowujemy tylko Twój adres email i datę zgłoszenia. Nic więcej.",
         },
         es: {
           _label: "ES",
@@ -1166,6 +1182,7 @@
           sci_title: "Listo para ciencia ciudadana",
           sci_body: "Construido con interoperabilidad de datos en mente. Soporta exportaciones con un clic conformes al estándar Darwin Core — el mismo esquema usado por GBIF e instituciones de investigación en todo el mundo.",
           sci_badge: "Compatible con GBIF",
+          privacy_note: "Solo guardamos tu dirección de email y la fecha de registro. Nada más.",
         },
         de: {
           _label: "DE",
@@ -1218,6 +1235,7 @@
           sci_title: "Citizen Science bereit",
           sci_body: "Mit Dateninteroperabilität im Blick entwickelt. Unterstützt Ein-Klick-Exporte konform zum universellen Darwin Core Biodiversitätsstandard — dasselbe Schema, das GBIF und Forschungseinrichtungen weltweit verwenden.",
           sci_badge: "GBIF-kompatibel",
+          privacy_note: "Wir speichern nur deine E-Mail-Adresse und das Datum der Anmeldung. Nichts weiter.",
         },
       };
 
@@ -1305,13 +1323,14 @@
         const form = e.target;
         const btn = form.querySelector("button");
         const email = form.querySelector("input[type=email]").value;
+        const botField = form.querySelector("input[name=bot-field]").value;
         btn.textContent = "...";
         btn.disabled = true;
         try {
           await fetch("/", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams({ "form-name": "waitlist", email }).toString(),
+            body: new URLSearchParams({ "form-name": "waitlist", "bot-field": botField, email }).toString(),
           });
         } catch {}
         form.style.display = "none";
