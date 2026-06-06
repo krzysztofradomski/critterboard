@@ -396,40 +396,45 @@
         animation: fc 6.5s ease-in-out infinite;
       }
 
-      /* ── STRIP ── */
-      .strip {
-        background: var(--bk);
+      /* ── ZEROES GRID ── */
+      .zeroes {
         border-top: var(--bd);
-        padding: 36px 6%;
-        display: flex;
-        justify-content: center;
-        gap: 0;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1px;
+        background: rgba(255, 255, 255, 0.1);
       }
-
-      .strip-item {
+      .zero-card {
+        background: var(--bk);
+        padding: 36px 18px;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 12px;
+        text-align: center;
+        gap: 6px;
+      }
+      .zero-pct {
+        font-family: "Fredoka", sans-serif;
+        font-size: 3rem;
+        font-weight: 700;
         color: var(--y);
-        padding: 0 40px;
-        font-size: 0.95rem;
+        line-height: 1;
       }
-      .strip-item + .strip-item {
-        border-left: 1.5px solid rgba(255, 255, 255, 0.12);
+      .zero-card--full .zero-pct {
+        color: var(--gn);
       }
-      .strip-emoji {
-        font-size: 1.5rem;
-        flex-shrink: 0;
-      }
-      .strip-text strong {
+      .zero-title {
         font-family: "Fredoka", sans-serif;
         font-size: 1.05rem;
-        display: block;
-        margin-bottom: 2px;
+        font-weight: 600;
+        color: #fff;
       }
-      .strip-text span {
-        opacity: 0.5;
-        font-size: 0.82rem;
+      .zero-desc {
+        font-size: 0.8rem;
+        color: var(--y);
+        opacity: 0.55;
+        line-height: 1.45;
+        margin-top: 2px;
       }
 
       /* ── FOOTER ── */
@@ -573,14 +578,14 @@
         .sub-btn {
           border-radius: 12px;
         }
-        .strip {
-          flex-direction: column;
-          gap: 20px;
-          padding: 28px 6%;
+        .zeroes {
+          grid-template-columns: repeat(2, 1fr);
         }
-        .strip-item {
-          padding: 0;
-          border-left: none !important;
+        .zero-card--full {
+          grid-column: 1 / -1;
+        }
+        .zero-pct {
+          font-size: 2.4rem;
         }
         .mit {
           display: none;
@@ -710,27 +715,31 @@
       </div>
     </section>
 
-    <div class="strip">
-      <div class="strip-item">
-        <span class="strip-emoji">📷</span>
-        <div class="strip-text">
-          <strong data-i18n="s1_t">Snap &amp; ID</strong>
-          <span data-i18n="s1_d">Local model. Zero uploads. Ever.</span>
-        </div>
+    <div class="zeroes">
+      <div class="zero-card">
+        <span class="zero-pct">0%</span>
+        <strong class="zero-title" data-i18n="z1_t">Cloud</strong>
+        <span class="zero-desc" data-i18n="z1_d">Fully offline local AI models.</span>
       </div>
-      <div class="strip-item">
-        <span class="strip-emoji">🏆</span>
-        <div class="strip-text">
-          <strong data-i18n="s2_t">Hunt &amp; Rank</strong>
-          <span data-i18n="s2_d">Quests, XP, rarity tiers, global board.</span>
-        </div>
+      <div class="zero-card">
+        <span class="zero-pct">0%</span>
+        <strong class="zero-title" data-i18n="z2_t">Tracking</strong>
+        <span class="zero-desc" data-i18n="z2_d">No data leaves your device.</span>
       </div>
-      <div class="strip-item">
-        <span class="strip-emoji">🧠</span>
-        <div class="strip-text">
-          <strong data-i18n="s3_t">On-Device AI</strong>
-          <span data-i18n="s3_d">3 guide personas. Snarky to calm.</span>
-        </div>
+      <div class="zero-card">
+        <span class="zero-pct">0%</span>
+        <strong class="zero-title" data-i18n="z3_t">Accounts</strong>
+        <span class="zero-desc" data-i18n="z3_d">Open the app and start exploring instantly.</span>
+      </div>
+      <div class="zero-card">
+        <span class="zero-pct">0%</span>
+        <strong class="zero-title" data-i18n="z4_t">Cost</strong>
+        <span class="zero-desc" data-i18n="z4_d">100% free and MIT open-source.</span>
+      </div>
+      <div class="zero-card zero-card--full">
+        <span class="zero-pct">100%</span>
+        <strong class="zero-title" data-i18n="z5_t">Gamified</strong>
+        <span class="zero-desc" data-i18n="z5_d">Collect, explore, and view your world on an interactive 3D globe.</span>
       </div>
     </div>
 
@@ -778,12 +787,16 @@
           tag_cost: "✓ no $$$",
           tag_track: "✓ no tracking",
           tag_mit: "✓ MIT licensed",
-          s1_t: "Snap & ID",
-          s1_d: "Local model. Zero uploads. Ever.",
-          s2_t: "Hunt & Rank",
-          s2_d: "Quests, XP, rarity tiers, global board.",
-          s3_t: "On-Device AI",
-          s3_d: "3 guide personas. Snarky to calm.",
+          z1_t: "Cloud",
+          z1_d: "Fully offline local AI models.",
+          z2_t: "Tracking",
+          z2_d: "No data leaves your device.",
+          z3_t: "Accounts",
+          z3_d: "Open the app and start exploring instantly.",
+          z4_t: "Cost",
+          z4_d: "100% free and MIT open-source.",
+          z5_t: "Gamified",
+          z5_d: "Collect, explore, and view your world on an interactive 3D globe.",
           ft_tag: "Free · Open Source · MIT · Continental Europe · Coming Soon",
           ft_contact: "Contact",
         },
@@ -810,12 +823,16 @@
           tag_cost: "✓ za darmo",
           tag_track: "✓ bez śledzenia",
           tag_mit: "✓ licencja MIT",
-          s1_t: "Pstryk i ID",
-          s1_d: "Model lokalny. Zero uploadów. Nigdy.",
-          s2_t: "Poluj i awansuj",
-          s2_d: "Misje, XP, tiery rzadkości, globalny ranking.",
-          s3_t: "AI w telefonie",
-          s3_d: "3 osobowości przewodników. Od ironicznej po spokojną.",
+          z1_t: "Chmura",
+          z1_d: "W pełni offline. Lokalne modele AI.",
+          z2_t: "Śledzenie",
+          z2_d: "Żadne dane nie opuszczają Twojego urządzenia.",
+          z3_t: "Konta",
+          z3_d: "Otwórz apkę i zaczynaj eksplorować od razu.",
+          z4_t: "Koszty",
+          z4_d: "100% darmowe i MIT open-source.",
+          z5_t: "Grywalizacja",
+          z5_d: "Zbieraj, odkrywaj i oglądaj swój świat na interaktywnym globusie 3D.",
           ft_tag:
             "Darmowe · Open Source · MIT · Europa kontynentalna · Wkrótce",
           ft_contact: "Kontakt",
@@ -843,12 +860,16 @@
           tag_cost: "✓ sin €€€",
           tag_track: "✓ sin tracking",
           tag_mit: "✓ licencia MIT",
-          s1_t: "Foto e ID",
-          s1_d: "Modelo local. Cero subidas. Jamás.",
-          s2_t: "Caza y rankea",
-          s2_d: "Misiones, XP, rarezas, ranking global.",
-          s3_t: "IA en el móvil",
-          s3_d: "3 guías con personalidad. De cínico a zen.",
+          z1_t: "Nube",
+          z1_d: "IA local totalmente offline.",
+          z2_t: "Rastreo",
+          z2_d: "Ningún dato sale de tu dispositivo.",
+          z3_t: "Cuentas",
+          z3_d: "Abre la app y empieza a explorar al instante.",
+          z4_t: "Coste",
+          z4_d: "100% gratis y MIT open-source.",
+          z5_t: "Gamificado",
+          z5_d: "Colecciona, explora y ve tu mundo en un globo 3D interactivo.",
           ft_tag:
             "Gratis · Open Source · MIT · Europa continental · Próximamente",
           ft_contact: "Contacto",
@@ -877,12 +898,16 @@
           tag_cost: "✓ kein Geld",
           tag_track: "✓ kein Tracking",
           tag_mit: "✓ MIT-lizenziert",
-          s1_t: "Knipsen & Erkennen",
-          s1_d: "Lokales Modell. Null Uploads. Niemals.",
-          s2_t: "Jagen & Ranken",
-          s2_d: "Quests, XP, Seltenheitsstufen, globales Board.",
-          s3_t: "KI im Gerät",
-          s3_d: "3 Guide-Personas. Frech bis ruhig.",
+          z1_t: "Cloud",
+          z1_d: "Vollständig offline. Lokale KI-Modelle.",
+          z2_t: "Tracking",
+          z2_d: "Keine Daten verlassen dein Gerät.",
+          z3_t: "Konten",
+          z3_d: "App öffnen und sofort loslegen.",
+          z4_t: "Kosten",
+          z4_d: "100% kostenlos und MIT open-source.",
+          z5_t: "Gamifiziert",
+          z5_d: "Sammle, entdecke und sieh deine Welt auf einem interaktiven 3D-Globus.",
           ft_tag: "Kostenlos · Open Source · MIT · Kontinentaleuropa · Bald",
           ft_contact: "Kontakt",
         },
