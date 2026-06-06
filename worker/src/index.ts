@@ -28,10 +28,6 @@ export interface Env {
   JWT_SECRET: string;
   /** Comma-separated allowed origins, e.g. "https://app.critterboard.com". Defaults to '*' if unset. */
   CORS_ORIGIN?: string;
-  /** Base URL of the Presidio guard-rails service, e.g. "https://presidio.example.com".
-   *  When set, display names are checked for embedded PII (email, phone) before being stored.
-   *  The service fails open — if Presidio is unreachable the request proceeds normally. */
-  PRESIDIO_ANALYZER_URL?: string;
 }
 
 // ── Wire types (mirrors src/backend/types.ts — kept in sync by hand) ─────────
@@ -289,39 +285,6 @@ function isOffensiveName(name: string): boolean {
   return BLOCKED_NAME_TERMS.some((term) => n.includes(term));
 }
 
-// ── Presidio PII check ────────────────────────────────────────────────────────
-
-/**
- * Returns true when Presidio detects high-confidence PII (email or phone) in
- * `text`.  Used to reject display names that contain real contact details.
- * Fails open: if the service is unreachable or responds with an error, returns
- * false so legitimate users are never incorrectly blocked.
- */
-async function containsDisplayNamePii(text: string, presidioUrl: string): Promise<boolean> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 5_000);
-  try {
-    const res = await fetch(`${presidioUrl}/analyze`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        text,
-        language: 'en',
-        entities: ['EMAIL_ADDRESS', 'PHONE_NUMBER'],
-        score_threshold: 0.7,
-      }),
-      signal: controller.signal,
-    });
-    if (!res.ok) return false;
-    const hits = (await res.json()) as Array<{ entity_type: string; score: number }>;
-    return hits.length > 0;
-  } catch {
-    return false;
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
 // ── XP per confirmed catch ────────────────────────────────────────────────────
 
 const XP_PER_CATCH = 100;
@@ -382,11 +345,6 @@ async function handleSyncProfile(userId: string, request: Request, env: Env): Pr
   const snap = (await request.json()) as ProfileSnapshot;
   if (typeof snap.displayName === 'string' && isOffensiveName(snap.displayName)) {
     return json({ error: 'display_name_not_allowed' }, 422);
-  }
-  // Enhanced PII check: reject display names that embed contact details.
-  if (env.PRESIDIO_ANALYZER_URL && typeof snap.displayName === 'string') {
-    const hasPii = await containsDisplayNamePii(snap.displayName, env.PRESIDIO_ANALYZER_URL);
-    if (hasPii) return json({ error: 'display_name_not_allowed' }, 422);
   }
   await env.DB.prepare(
     `UPDATE users
