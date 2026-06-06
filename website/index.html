@@ -120,6 +120,11 @@
         color: var(--y);
         padding: 4px 11px;
         border-radius: 100px;
+        text-decoration: none;
+        transition: opacity 0.15s;
+      }
+      .mit:hover {
+        opacity: 0.8;
       }
 
       .nav-btn {
@@ -470,6 +475,10 @@
       .ft-links a:hover {
         opacity: 1;
       }
+      .ft-links .gh-star {
+        opacity: 0.85;
+        font-weight: 600;
+      }
       footer p {
         font-size: 0.75rem;
         opacity: 0.35;
@@ -640,7 +649,14 @@
             </li>
           </ul>
         </div>
-        <span class="mit" data-i18n="nav_mit">MIT Open Source</span>
+        <a
+          href="https://github.com/krzysztofradomski/critterboard"
+          target="_blank"
+          rel="noopener"
+          class="mit"
+          data-i18n="nav_mit"
+          >MIT Open Source</a
+        >
         <a href="#notify" class="nav-btn" data-i18n="nav_cta">Get notified →</a>
       </div>
     </nav>
@@ -753,7 +769,8 @@
           href="https://github.com/krzysztofradomski/critterboard"
           target="_blank"
           rel="noopener"
-          >GitHub</a
+          class="gh-star"
+          >★ Star on GitHub</a
         >
         <a href="mailto:hello@critterboard.app" data-i18n="ft_contact"
           >Contact</a
