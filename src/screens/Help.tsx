@@ -5,7 +5,7 @@ import { DataRow } from '@/components/DataRow';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { useT } from '@/i18n/helpers';
-import { buildDexJson, buildSightingsCsv, shareBlob } from '@/lib/export';
+import { buildAllDataJson, buildDexJson, buildGbifOccurrenceCsv, buildSightingsCsv, shareBlob } from '@/lib/export';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
@@ -21,6 +21,7 @@ export function Help() {
   const showToast = useAppStore((s) => s.showToast);
   const wipeAll = useAppStore((s) => s.wipeAll);
   const clearScanCache = useAppStore((s) => s.clearScanCache);
+  const backendUserId = useAppStore((s) => s.backendUserId);
   const t = useT();
   const [openId, setOpenId] = useState<string | null>('faq1');
   const [confirmWipe, setConfirmWipe] = useState(false);
@@ -41,16 +42,27 @@ export function Help() {
     });
   };
 
-  const doExport = async (kind: 'dex' | 'sightings') => {
-    const blob =
-      kind === 'dex'
-        ? buildDexJson(dex, catchLog, language, profile.name)
-        : buildSightingsCsv(catchLog, language);
+  const doExport = async (kind: 'dex' | 'sightings' | 'gbif' | 'all') => {
+    let blob;
+    let icon: string;
+    if (kind === 'dex') {
+      blob = buildDexJson(dex, catchLog, language, profile.name);
+      icon = '⬇️';
+    } else if (kind === 'sightings') {
+      blob = buildSightingsCsv(catchLog, language);
+      icon = '📷';
+    } else if (kind === 'gbif') {
+      blob = buildGbifOccurrenceCsv(catchLog, language, profile.name);
+      icon = '🌍';
+    } else {
+      blob = buildAllDataJson(dex, catchLog, language, profile.name, backendUserId);
+      icon = '📦';
+    }
     const outcome = await shareBlob(blob);
     if (outcome.ok) {
       showToast({
         text: t('help.data.exportToast', { filename: outcome.filename }),
-        icon: kind === 'dex' ? '⬇️' : '📷',
+        icon,
         bg: PB.green,
       });
     } else {
@@ -145,6 +157,22 @@ export function Help() {
               desc={t('help.data.exportSightDesc', { n: catchLog.length })}
               cta={t('help.data.exportSightCta')}
               onPress={() => { void doExport('sightings'); }}
+            />
+            <DataRow
+              icon="🌍"
+              color={PB.cream2}
+              title={t('help.data.exportGbifTitle')}
+              desc={t('help.data.exportGbifDesc', { n: catchLog.length })}
+              cta={t('help.data.exportGbifCta')}
+              onPress={() => { void doExport('gbif'); }}
+            />
+            <DataRow
+              icon="📦"
+              color={PB.cream2}
+              title={t('help.data.exportAllTitle')}
+              desc={t('help.data.exportAllDesc', { n: catchLog.length, species: dex.size })}
+              cta={t('help.data.exportAllCta')}
+              onPress={() => { void doExport('all'); }}
             />
             <DataRow
               icon="🧹"
