@@ -14,6 +14,7 @@ import { mockClassifier, nativeClassifier, type VisionClassifier } from '@/ai/vi
 import { geminiVisionClassifier } from '@/ai/geminiVision';
 import { llamaRnRuntime, mockRuntime, type LlmRuntime } from '@/ai/llm';
 import { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter, type ChatAdapter } from '@/ai/chatAdapter';
+import { toolChatAdapter } from '@/ai/toolChatAdapter';
 import { withGuardrails } from '@/ai/guardrails';
 import { webNativeLlmChatAdapter } from '@/ai/webNativeLlm';
 
@@ -39,8 +40,11 @@ export const visionMode: 'native' | 'gemini' | 'mock' =
   'mock';
 
 export const llm: LlmRuntime = USE_LLAMA_RN ? llamaRnRuntime : mockRuntime;
+// Tool-based adapter is the default cloud path — the model fetches live state
+// via tools rather than receiving a fat system-prompt blob. Falls back to the
+// legacy geminiChatAdapter only as a reference; mock when no API key.
 export const chatAdapter: ChatAdapter = withGuardrails(
-  USE_CLOUD_GEMINI_POC && HAS_GEMINI_API_KEY ? geminiChatAdapter : mockChatAdapter,
+  USE_CLOUD_GEMINI_POC && HAS_GEMINI_API_KEY ? toolChatAdapter : mockChatAdapter,
 );
 export const chatMode: 'gemini' | 'mock' =
   USE_CLOUD_GEMINI_POC && HAS_GEMINI_API_KEY ? 'gemini' : 'mock';
@@ -55,6 +59,8 @@ export { useExecutorchClassifier } from '@/ai/executorchVision';
 export { geminiVisionClassifier } from '@/ai/geminiVision';
 export { mockRuntime, llamaRnRuntime, buildPrompt, MODEL_GGUF_FILENAME, MODEL_GGUF_HF_URL } from '@/ai/llm';
 export { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter } from '@/ai/chatAdapter';
+export { toolChatAdapter, createToolChatAdapter } from '@/ai/toolChatAdapter';
+export { buildChatTools } from '@/ai/tools';
 export { webNativeLlmChatAdapter, checkWebNativeLlmStatus } from '@/ai/webNativeLlm';
 export { withGuardrails, checkInput, redactPii } from '@/ai/guardrails';
 export type { GuardCode, GuardResult, GuardrailsConfig } from '@/ai/guardrails';
@@ -68,3 +74,4 @@ export type {
   ChatMemorySnippet,
   ChatUserContext,
 } from '@/ai/chatAdapter';
+export type { ToolContext, ChatTools } from '@/ai/tools';

@@ -45,6 +45,21 @@ export type ChatReplyParams = {
   userContext: ChatUserContext;
   memorySnippets?: ChatMemorySnippet[];
   signal?: AbortSignal;
+  /** Live app-state context for tool-based adapters (see `src/ai/toolChatAdapter.ts`). */
+  toolContext?: import('@/ai/tools').ToolContext;
+  /**
+   * AI-generated summary of older turns, produced once history crosses
+   * SUMMARY_THRESHOLD. When present the adapter compresses the history
+   * window from 12 to 4 turns — summary carries the rest.
+   */
+  threadSummary?: string;
+  /**
+   * Per-request override for the agentic step limit. Defaults to the
+   * factory value (5). Pass a higher value for queries that require
+   * chaining many tools (e.g. "compare my stats with the leaderboard
+   * and list unclaimed quests").
+   */
+  maxSteps?: number;
 };
 
 export interface ChatAdapter {
