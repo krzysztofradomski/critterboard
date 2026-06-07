@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  Alert,
   Animated,
   KeyboardAvoidingView,
   Platform,
@@ -13,7 +14,17 @@ import {
 
 import * as FileSystem from 'expo-file-system/legacy';
 
-import { chatAdapter, chatMode, guardedLocalLlmChatAdapter, guardedWebNativeLlmChatAdapter, llamaRnRuntime, MODEL_GGUF_FILENAME, type ChatHistoryTurn, type ToolContext } from '@/ai';
+import {
+  chatAdapter,
+  chatMode,
+  guardedLocalLlmChatAdapter,
+  guardedWebNativeLlmChatAdapter,
+  llamaRnRuntime,
+  MODEL_GGUF_FILENAME,
+  type ChatHistoryTurn,
+  type ToolContext,
+} from '@/ai';
+import { generateThreadSummary, SUMMARY_THRESHOLD } from '@/ai/toolChatAdapter';
 import { IconBtn } from '@/components/IconBtn';
 import { BUGS, findBug } from '@/data/bugs';
 import { useT } from '@/i18n/helpers';
@@ -73,6 +84,8 @@ export function Chat() {
   const saveChatThread = useAppStore((s) => s.saveChatThread);
   const indexConversationMessage = useAppStore((s) => s.indexConversationMessage);
   const clearChatThread = useAppStore((s) => s.clearChatThread);
+  const updateThreadSummary = useAppStore((s) => s.updateThreadSummary);
+  const removeMessageFromThread = useAppStore((s) => s.removeMessageFromThread);
   const conversationMemory = useAppStore((s) => s.conversationMemory);
   const route = useCurrentRoute();
   const topic = (route.params as { topic?: string } | undefined)?.topic;
@@ -80,6 +93,9 @@ export function Chat() {
   const t = useT();
   const threadId = `${P.id}::${topic ?? 'general'}`;
   const storedThread = useAppStore((s) => s.chatThreads[threadId]);
+  // Subscribe to the summary separately so we can use it as a dep without
+  // pulling the whole thread object into every comparison.
+  const threadSummary = useAppStore((s) => s.chatThreads[threadId]?.summary);
 
   const activeMode = resolveActiveMode(profile.localLlmOn);
   const activeChatAdapter = activeMode === 'local' ? selectLocalAdapter() : chatAdapter;
@@ -95,12 +111,19 @@ export function Chat() {
   const scrollRef = useRef<ScrollView | null>(null);
   /** Cancellation token for the in-flight `complete()` iteration. */
   const abortRef = useRef<AbortController | null>(null);
+  /**
+   * Guards against spawning multiple concurrent summarization requests for
+   * the same thread. Flipped to true when a request is in-flight; reset on
+   * error or thread change so the next threshold crossing can retry.
+   */
+  const summarizingRef = useRef(false);
 
   useEffect(() => {
     // Switching thread/persona/mode should cancel in-flight replies and load
     // the persisted transcript for that thread.
     abortRef.current?.abort();
     setTyping(false);
+    summarizingRef.current = false; // allow fresh summarization on new thread
     setMsgs(
       (storedThread?.messages.length
         ? storedThread.messages
@@ -124,7 +147,43 @@ export function Chat() {
   useEffect(() => {
     const persisted: ChatMessage[] = msgs.filter((m) => m.t.trim().length > 0);
     saveChatThread(threadId, persisted);
-  }, [msgs, threadId, saveChatThread]);
+
+    // Background context summarization — triggered once per thread when the
+    // transcript reaches SUMMARY_THRESHOLD. The summary is injected into the
+    // next system prompt so the recent-turn window can be smaller without
+    // losing continuity. Fire-and-forget: a failure just means no summary
+    // this round; the ref resets so the next message can retry.
+    const needsSummary =
+      persisted.length >= SUMMARY_THRESHOLD &&
+      !threadSummary &&
+      !summarizingRef.current &&
+      activeMode === 'cloud';
+
+    if (needsSummary) {
+      const apiKey =
+        process.env.GEMINI_API_KEY ??
+        (process.env.NODE_ENV !== 'production'
+          ? process.env.EXPO_PUBLIC_GEMINI_API_KEY
+          : undefined);
+
+      if (apiKey) {
+        summarizingRef.current = true;
+        const olderTurns: ChatHistoryTurn[] = persisted
+          .slice(0, -4) // keep the most recent 4 out of the summary
+          .map((m) => ({
+            role: (m.who === 'me' ? 'user' : 'assistant') as 'user' | 'assistant',
+            text: m.t,
+          }));
+        generateThreadSummary(olderTurns, apiKey)
+          .then((summary) => {
+            if (summary) updateThreadSummary(threadId, summary);
+          })
+          .catch(() => {
+            summarizingRef.current = false; // allow retry on next message
+          });
+      }
+    }
+  }, [msgs, threadId, saveChatThread, threadSummary, activeMode, updateThreadSummary]);
 
   /**
    * Streamed completion. The mock runtime yields one chunk; production
@@ -186,6 +245,13 @@ export function Chat() {
       onUpdateSettings: setProfile,
     };
 
+    // Queries that mention multiple distinct data sources benefit from
+    // extra agentic steps. Simple heuristic — no UI needed.
+    const multiSourceQuery =
+      /\b(compare|both|also|and then|additionally|versus|leaderboard.+quest|quest.+leaderboard|friend.+catch|catch.+friend)\b/i.test(
+        text,
+      );
+
     try {
       for await (const chunk of activeChatAdapter.streamReply({
         persona: P,
@@ -206,6 +272,8 @@ export function Chat() {
         },
         memorySnippets,
         toolContext,
+        threadSummary,
+        maxSteps: multiSourceQuery ? 8 : undefined,
         signal: ctrl.signal,
       })) {
         if (ctrl.signal.aborted) return;
@@ -302,7 +370,33 @@ export function Chat() {
 
       <ScrollView ref={scrollRef} contentContainerStyle={styles.list}>
         {msgs.map((m, i) => (
-          <Bubble key={i} m={m} />
+          <Bubble
+            key={i}
+            m={m}
+            onDelete={() => {
+              haptics.select();
+              Alert.alert(
+                'Delete message',
+                'Remove this message from the conversation?',
+                [
+                  { text: 'Cancel', style: 'cancel' },
+                  {
+                    text: 'Delete',
+                    style: 'destructive',
+                    onPress: () => {
+                      // Remove from UI first for instant feedback.
+                      setMsgs((prev) => prev.filter((_, j) => j !== i));
+                      // Sync to persistent store + strip from memory index.
+                      removeMessageFromThread(threadId, i);
+                      // Reset the summarization guard so the next message
+                      // can trigger a fresh summary if needed.
+                      summarizingRef.current = false;
+                    },
+                  },
+                ],
+              );
+            }}
+          />
         ))}
         {typing ? <TypingDots /> : null}
       </ScrollView>
@@ -328,20 +422,22 @@ export function Chat() {
   );
 }
 
-function Bubble({ m }: { m: Msg }) {
+function Bubble({ m, onDelete }: { m: Msg; onDelete?: () => void }) {
   const isMe = m.who === 'me';
   return (
-    <View
-      style={[
-        styles.bubble,
-        {
-          alignSelf: isMe ? 'flex-end' : 'flex-start',
-          backgroundColor: isMe ? PB.blue : PB.cream2,
-        },
-      ]}
-    >
-      <Text style={[styles.bubbleText, { color: isMe ? PB.cream : PB.ink }]}>{m.t}</Text>
-    </View>
+    <Pressable onLongPress={onDelete} delayLongPress={400}>
+      <View
+        style={[
+          styles.bubble,
+          {
+            alignSelf: isMe ? 'flex-end' : 'flex-start',
+            backgroundColor: isMe ? PB.blue : PB.cream2,
+          },
+        ]}
+      >
+        <Text style={[styles.bubbleText, { color: isMe ? PB.cream : PB.ink }]}>{m.t}</Text>
+      </View>
+    </Pressable>
   );
 }
 

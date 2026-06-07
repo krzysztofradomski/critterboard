@@ -275,3 +275,84 @@ describe('indexConversationMessage', () => {
     expect(useAppStore.getState().conversationMemory.length).toBe(0);
   });
 });
+
+// ──────────────────────────────────────────────────────────────────────────
+// updateThreadSummary
+// ──────────────────────────────────────────────────────────────────────────
+
+describe('updateThreadSummary (U-ST-sum-*)', () => {
+  it('U-ST-sum-01: stores a summary on an existing thread', () => {
+    useAppStore.getState().saveChatThread('sum-thread', [{ who: 'me', t: 'Hi' }]);
+    useAppStore.getState().updateThreadSummary('sum-thread', 'User said hi.');
+    expect(useAppStore.getState().chatThreads['sum-thread']?.summary).toBe('User said hi.');
+  });
+
+  it('U-ST-sum-02: no-ops when thread does not exist', () => {
+    useAppStore.getState().updateThreadSummary('ghost-thread', 'summary');
+    expect(useAppStore.getState().chatThreads['ghost-thread']).toBeUndefined();
+  });
+
+  it('U-ST-sum-03: does not affect other threads', () => {
+    useAppStore.getState().saveChatThread('a', [{ who: 'me', t: 'msg' }]);
+    useAppStore.getState().saveChatThread('b', [{ who: 'me', t: 'msg' }]);
+    useAppStore.getState().updateThreadSummary('a', 'summary for a');
+    expect(useAppStore.getState().chatThreads['b']?.summary).toBeUndefined();
+  });
+});
+
+// ──────────────────────────────────────────────────────────────────────────
+// removeMessageFromThread
+// ──────────────────────────────────────────────────────────────────────────
+
+describe('removeMessageFromThread (U-ST-rm-*)', () => {
+  it('U-ST-rm-01: removes message at given index', () => {
+    useAppStore.getState().saveChatThread('rm-thread', [
+      { who: 'me', t: 'first' },
+      { who: 'larva', t: 'second' },
+      { who: 'me', t: 'third' },
+    ]);
+    useAppStore.getState().removeMessageFromThread('rm-thread', 1);
+    const msgs = useAppStore.getState().chatThreads['rm-thread']?.messages;
+    expect(msgs).toHaveLength(2);
+    expect(msgs?.[0]?.t).toBe('first');
+    expect(msgs?.[1]?.t).toBe('third');
+  });
+
+  it('U-ST-rm-02: clears thread summary when a message is deleted', () => {
+    useAppStore.getState().saveChatThread('sum-rm', [{ who: 'me', t: 'msg' }]);
+    useAppStore.getState().updateThreadSummary('sum-rm', 'some summary');
+    useAppStore.getState().removeMessageFromThread('sum-rm', 0);
+    expect(useAppStore.getState().chatThreads['sum-rm']?.summary).toBeUndefined();
+  });
+
+  it('U-ST-rm-03: strips matching conversationMemory entry', () => {
+    useAppStore.getState().indexConversationMessage('mem-rm', { who: 'me', t: 'beetle question' });
+    useAppStore.getState().saveChatThread('mem-rm', [{ who: 'me', t: 'beetle question' }]);
+    useAppStore.getState().removeMessageFromThread('mem-rm', 0);
+    const mem = useAppStore.getState().conversationMemory;
+    expect(mem.some((e) => e.text === 'beetle question' && e.threadId === 'mem-rm')).toBe(false);
+  });
+
+  it('U-ST-rm-04: no-ops when thread does not exist', () => {
+    const before = { ...useAppStore.getState().chatThreads };
+    useAppStore.getState().removeMessageFromThread('no-thread', 0);
+    expect(useAppStore.getState().chatThreads).toEqual(before);
+  });
+
+  it('U-ST-rm-05: no-ops when index is out of bounds', () => {
+    useAppStore.getState().saveChatThread('bounds', [{ who: 'me', t: 'only' }]);
+    useAppStore.getState().removeMessageFromThread('bounds', 99);
+    expect(useAppStore.getState().chatThreads['bounds']?.messages).toHaveLength(1);
+  });
+
+  it('U-ST-rm-06: updates thread updatedAt timestamp', () => {
+    const before = Date.now();
+    useAppStore.getState().saveChatThread('ts-thread', [
+      { who: 'me', t: 'a' },
+      { who: 'larva', t: 'b' },
+    ]);
+    useAppStore.getState().removeMessageFromThread('ts-thread', 0);
+    const updatedAt = useAppStore.getState().chatThreads['ts-thread']?.updatedAt ?? 0;
+    expect(updatedAt).toBeGreaterThanOrEqual(before);
+  });
+});

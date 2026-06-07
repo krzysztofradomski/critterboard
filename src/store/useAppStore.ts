@@ -115,6 +115,13 @@ export type ChatMessage = {
 export type ChatThread = {
   messages: ChatMessage[];
   updatedAt: number;
+  /**
+   * AI-generated summary of older turns (produced once history crosses
+   * SUMMARY_THRESHOLD). Injected into the system prompt so recent turns
+   * can drop to a shorter window without losing continuity. Cleared on
+   * any message deletion so it's never stale.
+   */
+  summary?: string;
 };
 
 type State = {
@@ -224,6 +231,13 @@ type Actions = {
   indexConversationMessage: (threadId: string, message: ChatMessage) => void;
   clearChatThread: (threadId: string) => void;
   clearConversationData: () => void;
+  /** Store an AI-generated summary for a thread's older context. */
+  updateThreadSummary: (threadId: string, summary: string) => void;
+  /**
+   * Remove a single message by index from a thread and strip its memory
+   * entry. Also clears the thread summary since it may now be stale.
+   */
+  removeMessageFromThread: (threadId: string, index: number) => void;
   installRegion: (id: string, labelMap: Record<string, number>) => void;
   uninstallRegion: (id: string) => void;
   /**
@@ -669,6 +683,44 @@ export const useAppStore = create<AppStore>()(
         set({
           chatThreads: {},
           conversationMemory: [],
+        }),
+
+      updateThreadSummary: (threadId, summary) =>
+        set((s) => {
+          const thread = s.chatThreads[threadId];
+          if (!thread) return s;
+          return {
+            chatThreads: {
+              ...s.chatThreads,
+              [threadId]: { ...thread, summary },
+            },
+          };
+        }),
+
+      removeMessageFromThread: (threadId, index) =>
+        set((s) => {
+          const thread = s.chatThreads[threadId];
+          if (!thread || !thread.messages[index]) return s;
+          const removedMsg = thread.messages[index]!;
+          const nextMessages = thread.messages.filter((_, i) => i !== index);
+          // Strip the corresponding memory entry by text+thread match.
+          // Text equality isn't unique in theory, but close enough for a
+          // single-device local store — duplicates are rare and harmless.
+          const nextMemory = s.conversationMemory.filter(
+            (e) => !(e.threadId === threadId && e.text === removedMsg.t),
+          );
+          return {
+            chatThreads: {
+              ...s.chatThreads,
+              [threadId]: {
+                ...thread,
+                messages: nextMessages,
+                updatedAt: Date.now(),
+                summary: undefined, // summary may reference the deleted message
+              },
+            },
+            conversationMemory: nextMemory,
+          };
         }),
 
       installRegion: (id, labelMap) =>
