@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { buildChatTools, type ToolContext } from '@/ai/tools';
 import { BUGS } from '@/data/bugs';
 import { QUESTS, COMPLETED_QUESTS } from '@/data/quests';
@@ -471,5 +471,101 @@ describe('getSocialFeed (U-CT-feed-*)', () => {
     const result = await tools.getSocialFeed.execute({}, {} as never);
     expect(result.source).toBe('backend');
     expect(result.events).toHaveLength(1);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// getInsectPhoto
+// ---------------------------------------------------------------------------
+
+describe('getInsectPhoto (U-CT-photo-*)', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('U-CT-photo-01: returns local photo when catchLog has one for the bug', async () => {
+    const ctx = makeCtx({
+      catchLog: [
+        { id: 'lady', at: 1_700_000_000_000, photoUri: 'file://photos/lady.jpg' },
+        { id: 'hcat', at: 1_700_100_000_000, photoUri: 'file://photos/hcat.jpg' },
+        // second, newer lady photo — should be preferred
+        { id: 'lady', at: 1_700_200_000_000, photoUri: 'file://photos/lady2.jpg' },
+      ],
+    });
+    const tools = buildChatTools(ctx);
+    const result = await tools.getInsectPhoto.execute({ bugId: 'lady' }, {} as never);
+    expect(result.uri).toBe('file://photos/lady2.jpg');
+    expect(result.source).toBe('local');
+  });
+
+  it('U-CT-photo-02: falls back to iNaturalist when no local photo and network is on', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          results: [{ default_photo: { medium_url: 'https://inaturalist.org/photos/bee.jpg' } }],
+        }),
+      }),
+    );
+    const ctx = makeCtx({
+      catchLog: [], // no photos
+      profile: { name: 'T', networkOn: true, leaderboardOn: true, locationShareOn: false, crashReportingOn: false, localLlmOn: false },
+    });
+    const tools = buildChatTools(ctx);
+    const result = await tools.getInsectPhoto.execute({ bugId: 'hcat' }, {} as never);
+    expect(result.uri).toBe('https://inaturalist.org/photos/bee.jpg');
+    expect(result.source).toBe('network');
+  });
+
+  it('U-CT-photo-03: returns null with offline message when network is off and no local photo', async () => {
+    const ctx = makeCtx({ catchLog: [] });
+    const tools = buildChatTools(ctx);
+    const result = await tools.getInsectPhoto.execute({ bugId: 'hcat' }, {} as never);
+    expect(result.uri).toBeNull();
+    expect((result as { message: string }).message).toMatch(/network/i);
+  });
+
+  it('U-CT-photo-04: returns null gracefully when iNaturalist fetch fails', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network error')));
+    const ctx = makeCtx({
+      catchLog: [],
+      profile: { name: 'T', networkOn: true, leaderboardOn: true, locationShareOn: false, crashReportingOn: false, localLlmOn: false },
+    });
+    const tools = buildChatTools(ctx);
+    const result = await tools.getInsectPhoto.execute({ bugId: 'hcat' }, {} as never);
+    expect(result.uri).toBeNull();
+  });
+
+  it('U-CT-photo-05: prefers local photo over network even when networkOn', async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    const ctx = makeCtx({
+      catchLog: [{ id: 'hcat', at: 1_700_000_000_000, photoUri: 'file://mine.jpg' }],
+      profile: { name: 'T', networkOn: true, leaderboardOn: true, locationShareOn: false, crashReportingOn: false, localLlmOn: false },
+    });
+    const tools = buildChatTools(ctx);
+    const result = await tools.getInsectPhoto.execute({ bugId: 'hcat' }, {} as never);
+    expect(result.uri).toBe('file://mine.jpg');
+    expect(result.source).toBe('local');
+    // Should never hit the network when we have a local photo
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('U-CT-photo-06: returns null with "no photo available" when iNaturalist returns no results', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({ results: [] }),
+      }),
+    );
+    const ctx = makeCtx({
+      catchLog: [],
+      profile: { name: 'T', networkOn: true, leaderboardOn: true, locationShareOn: false, crashReportingOn: false, localLlmOn: false },
+    });
+    const tools = buildChatTools(ctx);
+    const result = await tools.getInsectPhoto.execute({ bugId: 'hcat' }, {} as never);
+    expect(result.uri).toBeNull();
   });
 });

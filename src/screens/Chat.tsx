@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   Alert,
   Animated,
+  Image,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -422,8 +423,27 @@ export function Chat() {
   );
 }
 
+type BubbleSegment = { type: 'text'; value: string } | { type: 'image'; uri: string };
+
+function parseBubble(text: string): BubbleSegment[] {
+  const segments: BubbleSegment[] = [];
+  const re = /\[IMAGE:([^\]]+)\]/g;
+  let last = 0;
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    const before = text.slice(last, m.index).trim();
+    if (before) segments.push({ type: 'text', value: before });
+    segments.push({ type: 'image', uri: m[1]! });
+    last = re.lastIndex;
+  }
+  const tail = text.slice(last).trim();
+  if (tail) segments.push({ type: 'text', value: tail });
+  return segments.length > 0 ? segments : [{ type: 'text', value: text }];
+}
+
 function Bubble({ m, onDelete }: { m: Msg; onDelete?: () => void }) {
   const isMe = m.who === 'me';
+  const segments = parseBubble(m.t);
   return (
     <Pressable onLongPress={onDelete} delayLongPress={400}>
       <View
@@ -435,7 +455,20 @@ function Bubble({ m, onDelete }: { m: Msg; onDelete?: () => void }) {
           },
         ]}
       >
-        <Text style={[styles.bubbleText, { color: isMe ? PB.cream : PB.ink }]}>{m.t}</Text>
+        {segments.map((seg, i) =>
+          seg.type === 'image' ? (
+            <Image
+              key={i}
+              source={{ uri: seg.uri }}
+              style={styles.bubbleImage}
+              resizeMode="cover"
+            />
+          ) : (
+            <Text key={i} style={[styles.bubbleText, { color: isMe ? PB.cream : PB.ink }]}>
+              {seg.value}
+            </Text>
+          ),
+        )}
       </View>
     </Pressable>
   );
@@ -542,6 +575,14 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 3, height: 3 },
   },
   bubbleText: { fontSize: 14, fontWeight: '500', lineHeight: 19 },
+  bubbleImage: {
+    width: 220,
+    height: 165,
+    borderRadius: 10,
+    marginTop: 4,
+    borderColor: PB.ink,
+    borderWidth: 1.5,
+  },
   typing: {
     alignSelf: 'flex-start',
     paddingVertical: 10,

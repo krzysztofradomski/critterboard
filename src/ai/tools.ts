@@ -11,7 +11,7 @@ import { QUESTS, COMPLETED_QUESTS } from '@/data/quests';
 import { LEADERS } from '@/data/leaderboard';
 import { bugOfDay } from '@/lib/bugOfDay';
 import { xpFromDex, xpFromClaimedQuests, levelFromXp } from '@/lib/level';
-import { currentStreak } from '@/lib/streak';
+import { currentStreak, latestPhotoFor } from '@/lib/streak';
 import { searchConversationMemories } from '@/lib/conversationMemory';
 
 // ---------------------------------------------------------------------------
@@ -396,6 +396,44 @@ export function buildChatTools(ctx: ToolContext) {
           source: 'local' as const,
           events: [] as unknown[],
           note: 'Enable network in settings to see social activity from other trainers.',
+        };
+      },
+    }),
+
+    getInsectPhoto: tool({
+      description:
+        "Get a photo of a specific insect. Returns the user's own most-recent catch photo first. If the user has no photo for that bug and network is enabled, fetches a reference photo from iNaturalist. When a photo URI is returned, embed it in your reply as [IMAGE:uri] on its own line.",
+      parameters: z.object({
+        bugId: z.string().describe('Bug ID e.g. "hcat", "lady"'),
+      }),
+      execute: async ({ bugId }) => {
+        const localUri = latestPhotoFor(ctx.catchLog as CatchEvent[], bugId);
+        if (localUri) return { uri: localUri, source: 'local' as const };
+
+        const bug = findBug(bugId);
+
+        if (ctx.profile.networkOn && bug?.latin) {
+          try {
+            const resp = await fetch(
+              `https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(bug.latin)}&per_page=1`,
+            );
+            if (resp.ok) {
+              const data = (await resp.json()) as {
+                results?: Array<{ default_photo?: { medium_url?: string } }>;
+              };
+              const photoUrl = data.results?.[0]?.default_photo?.medium_url;
+              if (photoUrl) return { uri: photoUrl, source: 'network' as const };
+            }
+          } catch {
+            // fall through
+          }
+        }
+
+        return {
+          uri: null as null,
+          message: ctx.profile.networkOn
+            ? `No photo available for ${bug?.name ?? bugId}.`
+            : `No personal photo for ${bug?.name ?? bugId}. Enable network in Settings to search online.`,
         };
       },
     }),
