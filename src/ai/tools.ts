@@ -45,7 +45,7 @@ export function buildChatTools(ctx: ToolContext) {
     getChatHistory: tool({
       description:
         'Retrieve saved messages from a specific chat thread by its threadId. Thread IDs have the form "personaId::topic", e.g. "larva::general" or "snail::beetles".',
-      parameters: z.object({
+      inputSchema: z.object({
         threadId: z.string().describe('Thread key like "larva::general"'),
       }),
       execute: async ({ threadId }) => {
@@ -58,7 +58,7 @@ export function buildChatTools(ctx: ToolContext) {
     searchChatMemory: tool({
       description:
         'Full-text search across all past conversation messages from every thread. Use this to retrieve relevant context from earlier conversations before answering.',
-      parameters: z.object({
+      inputSchema: z.object({
         query: z.string().describe('Natural-language query'),
         limit: z.number().int().min(1).max(10).default(4).describe('Max results'),
       }),
@@ -81,7 +81,7 @@ export function buildChatTools(ctx: ToolContext) {
     getInsectInfo: tool({
       description:
         'Look up detailed information about insects in the app database. Supports filtering by ID, trait, rarity tier, or partial name. Returns caught status for each match.',
-      parameters: z.object({
+      inputSchema: z.object({
         ids: z.array(z.string()).optional().describe('Specific bug IDs e.g. ["hcat","lady"]'),
         trait: z
           .enum(['pollinator', 'beetle', 'butterfly', 'wasp', 'damselfly', 'bug'])
@@ -125,7 +125,7 @@ export function buildChatTools(ctx: ToolContext) {
 
     getUserSettings: tool({
       description: 'Get the current user profile and all app settings.',
-      parameters: z.object({}),
+      inputSchema: z.object({}),
       execute: async () => ({
         name: ctx.profile.name,
         networkOn: ctx.profile.networkOn,
@@ -141,7 +141,7 @@ export function buildChatTools(ctx: ToolContext) {
     updateUserSettings: tool({
       description:
         'Update one or more user profile settings. Only include fields the user explicitly asked to change.',
-      parameters: z.object({
+      inputSchema: z.object({
         name: z.string().min(1).max(30).optional().describe('Display name'),
         networkOn: z.boolean().optional().describe('Enable/disable network features'),
         leaderboardOn: z.boolean().optional().describe('Show/hide from leaderboard'),
@@ -165,7 +165,7 @@ export function buildChatTools(ctx: ToolContext) {
     getUserStats: tool({
       description:
         'Get user XP, level, streak, dex completion percentage, and recent catches with progression details.',
-      parameters: z.object({}),
+      inputSchema: z.object({}),
       execute: async () => {
         const xp = xpFromDex(ctx.dex) + xpFromClaimedQuests(ctx.questClaimedAt);
         const levelInfo = levelFromXp(xp);
@@ -205,7 +205,7 @@ export function buildChatTools(ctx: ToolContext) {
     getMapMarkers: tool({
       description:
         "Get the user's catch events that have GPS coordinates — these are the pins shown on the map screen.",
-      parameters: z.object({
+      inputSchema: z.object({
         limit: z.number().int().min(1).max(200).default(50).describe('Max markers to return'),
       }),
       execute: async ({ limit }) => {
@@ -231,7 +231,7 @@ export function buildChatTools(ctx: ToolContext) {
     getQuests: tool({
       description:
         'Get all quest state — active quests with live progress, and the completed quest history.',
-      parameters: z.object({}),
+      inputSchema: z.object({}),
       execute: async () => {
         const active = QUESTS.map((q) => ({
           id: q.id,
@@ -257,7 +257,7 @@ export function buildChatTools(ctx: ToolContext) {
 
     getBugOfDay: tool({
       description: "Get today's featured hero bug.",
-      parameters: z.object({}),
+      inputSchema: z.object({}),
       execute: async () => {
         const bug = bugOfDay();
         return {
@@ -277,7 +277,7 @@ export function buildChatTools(ctx: ToolContext) {
     getAvailableImages: tool({
       description:
         'List insects that have visual/image data in the app (emoji + color swatch). Use when discussing appearance or showing the visual catalogue.',
-      parameters: z.object({
+      inputSchema: z.object({
         caughtOnly: z
           .boolean()
           .default(false)
@@ -298,7 +298,7 @@ export function buildChatTools(ctx: ToolContext) {
     getLeaderboard: tool({
       description:
         'Get leaderboard rankings. Uses the live backend when network is on, otherwise falls back to local seed data.',
-      parameters: z.object({
+      inputSchema: z.object({
         scope: z
           .enum(['global', 'weekly', 'friends'])
           .default('global')
@@ -342,7 +342,7 @@ export function buildChatTools(ctx: ToolContext) {
     getFriendsList: tool({
       description:
         'Get the following/followers/suggested friends list. Uses the live backend when network is on.',
-      parameters: z.object({
+      inputSchema: z.object({
         scope: z
           .enum(['following', 'followers', 'suggested'])
           .default('following')
@@ -382,7 +382,7 @@ export function buildChatTools(ctx: ToolContext) {
     getSocialFeed: tool({
       description:
         'Get the social activity feed — recent events from other trainers. Requires network to be on.',
-      parameters: z.object({}),
+      inputSchema: z.object({}),
       execute: async () => {
         if (ctx.backend?.ready() && ctx.profile.networkOn) {
           try {
@@ -403,7 +403,7 @@ export function buildChatTools(ctx: ToolContext) {
     getInsectPhoto: tool({
       description:
         "Get a photo of a specific insect. Returns the user's own most-recent catch photo first. If the user has no photo for that bug and network is enabled, fetches a reference photo from iNaturalist. When a photo URI is returned, embed it in your reply as [IMAGE:uri] on its own line.",
-      parameters: z.object({
+      inputSchema: z.object({
         bugId: z.string().describe('Bug ID e.g. "hcat", "lady"'),
       }),
       execute: async ({ bugId }) => {

@@ -1,5 +1,5 @@
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { generateText, streamText } from 'ai';
+import { generateText, stepCountIs, streamText } from 'ai';
 
 import type { ChatAdapter, ChatReplyParams, ChatHistoryTurn } from '@/ai/chatAdapter';
 import type { Persona } from '@/personas';
@@ -149,7 +149,7 @@ export async function generateThreadSummary(
       '',
       transcript,
     ].join('\n'),
-    maxTokens: 200,
+    maxOutputTokens: 200,
     temperature: 0,
   });
 
@@ -194,13 +194,13 @@ export function createToolChatAdapter(
         system: buildSystemPrompt(params.persona, params.topic, ctx.language, params.threadSummary),
         messages: toMessages(params.history, params.userText, hasSummary),
         tools,
-        maxSteps: effectiveMaxSteps,
+        stopWhen: stepCountIs(effectiveMaxSteps),
         temperature: 0.7,
         abortSignal: params.signal,
         onStepFinish: (step) => {
           if (process.env.NODE_ENV !== 'production' && step.toolCalls.length > 0) {
             const names = step.toolCalls.map((tc) => tc.toolName).join(', ');
-            console.debug(`[toolChat] step ${step.stepType} — tools: ${names}`);
+            console.debug(`[toolChat] step ${step.stepNumber} — tools: ${names}`);
           }
         },
       });

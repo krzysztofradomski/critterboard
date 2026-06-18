@@ -125,7 +125,7 @@ export function redactPii(text: string): string {
 // ---------------------------------------------------------------------------
 
 const USER_SCOPE = {
-  roles: ['user'] as const,
+  roles: ['user'] as Array<'user'>,
   selection: SelectionType.All,
 };
 
