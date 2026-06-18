@@ -1,23 +1,21 @@
-import React, { useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { initExecutorch } from 'react-native-executorch';
-import { ExpoResourceFetcher } from 'react-native-executorch-expo-resource-fetcher';
+import React, { useEffect } from "react";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import "@/lib/initExecutorch";
+import { StyleSheet, View } from "react-native";
 
-// Configure ExecuTorch to use Expo's file-system for caching downloaded models.
-// Must be called before any ClassificationModule is instantiated.
-initExecutorch({ resourceFetcher: ExpoResourceFetcher });
-import { StyleSheet, View } from 'react-native';
-
-import { useBackendIdentityBridge, useSyncProfile } from '@/backend/hooks';
-import { Toast } from '@/components/Toast';
-import { hydrateCachedPacks, syncRemotePacks, isKnownLang } from '@/i18n';
-import { hydrateInstalledPacks } from '@/data/regionPacks';
-import { Router } from '@/navigation/Router';
-import { initCrashReporting, setCrashReportingEnabled } from '@/lib/crashReporting';
-import { syncStreakNudge } from '@/lib/notify';
-import { PB } from '@/tokens/pb';
-import { useAppStore } from '@/store/useAppStore';
+import { useBackendIdentityBridge, useSyncProfile } from "@/backend/hooks";
+import { Toast } from "@/components/Toast";
+import { hydrateCachedPacks, syncRemotePacks, isKnownLang } from "@/i18n";
+import { hydrateInstalledPacks } from "@/data/regionPacks";
+import { Router } from "@/navigation/Router";
+import {
+  initCrashReporting,
+  setCrashReportingEnabled,
+} from "@/lib/crashReporting";
+import { syncStreakNudge } from "@/lib/notify";
+import { PB } from "@/tokens/pb";
+import { useAppStore } from "@/store/useAppStore";
 
 export default function App() {
   const toast = useAppStore((s) => s.toast);
@@ -42,12 +40,12 @@ export default function App() {
     if (hasOnboarded) return;
     try {
       const locale = Intl.DateTimeFormat().resolvedOptions().locale; // e.g. "de-DE"
-      const tag = locale.split('-')[0]?.toLowerCase();               // "de"
+      const tag = locale.split("-")[0]?.toLowerCase(); // "de"
       if (tag && isKnownLang(tag)) setLanguage(tag);
     } catch {
       // Intl unavailable — keep the default English.
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Merge each installed region pack's species into the in-memory bug
@@ -55,7 +53,8 @@ export default function App() {
   // launch. Runs again after store rehydration (installedRegions dependency)
   // in case the store wasn't ready on the first render.
   useEffect(() => {
-    if (installedRegions.length > 0) void hydrateInstalledPacks(installedRegions);
+    if (installedRegions.length > 0)
+      void hydrateInstalledPacks(installedRegions);
   }, [installedRegions]);
 
   // Replay any cached remote translation packs before first paint
@@ -63,7 +62,9 @@ export default function App() {
   // check for newer packs over the network. Both are best-effort: a
   // failure here just leaves the bundled English-source packs in place.
   useEffect(() => {
-    void hydrateCachedPacks(['en', 'pl', 'de', 'es']).then(() => syncRemotePacks());
+    void hydrateCachedPacks(["en", "pl", "de", "es"]).then(() =>
+      syncRemotePacks(),
+    );
   }, []);
 
   // Boot the crash-reporting wrapper once with the rehydrated preference,
@@ -104,11 +105,11 @@ const styles = StyleSheet.create({
   shell: {
     flex: 1,
     backgroundColor: PB.cream2,
-    alignItems: 'center',
+    alignItems: "center",
   },
   root: {
     flex: 1,
-    width: '100%',
+    width: "100%",
     maxWidth: 520,
     backgroundColor: PB.cream,
   },

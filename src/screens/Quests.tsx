@@ -1,20 +1,20 @@
-import React, { useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useMemo, useState } from "react";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
-import { BadgeDialog } from '@/components/BadgeDialog';
-import { CompletedDrawer } from '@/components/CompletedDrawer';
-import { QuestCard } from '@/components/QuestCard';
-import { QuestDialog } from '@/components/QuestDialog';
-import { BADGES_TOTAL, type Badge } from '@/data/badges';
-import { useT } from '@/i18n/helpers';
-import { useBadges } from '@/lib/badges';
-import { haptics } from '@/lib/haptics';
-import { useLevel } from '@/lib/level';
-import { useCompletedQuests, useQuests } from '@/lib/quests';
-import { usePersona } from '@/personas/hooks';
-import { PB } from '@/tokens/pb';
-import { useAppStore } from '@/store/useAppStore';
-import { useNav } from '@/store/useNav';
+import { BadgeDialog } from "@/components/BadgeDialog";
+import { CompletedDrawer } from "@/components/CompletedDrawer";
+import { QuestCard } from "@/components/QuestCard";
+import { QuestDialog } from "@/components/QuestDialog";
+import { BADGES_TOTAL, type Badge } from "@/data/badges";
+import { useT } from "@/i18n/helpers";
+import { useBadges } from "@/lib/badges";
+import { haptics } from "@/lib/haptics";
+import { useLevel } from "@/lib/level";
+import { useCompletedQuests, useQuests } from "@/lib/useQuests";
+import { usePersona } from "@/personas/hooks";
+import { PB } from "@/tokens/pb";
+import { useAppStore } from "@/store/useAppStore";
+import { useNav } from "@/store/useNav";
 
 export function Quests() {
   const { go } = useNav();
@@ -46,28 +46,32 @@ export function Quests() {
   const [completedOpen, setCompletedOpen] = useState(false);
 
   const openQuest = quests.find((q) => q.id === openId) ?? null;
-  const openBadge: Badge | null = badges.find((b) => b.id === openBadgeId) ?? null;
+  const openBadge: Badge | null =
+    badges.find((b) => b.id === openBadgeId) ?? null;
 
   return (
     <View style={styles.root}>
       <View style={styles.header}>
         <View style={styles.headTop}>
           <View style={styles.headCopy}>
-            <Text style={styles.title}>{t('quests.title')}</Text>
-            <Text style={styles.sub}>{t('quests.sub')}</Text>
+            <Text style={styles.title}>{t("quests.title")}</Text>
+            <Text style={styles.sub}>{t("quests.sub")}</Text>
           </View>
           <View style={styles.levelBox}>
-            <Text style={styles.levelLabel}>{t('quests.levelLabel')}</Text>
+            <Text style={styles.levelLabel}>{t("quests.levelLabel")}</Text>
             <Text style={styles.levelValue}>{level.level}</Text>
           </View>
         </View>
         <View style={{ marginTop: 14 }}>
           <View style={styles.xpRow}>
             <Text style={styles.xpText}>
-              {t('quests.xpCurrentDynamic', { xp: level.xp })}
+              {t("quests.xpCurrentDynamic", { xp: level.xp })}
             </Text>
             <Text style={styles.xpText}>
-              {t('quests.xpNextDynamic', { nextXp: level.nextAt, level: level.level + 1 })}
+              {t("quests.xpNextDynamic", {
+                nextXp: level.nextAt,
+                level: level.level + 1,
+              })}
             </Text>
           </View>
           <View style={styles.xpBar}>
@@ -83,21 +87,50 @@ export function Quests() {
 
       <View style={styles.list}>
         <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
-          <Text style={styles.section}>{t('quests.daily', { h: hoursToReset })}</Text>
-          {quests.filter((q) => q.kind === 'daily').map((q) => (
-            <QuestCard key={q.id} quest={q} accent={PB.green} onPress={() => setOpenId(q.id)} />
-          ))}
-          <Text style={[styles.section, { marginTop: 16 }]}>{t('quests.weekly')}</Text>
-          {quests.filter((q) => q.kind === 'weekly').map((q) => (
-            <QuestCard key={q.id} quest={q} accent={PB.purple} onPress={() => setOpenId(q.id)} />
-          ))}
+          <Text style={styles.section}>
+            {t("quests.daily", { h: hoursToReset })}
+          </Text>
+          {quests
+            .filter((q) => q.kind === "daily")
+            .map((q) => (
+              <QuestCard
+                key={q.id}
+                quest={q}
+                accent={PB.green}
+                onPress={() => setOpenId(q.id)}
+              />
+            ))}
+          <Text style={[styles.section, { marginTop: 16 }]}>
+            {t("quests.weekly")}
+          </Text>
+          {quests
+            .filter((q) => q.kind === "weekly")
+            .map((q) => (
+              <QuestCard
+                key={q.id}
+                quest={q}
+                accent={PB.purple}
+                onPress={() => setOpenId(q.id)}
+              />
+            ))}
 
           <Text style={[styles.section, { marginTop: 18 }]}>
-            {t('quests.badges', { earned: badges.filter((b) => b.unlocked).length, total: BADGES_TOTAL })}
+            {t("quests.badges", {
+              earned: badges.filter((b) => b.unlocked).length,
+              total: BADGES_TOTAL,
+            })}
           </Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10, paddingBottom: 6 }}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 10, paddingBottom: 6 }}
+          >
             {badges.map((b) => (
-              <Pressable key={b.id} onPress={() => setOpenBadgeId(b.id)} style={styles.badgeCell}>
+              <Pressable
+                key={b.id}
+                onPress={() => setOpenBadgeId(b.id)}
+                style={styles.badgeCell}
+              >
                 <View
                   style={[
                     styles.badgeBox,
@@ -107,10 +140,14 @@ export function Quests() {
                     },
                   ]}
                 >
-                  <Text style={{ fontSize: 30 }}>{b.unlocked ? b.icon : '?'}</Text>
+                  <Text style={{ fontSize: 30 }}>
+                    {b.unlocked ? b.icon : "?"}
+                  </Text>
                 </View>
                 <Text numberOfLines={1} style={styles.badgeName}>
-                  {b.unlocked ? t(`badges.items.${b.id}.name`) : t('badges.uncaughtName')}
+                  {b.unlocked
+                    ? t(`badges.items.${b.id}.name`)
+                    : t("badges.uncaughtName")}
                 </Text>
               </Pressable>
             ))}
@@ -131,7 +168,7 @@ export function Quests() {
         onClose={() => setOpenId(null)}
         onStart={() => {
           setOpenId(null);
-          go('scan');
+          go("scan");
         }}
         onClaim={(questId) => {
           const result = claimQuest(questId);
@@ -139,8 +176,8 @@ export function Quests() {
           if (result) {
             haptics.success();
             showToast({
-              text: t('quests.claimToast', { xp: result.reward }),
-              icon: '✨',
+              text: t("quests.claimToast", { xp: result.reward }),
+              icon: "✨",
               bg: PB.yellow,
             });
           }
@@ -159,10 +196,21 @@ export function Quests() {
 const styles = StyleSheet.create({
   root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.red },
   header: { paddingTop: 112, paddingHorizontal: 16, paddingBottom: 14 },
-  headTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  headTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   headCopy: { flex: 1, minWidth: 0, paddingRight: 10 },
-  title: { fontSize: 30, fontWeight: '800', color: PB.cream, lineHeight: 30 },
-  sub: { fontSize: 13, color: PB.cream, opacity: 0.85, fontWeight: '600', marginTop: 4, flexShrink: 1 },
+  title: { fontSize: 30, fontWeight: "800", color: PB.cream, lineHeight: 30 },
+  sub: {
+    fontSize: 13,
+    color: PB.cream,
+    opacity: 0.85,
+    fontWeight: "600",
+    marginTop: 4,
+    flexShrink: 1,
+  },
   levelBox: {
     width: 78,
     height: 78,
@@ -170,17 +218,33 @@ const styles = StyleSheet.create({
     borderColor: PB.ink,
     borderWidth: 2.5,
     backgroundColor: PB.yellow,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     shadowColor: PB.ink,
     shadowOpacity: 1,
     shadowRadius: 0,
     shadowOffset: { width: 3, height: 3 },
   },
-  levelLabel: { fontSize: 11, fontWeight: '800', color: PB.ink, lineHeight: 11 },
-  levelValue: { fontSize: 28, fontWeight: '800', color: PB.ink, lineHeight: 28 },
-  xpRow: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
-  xpText: { fontSize: 11, color: PB.cream, opacity: 0.85, fontWeight: '700', flexShrink: 1 },
+  levelLabel: {
+    fontSize: 11,
+    fontWeight: "800",
+    color: PB.ink,
+    lineHeight: 11,
+  },
+  levelValue: {
+    fontSize: 28,
+    fontWeight: "800",
+    color: PB.ink,
+    lineHeight: 28,
+  },
+  xpRow: { flexDirection: "row", justifyContent: "space-between", gap: 8 },
+  xpText: {
+    fontSize: 11,
+    color: PB.cream,
+    opacity: 0.85,
+    fontWeight: "700",
+    flexShrink: 1,
+  },
   xpBar: {
     marginTop: 4,
     height: 14,
@@ -194,7 +258,7 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     shadowOffset: { width: 3, height: 3 },
   },
-  xpFill: { height: '100%', backgroundColor: PB.yellow, borderRadius: 99 },
+  xpFill: { height: "100%", backgroundColor: PB.yellow, borderRadius: 99 },
   list: {
     flex: 1,
     backgroundColor: PB.cream,
@@ -206,20 +270,32 @@ const styles = StyleSheet.create({
     padding: 14,
     marginBottom: 120,
   },
-  section: { fontSize: 13, fontWeight: '800', color: PB.ink, letterSpacing: 0.6, marginBottom: 8 },
-  badgeCell: { width: 80, alignItems: 'center' },
+  section: {
+    fontSize: 13,
+    fontWeight: "800",
+    color: PB.ink,
+    letterSpacing: 0.6,
+    marginBottom: 8,
+  },
+  badgeCell: { width: 80, alignItems: "center" },
   badgeBox: {
     width: 70,
     height: 70,
     borderRadius: 16,
     borderColor: PB.ink,
     borderWidth: 2.5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     shadowColor: PB.ink,
     shadowOpacity: 1,
     shadowRadius: 0,
     shadowOffset: { width: 3, height: 3 },
   },
-  badgeName: { marginTop: 6, fontSize: 10, fontWeight: '800', color: PB.ink, textAlign: 'center' },
+  badgeName: {
+    marginTop: 6,
+    fontSize: 10,
+    fontWeight: "800",
+    color: PB.ink,
+    textAlign: "center",
+  },
 });

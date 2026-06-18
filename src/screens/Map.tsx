@@ -1,19 +1,19 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Svg, { Circle, Defs, Path, Pattern, Rect } from 'react-native-svg';
+import React, { useEffect, useMemo, useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import Svg, { Circle, Defs, Path, Pattern, Rect } from "react-native-svg";
 
-import { Btn } from '@/components/Btn';
-import { IconBtn } from '@/components/IconBtn';
-import { Sticker } from '@/components/Sticker';
-import { TabBar } from '@/components/TabBar';
-import { findBug } from '@/data/bugs';
-import { SIGHTINGS } from '@/data/sightings';
-import { bugName, useT } from '@/i18n/helpers';
-import { refreshMapLocation } from '@/lib/geocode';
-import { useGeotaggedCatches } from '@/lib/streak';
-import { PB } from '@/tokens/pb';
-import { useAppStore } from '@/store/useAppStore';
-import { useNav } from '@/store/useNav';
+import { Btn } from "@/components/Btn";
+import { IconBtn } from "@/components/IconBtn";
+import { Sticker } from "@/components/Sticker";
+import { TabBar } from "@/components/TabBar";
+import { findBug } from "@/data/bugs";
+import { SIGHTINGS } from "@/data/sightings";
+import { bugName, useT } from "@/i18n/helpers";
+import { refreshMapLocation } from "@/lib/geocode";
+import { useGeotaggedCatches } from "@/lib/useStreak";
+import { PB } from "@/tokens/pb";
+import { useAppStore } from "@/store/useAppStore";
+import { useNav } from "@/store/useNav";
 
 /**
  * The "map" is a decorative SVG, not a real basemap — but lat/lng pins
@@ -79,10 +79,10 @@ export function MapScreen() {
    * whether the cache currently has a usable shape.
    */
   const headerLocName = !locationShareOn
-    ? t('map.locNamePrivate')
+    ? t("map.locNamePrivate")
     : mapLocation && (mapLocation.city || mapLocation.region)
-      ? [mapLocation.city, mapLocation.region].filter(Boolean).join(', ')
-      : t('map.locName');
+      ? [mapLocation.city, mapLocation.region].filter(Boolean).join(", ")
+      : t("map.locName");
 
   const userPins = useMemo((): UserPinData[] => {
     if (userCatches.length === 0) return [];
@@ -95,7 +95,7 @@ export function MapScreen() {
         at: c.at,
         x,
         y,
-        emoji: bug?.emoji ?? '🐛',
+        emoji: bug?.emoji ?? "🐛",
         name: bugName(language, c.id),
         lat: c.lat!,
         lng: c.lng!,
@@ -105,9 +105,18 @@ export function MapScreen() {
 
   return (
     <View style={styles.root}>
-      <Svg style={StyleSheet.absoluteFill} preserveAspectRatio="none" viewBox="0 0 360 720">
+      <Svg
+        style={StyleSheet.absoluteFill}
+        preserveAspectRatio="none"
+        viewBox="0 0 360 720"
+      >
         <Defs>
-          <Pattern id="bgrid" width="32" height="32" patternUnits="userSpaceOnUse">
+          <Pattern
+            id="bgrid"
+            width="32"
+            height="32"
+            patternUnits="userSpaceOnUse"
+          >
             <Rect width={32} height={32} fill={PB.blue} />
             <Circle cx={0} cy={0} r={1.5} fill="#fff" opacity={0.3} />
           </Pattern>
@@ -139,10 +148,7 @@ export function MapScreen() {
         <Pressable
           key={i}
           onPress={() => setSelected(i)}
-          style={[
-            styles.pin,
-            { left: `${sp.x}%`, top: `${sp.y}%` },
-          ]}
+          style={[styles.pin, { left: `${sp.x}%`, top: `${sp.y}%` }]}
         >
           <View
             style={[
@@ -151,7 +157,10 @@ export function MapScreen() {
                 width: 38 + sp.size * 4,
                 height: 38 + sp.size * 4,
                 backgroundColor: selected === i ? PB.yellow : PB.cream,
-                shadowOffset: selected === i ? { width: 3, height: 3 } : { width: 2, height: 2 },
+                shadowOffset:
+                  selected === i
+                    ? { width: 3, height: 3 }
+                    : { width: 2, height: 2 },
                 transform: selected === i ? [{ scale: 1.1 }] : [],
               },
             ]}
@@ -168,7 +177,12 @@ export function MapScreen() {
           onPress={() => setSelectedPin(p)}
           style={[styles.userPin, { left: `${p.x}%`, top: `${p.y}%` }]}
         >
-          <View style={[styles.userPinHead, selectedPin?.id === p.id && styles.userPinHeadSelected]}>
+          <View
+            style={[
+              styles.userPinHead,
+              selectedPin?.id === p.id && styles.userPinHeadSelected,
+            ]}
+          >
             <Text style={styles.userPinEmoji}>{p.emoji}</Text>
           </View>
           <View style={styles.userPinTail} />
@@ -180,11 +194,16 @@ export function MapScreen() {
       </View>
 
       <View style={styles.topbar}>
-        <Sticker bg={PB.cream} style={{ paddingVertical: 10, paddingHorizontal: 14 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+        <Sticker
+          bg={PB.cream}
+          style={{ paddingVertical: 10, paddingHorizontal: 14 }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
             <View style={{ flex: 1 }}>
               <Text style={styles.locName}>{headerLocName}</Text>
-              <Text style={styles.locSub}>{t('map.locSub', { n: SIGHTINGS.length })}</Text>
+              <Text style={styles.locSub}>
+                {t("map.locSub", { n: SIGHTINGS.length })}
+              </Text>
             </View>
             <IconBtn bg={PB.yellow}>⌖</IconBtn>
           </View>
@@ -212,29 +231,46 @@ export function MapScreen() {
                   }}
                   style={styles.removePill}
                 >
-                  <Text style={styles.removePillText}>{t('map.pinRemove')}</Text>
+                  <Text style={styles.removePillText}>
+                    {t("map.pinRemove")}
+                  </Text>
                 </Pressable>
-                <Pressable onPress={() => setSelectedPin(null)} style={styles.closePill}>
+                <Pressable
+                  onPress={() => setSelectedPin(null)}
+                  style={styles.closePill}
+                >
                   <Text style={styles.closePillText}>✕</Text>
                 </Pressable>
               </View>
             </View>
           </Sticker>
         ) : (
-          <Sticker bg={PB.cream} style={{ padding: 12 }} onPress={() => go('scan')}>
+          <Sticker
+            bg={PB.cream}
+            style={{ padding: 12 }}
+            onPress={() => go("scan")}
+          >
             <View style={styles.cardRow}>
               <View style={styles.cardArt}>
                 <Text style={{ fontSize: 26 }}>{s.bug}</Text>
               </View>
               <View style={{ flex: 1 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 6 }}>
-                  <Text style={styles.cardTitle}>{t('map.sightings', { n: s.size + 1 })}</Text>
-                  <Text style={styles.cardDistance}>{t('map.distance')}</Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "baseline",
+                    gap: 6,
+                  }}
+                >
+                  <Text style={styles.cardTitle}>
+                    {t("map.sightings", { n: s.size + 1 })}
+                  </Text>
+                  <Text style={styles.cardDistance}>{t("map.distance")}</Text>
                 </View>
-                <Text style={styles.cardWhere}>{t('map.where')}</Text>
+                <Text style={styles.cardWhere}>{t("map.where")}</Text>
               </View>
               <View style={styles.huntPill}>
-                <Text style={styles.huntPillText}>{t('map.hunt')}</Text>
+                <Text style={styles.huntPillText}>{t("map.hunt")}</Text>
               </View>
             </View>
           </Sticker>
@@ -248,7 +284,11 @@ export function MapScreen() {
 
 const styles = StyleSheet.create({
   root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.blue },
-  pin: { position: 'absolute', transform: [{ translateX: -19 }, { translateY: -42 }], alignItems: 'center' },
+  pin: {
+    position: "absolute",
+    transform: [{ translateX: -19 }, { translateY: -42 }],
+    alignItems: "center",
+  },
   pinHead: {
     borderRadius: 99,
     borderColor: PB.ink,
@@ -256,24 +296,24 @@ const styles = StyleSheet.create({
     shadowColor: PB.ink,
     shadowOpacity: 1,
     shadowRadius: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   pinTail: {
     width: 0,
     height: 0,
     borderLeftWidth: 5,
     borderRightWidth: 5,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
     borderTopWidth: 7,
     borderTopColor: PB.ink,
     marginTop: -1,
   },
   userPin: {
-    position: 'absolute',
+    position: "absolute",
     transform: [{ translateX: -16 }, { translateY: -38 }],
-    alignItems: 'center',
+    alignItems: "center",
   },
   userPinHead: {
     width: 32,
@@ -282,34 +322,34 @@ const styles = StyleSheet.create({
     borderColor: PB.ink,
     borderWidth: 2.5,
     backgroundColor: PB.purple,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     shadowColor: PB.ink,
     shadowOpacity: 1,
     shadowRadius: 0,
     shadowOffset: { width: 2, height: 2 },
-    transform: [{ rotate: '45deg' }],
+    transform: [{ rotate: "45deg" }],
   },
   userPinHeadSelected: {
     backgroundColor: PB.yellow,
     shadowOffset: { width: 3, height: 3 },
   },
-  userPinEmoji: { fontSize: 16, transform: [{ rotate: '-45deg' }] },
+  userPinEmoji: { fontSize: 16, transform: [{ rotate: "-45deg" }] },
   userPinTail: {
     width: 0,
     height: 0,
     borderLeftWidth: 4,
     borderRightWidth: 4,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
     borderTopWidth: 6,
     borderTopColor: PB.ink,
     marginTop: -1,
   },
   youPin: {
-    position: 'absolute',
-    left: '46%',
-    top: '52%',
+    position: "absolute",
+    left: "46%",
+    top: "52%",
     transform: [{ translateX: -11 }, { translateY: -11 }],
   },
   youPinDot: {
@@ -323,11 +363,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 24,
   },
-  topbar: { position: 'absolute', top: 50, left: 12, right: 12 },
-  locName: { fontSize: 18, fontWeight: '800', color: PB.ink, lineHeight: 18 },
+  topbar: { position: "absolute", top: 50, left: 12, right: 12 },
+  locName: { fontSize: 18, fontWeight: "800", color: PB.ink, lineHeight: 18 },
   locSub: { fontSize: 11, color: PB.ink, opacity: 0.6, marginTop: 2 },
-  bottombar: { position: 'absolute', left: 12, right: 12, bottom: 110 },
-  cardRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  bottombar: { position: "absolute", left: 12, right: 12, bottom: 110 },
+  cardRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   cardArt: {
     width: 52,
     height: 52,
@@ -335,12 +375,12 @@ const styles = StyleSheet.create({
     borderColor: PB.ink,
     borderWidth: 2.5,
     backgroundColor: PB.cream2,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
-  cardTitle: { fontSize: 16, fontWeight: '800', color: PB.ink },
+  cardTitle: { fontSize: 16, fontWeight: "800", color: PB.ink },
   cardDistance: { fontSize: 11, color: PB.ink, opacity: 0.6 },
-  cardWhere: { fontSize: 13, color: PB.ink, fontWeight: '600' },
+  cardWhere: { fontSize: 13, color: PB.ink, fontWeight: "600" },
   huntPill: {
     paddingVertical: 4,
     paddingHorizontal: 10,
@@ -353,7 +393,7 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     shadowOffset: { width: 2, height: 2 },
   },
-  huntPillText: { fontSize: 11, fontWeight: '800', color: PB.ink },
+  huntPillText: { fontSize: 11, fontWeight: "800", color: PB.ink },
   removePill: {
     paddingVertical: 4,
     paddingHorizontal: 10,
@@ -365,9 +405,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 0,
     shadowOffset: { width: 2, height: 2 },
-    alignItems: 'center',
+    alignItems: "center",
   },
-  removePillText: { fontSize: 11, fontWeight: '800', color: PB.cream },
+  removePillText: { fontSize: 11, fontWeight: "800", color: PB.cream },
   closePill: {
     paddingVertical: 4,
     paddingHorizontal: 10,
@@ -375,7 +415,7 @@ const styles = StyleSheet.create({
     borderColor: PB.ink,
     borderWidth: 2,
     borderRadius: 99,
-    alignItems: 'center',
+    alignItems: "center",
   },
-  closePillText: { fontSize: 11, fontWeight: '800', color: PB.ink },
+  closePillText: { fontSize: 11, fontWeight: "800", color: PB.ink },
 });

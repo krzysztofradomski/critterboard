@@ -1,7 +1,3 @@
-import { useMemo } from 'react';
-
-import { useAppStore } from '@/store/useAppStore';
-
 /**
  * One catch event. `at` is local-device epoch ms so the streak math
  * uses the user's wall-calendar day (a catch at 23:55 and one at
@@ -56,8 +52,8 @@ const CATCHES_PER_FREEZE = 7;
 function dayKey(at: number): string {
   const d = new Date(at);
   const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
   return `${y}-${m}-${day}`;
 }
 
@@ -132,7 +128,10 @@ export function computeFreezeState(
     const k = dayKey(cursor.getTime());
     if (buckets.has(k)) {
       caughtRunForEarn += 1;
-      if (caughtRunForEarn % CATCHES_PER_FREEZE === 0 && banked < MAX_BANKED_FREEZES) {
+      if (
+        caughtRunForEarn % CATCHES_PER_FREEZE === 0 &&
+        banked < MAX_BANKED_FREEZES
+      ) {
         banked += 1;
       }
     } else {
@@ -161,7 +160,10 @@ export function computeFreezeState(
  * count as if caught. The "yesterday" clause is what makes streaks
  * survive the first part of a day before the user opens the app.
  */
-export function currentStreak(events: CatchEvent[], now: number = Date.now()): number {
+export function currentStreak(
+  events: CatchEvent[],
+  now: number = Date.now(),
+): number {
   const buckets = bucketByLocalDay(events);
   if (buckets.size === 0) return 0;
   const { spent } = computeFreezeState(events, now);
@@ -184,7 +186,10 @@ export function currentStreak(events: CatchEvent[], now: number = Date.now()): n
  * Longest run of consecutive caught-or-freeze-saved days anywhere in
  * the supplied history. Includes freeze-protected days.
  */
-export function bestStreak(events: CatchEvent[], now: number = Date.now()): number {
+export function bestStreak(
+  events: CatchEvent[],
+  now: number = Date.now(),
+): number {
   const caught = bucketByLocalDay(events);
   if (caught.size === 0) return 0;
   const { spent } = computeFreezeState(events, now);
@@ -196,8 +201,8 @@ export function bestStreak(events: CatchEvent[], now: number = Date.now()): numb
   let best = 1;
   let run = 1;
   for (let i = 1; i < sorted.length; i++) {
-    const prev = new Date(sorted[i - 1] + 'T00:00:00');
-    const cur = new Date(sorted[i] + 'T00:00:00');
+    const prev = new Date(sorted[i - 1] + "T00:00:00");
+    const cur = new Date(sorted[i] + "T00:00:00");
     const diff = Math.round((cur.getTime() - prev.getTime()) / 86_400_000);
     if (diff === 1) {
       run += 1;
@@ -260,15 +265,24 @@ export function calendarGrid(
  * second source of truth.
  */
 const SEED_PATTERN: ReadonlyArray<0 | 1 | 2> = [
-  1, 1, 1, 1, 0, 1, 1,
-  1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 2, 1, 0,
-  1, 1, 0, 0, 1, 1, 1,
-  1, 1, 1, 1, 1, 0, 0,
+  1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0, 1, 1, 0, 0, 1,
+  1, 1, 1, 1, 1, 1, 1, 0, 0,
 ];
 
-const SEED_IDS = ['hcat', 'lady', 'buff', 'brim', 'tort', 'wasp',
-                  'peac', 'radm', 'swhi', 'gshb', 'bdam', 'orng'];
+const SEED_IDS = [
+  "hcat",
+  "lady",
+  "buff",
+  "brim",
+  "tort",
+  "wasp",
+  "peac",
+  "radm",
+  "swhi",
+  "gshb",
+  "bdam",
+  "orng",
+];
 
 /**
  * Build the seeded catch log that the store starts with. Each "caught"
@@ -294,36 +308,6 @@ export function buildSeedCatchLog(now: number = Date.now()): CatchEvent[] {
 }
 
 // ──────────────────────────────────────────────────────────────────────────
-// React selectors
-// ──────────────────────────────────────────────────────────────────────────
-
-export type StreakSummary = {
-  current: number;
-  best: number;
-  total: number;
-  /** Number of freezes currently banked (0..MAX_BANKED_FREEZES). */
-  freezes: number;
-};
-
-export function useStreakSummary(): StreakSummary {
-  const log = useAppStore((s) => s.catchLog);
-  return useMemo(
-    () => ({
-      current: currentStreak(log),
-      best: bestStreak(log),
-      total: totalCatches(log),
-      freezes: computeFreezeState(log).available,
-    }),
-    [log],
-  );
-}
-
-export function useCalendar(days: number): DayCell[] {
-  const log = useAppStore((s) => s.catchLog);
-  return useMemo(() => calendarGrid(log, days), [log, days]);
-}
-
-// ──────────────────────────────────────────────────────────────────────────
 // Recent-catch helpers (for Home strip)
 // ──────────────────────────────────────────────────────────────────────────
 
@@ -346,17 +330,14 @@ export function recentBugIds(events: CatchEvent[], n: number): string[] {
   return out;
 }
 
-export function useRecentBugIds(n: number): string[] {
-  const log = useAppStore((s) => s.catchLog);
-  return useMemo(() => recentBugIds(log, n), [log, n]);
-}
-
 /**
  * Newest-first list of catch events that carry GPS coordinates. The Map
  * screen uses this to render real user catches as pins alongside the
  * synthetic `SIGHTINGS` dataset.
  */
-export function geotaggedCatches(events: ReadonlyArray<CatchEvent>): CatchEvent[] {
+export function geotaggedCatches(
+  events: ReadonlyArray<CatchEvent>,
+): CatchEvent[] {
   const out: CatchEvent[] = [];
   for (const e of events) {
     if (e.lat !== undefined && e.lng !== undefined) out.push(e);
@@ -365,17 +346,15 @@ export function geotaggedCatches(events: ReadonlyArray<CatchEvent>): CatchEvent[
   return out;
 }
 
-export function useGeotaggedCatches(): CatchEvent[] {
-  const log = useAppStore((s) => s.catchLog);
-  return useMemo(() => geotaggedCatches(log), [log]);
-}
-
 /**
  * Most-recent stored photo URI for a given bug, or undefined if none of
  * the catches for that bug carry a photo (e.g. the seeded history).
  * Used by Dex tile taps to deep-link into Result with the real picture.
  */
-export function latestPhotoFor(events: ReadonlyArray<CatchEvent>, bugId: string): string | undefined {
+export function latestPhotoFor(
+  events: ReadonlyArray<CatchEvent>,
+  bugId: string,
+): string | undefined {
   let bestAt = -Infinity;
   let bestUri: string | undefined;
   for (const e of events) {
