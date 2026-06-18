@@ -19,6 +19,7 @@ import { useNav } from "@/store/useNav";
 import {
   buildGlobeMarkers,
   buildUserPins,
+  resolveInitialMapView,
   resolveMapCenter,
   type UserPinData,
 } from "./mapGeo";
@@ -61,9 +62,17 @@ export function MapScreen() {
     [center, userPins, mapLocation],
   );
 
+  const initialView = useMemo(
+    () => resolveInitialMapView(markers, mapLocation, center),
+    [markers, mapLocation, center],
+  );
+
   const recenter = () => {
-    const target = mapLocation ?? center;
-    globeRef.current?.flyTo(target.lng, target.lat);
+    if (mapLocation) {
+      globeRef.current?.flyTo(mapLocation.lng, mapLocation.lat, 400_000);
+      return;
+    }
+    globeRef.current?.flyTo(initialView.lng, initialView.lat, initialView.altM);
   };
 
   return (
@@ -71,7 +80,7 @@ export function MapScreen() {
       <CartoonPlanetGlobe
         ref={globeRef}
         markers={markers}
-        center={center}
+        initialView={initialView}
         onMarkerClick={(marker) => {
           if (marker.id === "you") {
             recenter();

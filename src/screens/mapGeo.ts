@@ -9,6 +9,22 @@ const USER_PIN_SCALE_PCT_PER_KM = 5;
 const PIN_X_CENTER = 46;
 const PIN_Y_CENTER = 52;
 
+// react-cartoon-planet sizes markers relative to a ~0.024 reference radius
+// (globe radius is 1). Values near 1 render as Earth-sized cream blobs, so keep
+// every marker in the library's intended 0.02–0.03 band.
+const SIGHTING_MARKER_SIZE = 0.024;
+const USER_PIN_MARKER_SIZE = 0.026;
+const YOU_MARKER_SIZE = 0.02;
+
+/** Fallback map focus when the user has no location and no catches yet. */
+const EUROPE_CENTER = { lat: 50, lng: 15 };
+// Continental framing for the Europe fallback (shows the continent + coastlines
+// + surrounding seas, not a green inland patch).
+const EUROPE_VIEW_ALT_M = 6_000_000;
+// Regional framing once we know the user's actual spot — close enough to read
+// the area, far enough to keep geographic context.
+const REGIONAL_ALT_M = 2_000_000;
+
 export type UserPinData = {
   id: string;
   at: number;
@@ -21,6 +37,83 @@ export type UserPinData = {
 export type MapMarkerMeta =
   | { kind: "sighting"; index: number }
   | { kind: "user"; pin: UserPinData };
+
+export type MapInitialView = {
+  lng: number;
+  lat: number;
+  altM: number;
+};
+
+function haversineMeters(
+  lng1: number,
+  lat1: number,
+  lng2: number,
+  lat2: number,
+): number {
+  const toRad = (deg: number) => (deg * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLng = toRad(lng2 - lng1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+  return 6_371_000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+/** Altitude that frames a marker group in view (mirrors react-cartoon-planet clustering). */
+function frameAltitudeM(
+  markers: Array<{ lng: number; lat: number }>,
+  centerLng: number,
+  centerLat: number,
+): number {
+  let maxFromCenter = 0;
+  for (const m of markers) {
+    maxFromCenter = Math.max(
+      maxFromCenter,
+      haversineMeters(centerLng, centerLat, m.lng, m.lat),
+    );
+  }
+  const spanM = Math.max(2, maxFromCenter * 2);
+  return Math.min(8_000_000, Math.max(6, spanM / 0.56));
+}
+
+/** Regional view framing the user's location/catches; falls back to Europe. */
+export function resolveInitialMapView(
+  markers: Marker[],
+  mapLocation: { lat: number; lng: number } | null = null,
+  center: { lat: number; lng: number } = EUROPE_CENTER,
+): MapInitialView {
+  const userPins = markers.filter((m) => m.id.startsWith("user-"));
+  const you = markers.find((m) => m.id === "you");
+
+  if (userPins.length > 0) {
+    const lng = userPins.reduce((sum, m) => sum + m.lng, 0) / userPins.length;
+    const lat = userPins.reduce((sum, m) => sum + m.lat, 0) / userPins.length;
+    return { lng, lat, altM: frameAltitudeM(userPins, lng, lat) };
+  }
+
+  if (you) {
+    return { lng: you.lng, lat: you.lat, altM: REGIONAL_ALT_M };
+  }
+
+  if (mapLocation) {
+    return { lng: mapLocation.lng, lat: mapLocation.lat, altM: REGIONAL_ALT_M };
+  }
+
+  // No computed location yet — start on the predefined centre of Europe rather
+  // than the default globe view (which lands on the Americas).
+  return { lng: center.lng, lat: center.lat, altM: EUROPE_VIEW_ALT_M };
+}
+
+export function critterboardEarthMap(
+  base: import("react-cartoon-planet").PlanetMapDefinition,
+  url: string,
+): import("react-cartoon-planet").PlanetMapDefinition {
+  return {
+    ...base,
+    url,
+    atmosphereStrength: 0,
+  };
+}
 
 export function project(
   lat: number,
@@ -65,7 +158,7 @@ export function resolveMapCenter(
   if (newest?.lat != null && newest.lng != null) {
     return { lat: newest.lat, lng: newest.lng };
   }
-  return { lat: 20, lng: 0 };
+  return { ...EUROPE_CENTER };
 }
 
 export function buildUserPins(
@@ -107,7 +200,7 @@ export function buildGlobeMarkers(
       icon: sp.bug,
       shape: "icon",
       color: PB.cream,
-      size: 0.75 + sp.size * 0.15,
+      size: SIGHTING_MARKER_SIZE,
     });
     meta.set(id, { kind: "sighting", index });
   });
@@ -121,7 +214,7 @@ export function buildGlobeMarkers(
       icon: pin.emoji,
       shape: "icon",
       color: PB.purple,
-      size: 0.9,
+      size: USER_PIN_MARKER_SIZE,
     });
     meta.set(pin.id, { kind: "user", pin });
   }
@@ -134,7 +227,7 @@ export function buildGlobeMarkers(
       lng: mapLocation.lng,
       shape: "orb",
       color: PB.red,
-      size: 0.55,
+      size: YOU_MARKER_SIZE,
     });
   }
 
