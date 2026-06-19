@@ -27,6 +27,8 @@ const REGIONAL_ALT_M = 2_000_000;
 
 export type UserPinData = {
   id: string;
+  /** Species id from `BUGS`, for click-through to the insect detail. */
+  bugId: string;
   at: number;
   emoji: string;
   name: string;
@@ -35,7 +37,7 @@ export type UserPinData = {
 };
 
 export type MapMarkerMeta =
-  | { kind: "sighting"; index: number }
+  | { kind: "sighting"; index: number; bugId: string }
   | { kind: "user"; pin: UserPinData };
 
 export type MapInitialView = {
@@ -172,6 +174,7 @@ export function buildUserPins(
       const bug = findBug(c.id);
       return {
         id: `user-${c.id}-${c.at}`,
+        bugId: c.id,
         at: c.at,
         emoji: bug?.emoji ?? "🐛",
         name: bugNameFor(c.id),
@@ -190,19 +193,21 @@ export function buildGlobeMarkers(
   const meta = new Map<string, MapMarkerMeta>();
 
   SIGHTINGS.forEach((sp, index) => {
+    const bug = findBug(sp.bugId);
     const { lat, lng } = unproject(sp.x, sp.y, center.lat, center.lng);
     const id = `sighting-${index}`;
     markers.push({
       id,
-      label: sp.bug,
+      label: bug?.name ?? sp.bugId,
       lat,
       lng,
-      icon: sp.bug,
+      icon: bug?.emoji ?? "🐛",
       shape: "icon",
-      color: PB.cream,
+      // Colour the pin by its species so sightings read as distinct on the globe.
+      color: bug?.color ?? PB.cream,
       size: SIGHTING_MARKER_SIZE,
     });
-    meta.set(id, { kind: "sighting", index });
+    meta.set(id, { kind: "sighting", index, bugId: sp.bugId });
   });
 
   for (const pin of userPins) {

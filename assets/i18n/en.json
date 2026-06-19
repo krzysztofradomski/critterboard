@@ -352,7 +352,8 @@
       "distance": "0.4 mi",
       "where": "Prospect Park · 2 days ago",
       "hunt": "HUNT →",
-      "pinRemove": "Remove pin"
+      "pinRemove": "Remove pin",
+      "viewInsect": "View insect →"
     },
     "permissions": {
       "title": "Three quick asks.",

@@ -38,7 +38,7 @@
     "expo-status-bar": "~2.0.0",
     "llama.rn": "^0.9.0",
     "react": "18.3.1",
-    "react-cartoon-planet": "file:../react-cartoon-planet",
+    "react-cartoon-planet": "^1.1.2",
     "react-dom": "18.3.1",
     "react-native": "0.76.5",
     "react-native-executorch": "^0.9.0",

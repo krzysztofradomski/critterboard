@@ -8,11 +8,12 @@ import {
 import { IconBtn } from "@/components/IconBtn";
 import { Sticker } from "@/components/Sticker";
 import { TabBar } from "@/components/TabBar";
+import { findBug } from "@/data/bugs";
 import { SIGHTINGS } from "@/data/sightings";
 import { bugName, useT } from "@/i18n/helpers";
 import { refreshMapLocation } from "@/lib/geocode";
 import { useGeotaggedCatches } from "@/lib/useStreak";
-import { PB } from "@/tokens/pb";
+import { PB, RARITY_COLOR } from "@/tokens/pb";
 import { useAppStore } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
 
@@ -29,6 +30,7 @@ export function MapScreen() {
   const t = useT();
   const [selected, setSelected] = useState(2);
   const s = SIGHTINGS[selected]!;
+  const selectedBug = findBug(s.bugId);
   const userCatches = useGeotaggedCatches();
   const locationShareOn = useAppStore((state) => state.profile.locationShareOn);
   const mapLocation = useAppStore((state) => state.mapLocation);
@@ -132,6 +134,12 @@ export function MapScreen() {
               </View>
               <View style={{ gap: 6 }}>
                 <Pressable
+                  onPress={() => go("result", { id: selectedPin.bugId })}
+                  style={styles.huntPill}
+                >
+                  <Text style={styles.huntPillText}>{t("map.viewInsect")}</Text>
+                </Pressable>
+                <Pressable
                   onPress={() => {
                     removeMapPin(selectedPin.at);
                     setSelectedPin(null);
@@ -152,33 +160,46 @@ export function MapScreen() {
             </View>
           </Sticker>
         ) : (
-          <Sticker
-            bg={PB.cream}
-            style={{ padding: 12 }}
-            onPress={() => go("scan")}
-          >
+          <Sticker bg={PB.cream} style={{ padding: 12 }}>
             <View style={styles.cardRow}>
               <View style={styles.cardArt}>
-                <Text style={{ fontSize: 26 }}>{s.bug}</Text>
+                <Text style={{ fontSize: 26 }}>{selectedBug?.emoji ?? "🐛"}</Text>
               </View>
               <View style={{ flex: 1 }}>
                 <View
                   style={{
                     flexDirection: "row",
-                    alignItems: "baseline",
+                    alignItems: "center",
                     gap: 6,
                   }}
                 >
                   <Text style={styles.cardTitle}>
-                    {t("map.sightings", { n: s.size + 1 })}
+                    {bugName(language, s.bugId)}
                   </Text>
-                  <Text style={styles.cardDistance}>{t("map.distance")}</Text>
+                  {selectedBug ? (
+                    <View
+                      style={[
+                        styles.rarityChip,
+                        { backgroundColor: RARITY_COLOR[selectedBug.rarity] },
+                      ]}
+                    >
+                      <Text style={styles.rarityChipText}>
+                        {t(`dex.filter.${selectedBug.rarity}`)}
+                      </Text>
+                    </View>
+                  ) : null}
                 </View>
-                <Text style={styles.cardWhere}>{t("map.where")}</Text>
+                <Text style={styles.cardWhere}>{selectedBug?.latin}</Text>
+                <Text style={styles.cardDistance}>
+                  {t("map.sightings", { n: s.size + 1 })} · {t("map.distance")}
+                </Text>
               </View>
-              <View style={styles.huntPill}>
-                <Text style={styles.huntPillText}>{t("map.hunt")}</Text>
-              </View>
+              <Pressable
+                onPress={() => go("result", { id: s.bugId })}
+                style={styles.huntPill}
+              >
+                <Text style={styles.huntPillText}>{t("map.viewInsect")}</Text>
+              </Pressable>
             </View>
           </Sticker>
         )}
@@ -213,6 +234,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   cardTitle: { fontSize: 16, fontWeight: "800", color: PB.ink },
+  rarityChip: {
+    paddingVertical: 1,
+    paddingHorizontal: 6,
+    borderRadius: 6,
+    borderColor: PB.ink,
+    borderWidth: 1.5,
+  },
+  rarityChipText: { fontSize: 9, fontWeight: "800", color: PB.ink },
   cardDistance: { fontSize: 11, color: PB.ink, opacity: 0.6 },
   cardWhere: { fontSize: 13, color: PB.ink, fontWeight: "600" },
   huntPill: {
