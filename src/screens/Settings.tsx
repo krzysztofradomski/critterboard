@@ -218,8 +218,8 @@ export function Settings() {
       await dl.downloadAsync();
       packDownloadHandles.current[region.id] = null;
 
-      // Step 4: Persist installed state.
-      installRegion(region.id, pack.labelMap);
+      // Step 4: Persist installed state (version drives boot-time refresh).
+      installRegion(region.id, pack.labelMap, pack.version);
       setRegions((r) => ({ ...r, [region.id]: "installed" }));
     } catch {
       setRegions((r) => ({ ...r, [region.id]: "available" }));

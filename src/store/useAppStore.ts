@@ -188,6 +188,12 @@ type State = {
    * for hydrateInstalledPacks() to replay AsyncStorage on each boot.
    */
   activeLabelMap: Record<string, number>;
+  /**
+   * Installed pack version per region ID, mirroring packs/manifest.json.
+   * Used at boot to detect when a newer pack/model has shipped and trigger
+   * a refresh (see syncInstalledPacks).
+   */
+  installedPackVersions: Record<string, number>;
 };
 
 type Actions = {
@@ -238,7 +244,7 @@ type Actions = {
    * entry. Also clears the thread summary since it may now be stale.
    */
   removeMessageFromThread: (threadId: string, index: number) => void;
-  installRegion: (id: string, labelMap: Record<string, number>) => void;
+  installRegion: (id: string, labelMap: Record<string, number>, version: number) => void;
   uninstallRegion: (id: string) => void;
   /**
    * Strip the GPS coordinates from a catch event so it no longer appears
@@ -318,6 +324,7 @@ type Persisted = Pick<
   | 'conversationMemory'
   | 'installedRegions'
   | 'activeLabelMap'
+  | 'installedPackVersions'
 >;
 
 type PersistedWire = {
@@ -345,6 +352,7 @@ type PersistedWire = {
   conversationMemory?: ConversationMemoryEntry[];
   installedRegions?: string[];
   activeLabelMap?: Record<string, number>;
+  installedPackVersions?: Record<string, number>;
 };
 
 const wireStorage: PersistStorage<Persisted> = {
@@ -375,6 +383,7 @@ const wireStorage: PersistStorage<Persisted> = {
         conversationMemory: wrapped.state.conversationMemory ?? [],
         installedRegions: wrapped.state.installedRegions ?? [],
         activeLabelMap: wrapped.state.activeLabelMap ?? {},
+        installedPackVersions: wrapped.state.installedPackVersions ?? {},
       },
       version: wrapped.version,
     };
@@ -399,6 +408,7 @@ const wireStorage: PersistStorage<Persisted> = {
       conversationMemory: value.state.conversationMemory,
       installedRegions: value.state.installedRegions,
       activeLabelMap: value.state.activeLabelMap,
+      installedPackVersions: value.state.installedPackVersions,
     };
     await AsyncStorage.setItem(name, JSON.stringify({ state: wire, version: value.version ?? 0 }));
   },
@@ -444,6 +454,7 @@ export const useAppStore = create<AppStore>()(
       conversationMemory: [],
       installedRegions: [],
       activeLabelMap: {},
+      installedPackVersions: {},
 
       go: (name, params) => {
         const alias = ME_SUB_ALIAS[name];
@@ -723,14 +734,21 @@ export const useAppStore = create<AppStore>()(
           };
         }),
 
-      installRegion: (id, labelMap) =>
-        set((s) => ({
-          installedRegions: s.installedRegions.includes(id)
+      // Upsert: also used to refresh a pack in place (version bump). When the
+      // region is the active (first) one, its labelMap is (re)applied so an
+      // updated model's class order takes effect immediately.
+      installRegion: (id, labelMap, version) =>
+        set((s) => {
+          const installedRegions = s.installedRegions.includes(id)
             ? s.installedRegions
-            : [...s.installedRegions, id],
-          // First installed region becomes the active classifier source.
-          activeLabelMap: s.installedRegions.length === 0 ? labelMap : s.activeLabelMap,
-        })),
+            : [...s.installedRegions, id];
+          const isActive = installedRegions[0] === id;
+          return {
+            installedRegions,
+            installedPackVersions: { ...s.installedPackVersions, [id]: version },
+            activeLabelMap: isActive ? labelMap : s.activeLabelMap,
+          };
+        }),
 
       uninstallRegion: (id) =>
         set((s) => {
@@ -739,9 +757,11 @@ export const useAppStore = create<AppStore>()(
           // map — the classifier falls back to mock/Gemini until a region is
           // installed again.
           const removedActive = s.installedRegions[0] === id;
+          const { [id]: _removed, ...installedPackVersions } = s.installedPackVersions;
           return {
             installedRegions: next,
             activeLabelMap: removedActive ? {} : s.activeLabelMap,
+            installedPackVersions,
           };
         }),
 
@@ -825,6 +845,7 @@ export const useAppStore = create<AppStore>()(
           conversationMemory: [],
           installedRegions: [],
           activeLabelMap: {},
+          installedPackVersions: {},
           // Rotate the backend identity on every wipe so a fresh install
           // and a wiped install look identical to the server.
           backendUserId: newBackendUserId(),
@@ -852,6 +873,7 @@ export const useAppStore = create<AppStore>()(
         conversationMemory: s.conversationMemory,
         installedRegions: s.installedRegions,
         activeLabelMap: s.activeLabelMap,
+        installedPackVersions: s.installedPackVersions,
       }),
       /**
        * Skip past onboarding for returning users. The flag is set in
