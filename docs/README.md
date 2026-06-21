@@ -9,6 +9,7 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 | Doc | What's inside |
 |---|---|
 | [[ml-roadmap]] | On-device ML plan — MVP, full training, deferred placeholders. The master "what's next". |
+| [[deployment]] | Shipping to iOS TestFlight & Google Play via EAS — build profiles, credentials, submit config. |
 | [[i18n]] | i18n architecture — bundled JSON packs, `t()` helper, remote OTA pack manifest, App Store notes. |
 | [[modules/responsive-layout-shell]] | Global centered app-shell with `maxWidth` so all screens render cleanly on larger displays. |
 | [[modules/permissions-web]] | Camera is "recommended, not required" on web — explains why mobile Safari can't prompt over HTTP and how the gallery-picker fallback covers it. |
