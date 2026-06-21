@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as FileSystem from 'expo-file-system/legacy';
 
 import { mergeBugs, type Bug } from '@/data/bugs';
 
@@ -77,4 +78,95 @@ export async function hydrateInstalledPacks(installedIds: string[]): Promise<voi
       mergeBugs(pack.bugs);
     }),
   );
+}
+
+// ── Update / refresh ─────────────────────────────────────────────────────────
+
+/** Fetch the top-level pack manifest. Returns null on any network/parse error. */
+export async function fetchPackManifest(): Promise<PackManifest | null> {
+  try {
+    const res = await fetch(PACK_MANIFEST_URL);
+    if (!res.ok) return null;
+    return (await res.json()) as PackManifest;
+  } catch {
+    return null;
+  }
+}
+
+/** Fetch a single pack's JSON (bugs + labelMap + modelUrl). */
+export async function fetchPack(url: string): Promise<RegionPack | null> {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    return (await res.json()) as RegionPack;
+  } catch {
+    return null;
+  }
+}
+
+/** Download a pack's .pte model to its on-disk path, reporting 0–100 progress. */
+export async function downloadPackModel(
+  documentDirectory: string,
+  pack: RegionPack,
+  onProgress?: (pct: number) => void,
+): Promise<void> {
+  await FileSystem.makeDirectoryAsync(`${documentDirectory}models/packs/`, {
+    intermediates: true,
+  });
+  const dl = FileSystem.createDownloadResumable(
+    pack.modelUrl,
+    getModelPath(documentDirectory, pack.id),
+    {},
+    ({ totalBytesWritten, totalBytesExpectedToWrite }) => {
+      if (totalBytesExpectedToWrite <= 0) return;
+      onProgress?.(Math.floor((totalBytesWritten / totalBytesExpectedToWrite) * 100));
+    },
+  );
+  await dl.downloadAsync();
+}
+
+/** Pure decision: is the installed pack older than what the manifest advertises? */
+export function isPackOutdated(
+  installedVersion: number | undefined,
+  manifestVersion: number | undefined,
+): boolean {
+  if (typeof manifestVersion !== 'number') return false;
+  return (installedVersion ?? 0) < manifestVersion;
+}
+
+export type PackUpdate = { id: string; pack: RegionPack };
+
+/**
+ * Best-effort boot-time refresh. For each installed region whose manifest
+ * version is newer than the installed one, re-download the pack JSON + model
+ * and report it via onUpdated so the store can bump the version and reapply
+ * the (possibly reordered) labelMap. No-ops on web / when the filesystem is
+ * unavailable. Failures are swallowed per-pack so the stale-but-working pack
+ * stays in place.
+ */
+export async function syncInstalledPacks(opts: {
+  installedIds: string[];
+  installedVersions: Record<string, number>;
+  documentDirectory: string | null;
+  onUpdated: (update: PackUpdate) => void;
+}): Promise<void> {
+  const { installedIds, installedVersions, documentDirectory, onUpdated } = opts;
+  if (installedIds.length === 0 || !documentDirectory) return;
+
+  const manifest = await fetchPackManifest();
+  if (!manifest) return;
+
+  for (const id of installedIds) {
+    const entry = manifest.packs[id];
+    if (!entry || !isPackOutdated(installedVersions[id], entry.version)) continue;
+    try {
+      const pack = await fetchPack(entry.url);
+      if (!pack) continue;
+      await cachePackData(pack); // overwrite cached JSON + merge bugs
+      await downloadPackModel(documentDirectory, pack);
+      onUpdated({ id, pack });
+    } catch {
+      // best-effort: leave the existing installed version untouched
+    }
+  }
 }

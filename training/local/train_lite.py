@@ -37,27 +37,32 @@ USER_AGENT    = "Critterboard-TrainLite/1.0 (educational; contact via github.com
 # ── Species list ───────────────────────────────────────────────────────────────
 # 20 common, visually distinct Central European insects.
 # taxon_id values from iNaturalist; duplicates removed.
+# Taxon IDs verified against the iNaturalist /v1/taxa API (2026-06-21). The
+# previous IDs were stale — several pointed at the wrong species (e.g. the old
+# 48484 resolves to Harmonia axyridis, not Apis mellifera), so every download
+# was either mislabelled or a 422 "Unknown taxon_id". Re-verify with:
+#   curl 'https://api.inaturalist.org/v1/taxa?q=<Scientific+name>&rank=species'
 TARGET_SPECIES = [
-    (47219,  "Seven-spot Ladybird",    "Coccinella septempunctata"),
-    (48484,  "Western Honey Bee",      "Apis mellifera"),
-    (52747,  "Common Brimstone",       "Gonepteryx rhamni"),
-    (52775,  "Buff-tailed Bumblebee",  "Bombus terrestris"),
-    (57593,  "Peacock Butterfly",      "Aglais io"),
-    (55626,  "Large White Butterfly",  "Pieris brassicae"),
-    (57508,  "Red Admiral",            "Vanessa atalanta"),
-    (57583,  "Small Tortoiseshell",    "Aglais urticae"),
-    (57423,  "Small White Butterfly",  "Pieris rapae"),
-    (48735,  "Common Wasp",            "Vespula vulgaris"),
-    (61585,  "Stag Beetle",            "Lucanus cervus"),
-    (119870, "Green Shield Bug",       "Palomena prasina"),
-    (56057,  "Common Blue Damselfly",  "Enallagma cyathigerum"),
-    (61525,  "Rose Chafer",            "Cetonia aurata"),
-    (52798,  "Orange Tip",             "Anthocharis cardamines"),
-    (57486,  "Painted Lady",           "Vanessa cardui"),
-    (48745,  "European Hornet",        "Vespa crabro"),
-    (52786,  "Common Swallowtail",     "Papilio machaon"),
-    (60827,  "Harlequin Ladybird",     "Harmonia axyridis"),
-    (48480,  "Garden Bumblebee",       "Bombus hortorum"),
+    (51702,  "Seven-spot Ladybird",    "Coccinella septempunctata"),
+    (47219,  "Western Honey Bee",      "Apis mellifera"),
+    (52771,  "Common Brimstone",       "Gonepteryx rhamni"),
+    (57516,  "Buff-tailed Bumblebee",  "Bombus terrestris"),
+    (207977, "Peacock Butterfly",      "Aglais io"),
+    (55401,  "Large White Butterfly",  "Pieris brassicae"),
+    (49133,  "Red Admiral",            "Vanessa atalanta"),
+    (54468,  "Small Tortoiseshell",    "Aglais urticae"),
+    (55626,  "Small White Butterfly",  "Pieris rapae"),
+    (127777, "Common Wasp",            "Vespula vulgaris"),
+    (61749,  "Stag Beetle",            "Lucanus cervus"),
+    (62060,  "Green Shield Bug",       "Palomena prasina"),
+    (99901,  "Common Blue Damselfly",  "Enallagma cyathigerum"),
+    (52402,  "Rose Chafer",            "Cetonia aurata"),
+    (51495,  "Orange Tip",             "Anthocharis cardamines"),
+    (48548,  "Painted Lady",           "Vanessa cardui"),
+    (54327,  "European Hornet",        "Vespa crabro"),
+    (56529,  "Common Swallowtail",     "Papilio machaon"),
+    (48484,  "Harlequin Ladybird",     "Harmonia axyridis"),
+    (121989, "Garden Bumblebee",       "Bombus hortorum"),
 ]
 
 # Remove any accidental duplicates by taxon_id

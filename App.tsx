@@ -7,7 +7,8 @@ import { StyleSheet, View } from "react-native";
 import { useBackendIdentityBridge, useSyncProfile } from "@/backend/hooks";
 import { Toast } from "@/components/Toast";
 import { hydrateCachedPacks, syncRemotePacks, isKnownLang } from "@/i18n";
-import { hydrateInstalledPacks } from "@/data/regionPacks";
+import * as FileSystem from "expo-file-system/legacy";
+import { hydrateInstalledPacks, syncInstalledPacks } from "@/data/regionPacks";
 import { Router } from "@/navigation/Router";
 import {
   initCrashReporting,
@@ -26,6 +27,8 @@ export default function App() {
   const hasOnboarded = useAppStore((s) => s.hasOnboarded);
   const setLanguage = useAppStore((s) => s.setLanguage);
   const installedRegions = useAppStore((s) => s.installedRegions);
+  const installedPackVersions = useAppStore((s) => s.installedPackVersions);
+  const installRegion = useAppStore((s) => s.installRegion);
 
   // Keep the mock adapter's self-view in sync with live store state.
   useBackendIdentityBridge();
@@ -53,8 +56,21 @@ export default function App() {
   // launch. Runs again after store rehydration (installedRegions dependency)
   // in case the store wasn't ready on the first render.
   useEffect(() => {
-    if (installedRegions.length > 0)
-      void hydrateInstalledPacks(installedRegions);
+    if (installedRegions.length === 0) return;
+    // Replay cached packs immediately (cheap, offline), then opportunistically
+    // refresh any whose manifest version is newer — same pattern as the
+    // translation packs below. A bumped pack/model in packs/manifest.json thus
+    // reaches installed clients on the next launch without a reinstall.
+    void hydrateInstalledPacks(installedRegions).then(() =>
+      syncInstalledPacks({
+        installedIds: installedRegions,
+        installedVersions: installedPackVersions,
+        documentDirectory: FileSystem.documentDirectory,
+        onUpdated: ({ id, pack }) => installRegion(id, pack.labelMap, pack.version),
+      }),
+    );
+    // installedRegions is the trigger; the rest are stable store refs.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [installedRegions]);
 
   // Replay any cached remote translation packs before first paint

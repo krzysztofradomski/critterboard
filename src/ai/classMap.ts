@@ -12,50 +12,50 @@
  */
 
 export const SCIENTIFIC_TO_BUG_ID: Readonly<Record<string, string>> = {
-  'Palomena prasina':           'gshb',
-  'Coccinella septempunctata':  'lady',
   'Bombus hortorum':            'gbee',
-  'Apis mellifera':             'hcat',
   'Vespula vulgaris':           'wasp',
-  'Vespa crabro':               'horn',
-  'Gonepteryx rhamni':          'brim',
-  'Bombus terrestris':          'buff',
-  'Papilio machaon':            'swal',
-  'Anthocharis cardamines':     'orng',
-  'Pieris brassicae':           'lwhi',
-  'Enallagma cyathigerum':      'bdam',
-  'Pieris rapae':               'swhi',
+  'Aglais io':                  'peac',
+  'Apis mellifera':             'hcat',
+  'Harmonia axyridis':          'harl',
   'Vanessa cardui':             'pntl',
   'Vanessa atalanta':           'radm',
-  'Aglais urticae':             'tort',
-  'Aglais io':                  'peac',
-  'Harmonia axyridis':          'harl',
+  'Anthocharis cardamines':     'orng',
+  'Coccinella septempunctata':  'lady',
   'Cetonia aurata':             'rchf',
+  'Gonepteryx rhamni':          'brim',
+  'Vespa crabro':               'horn',
+  'Aglais urticae':             'tort',
+  'Pieris brassicae':           'lwhi',
+  'Pieris rapae':               'swhi',
+  'Papilio machaon':            'swal',
+  'Bombus terrestris':          'buff',
   'Lucanus cervus':             'stag',
+  'Palomena prasina':           'gshb',
+  'Enallagma cyathigerum':      'bdam',
 };
 
 /** Index order matches class_map_lite.json produced by train_lite.py. */
 export const INDEX_TO_BUG_ID: ReadonlyArray<string> = [
-  'gshb', //  0  Palomena prasina
-  'lady', //  1  Coccinella septempunctata
-  'gbee', //  2  Bombus hortorum
+  'gbee', //  0  Bombus hortorum
+  'wasp', //  1  Vespula vulgaris
+  'peac', //  2  Aglais io
   'hcat', //  3  Apis mellifera
-  'wasp', //  4  Vespula vulgaris
-  'horn', //  5  Vespa crabro
-  'brim', //  6  Gonepteryx rhamni
-  'buff', //  7  Bombus terrestris
-  'swal', //  8  Papilio machaon
-  'orng', //  9  Anthocharis cardamines
-  'lwhi', // 10  Pieris brassicae
-  'bdam', // 11  Enallagma cyathigerum
-  'swhi', // 12  Pieris rapae
-  'pntl', // 13  Vanessa cardui
-  'radm', // 14  Vanessa atalanta
-  'tort', // 15  Aglais urticae
-  'peac', // 16  Aglais io
-  'harl', // 17  Harmonia axyridis
-  'rchf', // 18  Cetonia aurata
-  'stag', // 19  Lucanus cervus
+  'harl', //  4  Harmonia axyridis
+  'pntl', //  5  Vanessa cardui
+  'radm', //  6  Vanessa atalanta
+  'orng', //  7  Anthocharis cardamines
+  'lady', //  8  Coccinella septempunctata
+  'rchf', //  9  Cetonia aurata
+  'brim', // 10  Gonepteryx rhamni
+  'horn', // 11  Vespa crabro
+  'tort', // 12  Aglais urticae
+  'lwhi', // 13  Pieris brassicae
+  'swhi', // 14  Pieris rapae
+  'swal', // 15  Papilio machaon
+  'buff', // 16  Bombus terrestris
+  'stag', // 17  Lucanus cervus
+  'gshb', // 18  Palomena prasina
+  'bdam', // 19  Enallagma cyathigerum
 ];
 
 /** Convenience: look up bug ID by class index, with bounds-check. */

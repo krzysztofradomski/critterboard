@@ -18,9 +18,12 @@ import { toolChatAdapter } from '@/ai/toolChatAdapter';
 import { withGuardrails } from '@/ai/guardrails';
 import { webNativeLlmChatAdapter } from '@/ai/webNativeLlm';
 
-// Flip to true once MODEL_SOURCE is set in src/ai/executorchVision.ts
-// and insect_classifier.pte is available (run: python training/local/04_export.py --pte)
-export const USE_NATIVE_VISION = false;
+// Native on-device vision is active. The .pte is NOT bundled — it's downloaded
+// on demand from the brains/region-pack page (Settings → pack install pulls the
+// GitHub release asset named in packs/eu-ce.json → modelUrl). This flag stays
+// dormant (preventLoad) until a pack is installed; until then Scan falls back to
+// gemini/mock. See packs/eu-ce.json and src/data/regionPacks.ts.
+export const USE_NATIVE_VISION = true;
 const USE_GEMINI_VISION = true;
 const USE_LLAMA_RN = true;        // llama.rn wired; model downloaded on first launch
 const USE_CLOUD_GEMINI_POC = true; // temporary POC until on-device LLM ships

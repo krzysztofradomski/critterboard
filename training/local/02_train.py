@@ -40,7 +40,11 @@ CHECKPOINT_DIR  = Path("./checkpoints")
 CHECKPOINT_DIR.mkdir(exist_ok=True)
 
 CFG = {
-    "model_name":       "efficientnetv2_s",
+    # The bare timm arch "efficientnetv2_s" has NO published pretrained weights
+    # (create_model(pretrained=True) raises). The downloadable ImageNet weights
+    # live under the tf_ port; .in21k_ft_in1k (ImageNet-21k → 1k) gives the
+    # strongest transfer features for fine-grained, look-alike species.
+    "model_name":       os.environ.get("CB_MODEL_NAME", "tf_efficientnetv2_s.in21k_ft_in1k"),
     # CB_* env vars allow the training-ui dashboard to pass config without
     # editing this file. All have sensible defaults so CLI usage is unchanged.
     "image_size":       int(os.environ.get("CB_IMAGE_SIZE",    "224")),

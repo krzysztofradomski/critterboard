@@ -270,6 +270,20 @@ Streamlit training UI and app species guide can link to it.
 **iNaturalist 403 / network errors** — the cloud training environment blocks outbound
 HTTP. Use `--demo` for offline synthetic training, or run locally.
 
+**iNaturalist 422 "Unknown taxon_id" / classes downloading 0 images** — the hardcoded
+taxon IDs in `train_lite.py` and `insect_data.py` have gone stale (iNaturalist re-IDs
+taxa over time). A `422` is *not* a rate-limit (that would be `429`); it means the ID no
+longer exists, and a worse failure mode is an ID that silently resolves to the **wrong
+species** — training then learns mislabelled data. Re-verify every ID before a run:
+
+```bash
+curl -s 'https://api.inaturalist.org/v1/taxa?q=Apis+mellifera&rank=species' \
+  | python3 -c "import sys,json;print(json.load(sys.stdin)['results'][0]['id'])"
+```
+
+If you remap IDs in bulk, use a single-pass mapping (the swap is bijective — chained
+find-replace corrupts overlapping old/new values).
+
 **MPS errors on Mac:**
 
 ```bash
