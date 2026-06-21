@@ -6,12 +6,15 @@ How Critterboard ships to **iOS TestFlight** and **Google Play internal testing*
 
 ## TL;DR
 
+`eas-cli` is pinned as a dev dependency, so after `npm install` you don't
+need a global install — call it with `npx eas-cli`. (Install globally with
+`npm install -g eas-cli` if you'd rather type `eas` directly.)
+
 ```bash
 # one-time
 npm install
-npm install -g eas-cli      # or use the pinned local dep via `npx eas`
-eas login
-eas init                    # creates the EAS project, writes extra.eas.projectId into app.json
+npx eas-cli login
+npx eas-cli init            # creates the EAS project, writes extra.eas.projectId into app.json
 
 # build
 npm run build:ios           # production .ipa  -> TestFlight
@@ -21,6 +24,10 @@ npm run build:android       # production .aab  -> Play internal track
 npm run submit:ios
 npm run submit:android
 ```
+
+> `eas: command not found` means `eas-cli` isn't on your PATH. Either run
+> `npm install` (then use the `npm run build:*` / `npx eas-cli` forms above)
+> or install it globally with `npm install -g eas-cli`.
 
 ## Build profiles (`eas.json`)
 
@@ -36,16 +43,16 @@ Each profile has a matching `channel` for EAS Update OTA delivery if/when that g
 
 ## One-time setup
 
-1. **Expo account + project** — `eas login`, then `eas init`. This writes `extra.eas.projectId` into `app.json`. Commit that change. (It is intentionally absent until you run this — a placeholder UUID would break builds.)
+1. **Expo account + project** — `npx eas-cli login`, then `npx eas-cli init`. This writes `extra.eas.projectId` into `app.json`. Commit that change. (It is intentionally absent until you run this — a placeholder UUID would break builds.)
 2. **App identifiers** — already set in `app.json`:
    - iOS `bundleIdentifier`: `app.critterboard.ios`
    - Android `package`: `app.critterboard.android`
-3. **Apple credentials** — let EAS manage signing (recommended). On the first `eas build --platform ios` it walks you through generating the distribution certificate and provisioning profile. You need an Apple Developer Program membership ($99/yr) and must create the app record in [App Store Connect](https://appstoreconnect.apple.com).
+3. **Apple credentials** — let EAS manage signing (recommended). On the first `npm run build:ios` it walks you through generating the distribution certificate and provisioning profile. You need an Apple Developer Program membership ($99/yr) and must create the app record in [App Store Connect](https://appstoreconnect.apple.com).
 4. **Android credentials** — EAS generates and stores the upload keystore on first Android build. Create the app in the [Play Console](https://play.google.com/console) ($25 one-time).
 
 ## Submitting
 
-Fill in the placeholders in `eas.json` → `submit.production` before running `eas submit`:
+Fill in the placeholders in `eas.json` → `submit.production` before running the `npm run submit:*` scripts:
 
 **iOS**
 - `appleId` — your Apple account email
@@ -56,22 +63,22 @@ Fill in the placeholders in `eas.json` → `submit.production` before running `e
 - `serviceAccountKeyPath` — `./google-service-account.json`, a Play Console service-account key with the *Service Account User* role. **Git-ignored — never commit it.**
 - `track` — `internal` (internal testing). Promote to `alpha` / `beta` / `production` later in the Play Console.
 
-After `eas submit --platform ios`, the build appears in TestFlight once Apple finishes processing (a few minutes to an hour). Add it to an internal or external test group from App Store Connect. For Android, the build lands on the **internal testing** track in the Play Console.
+After `npm run submit:ios`, the build appears in TestFlight once Apple finishes processing (a few minutes to an hour). Add it to an internal or external test group from App Store Connect. For Android, the build lands on the **internal testing** track in the Play Console.
 
 ## Secrets & env
 
 Runtime config uses `EXPO_PUBLIC_*` vars (see [`.env.example`](../.env.example)). For cloud builds these are **not** read from your local `.env` — set them as EAS secrets so the build can see them:
 
 ```bash
-eas secret:create --scope project --name EXPO_PUBLIC_SENTRY_DSN --value "..."
-eas secret:create --scope project --name EXPO_PUBLIC_BACKEND_URL --value "..."
+npx eas-cli secret:create --scope project --name EXPO_PUBLIC_SENTRY_DSN --value "..."
+npx eas-cli secret:create --scope project --name EXPO_PUBLIC_BACKEND_URL --value "..."
 ```
 
 Or add a non-secret `env` block per profile in `eas.json`. Keep real keys out of git either way.
 
 ## Checklist before a store build
 
-- [ ] `eas init` has run and `extra.eas.projectId` is committed
+- [ ] `npx eas-cli init` has run and `extra.eas.projectId` is committed
 - [ ] `expo.version` bumped in `app.json` for the release
 - [ ] App records created in App Store Connect and Play Console
 - [ ] `submit.production` placeholders filled in `eas.json`
