@@ -117,11 +117,11 @@ export function Disambiguate() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.yellow, paddingTop: 50, paddingBottom: 16 },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.yellow, paddingTop: 50, paddingBottom: 16 },
   head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16 },
   title: { fontSize: 16, fontWeight: '800', color: PB.ink },
   photo: { height: 160, backgroundColor: '#fff', position: 'relative', overflow: 'hidden' },
-  fuzz: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(255,244,220,0.55)' },
+  fuzz: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(255,244,220,0.55)' },
   lowBadge: {
     position: 'absolute',
     top: 10,

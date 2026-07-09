@@ -2,6 +2,39 @@
 
 Patterns from corrections / refinements to avoid repeating.
 
+## Package name is not necessarily the CLI binary
+
+**Session**: EAS dev-client setup.
+
+I changed scripts to call `eas-cli ...` because the dependency package is named
+`eas-cli`. The installed binary is actually `eas`, so `pnpm run build:dev-device`
+failed with `sh: eas-cli: command not found`.
+
+**Rules:**
+1. Before writing package-script commands for a new CLI dependency, inspect
+   `node_modules/<pkg>/package.json` → `bin` or list `node_modules/.bin`.
+2. Use the binary name in scripts (`eas ...`), and use `pnpm exec <binary>` in
+   docs (`pnpm exec eas ...`).
+3. Smoke-test script resolution with `pnpm run <script> -- --help` before
+   telling the user to run it.
+
+## EAS summary errors are not specific enough
+
+**Session**: iOS development-client EAS build.
+
+I first fixed the generic "Some pods require a higher minimum deployment target"
+message by setting Expo SDK 57's baseline iOS target (`16.4`). The next EAS run
+failed the same way because the real blocker was narrower: `react-native-executorch`
+declares iOS `17.0` in its podspec.
+
+**Rules:**
+1. For EAS native install failures, fetch the full build log before choosing the
+   exact config value. The dashboard summary is only a category.
+2. If the log says a pod needs a higher deployment target, inspect that pod's
+   `.podspec` locally and match the declared `s.platforms` / deployment target.
+3. When EAS log URLs download as Brotli data, decode them before searching:
+   `zlib.brotliDecompressSync(...)` is enough.
+
 ## timm: an arch name existing ≠ pretrained weights existing
 
 **Session**: EfficientNetV2-S fine-tune (`02_train.py`).

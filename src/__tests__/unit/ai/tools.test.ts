@@ -3,9 +3,7 @@ import { buildChatTools, type ToolContext } from '@/ai/tools';
 import { BUGS } from '@/data/bugs';
 import { QUESTS, COMPLETED_QUESTS } from '@/data/quests';
 
-import type { ToolExecutionOptions } from 'ai';
-
-const TEST_TOOL_OPTIONS: ToolExecutionOptions = {
+const TEST_TOOL_OPTIONS = {
   toolCallId: 'test-call',
   messages: [],
 };

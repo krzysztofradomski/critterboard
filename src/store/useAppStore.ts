@@ -795,9 +795,11 @@ export const useAppStore = create<AppStore>()(
         }
 
         set((s) => ({
-          catchLog: s.catchLog.map((e) =>
-            e.photoUri ? { id: e.id, at: e.at } : e,
-          ),
+          catchLog: s.catchLog.map((e) => {
+            if (!e.photoUri) return e;
+            const { photoUri: _photoUri, ...rest } = e;
+            return rest;
+          }),
           activityLog: s.activityLog.map((e) =>
             e.kind === 'catch' && e.photoUri
               ? { id: e.id, kind: 'catch', at: e.at, bugId: e.bugId }

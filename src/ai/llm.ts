@@ -184,7 +184,7 @@ export const llamaRnRuntime: LlmRuntime = {
       ({ initLlama } = await import('llama.rn') as { initLlama: typeof initLlama });
     } catch {
       throw new Error(
-        'llama.rn native module not available. Run `npm install llama.rn` and rebuild the native app.',
+        'llama.rn native module not available. Run `pnpm install` and rebuild the native app.',
       );
     }
     _ctx = await initLlama({

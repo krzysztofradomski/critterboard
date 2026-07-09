@@ -203,7 +203,7 @@ export function Streak() {
 
 const styles = StyleSheet.create({
   root: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: PB.orange,
     paddingTop: 50,
   },

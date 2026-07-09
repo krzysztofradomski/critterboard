@@ -194,7 +194,7 @@ export function Quests() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.red },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.red },
   header: { paddingTop: 112, paddingHorizontal: 16, paddingBottom: 14 },
   headTop: {
     flexDirection: "row",

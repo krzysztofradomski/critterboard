@@ -271,13 +271,13 @@ export function Result() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFillObject, paddingTop: 50, paddingBottom: 16 },
+  root: { ...StyleSheet.absoluteFill, paddingTop: 50, paddingBottom: 16 },
   head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16 },
   headTitle: { fontSize: 16, fontWeight: '800' },
   scroll: { paddingVertical: 12, paddingHorizontal: 14 },
   heroSticker: { padding: 0, overflow: 'hidden' },
   heroImage: { height: 200, position: 'relative', backgroundColor: '#fff', overflow: 'hidden' },
-  heroPhoto: { ...StyleSheet.absoluteFillObject },
+  heroPhoto: { ...StyleSheet.absoluteFill },
   tierBadge: {
     position: 'absolute',
     top: 10,

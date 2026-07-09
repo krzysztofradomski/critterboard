@@ -47,5 +47,5 @@ export function Screen({
 }
 
 const styles = StyleSheet.create({
-  fill: { ...StyleSheet.absoluteFillObject },
+  fill: { ...StyleSheet.absoluteFill },
 });

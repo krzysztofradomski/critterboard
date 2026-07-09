@@ -54,7 +54,7 @@ Three layers of safety. Any one of them being false means crash reports stay loc
 
 ## Setup checklist (for a real build)
 
-1. `npm install` — `@sentry/react-native` is declared in `package.json`.
+1. `pnpm install` — `@sentry/react-native` is declared in `package.json`.
 2. Create a Sentry project, copy the DSN.
 3. Copy `.env.example` to `.env` and fill in `EXPO_PUBLIC_SENTRY_DSN`. Expo loads `.env` automatically and inlines any `EXPO_PUBLIC_*` var at bundle time, so no further wiring is needed:
 

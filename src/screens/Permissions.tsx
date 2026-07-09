@@ -272,7 +272,7 @@ export function Permissions() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.cream, paddingTop: 50 },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.cream, paddingTop: 50 },
   header: { paddingHorizontal: 18, paddingTop: 14, paddingBottom: 8 },
   headerRow: { flexDirection: 'row', gap: 10, alignItems: 'center' },
   headerIcon: {

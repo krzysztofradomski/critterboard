@@ -550,53 +550,6 @@
       "freezeDesc": "Używają się automatycznie, by passa przetrwała pominięty dzień. Jedno co 7 dni.",
       "keepAlive": "📷 Utrzymaj passę"
     },
-    "soundId": {
-      "modeCam": "📷 KAM",
-      "modeSound": "🔊 DŹWIĘK",
-      "stageRec": "● NAGR",
-      "stageMatch": "✓ MATCH",
-      "stageIdle": "○ BEZCZ",
-      "stageLive": "−18 dB · pik 4,2 kHz",
-      "stageQuiet": "— dB · — kHz",
-      "statusIdle": "DOTKNIJ MIKROFON, BY SŁUCHAĆ",
-      "statusMatch": "ZNALEZIONO PRAWDOPODOBNY MATCH",
-      "statusListen": "SŁUCHAM…",
-      "modelMeta": "BugNet-Audio · 38 MB",
-      "micIdle": "DOTKNIJ, BY SŁUCHAĆ · DO 30s",
-      "micRec": "DOTKNIJ, BY ZATRZYMAĆ",
-      "micMatch": "DOTKNIJ, BY POTWIERDZIĆ TOP",
-      "cand": {
-        "cica": {
-          "name": "Cykada Okresowa",
-          "hint": "Wysoki brzęk · 4–6 kHz"
-        },
-        "mant": {
-          "name": "Modliszka",
-          "hint": "Cichy szelest · blisko mikrofonu"
-        },
-        "fire": {
-          "name": "Świetlik Pospolity",
-          "hint": "Brak głosu · fałszywy match"
-        }
-      },
-      "sass": {
-        "larva": {
-          "idle": "Wymierz telefon w hałas. Zrobię swoją robotę.",
-          "matched": "Top match zamknięty. Nie mów, że nic dla ciebie nie zrobiłam.",
-          "listening": "Filtruję twój oddech. Sporo oddychasz."
-        },
-        "snail": {
-          "idle": "Trzymaj telefon nieruchomo. Wystarczy kilka sekund czystego dźwięku.",
-          "matched": "Pewny match. Cudownie.",
-          "listening": "Słucham uważnie. Wzór się wyłania."
-        },
-        "maywind": {
-          "idle": "Ooo ooo — posłuchajmy tego brzęczenia!",
-          "matched": "MAMY GO! Spójrz na ten sygnał!",
-          "listening": "Łapię coś fajnego — tak trzymaj!"
-        }
-      }
-    },
     "settings": {
       "title": "Mózg na urządzeniu",
       "sub": "Wszystko działa na twoim telefonie. Słowo.",

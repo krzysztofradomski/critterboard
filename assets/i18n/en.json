@@ -553,53 +553,6 @@
       "freezeDesc": "Auto-uses on a missed day so your streak survives. Earn one every 7 days.",
       "keepAlive": "📷 Keep the streak alive"
     },
-    "soundId": {
-      "modeCam": "📷 CAM",
-      "modeSound": "🔊 SOUND",
-      "stageRec": "● REC",
-      "stageMatch": "✓ MATCH",
-      "stageIdle": "○ IDLE",
-      "stageLive": "−18 dB · 4.2 kHz peak",
-      "stageQuiet": "— dB · — kHz",
-      "statusIdle": "TAP MIC TO LISTEN",
-      "statusMatch": "PROBABLE MATCH FOUND",
-      "statusListen": "LISTENING…",
-      "modelMeta": "BugNet-Audio · 38 MB",
-      "micIdle": "TAP TO LISTEN · UP TO 30s",
-      "micRec": "TAP TO STOP",
-      "micMatch": "TAP TO CONFIRM TOP MATCH",
-      "cand": {
-        "cica": {
-          "name": "Periodical Cicada",
-          "hint": "High-pitched buzz · 4–6 kHz"
-        },
-        "mant": {
-          "name": "Praying Mantis",
-          "hint": "Soft rasp · close mic"
-        },
-        "fire": {
-          "name": "Common Firefly",
-          "hint": "No call · false match"
-        }
-      },
-      "sass": {
-        "larva": {
-          "idle": "Point the phone at the noise. I'll do my actual job.",
-          "matched": "Top match locked. Don't say I never did anything for you.",
-          "listening": "Filtering out your breathing. You breathe a lot."
-        },
-        "snail": {
-          "idle": "Hold the phone steady. A few seconds of clean audio is enough.",
-          "matched": "A confident match. Lovely.",
-          "listening": "Listening carefully. The pattern is emerging."
-        },
-        "maywind": {
-          "idle": "Ooh ooh — let's hear that buzz!",
-          "matched": "NAILED IT! Look at that signal!",
-          "listening": "Picking up something cool — keep going!"
-        }
-      }
-    },
     "settings": {
       "title": "On-device Brains",
       "sub": "Everything runs on your phone. Promise.",

@@ -549,53 +549,6 @@
       "freezeDesc": "Se usan solos en un día perdido para que la racha siga. Ganas uno cada 7 días.",
       "keepAlive": "📷 Mantén la racha viva"
     },
-    "soundId": {
-      "modeCam": "📷 CÁM",
-      "modeSound": "🔊 SONIDO",
-      "stageRec": "● REC",
-      "stageMatch": "✓ MATCH",
-      "stageIdle": "○ INACTIVO",
-      "stageLive": "−18 dB · pico 4,2 kHz",
-      "stageQuiet": "— dB · — kHz",
-      "statusIdle": "PULSA EL MICRO PARA OÍR",
-      "statusMatch": "PROBABLE COINCIDENCIA",
-      "statusListen": "ESCUCHANDO…",
-      "modelMeta": "BugNet-Audio · 38 MB",
-      "micIdle": "PULSA PARA OÍR · HASTA 30s",
-      "micRec": "PULSA PARA PARAR",
-      "micMatch": "PULSA PARA CONFIRMAR",
-      "cand": {
-        "cica": {
-          "name": "Cigarra Periódica",
-          "hint": "Zumbido agudo · 4–6 kHz"
-        },
-        "mant": {
-          "name": "Mantis Religiosa",
-          "hint": "Roce suave · micro cercano"
-        },
-        "fire": {
-          "name": "Luciérnaga Común",
-          "hint": "Sin canto · falso positivo"
-        }
-      },
-      "sass": {
-        "larva": {
-          "idle": "Apunta el teléfono al ruido. Yo haré mi trabajo.",
-          "matched": "Coincidencia bloqueada. Que no se diga que no hice nada por ti.",
-          "listening": "Filtrando tu respiración. Respiras mucho."
-        },
-        "snail": {
-          "idle": "Sujeta el teléfono firme. Bastan unos segundos limpios.",
-          "matched": "Coincidencia clara. Encantador.",
-          "listening": "Escuchando con calma. El patrón aparece."
-        },
-        "maywind": {
-          "idle": "¡Ooh ooh — vamos a oír ese zumbido!",
-          "matched": "¡CLAVADO! ¡Mira esa señal!",
-          "listening": "¡Captando algo chulo — sigue así!"
-        }
-      }
-    },
     "settings": {
       "title": "Cerebro en el dispositivo",
       "sub": "Todo corre en tu teléfono. Palabra.",

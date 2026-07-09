@@ -152,7 +152,8 @@ export function buildChatTools(ctx: ToolContext) {
           .optional()
           .describe('Use on-device LLM instead of cloud Gemini'),
       }),
-      execute: async (patch) => {
+      execute: async (input) => {
+        const patch = input as Partial<Profile>;
         const keys = (Object.keys(patch) as Array<keyof typeof patch>).filter(
           (k) => patch[k] !== undefined,
         );

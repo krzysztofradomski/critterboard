@@ -211,7 +211,7 @@ export function MapScreen() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.blue },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.blue },
   topbar: { position: "absolute", top: 50, left: 12, right: 12, zIndex: 2 },
   locName: { fontSize: 18, fontWeight: "800", color: PB.ink, lineHeight: 18 },
   locSub: { fontSize: 11, color: PB.ink, opacity: 0.6, marginTop: 2 },

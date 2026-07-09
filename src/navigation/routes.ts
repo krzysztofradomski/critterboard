@@ -25,7 +25,6 @@ export type RouteParamMap = {
   settings: undefined;
   disambiguate: { candidates?: string[]; confs?: number[]; photoUri?: string } | undefined;
   nomatch: undefined;
-  soundid: undefined;
   activity: undefined;
   region: { id: string };
   streak: undefined;

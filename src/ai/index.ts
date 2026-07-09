@@ -10,7 +10,7 @@
  * See `docs/ml-roadmap.md` for the full plan.
  */
 
-import { mockClassifier, nativeClassifier, type VisionClassifier } from '@/ai/vision';
+import { mockClassifier, type VisionClassifier } from '@/ai/vision';
 import { geminiVisionClassifier } from '@/ai/geminiVision';
 import { llamaRnRuntime, mockRuntime, type LlmRuntime } from '@/ai/llm';
 import { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter, type ChatAdapter } from '@/ai/chatAdapter';
@@ -33,14 +33,10 @@ const HAS_GEMINI_API_KEY = Boolean(
 );
 
 export const vision: VisionClassifier =
-  USE_NATIVE_VISION ? nativeClassifier :
-  USE_GEMINI_VISION && HAS_GEMINI_API_KEY ? geminiVisionClassifier :
-  mockClassifier;
+  USE_GEMINI_VISION && HAS_GEMINI_API_KEY ? geminiVisionClassifier : mockClassifier;
 
 export const visionMode: 'native' | 'gemini' | 'mock' =
-  USE_NATIVE_VISION ? 'native' :
-  USE_GEMINI_VISION && HAS_GEMINI_API_KEY ? 'gemini' :
-  'mock';
+  USE_GEMINI_VISION && HAS_GEMINI_API_KEY ? 'gemini' : 'mock';
 
 export const llm: LlmRuntime = USE_LLAMA_RN ? llamaRnRuntime : mockRuntime;
 // Tool-based adapter is the default cloud path — the model fetches live state

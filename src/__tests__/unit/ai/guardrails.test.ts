@@ -1,4 +1,27 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+
+vi.mock('@presidio-dev/hai-guardrails', () => {
+  class GuardrailsEngine {
+    constructor(public options?: unknown) {}
+
+    async run(messages: unknown) {
+      return {
+        messages: Array.isArray(messages) ? messages : [],
+        messagesWithGuardResult: [],
+      };
+    }
+  }
+
+  return {
+    GuardrailsEngine,
+    SelectionType: { All: 'All' },
+    injectionGuard: vi.fn((scope, options) => ({ kind: 'injection', scope, options })),
+    leakageGuard: vi.fn((scope, options) => ({ kind: 'leakage', scope, options })),
+    secretGuard: vi.fn((scope) => ({ kind: 'secret', scope })),
+    piiGuard: vi.fn((scope) => ({ kind: 'pii', scope })),
+  };
+});
+
 import { GuardrailsEngine } from '@presidio-dev/hai-guardrails';
 import { checkInput, redactPii, withGuardrails } from '@/ai/guardrails';
 import type { ChatAdapter, ChatReplyParams } from '@/ai/chatAdapter';
@@ -203,7 +226,7 @@ describe('withGuardrails (U-GR-wrap-*)', () => {
 });
 
 // ---------------------------------------------------------------------------
-// withGuardrails — hai-guardrails engine integration
+// withGuardrails — engine contract integration
 // ---------------------------------------------------------------------------
 
 describe('withGuardrails + GuardrailsEngine (U-GR-engine-*)', () => {

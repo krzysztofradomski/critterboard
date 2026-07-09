@@ -44,7 +44,7 @@ describe('syncInstalledPacks', () => {
   });
 
   it('re-downloads and reports a pack whose manifest version is newer', async () => {
-    global.fetch = vi
+    globalThis.fetch = vi
       .fn()
       .mockResolvedValueOnce({
         ok: true,
@@ -64,7 +64,7 @@ describe('syncInstalledPacks', () => {
   });
 
   it('does nothing when the installed version is already current', async () => {
-    global.fetch = vi.fn().mockResolvedValueOnce({
+    globalThis.fetch = vi.fn().mockResolvedValueOnce({
       ok: true,
       json: async () => ({ manifest: 1, packs: { 'eu-ce': { version: 2, url: 'u' } } }),
     }) as unknown as typeof fetch;
@@ -82,7 +82,7 @@ describe('syncInstalledPacks', () => {
 
   it('no-ops on web (null documentDirectory) without touching the network', async () => {
     const fetchSpy = vi.fn();
-    global.fetch = fetchSpy as unknown as typeof fetch;
+    globalThis.fetch = fetchSpy as unknown as typeof fetch;
     const onUpdated = vi.fn();
 
     await syncInstalledPacks({

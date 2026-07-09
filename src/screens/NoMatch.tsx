@@ -86,7 +86,7 @@ export function NoMatch() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.cream, paddingTop: 50 },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.cream, paddingTop: 50 },
   head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16 },
   title: { fontSize: 16, fontWeight: '800', color: PB.ink },
   heroTitle: { marginTop: 8, fontSize: 26, fontWeight: '800', color: PB.cream, lineHeight: 28, textAlign: 'center' },

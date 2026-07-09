@@ -794,7 +794,7 @@ function ModelTile({
 
 const styles = StyleSheet.create({
   root: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: PB.cream,
     paddingTop: 50,
   },

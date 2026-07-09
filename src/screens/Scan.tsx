@@ -6,6 +6,7 @@ import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import * as FileSystem from 'expo-file-system/legacy';
 import { vision, USE_NATIVE_VISION, useExecutorchClassifier, type Candidate } from '@/ai';
 import { getModelPath } from '@/data/regionPacks';
+import { selectScanClassifier } from '@/ai/scanClassifier';
 import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
@@ -88,9 +89,11 @@ export function Scan() {
       try {
         // Use ExecuTorch when native is enabled and the .pte is loaded;
         // otherwise fall through to gemini/mock.
-        const classifyFn = USE_NATIVE_VISION && executorch.isReady
-          ? executorch.classify
-          : vision.classify.bind(vision);
+        const classifyFn = selectScanClassifier({
+          useNativeVision: USE_NATIVE_VISION,
+          executorch,
+          fallback: vision,
+        });
         candidates = await classifyFn(photoUri, { hint, topK: 3 });
       } catch {
         candidates = [];
@@ -284,9 +287,9 @@ export function Scan() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.ink, overflow: 'hidden' },
-  tint: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(20,12,8,0.5)' },
-  flash: { ...StyleSheet.absoluteFillObject, backgroundColor: '#fff', zIndex: 60 },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.ink, overflow: 'hidden' },
+  tint: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(20,12,8,0.5)' },
+  flash: { ...StyleSheet.absoluteFill, backgroundColor: '#fff', zIndex: 60 },
   topbar: { position: 'absolute', top: 50, left: 12, right: 12, flexDirection: 'row', gap: 8, zIndex: 10 },
   statusPill: {
     flex: 1,

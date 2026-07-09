@@ -181,7 +181,7 @@ export function Leaderboard() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.purple },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.purple },
   header: { paddingTop: 112, paddingHorizontal: 16, paddingBottom: 14 },
   title: { fontSize: 30, fontWeight: '800', color: PB.cream, lineHeight: 30 },
   sub: { fontSize: 13, color: PB.cream, opacity: 0.85, fontWeight: '600', marginTop: 4 },

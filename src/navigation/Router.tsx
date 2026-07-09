@@ -19,7 +19,6 @@ import { RegionDetail } from '@/screens/RegionDetail';
 import { Result } from '@/screens/Result';
 import { Scan } from '@/screens/Scan';
 import { Settings } from '@/screens/Settings';
-import { SoundID } from '@/screens/SoundID';
 import { Streak } from '@/screens/Streak';
 import type { RouteName } from '@/navigation/routes';
 import { useCurrentRoute } from '@/store/useAppStore';
@@ -39,7 +38,6 @@ const REGISTRY: Record<RouteName, React.ComponentType> = {
   settings: Settings,
   disambiguate: Disambiguate,
   nomatch: NoMatch,
-  soundid: SoundID,
   activity: Activity,
   region: RegionDetail,
   streak: Streak,

@@ -136,6 +136,21 @@ describe('catchBug (U-ST-04 – U-ST-06)', () => {
     }
     expect(useAppStore.getState().activityLog.length).toBeLessThanOrEqual(50);
   });
+
+  it('clearScanCache preserves GPS coordinates while removing photo URIs', async () => {
+    useAppStore.getState().catchBug('hcat', {
+      photoUri: 'file:///tmp/missing-photo.jpg',
+      lat: 52.2297,
+      lng: 21.0122,
+    });
+
+    await useAppStore.getState().clearScanCache();
+
+    const event = useAppStore.getState().catchLog[0]!;
+    expect(event.photoUri).toBeUndefined();
+    expect(event.lat).toBe(52.2297);
+    expect(event.lng).toBe(21.0122);
+  });
 });
 
 // ──────────────────────────────────────────────────────────────────────────

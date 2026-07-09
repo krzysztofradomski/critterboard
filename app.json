@@ -2,6 +2,7 @@
   "expo": {
     "name": "Critterboard",
     "slug": "critterboard",
+    "scheme": "critterboard",
     "version": "1.4.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
@@ -19,7 +20,6 @@
         "NSCameraUsageDescription": "Critterboard uses the camera to identify bugs on-device. Photos never leave your phone.",
         "NSPhotoLibraryUsageDescription": "Pick an existing photo of a bug to identify it on-device. We never upload your library.",
         "NSLocationWhenInUseUsageDescription": "Optional. Lets Critterboard prefer species that live near you. City-level fuzz, never shared unless you opt in.",
-        "NSMicrophoneUsageDescription": "Optional. Sound ID listens for cricket and cicada calls on-device only.",
         "ITSAppUsesNonExemptEncryption": false
       }
     },
@@ -35,14 +35,6 @@
         "android.permission.READ_MEDIA_IMAGES",
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.RECORD_AUDIO",
-        "android.permission.POST_NOTIFICATIONS",
-        "android.permission.CAMERA",
-        "android.permission.READ_EXTERNAL_STORAGE",
-        "android.permission.READ_MEDIA_IMAGES",
-        "android.permission.ACCESS_FINE_LOCATION",
-        "android.permission.ACCESS_COARSE_LOCATION",
-        "android.permission.RECORD_AUDIO",
         "android.permission.POST_NOTIFICATIONS"
       ]
     },
@@ -50,19 +42,29 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Critterboard uses the camera to identify bugs on-device."
+          "cameraPermission": "Critterboard uses the camera to identify bugs on-device.",
+          "recordAudioAndroid": false
         }
       ],
       [
         "expo-image-picker",
         {
-          "photosPermission": "Pick an existing photo of a bug to identify it on-device."
+          "photosPermission": "Pick an existing photo of a bug to identify it on-device.",
+          "microphonePermission": false
         }
       ],
       [
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Lets Critterboard prefer species that live near you."
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "17.0"
+          }
         }
       ],
       "expo-notifications",

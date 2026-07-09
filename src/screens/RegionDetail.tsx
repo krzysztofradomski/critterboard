@@ -139,7 +139,7 @@ function SampleRow({
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.cream, paddingTop: 50 },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.cream, paddingTop: 50 },
   header: { paddingHorizontal: 14, borderBottomColor: PB.ink, borderBottomWidth: 2.5 },
   headRow: { paddingVertical: 8, flexDirection: 'row', alignItems: 'center', gap: 8 },
   headLabel: { flex: 1, fontSize: 12, fontWeight: '800', color: PB.ink, textAlign: 'center', letterSpacing: 0.4 },

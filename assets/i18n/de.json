@@ -549,53 +549,6 @@
       "freezeDesc": "Wird automatisch an einem verpassten Tag genutzt, damit die Serie überlebt. Einer alle 7 Tage.",
       "keepAlive": "📷 Serie am Leben halten"
     },
-    "soundId": {
-      "modeCam": "📷 KAM",
-      "modeSound": "🔊 TON",
-      "stageRec": "● REC",
-      "stageMatch": "✓ TREFFER",
-      "stageIdle": "○ INAKTIV",
-      "stageLive": "−18 dB · 4,2 kHz Spitze",
-      "stageQuiet": "— dB · — kHz",
-      "statusIdle": "MIKRO TIPPEN ZUM ZUHÖREN",
-      "statusMatch": "WAHRSCHEINLICHER TREFFER",
-      "statusListen": "HÖRE ZU…",
-      "modelMeta": "BugNet-Audio · 38 MB",
-      "micIdle": "TIPPEN ZUM ZUHÖREN · BIS 30s",
-      "micRec": "TIPPEN ZUM STOPPEN",
-      "micMatch": "TIPPEN, UM TOP-TREFFER ZU BESTÄTIGEN",
-      "cand": {
-        "cica": {
-          "name": "Periodische Zikade",
-          "hint": "Hohes Summen · 4–6 kHz"
-        },
-        "mant": {
-          "name": "Gottesanbeterin",
-          "hint": "Leises Schaben · nahes Mikro"
-        },
-        "fire": {
-          "name": "Gemeines Leuchtkäferchen",
-          "hint": "Kein Ruf · falscher Treffer"
-        }
-      },
-      "sass": {
-        "larva": {
-          "idle": "Richte das Telefon auf das Geräusch. Ich mache meinen Job.",
-          "matched": "Top-Treffer gesichert. Sag nicht, ich hätte nie was für dich getan.",
-          "listening": "Filtere deinen Atem. Du atmest viel."
-        },
-        "snail": {
-          "idle": "Halte das Telefon ruhig. Ein paar Sekunden sauberes Audio reichen.",
-          "matched": "Ein sicherer Treffer. Schön.",
-          "listening": "Höre aufmerksam. Das Muster zeigt sich."
-        },
-        "maywind": {
-          "idle": "Ooh ooh — hören wir uns das Summen an!",
-          "matched": "GETROFFEN! Schau dir dieses Signal an!",
-          "listening": "Was Cooles im Anflug — weiter so!"
-        }
-      }
-    },
     "settings": {
       "title": "Hirn auf dem Gerät",
       "sub": "Alles läuft auf deinem Telefon. Versprochen.",

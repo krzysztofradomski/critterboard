@@ -131,7 +131,7 @@ export function OpenSourceLibraries() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.cream, paddingTop: 50 },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.cream, paddingTop: 50 },
   head: {
     padding: 8,
     paddingHorizontal: 14,

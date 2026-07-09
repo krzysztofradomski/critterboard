@@ -77,7 +77,7 @@ export function Onboarding() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.yellow, paddingTop: 60, paddingHorizontal: 20, paddingBottom: 28 },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.yellow, paddingTop: 60, paddingHorizontal: 20, paddingBottom: 28 },
   contentWrap: { flex: 1 },
   brandRow: { marginTop: 18, flexDirection: 'row', alignItems: 'center', gap: 10 },
   logo: {

@@ -187,7 +187,7 @@ export function Dex() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFillObject, backgroundColor: PB.green, paddingTop: 50 },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.green, paddingTop: 50 },
   header: { padding: 16, paddingTop: 12, paddingBottom: 14 },
   headTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   title: { fontSize: 30, fontWeight: '800', color: PB.cream, lineHeight: 30 },

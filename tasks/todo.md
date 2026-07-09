@@ -8,6 +8,149 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 ---
 
+## Current Review — local-device readiness inspection
+
+- [x] Map project structure, config, native settings, and dependencies
+- [x] Inspect runtime code for likely physical-device issues
+- [x] Run available verification commands
+- [x] Summarize prioritized findings, gaps, and suggested fixes
+
+## Current Fix — local-device readiness follow-up
+
+- [x] Add regression tests for scan fallback and scan-cache coordinate preservation
+- [x] Fix scan fallback so unloaded ExecuTorch falls through to Gemini/mock, not the native placeholder
+- [x] Fix `check` to use pnpm and remove the missing lint hop until lint exists
+- [x] Add an EAS development profile that can install on physical iOS devices
+- [x] Preserve GPS pins when clearing cached scan photos
+- [x] Align remaining package versions with Expo's local dependency map
+- [x] Run typecheck, tests, and Expo dependency check
+
+### Review
+
+- `package.json` / `pnpm-lock.yaml`: standardized on pnpm, removed the stale npm lockfile, added direct `zod`, aligned Expo SDK 57 dependencies with `expo install --check`, and pinned Babel / TypeScript back to compatible majors after TS 7 broke the existing config.
+- `src/ai/scanClassifier.ts` + `Scan.tsx`: Scan now uses ExecuTorch only when the hook is ready; otherwise it calls the Gemini/mock fallback. Regression covered by `scanClassifier.test.ts`.
+- `src/store/useAppStore.ts`: `clearScanCache()` now removes `photoUri` while preserving any `lat/lng` fields, so clearing photos does not erase map pins. Regression covered in `useAppStore.test.ts`.
+- `eas.json` + `docs/deployment.md`: added `development-device` for physical-device dev clients and documented the pnpm/EAS commands.
+- React Native 0.86 type update: replaced `StyleSheet.absoluteFillObject` with `StyleSheet.absoluteFill` across screens/components.
+- AI SDK / Vitest type cleanup: adjusted tool-test options, `globalThis.fetch`, and the settings-tool patch type for the newer dependency set.
+
+Verification:
+
+- `pnpm run typecheck` passes.
+- `pnpm test` passes: 18 files, 304 tests.
+- `pnpm run check` passes.
+- `pnpm exec expo install --check` passes using Expo's local dependency map.
+
+## Current Removal — retired prototype
+
+- [x] Remove retired screen and route registration
+- [x] Remove recording permissions from native config
+- [x] Remove retired translation keys from bundled language packs
+- [x] Remove deferred roadmap/task references
+- [x] Verify no retired-feature references remain and run checks
+
+### Review
+
+- Removed the unused UI surface from navigation and deleted the screen implementation.
+- Removed native recording permissions from `app.json`; the app no longer requests that device capability.
+- Removed the bundled translation block and deferred implementation plan so this is no longer presented as future work.
+- Verification: retired-feature reference sweep is clean; `pnpm run typecheck`, `pnpm test`, `pnpm run check`, and `pnpm exec expo install --check` all pass.
+
+## Current Fix — Expo Go device incompatibility
+
+- [x] Diagnose SDK/runtime mismatch behind the iPhone Expo Go error
+- [x] Add the SDK-matched development-client dependency
+- [x] Add explicit `start:dev` and `start:go` scripts
+- [x] Document the physical-device dev-client path
+- [x] Verify dependency alignment, typecheck, and tests
+
+### Review
+
+- Root cause: the project is on Expo SDK 57, while Expo Go is a fixed native app and can only run SDKs bundled into the installed Expo Go binary. A latest-from-App-Store install can still be unusable for this project if it does not contain SDK 57 for that device/OS.
+- Added `expo-dev-client@~57.0.5`, matching Expo's local SDK 57 dependency map.
+- `pnpm run start:dev` now starts Metro for the dev client; `pnpm run start:go` is explicit and unsupported for normal physical-device testing.
+- Build and submit scripts call the actual `eas` binary exposed by `eas-cli`; `pnpm exec eas --version` and EAS help commands resolve locally.
+- `docs/deployment.md` now points iPhone testing at `pnpm run build:dev-device` followed by `pnpm run start:dev`.
+- Verification exposed TypeScript 6 side-effect import checks; added the TS 6 deprecation guard and narrow declarations for the platform initializer / CSS side-effect imports.
+- The guardrails unit test now mocks the vendor worker package at the module boundary, so `pnpm test` no longer trips over the package's baked-in Piscina worker path.
+- Verification: `pnpm exec expo install --check`, `pnpm run typecheck`, `pnpm test`, and `pnpm run check` pass.
+
+## Current Fix — EAS iOS deployment target
+
+- [x] Diagnose EAS native prebuild failure from too-low iOS deployment target
+- [x] Add SDK-matched `expo-build-properties`
+- [x] Decode the failed EAS build log and identify the exact pod requirement
+- [x] Pin iOS deployment target to `17.0` in managed config
+- [x] Remove invalid-looking camera microphone plugin config while keeping Android audio recording disabled
+- [x] Block `expo-image-picker` from re-adding Android audio recording permission
+- [x] Add Reanimated's required `react-native-worklets@0.10.x` peer for development-client runtime builds
+- [x] Clean Expo dependency hygiene surfaced by EAS Doctor / pnpm peer checks
+- [x] Document the native build-property requirement
+- [x] Verify Expo config, dependency alignment, typecheck, and tests
+
+### Review
+
+- EAS uploaded the project and failed during iOS native dependency installation because some pods require a higher minimum deployment target.
+- The failing pod is `react-native-executorch`; its podspec declares iOS `17.0`, so the managed prebuild now sets `ios.deploymentTarget` to `17.0` via `expo-build-properties`.
+- The Expo Camera plugin keeps Android audio recording disabled with `recordAudioAndroid: false`. The stale camera `microphonePermission: false` value was removed because the app no longer needs an iOS microphone usage string.
+- `expo-image-picker` explicitly sets `microphonePermission: false`; without that, its config plugin re-adds Android audio recording permission for video capture defaults.
+- Added `react-native-worklets@0.10.0` to satisfy the `react-native-reanimated@4.5.0` peer dependency that EAS Doctor flagged as a dev-client crash risk.
+- Removed direct `expo-modules-core`; Expo owns it transitively. Added `@expo/dom-webview@57.0.0` to match Expo 57's log-box peer graph.
+- Verification: `pnpm exec expo config --type prebuild --json` shows the build-properties plugin config; `pnpm exec expo install --check`, `pnpm run typecheck`, `pnpm test`, and `pnpm run check` pass.
+
+## Current Fix — llama.rn native artifact install
+
+- [x] Diagnose Xcode failure for missing `rnllama` header
+- [x] Inspect `llama.rn` podspec and postinstall artifact flow
+- [x] Allow the `llama.rn` postinstall script through pnpm's build-script allowlist
+- [x] Verify native artifacts install locally and project checks
+
+### Review
+
+- EAS reached Xcode and failed with a missing `rnllama` header.
+- `llama.rn` publishes without `ios/rnllama.xcframework` in the npm tarball; its postinstall script downloads that framework from the package's GitHub release.
+- pnpm had been ignoring `llama.rn` build scripts during install, so EAS received the source package without the native framework headers expected by the podspec.
+- `package.json` now declares `pnpm.onlyBuiltDependencies: ["llama.rn"]` so cloud installs run only this required dependency script.
+- Verification: `pnpm rebuild llama.rn` downloaded `ios/rnllama.xcframework`; the framework contains `Headers/rn-llama.h`; `pnpm exec expo install --check`, `pnpm run typecheck`, and `pnpm test` pass.
+
+## Current Fix — dev-client launch on iPhone
+
+- [x] Diagnose installed dev-client integrity warning and unusable QR report
+- [x] Add a native URL scheme for dev-client deep links
+- [x] Document iOS ad-hoc device registration and QR scanner flow
+- [x] Verify Expo config and project checks
+
+### Review
+
+- The app installed but iOS refused to open it with an integrity warning. For EAS internal/ad-hoc iOS builds, the most likely cause is that the iPhone's UDID is not included in the provisioning profile used for that build, or the profile/certificate is stale.
+- The terminal QR also reported "no usable data"; the app did not declare a stable native URL scheme, so dev-client deep links had no app-specific route.
+- `app.json` now declares `scheme: "critterboard"`. This is native config and requires one more dev-client rebuild before QR/deep links can use it.
+- Verification: `pnpm exec expo config --type prebuild --json` shows `scheme: "critterboard"`; `pnpm run typecheck` and `pnpm test` pass.
+
+### Review
+
+Findings from the local-device readiness pass:
+
+- Expo dependency set is internally inconsistent. `expo@56` expects React 19.2.3 / React Native 0.85.3 and matching Expo module versions, but `package.json` pins React 18.3.1 / React Native 0.76.5 plus older camera, picker, location, notifications, Reanimated, screens, safe-area, SVG, and web packages. `pnpm exec expo install --check` fails.
+- Scan fallback is not wired as described. `USE_NATIVE_VISION = true` makes the global `vision` singleton the placeholder `nativeClassifier`; if the ExecuTorch hook is not ready, Scan calls that placeholder and drops to No Match.
+- `npm run check` is broken because it references a missing `lint` script. `pnpm run check` still fails because the script shells out to `npm`.
+- `npm run test` fails with the guardrails/Piscina worker path issue, while `pnpm test` passes. The repo should standardize on pnpm and remove the stale npm lockfile or make npm unsupported explicit.
+- The EAS development iOS profile builds simulator-only (`ios.simulator: true`), so it cannot install on a physical iPhone. Use preview or add a physical-device dev profile.
+- Re-catching an already-known species from Result does not create a catch event, map pin, quest progress, streak progress, or backend publish. This is only OK if "catch" means first dex unlock, not every real sighting.
+- Clearing scan cache strips whole catch events down to `{ id, at }`, which also erases GPS pins for photo-backed catches.
+
+Verification:
+
+- `pnpm run typecheck` passes.
+- `pnpm test` passes: 17 files, 301 tests.
+- `pnpm exec expo install --check` fails with expected-version mismatches.
+- `npm run test` fails with the guardrails/Piscina worker path error.
+- `npm run check` / `pnpm run check` fail due to missing `lint` script.
+
+Docs: no `docs/` update needed; this review did not change architecture or app behavior.
+
+---
+
 ## Done
 
 ### Mobile-Safari camera unblock
@@ -84,7 +227,7 @@ Sentry behind an opt-in toggle. Off by default; gated by `networkOn`. DSN read f
 
 - The wrapper is the single chokepoint for crash reporting — never import `@sentry/react-native` outside `src/lib/crashReporting.ts`.
 - The toggle reacts to `networkOn`: turning network off clears `crashReportingOn` in the same `setProfile` call, mirroring the leaderboard/locShare cascade.
-- For a real build: `npm install`, set `EXPO_PUBLIC_SENTRY_DSN`, then run with a dev client (Expo Go won't capture native crashes).
+- For a real build: `pnpm install`, set `EXPO_PUBLIC_SENTRY_DSN`, then run with a dev client (Expo Go won't capture native crashes).
 
 ---
 
@@ -292,7 +435,6 @@ These need either a backend or a substantial change and are explicitly **not** o
 ### Needs substantial native / infra work
 - Real map tiles via `react-native-maps` + provider key + native config
 - ~~Real BugNet / Larva-3B / Regional pack downloads~~ — regional pack system shipped (PR #22): manifest → pack JSON → `.pte` model download chain, `installRegion` / `uninstallRegion` store actions, `useExecutorchClassifier` parameterised hook. Activate by hosting pack files and flipping `USE_NATIVE_VISION = true`.
-- **Sound ID** — UI entry point removed from `Scan.tsx` (PR #23); `SoundID` screen kept in router for future work. See sub-tasks below.
 
 ### Needs richer classifier output
 - Real lookalike-distinguished signal for badge b5 — current classifier returns argmax, not "distinguished mimics"
@@ -302,53 +444,6 @@ These need either a backend or a substantial change and are explicitly **not** o
 - [x] iOS/Android native locale auto-detection — `Intl.DateTimeFormat().resolvedOptions().locale` on first launch (PR #21)
 - RTL language support — would need `I18nManager.forceRTL()` + layout review
 - Translation lint script — diff pack keys vs English source, warn on missing
-
----
-
-## Sound ID — full implementation plan (deferred)
-
-Entry point removed. `SoundID` screen is router-reachable but not navigable from the UI. All sub-tasks below are HITL / gated on a dedicated sprint.
-
-### SI-1 — Audio capture (HITL)
-
-- [ ] Add `expo-av` dependency + update `app.json` permission strings (`NSMicrophoneUsageDescription`, `android.permission.RECORD_AUDIO`)
-- [ ] `src/screens/SoundID.tsx` — replace mock timer with real `Audio.Recording` session (`RecordingOptionsPresets.HIGH_QUALITY`, 16 kHz mono)
-- [ ] Stream PCM buffer to JS via `onRecordingStatusUpdate` (or native module) at ~100 ms intervals
-- [ ] Replace synthetic waveform bars with real amplitude envelope derived from the PCM RMS
-
-### SI-2 — Preprocessing: log-mel spectrogram (HITL)
-
-- [ ] Decide whether to run STFT on-device (ExecuTorch preprocessing op) or pre-process in JS before inference
-- [ ] If JS: implement `src/lib/stft.ts` — sliding window FFT (512 samples, 256 hop, Hann window) → magnitude spectrum → mel filterbank (64 bins, 8 kHz max) → log10 + normalise
-- [ ] If native: bundle a preprocessing `.pte` op alongside the classifier model; adjust `ExecutorchClassifierConfig` to accept an optional `preprocessorSource`
-- [ ] Unit-test spectrogram output against librosa reference values (Python `training/soundid/test_spectrogram.py`)
-
-### SI-3 — Acoustic species database
-
-- [ ] Decide scope: subset of existing 20 CE species that are acoustically identifiable (crickets, katydids) vs. a fresh acoustic-only list
-- [ ] Add `AcousticBug` type to `src/data/bugs.ts` (or a separate `src/data/soundBugs.ts`) with `soundDescription` and `frequencyRangeHz` fields
-- [ ] Extend `RegionPack` format with optional `soundModelUrl?: string` and `soundLabelMap?: Record<string, number>` fields (separate from the visual `modelUrl`/`labelMap`)
-- [ ] Update `src/data/regionPacks.ts` `RegionPack` type and `cachePackData` to persist sound model metadata
-- [ ] Update Settings.tsx pack download flow: if `soundModelUrl` present, offer separate sound model download
-
-### SI-4 — Training pipeline (HITL)
-
-- [ ] `training/soundid/01_dataset_download.py` — fetch from Freesound API and/or GBIF sound observations; ~500 recordings per species target
-- [ ] `training/soundid/02_train.py` — EfficientNet-Lite on 64×64 log-mel spectrograms, 2-second windows with 50% overlap; MobileNetV3-Small as a lighter alternative
-- [ ] `training/soundid/03_export.py` — export to `.pte` (ExecuTorch) matching the visual export pipeline; output `sound_class_map.json`
-- [ ] Add `training/soundid/requirements.txt` (librosa, soundfile, torchaudio)
-- [ ] Benchmark: target < 150 ms end-to-end (2 s audio → spectrogram → inference) on iPhone 13
-
-### SI-5 — Integration
-
-- [ ] `src/ai/soundClassifier.ts` — `SoundClassifier` interface mirroring `VisionClassifier` (`classify(audioUri, opts) → Candidate[]`)
-- [ ] `useExecutorchSoundClassifier` hook in `src/ai/executorchSound.ts` — parameterised equivalent of `useExecutorchClassifier` for sound models
-- [ ] Wire into `SoundID.tsx`: replace mock `candidates` with real classifier output
-- [ ] `src/ai/index.ts` — add `USE_NATIVE_SOUND` flag; export sound seam alongside vision seam
-- [ ] Re-add `🔊` button to `Scan.tsx` (or as a dedicated entry point) once SI-1 through SI-4 pass review
-- [ ] i18n: add `soundid.permissionTitle`, `soundid.permissionAsk`, `soundid.permissionDenied`, `soundid.allowMic` keys in all four packs
-
----
 
 ## Workflow
 
