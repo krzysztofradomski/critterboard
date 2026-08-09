@@ -13,6 +13,7 @@ import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { useT } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
+import { prepareForClassification } from '@/lib/imagePrep';
 import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
@@ -145,7 +146,9 @@ export function Scan() {
         quality: 0.85,
         skipProcessing: true,
       });
-      photoUri = result?.uri ?? null;
+      // Downscale before it ever touches a classifier (or the network) —
+      // full-res camera output is far more detail than ID needs.
+      photoUri = result?.uri ? await prepareForClassification(result.uri) : null;
     } catch {
       photoUri = null;
     }
@@ -165,9 +168,10 @@ export function Scan() {
       allowsEditing: false,
     });
     if (result.canceled || !result.assets?.length) return;
-    const photoUri = result.assets[0]?.uri ?? null;
+    const rawUri = result.assets[0]?.uri ?? null;
     haptics.tap();
     setPhase('analyzing');
+    const photoUri = rawUri ? await prepareForClassification(rawUri) : null;
     classifyAndRoute(photoUri);
   };
 

@@ -170,3 +170,44 @@ export async function syncInstalledPacks(opts: {
     }
   }
 }
+
+/**
+ * Region auto-installed for anyone with no pack yet, so on-device
+ * classification is available without a manual trip to Settings. Chosen
+ * for its size (6 MB vs. 60–220 MB for the rest of `REGIONS`) — small
+ * enough to fetch silently in the background without asking first.
+ */
+export const DEFAULT_REGION_ID = 'eu-ce';
+
+/**
+ * Best-effort, silent install of `DEFAULT_REGION_ID` for a fresh install
+ * (no region picked yet). Mirrors the manual download flow in Settings,
+ * minus progress reporting — nothing in the UI needs it since Scan
+ * already falls back to cloud/mock while no pack is installed. No-ops if
+ * a region is already installed or the filesystem is unavailable (web);
+ * any failure (offline, server down) is swallowed and simply leaves the
+ * app in the same state it was already in — Settings can still install a
+ * pack manually.
+ */
+export async function ensureDefaultRegionPack(opts: {
+  installedIds: string[];
+  documentDirectory: string | null;
+}): Promise<PackUpdate | null> {
+  const { installedIds, documentDirectory } = opts;
+  if (installedIds.length > 0 || !documentDirectory) return null;
+
+  try {
+    const manifest = await fetchPackManifest();
+    const entry = manifest?.packs[DEFAULT_REGION_ID];
+    if (!entry) return null;
+
+    const pack = await fetchPack(entry.url);
+    if (!pack) return null;
+
+    await cachePackData(pack);
+    await downloadPackModel(documentDirectory, pack);
+    return { id: pack.id, pack };
+  } catch {
+    return null;
+  }
+}

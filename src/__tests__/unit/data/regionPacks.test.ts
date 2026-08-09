@@ -9,7 +9,13 @@ vi.mock('expo-file-system/legacy', () => ({
   })),
 }));
 
-import { isPackOutdated, syncInstalledPacks, type RegionPack } from '@/data/regionPacks';
+import {
+  DEFAULT_REGION_ID,
+  ensureDefaultRegionPack,
+  isPackOutdated,
+  syncInstalledPacks,
+  type RegionPack,
+} from '@/data/regionPacks';
 
 describe('isPackOutdated', () => {
   it('is true when the manifest advertises a newer version', () => {
@@ -94,5 +100,77 @@ describe('syncInstalledPacks', () => {
 
     expect(fetchSpy).not.toHaveBeenCalled();
     expect(onUpdated).not.toHaveBeenCalled();
+  });
+});
+
+describe('ensureDefaultRegionPack', () => {
+  const pack: RegionPack = {
+    id: DEFAULT_REGION_ID,
+    version: 2,
+    modelUrl: 'https://example.com/eu-ce.pte',
+    modelVersion: 2,
+    bugs: [],
+    labelMap: { 'Apis mellifera': 0 },
+  };
+
+  beforeEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('installs the default pack when nothing is installed yet', async () => {
+    globalThis.fetch = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          manifest: 1,
+          packs: { [DEFAULT_REGION_ID]: { version: 2, url: 'https://example.com/eu-ce.json' } },
+        }),
+      })
+      .mockResolvedValueOnce({ ok: true, json: async () => pack }) as unknown as typeof fetch;
+
+    const update = await ensureDefaultRegionPack({
+      installedIds: [],
+      documentDirectory: '/docs/',
+    });
+
+    expect(update).toEqual({ id: DEFAULT_REGION_ID, pack });
+  });
+
+  it('no-ops when a region is already installed', async () => {
+    const fetchSpy = vi.fn();
+    globalThis.fetch = fetchSpy as unknown as typeof fetch;
+
+    const update = await ensureDefaultRegionPack({
+      installedIds: ['eu-ce'],
+      documentDirectory: '/docs/',
+    });
+
+    expect(update).toBeNull();
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it('no-ops on web (null documentDirectory) without touching the network', async () => {
+    const fetchSpy = vi.fn();
+    globalThis.fetch = fetchSpy as unknown as typeof fetch;
+
+    const update = await ensureDefaultRegionPack({
+      installedIds: [],
+      documentDirectory: null,
+    });
+
+    expect(update).toBeNull();
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it('swallows manifest/network failures and returns null', async () => {
+    globalThis.fetch = vi.fn().mockRejectedValueOnce(new Error('offline')) as unknown as typeof fetch;
+
+    const update = await ensureDefaultRegionPack({
+      installedIds: [],
+      documentDirectory: '/docs/',
+    });
+
+    expect(update).toBeNull();
   });
 });

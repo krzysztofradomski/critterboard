@@ -8,7 +8,8 @@ import { useBackendIdentityBridge, useSyncProfile } from "@/backend/hooks";
 import { Toast } from "@/components/Toast";
 import { hydrateCachedPacks, syncRemotePacks, isKnownLang } from "@/i18n";
 import * as FileSystem from "expo-file-system/legacy";
-import { hydrateInstalledPacks, syncInstalledPacks } from "@/data/regionPacks";
+import { ensureDefaultRegionPack, hydrateInstalledPacks, syncInstalledPacks } from "@/data/regionPacks";
+import { USE_NATIVE_VISION } from "@/ai";
 import { Router } from "@/navigation/Router";
 import {
   initCrashReporting,
@@ -56,7 +57,23 @@ export default function App() {
   // launch. Runs again after store rehydration (installedRegions dependency)
   // in case the store wasn't ready on the first render.
   useEffect(() => {
-    if (installedRegions.length === 0) return;
+    if (installedRegions.length === 0) {
+      // Nobody has picked a region yet — silently fetch the small default
+      // starter pack so on-device classification (the "never leaves the
+      // device" path) is available out of the box instead of only after a
+      // manual Settings visit. Scan already falls back to cloud/mock while
+      // this is pending, and any failure (offline, server down) just
+      // leaves things as they are — Settings can still install manually.
+      if (USE_NATIVE_VISION) {
+        void ensureDefaultRegionPack({
+          installedIds: installedRegions,
+          documentDirectory: FileSystem.documentDirectory,
+        }).then((update) => {
+          if (update) installRegion(update.id, update.pack.labelMap, update.pack.version);
+        });
+      }
+      return;
+    }
     // Replay cached packs immediately (cheap, offline), then opportunistically
     // refresh any whose manifest version is newer — same pattern as the
     // translation packs below. A bumped pack/model in packs/manifest.json thus
