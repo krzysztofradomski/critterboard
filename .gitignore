@@ -52,3 +52,7 @@ venv/
 *.tmp*
 
 *.log
+
+# Offline map packs (tools/map/extract.sh output)
+*.pmtiles
+tools/map/out/

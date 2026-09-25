@@ -21,7 +21,7 @@ flowchart TB
     Hooks --> Adapter{backend/index}
     Adapter -->|no URL| Mock[mockAdapter]
     Adapter -->|EXPO_PUBLIC_BACKEND_URL| CF[cloudflareAdapter]
-    Screens --> Map[Map screen<br/>react-cartoon-planet globe<br/>three + expo-gl]
+    Screens --> Map[Map screen<br/>MapLibre + local PMTiles<br/>globe behind a flag]
   end
 
   subgraph Remote["🌐 Remote (all optional)"]
@@ -46,7 +46,8 @@ flowchart TB
 |---|---|
 | `App.tsx` / `index.ts` | Boot: language seeding, region-pack hydrate + refresh, i18n pack sync, crash reporting, streak notification. |
 | `src/navigation/` | Type-safe route table + a Zustand-backed stack router (no react-navigation). |
-| `src/screens/` | One file per screen. `Map.tsx` / `Map.web.tsx` differ only in which globe component they import. |
+| `src/screens/` | One file per screen. Native `Map.tsx` uses the offline MapLibre map ([[modules/offline-map]]); `Map.web.tsx` still uses the globe. |
+| `src/map/` | Offline map style + map-pack download helper. |
 | `src/components/` | Shared UI ("sticker" design language, tokens in `src/tokens/pb.ts`). |
 | `src/store/` | Single persisted Zustand store: profile, catches, dex, quests, installed packs, backend id. |
 | `src/ai/` | Vision + chat seams. Chat is wrapped in regex guardrails (`guardrails.ts`: length, secrets, injection, prompt leakage, PII), the same on every platform. Flags in `src/ai/index.ts`. |
@@ -65,7 +66,8 @@ These modules have native code, so the app **cannot run in Expo Go** and needs a
 
 - `react-native-executorch` (vision; its podspec pins iOS **17.0**)
 - `llama.rn` (on-device LLM; postinstall downloads `rnllama.xcframework`)
-- `expo-gl` + `three` (Map globe on native)
+- `@maplibre/maplibre-react-native` (offline map)
+- `expo-gl` + `three` (legacy Map globe, to be removed after the spike)
 - `@sentry/react-native`, `expo-camera`, `expo-location`, `expo-notifications`, `expo-image-picker`, Reanimated/Worklets
 
 ## Network touchpoints
@@ -76,6 +78,7 @@ Everything below is optional. Without it the app degrades to bundled or mock beh
 |---|---|---|
 | Region pack + `.pte` model | User installs a pack; refreshed on boot | `packs/manifest.json` → GitHub raw / Releases |
 | Translation packs | Boot, best-effort | `src/i18n/loader.ts` |
+| Map pack (PMTiles) | Once, when the Map tab first opens (spike: `EXPO_PUBLIC_MAP_PACK_URL`) | `src/map/mapPack.ts` |
 | Gemma GGUF | First on-device chat | Hugging Face |
 | Gemini | Only if an API key is inlined at build time | `src/ai/geminiVision.ts`, `toolChatAdapter.ts` |
 | Cloudflare Worker | `profile.networkOn` **and** `EXPO_PUBLIC_BACKEND_URL` set | `src/backend/cloudflare.ts` |

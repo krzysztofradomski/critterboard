@@ -1,0 +1,52 @@
+# Offline map (MapLibre + PMTiles)
+
+`#architecture` `#map` `#offline`
+
+The Map tab is a flat 2D map that works with **no network** after a one-time download. MapLibre Native draws a local PMTiles vector-tile file with Critterboard's own "sticker" style. It replaces the `react-cartoon-planet` 3D globe (still available behind a flag during the spike).
+
+> See also: [[../decisions/003-offline-map-maplibre-pmtiles]] (why), [[../architecture]], [[backend-adapter]] (packs will be hosted on Cloudflare R2), `tools/map/README.md` (making packs).
+
+## How it fits together
+
+```mermaid
+flowchart LR
+  subgraph Build["Build time (your Mac / CI)"]
+    P[Protomaps daily planet build] -->|pmtiles extract --bbox --maxzoom| F[region.pmtiles]
+  end
+  F -->|host: dev http server → later R2| URL[(pack URL)]
+  subgraph App["On the phone"]
+    URL -->|download once| D[documents/maps/id.pmtiles]
+    D -->|pmtiles://file://…| ML[MapLibre Native]
+    S[stickerStyle.ts<br/>bundled, no glyphs/sprites] --> ML
+    MK[mapGeo markers] --> ML
+  end
+```
+
+## Pieces
+
+| File | Role |
+|---|---|
+| `src/map/stickerStyle.ts` | Builds the MapLibre style from `pb.ts` colours: land with a hard ink offset shadow, ink coastlines, flat greens, chunky ink-cased roads. No labels, so no glyph or sprite downloads. With no pack it returns just the sea background. |
+| `src/map/mapPack.ts` | Download-once helper. Writes `<id>.pmtiles.part`, renames on success, so a half download never counts as installed. |
+| `src/components/OfflineMap.tsx` | Drop-in replacement for `CartoonPlanetGlobe`, with the same props and `flyTo` handle. Renders markers as React views (emoji stickers). |
+| `src/screens/mapGeo.ts` | `altitudeToZoom()` converts the globe's camera altitudes to Mercator zoom, so the existing framing logic carries over. |
+| `src/screens/Map.tsx` | `USE_OFFLINE_MAP` flag picks `OfflineMap` or the globe (native only; web still uses the globe). |
+| `tools/map/extract.sh` | Cuts a region out of the Protomaps planet build; `--sizes` estimates pack size per zoom. |
+
+## Tile schema
+
+Protomaps basemap v4 layers: `earth`, `water`, `landcover`, `landuse`, `roads`, `buildings`, `boundaries` (plus `places` / `pois`, unused because there are no labels). Features are classified by `kind` (`park`, `forest`, `highway`, `major_road`, `minor_road`, `path`, `river`, …). Reference: <https://docs.protomaps.com/basemaps/layers>.
+
+## Sizing
+
+Each extra zoom level is about 4× more data. Plan: the whole region at low zoom (≈10) inside the region pack, plus the user's local area at street zoom (14–15) as a separate "save my area" download. Measure real numbers with `tools/map/extract.sh --sizes <bbox>`.
+
+## Status: spike
+
+- Done: style (validated against the MapLibre style spec in tests), download-once helper, component, Map screen wiring, extract tooling. iOS/Android/web bundles and `expo prebuild` pass.
+- To prove on device: MapLibre Native reads `pmtiles://file://…` from the app's documents folder on iOS, the look on a real extract, marker tap behaviour, performance, and pack sizes.
+- Next: `mapUrl` in region packs, R2 hosting, remove the globe dependencies, web renderer (`maplibre-gl` + `pmtiles` protocol), OSM credit in `CreditsDialog`.
+
+## Licensing
+
+Map data is © OpenStreetMap contributors (ODbL). The style sets the source attribution, and MapLibre's attribution button shows it on the map.

@@ -6,6 +6,7 @@ import {
   type CartoonPlanetGlobeHandle,
 } from "@/components/CartoonPlanetGlobe.native";
 import { IconBtn } from "@/components/IconBtn";
+import { OfflineMap } from "@/components/OfflineMap";
 import { Sticker } from "@/components/Sticker";
 import { TabBar } from "@/components/TabBar";
 import { findBug } from "@/data/bugs";
@@ -24,6 +25,11 @@ import {
   resolveMapCenter,
   type UserPinData,
 } from "./mapGeo";
+
+// Spike: offline MapLibre + PMTiles map (see docs/modules/offline-map.md).
+// Flip to false to fall back to the cartoon globe.
+const USE_OFFLINE_MAP = true;
+const MapView = USE_OFFLINE_MAP ? OfflineMap : CartoonPlanetGlobe;
 
 export function MapScreen() {
   const { go } = useNav();
@@ -79,7 +85,7 @@ export function MapScreen() {
 
   return (
     <View style={styles.root}>
-      <CartoonPlanetGlobe
+      <MapView
         ref={globeRef}
         markers={markers}
         initialView={initialView}

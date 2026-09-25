@@ -44,12 +44,20 @@ Deliberately held back: Babel 8 (`babel-preset-expo` is on Babel 7), SDK-pinned 
 - Pre-existing, not in `check`: `tsc -p evals/tsconfig.json` has 29 evalite typing errors, same count before and after.
 
 **Spike: offline map renders on device**
-- [ ] Add `@maplibre/maplibre-react-native` + Expo config plugin; `maplibre-gl` for web
-- [ ] Hand-made sticker style (`assets/map/style.json`) using `pb.ts` colors; no remote glyphs/sprites
-- [ ] `OfflineMap` component: loads a PMTiles file from the app's document dir (`pmtiles://file://…`), falls back to a plain background when no pack is installed
-- [ ] Sample extract script (`tools/map/extract.sh`, `pmtiles extract --bbox --maxzoom`) + record real sizes per zoom level
-- [ ] Map screen renders user pins + sightings as MapLibre point layers; tap → existing bottom cards
-- [ ] Verify on iPhone in airplane mode (needs a dev-client rebuild)
+- [x] Add `@maplibre/maplibre-react-native` 11.4 + Expo config plugin (web keeps the globe for now)
+- [x] Sticker style in TS (`src/map/stickerStyle.ts`) from `pb.ts` colours; no glyphs/sprites; validated by `validateStyleMin` in tests
+- [x] `OfflineMap` component (drop-in for the globe, same props + `flyTo`); download-once pack helper (`src/map/mapPack.ts`, `.part` + rename)
+- [x] `altitudeToZoom` so the existing framing logic drives the 2D camera; `USE_OFFLINE_MAP` flag in `Map.tsx`
+- [x] `tools/map/extract.sh` (+ `--sizes` estimate) and `tools/map/README.md`
+- [ ] **You, on the Mac:** cut a pack, serve it, `pnpm ios:sim`, check the map renders, then kill the server and confirm it still renders (airplane mode)
+- [ ] Record real pack sizes per zoom (`extract.sh --sizes`)
+- [ ] Same on a physical iPhone (`pnpm ios:device`)
+
+#### Review — spike
+- `pnpm run typecheck` ✅ · `pnpm test` ✅ 19 files / 329 tests (new: style validity/offline-ness, zoom conversion)
+- `expo prebuild` ✅ (MapLibre plugin writes its Podfile hook) · `expo export` iOS ✅ 2181 modules, Android ✅ 2182, web ✅
+- Not verifiable here: native rendering, `pmtiles://file://` loading on iOS, look and feel, sizes (Protomaps builds unreachable from the cloud sandbox)
+- Docs: `docs/modules/offline-map.md`, ADR `docs/decisions/003-offline-map-maplibre-pmtiles.md`, index + architecture updated
 
 **After the spike**
 - [ ] Add `mapUrl` / `mapVersion` to region packs; download with the species + model pack

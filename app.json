@@ -70,7 +70,8 @@
       "expo-notifications",
       "expo-asset",
       "expo-sharing",
-      "expo-status-bar"
+      "expo-status-bar",
+      "@maplibre/maplibre-react-native"
     ],
     "extra": {
       "eas": {
