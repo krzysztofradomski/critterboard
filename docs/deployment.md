@@ -31,6 +31,33 @@ pnpm run submit:android
 > `pnpm install` (then use the `pnpm run build:*` / `pnpm exec eas` forms above)
 > or install it globally with `npm install -g eas-cli`.
 
+## Local builds with Xcode (no EAS)
+
+On a Mac with Xcode you don't need EAS for day-to-day work. `expo run:ios`
+generates `ios/` (git-ignored), builds with Xcode, installs the app and starts Metro:
+
+```bash
+pnpm install
+pnpm ios:sim        # build + run on the iOS Simulator
+pnpm ios:device     # build + run on a USB-connected iPhone (pick it from the list)
+pnpm android:device # same for an Android phone / emulator
+```
+
+- **Signing on a phone:** Xcode signs with your Apple ID. A free "Personal Team"
+  works for your own iPhone (apps expire after 7 days), but it can't grant the
+  Push Notifications capability that `expo-notifications` adds. Either use a paid
+  team, or remove that capability under Signing & Capabilities in Xcode for local
+  builds. The app only schedules local notifications.
+- **First run on the phone:** enable Settings → Privacy & Security → Developer
+  Mode, and trust the developer profile under Settings → General → VPN & Device
+  Management.
+- **Env vars:** `EXPO_PUBLIC_*` values come from your local `.env`.
+- **Simulator limits:** no camera (use the photo picker to test scanning). The
+  on-device vision and LLM libraries may be slow or unsupported there; test
+  those on a phone.
+- Re-run the command after changing `app.json`, plugins or native dependencies.
+  JS-only changes just hot-reload.
+
 ## Local device development
 
 Critterboard targets Expo SDK 57. Use a **development client** for iPhone testing:
