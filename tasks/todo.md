@@ -8,6 +8,37 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 ---
 
+## Next — iOS device testing, Leaflet map, Cloudflare setup (plan, awaiting go-ahead)
+
+App map written to [[docs/architecture]].
+
+### A. Test the iOS build on a physical iPhone
+- [ ] Apple Developer Program membership active (required for any device install)
+- [ ] iPhone: Settings → Privacy & Security → Developer Mode on (needed for ad-hoc/dev builds on iOS 16+)
+- [ ] `pnpm exec eas device:create` → register the iPhone UDID
+- [ ] Rebuild `pnpm run build:dev-ios` (regenerates the profile with the UDID and bakes in the `critterboard://` scheme)
+- [ ] `pnpm run start:dev` (add `--tunnel` if phone and laptop aren't on the same Wi-Fi)
+- [ ] Bump `expo` to `^57.0.9` + `npx expo install --fix` (expo-doctor: Hermes V1 memory regression in 57.0.4 / RN 0.86.0)
+- [ ] Optional TestFlight path: fill `submit.production` in `eas.json`, create the App Store Connect record
+- [ ] Docs: swap deprecated `eas secret:create` for `eas env:create` in `docs/deployment.md`
+
+### B. Replace the cartoon globe with a stylised Leaflet map
+- [ ] Choose the tile source (hosted stylised raster vs self-hosted Protomaps on R2)
+- [ ] Leaflet in an Expo DOM component (`'use dom'`, `@expo/dom-webview` already installed): one `Map.tsx` for native + web
+- [ ] Port `mapGeo.ts` marker builders off the `react-cartoon-planet` `Marker` type; keep the tests green
+- [ ] Remove `react-cartoon-planet`, `three`, `@types/three`, `expo-gl`, the `.geojson` Metro ext, `CartoonPlanetGlobe.*`, `Map.web.tsx`
+- [ ] Offline fallback when tiles can't load; add OSM/tile attribution to credits
+
+### C. Cloudflare setup
+- [ ] `wrangler d1 create` / `kv namespace create` → replace placeholder IDs in `worker/wrangler.toml`; apply `schema.sql` remotely
+- [ ] Durable Object migration `new_classes` → `new_sqlite_classes` (free plan; must happen before first deploy)
+- [ ] `wrangler secret put JWT_SECRET`; bump `compatibility_date`; enable `[observability]`
+- [ ] Custom domain `api.critterboard.app` (move DNS for `critterboard.app` to Cloudflare)
+- [ ] Set `EXPO_PUBLIC_BACKEND_URL` via `eas env:create` for preview/production + local `.env`
+- [ ] Optional: landing page Netlify → Workers static assets; packs/model → R2; GitHub Action deploy with `CLOUDFLARE_API_TOKEN`
+
+---
+
 ## Current Review — local-device readiness inspection
 
 - [x] Map project structure, config, native settings, and dependencies

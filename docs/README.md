@@ -8,6 +8,7 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 
 | Doc | What's inside |
 |---|---|
+| [[architecture]] | App map — folders, native modules, network touchpoints, top-level diagram. |
 | [[ml-roadmap]] | On-device ML plan — MVP, full training, deferred placeholders. The master "what's next". |
 | [[deployment]] | Shipping to iOS TestFlight & Google Play via EAS — build profiles, credentials, submit config. |
 | [[i18n]] | i18n architecture — bundled JSON packs, `t()` helper, remote OTA pack manifest, App Store notes. |
