@@ -30,7 +30,8 @@ Decision: fully offline vector map. One-time download of a regional PMTiles extr
 - [x] Non-SDK packages to latest stable: ai 7.0.114, @ai-sdk/google 4.0.80, zod 4.6.5, zustand 5.0.15, llama.rn 0.12.9, three 0.186, eas-cli 24.8, TypeScript 7.0.2, Vitest 5.0.2
 - [x] TypeScript 7: dropped removed `baseUrl` / `ignoreDeprecations` from `tsconfig.json` + `evals/tsconfig.json` (paths now `./src/*`)
 - [x] Worker: wrangler 4.141, workers-types 5.x, TypeScript 7
-- [ ] **BLOCKER (already on main):** iOS/Android JS bundle fails. `src/ai/guardrails.ts` imports `@presidio-dev/hai-guardrails`, a Node-only library (`node:module`, piscina). Needs a decision on the fix, see Review.
+- [x] **BLOCKER (already on main), fixed:** iOS/Android JS bundle failed because `src/ai/guardrails.ts` imported the Node-only `@presidio-dev/hai-guardrails`. Ported its guards to regex (secrets, prompt leakage, input PII redaction) in `guardrailsCore.ts`. One `guardrails.ts` for all platforms; dependency removed.
+- [x] Local build scripts: `pnpm ios:sim`, `pnpm ios:device` (`expo run:ios`, no EAS)
 - [ ] Follow-up: migrate to `react-native-executorch` 0.10 (full API rewrite: `useClassifier`/`createClassifier`, image buffers instead of URIs, new resource fetcher). Pinned to 0.9.3 (`legacy` tag) until then.
 
 Deliberately held back: Babel 8 (`babel-preset-expo` is on Babel 7), SDK-pinned majors (RN 0.87, Reanimated 4.7, gesture-handler 3, Sentry 8, async-storage 3 are not in the SDK 57 map), llama.rn 0.13 (RC only), ExecuTorch 0.10 (see above).
@@ -39,7 +40,7 @@ Deliberately held back: Babel 8 (`babel-preset-expo` is on Babel 7), SDK-pinned 
 - `pnpm run typecheck` ✅ · `pnpm test` ✅ 18 files / 304 tests (Vitest 5) · `expo install --check` ✅ · worker `tsc` ✅ + `wrangler deploy --dry-run` ✅
 - expo-doctor: Hermes check now passes. Remaining ✖: two checks that need network (schema, RN Directory) + "eas-cli installed locally" (kept on purpose; scripts call the local `eas` binary)
 - `expo prebuild` (iOS + Android) ✅, Podfile at iOS 17.0, `critterboard://` scheme present · `expo export --platform web` ✅
-- `expo export --platform ios|android` ❌ `Unable to resolve module node:module` from `@presidio-dev/hai-guardrails`. Reproduced on unmodified `main`, so every dev-client launch on a phone would red-screen. Planned fix: use the regex-only guardrails (today's `guardrails.web.ts`) on all platforms and drop the dependency. On hold because it removes the engine layer (secret detection, heuristic injection/leakage guards), which never ran on a device anyway.
+- `expo export --platform ios|android` initially ❌ `Unable to resolve module node:module` from `@presidio-dev/hai-guardrails` (also on unmodified `main`: every dev-client launch would red-screen). After the regex port: iOS ✅ 2104 modules, Android ✅ 2105 modules. Tests 322/322 (engine tests replaced by regex equivalents + false-positive cases). Dropped: the engine's numeric heuristic thresholds only.
 - Pre-existing, not in `check`: `tsc -p evals/tsconfig.json` has 29 evalite typing errors, same count before and after.
 
 **Spike: offline map renders on device**

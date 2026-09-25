@@ -49,7 +49,7 @@ flowchart TB
 | `src/screens/` | One file per screen. `Map.tsx` / `Map.web.tsx` differ only in which globe component they import. |
 | `src/components/` | Shared UI ("sticker" design language, tokens in `src/tokens/pb.ts`). |
 | `src/store/` | Single persisted Zustand store: profile, catches, dex, quests, installed packs, backend id. |
-| `src/ai/` | Vision + chat seams with guardrails. Flags in `src/ai/index.ts`. |
+| `src/ai/` | Vision + chat seams. Chat is wrapped in regex guardrails (`guardrails.ts`: length, secrets, injection, prompt leakage, PII), the same on every platform. Flags in `src/ai/index.ts`. |
 | `src/backend/` | Backend adapter seam, see [[modules/backend-adapter]]. |
 | `src/data/` | Static seeds (bugs, sightings, quests, badges, regions) + region-pack loader. |
 | `src/i18n/`, `assets/i18n/` | Bundled en/pl/de/es packs + remote pack sync. |
