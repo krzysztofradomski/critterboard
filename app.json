@@ -68,7 +68,9 @@
         }
       ],
       "expo-notifications",
-      "expo-asset"
+      "expo-asset",
+      "expo-sharing",
+      "expo-status-bar"
     ],
     "extra": {
       "eas": {

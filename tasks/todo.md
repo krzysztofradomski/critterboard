@@ -22,12 +22,40 @@ App map written to [[docs/architecture]].
 - [ ] Optional TestFlight path: fill `submit.production` in `eas.json`, create the App Store Connect record
 - [ ] Docs: swap deprecated `eas secret:create` for `eas env:create` in `docs/deployment.md`
 
-### B. Replace the cartoon globe with a stylised Leaflet map
-- [ ] Choose the tile source (hosted stylised raster vs self-hosted Protomaps on R2)
-- [ ] Leaflet in an Expo DOM component (`'use dom'`, `@expo/dom-webview` already installed): one `Map.tsx` for native + web
-- [ ] Port `mapGeo.ts` marker builders off the `react-cartoon-planet` `Marker` type; keep the tests green
+### B. Replace the cartoon globe with an offline MapLibre + PMTiles map
+Decision: fully offline vector map. One-time download of a regional PMTiles extract, drawn with a bundled "sticker" MapLibre style. Chosen over Leaflet, which would need a WebView and awkward local-file reads.
+
+**Step 0: dependency refresh (before the spike)**
+- [x] Expo SDK 57 latest patch (`expo@57.0.25`) + `expo install --fix` → RN 0.86.3 (fixes the Hermes V1 memory regression expo-doctor flagged)
+- [x] Non-SDK packages to latest stable: ai 7.0.114, @ai-sdk/google 4.0.80, zod 4.6.5, zustand 5.0.15, llama.rn 0.12.9, three 0.186, eas-cli 24.8, TypeScript 7.0.2, Vitest 5.0.2
+- [x] TypeScript 7: dropped removed `baseUrl` / `ignoreDeprecations` from `tsconfig.json` + `evals/tsconfig.json` (paths now `./src/*`)
+- [x] Worker: wrangler 4.141, workers-types 5.x, TypeScript 7
+- [ ] **BLOCKER (already on main):** iOS/Android JS bundle fails. `src/ai/guardrails.ts` imports `@presidio-dev/hai-guardrails`, a Node-only library (`node:module`, piscina). Needs a decision on the fix, see Review.
+- [ ] Follow-up: migrate to `react-native-executorch` 0.10 (full API rewrite: `useClassifier`/`createClassifier`, image buffers instead of URIs, new resource fetcher). Pinned to 0.9.3 (`legacy` tag) until then.
+
+Deliberately held back: Babel 8 (`babel-preset-expo` is on Babel 7), SDK-pinned majors (RN 0.87, Reanimated 4.7, gesture-handler 3, Sentry 8, async-storage 3 are not in the SDK 57 map), llama.rn 0.13 (RC only), ExecuTorch 0.10 (see above).
+
+#### Review — Step 0
+- `pnpm run typecheck` ✅ · `pnpm test` ✅ 18 files / 304 tests (Vitest 5) · `expo install --check` ✅ · worker `tsc` ✅ + `wrangler deploy --dry-run` ✅
+- expo-doctor: Hermes check now passes. Remaining ✖: two checks that need network (schema, RN Directory) + "eas-cli installed locally" (kept on purpose; scripts call the local `eas` binary)
+- `expo prebuild` (iOS + Android) ✅, Podfile at iOS 17.0, `critterboard://` scheme present · `expo export --platform web` ✅
+- `expo export --platform ios|android` ❌ `Unable to resolve module node:module` from `@presidio-dev/hai-guardrails`. Reproduced on unmodified `main`, so every dev-client launch on a phone would red-screen. Planned fix: use the regex-only guardrails (today's `guardrails.web.ts`) on all platforms and drop the dependency. On hold because it removes the engine layer (secret detection, heuristic injection/leakage guards), which never ran on a device anyway.
+- Pre-existing, not in `check`: `tsc -p evals/tsconfig.json` has 29 evalite typing errors, same count before and after.
+
+**Spike: offline map renders on device**
+- [ ] Add `@maplibre/maplibre-react-native` + Expo config plugin; `maplibre-gl` for web
+- [ ] Hand-made sticker style (`assets/map/style.json`) using `pb.ts` colors; no remote glyphs/sprites
+- [ ] `OfflineMap` component: loads a PMTiles file from the app's document dir (`pmtiles://file://…`), falls back to a plain background when no pack is installed
+- [ ] Sample extract script (`tools/map/extract.sh`, `pmtiles extract --bbox --maxzoom`) + record real sizes per zoom level
+- [ ] Map screen renders user pins + sightings as MapLibre point layers; tap → existing bottom cards
+- [ ] Verify on iPhone in airplane mode (needs a dev-client rebuild)
+
+**After the spike**
+- [ ] Add `mapUrl` / `mapVersion` to region packs; download with the species + model pack
+- [ ] Optional "save my area" high-zoom download (`OfflineManager.createPack` or a second extract)
 - [ ] Remove `react-cartoon-planet`, `three`, `@types/three`, `expo-gl`, the `.geojson` Metro ext, `CartoonPlanetGlobe.*`, `Map.web.tsx`
-- [ ] Offline fallback when tiles can't load; add OSM/tile attribution to credits
+- [ ] "© OpenStreetMap contributors" on the map + in `CreditsDialog`
+- [ ] Docs: `docs/modules/offline-map.md` + ADR 003
 
 ### C. Cloudflare setup
 - [ ] `wrangler d1 create` / `kv namespace create` → replace placeholder IDs in `worker/wrangler.toml`; apply `schema.sql` remotely
