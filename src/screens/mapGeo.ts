@@ -106,6 +106,19 @@ export function resolveInitialMapView(
   return { lng: center.lng, lat: center.lat, altM: EUROPE_VIEW_ALT_M };
 }
 
+/**
+ * Convert the globe's camera altitude to a Web Mercator zoom level so the
+ * same framing logic drives the flat offline map. Treats the altitude as the
+ * visible ground span across a ~390 pt wide phone screen.
+ */
+export function altitudeToZoom(altM: number, lat: number): number {
+  const METERS_PER_PX_Z0 = 156_543.03392; // equator, 256 px tiles
+  const SCREEN_WIDTH_PT = 390;
+  const cosLat = Math.max(0.01, Math.cos((lat * Math.PI) / 180));
+  const zoom = Math.log2((METERS_PER_PX_Z0 * cosLat * SCREEN_WIDTH_PT) / Math.max(1, altM));
+  return Math.min(20, Math.max(1, zoom));
+}
+
 export function critterboardEarthMap(
   base: import("react-cartoon-planet").PlanetMapDefinition,
   url: string,

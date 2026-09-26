@@ -8,6 +8,7 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 
 | Doc | What's inside |
 |---|---|
+| [[architecture]] | App map — folders, native modules, network touchpoints, top-level diagram. |
 | [[ml-roadmap]] | On-device ML plan — MVP, full training, deferred placeholders. The master "what's next". |
 | [[deployment]] | Shipping to iOS TestFlight & Google Play via EAS — build profiles, credentials, submit config. |
 | [[i18n]] | i18n architecture — bundled JSON packs, `t()` helper, remote OTA pack manifest, App Store notes. |
@@ -16,8 +17,10 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 | [[modules/chat-gemini-poc]] | AI SDK chat adapter with Gemini cloud fallback as a temporary proof-of-concept. |
 | [[modules/crash-reporting]] | Opt-in Sentry wrapper — toggle, DSN config, graceful degradation, what we send. |
 | [[modules/backend-adapter]] | Backend adapter seam — mock today, Cloudflare Workers tomorrow. Schemas, hooks, privacy gating. |
+| [[modules/offline-map]] | Offline 2D map — MapLibre Native + local PMTiles packs, sticker style, download-once flow. |
 | [[decisions/001-crash-reporting-opt-in]] | ADR — why crash reporting is opt-in and why Sentry. |
 | [[decisions/002-backend-adapter-seam]] | ADR — single adapter seam for leaderboard / friends / feed, targeting Cloudflare Workers. |
+| [[decisions/003-offline-map-maplibre-pmtiles]] | ADR — why an offline MapLibre + PMTiles map instead of Leaflet or the globe. |
 
 ## Conventions
 

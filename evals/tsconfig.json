@@ -3,11 +3,15 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "baseUrl": "..",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "../src/*"
+      ]
     },
     "noEmit": true
   },
-  "include": ["**/*.ts", "../src/**/*.ts"]
+  "include": [
+    "**/*.ts",
+    "../src/**/*.ts"
+  ]
 }

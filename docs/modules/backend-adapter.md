@@ -4,7 +4,7 @@
 
 Single seam between the UI and any out-of-process service. Today it resolves to an in-process mock (synthesizes from the existing static seeds); the same code paths will route to a Cloudflare Workers service once that ships.
 
-> See also: [[../decisions/002-backend-adapter-seam]] (the *why*), [[crash-reporting]] (sibling — same opt-in posture for any-byte-leaves-device features), [[../architecture]] *(planned)*.
+> See also: [[../decisions/002-backend-adapter-seam]] (the *why*), [[crash-reporting]] (sibling — same opt-in posture for any-byte-leaves-device features), [[../architecture]].
 
 ## Why a seam
 
@@ -23,7 +23,7 @@ One adapter, one chokepoint:
 | `src/backend/types.ts` | Wire schemas — `BackendUser`, `LeaderboardEntry`, `FriendNode`, `FeedEvent`, page envelopes, `BackendError`. |
 | `src/backend/adapter.ts` | `BackendAdapter` interface — `identity / syncProfile / publishCatch / fetchLeaderboard / fetchFriends / fetchFeed / follow / unfollow / ready`. |
 | `src/backend/mock.ts` | Default impl. Projects `LEADERS` and `FRIENDS` onto the wire types, generates a deterministic peer-activity ticker for the social feed. Identity is injected via `bindMockIdentity`. |
-| `src/backend/cloudflare.ts` | Placeholder. Throws `BackendError('unavailable')` on every method. See ADR 002 for the planned wiring. |
+| `src/backend/cloudflare.ts` | Real HTTP client for `worker/`. Exchanges `backendUserId` for a JWT, retries once on 401. Auto-selected when `EXPO_PUBLIC_BACKEND_URL` is set. |
 | `src/backend/index.ts` | Switchboard. `USE_REMOTE_BACKEND` flag picks mock or cloudflare. Re-exports types so consumers can import from `@/backend`. |
 | `src/backend/hooks.ts` | React layer — `useLeaderboard / useFriends / useFeed / useToggleFollow / usePublishCatch / useBackendIdentityBridge`. Owns request state, network gating, and live identity binding. |
 | `src/store/useAppStore.ts` | New `backendUserId` slice — device-local UUID, persisted, rotated on `wipeAll`. The mock treats it as the caller's id; the real adapter will exchange it for a Bearer token. |

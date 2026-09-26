@@ -7,6 +7,8 @@ import type { ChatAdapter } from "@/ai/chatAdapter";
 export type GuardCode =
   | "INPUT_TOO_LONG"
   | "PROMPT_INJECTION"
+  | "PROMPT_LEAKAGE"
+  | "SECRET_DETECTED"
   | "BLOCKED_CONTENT";
 
 export type GuardResult =
@@ -16,20 +18,15 @@ export type GuardResult =
 export type GuardrailsConfig = {
   /** Maximum allowed characters in user input. Default: 600 */
   maxInputLength?: number;
-  /** Detect and block prompt injection / jailbreak attempts via both regex and
-   *  the hai-guardrails InjectionGuard + LeakageGuard. Default: true */
+  /** Block prompt injection / jailbreak attempts and requests to reveal the
+   *  system prompt. Default: true */
   detectPromptInjection?: boolean;
   /** Redact PII patterns from LLM output chunks. Default: true */
   redactOutputPii?: boolean;
-  /** hai-guardrails InjectionGuard heuristic threshold (0–1). Default: 0.7 */
-  injectionThreshold?: number;
-  /** hai-guardrails LeakageGuard heuristic threshold (0–1). Default: 0.7 */
-  leakageThreshold?: number;
-  /** Run SecretGuard to block messages that contain credentials / API keys.
-   *  Default: true */
+  /** Block messages that contain credentials / API keys. Default: true */
   detectSecrets?: boolean;
-  /** Run PIIGuard in redact mode so PII is scrubbed from the user's message
-   *  before it reaches the LLM. Default: false */
+  /** Scrub PII from the user's message before it reaches the LLM.
+   *  Default: false */
   redactInputPii?: boolean;
 };
 
@@ -41,17 +38,14 @@ export const GUARDRAILS_DEFAULTS = {
   maxInputLength: 600,
   detectPromptInjection: true,
   redactOutputPii: true,
-  injectionThreshold: 0.7,
-  leakageThreshold: 0.7,
   detectSecrets: true,
   redactInputPii: false,
 } satisfies Required<GuardrailsConfig>;
 
 // ---------------------------------------------------------------------------
-// Regex fallbacks (sync, applied to output chunks and as a fast pre-check)
+// Patterns (sync, regex-only so they run on Hermes, web and Node alike)
 // ---------------------------------------------------------------------------
 
-// Catches the most obvious injection patterns before the async engine runs.
 export const INJECTION_PATTERNS: RegExp[] = [
   /ignore\s+(previous|above|all|prior)\s+instructions?/i,
   /forget\s+(your|all|the)\s+(previous\s+)?(instructions?|prompt|rules?|context)/i,
@@ -64,6 +58,26 @@ export const INJECTION_PATTERNS: RegExp[] = [
   /\[INST\]|\[\/INST\]|<<SYS>>|<\/SYS>/,
   /you\s+are\s+now\s+(?!an?\s+insect|an?\s+entomologist|an?\s+naturalist)/i,
   /(?:act\s+as|pretend\s+to\s+be)\s+(?!an?\s+insect|an?\s+entomologist|an?\s+naturalist)/i,
+];
+
+// Attempts to extract the hidden system prompt / instructions.
+export const LEAKAGE_PATTERNS: RegExp[] = [
+  /\b(show|reveal|print|repeat|display|output|leak|dump|give|tell)\b.{0,20}\b(system|initial|hidden|original|developer)\s+(prompt|instructions?|message)/i,
+  /\b(show|reveal|print|repeat|display|output|leak|dump)\b.{0,20}\byour\s+(prompt|instructions?|rules|guidelines)/i,
+  /what\s+(is|are|was|were)\s+your\s+(system\s+)?(prompt|instructions?)/i,
+];
+
+// Well-known credential formats plus generic `key = value` assignments.
+export const SECRET_PATTERNS: RegExp[] = [
+  /\bAKIA[0-9A-Z]{16}\b/, // AWS access key id
+  /\bgh[pousr]_[A-Za-z0-9]{36,}\b|\bgithub_pat_[A-Za-z0-9_]{22,}/, // GitHub
+  /\bsk-(?:ant-|proj-)?[A-Za-z0-9_-]{20,}/, // OpenAI / Anthropic
+  /\bAIza[0-9A-Za-z_-]{35}\b/, // Google API key
+  /\bxox[abposr]-[A-Za-z0-9-]{10,}/, // Slack
+  /\b[rs]k_(?:live|test)_[A-Za-z0-9]{16,}/, // Stripe
+  /-----BEGIN [A-Z ]*PRIVATE KEY-----/, // PEM private key
+  /\beyJ[\w-]{10,}\.eyJ[\w-]{10,}\.[\w-]{10,}/, // JWT
+  /\b(api[_-]?key|secret|token|passw(or)?d|access[_-]?key)\b\s*[:=]\s*["']?[^\s"']{8,}/i,
 ];
 
 export const PII_PATTERNS: Array<{ re: RegExp; sub: string }> = [
@@ -79,7 +93,7 @@ export const PII_PATTERNS: Array<{ re: RegExp; sub: string }> = [
 
 /**
  * Validate user input before it reaches the LLM — synchronous, regex-only.
- * Used as a fast pre-check inside `withGuardrails`; also available standalone.
+ * Used inside `withGuardrails`; also available standalone.
  */
 export function checkInput(
   text: string,
@@ -95,16 +109,31 @@ export function checkInput(
     };
   }
 
+  if (cfg.detectSecrets && SECRET_PATTERNS.some((re) => re.test(text))) {
+    return {
+      pass: false,
+      code: "SECRET_DETECTED",
+      reason:
+        "Your message appears to contain credentials or API keys. Please remove them before chatting.",
+    };
+  }
+
   if (cfg.detectPromptInjection) {
-    for (const pattern of INJECTION_PATTERNS) {
-      if (pattern.test(text)) {
-        return {
-          pass: false,
-          code: "PROMPT_INJECTION",
-          reason:
-            "That looks like a prompt injection attempt. Let's stick to insects! 🐛",
-        };
-      }
+    if (INJECTION_PATTERNS.some((re) => re.test(text))) {
+      return {
+        pass: false,
+        code: "PROMPT_INJECTION",
+        reason:
+          "That looks like a prompt injection attempt. Let's stick to insects! 🐛",
+      };
+    }
+    if (LEAKAGE_PATTERNS.some((re) => re.test(text))) {
+      return {
+        pass: false,
+        code: "PROMPT_LEAKAGE",
+        reason:
+          "I can't share details about my instructions. Let's chat about insects instead! 🐛",
+      };
     }
   }
 
