@@ -8,6 +8,22 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 ---
 
+## Now — Vision v3: 200 European species, fast on-device model
+
+Goal: a fast classifier for the ~200 most-observed European insects (and spiders), shipped as region pack `eu-ce` v3.
+
+Constraints found: cloud sandbox has 4 CPUs, no GPU. iNaturalist API, Hugging Face and download.pytorch.org are blocked by egress policy. Available: iNaturalist AWS Open Data bucket (metadata dumps + photos), timm weights on GitHub releases, PyPI.
+
+- [ ] Data: stream `taxa` + `observations` dumps → research-grade Insecta/Arachnida observations in a Europe bbox → rank species by count → top 200 (+ force-include the 20 current species)
+- [ ] Data: stream `photos` dump → first photo per observation, ≤3 observations per observer per species, observer-grouped train/val/test split
+- [ ] Data: download medium photos from the open-data bucket, resize to 256 px
+- [ ] Base model: benchmark candidates on this CPU (EfficientNet-B0, EfficientNetV2-B0/B3, EfficientNetV2-S in21k); pick best accuracy/speed/size trade-off
+- [ ] Train: fine-tune with augmentation; report top-1 / top-3 on the held-out test split
+- [ ] Export: ExecuTorch `executorch==1.0.1` (matches the ET12 runtime in react-native-executorch 0.9.3) **with the XNNPACK delegate** (v2 used portable ops only); validate accuracy by running the `.pte` on host
+- [ ] Pack v3: `packs/eu-ce.json` (bugs with en/pl/de/es names, labelMap, modelUrl), bump `packs/manifest.json`
+- [ ] App: map model labels through the pack's species (not the hardcoded 20-species table, which falls back to "lady"); `bugName` falls back to pack names
+- [ ] Docs: `training/vision/README.md`, `docs/ml-roadmap.md`
+
 ## Next — iOS device testing, Leaflet map, Cloudflare setup (plan, awaiting go-ahead)
 
 App map written to [[docs/architecture]].

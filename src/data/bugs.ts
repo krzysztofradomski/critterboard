@@ -64,3 +64,9 @@ export function mergeBugs(bugs: Bug[]): void {
 export function findBug(id: string): Bug | undefined {
   return _registry.get(id);
 }
+
+/** Look a species up by its latin name (bundled + installed pack species). */
+export function findBugByLatin(latin: string): Bug | undefined {
+  for (const b of _registry.values()) if (b.latin === latin) return b;
+  return undefined;
+}

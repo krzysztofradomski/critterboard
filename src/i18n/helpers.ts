@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import { findBug } from '@/data/bugs';
 import { useAppStore } from '@/store/useAppStore';
 
 import { t, type LangId } from './index';
@@ -22,7 +23,10 @@ export function useT(): (key: string, vars?: Record<string, string | number>) =>
  * they're conventionally Latin everywhere; only the vernacular varies.
  */
 export function bugName(lang: LangId, bugId: string): string {
-  return t(lang, `bugs.${bugId}.name`);
+  const key = `bugs.${bugId}.name`;
+  const name = t(lang, key);
+  // Region-pack species may not have translations yet: use the pack's name.
+  return name === key ? (findBug(bugId)?.name ?? bugId) : name;
 }
 
 /**
