@@ -8,6 +8,8 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 ---
 
+> Local runbook for everything below: [[docs/handoff]].
+
 ## Now — Vision v3: 200 European species, fast on-device model
 
 Goal: a fast classifier for the ~200 most-observed European insects (and spiders), shipped as region pack `eu-ce` v3.
@@ -43,7 +45,7 @@ App map written to [[docs/architecture]].
 - [ ] `pnpm run start:dev` (add `--tunnel` if phone and laptop aren't on the same Wi-Fi)
 - [ ] Bump `expo` to `^57.0.9` + `npx expo install --fix` (expo-doctor: Hermes V1 memory regression in 57.0.4 / RN 0.86.0)
 - [ ] Optional TestFlight path: fill `submit.production` in `eas.json`, create the App Store Connect record
-- [ ] Docs: swap deprecated `eas secret:create` for `eas env:create` in `docs/deployment.md`
+- [x] Docs: swap deprecated `eas secret:create` for `eas env:create` in `docs/deployment.md`
 
 ### B. Replace the cartoon globe with an offline MapLibre + PMTiles map
 Decision: fully offline vector map. One-time download of a regional PMTiles extract, drawn with a bundled "sticker" MapLibre style. Chosen over Leaflet, which would need a WebView and awkward local-file reads.

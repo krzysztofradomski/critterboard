@@ -111,3 +111,17 @@ When moving strings out of TS data files into JSON packs, the cleanest order is:
 4. Mirror packs into target languages.
 
 Doing #4 before #2/#3 creates duplicate work because the key shapes change as you discover what consumers actually need.
+
+## Quote dataset statistics from a query, not from memory
+
+**Session**: vision v3 licence question.
+
+I told the user "about 91%" of training photos were NonCommercial by adding up
+remembered per-licence counts in my head. Recounting from the manifest gave
+86.2%. The correction was caught before anything shipped, but the user had
+already heard the wrong number.
+
+**Rules:**
+1. Any percentage or count that informs a decision (licensing, accuracy, size)
+   comes from a command run at the time of writing, e.g. `awk` over the manifest.
+2. When correcting a number already given to the user, say so explicitly.
