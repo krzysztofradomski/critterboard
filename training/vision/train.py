@@ -16,6 +16,7 @@ import argparse
 import csv
 import json
 import math
+import os
 import time
 from pathlib import Path
 
@@ -107,6 +108,8 @@ def main():
     ap.add_argument("--limit-steps", type=int, default=0, help="benchmark: stop after N steps")
     ap.add_argument("--max-per-class", type=int, default=0, help="pilot runs: cap train images per class")
     ap.add_argument("--drop-path", type=float, default=0.0, help="stochastic depth rate")
+    ap.add_argument("--ckpt-every", type=int, default=400,
+                    help="save a resumable checkpoint (out/last.pth) every N steps")
     args = ap.parse_args()
 
     torch.set_num_threads(args.threads)
@@ -137,23 +140,46 @@ def main():
     base_lrs = [g["lr"] for g in opt.param_groups]
     loss_fn = nn.CrossEntropyLoss(label_smoothing=0.1)
 
-    history, best = [], 0.0
-    steps_done = 0
-    total_steps = None
-    for epoch in range(args.epochs):
+    n_train = len(Photos(args.data, "train", species, None, args.max_per_class))
+    steps_per_epoch = n_train // args.batch
+    total_steps = args.epochs * steps_per_epoch
+    warmup = steps_per_epoch // 2
+
+    # Resume: the container running this can restart mid-run. Everything needed
+    # to continue exactly (weights, optimiser, position in the epoch) is in last.pth.
+    history, best, steps_done, start_epoch, start_step = [], 0.0, 0, 0, 0
+    last = args.out / "last.pth"
+    if last.exists():
+        ck = torch.load(last, map_location="cpu", weights_only=False)
+        model.load_state_dict(ck["model"])
+        opt.load_state_dict(ck["opt"])
+        history, best, steps_done = ck["history"], ck["best"], ck["steps_done"]
+        start_epoch, start_step = ck["epoch"], ck["step_in_epoch"]
+        print(f"resumed at epoch {start_epoch} step {start_step} (global {steps_done})", flush=True)
+
+    def save_last(epoch, step_in_epoch):
+        tmp = args.out / "last.pth.tmp"
+        torch.save({"model": model.state_dict(), "opt": opt.state_dict(), "history": history,
+                    "best": best, "steps_done": steps_done, "epoch": epoch,
+                    "step_in_epoch": step_in_epoch}, tmp)
+        os.replace(tmp, last)
+
+    for epoch in range(start_epoch, args.epochs):
         # Progressive resizing: linearly from start-size to size over the first
         # 2/3 of training, then hold at full size (multiples of 32).
         frac = min(1.0, epoch / max(1, math.ceil(args.epochs * 2 / 3) - 1))
         size = int(round((args.start_size + frac * (args.size - args.start_size)) / 32) * 32)
         train = Photos(args.data, "train", species, train_tf(size), args.max_per_class)
-        loader = DataLoader(train, batch_size=args.batch, shuffle=True, drop_last=True,
-                            num_workers=args.workers, persistent_workers=False)
-        if total_steps is None:
-            total_steps = args.epochs * len(loader)
-            warmup = len(loader) // 2
+        # Deterministic per-epoch order so a resumed epoch skips exactly the
+        # batches it already trained on.
+        order = torch.randperm(len(train), generator=torch.Generator().manual_seed(1000 + epoch))
+        skip = start_step if epoch == start_epoch else 0
+        loader = DataLoader(train, batch_size=args.batch, sampler=order[skip * args.batch:].tolist(),
+                            drop_last=True, num_workers=args.workers)
 
         model.train()
         t0, seen, loss_sum = time.time(), 0, 0.0
+        step_in_epoch = skip
         for x, y in loader:
             # warmup + cosine
             if steps_done < warmup:
@@ -170,17 +196,20 @@ def main():
             opt.step()
 
             steps_done += 1
+            step_in_epoch += 1
             seen += len(y)
             loss_sum += loss.item() * len(y)
             if steps_done % 50 == 0:
-                print(f"  ep{epoch} step{steps_done} size{size} loss {loss_sum/seen:.3f} "
+                print(f"  ep{epoch} step{steps_done}/{total_steps} size{size} loss {loss_sum/seen:.3f} "
                       f"{seen/(time.time()-t0):.1f} img/s", flush=True)
             if args.limit_steps and steps_done >= args.limit_steps:
                 print(f"benchmark: {seen/(time.time()-t0):.1f} img/s at {size}px")
                 return
+            if step_in_epoch % args.ckpt_every == 0:
+                save_last(epoch, step_in_epoch)
 
         top1, top3, _ = evaluate(model, val_loader)
-        rec = {"epoch": epoch, "size": size, "loss": loss_sum / seen, "val_top1": top1,
+        rec = {"epoch": epoch, "size": size, "loss": loss_sum / max(1, seen), "val_top1": top1,
                "val_top3": top3, "minutes": (time.time() - t0) / 60}
         history.append(rec)
         print(json.dumps(rec), flush=True)
@@ -188,6 +217,7 @@ def main():
         if top1 >= best:
             best = top1
             torch.save(model.state_dict(), args.out / "best.pth")
+        save_last(epoch + 1, 0)
 
     # Final: best checkpoint on the held-out test split.
     model.load_state_dict(torch.load(args.out / "best.pth", map_location="cpu"))
@@ -196,7 +226,7 @@ def main():
     worst = sorted(per_class.items(), key=lambda kv: kv[1][0] / kv[1][1])[:15]
     report = {
         "arch": args.arch, "classes": n_cls, "size": args.size,
-        "train_images": len(train), "val_images": len(val), "test_images": len(test),
+        "train_images": n_train, "val_images": len(val), "test_images": len(test),
         "test_top1": top1, "test_top3": top3, "best_val_top1": best,
         "worst_classes": [
             {"latin": species[c]["latin"], "top1": h / t, "n": t} for c, (h, t) in worst
