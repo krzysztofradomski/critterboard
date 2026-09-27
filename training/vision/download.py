@@ -19,7 +19,6 @@ import urllib3
 from PIL import Image
 
 BUCKET = "https://inaturalist-open-data.s3.amazonaws.com/photos"
-SHORT_SIDE = 256
 
 
 # One pool for all threads: keep-alive connections and a single TLS context
@@ -35,7 +34,7 @@ def fetch(url: str) -> bytes:
     return r.data
 
 
-def process(row, out_root: Path):
+def process(row, out_root: Path, short_side: int):
     photo_id, ext, _lic, taxon_id, split = row
     dest = out_root / split / taxon_id / f"{photo_id}.jpg"
     if dest.exists():
@@ -44,7 +43,7 @@ def process(row, out_root: Path):
         data = fetch(f"{BUCKET}/{photo_id}/medium.{ext}")
         img = Image.open(io.BytesIO(data)).convert("RGB")
         w, h = img.size
-        s = SHORT_SIDE / min(w, h)
+        s = short_side / min(w, h)
         if s < 1:
             img = img.resize((round(w * s), round(h * s)), Image.BICUBIC)
         dest.parent.mkdir(parents=True, exist_ok=True)
@@ -58,6 +57,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", type=Path, required=True)
     ap.add_argument("--threads", type=int, default=48)
+    ap.add_argument("--short-side", type=int, default=256, help="resize so the short side is this many px")
     args = ap.parse_args()
 
     sampled = {}
@@ -76,7 +76,7 @@ def main():
     out_root = args.data / "images"
     ok = failed = 0
     with ThreadPoolExecutor(args.threads) as pool:
-        futures = {pool.submit(process, r, out_root): r for r in rows}
+        futures = {pool.submit(process, r, out_root, args.short_side): r for r in rows}
         for i, fut in enumerate(as_completed(futures), 1):
             if fut.result():
                 ok += 1

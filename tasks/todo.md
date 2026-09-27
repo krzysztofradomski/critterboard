@@ -10,6 +10,19 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 > Local runbook for everything below: [[docs/handoff]].
 
+## Now — Vision v4: 1,000 species, commercial model first
+
+Why: 200 species cover only 42.9% of European research-grade observations; 1,000 cover 74.5% (500: 60.6%, 2,000: 86.0%).
+
+Decisions (user): base = **Google ViT-S/16 AugReg** (Apache 2.0 from Google, no NC restriction; residual ImageNet-21k provenance risk). The v3 base ConvNeXt-nano `d1h_in1k` fails: timm's author says to assume ImageNet's non-commercial terms apply. Photos = **CC0 + CC-BY only** (no NC / ND / SA). Commercial model first, then the non-commercial retrain.
+
+- [ ] Rank 1,500 candidate species; stream CC0/CC-BY first photos for all their European observations
+- [ ] Sample: first 1,000 species (by observation rank) with ≥ min usable photos; ≤250/species, ≤3 per photographer, observer-grouped split
+- [ ] Download at 224 px short side (disk: ~12 GB free)
+- [ ] Train ViT-S/16 (fused attention for training; unfused for export so XNNPACK takes bmm/softmax)
+- [ ] Export + verify `.pte` on the full test split; `credits.csv` for CC-BY attribution; licence notes
+- [ ] Then: non-commercial 1,000-species retrain for this app's pack (ConvNeXt or ViT), English names where established, Latin otherwise
+
 ## Now — Vision v3: 200 European species, fast on-device model
 
 Goal: a fast classifier for the ~200 most-observed European insects (and spiders), shipped as region pack `eu-ce` v3.

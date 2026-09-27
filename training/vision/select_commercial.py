@@ -17,7 +17,6 @@ Photo licences:
 import argparse
 import csv
 import random
-import shutil
 from collections import defaultdict
 from pathlib import Path
 
@@ -27,6 +26,8 @@ ALLOWED = {"CC0", "CC-BY"}
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", type=Path, required=True)
+    ap.add_argument("--top", type=int, default=0, help="keep the first N species (by observation rank) with enough photos; 0 = all")
+    ap.add_argument("--min-photos", type=int, default=0, help="skip species with fewer usable photos")
     ap.add_argument("--per-species", type=int, default=400)
     ap.add_argument("--max-per-observer", type=int, default=3)
     ap.add_argument("--test", type=int, default=40)
@@ -43,24 +44,38 @@ def main():
         if lic in ALLOWED:
             by_species[taxon][observer].append((photo_id, ext, lic, uuid))
 
-    shutil.copy(args.data / "species.csv", out / "species.csv")
+    # 1. Pick photos per species (observer-capped), in observation-rank order.
+    chosen = []  # (species row, picked)
+    for s in species:
+        taxon = s["taxon_id"]
+        observers = list(by_species[taxon])
+        rng.shuffle(observers)
+        picked = []
+        for o in observers:
+            rows = by_species[taxon][o]
+            rng.shuffle(rows)
+            picked += [(r, o) for r in rows[: args.max_per_observer]]
+            if len(picked) >= args.per_species:
+                break
+        picked = picked[: args.per_species]
+        if len(picked) < args.min_photos:
+            continue
+        chosen.append((s, picked))
+        if args.top and len(chosen) >= args.top:
+            break
+
+    # 2. Write the class list and the observer-grouped split.
+    with (out / "species.csv").open("w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=list(species[0].keys()))
+        w.writeheader()
+        w.writerows(s for s, _ in chosen)
+
     counts = []
     with (out / "sampled.tsv").open("w") as fs, (out / "photos.tsv").open("w") as fp, \
             (out / "picked.tsv").open("w") as fk:
-        for s in species:
+        for s, picked in chosen:
             taxon = s["taxon_id"]
-            observers = list(by_species[taxon])
-            rng.shuffle(observers)
-            picked = []
-            for o in observers:
-                rows = by_species[taxon][o]
-                rng.shuffle(rows)
-                picked += [(r, o) for r in rows[: args.max_per_observer]]
-                if len(picked) >= args.per_species:
-                    break
-            picked = picked[: args.per_species]
-
-            # Observer-grouped split; scale test/val down for sparse species.
+            # Scale test/val down for sparse species.
             n = len(picked)
             want_test = min(args.test, n // 8)
             want_val = min(args.val, n // 10)
@@ -88,6 +103,7 @@ def main():
     print(f"{total:,} photos for {len(counts)} species (CC0 + CC-BY only)")
     print("fewest:", ", ".join(f"{name} ({c})" for c, name in counts[:10]))
     print(f"species below 100 photos: {sum(1 for c, _ in counts if c < 100)}")
+    print(f"deepest rank used: {species.index(chosen[-1][0]) + 1} of {len(species)} candidates")
 
 
 if __name__ == "__main__":
