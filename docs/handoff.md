@@ -11,7 +11,7 @@ What to run locally to finish Critterboard, in order. Everything below assumes t
 | Area | State on `main` | Needs you |
 |---|---|---|
 | Build | Typecheck + 336 tests pass; iOS/Android/web JS bundles build; `expo prebuild` works | First real Xcode build |
-| Vision | 200-species model `eu-ce` v3 live: 83.7% top-1 / 94.0% top-3 on held-out photos; downloads on pack install | On-device check (load time, latency) |
+| Vision | 1,000-species model `eu-1k-commercial-v1` (pack `eu-ce` v4) live: 78.2% top-1 / 90.1% top-3 on held-out photos; licence-clean for commercial use; downloads on pack install | On-device check (load time, latency) |
 | Map | Offline MapLibre + PMTiles spike behind `USE_OFFLINE_MAP` (native); web still uses the globe | Make a map pack and look at it |
 | Chat | Regex guardrails on all platforms; Gemma 1B via `llama.rn`, Gemini POC if a key is set | Optional smoke test |
 | Backend | Worker code ready, **not deployed**; app uses mock data until `EXPO_PUBLIC_BACKEND_URL` is set | Cloudflare account steps |
@@ -57,7 +57,7 @@ The first build takes a while (CocoaPods + MapLibre + ExecuTorch + llama.rn). Af
 **Smoke test in the simulator:**
 
 1. **Onboarding → Home** renders.
-2. **Vision:** Settings → On-device Brains → Regional packs → install **Central Europe**. It downloads the pack JSON and the 60 MB model from GitHub. Then open Scan and use the **photo picker**, because the simulator has no camera. Try a photo of a peacock butterfly, a ladybird or a bumblebee; the result should name the species. If it falls back to mock or "no match", check the Metro log for ExecuTorch load errors.
+2. **Vision:** Settings → On-device Brains → Regional packs → install **Central Europe**. It downloads the pack JSON and the 88 MB model from GitHub. Then open Scan and use the **photo picker**, because the simulator has no camera. Try a photo of a peacock butterfly, a ladybird or a bumblebee; the result should name the species. If it falls back to mock or "no match", check the Metro log for ExecuTorch load errors.
 3. **Map:** see §4.
 4. **Chat:** answers with the mock or Gemini adapter; on-device Gemma needs its model download from Settings.
 
@@ -154,7 +154,8 @@ Needs the Apple Developer Program, and the app record created in App Store Conne
 | 4 | Cloudflare deploy (§5) | You | Account/DNS steps can't be done from the cloud sandbox |
 | 5 | Pack & model hosting on R2 (instead of GitHub raw) | Me, after 4 | Needs an R2 bucket and an API token |
 | 6 | Translate 180 new species (pl/de/es) | Me or you | They fall back to English today; I couldn't reach a name source |
-| 7 | Commercial-clean vision model | Me, if needed | Retrain on CC0/CC-BY/CC-BY-SA photos only; 86% of today's photos are NonCommercial |
+| 7 | ~~Commercial-clean vision model~~ | Done | `eu-1k-commercial-v1`, now used by the app; see its MODEL_CARD |
+| 10 | Dex: list all pack species (virtualised grid) | Me | Only the 20 bundled species show today |
 | 8 | `react-native-executorch` 0.10 migration | Me | 0.10 rewrote the API; pinned to 0.9.3 until then |
 | 9 | Fill `eas.json` submit config, store listings | You | Needs your Apple / Google accounts |
 
@@ -174,6 +175,8 @@ training/vision/stream_photos.sh && python training/vision/download.py --data $D
 ## Known risks
 
 - **Model not yet loaded on a device.** The exporter (`executorch` 1.0.1) was chosen to match the app's ET12 runtime, and all operators are supported kernels, but only a phone run proves it.
-- **60 MB model download** on pack install; static int8 (15.6 MB) lost 9 points of accuracy.
+- **88 MB model download** on pack install. A static-int8 build (22.8 MB) did not load in the ExecuTorch runtime.
+- **Dex shows only the 20 bundled species.** Catches of the other 980 pack species are recorded but don't appear in the Dex grid yet (needs a virtualised list over the pack registry).
+- **Licence notices:** the model's Apache-2.0 notice and CC-BY photo credits are linked from Settings → Open source libraries → Vision model. Keep them there if you fork the app.
 - **Guardrails are regex-only** since the Node-only library was removed. They are fine for obvious cases, not a full moderation system.
-- **Licences:** 86% of the training photos carry a NonCommercial licence (CC-BY-NC, -NC-SA, -NC-ND). Keep the model to free/non-commercial use unless retrained (see task 7).
+- **Licences:** the shipped model uses only CC0/CC-BY photos and Google's Apache-2.0 base weights. The residual risk is the base weights' ImageNet-21k pretraining; see `training/vision/results/commercial-1k-v1/MODEL_CARD.md`. The older v3 model (NonCommercial photos) is no longer referenced by the pack.

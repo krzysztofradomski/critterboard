@@ -10,6 +10,24 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 > Local runbook for everything below: [[docs/handoff]].
 
+## Now — Vision v4: 1,000 species, commercial model first
+
+Why: 200 species cover only 42.9% of European research-grade observations; 1,000 cover 74.5% (500: 60.6%, 2,000: 86.0%).
+
+Decisions (user): base = **Google ViT-S/16 AugReg** (Apache 2.0 from Google, no NC restriction; residual ImageNet-21k provenance risk). The v3 base ConvNeXt-nano `d1h_in1k` fails: timm's author says to assume ImageNet's non-commercial terms apply. Photos = **CC0 + CC-BY only** (no NC / ND / SA). Commercial model first, then the non-commercial retrain.
+
+- [x] Rank 1,500 candidate species; stream CC0/CC-BY first photos for their European observations (1.6M candidates; the stream was cut at 96.9% of the photos dump by a container restart, and only the newest uploads were missed)
+- [x] Sample: first 1,000 species with ≥100 usable photos (only 6 of the top 1,000 skipped); ≤250/species, ≤3 per photographer → 243,202 photos, observer-grouped split
+- [x] Download at 224 px (5.7 GB, 0 failures)
+- [x] `train.py` made resumable (checkpoint every 400 steps); ViT-S/16 trained 5 epochs, ~9.5 h, no restarts
+- [x] Export + verify: **78.2% top-1 / 90.1% top-3** on 25,338 test photos (`.pte`, 224 px), 88.4 MB. Static int8 (22.8 MB) failed to load in the runtime, so fp32 ships
+- [x] `credits.csv.gz` (5,551 photographers), `MODEL_CARD.md` with licence obligations and risks → `training/vision/results/commercial-1k-v1/`
+- [x] ~~Non-commercial retrain~~ → decided: the app uses the commercial model too (one model, clean licensing)
+- [x] Pack `eu-ce` v4: 1,000 species, model `eu-1k-commercial-v1`; 736 English names (established UK/EU names), 264 Latin-only; new **epic** tier (<5k observations); all 200 v3 ids kept; manifest v4; region metadata 1,000 species / 89 MB
+- [x] Licence notices in-app: Settings → Open source libraries → Vision model (model card, ATTRIBUTION.md with 5,551 photographers, Apache 2.0 text)
+- [ ] Dex lists only the 20 bundled species; show all pack species (virtualised grid over the registry)
+- [ ] pl/de/es names for the 980 pack species (fall back to English/Latin today)
+
 ## Now — Vision v3: 200 European species, fast on-device model
 
 Goal: a fast classifier for the ~200 most-observed European insects (and spiders), shipped as region pack `eu-ce` v3.

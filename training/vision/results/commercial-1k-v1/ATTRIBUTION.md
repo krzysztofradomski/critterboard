@@ -1,0 +1,5558 @@
+# Photo credits — `eu-1k-commercial-v1`
+
+The Critterboard species model was trained on photos shared on [iNaturalist](https://www.inaturalist.org) by the **5,551 contributors** below. Their photos are licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) or dedicated to the public domain ([CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)). The photos were used to train a machine-learning model; they are not reproduced in the app. Profiles: `https://www.inaturalist.org/people/<login>`. The per-photo list (photo id, licence, photographer, species, source URL) is in [`credits.csv.gz`](credits.csv.gz).
+
+Thank you for sharing your observations.
+
+Photographer (iNaturalist login) — photos used:
+- Andreas Manz (@amzamz) — 1129
+- @carnifex — 1060
+- Christoph Moning (@christoph_moning) — 1000
+- Jean-Paul Boerekamps (@jeanpaulboerekamps) — 986
+- Yves Bas (@yvesbas) — 970
+- Michael Knapp (@waldgeist) — 918
+- Thierry Arbault (@thierrya) — 905
+- @mnauky — 882
+- Patrick Le Mao (@patricklm35) — 873
+- DDutrey (@ddutrey) — 856
+- Julia Moning (@birdingjulia) — 831
+- Tommy Andriollo (@tommy_andriollo) — 813
+- Samuel GUIRAUDOU (@samuel_guiraudou) — 796
+- Louis Aureglia (@louis_aureglia) — 793
+- Peter Gabler (@peter_gabler) — 788
+- Alexis Tinker-Tsavalas (@alexis_orion) — 739
+- @gerardbertrand — 721
+- CaracalShan (@caracalshan) — 710
+- Oleksii Vasyliuk (@vasyliuk1) — 700
+- Sylvain Montagner (@sylvainm_53) — 696
+- Sylvain Eichhorn (@sylvain_eichhorn) — 695
+- Valentin Moser (@vmoser) — 679
+- Pavel Kacl (@pavel_kacl) — 672
+- Jan Ebr &amp; Ivana Ebrová (@opisska) — 671
+- Вячеслав Юсупов (@tomegatherion) — 664
+- Maria (@natteheks) — 663
+- @bigayon — 649
+- Antoine Thivolle (@antoine2684) — 646
+- Евгений Рыбальченко (@sotnik_on) — 640
+- Claude Kolwelter (@claudekolwelter) — 637
+- Tero Linjama (@terolinjama) — 633
+- Поляков Александр (@naturalist19358) — 629
+- Lars Willighagen (@larswillighagen) — 624
+- Thomas Koffel (@tkoffel) — 624
+- Dieter Schulten (@dieterschulten) — 613
+- Demian Hiß (@demianhiss) — 604
+- Paolo Zucca (@theworldofpaolo) — 599
+- Igor Balashov (@igor117) — 591
+- Michel Langeveld (@rudolphous) — 591
+- Markus Krieger (@markuskrieger) — 588
+- David Sandler (@davidsandler) — 582
+- Jason Grant (@jasonrgrant) — 581
+- Fyodor Pudovikov (@fyodorp) — 574
+- Tina Ellegaard Poulsen (@ellegaardsnatur) — 569
+- Jonas V. (@murderspagurder) — 565
+- Niklas Wahlberg (@niklasw) — 558
+- Aurélien Coste (@aureliencoste) — 557
+- Andre Hosper (@ahospers) — 555
+- katunchik (@katya) — 554
+- @agujaceratops — 553
+- Thorsten Hackbarth (@thorsten_hackbarth) — 549
+- Ellyne Geurts (@ellyne) — 547
+- Andrzej Chruślak (@andrzejchruslak) — 545
+- Emil Jantke (@emilvus) — 545
+- Liubov Ilminska (@liubov_ilminska) — 532
+- MadMagpie (@madmagpie) — 531
+- Kian Hayles-Cotton (@kh-c) — 530
+- Julien Renoult (@jujurenoult) — 528
+- Matthew Wilkinson (@matthewwilkinson) — 528
+- kike Vergara (@kikevergara) — 526
+- Óscar Sampedro (@hosquillar) — 524
+- Michal Honskus (@jolinarm) — 523
+- Harukano (@harukano) — 522
+- Jerry Lanfear (@jerry2018) — 517
+- Mattia Menchetti (@mattiamenchetti) — 515
+- Stephen James McWilliam (@steve_mcwilliam) — 512
+- SteveM4560 (@stevem4560) — 512
+- Nigel Voaden (@terathopius) — 512
+- @luluchouette — 511
+- Crebassa Jason (@crebassa) — 504
+- @thomas_oswald — 497
+- Emanuel Kern (@emanuelkern) — 496
+- Adrien Nouailhane (@adrinou) — 493
+- Alexis_lsu (@alexis_loiseau) — 491
+- Dimitǎr Boevski (@exonie) — 490
+- Drepanostoma (@martinbishop) — 490
+- Matthew Vosper (@matthewvosper) — 490
+- Céline (@prunhel) — 486
+- Bastien Le Mort (@bastienlm) — 483
+- Federico Biguzzi (@f_biguzzi) — 482
+- Paul Cook (@wildhamandpetersham) — 482
+- Darrel Watts (@darrel_watts) — 470
+- Kostas Zontanos (@kostaszontanos) — 468
+- Enrico Tomschke (@enricotomschke) — 462
+- Petr Harant (@petr286) — 457
+- Patrick Meurin (@odovacrius) — 456
+- Federico Del Barba (@federicodelbarba) — 450
+- Martiño Cabana Otero (@martinho_cabana) — 449
+- Adrien Cozannet (@adrien_cozannet) — 446
+- Daniel Linzbauer (@gurucumi) — 444
+- Michael Bakker Paiva (@michaelbakkerpaiva) — 442
+- Margit Kildevang (@margitkildevang) — 436
+- Samuel Paitreault (@samuelpaitreault) — 436
+- Dave Shenton (@dave_shenton) — 435
+- Donald Hobern (@dhobern) — 434
+- Josh Boe (@entomolojosh) — 434
+- Richard Shirky (@richardshirky) — 434
+- Alex Press (@alexswift) — 419
+- Jon Mortin (@major_bombylius) — 418
+- Viktor Strenada (@viktorstrenada) — 418
+- Dávid Horváth (@dvid_horvath) — 416
+- Roman (@efarilis) — 413
+- Paul Round (@paulround1985) — 412
+- Barry Walter (@bazwal) — 411
+- Михаил Языков (@yazykov_mv) — 410
+- Chris Raper (@chrisrap) — 409
+- Stephan Kleinfelder (@stephankleinfelder) — 407
+- Simon Colenutt (@simoncolenutt) — 404
+- @empressmoth — 402
+- Dr. Sven Gippner (@sven_gippner) — 400
+- Stephan Mende (@grid33) — 399
+- Jais Knudsen (@jais_knudsen) — 398
+- Chris walker (@squirrel1) — 397
+- Julien Tchilinguirian (@jtch) — 395
+- @drtimk — 394
+- Pete Bradshaw (@chinbrad) — 393
+- Cosimo Costanzia di Costigliole (@cosimo_costanzia) — 393
+- @ingridaltmann — 391
+- Ruebezahl (@ruebezahl) — 389
+- @ahabo — 386
+- @anasacuta — 385
+- Diego González Dopico (@diegodgd) — 383
+- @bernhard_hiller — 380
+- Martin Scheuch (@ma_sche) — 380
+- Jamie O'Neill (@swimjamie) — 380
+- Peter Alfrey (@peteralfrey) — 375
+- Donald Davesne (@donalddavesne) — 374
+- Jason Thompson (@durhambirder) — 373
+- harry beaman (@harrybeaman) — 370
+- Tristan Haab (@wario512) — 370
+- Roland Godon (@rolandgodon) — 367
+- John Lyden (@johnlyden) — 364
+- Brenda Black (@spiphany) — 362
+- R Clarke (@cardinal831) — 361
+- Julien Fougeroux (@julien_fgx) — 361
+- ÖkopatóPál (@termeszet1) — 358
+- David Price-Goodfellow (@baydonchaffinch) — 354
+- Ilkka Kaita-aho (@kaitaaho) — 354
+- J Castillo (@tabernus) — 354
+- Nico (@oecophylla) — 352
+- Sarah Adamson (@sauciepepper) — 352
+- Cameron Wilkins (@cammmmm) — 350
+- @nevwright — 350
+- Tomas Pocius (@tomasp) — 350
+- @epsffc — 348
+- @evgeniq_benihanov — 347
+- Gabriele Vaudano (@gabrivauda) — 347
+- Stanley Davis (@stanley110) — 344
+- Nicolás Tamargo (@reosarevok) — 340
+- Cameron Findlay (@cameronfindlay) — 338
+- Ludivine Lamare (@ldvn) — 338
+- José Antonio León Mangado (@sololeon) — 336
+- Katrin Simon (@katrin_simon) — 335
+- Sascha Nunheim (@sascha_n) — 331
+- E. A. (@kupferglucke) — 329
+- Sean Hartnett (@apricaria) — 322
+- Andrey Polstianoi (@p_andrey) — 318
+- Quirijn V (@quirijnvds) — 316
+- Scott Shanks (@scottshanks) — 316
+- Martin Scheidleder (@headlounge) — 315
+- Nicholas Moray Williams (@nicholas_williams) — 314
+- Ross Mounce (@rmounce) — 313
+- Stuart (@sturuss) — 312
+- Tobias Schönberg (@tobiasschnberg) — 311
+- Jordi Casanovas (@jordicasanovas) — 310
+- Matteo Marcandella (@matteomarcandella) — 310
+- Piermario Maculan (@pilmar) — 308
+- Bobo-X (@bobo-x) — 307
+- A. Johann (@zymi) — 307
+- Jacek Pietruszewski (@hyacinthus) — 306
+- Max G.W. Verheij (@maxverheij) — 305
+- @snaily_naily — 304
+- Susanne Primdahl (@susanne20) — 302
+- Dave Hernon (@wildedges) — 302
+- Norrland (@norrland) — 299
+- Joss Carr (@josscarr) — 298
+- Joan C. Hinojosa (@joan_carles) — 297
+- Daniela Costa (@willow_warbler) — 297
+- Ian Ballam (@jballam) — 295
+- Paul Braun (@paul_luap) — 295
+- Иван Пристрем (@ivanprst) — 294
+- Oleksandr Shynder (@oleksandr_shynder) — 293
+- Barnaby Walters (@barnabywalters) — 290
+- Crap Fou (@crapfou) — 290
+- Leonardo Ancillotto (@lancillotto) — 290
+- Mario Bassini (@bssmnt52) — 289
+- Eric Toro Delgado (@erictoro) — 289
+- Frank Sengpiel (@frank103) — 289
+- William Stephens (@william_stephens) — 289
+- Albert Cardona (@albertcardona) — 288
+- Arne Fahrenholz (@arnemf) — 287
+- V_Nebenfuehr (@v_nebenfuehr) — 283
+- Will Taylor (@willt98) — 282
+- Bianca (@bianca53165) — 278
+- Christian Kahle (@christiansw) — 278
+- Jean-Silouane Rebours (@jean-silouane_rebours) — 278
+- Jacqueline Worthington (@jacquelinew71) — 277
+- Иван Ковтун Ivan Kovtun (@nightlighty) — 277
+- Игорь Васильев (@igor158) — 276
+- Morten DD Hansen (@mortenddhansen) — 276
+- Piotr Lukasik (@sympiotr) — 276
+- Clive Freedman (@cf125) — 275
+- Karim Haddad (@karimhaddad) — 271
+- Andrejus Gaidamavičius (@andrejus) — 270
+- Michael Grundner (@migru) — 270
+- Ben Mapp (@bmapp02) — 266
+- Dmitry Trutsko (@dmitry_trutsko) — 263
+- Jeff Clark (@jeffdc) — 263
+- Nick Butcher (@nick37158) — 263
+- Juraj Ahel (@xeniorn) — 263
+- Markus Lampinen (@lamma_) — 262
+- Michel Frisch (@michelfrisch) — 262
+- Philipp Pavelka (@philpav) — 262
+- Samuele Papeschi (@geologyistheway) — 260
+- Barry Stewart (@moonmoths) — 260
+- Kai Löhr (@kai_pirinha) — 257
+- Ross McCallum (@ross291) — 255
+- relet (@llreletll) — 254
+- Kevin (@wizz1) — 253
+- Murielle Desrois (@murielle3) — 252
+- Andrew Parker (@parkera80) — 251
+- Javier Sánchez Álvarez (@javsagg34) — 250
+- Johannes S. (@jo-s) — 250
+- Oksana Sintia (@oksana_sintia) — 250
+- @chrisdt — 249
+- Hannes Dahm (@eyekosaeder) — 249
+- Maciej Boenisch (@maciej-boenisch) — 248
+- Philip Precey (@philip_precey) — 248
+- Edoardo Nardelli (@edonardo) — 247
+- @guywallbanks — 247
+- Letizia Weichgrebe (@letiziaw) — 246
+- Aurèle Baretje (@aureleb) — 244
+- Wolfgang Ahlmer (@wolfgang_ahlmer) — 244
+- Ronan Menauge (@ronanmenauge) — 243
+- Feo Marshmallow (@feo_marshmallow) — 242
+- Elena Obradović (@elenao1) — 241
+- Philip Schaffer (@philip_schaffer) — 240
+- Chris Taklis (@ctaklis) — 239
+- Malte Krömer (@malte_kroemer) — 239
+- Albert Rainbow (@phillip-a) — 239
+- Sandy Rae (@sandyrae) — 239
+- PLAT Vincent (@secteri) — 239
+- mark beaumont (@mark9999) — 238
+- Camilla Lund Kristensen (@axo01) — 237
+- Patrick Hacker (@pastabaum) — 237
+- @saydelah — 237
+- Aubin NORMAND (@aubindisdonc) — 236
+- Charlie Farrell (@charliefarrell2) — 236
+- @birdwoodquest — 233
+- Daniel Castanhal García (@daniel_castanhal) — 233
+- Adi Peter (@orcacroissant) — 230
+- Diego Rubolini (@diego_rubolini) — 229
+- Duarte Frade (@duarte) — 229
+- @mattnewnham — 229
+- Francesco Cecere (@francescocecere) — 228
+- Pavel Šmejkal (@pan_psax) — 228
+- Mykola Borysenko (@mykola_borysenko) — 227
+- Matthieu Le Goïc (@matthieu_le_goic) — 226
+- Mikko Heikkinen (@mikkohei13) — 226
+- Gino Brignoli (@ginobrignoli) — 225
+- Juan C. Espinosa (@juan_sphex) — 225
+- Olivier Morel (@olivier_morel) — 225
+- Attila Oláh (@attilaolah) — 224
+- @hhkaaks — 224
+- Rafael Carbonell Font (@rafael_carbonell) — 224
+- K.P. (@sarkany) — 224
+- Николай Соболев (@nikolay_sobolev) — 223
+- Elias Freyhof (@eliasfreyhof36614) — 222
+- Mathew Robinson (@twig777) — 222
+- Guillaume Hoffmann (@hiouf) — 221
+- @franciscodocampo — 219
+- Yannick Brenz (@pirminfly) — 219
+- Zoltán Stekkelpak (@stekkelpak) — 218
+- Sofia Voynovskaya (@v_sofishka) — 218
+- @ajott — 217
+- Asrın Akıncıoğlu (@asrinakincioglu) — 217
+- Josh Hedley (@joshh17) — 217
+- Karen Stevnbak Andersen (@karenstevnbak) — 217
+- Katherine King (@kiteheights) — 217
+- @bogsuckers — 216
+- Peter Eriksen (@petereriksen) — 216
+- Hybodus (@weckogecko) — 215
+- Magnus L. Johnson (@acanthephyra) — 214
+- Илья Руденко (@ilya_rudenko) — 214
+- Jakob Horz (@jahorz) — 214
+- Cenaida (@cenaida) — 213
+- Gabriele Pradelli (@gabriele_pradelli) — 213
+- Jack Sewell (@jackapod) — 213
+- @carabus123 — 212
+- Luca Fornasari (@fornaeffe) — 211
+- Line Juul Nielsen (@line114) — 211
+- Mike Kerry (@acclivity) — 210
+- Paulius Rupšas (@solokultas) — 210
+- Susan Marley (@susan_marley) — 210
+- @monkeyjodey — 208
+- Victoria J. Burton (@victoriajburton) — 208
+- Anthony McDonald (@eyorksmac) — 207
+- Francesco Santoro (@f_s) — 207
+- Matteo Bellucci (@matteobellu239) — 206
+- Paweł Sadkowski (@sadyfox) — 206
+- Thomas Barrès (@thomas_barres) — 206
+- Galyna Mykytynets (@galyna_mykytynets) — 205
+- @jn32 — 205
+- Edmundas Greimas (@grey_moss) — 204
+- Matthew Flood (@tsunami---) — 204
+- Charles Joynson (@cjoynson) — 202
+- @euqirneto — 202
+- Frank (@frank_hornig) — 202
+- Thomas Gyselinck (@thomas--) — 202
+- Boza48 (@boza49) — 201
+- Peter Reynolds (@peter_reynolds) — 201
+- Felix Früchtl (@ff24) — 200
+- Tim Johnson (@tim-johnson) — 200
+- Jorge Íñiguez (@georgeoide) — 199
+- Gergely Nigg (@naturebynigg) — 199
+- Сергей (@sergei26320) — 199
+- Andrea Gobetti (@andreagobetti) — 198
+- Skjold Søndergaard (@skjoldalsted) — 197
+- Leo Cantiran (@volpe31) — 197
+- Florent (@botaflo) — 196
+- @mister_bumble — 196
+- Thomas Galewski (@galewski) — 194
+- Lukas Zangl (@luksza) — 194
+- eloise kerroux (@elokrx) — 193
+- Matteo Martini (@evangmm) — 193
+- GRIMA Laurent (@lgrima) — 193
+- Mourad Harzallah (@mourad-harzallah) — 193
+- Sergey Khm (@dreadfull_me) — 192
+- @janek_s — 192
+- Marino Linić (@marinolinic) — 192
+- Sheelagh Halsey (@sahalsey) — 191
+- Evgenii Iaitskii (@beh01d) — 189
+- NENP_StBartsNewbury (@nenp_stbartsnewbury) — 189
+- Chris Gannaway (@chrisgannaway) — 188
+- Jess Green (@tabubua) — 188
+- Cyril Poissonnet (@cyrilpoissonnet) — 187
+- @kitbeard — 187
+- Quentin His (@quentin_his) — 187
+- Alexandr Stanislavschi (@stanislavschi_alexandr) — 186
+- Andreas Stiller (@astmuc) — 185
+- Daniel K (@silkseeker) — 185
+- Johan Kjær Prehn (@hanjohan) — 184
+- Quentin Benet-Cibois (@quentin_benet_cibois) — 184
+- Rainer Theuer (@insekteninsehnde) — 183
+- Karol Ox (@karolox) — 183
+- Pavel Smirnov (@psmirnov) — 183
+- Sami Törnblom (@torni77) — 183
+- Victor Heng (@victor0001) — 183
+- Darren Obbard (@darren_j_obbard) — 182
+- David Pereira (@davidclp) — 182
+- Eugene Popov (@epopov) — 182
+- @gab_1 — 182
+- Giselle Sterry (@giselle_s) — 182
+- @uxbridgebirder — 182
+- Werner Schuster (@werner_schuster) — 182
+- Floss Prior (@floosemoose) — 181
+- John Silloth (@jsilloth) — 181
+- Yvonne Engmann (@yvonne147) — 181
+- Evgenij Samarin (@evsam) — 180
+- Harald Schnöde (Schnde) (@fittinger) — 180
+- Gabriel Mayrhofer (@gabrielmayrhofer) — 180
+- Nico Hernandez (@nickmaz) — 180
+- Shane Austin (@sharkeee) — 180
+- Anne Heckmann (@annne29) — 179
+- Clare Edwards (@cled) — 179
+- Christian Ledergerber (@diverdin_ch) — 179
+- @ikelman — 179
+- Radu Teodoreanu (@ra_teo) — 179
+- Adam Golenia (@adam1544) — 178
+- Aleksandra Pogorzelska (@apogeum) — 178
+- Pavel Borodin (@pavel100) — 178
+- Hannes Oberreiter (@btree) — 177
+- Tracy Gould (@ladymoth) — 177
+- @olmagon — 177
+- Tammy (@tammy_winter) — 177
+- Ben Costamagna (@bencostamagna) — 175
+- Rob Drake (@bibblebug) — 175
+- Mike Bailey (@stenellafella) — 175
+- Teresa Prandi (@teresa649) — 175
+- @trufniets — 175
+- Bee Together (@bee-together) — 174
+- Julia Palmer (@jupal04) — 174
+- Liviu Chiriac (@liviu_c) — 173
+- @portioid — 173
+- Virn Stothers (@virn) — 173
+- @dachsise — 172
+- Frank Huysentruyt (@frankhuysentruyt) — 172
+- Konrad Kałużyński (@konrad_k) — 172
+- James Heal (@jameswfh) — 171
+- Simon Tonge (@simontonge) — 171
+- @abumadsen — 170
+- @bobhunter2 — 170
+- Dietmar K. L. Moser (@diet_mar) — 170
+- Rosie (@fungiary) — 170
+- Tim Parker (@n0xas) — 170
+- Bartosz Czołczyński (@bagli) — 169
+- @petitcrabe — 169
+- Annika Lindqvist (@annikaml) — 168
+- Jakub Šidlík (@antsczech) — 168
+- Petro Miroshnyk (@beren_ua) — 168
+- Cara Ennis (@cryptomarasmius) — 168
+- Diego Fontaneto (@diego_fontaneto) — 168
+- @zappapy — 168
+- @aga_l_ — 167
+- Jiri Klimes (@jiriklimes) — 167
+- Julius P (@juliusp) — 167
+- Phill Robinson (@phill-robinson) — 166
+- Amelie Keane (@ameliekeane) — 165
+- Andy Slater (@andyunderscore) — 165
+- Oleg Kosterin (@oleg_kosterin) — 165
+- Marek Hrušovský (@plm43) — 165
+- Sara Navarro (@saranavarro) — 165
+- Tony King (@tonyking) — 165
+- Hubert Sztyler (@chimpers) — 164
+- John Ashburner (@johnashburner) — 164
+- Dylan Findlay (@dylanfindlay1) — 163
+- Helen Kitson (@helen867) — 163
+- Mattis (@herbalert) — 163
+- Yann Kemper (@kemper) — 163
+- @le0p0ld_d — 163
+- Pedro Pires (@pedropires) — 163
+- Stanislav Murashkin (@stanislav_murashkin) — 162
+- Noa (@aminoa) — 161
+- Holly Hodges (@hh525) — 161
+- Kasper Malmberg (@kaspermalmberg) — 161
+- @mikami-kun — 161
+- Georg Haberfellner (@oe5gho) — 161
+- Oskar Liset Pryds Hansen (@oskarlphansen) — 161
+- @rmjb — 161
+- Roland Gromes (@rolandgromes) — 160
+- Oriol Sastre (@sastreo) — 160
+- Stuart Fraser (@stuartfraser) — 160
+- Claudio Sbaraglia (@claudiosbaraglia) — 159
+- Roy Lowry (@rkl) — 159
+- Cilla Moerman (@vleugel) — 159
+- Dorte Stokholm (@dortestokholm) — 158
+- Matej Otruba (@elbichito) — 158
+- Fabian Battiege (@faba84) — 158
+- @jhatfield — 158
+- Jose Castro (@jose_castro) — 158
+- Kate Treharne (@kate_treharne) — 158
+- Victoria Zorko (@ametasoma) — 157
+- Alexander Pohle (@cephalex) — 157
+- Andrey Sdobnikov (@andrey_sdobnikov) — 156
+- @closerlook — 156
+- Petr Kouba (@petrkouba1) — 156
+- Jan Puzio (@janpuzio) — 154
+- Михаил Малышев (@mikhail_87_) — 154
+- David Elrington (@delrington) — 153
+- Sarka Masova (@eeuforiee) — 153
+- @uusijani — 153
+- Julien Lepage (@julienlepage) — 152
+- Mikhail Nevsky (@nevski) — 152
+- @seakmus — 152
+- @bemma — 151
+- @kyselinasirova — 150
+- Michelle Stamp (@michelle_stamp) — 150
+- Buckelkopfcichlide (@buckelkopfcichlide) — 149
+- Istvan Sipos (@istvan1983) — 149
+- Viktor (@viktor-n) — 149
+- Carminda Santos (@cminda) — 148
+- Oscar Hazell (@hazello276) — 148
+- @nuujaka — 148
+- Felix Puff (@puffi_thebikingnaturalist) — 148
+- Lee (@ranger_lee) — 147
+- Clément Maouche (@clementm) — 146
+- Opal (@oqal) — 146
+- Paolo Giampaoletti (@paologiampaoletti) — 146
+- Isabella Paleari (@sadiesilver) — 146
+- KAnatoliy (@anatoliy7) — 145
+- Christian Pietzsch (@hedaja) — 145
+- @jamie-aa — 145
+- Morten Rosenvold Villadsen (@morten66) — 145
+- Jessica Alvey (@yonderly) — 145
+- @peresol — 144
+- Quentin Groom (@qgroom) — 144
+- Susan Murphy (@suemurphy) — 144
+- Daniel Cahen (@danielcahen) — 143
+- Ioannis Magouras (@ioannis_magouras) — 143
+- @nbasargin — 143
+- @robertrreed — 143
+- Roger Rittmaster (@rogerritt) — 143
+- Ludovic Trochadero (@lobelia_tupa) — 142
+- @pavlaki1968 — 142
+- Dan Wrench (@dantn) — 141
+- Iain Robson (@iain_robson) — 141
+- Jacqueline Jeanne (@jacqueline_jeanne) — 141
+- Марина Садыкова (@marina_sad) — 141
+- Alfie Felton (@jaiiiiiiii_) — 140
+- Wolfgang Thomas (@pysailor) — 140
+- Sébastien Storck (@sebastien237) — 140
+- Phil James (@wyvern63) — 140
+- Colin Wilson (@colinwilson1) — 139
+- Julian Prow (@julianprow) — 139
+- Andreas Taeger (@symphyta) — 139
+- Priya Sandhu (@priyastoric) — 138
+- Adam Leigh (@adam_leigh_) — 137
+- Benjamin Carbuccia (@bcarbuccia) — 137
+- Mette Vind (@mettevind) — 137
+- Susan Williams (@susaninxite) — 137
+- Максим Шумских (@tutormax) — 137
+- Andrea (@kampfmaus) — 136
+- Michiel de Groot (@michieldg) — 136
+- marius (@curia) — 135
+- Llydia (@darrkflower) — 135
+- Franck Cabot (@franck_cabot) — 135
+- Daniel Heras González (@danielherasgonzlez) — 134
+- Gonzalo Ganda Álvarez (@gonza_ganda) — 134
+- Павел Кунгуров (@pchelovek1205) — 134
+- Svend Hansen (@svendhansen) — 134
+- Alex Worsey (@aworsey) — 133
+- Guillaume Petit (@guillaume_petit) — 133
+- Jan Sheppard (@jansheppard) — 133
+- Paul Kirkland and Kay Taylor (@graja) — 132
+- Julian Oliver (@julianoliver) — 132
+- gene (@k_osaciec) — 132
+- Léo Souillard (@leosouillard) — 132
+- Ross Nairn (@ross_nairn) — 132
+- BJ Smit (@bjsmit) — 130
+- Jaro Guzinski (@jaro) — 130
+- Jono (@spint) — 130
+- Andy Workman (@andyworkman) — 128
+- Cheryl Stinchcomb (@cheryl394) — 128
+- Christian Oudot (@daxaber) — 128
+- Jenni Ly (@jenni_ly) — 128
+- Mario Garofano (@mario_x_garofano) — 128
+- Peter T. Rühr (@peter_t_ruehr) — 128
+- Jennifer Woollin (@woollin) — 128
+- Ina Siebert (@aimnair) — 127
+- Codrin Bucur (@codrin_bucur) — 127
+- Sylvain Gérard (@sylvaingerard) — 127
+- Юрий Данилевский (Yuriy Danilevsky) (@yuriydanilevsky) — 127
+- Ульяна Лалак (@a_ma_bird) — 126
+- Margherita Ferraiuolo (@margherita_bg) — 126
+- Wouter Koch (@wouterkoch) — 126
+- Aurelijus Narbutas (@aurelijusnarb) — 125
+- @gjecology — 125
+- @jonesor — 125
+- Maaike Verschueren (@maaike5) — 125
+- Robert Martin (@robertdmartin) — 125
+- Ole N. (@isearching) — 124
+- Patrick Delhalt (@patrick_d) — 124
+- Samuel Ramón Álvarez (@samuel14197) — 124
+- Sim Elliott (@sim_elliott) — 124
+- @etrusko25 — 123
+- @osianshirley — 123
+- Andrea Quadrio (@andreaq) — 122
+- Antoine Guiguet (@antoine_guiguet_) — 122
+- Athan (@athan40170) — 122
+- Maria G (@maria_2021) — 122
+- Vsevolod Rudyi (@ruseva) — 122
+- Svavar Martin Andreasen (@svavar) — 122
+- joy russell (@jumpforjoy) — 121
+- @olrett — 121
+- Danijel Ostović (@danijelostovi) — 119
+- poblado_verde_en_acción (@poblado_verde_en_accion) — 119
+- Daisy Cadet (@wildtigerdaisies) — 119
+- Borja Fierro (@borjitaaa) — 118
+- Brian Howitz (@brian_howitz) — 118
+- Daniel Ellehammer Larsen (@danielellehammerlarsen) — 118
+- Ewan Shilland (@eshilland) — 118
+- Lennart Hudel (@lennarthud) — 118
+- gdzietakpieknie (@moonhex) — 118
+- Jarro Nevsbaru (@jarronevsbaru) — 117
+- Thomas Dreux (@thomtom) — 117
+- Andrew Skotnicki (@andrew_skotnicki) — 116
+- @hugorainey — 116
+- Antti Latikka (@tuumailevi) — 116
+- @elodie8162 — 115
+- Richard Shillaker (@notonectaneta) — 115
+- @pearcefamily — 115
+- Arthur Gelling (@artgelling) — 114
+- @bitsnbirds — 114
+- @luckilucki — 114
+- Vasco Henrique Oliveira Fonseca (@vasco_fonseca) — 114
+- Валерия Ковалева (@valerkov) — 113
+- Wendy Herniman (@wendy_h) — 113
+- Bin Aden (@binaden) — 112
+- John Haddon (@john1133) — 112
+- T. Pedro Hafermann (@mangoblatt) — 112
+- Nikita Gerasin (@nikita_gerasin) — 112
+- Aaron Chidwick (@physcia_descendens) — 112
+- Anna C (@anna_c56) — 111
+- Axel Gudmundsson (@axel_gud) — 111
+- @frangp — 111
+- @frobert90 — 111
+- Gianni Del Bufalo bygdb (@gianni_del_bufalo) — 111
+- Ross Krisztina (@krisztina85) — 111
+- @tikitu — 111
+- Thomas (@amigolimax) — 110
+- Павлик Лисицын (@lisopavlik) — 110
+- Manuel Schwarz (@manschuwa) — 110
+- @nebrooks — 110
+- Sara Steeles-Yates (@saramountpleasantfarm) — 110
+- Eridan Xharahi (@eridanxharahi) — 109
+- Pieter Huybrechts (@pieterhuy) — 109
+- @ragged-robin — 109
+- rhiz (@rhizchimp) — 109
+- @anbalemans — 108
+- Carl Linnér (@cli) — 108
+- Jens Ullenius (@jensu) — 108
+- OlleHanna (@ollehanna) — 108
+- Rainer Breitling (@rainerbreitling) — 108
+- Steffen Burkhardt (@steffen_burkhardt) — 108
+- Arsen Vorobei (@vorobeivolynskii) — 108
+- Charlotte Kirchner (@charlottekirchner) — 107
+- Charles-Edouard Imbert (@che-1br) — 107
+- João Lima (@joaolemoslima) — 107
+- K.A.West (@kawest) — 107
+- Peter Preus (@ppinat) — 107
+- James Clow (@rangerclow) — 107
+- Ruben Ciantia (@rubenciantia) — 107
+- Y. Liu (@y_liu_math) — 107
+- Acrocephalus (@acroceph) — 106
+- Basile Petit (@basilepetit) — 106
+- Rex Leung (@casperrex) — 106
+- Sandra Cellina (@cecellina) — 106
+- Linda Lötjönen (@lindalotjonen) — 106
+- Marcello Manara (@marcellomanara) — 106
+- @oliverc29 — 106
+- @zebedeugalinha — 106
+- Daniel Macías Gómez (@danielmaciasgmez) — 105
+- Davide (@dedde) — 105
+- Jörg Spelda (@joerg1911) — 105
+- kate wakelam (@kwakey) — 105
+- @liam1294 — 105
+- W Rao (@sus_scrofa) — 105
+- Jeanne Robinson (@weebeastie75) — 105
+- Alexis Lours (@alexislours) — 104
+- B. Phalan (@deboas) — 104
+- Eden Davey (@eden_davey) — 104
+- Hanna Larsson (@hanna5) — 104
+- Ljaž (@ljazz) — 104
+- Maky.Orel (@maky-orel) — 104
+- Михайло Жук (@mykhas) — 104
+- Alexander Hodgson (@riotdiscovery) — 104
+- Balder Dyekjær (@balderdye) — 103
+- Stephen Lee (@slee106) — 103
+- Victor Brans (@vicbrans) — 103
+- Alexander Wieser (@alexanderwieser) — 102
+- krickard0505 (@arthrop0denthus1ast) — 102
+- Игорь Загребин (@igor322) — 102
+- Ondřej Křivan (@jokerrr83) — 102
+- @matthieu_trg — 102
+- Pietro Maiorana Montes (@pietromaiorana) — 102
+- Josip Skejo (@skejo) — 102
+- Zeke Marshall (@zekemarshall) — 102
+- Bernd De Bosscher (@biology_student_belgium) — 101
+- Scott Loarie (@loarie) — 101
+- Melissa McMasters (@mmcmasters) — 101
+- Blanchemain Joël (@joelb73) — 100
+- Marco Zaccaria Di Fraia (@marco_zaccaria) — 100
+- Andreas Schneider (@andreass1) — 99
+- Ben Deed (@ben_deed) — 99
+- Corinne Benavides (@corinne_benavides) — 99
+- Morgan Caygill (@eurasiankestrel) — 99
+- George Mitchell (@gmmacro) — 99
+- Morten Heegaard (@morten16807) — 99
+- Svyatoslav Knyazev (@sknyazev) — 99
+- Subir B. Shakya (@subirshakya) — 99
+- Xavier JAPIOT (@xavierjapiot) — 99
+- Naturalista (@avonensis) — 98
+- Branislav Tej (@branislavtej) — 98
+- Dimitri Brosens (@dimitribrosens) — 98
+- Julia Henning (@ningningning) — 98
+- @silk128 — 98
+- The Bevis Trust (@thebevistrust) — 98
+- Thomas M (@thomas_des_bois) — 98
+- Giuliano Parpaglioni (@giuliano652) — 97
+- Lorenzo Locati (@lorenzolocati) — 97
+- Mark (@mark-sundown) — 97
+- Dominic Best (@arthropodics) — 96
+- @dphone — 96
+- Rob Wallace (@rbwallace) — 96
+- Stephen Gasson (@stephen6309) — 96
+- @agosti — 95
+- Charlotte Forrest-King (@charl_forrest-king) — 95
+- Loïc Chalmandrier (@charmander88) — 95
+- Csaba Béla Eötvös (@csaba_eotvos) — 95
+- @davidfdz_b82 — 95
+- Elliot Greiner (@elliotgreiner) — 95
+- @jolamap — 95
+- Leon Haag-Fank (@lnlcflx) — 95
+- Nasser Halaweh (@nasserhalaweh) — 95
+- k (@passingthrough) — 95
+- Milan Pippert (@andosan) — 94
+- Denis Otkydach (@denis190) — 94
+- Jonáš Gaigr (@jonasgaigr) — 94
+- Анна Кириченко (@kirann) — 94
+- NMichałowska (@nmichalowska) — 94
+- Sean Frederick Tuck (@sean1000) — 94
+- Augustin Soulard (@augustinsoulard) — 93
+- Carlos Muñoz-Amezcua (@carlosmunozamezcua) — 93
+- Dave (@dave2022) — 93
+- Jana (@jana682) — 93
+- Johannes (@jobangles) — 93
+- Ron de Goede (@rdg0001) — 93
+- Robin Schmidt (@rob2chmidt) — 93
+- Debora Barbato (@deborabarbato) — 92
+- Pere Tubert Juhé (@drtubert) — 92
+- Elias (@elias105) — 92
+- @gwynmwilliams — 92
+- Bernhard Hildebrand (@hardy13) — 92
+- Owen (@owentat) — 92
+- Chris Ablett (@zoochris) — 92
+- Glossysun (Sunny Pearce) (@glossysun) — 91
+- @goldfjnch — 91
+- Ron Pasieczna (@rongoeswild) — 91
+- Tim (@twan3253) — 91
+- David Harbour (@david3613) — 90
+- Falk Zscheile (@falcius) — 90
+- @formicacid — 90
+- MartinHorák (@martin_naul) — 90
+- Philipp Hoenle (@myrmecophil) — 90
+- Sara Kande (@sarakande) — 90
+- Benjámin Gábor Balog (@benibalog) — 89
+- Rupert Lees (@cordycept) — 89
+- Felix Seebauer (@felix_s98) — 89
+- Nick Blewden (@nick88) — 89
+- D. Rafael S. Fernandes (@raf44) — 89
+- Munster Mad (@munstermad) — 88
+- Matthew Elmes (@pollenizematt) — 88
+- Robin Fokker (@robinfokker) — 88
+- Scheufler Stefan (@schtefan) — 88
+- @tetyanakuchma — 88
+- Claus Lund (@cblund) — 87
+- Geoff Morgan (@geoffmorgan) — 87
+- Lera Miles (@lera) — 87
+- Luke (@lukeisafungi) — 87
+- @michael_martinez64 — 87
+- Teemu Helonheimo (@teemuh) — 87
+- Adrien Jailloux (@adrien_jailloux) — 86
+- Michael Berardozzi (@berardom) — 86
+- B Pulman005 (@bleddynp) — 86
+- Eleftherios Katsillis (@eleftherioskats) — 86
+- Gijs Romijn (@gijsroaming) — 86
+- Lucie Partout (@luuuuuuu_partout) — 86
+- @natomik — 86
+- Марина Давлетшина (@naturalist57011) — 86
+- David Paterson (@david_paterson) — 85
+- Paweł Ryszawa (@enzikpl) — 85
+- Michael Haag (@michaelhaag) — 85
+- Teemu Väisänen (@teemuvai) — 85
+- Andreas Eriksson (@andreaseriksson) — 84
+- Anita Engler (@anita712) — 84
+- Antoun ARMALÉ (@antoun) — 84
+- @captainclover — 84
+- Haltiamieli (@haltiamieli) — 84
+- Héléna Pinto-Barraud (@lna_od) — 84
+- Morten Riser Myrvig (@mortenriser) — 84
+- Daniel Seth Jackson (@stonescottages) — 84
+- Martin Kalfatovic (@udcmrk) — 84
+- Anton Popovich (@antonpopovich) — 83
+- David Balaban (@davidbalaban) — 83
+- Diego Rodríguez Hernández (@diegorh) — 83
+- Jamie Kingscott (@jamiekingscott) — 83
+- Jochen Essig (@jochenessig) — 83
+- Kenneth Woodcock (@kennethwoodcock) — 83
+- @andygpos — 82
+- Edoardo Razzetti (@edorazzetti) — 82
+- Kristina Кochariantc (@kristina_k) — 82
+- Larissa Schatz (@lissa_s) — 82
+- Lukas Large (@lukas_l) — 82
+- Miriam Sokhet (@miriam297) — 82
+- Petra Caltová (@petra_cze) — 82
+- Anastasia_Surkova (@anastasia_surkova) — 81
+- Elia Lo Parrino (@elia35) — 81
+- Iida Österman (@iida_osterman) — 81
+- Dmitry Ivanov (@ivanovdg19) — 81
+- Jenn Wren (@jennwren) — 81
+- @jonno_99 — 81
+- Martin Wood-Weatherill (@martinww) — 81
+- Philipp (@phiro) — 81
+- Sam Bellamy (@samwbellamy) — 81
+- Timéo Gosciniak (@timeo75008) — 81
+- Benjamin Flatt (@benjamin_flatt) — 80
+- Dave Bond (@bondie8) — 80
+- Dennis Chanter (@dennis-chanter) — 80
+- Gabriel Dixon (@dixgab) — 80
+- Gerard van der elst (@gerard29042) — 80
+- Konrad J. Hammerl (@konsch9) — 80
+- Leonardo Antonio Argese (@leonardo_antonio) — 80
+- Linda Birkin (@linda_birkin) — 80
+- Patrascu Lucian-Marius (@plucian) — 80
+- Luca Valente (@rangerluke) — 80
+- Steve Lawson (@sjlawson67) — 80
+- Tim Leilich (@toemmoe) — 80
+- Виктор (@zviruha) — 80
+- Hélio Suarez (@helsu) — 79
+- Sag Ich Nicht (@sag_ich_nicht) — 79
+- Claverie (@dynalok) — 78
+- @helrob — 78
+- John Witton (@johnwitton) — 78
+- Marianna Boi (@mariannaboi) — 78
+- Free Palestine (@mipsiemarshall) — 78
+- Nicolas Noé (@niconoe) — 78
+- @richyfourtytwo — 78
+- @rowan_m — 78
+- @thespiderfairy — 78
+- @bitsandbugs — 77
+- Uliana Bogatyreva (@bogylia) — 77
+- Daniel Greenwood (@djgwild) — 77
+- Victor (@vcmmm) — 77
+- Aleksi Lehikoinen (@aleksilehikoinen) — 76
+- @ntalderleyedge — 76
+- Oisín (@oisin_dd) — 76
+- @pete_gateley — 76
+- @petehawkins — 76
+- Pia Stermann (@pia_stermann) — 76
+- Tom Marczincik (@tomm2000) — 76
+- Wouter Van Landuyt (@woutervanlanduyt) — 76
+- Ben Jobson (@benjobson) — 75
+- Jose Gutierrez Higa (@josehigas) — 75
+- Amalia Herrera Grau (@liahg) — 75
+- Luca Gregnanin (@lucagregnanin) — 75
+- Theresa Casey (@theresa183) — 75
+- Andreas Soehlke (@asoehlke) — 74
+- @castieler — 74
+- Christian Berg (@ch_berg) — 74
+- Stefan Haag (@elebew) — 74
+- Giacomo Navari (@giacomonavari) — 74
+- Jan Herr (@janherr) — 74
+- Muriel Chabot (@muriell) — 74
+- Natasha March (@natashamarch) — 74
+- Rolf A. Engelmann (@rolf_l) — 74
+- Charly Jestin-Bellanger (@topopa) — 74
+- Carl von Blixen (@carlvonblixen) — 73
+- @eth — 73
+- S.R. (@grysumi) — 73
+- Martin Genner (@martin_genner) — 73
+- Mikael Nyman (@mikaelnyman) — 73
+- Miha Jurić (@miki421) — 73
+- @paulchallinor — 73
+- @plant512 — 73
+- Sandra Stewart (@sandrastewart) — 73
+- Jeff Jones (@batchwoodjeff) — 72
+- Donatas Pocius (@donatas27464) — 72
+- Eli (@elimadmartigan) — 72
+- Tomáš Hruzek (@hruzek) — 72
+- Michael Hansen (@meuchael) — 72
+- @rainerburkard — 72
+- Joe Carmichael (@regexj) — 72
+- Tristo (@tristo) — 72
+- Vanessa Bremerich (@vinca_b) — 72
+- Гущина Ангелина Викторовна (@gushchina_angelina) — 71
+- @karliatje — 71
+- Kock, Milan (@kock-milan) — 71
+- Andreas Schütz (@mahatma_andi) — 71
+- @mth_naturalist — 71
+- Sean B (@sab3600) — 71
+- Saskia (@saskiachu) — 71
+- Katja Schulz (@treegrow) — 71
+- @filvad — 70
+- Helen Kollai (@helenkollai) — 70
+- Nikita Vasiliuk (@nikvas) — 70
+- Roland Ramsdale (@rolandramsdale) — 70
+- @threeseven — 70
+- Cristian (@crisgb) — 69
+- David Boso (@david_boso) — 69
+- @desertnaturalist — 69
+- Samuele (@grodbert) — 69
+- Katerina Kalogerini (@katerinakalogerini) — 69
+- kis (@kislund) — 69
+- Lene Hejlskov (@lene231) — 69
+- Luke Lythgoe (@lukelythgoe) — 69
+- Maksymilian Bobko (@maximco) — 69
+- Татьяна Максимова (@naturalist25051) — 69
+- Nick Kleinschmidt (@nick2524) — 69
+- @ponpon42 — 69
+- Christine Rampon (@christine1104) — 68
+- Claude Pepin (@cpepin) — 68
+- Golfopolikayak (@golfopolikayakl) — 68
+- Hugo Caillon (@hugoclln) — 68
+- Kazimieras Martinaitis (@kazimierasmartinaitis) — 68
+- M Funnell (@mef) — 68
+- Mehdi Chetibi (@mehdichetibi) — 68
+- Neil Clark (@neil173) — 68
+- Георгий Виноградов (Georgy Vinogradov) (@prokhozhyj) — 68
+- Pyry Liedes (@pypppe) — 68
+- Sabarni Sarker (@sabarnisarker) — 68
+- Thomas Brel (@thomasbrel) — 68
+- Екатерина Войнова (@ekaterinavoinova) — 67
+- Ged Tranter (@gedtranter) — 67
+- Andrew Cunnington (@happybird44) — 67
+- Jennie Smith (@jennielonglegs) — 67
+- Екатерина Гущина (@katto4ka) — 67
+- Darío Calvente Viera (@koprolito) — 67
+- Olmes W (@olmesw) — 67
+- Peter Andersen (@peterandersen) — 67
+- Saskia Kollegger (@saskia64) — 67
+- TOUROULT Julien (@touroult) — 67
+- Antonina (@wildorchidsnearme) — 67
+- Ліза Малюк (@ye_maliuk) — 67
+- Antony Coombs (@antony_coombs) — 66
+- Alex Ashworth-Smith (@ashwo99) — 66
+- @dhfischer — 66
+- Ian Wright (@finwright) — 66
+- John Kenrick Gibson (@johngibson139) — 66
+- Alain Le Magueresse (@lann_foto) — 66
+- César Alonso (@maurosaur) — 66
+- Maxim Shashkov (@max_carabus) — 66
+- Evelyn Gussmann (@naturnahe_hecke) — 66
+- Trees for Bermondsey (@treesforbermondsey) — 66
+- @vetch10 — 66
+- F. Bemmerlein-Lux (@ablfabl) — 65
+- Arthur Pearson (@arthurpearson24) — 65
+- Cyril Buslaitue (@cyril10) — 65
+- Duncan Brooks (@duncan-brooks) — 65
+- JS (@hamahakintoukka) — 65
+- @john__b — 65
+- Jonas Kraft (@jonas_kraft) — 65
+- Tim Eberling (@timeberling) — 65
+- David Sankey (@timerobot) — 65
+- Алексей Ябс (@alexey_yabs) — 64
+- Daniel Onneweer (@daniel_onneweer) — 64
+- Dmitry Kulakov (@dmitry_kulakov) — 64
+- Andrew Hanby (@hanby) — 64
+- Hanka Sokolová (@hanka_sokolova) — 64
+- @jlaus — 64
+- @kitkat22 — 64
+- Karen Fry (@melica) — 64
+- Дима Орлов (@microvipera) — 64
+- Malcolm Gould (@mrg-gb) — 64
+- Nadezhda Kiseleva (@nk2305) — 64
+- Анастасия Апушкина (@racoon_4852) — 64
+- Sylvain (@sylvainmah) — 64
+- Valentin Moreau (@valentin202) — 64
+- Vasileia Sef (@vasileiasef) — 64
+- Antoine MARNAT (@antoine_m) — 63
+- Mark Wilkinson (@badgerseye) — 63
+- @bristolian — 63
+- Graziella Soulsbury (@graziellasoulsbury) — 63
+- Irina Parsons (@irina_parsons) — 63
+- Jakob Brejcha (@jakobbrejcha) — 63
+- @janewilcock — 63
+- @jlsnaddon — 63
+- Juan Rodríguez (@jrp01) — 63
+- Kristof Zyskowski (@kristofz) — 63
+- Liam Maguire (@lm77) — 63
+- Robyn (@nature_chick) — 63
+- Alex Sosnovshchenko (@alex_sosn) — 62
+- @andrewfetherston — 62
+- Daniel Benák (@benake) — 62
+- Colin Legg (@cjlegg) — 62
+- Eddie (@discovering-wildlife) — 62
+- Jesse Rorabaugh (@glmory) — 62
+- Iona Cowell (@ionajcc) — 62
+- Jannik Stokholm (@jannikstokholm) — 62
+- Johannes Schlagbauer (@johannes_s) — 62
+- Sam (@samdeakin) — 62
+- vicki hird (@vicki306) — 62
+- David Ashcroft (@wolveswild) — 62
+- Andrew Melton (@andrewmelton) — 61
+- Bastien Alegot (@bastienalegot) — 61
+- Darío Estraviz López (@darioestravizlopez) — 61
+- Jack Alcorn (@jalcorn536) — 61
+- Martin M (@martin1778) — 61
+- Melanie Stanton (@melanie52122) — 61
+- Michal Maňas (@michalmanas) — 61
+- Matt Pelikan (@mpelikan) — 61
+- Dario Taraborelli (@radrat) — 61
+- Hanni Hanni (@sirhanni) — 61
+- Avery (@unseelie) — 61
+- @davidhanks — 60
+- Елена Смирнова (@elenasmirnova) — 60
+- Felicia Seichter (@fseichter) — 60
+- @lalaia — 60
+- Luis M. Muñoz (@luimter) — 60
+- Andrii Khokhlov (@andriikh) — 59
+- @barba_stella — 59
+- Bruno Peixoto (@brunopy) — 59
+- Emily Lowe (@emilylowe) — 59
+- Ewa Olchanowska (@eoleol) — 59
+- Garry Nobbs (@garrynobbs) — 59
+- Caroline Quinn (@luo_qing) — 59
+- Марго (@margareito) — 59
+- Pedro Eça (@pedro_eca) — 59
+- Pennyinsole (@pennyinsole) — 59
+- Shawn O'Donnell (@shawnodonnell) — 59
+- Lutra lutra (@sudenkorentoko) — 59
+- Zoltán Nagy (@veszt) — 59
+- Andra Waagmeester (@andrawaag) — 58
+- charlie chaviano (@danivlost) — 58
+- Harrison J Elkins (@elkins456) — 58
+- Evan Williams (@evman5) — 58
+- MATVEY KALACHEV (@grossu_m) — 58
+- Jonathan Hughes (@jonnyecology) — 58
+- @kvetoslav_vychuchol — 58
+- Leonardo Rapisarda (@nardognolo) — 58
+- Noé Fleury Frouart (@noefleufrou) — 58
+- Slaven Kljucanin (@slaven_kljucanin) — 58
+- Julia (@snowwhite98) — 58
+- TheBeatWalker (@thebeatwalker) — 58
+- Acer (@anurabc) — 57
+- Armin G. Fabritzek (@arminf82) — 57
+- @delilah88 — 57
+- Gunner Kjerulf Poulsen (@gunnerpoulsen) — 57
+- Iona M. (@ionam) — 57
+- James Berriman (@jrberriman) — 57
+- Matthew Morgan (@mcmorgan06) — 57
+- Thomas Ebner (@mondseeirrsee) — 57
+- Paulo Galvão (@paulogalvao) — 57
+- Sean Crocker (@scro11ing) — 57
+- Valerii Darmostuk (@valeriidarmostuk) — 57
+- Vojta Hybl (@vojtahybl) — 57
+- Fernando Sessegolo (@fmiudo) — 56
+- Louis Imbeau (@imbeaul) — 56
+- Mark Breaks (@markbreaks) — 56
+- Barney M (@ngq15) — 56
+- @odole — 56
+- @popcappi — 56
+- @raw_no — 56
+- ROMAGNOLO Filippo (@romagnolofilippo) — 56
+- Martyna Burda (Shad) (@shadziulec) — 56
+- Andreas Rimoldi (@andreas46) — 55
+- Arne Holgersson (@arneholgersson) — 55
+- Jane Concannon (@concannonjm) — 55
+- Dmitry Semigradsky (@dmitry_semigradsky) — 55
+- Fabrizio Benedetti (@fabrizio47) — 55
+- Michael Pongratz (@falcontierra) — 55
+- Jake Dalzell (@jakedalzell) — 55
+- Nina Mäki-Kihniä (@nina9876) — 55
+- Rui Macário Ribeiro (@rmribeiro) — 55
+- Sébastien Dohin (@sbastiendohin) — 55
+- Wouter Beukema (@wouterbeukema) — 55
+- Aleksei Baushev (@aleksey_baushev) — 54
+- Allud (@allud) — 54
+- Amir (@amir_b) — 54
+- ☆.:°*angel*°:.☆ (@astroprincet) — 54
+- @avocat — 54
+- Collège Berthelot (@college_berthelot) — 54
+- Flora_DUMO (@flora_dumo) — 54
+- Floris Vanderhaeghe (@florisvdh) — 54
+- @ivan_humljani — 54
+- @lillasorgmantel — 54
+- Nigel Bentley (@oakleafe) — 54
+- Pasquale Spedaliere (@pasquale29) — 54
+- Pavlo Kretov (@pavel_radwill) — 54
+- @regalis — 54
+- @timharris — 54
+- Aaron Wallace (@aaronwallace) — 53
+- @ju_stine — 53
+- Justine (@jusdewilde) — 53
+- Lisa Bennington (@lisabennington) — 53
+- Lucas Fleury (@lucas_f) — 53
+- Daniel Ghyselinck (@mycobel) — 53
+- Petri Rintala (@petririntala1) — 53
+- Rebekah Bajkó (@rebekahbajko) — 53
+- WATANABE Hitoshi 渡辺仁 (@tbc_watanabe) — 53
+- Valentin R. (@valentinr1) — 53
+- @yellowplant — 53
+- Beth (@beth984) — 52
+- Daniel Chapman (@dan_chapman) — 52
+- Wolfgang Jauch (@epsilon) — 52
+- Дмитрий Еременко (@eremenko2142) — 52
+- Guy Durand (@genrge) — 52
+- Σταυρούλα Χρήστος (@geoexplorers) — 52
+- Justin Philbois (@jujuwild) — 52
+- Ly207 (@ly207) — 52
+- toby (@mothyogurt) — 52
+- Steve Milsom (@piestuff) — 52
+- Sivi Sivanesan (@sivi12) — 52
+- Christine (@tadpole1tail) — 52
+- @testzzz — 52
+- Anne Taylor (@at54) — 51
+- Giuliano (@fakko) — 51
+- Franco Folini (@folini) — 51
+- milan kořínek (@milan195) — 51
+- Owen and Carol Fawcett. (@ohwhen) — 51
+- @przese — 51
+- Sofia Palini (@sofia044) — 51
+- Vladimír Fuka (@vladimir_fuka) — 51
+- Adam Juźwiak (@adam_juzwiak) — 50
+- Ben Thomas (@bentho) — 50
+- Cristina Hutchison (@cristina_h28) — 50
+- Daniele Giugia (@danielegiugia) — 50
+- Jean-Luc Ferrière (@gomphide) — 50
+- Hana Váchová (@hana31) — 50
+- Joeb (@joebrogers) — 50
+- @mantis777 — 50
+- Mario Zuti (@mario81140) — 50
+- Michael Andresek (@michael_baden) — 50
+- Ricardo Lima (@ricardofdelima) — 50
+- Samuel P.C. (@samuelpc) — 50
+- @sharoncooper — 50
+- Zachary Dankowicz (@zdanko) — 50
+- Axelle D (@axelled07) — 49
+- Bartosz Sarnowski (@bartoszs) — 49
+- Cristina Olivares Collado (@cristina_oc) — 49
+- @hanachyt — 49
+- Kacper Bartosz Bielecki (@kbbielecki) — 49
+- @khopkins63 — 49
+- Magdalena Cielniak (@magdac) — 49
+- Marianne Hoffmann (@manniho) — 49
+- Vicente Lopes (@vicentelopes) — 49
+- Thomas Wulfrank (@worldwidewulf) — 49
+- @cricocosmia — 48
+- Florencia Grattarola (@flo_grattarola) — 48
+- @hansi_27p — 48
+- SIA (@igor_sikorskiy) — 48
+- @iwonaadamska — 48
+- Kathryn J. Fegan (@kathrynfegan) — 48
+- Lesley Marrion-Cole (@lesleymarr) — 48
+- matteo cicciu (@matteocicciu21) — 48
+- Umut Nuri Erdoğan (@meaglinumut) — 48
+- Niko Ioannidis (@niko_ioannidis) — 48
+- Pierre Chevillard (@pierre_chevillard_) — 48
+- Rafe C Roughton (@raferoughton) — 48
+- Raffaele Maiorano (@raffaele48) — 48
+- 2018-2026 SgobboVista. Inh.: Larissa und Sonja Sgobbo (@sgobbovista) — 48
+- Virgil Collomb (@virgil8504) — 48
+- Yehor Yatsiuk (@yehoryatsiuk) — 48
+- Marcin Zuwała (@zuwalamarcin921) — 48
+- Aaron Iemma (@aaroniemma) — 47
+- Arctic (@arcticwanderer) — 47
+- Chris Procter (@chrisprocter) — 47
+- Conrad Altmann (@conradaltmann) — 47
+- Irene Saltini (@lvdt) — 47
+- @nicoweg — 47
+- Rosie Bibby (@rosiebibby) — 47
+- SkippingShoe (@skipshoemaker) — 47
+- Svitlana Kyiak (@svitlana-kyiak) — 47
+- @tomas_kay — 47
+- Viunnyk Vitalii (@viunnyk_vitalii) — 47
+- Alejandro Rodríguez Zapata (@alejanroza) — 46
+- Andrew Bazdyrev (@andrewbazdyrev) — 46
+- Alison Playle (@aplayle) — 46
+- Богдан Кученко (@bohdan_kuchenko) — 46
+- Bramble Redwood (@brambleflower) — 46
+- @debbielouiseb — 46
+- Katharina Pi (@katpi) — 46
+- Lauren Ware (@laurenware) — 46
+- @lvicatko — 46
+- Mathijs (@mathijsnatuur) — 46
+- Nuno Fialho (@nunofialho) — 46
+- Olly Morgan (@olly_morgan) — 46
+- @pennyarichards — 46
+- Vincent Oostelbos (@phagocytosis) — 46
+- Rachel Webster (@rachel467) — 46
+- John Forrester (@rheged) — 46
+- Sarah C. (@sarah-cz) — 46
+- Stu Wills (@stuwills) — 46
+- @sugarsnapdragon — 46
+- Péter Gábor Sulyán (@sulyanpg) — 46
+- Alec McClay (@alec_mcclay) — 45
+- Anna_Kosheleva03 (@annakosheleva03) — 45
+- Dario R. - inaturalist.org/people/5518988 (@darior) — 45
+- Denys Vynokurov (@denysvynokurov) — 45
+- Derrin McGowan (@derrin3) — 45
+- Dmitry Petrov (@dmitrypetrov) — 45
+- Evgeniy Meyke (@emeyke) — 45
+- Fabian Sauter (@fabian_sauter) — 45
+- Jason Berger (@jason_berger) — 45
+- KAR (@kar71) — 45
+- Noah Patrick Hearne (@knoahtall) — 45
+- Nikita (@maizy_ru) — 45
+- ManOnEarth (@manonearth) — 45
+- Marie-Louise Besenius (@marielouise2) — 45
+- Oliver Hlasný (@oliver_hlasny) — 45
+- Pennie Hedge (@pennieh) — 45
+- Riccardo Riva (@richiriva) — 45
+- Tracy PW (@teepip) — 45
+- Carsten (@theonlytruth) — 45
+- Sami Mason ~TheWildFamily.UK (@thewildfamilyuk) — 45
+- Thierry Helminger (@thierryh) — 45
+- Meister Bichler (@waldmeister1) — 45
+- Aalbert Rebergen (@aalbertrebergen) — 44
+- Анастасия Шавкина (@centaurea_c) — 44
+- Elvira de Lange (@elviradelange) — 44
+- Tomáš Fuksi (@geoltofu) — 44
+- Iryna Mosiiash (@iryna_m) — 44
+- Lisa Bennett (@lisa_bennett) — 44
+- Santiago Martín-Bravo (@martin-bravo) — 44
+- martin ingemansson (@martin_ingemansson) — 44
+- Jonathan Prior (@p_r_i_o_r) — 44
+- Peter Beresford (@peter32751) — 44
+- @robinwhistles — 44
+- @thulahn — 44
+- Timotej Velkov (@timotej2) — 44
+- Ralf (@ahorn_) — 43
+- @allan5519 — 43
+- AnimalObserverDeniz321 (@animalobserverdeniz321) — 43
+- Daniel Mietchen (@danielmietchen) — 43
+- devilers pauline (@devilers) — 43
+- @elinorn — 43
+- Cheongweei Gan (@gancw1) — 43
+- @hadynrmurray — 43
+- Helen Bovill (@helenbhull) — 43
+- Magdalena Ginko (@magdalena_ginko) — 43
+- Jens (@mantishead) — 43
+- Olena V. Vakarenko (@olenavakarenko) — 43
+- Tim Worwood (@toad64) — 43
+- Yennenga (@yennenga) — 43
+- Žan Rode (@zanrode) — 43
+- Adam Górski (@adam1009) — 42
+- Альбина (@albina32) — 42
+- Alison Westwood (@alisonwestwood) — 42
+- Bob Beaman (@bobbeaman) — 42
+- Davio (@davito82) — 42
+- David Lazarus (@dlazarus1) — 42
+- Don Loarie (@dloarie) — 42
+- Дмитрий Дунин (@dmitrydunin369) — 42
+- EN57 (@en57) — 42
+- Наталья Пикалова (@flora_krd_natali) — 42
+- FloraJenensis (@florajenensis) — 42
+- Andy Leigh (@goatsbeard) — 42
+- Terry Instone (@instonet) — 42
+- Jens-Christian Svenning (@jcsvenning) — 42
+- @jilllb — 42
+- @lmw579 — 42
+- @michaelzabransky — 42
+- Philippe Hornus (@philippe_34730) — 42
+- @tracks73 — 42
+- Artem Abdukakharov (@artem_abdukakharov) — 41
+- @arthur_haendler — 41
+- Arthur Grosset (@arthurgrossethome) — 41
+- Benjamin Burgunder (@benjamin189) — 41
+- Bob (@bobglen) — 41
+- @dennisvo — 41
+- Egor Filippov (@egor_filippov) — 41
+- Anastasiia Samokhvalova (@eoperipatustotoro) — 41
+- Carlos Otávio Gussoni (@gussoni) — 41
+- Viktor Underwood (@mrveektoor) — 41
+- @pauljjbaker — 41
+- Piotr Panek (@piotr3) — 41
+- Peter Crowcroft (@possumpete) — 41
+- Tiago Peregrina (@tiago_peregrina) — 41
+- Vlk Orlický (@vlkorlicky) — 41
+- @wobegoneid6 — 41
+- Ярослав Еремин (@yaroslaveremin) — 41
+- John Proctor (@zabdiel) — 41
+- A Hill (@a-hill) — 40
+- Adam Mark Lucas-Krol (@adam133) — 40
+- Alan Young (@alanjohnyoung) — 40
+- Alessandro Nebbia (@alessandro20021) — 40
+- @flower3579 — 40
+- @glomik — 40
+- @helen_golubeva — 40
+- Matteo Alvise Fusaro (@matteo_alvise) — 40
+- Annette Peters (@nettilie) — 40
+- Nadja Berglund (@niob) — 40
+- @oenwenreindeer3 — 40
+- Peter Archdale (@pma) — 40
+- Robin GiGi (@robin880) — 40
+- Sigitas Juzėnas (@siju) — 40
+- Albert Surmacz (@albert_surmacz) — 39
+- Andrea Adelfio (@andreaadelfio) — 39
+- Антон Кузьмицкий (@anton_kuzmitski) — 39
+- Анна Анисимова (@anyuta) — 39
+- Axel Amendolara (@axel_a) — 39
+- Daniel Bulnes Roldán (@daniel_bulnes) — 39
+- Imogen Cavadino (@imogen1) — 39
+- Filip (@justfifan) — 39
+- Kenny (@ksgibraltar) — 39
+- Mark Calway (@mark50781) — 39
+- Matt Muir (@muir) — 39
+- Nathan Mesnildrey (@nathanmes) — 39
+- Emily Nyenyedzi Davies (@nyenyedzi) — 39
+- Ian Andrews (@ophrys) — 39
+- Rasmus Brønnum (@rasbrn) — 39
+- Tone Killick (@turnfear2fascination) — 39
+- Stefan Wolmarans (@wolmars) — 39
+- Alex Stach (@alexstach) — 38
+- Andy Cockett (@andy101063) — 38
+- @aroche — 38
+- Bernard DUPONT (@berniedup) — 38
+- Daniel Das (@danieldas) — 38
+- Daniel Hayhow (@danielhayhow) — 38
+- Erika M (@erika89476) — 38
+- Justin Cormack (@justincormack) — 38
+- Daria (@kotia) — 38
+- Kryštof Boura (@krystof_boura) — 38
+- @linum_voluntamagnum — 38
+- Pribylova Maria (@maria_pribylova) — 38
+- Mark O'Brien (@obinfiji) — 38
+- Clara Veiga-Rilo (@ovosapiens) — 38
+- Roberto Cirio (@roberto1245) — 38
+- @ruthlawren — 38
+- Steve Baines (@steveb3000) — 38
+- @suttonranger — 38
+- @attercopus — 37
+- Barbara Terhal (@barbaraterhal) — 37
+- Teo Albert (@buganvilla_) — 37
+- Denis Ibaev (@dionys) — 37
+- Eva Uzdilova (@eva_uzdilova) — 37
+- GrahamC57 (@grahamc57) — 37
+- James Cunningham (@james__c) — 37
+- @jcp32 — 37
+- @jontyp — 37
+- @jpuf — 37
+- Katie Harrison (@katie931) — 37
+- Martin Jung (@martinjung) — 37
+- Анна Рыбакова (@naturalist39336) — 37
+- Nikos (@nikosgoul) — 37
+- Oliver Power (@oliverp_05) — 37
+- ReWild Your School (@rawdon) — 37
+- Rachel Godfrey (@rmgodfrey) — 37
+- Simon Gould (@simon37928) — 37
+- Влад (@vlad_lysenko) — 37
+- Yann Geshors (@yanngeshors) — 37
+- Yokki (@yokkidack) — 37
+- Aitor Labandibar (@aitor32) — 36
+- Angelika Baumann (@angelikaz) — 36
+- Antonin Gaillard (@antoningaillard) — 36
+- Arthur Rowan M. (@arthurscreatures) — 36
+- Barbara Kay (@barkay99) — 36
+- Clare M Clark (@clare577) — 36
+- @claudeheidt — 36
+- Marco Lipka (@dunorbodu) — 36
+- @fmunoz — 36
+- Joe crutwell (@joe1422) — 36
+- John Hepburn (@john_hepburn) — 36
+- James Kindt (@jtkindt) — 36
+- @judybaxter — 36
+- Katharine Khamhaengwong (@katharinegk) — 36
+- Claire T. (@kvitravn) — 36
+- Mateusz Bronikowski (@mbronikowski) — 36
+- Isabelle Hurdle (@mysteriouspotoo) — 36
+- Mélina Noël (@nilem_the_witch) — 36
+- @otomops — 36
+- Paul Bernstorff Ehrman (@paul2910) — 36
+- @pmgaspar — 36
+- Radosław Puchałka (@radoslawpuchalka) — 36
+- Rui Ribeiro (@ruir1963) — 36
+- SamKelly (@samkelly) — 36
+- @sandravanaalst — 36
+- Sara Michieli (@sara_michieli) — 36
+- Светлана Царахова (@svetlanarussia) — 36
+- Вера (@valiast28527) — 36
+- Cain Scrimgeour (@wildintrigue) — 36
+- Bethany Milam (@bessiebo) — 35
+- Nik (@canis_lagopus) — 35
+- Ciprian Samoilă (@cipriansamoila) — 35
+- Daniel Tomas-López (@danitl) — 35
+- @dschigel — 35
+- Edward Hearn (@ehtees) — 35
+- Sophie Hale (@fastfurious1990) — 35
+- Felix Meyer (@felixmeyer_bfw) — 35
+- Jarmo Tahvanainen (@jarmotapani) — 35
+- Jonathan Lloyd (@jslloyd54) — 35
+- Lucy Constance Reeves (@lucyconstance) — 35
+- @lukeromaine — 35
+- Michael Taylor (@michael_s_taylor) — 35
+- Mihajlo Tomić (@mihajlo2) — 35
+- Vinicius S. Ferreira (@neolycus) — 35
+- @nikibifrost — 35
+- Sarah Faulwetter (@sarahfaulwetter) — 35
+- @sp_rocket — 35
+- Steen O Larsen (@steen_o) — 35
+- Todd Boland (@todd_boland) — 35
+- Tommy Sandri (@tommysandri) — 35
+- @tonyt-op — 35
+- @waynerj72 — 35
+- Ben Mitchell (@wildeep) — 35
+- Andy Jordan (@andyjordan) — 34
+- Элеонора Анатольевна (@belllinova) — 34
+- Christina s.l. (@christinasensulatu) — 34
+- Daniel Buczkiewicz (@daniel_buczkiewicz) — 34
+- Jere Kahanpää (@dipterajere) — 34
+- Eilidh Thompson (@eilidh_t) — 34
+- Ethan IMBERT (@ethan_imbert) — 34
+- Catherine Faber (@fabca121) — 34
+- Gerry van Tonder (@gerryvantonder) — 34
+- @ktslash — 34
+- Milly Rudling (@millyrudling) — 34
+- sergleb (@naturalist33665) — 34
+- Nefol (@nefol) — 34
+- Nelya Garaeva (@nelya_garaeva) — 34
+- Nicola Carter (@nicolajcarter) — 34
+- @pollenizeowen — 34
+- Possums' End (@possumsend) — 34
+- Rob Pople (@rob_pople) — 34
+- @rory_middleton — 34
+- @smilliejohn — 34
+- James Hardcastle (@surfbirder) — 34
+- Théo Porcheron-Georget (@theodonom) — 34
+- Theo Rickert (@theorickert) — 34
+- Uffe Harboe Nygaard (@uffenygaard) — 34
+- Welsh Ben (@welshben) — 34
+- Юлия Захаренко (@zakharenko_yuliya) — 34
+- Ashley Cooke (@ashley_cooke) — 33
+- Armand Turpel (@atur) — 33
+- @baterja — 33
+- Bernard_22 (@bernard_22) — 33
+- Crystal Rimmer (@crystalmarir) — 33
+- dbmhartley (@danielhartley) — 33
+- Ditte Grube Barild (@dittebarild) — 33
+- Francesco (@frasacca) — 33
+- @georges3 — 33
+- Henrique Pinto Macedo (@henrique5) — 33
+- Leo FitzWalter (@herdingclouds) — 33
+- @hop_o — 33
+- Jane Kirkegaard (@janekirkegaard) — 33
+- Julie Manzinalli (@julie_manzinalli) — 33
+- Jannis Ackermann (@kleiner_jannisaurier447) — 33
+- @lisemari — 33
+- Luis Ferreira (@luis2) — 33
+- Marie (@marievyletova) — 33
+- Nadija Antonova (@nadija1) — 33
+- Juan Martínez Reina (@pechangel) — 33
+- @philippthompson — 33
+- @rwherry — 33
+- Scott (@scottexplores) — 33
+- Serena De Santis (@serena_ds) — 33
+- Tom Garner (@tgnr) — 33
+- Ricci Masero (@threecornerforager) — 33
+- Tom W (@tom1932) — 33
+- Yamil J.R (@yamiljr) — 33
+- @audili — 32
+- Jill Merchant (@bridleway) — 32
+- Christophe (@chrismoss) — 32
+- @corcan — 32
+- David Kleuker (@davidak) — 32
+- Dmitrii Mostovoi (@dmitrii_mostovoi) — 32
+- @euanmck — 32
+- Filipi Miranda Soares (@filipi_soares) — 32
+- Fyodor Demin (@fjodord) — 32
+- Yohann Flavier (@flaview) — 32
+- Gabriel Casalanguida (@gabrielcasalanguida) — 32
+- Gerd Heinen (@gerd5) — 32
+- Giedrius Markevičius (@giedrius_markevicius) — 32
+- Samuel (@hexhausted) — 32
+- Jane Weeden (@janeweeden) — 32
+- Marina E. (@krauklis) — 32
+- Lucy Hutton (@lucyhutton) — 32
+- Mandy Henshall (@mandy_h) — 32
+- mark robinson (@mark2657) — 32
+- Meer Planten (@meerplanten) — 32
+- @mousekiro — 32
+- Simon Scotland (@mrecosse) — 32
+- Niki Hubbard (@nikihubbard) — 32
+- Richard Mar (@richard_mar) — 32
+- @sugarsnap_t — 32
+- TerranuX (@terranux) — 32
+- Timo Walcher (@twalcher) — 32
+- Lorenzo Emanuele Labate (@aghartiesplorazioni) — 31
+- Алена Ручка (@alyona4) — 31
+- Елена Астахова (@askhva) — 31
+- Cristina Villaverde (@cristinavillaverde) — 31
+- Ethan Lutterer (@ethan119) — 31
+- @fabian_byron — 31
+- Francois Jordaan (@fjordaan) — 31
+- Nick (@fungimonster) — 31
+- gianluigi (@gianluigi1951) — 31
+- Kate Senatskaya (@katevbg) — 31
+- Milan Chytrý (@milan_chytry) — 31
+- Oscar Dove (@oscar_dove) — 31
+- Pirataber (@pirataber) — 31
+- @portiaks — 31
+- Rafael Medina (@rmedina) — 31
+- Sander (@sleeplessf0x) — 31
+- Stephanie G. Williams (@stephi_w) — 31
+- @vjaaskel — 31
+- Aaron Pommer (@aaron_pommer6) — 30
+- Alessandra Aleotti (@ale_ale) — 30
+- Anna (@aromatisse) — 30
+- Marco Mussita (@belvedere04) — 30
+- @chris_sherlock — 30
+- Denis (@debanim) — 30
+- Denis A (@denispeace) — 30
+- Rich Agar (@derbyshirewoodwose) — 30
+- @duffyr — 30
+- Guillaume Delaitre (@guillaume_delaitre) — 30
+- Alex Baumgartner (@jardinjungle) — 30
+- Johannes Schuster (@johannesclaudius) — 30
+- @jounipeltonen — 30
+- Konstantin Grebennikov (@kgrebennikov) — 30
+- Marco (@magicmjk) — 30
+- Mathieu Sauzay (@mathieu44) — 30
+- Mike Musgrave (@mikemusgrave) — 30
+- R.G (@nighthawk09) — 30
+- @o2k — 30
+- Pantazi Katerina (@pantazi1) — 30
+- Rhiannydd Stock (@rhiann_31220) — 30
+- Richard Nuttall (@richard2082) — 30
+- @spoonbilling — 30
+- @stolbovsky — 30
+- Teemu Kurppa (@t-mu) — 30
+- Tom Lawrence (@tlawrence1) — 30
+- Vilppu Välimäki (@vilppu) — 30
+- Conor McKinney (@wildlifeni) — 30
+- will allman (@willallman) — 30
+- Agtila (@agtila) — 29
+- andrea ungaro (@andung) — 29
+- Charly (@archaerhodopsin) — 29
+- ArthurVZ (@arthurvz) — 29
+- Arttu Hallberg (@arttuhallberg) — 29
+- Axel Keim (@axel317) — 29
+- @baccatta — 29
+- @boodly — 29
+- @celinecc — 29
+- Clive Edgar (@clive_edgar) — 29
+- @darmozrac — 29
+- Екатерина Кравцова (@ekaterina_kravtsova) — 29
+- Clément Laval (@entomobug) — 29
+- Franky Adair (@fadair) — 29
+- Fabian Steeg (@fsteeg) — 29
+- @funky_kong — 29
+- Giuliana Pirotta (@giulianapirotta) — 29
+- Ирина Хохрякова (@irinahohryakova) — 29
+- Janne Teivonen (@janne_naturephoto) — 29
+- Gerhard Josip Majewski (@josip56) — 29
+- Ксения Кузьмичева (@kseniya_kuzmicheva) — 29
+- Jack Byrley (@lbyrley) — 29
+- Lee Ismail (@lee_i1978) — 29
+- Lucie Hladilová (@lucie24614) — 29
+- Manuela Fiorini (@manuela9012) — 29
+- Mark (@markchandler) — 29
+- Martin Růžicka (@martin784) — 29
+- Mathieu Basille (@mbasille) — 29
+- Mikhail Zolotarev (@mikhailzolotarev) — 29
+- Nico King (@nico_484) — 29
+- Nino (@ninob) — 29
+- @oskar0710 — 29
+- Paco Cardenas (@pacocardenas) — 29
+- @prmtl — 29
+- @redrovertracy — 29
+- Barry Wenham (@swiftyak) — 29
+- Todd Patterson (@toddpatterson) — 29
+- Ulrike Odreitz (@ulli_odreitz) — 29
+- Bóna Katalin (@wexillifer) — 29
+- @willingarden — 29
+- Mike King (@wisboroughmike) — 29
+- Andrea Goddard (@andrea1138) — 28
+- Billy Fullwood (@billyfullwood) — 28
+- Chris Sampson (@chrissampson87) — 28
+- David Bennet (@david-bennet) — 28
+- Daniel Noesgaard (@dnoesgaard) — 28
+- Derek Winterburn (@dnwinterburn) — 28
+- @dpanchaud — 28
+- Edward Bell (@edward137) — 28
+- @helen1688 — 28
+- Hilary Heine (@hilarycircaea) — 28
+- Jacek Kurzawa (@jacek_kurzawa) — 28
+- John Palmer (@johnrbpalmer) — 28
+- Jonay Pelluz (@jonaypelluz) — 28
+- Jon Jorgensen (@jonjorgensen) — 28
+- Loz Emerson (@lozemerson) — 28
+- Lukas Schärer (@lukas_scharer) — 28
+- Мирослав Соболев (@mir_sobolew) — 28
+- Maxim K. (@mixam88) — 28
+- Mr. Fizzy (@mr_fizzy) — 28
+- @ognevit — 28
+- Oliver S. (@olive122) — 28
+- Peter Desmet (@peterdesmet) — 28
+- Sylvie (@sylvie393) — 28
+- Tania Walisch (@taniaw) — 28
+- Mathieu Soetens (@theweenuthatch) — 28
+- Mirko Ubović (@ubovich) — 28
+- Dr. Alan Inman (@westerbraenature) — 28
+- @wildlifegarden1000 — 28
+- Alex Anger (@alexplayzzyt) — 27
+- Andrew Gibson (@andrew2700) — 27
+- Cyril Beguet (@begs) — 27
+- Maria Longley (@bluestarfish) — 27
+- Paul (@carderbee) — 27
+- Catrin Micklewright (@catmick) — 27
+- @colleenrspb — 27
+- @coniver — 27
+- David Jackson (@david_jackson3) — 27
+- Dorota Wrońska (@dorotawroska) — 27
+- Natalya Ivanova (@dryomys) — 27
+- Erin (@erin_mcd) — 27
+- @fletma — 27
+- Giorgia Mocilnik (@giorgiamocilnik) — 27
+- John Dear (@happybirder52) — 27
+- Helen Waterman (@helenwaterman) — 27
+- Isobel (@hodgeling) — 27
+- @jevh — 27
+- John Ross AINSWORTH (@john_ross4) — 27
+- Jonathan (@jonathan1064) — 27
+- Юлия Медведько (@julia_medvedko) — 27
+- Niko Kasalo (@kasalo) — 27
+- Kirsten (@kirsteno) — 27
+- Pto (@luzerne-alfalfa) — 27
+- @mariari_ari — 27
+- Mateo Sanchez (@mateo_sanchez4o) — 27
+- Anthony O'Leary (@olearam) — 27
+- Richard Fuller (@rich_fuller) — 27
+- Rob Carmier (@rocarmi) — 27
+- Russell Prince-Wright (@russpw) — 27
+- Tom Weaver (@saltwells_tom) — 27
+- @scottvance — 27
+- Sofie Meeus (@sofiemeeus) — 27
+- Sy Ys (@syys) — 27
+- Таня Івусь (@tanya_ivus) — 27
+- @tmbtrain — 27
+- Tuomas Palenius (@tuomas91670) — 27
+- Žan Babič (@zan94) — 27
+- @a0tero — 26
+- @abogomazova — 26
+- @abotto — 26
+- Олексій Бродніков (@alterionisto) — 26
+- Ametsak (@ametsak) — 26
+- Keely (@brini_byghan) — 26
+- @cappycollins — 26
+- Cecil Barabasz (@cecilbarabasz) — 26
+- Dag Endresen (@dagendresen) — 26
+- Dan McLaughlan (@danm89) — 26
+- Eamon Corbett (@eamonccorbett) — 26
+- Женя Прокопчук (@eugeniy_prokopchuk) — 26
+- @fernium — 26
+- @fritzik — 26
+- Gaspard Eicher (@gaspard_eicher) — 26
+- Giselle Alice (@giselle5) — 26
+- @hdobserver — 26
+- Henry Miller (@henrymillerplants) — 26
+- roger cliffe (@highpeak) — 26
+- Ivana Horvat (@ivancica_horvat) — 26
+- James Buckley (@jamesrbuckley) — 26
+- Jernej Polajnar (@jernejp) — 26
+- Johan Adler (@johan8153) — 26
+- John Rosford (@johnrosford) — 26
+- @jonsense — 26
+- Luksi_457 (@luksi_457) — 26
+- Maria (@mariakarapetyana) — 26
+- Brighton Lee (@meaningful_name) — 26
+- Mike Concannon (@mike-concannon) — 26
+- Cathy Perry (@moorpoolcathy) — 26
+- Matteo Zinni (@mountain_tonbo) — 26
+- Patrick Watts-Mabbott (@patrickwm) — 26
+- IloveBugzzz (@pro_floor_lookerater) — 26
+- Tim Fokin (@rdfxer) — 26
+- Robyn Armstrong (@robynbha) — 26
+- Ronja Wibbeke (@ronja42) — 26
+- @rosscotron — 26
+- @sbenateau — 26
+- Stephanie Tran (@stephtran) — 26
+- EdiS (@uuahouwa) — 26
+- Виктория Билоус (@viktoriabilous) — 26
+- ade sills (@adesills) — 25
+- Antti Leväsaari (@anchjo) — 25
+- Андрей Суравенков (@asur) — 25
+- Макар Михайлов (@black_cat_m13) — 25
+- Chris Kirby-Lambert (@ckirby-lambert) — 25
+- Annalisa P (@clorofolle) — 25
+- Flavien Saboureau (@flaviensaboureau) — 25
+- Florin Feneru (@florin_feneru) — 25
+- Arianna (@glacial) — 25
+- Hel Smith (@helsmith) — 25
+- @ihaerringer — 25
+- Jordi Sanz Agell (@jordi_sanz_agell) — 25
+- Yuliana Leshchenko (@juliana_leshchenko) — 25
+- @lkatusic — 25
+- Robert H. (@lxgiwyl) — 25
+- Lyndon Howson (@lyndonh) — 25
+- Mathieu Roumet (@mathieu127) — 25
+- Karlo Ostojcic (@o100) — 25
+- Christoph Küberl (@p125x) — 25
+- E. Borchert (@panzerbeere) — 25
+- Boris Eliseev (@permico) — 25
+- @seapotato — 25
+- Stan The Man (@stan98) — 25
+- Tatyana Sova (@tatyanasova) — 25
+- Chris Leeson (@topha01) — 25
+- Wiljam Eklund (@wiljame) — 25
+- @ainali — 24
+- Annett Gallwas (@annett_gallwas) — 24
+- @ben_wed — 24
+- Азат Кадиров (@bilinet) — 24
+- George Baker (@cgbretired) — 24
+- @clarko13 — 24
+- Crispin Holloway (@crispinholloway) — 24
+- Daniel Stow (@danielstow) — 24
+- Dan Osipov (@danospv) — 24
+- Davide Puddu (@davidepuddu) — 24
+- David (@davidmoraisferreira) — 24
+- Dawid Juszczak (@dawid_juszczak) — 24
+- @dibbslucy — 24
+- @eightpictures — 24
+- Victoria M. (@eiriee) — 24
+- Kelly Allen (@frustratedofficebod) — 24
+- Giorgio Zavattoni (@giorgio169) — 24
+- Maciej Iwanicki (@hajczar) — 24
+- Hazza (@hazza-pdnp) — 24
+- Jan Thougaard (@jan957) — 24
+- J Mark Earlam (@jmark) — 24
+- @joba102 — 24
+- John King (@johnking2406) — 24
+- Kate Phillips (@katiep22) — 24
+- @longshanksdude — 24
+- Lucy Pocock (@lucy205) — 24
+- Maryna Burlaka (@maryna_burlaka) — 24
+- Nathan Van Cooten (@nathan_vancooten) — 24
+- Nicola Hallows (@nicolahallows) — 24
+- Oakley (@oakley99131) — 24
+- Olha Sira (@olya-bevkh) — 24
+- Oto Kaláb (@oto_kalab) — 24
+- @painteddog49 — 24
+- @paleobiome — 24
+- @rober025 — 24
+- Scott Edmunds (@scottedmunds) — 24
+- @sergej71 — 24
+- Serhii Zymenko (@szymenko) — 24
+- Andy Wilson (@andywilson) — 23
+- Mark Wall (@basill) — 23
+- Борис Георги (@beetle23) — 23
+- Kieran Roy Powell (@biocelt) — 23
+- Colja Nußbaumer (@colja) — 23
+- Daniel Sommeregger (@danielsommeregger) — 23
+- Diane Hornsby (@dianehornsby) — 23
+- Dié 90 (@dibello90) — 23
+- DiegoH (@diego_h) — 23
+- Dimitra Vasileiadou (@dimitra_vasileiadou) — 23
+- Katrin Ellmaier (@ellmai) — 23
+- Elizabete Marchante (@emarchante) — 23
+- Marius K. (@fihu) — 23
+- Fran Gonzalez (@frangcast) — 23
+- Laura Liedtke (@freeasabird289) — 23
+- @ivica_cvrtila — 23
+- Jonathan Tollin (@jonathantollin) — 23
+- Keith Williams (@keith618) — 23
+- Laura (@laura4062) — 23
+- Louisa Jones (@lounaria) — 23
+- Mal Wilkinson (@malcolmwilkinson) — 23
+- @marisnocatpiss — 23
+- @melianie_max_and_asker — 23
+- Markus Huber (@mhub94) — 23
+- Matt Pilkington (@mjp_) — 23
+- Modest_Reindeer (@modest_reindeer) — 23
+- Timfromhull (@morgati1) — 23
+- @neyasit — 23
+- NL (@nltd) — 23
+- @oenothera95 — 23
+- Katie Scholan (@ohulancutash) — 23
+- Алексей (@oleksiy_alexey) — 23
+- @oulema — 23
+- @pallesn — 23
+- Rafael Würtemberger (@rafaelw) — 23
+- Riju (@riju2) — 23
+- Roman Luštrik (@romunov) — 23
+- Salem (@salemgt) — 23
+- @talum — 23
+- Arkadia (@theshortmoon) — 23
+- Thierry254 (@thierry254) — 23
+- Tobias Dietrich (@tyrson232) — 23
+- Vasyl Pokynchereda (@vasyl_pokynchereda) — 23
+- Zoe Coombes (@zoelda) — 23
+- Alok Mahendroo (@alok) — 22
+- Rosario Douglas (@argonauta) — 22
+- Asger Svenning (@asgersvenning) — 22
+- Jo Roberts (@bacchusrock) — 22
+- Aiken Lau (@bibiobiro) — 22
+- Chris (@borealtrees) — 22
+- Arturo Olivetti (@comfypigeon) — 22
+- @danieljones101 — 22
+- Dave (@davebird64) — 22
+- Diana Wallace (@diwal) — 22
+- Doris Remschak (@doris63) — 22
+- Eduardo Martínez (@eduardomartnez) — 22
+- Esteban Stefano Pavan (@eepavan) — 22
+- Stefan Ehl (@ehlst) — 22
+- @emysaurus — 22
+- Gregory Wheeler (@gwheelereb) — 22
+- Anne Gilbert (@highburyanne) — 22
+- K. (@infamis) — 22
+- Marc Hermann (@jantiff) — 22
+- Keith Gittens (@keith-jg) — 22
+- Kim Leyland (@kimleyland) — 22
+- Karsten Ste (@krstn_zg) — 22
+- Kuroru (@kuroru) — 22
+- Luca Roner (@lucaroner) — 22
+- Matt Snape (@matt870) — 22
+- Megan Toulzac (@meg_t) — 22
+- Mustapha (@moustukeke) — 22
+- nick smaers (@nicksmaers) — 22
+- Olivier Argagnon (@olivier_argagnon) — 22
+- Pål A. Olsvik (@paalo121) — 22
+- Marc Dubois (@rouk1_mal1) — 22
+- Vitaly Radionov (@sam1615) — 22
+- Steven Lamonde (@slamonde) — 22
+- @som3rsault — 22
+- Marcin Jasiński (@szuflad) — 22
+- @tomisc — 22
+- @tracad — 22
+- Uilleam Uir (@uilleam-uir) — 22
+- Dmitry Boldyrev (@zerobias) — 22
+- @alexjwarks — 21
+- Alister Harman (@alisterharman) — 21
+- Azamat A. Totikov (@atotikov) — 21
+- Buk Deife (@buk1) — 21
+- Andrew Chadwick (@cedric-dawnhawk) — 21
+- Chris Yesson (@chrisyesson) — 21
+- @dairyfree — 21
+- Dave Richardson (@daverichardson) — 21
+- Fabian Graubereich (@fabian_graubereich) — 21
+- @gadus — 21
+- Horatiu Stefanie (@horatiustef) — 21
+- @ikernf — 21
+- Ilja Insect (@ilja9) — 21
+- Jan Philip Göpfert (@jangop) — 21
+- Josh Swales (@josh392) — 21
+- Josie Rylands (@josie12) — 21
+- @keesgroenendijk — 21
+- Rocco Lieghio (@liverwort_lad) — 21
+- Petr Knotek (@mallomonas) — 21
+- Margaret Stevens (@margaretstevens) — 21
+- Maxim Kr (@maxim_kr) — 21
+- Melissa Bushell (@melissabee888) — 21
+- Michał Warzocha (@michal_warzocha) — 21
+- Michael Skeggs (@micske) — 21
+- @mnt99york — 21
+- MrDreadWolf (@mrdreadwolf) — 21
+- Manuel R Popp (@mrpopp) — 21
+- Елена Патерикина (@naturalist29626paterikina) — 21
+- @olliesteele632 — 21
+- Lauren N (@outdoorsyduck21) — 21
+- Paco Bergson (@pacondition) — 21
+- @prossington — 21
+- Salomé Friry (@salomelasardine) — 21
+- Sarah Crowder (@sarahcrowdersplants) — 21
+- @smeckert — 21
+- Stephen Matthews (@stephenmatthews) — 21
+- Kacper (@wild_photography_kacper_raszyk_tofin) — 21
+- Adrian Simmons (@adrinux) — 20
+- @alex_jarvis24 — 20
+- Antoine Lemaire (@antoine_lemaire) — 20
+- Mike Brady (@bradymh) — 20
+- Dennis Lausch (@dennis_perennis) — 20
+- Erik (@erik293) — 20
+- Евгения (@evgeniya2301) — 20
+- @franktl — 20
+- Tavenetat Kevin (@hazek) — 20
+- Hermit (@hermit404) — 20
+- @hknuettel — 20
+- Jenni (@jenni58456) — 20
+- Jess Swann (@jess_swann) — 20
+- Jiří Podhorecký (@jiri8) — 20
+- Justus Müller-Kiefer (@justusmueller-kiefer) — 20
+- Lars (@klabutzel) — 20
+- Lucille Schmitz (@lucilleschmitz) — 20
+- Malcolm James Haddow (@malcolm_james_haddow) — 20
+- Marius Faiß (@mariusfaiss) — 20
+- Matt Clarke (@mattclarke100) — 20
+- Milan Keršláger (@milankerslager) — 20
+- Mirela (@mirela88) — 20
+- Martin Littlecott (@mlittlec) — 20
+- Nikhil R R (@nikhilrr) — 20
+- Paul Winter (@pdwinter) — 20
+- Brendan Petrassi (@petrassi) — 20
+- Piero Visconti (@pierov) — 20
+- @plantecarnivore — 20
+- Richard Littauer (@richardlitt) — 20
+- @rsutcliffe — 20
+- serge SCHNEIDER (@sergeschneider) — 20
+- Sharon Smith (@sha_zzie) — 20
+- Mike (@sunrunner62) — 20
+- Viktor (@vik_066) — 20
+- @yak90 — 20
+- Lisa Salvatico (@ygg-drasil) — 20
+- Kees (@andabata) — 19
+- Erik Rytter (@birdmann) — 19
+- CDO'F (@cdof) — 19
+- Dan (@dandri) — 19
+- Tobias Demetz (@demetztobias) — 19
+- Denis Potanin (@dpotanin) — 19
+- Eduard Martínez (@ed_mart) — 19
+- Mike (@emmdoubleyew) — 19
+- EstebanMH (@estebanmh) — 19
+- @funny_nature — 19
+- Gianmaria Bonari (@gianmaria_bonari) — 19
+- Hans Zauner (@hanszauner) — 19
+- @hrustall — 19
+- @janesyred — 19
+- Jani Kettunen (@janikettunen) — 19
+- Juliad323 (@juliad323) — 19
+- karim Attouche (@karimattouche) — 19
+- Екатерина Маковецкая (@katyamakovetskaya) — 19
+- Dominic Marjoram (@keigwin) — 19
+- Kungsbäck Viewer (@kungsbackviewer) — 19
+- Laufey Hálldóttir (@laufey) — 19
+- Leanne Dempsey (@leannedempsey) — 19
+- Vladimir Morozov (@lepkirk) — 19
+- Luca Calcagno (@lucacalcagno) — 19
+- @lugachev_vitaly — 19
+- Lukas Feichtmeier (@lukas_feichtmeier) — 19
+- Martin Auer (@martinvie) — 19
+- Ants_ (@migento) — 19
+- Michael D. Pirie (@mikepirie) — 19
+- @ml_ls — 19
+- @mmuir — 19
+- Uschi (@mu_schel) — 19
+- Niels Raes (@nielsraes) — 19
+- oooooooooooo (@o-12) — 19
+- @pauline_rcht — 19
+- Pieter Provoost (@pieterprovoost) — 19
+- @preinzi — 19
+- Presha Soogrim (@presha) — 19
+- Rich Sommer (@rich451) — 19
+- Mark Pritchard (@ripsawpritchard) — 19
+- River Ahlquist (@riverahlquist) — 19
+- Sara Scorey (@sabear) — 19
+- Šárka Forgáčová (@sarykf) — 19
+- Sergio Garrido Villa (@sergiogarrido) — 19
+- Sam J. Thomas (@sjthomas) — 19
+- Hans Van Calster (@tiliacordata) — 19
+- Kerstin Reifenrath (@tiner) — 19
+- Adrienn Verba (@vadrienn00) — 19
+- Emilio Taggi (@vin_tag_e) — 19
+- Tobias (@volderbauer) — 19
+- Yves (@yvyves) — 19
+- @zj_adram — 19
+- Jana (@aircat) — 18
+- @alotbsol — 18
+- Andrés Romero Bravo (@andresrb) — 18
+- Andy Steele (@andys78) — 18
+- Annie Evankow (@annie_evankow) — 18
+- leah (@antisymmetry) — 18
+- Ash Whiffin (@ash_whiffin) — 18
+- Harshjeet Singh Bal (@balharsh) — 18
+- SueR (@beautysmum) — 18
+- @buddyluna — 18
+- Carmelo Allegra (@carmelo_allegra) — 18
+- Cassian (@cas4moss) — 18
+- Charlie Barber (@charlie551) — 18
+- Christopher Kullenberg (@christopherkullenberg) — 18
+- AJ Beavan (@chudraa) — 18
+- Johannes Graf (@codo) — 18
+- @dave_r_clark — 18
+- Derrin McGowan (@dermcg) — 18
+- Ella McCausland (@ellamac27) — 18
+- @engagenosey — 18
+- Esa Aalto (@esa25) — 18
+- Fikret Arda Düzgünses (@faddaf) — 18
+- @fionaadams — 18
+- Egret (@fishum) — 18
+- Frank Ashwood (@frankashwood) — 18
+- @friendsofdrpep — 18
+- Gerry Tissier (@gerry70) — 18
+- Dragonlady (@hlomas) — 18
+- @j_indr — 18
+- Liz Snook (@jackdawface) — 18
+- Juan Miguel de Haro (@jdeharor) — 18
+- Javier Eusamio (@jeusamio) — 18
+- Kate Hart (@kate-wirral) — 18
+- @kateashley — 18
+- Kyle Copas (@kcopas) — 18
+- @koha1 — 18
+- Leah (@leahward9) — 18
+- Lokal_Profil (@lokal_profil) — 18
+- Marc Riera (@marcriera) — 18
+- Mário Barreira (@mariorsb) — 18
+- @martin--birder — 18
+- Megan Crewe (@meegsc) — 18
+- Mika (@mika55815) — 18
+- @mruczek — 18
+- Maxie Kolpe (@nivara) — 18
+- Olle L (@ollelindestad) — 18
+- @pondbob — 18
+- Deborah Spurr (@proffenlon) — 18
+- @psammead — 18
+- Iain Anderson (@pugfather) — 18
+- Peter Abrahamsen (@rainhead) — 18
+- Сергей Грабчак (@sergei_grabchak) — 18
+- Simon Rolph (@simonrolph) — 18
+- Siobhan Leachman (@siobhanleachman) — 18
+- Steven Cross (@stevencross3) — 18
+- @svt4ever — 18
+- Татьяна Иванченко (@tanya_iv) — 18
+- @tdec — 18
+- Terhi Jakonen (@terhielina58) — 18
+- Thieme Hennis (@thiemehennis) — 18
+- Tom Field (@tomfeild) — 18
+- Владимир Дворкин (@vladimir_dvorkin) — 18
+- @walruswatermelon — 18
+- Werner Fürst (@zwusl42) — 18
+- Alexander Dashkov (@alexander_dashkov) — 17
+- @anguspritchard — 17
+- Anna Petrosyan (@anna_petrosyan) — 17
+- Antonio Zerbinati (@antonio46331) — 17
+- @antrum — 17
+- Bea Leiderman (@bealeiderman) — 17
+- Dominic Mitchell (@birdingetc) — 17
+- Jordi Rovira (@canjordi) — 17
+- chysto.de (@chysto_de) — 17
+- Eleanor Reece (@eleanorreece) — 17
+- Elina Zepp (@elina) — 17
+- @emmar90 — 17
+- Enrique Manuel Malacitano (@enriquemanuelmalacitano) — 17
+- @ewokcapybara — 17
+- @gill_ryenats — 17
+- Hazel (@hazelstill) — 17
+- @hecklemore — 17
+- Ida Gabler (@ida_gabler) — 17
+- @jb7200 — 17
+- John T (@johnt77) — 17
+- @kenmoody — 17
+- Ken R (@kenrutter) — 17
+- Eric Knight (@knightericm) — 17
+- Kristupas (@kristupas_tamutis) — 17
+- Olsza Borys (@lolsza) — 17
+- Luca Checchin (@lucachecchin) — 17
+- Malvina Bourgois (@malvina7) — 17
+- @marnie_wf — 17
+- @nagy_rudi — 17
+- Михаил Орлов (@naturalist16000) — 17
+- Nicolas Vervelle (@nicolas1075) — 17
+- Nik Cain (@nikcain) — 17
+- Noah's Ark Zoo Farm (@noahsarkzoofarm) — 17
+- Parco Monte Barro (@parcomontebarro) — 17
+- Raúl Galindo Moreno (@raulgalindomoreno) — 17
+- Roar Nybø (@roarnyb) — 17
+- @rob_bailey — 17
+- Neil Robertson (@roborun) — 17
+- Rob Williams (@robsrw) — 17
+- @sarah-jaynedunn — 17
+- Sarah Atherton (@sarahatherton) — 17
+- Stari Plativky (@stariplativky) — 17
+- @stsav012 — 17
+- Tony Patterson (@tonalq) — 17
+- Mikhail Morozov (@u007f) — 17
+- Vesa Oikonen (@vesaoikonen) — 17
+- Vincenzo Lattanzi (@vincenzolattanzi) — 17
+- Verena Fisch (@vkf) — 17
+- R Mitchell (@vm56) — 17
+- 0959kedi (@a0959kedi) — 16
+- Abbie Thorne (@abbiethorne) — 16
+- Addshore (@addshore) — 16
+- Ade. (@ade2023) — 16
+- Alessandro Popoli (@alepopoli) — 16
+- Alexander Weigand (@alexwei) — 16
+- Alan Macnaughton (@amacnaughton) — 16
+- @andytap — 16
+- Arthur BADEL (@arthur42380) — 16
+- @cd9115 — 16
+- Claus Giloi (@clausgiloi) — 16
+- @delede — 16
+- Dominik Vondráček (@dom_von) — 16
+- @dustyshoes — 16
+- Eric Tittley (@erictittley) — 16
+- Fiona Chan-Cary (@feliz123) — 16
+- Fippe (@fippe) — 16
+- Magdalena Warzecha (@gtfoof) — 16
+- Andrew Fielding (@haytonrecorder) — 16
+- Jane V Thomas (@janevthomas) — 16
+- Jean-Paul Chabry (@jean_paul_chabry) — 16
+- Jessica Aidley (@jessicajil) — 16
+- Joe Dillon (@joedillon) — 16
+- Tony L. Price (@juncustp) — 16
+- @lauraclapham — 16
+- Lehmann (@leh_k) — 16
+- Marney Harris (@marneyharris) — 16
+- @martin_lavelle — 16
+- Miss Uhu (@missuhu) — 16
+- Moss Hepworth (@mossylemon) — 16
+- @narwa — 16
+- @nearwildhelen — 16
+- Николай Гнездилов (@nick_gnest) — 16
+- @nico-da — 16
+- @norgram — 16
+- Oscar Gould (@oscarjay) — 16
+- Sebastian Kowalski (@ozone) — 16
+- @palakpari — 16
+- serni bams (@pan_cyan) — 16
+- Pedro Gallego Guerrero (@pedrito_gallego) — 16
+- Paweł Zuzelski (@pwlz) — 16
+- R Avery (@raphanaja) — 16
+- Rob Acton-Campbell (@robcrewshole) — 16
+- @rolymoly — 16
+- Sam King Gamblin (@sam692) — 16
+- Sandrine D'Hooge (@sandrinedhooge) — 16
+- Matthew Sharples (@sharpsparks) — 16
+- jay (@transientluminousevent) — 16
+- Vanessa Nardini (@vanemyosotis) — 16
+- Татьяна Горбушина (@a-travva) — 15
+- Александр Тихонов (@alexandr_tichonov) — 15
+- Alin (@alin244) — 15
+- Andreia Susete Ferreira de Faria (@andreiafaria) — 15
+- @bkzawadzki — 15
+- Carroll (@carrollxiv) — 15
+- Claire (@claire658) — 15
+- @communityluke — 15
+- Duncan Allen (@da78) — 15
+- @daisyfinniear — 15
+- @dawn2022 — 15
+- Anne Thomson (@dipper12) — 15
+- Dan Schofield (@djscho) — 15
+- E. Pablo Murillo (@epablomurillo) — 15
+- Erin Lalime (@erininmd) — 15
+- Erwin Sieben (@erwinsieben) — 15
+- @espioina — 15
+- Frida Solli (@fridasolli) — 15
+- Dr. Guido Bohne (@gbohne) — 15
+- Gerlinde Obermoser (@gerlinde_obermoser) — 15
+- Damian (@highlands4) — 15
+- Holly McCain (@hollymccain) — 15
+- Simon Frühauf (@honeybaybee) — 15
+- @inhope — 15
+- @j_bur — 15
+- Jakob Tougaard (@jakob87) — 15
+- Jordon-Jack Williams (@jordonjack) — 15
+- @jrcagle — 15
+- Lazar Popović (@lazar_zenit) — 15
+- Line Kramp (@line132) — 15
+- Олеся (@little-grey-bird) — 15
+- Lucy Robinson (@lucyrobinsonnhm) — 15
+- Макарiй Игоревичъ Лоскутовъ (@makarii_loskutov) — 15
+- Mark Leavesley (@mark1815) — 15
+- Mark Costello (@markcostello) — 15
+- MHB_9may (@mhb_9may) — 15
+- Stepan (@mortred) — 15
+- Anne Weinhold (@mothmuller) — 15
+- @nanaida — 15
+- Nicolaj Schmidt Damgaard (@nicdam) — 15
+- Noortje (@nomertje) — 15
+- @o_andras — 15
+- Olga Zakharova (@olgazakharova1) — 15
+- Paul Dubery (@paul271) — 15
+- Paul Costica Oprea (@paul_oprea) — 15
+- Paul F (@paulus_hf) — 15
+- Peter Chen 2.0 (@peterwchen) — 15
+- Pierre Tellier (@pierre_t) — 15
+- Nina Taylor (@prettygreenuke) — 15
+- @redtrillium — 15
+- @roundways — 15
+- Sara Srša (@sara2247) — 15
+- @scorpionus — 15
+- Сергей Пахмутов (@sergey53) — 15
+- Сергей Степин (@serj_s) — 15
+- @shadow_385 — 15
+- Simone Luccini (@simoneluccini) — 15
+- Smriti S. (@smriti) — 15
+- SatNavSaysStraightOn (@snsso) — 15
+- Patrick Bayan (@stargazerhs) — 15
+- Stefan Curth (@stefan97232) — 15
+- @suesussex — 15
+- Talia I (@taliaaaaa) — 15
+- Jeremiah Degenhardt (@temminicki) — 15
+- @tim-f — 15
+- Carmel Hart (@tomandcarmel) — 15
+- @uid101125 — 15
+- @voronokin1971 — 15
+- Laura Abraham (@abrahamlaura) — 14
+- Anna C (@aec3g18) — 14
+- Alessia Guggisberg (@alg2115) — 14
+- Jana Hoffmann (@amphipodana) — 14
+- Andrea Maccari (@andrea_maccari) — 14
+- Anna L (@anna_l1) — 14
+- @annamirage — 14
+- Ara (@aritxun) — 14
+- Minić (@b_minic) — 14
+- Ian Butler (@beastfromthesoutheast) — 14
+- Edward Wilson (@billson01) — 14
+- @bungus354 — 14
+- Christian Lauk (@chrissi76) — 14
+- Christoph Kramer (@christophkramer) — 14
+- Jonghyun Park (@clurarit) — 14
+- Cole Wolf (@colejwolf) — 14
+- Dmitriy Bochkov (@convallaria1128) — 14
+- @cwriggy — 14
+- Damiano Oldoni (@damiano_oldoni) — 14
+- @djkelly — 14
+- Em Calam (@emetica) — 14
+- Eric Davies (@ericd02) — 14
+- Josiah Londerée (@gatorhawk) — 14
+- Hayley (@hayleyjayne) — 14
+- Nils (@hungryholobiont) — 14
+- Ivo Rosa (@ivo17) — 14
+- @jeromeboi — 14
+- John McTague (@johnmctague) — 14
+- Naomi Jones (@jonesjones) — 14
+- Joseph Hubbard (@josephh1222) — 14
+- Joshua O’Leary (@joshmoleary) — 14
+- @katerinkak — 14
+- Ken Forbes (@kjf1234) — 14
+- Karol Filo III (@krfl3) — 14
+- Laurent Eicher (@laurent147) — 14
+- Lisa PALANDRI (@lisa_palandri) — 14
+- Mal Bennett (@malbennett) — 14
+- Elizabeth Walshaw (@maybeelizabeth) — 14
+- Mikael Niku (@miihkali) — 14
+- Tanja Milotić (@milotictanja) — 14
+- Nick Carey (@nick979) — 14
+- Nicole Kearney (@nicolekearney) — 14
+- Noland Martin (@nolandmartin) — 14
+- Lorenzo Beltrami (@nonnemilia) — 14
+- Nikolaus Helmer (@oklin) — 14
+- @oonharn — 14
+- Paul Dufour (@pauldufour80) — 14
+- Rachel Bramwell (@rachel_bramwell) — 14
+- Ramunas Mileris (@ramunas) — 14
+- Roderic Page (@rdmpage) — 14
+- @renaradelt — 14
+- Ryan McMinds (@rmcminds) — 14
+- Heiko Weber (@run4) — 14
+- Sam Buckton (@sambuckton) — 14
+- Sarah Benjamins (@sarahbenjamins) — 14
+- Sergey Cherkasov (@sergey_cherkasov) — 14
+- Shaldon Wildlife Trust (@shaldonwildlifetrust) — 14
+- Soulette (@soulette) — 14
+- @spacegecko — 14
+- Thea Skaff (@theabobea) — 14
+- Tobias Guldberg Frøslev (@tobiasguldbergfrslev) — 14
+- Sandra Fauconnier (@trnstlntk) — 14
+- Holger Braun (@typophyllum) — 14
+- @ubiezis — 14
+- Ulrike Gamper (@ulrikegamper) — 14
+- Алина Урусова (@urusovaalina) — 14
+- Valentina Caviglia (@valentinacaviglia) — 14
+- @valentinkempf — 14
+- Vladislav Isaev (@vladtepesh) — 14
+- Joy Bottery (@weaselssnout) — 14
+- @woodcote — 14
+- Alex Shepherd (@aberbrothock) — 13
+- Adhara Pardo (@adhara) — 13
+- Alex (@alegs_) — 13
+- Andy Parkin (@andysound) — 13
+- Adam Sutton (@asutton1618) — 13
+- E. Š. (@athenasgardener) — 13
+- @baarttek — 13
+- Barry (@barry1400) — 13
+- Barry Gorman (@barrygorman66) — 13
+- Bettina Grieser Johns (@bettina149) — 13
+- @birras — 13
+- insect ID (@bykovskii) — 13
+- @cedzz — 13
+- Charles F Gunn (@cfg) — 13
+- @cgmayers — 13
+- Christian Müllner (@christian6684) — 13
+- Cameron Leske (@cleske) — 13
+- Daria Melnikova (@daria40) — 13
+- @davehb — 13
+- David Carey (@davidcareyhadlow) — 13
+- @dcs24 — 13
+- David Delon (@ddelon) — 13
+- @dejone — 13
+- Denis Forzy (@denisfor) — 13
+- Derdiedas Xy (@derdiedas) — 13
+- David (@divadh) — 13
+- Dodly (@dodly) — 13
+- Fraser Higgins (@f-sundw) — 13
+- @ffnaturalist — 13
+- @francis__ — 13
+- Ben (@gagnebina) — 13
+- Graham Whittaker (@grahamwhittaker) — 13
+- Lance Andrew (@handycoordination) — 13
+- Heinähukka (@heinahukka) — 13
+- J V (@j_v) — 13
+- Marie-Lan Taÿ Pamart (@jastrow75) — 13
+- Jo Doolin (@jo385) — 13
+- @joshuadaly — 13
+- @katifungi — 13
+- Kim P.-Schmidt (@kimps) — 13
+- Klaus Krieger (@klauskrieger) — 13
+- Trevor Atkins (@lbcp2020) — 13
+- Eleanor (@loverseed) — 13
+- Lukas Radischnig (@lrwlphotography) — 13
+- Lucie Karna (@lucie_karna) — 13
+- Людмила Алимова (@ludaalimova) — 13
+- märkische Fl. u. Fa. (@markbrannenborg) — 13
+- Martin Roberts (@martin_roberts) — 13
+- Roger svk (@martin_roger_halac) — 13
+- Maurice Hoffmann (@maurice133) — 13
+- Martin Flejgr (@mfle) — 13
+- @moater — 13
+- Neil Smith (@neilsmith65) — 13
+- @nikonbird007 — 13
+- NoahM (@noahm7) — 13
+- Ольга Калашникова (@olga_kalashnikova) — 13
+- @penbed — 13
+- Paul Whitington (@pmwhitington) — 13
+- @potatosoup — 13
+- Наталья Усова (@raduga1985) — 13
+- Sam Rawlinson (@rawls29) — 13
+- @rcereja — 13
+- Rebecca Gimenez Husted (@rebecca145) — 13
+- R Heath (@rh9) — 13
+- Robert Barnsley (@robertbarnsley) — 13
+- R Tomlinson (@rushlakegarden) — 13
+- Sarah West (@s_r_hw_st) — 13
+- Seema Merchant (@seemamerchant) — 13
+- Sem Khatov (@semkhatov) — 13
+- @sinaves — 13
+- kardelen (@snowdrops-kardelen) — 13
+- Stephen Hodges (@stephen621) — 13
+- Steven Bachman (@stevenkew) — 13
+- Sue Hewett (@sue19560) — 13
+- Sula Vanderplank (@sulavanderplank) — 13
+- Leon Sulmann (@sulixo) — 13
+- Tom Sci (@tgamespi) — 13
+- @umbreon77 — 13
+- Meghan Waldon (@waldonus_meghalodon) — 13
+- Jay Miles (@aceofjays) — 12
+- AJ Cann (@ajcann) — 12
+- Andrew (@andrew_98) — 12
+- @antoterryn — 12
+- Ashley Radford (@ashrad90) — 12
+- Beatrice McWilliams (@beatricemcw) — 12
+- Vladimír Nemček (@blackday) — 12
+- Christina S. Baer (@bugbaer) — 12
+- Caitlin B. (@caitlinb03) — 12
+- Carsten Hestbech (@carstenhestbech) — 12
+- @case15 — 12
+- Thomas Caspari (@casparit) — 12
+- Claire Capdevila-Wright (@claire798) — 12
+- Sue Hockland (@condorlass) — 12
+- @cs5150 — 12
+- @cumulonimbus — 12
+- @d_eszter — 12
+- @drskywalker — 12
+- Emil larsen (@e-larsen) — 12
+- @echiniscus — 12
+- Эльмира Чернышева (@elfinvitro) — 12
+- @eustreptospondylus — 12
+- Fabian Schwarz (@f-schwarz) — 12
+- Filip Żuchowski (@flukee) — 12
+- Gabriele Franzini (@gabrif) — 12
+- GerryF (@gerryfirkins) — 12
+- Giulia (@giulia21464) — 12
+- @giulia_marangoni — 12
+- Giuliano Gavazzi (@giuliano1960) — 12
+- Ihor (@ihorq) — 12
+- John Jakeman (@johnjakeman) — 12
+- Jon Conradi (@jonconradi) — 12
+- @jwxll — 12
+- @karoliiine — 12
+- Сергей Крыленко (@krylenkoserg) — 12
+- Simon Baldwin (@lhsi) — 12
+- Laurence (@lobbo5) — 12
+- Lorenzo Colcergnan (@lorenzocolcergnan) — 12
+- Mark Goddard (@m_goddard) — 12
+- Paul van Maaren (@maaren) — 12
+- Maggie Tester (@maggiejulip) — 12
+- Bohan Jia (@maiglocke) — 12
+- @mariaec — 12
+- Matthew Blissett (@mattblissett) — 12
+- Matteo Fortini (@matteofortini) — 12
+- Louise Moon (@mezzaluna2) — 12
+- @mguthrie — 12
+- mirta (@mirtadraws) — 12
+- @mjones76 — 12
+- Marcin Dyderski (@mkdyderski) — 12
+- Maarten Trekels (@mtrekels) — 12
+- Naturgucker Tom (@naturgucker_tom) — 12
+- Afonso Nóbrega (@nobrega8) — 12
+- Nuno Alves (@nunoalves) — 12
+- @o_o_frank — 12
+- Nikolay Martyanov (@ohmspectator) — 12
+- Plsik (@plsik-liskovy) — 12
+- Adam Śliż (@przyrodnik-beskidzki) — 12
+- R. Tyrväinen (@relimeh) — 12
+- Roberto Vallone (@robertovallone) — 12
+- Romain Sabroux (@rosab) — 12
+- @rosshawkins — 12
+- Ruslan Y (@ruslan_y) — 12
+- Scarlet Rifles (@scarlet_rifles) — 12
+- Stephen Cavers (@scav) — 12
+- Mirko Schoenitz (@schoenitz) — 12
+- Felicity Kreger (@sisfelicity) — 12
+- @slariblafast — 12
+- Sofiia Panchyk (@sofiiapanchyk) — 12
+- Arianna Altigieri (@sparviera) — 12
+- stefano f (@stefano19424) — 12
+- Павел C (@sypaivrn) — 12
+- Natalia P. (@tattabox) — 12
+- Thibaud Godon (@thibaudgodon) — 12
+- Tatiana Strus (@tls-60) — 12
+- @uty504 — 12
+- @veronika_martynova — 12
+- W.D. Keeper (@wdkeeper) — 12
+- ES (@we-naturalist) — 12
+- Jen (@xericdelights) — 12
+- Xymene iv (@xymene_iv) — 12
+- @zidel — 12
+- Amrit Dehal (@adehal) — 11
+- Adrian Zdunek (@adrianzdunek1) — 11
+- Joanna Kaczmarczyk (@afellowcorn) — 11
+- Akinaro “Paranoia-Series” (@akinaro) — 11
+- Rina Chen (@alakey) — 11
+- Александр Косоротов (@alexandrkos) — 11
+- Alina Majcen (@alinamajcen) — 11
+- AlberT Jorja (@aljorbert) — 11
+- Andrew GottWorth (@andrewgottworth) — 11
+- Ash David (@ash-david-1331) — 11
+- Ayesha Hargey (@ayesha-s-hargey) — 11
+- Beki Amanda (@ba69577) — 11
+- @beau_the_crestie — 11
+- ca lou (@ca38) — 11
+- @christopherlp — 11
+- CorentinD (@corentind) — 11
+- Craignerrad (@craignerrad) — 11
+- L. Pikorainen (@dainsleif) — 11
+- Daniel Dąbrowski (@daniel4972) — 11
+- David “Ferenczy” Rogožan (@dawidferenczy) — 11
+- Darren Wall (@dazzawall) — 11
+- Dee Lau (@deelau) — 11
+- Pete Lypkie (@doviende) — 11
+- Drew Baxter (@drew_baxter) — 11
+- Edgar Remy (@edgarremy) — 11
+- Étienne Lacroix-Carignan (@elacroix-carignan) — 11
+- Eloi Iglesias (@eloiiglesias) — 11
+- Ernst Pisch (@ernst_p) — 11
+- amelie (@everly2000) — 11
+- @ewandavidson — 11
+- Daniele_00 (@extra_account) — 11
+- @famkoe — 11
+- Fioravante Brandalise (@fioravantebrandalise) — 11
+- Fred Derks (@fredderks) — 11
+- @geadie — 11
+- Gleb Barmashenko (@gleb22) — 11
+- Fionn (@gleoiseach) — 11
+- Alexandre Gomes Boga (@gomes-boga) — 11
+- Ben Holt (@hamlet_ben) — 11
+- Iago Sanmartín Villar (@iago_sv) — 11
+- Ingrid Meng (@ingrid275) — 11
+- Iona (@ionasan) — 11
+- @janestanbury — 11
+- Janita Harjula (@janita12) — 11
+- @jenniferhcga — 11
+- Jess Smallcombe (@jessdevon) — 11
+- @jimsterbin — 11
+- Johncas (@johncas) — 11
+- Jordi Moreno-Romero (@jordi_m_r) — 11
+- Julian List (@julianlist) — 11
+- @kimberleytew — 11
+- Pavel Kúr (@kurpav00) — 11
+- @kuzey_basagac — 11
+- Eija-Leena Laiho (@laihoel) — 11
+- Laura (@lauramushroom) — 11
+- Leia Morcombe (@leiamorcombe) — 11
+- Lisa_James (@lisa_james) — 11
+- Louis Backstrom (@louisb) — 11
+- Leo van der Helden (@lvdhelden) — 11
+- Lyn and Alan Goodkin (@lynandalan) — 11
+- Maeve Foley (@maevelouisef) — 11
+- Marc Ml (@marcml) — 11
+- Марія (@maria_izh) — 11
+- Maria Kohanovskaya (@mariakohanovskaya) — 11
+- Mark Eldridge (@marke123456) — 11
+- Matteo Piccinini (@matteo) — 11
+- Maynard Case (@maynardcase) — 11
+- Santiago Soto Maurer (@me_santiago) — 11
+- MichellePrice_CJBG (@michellejprice) — 11
+- @mikebrown141153 — 11
+- Luca Napelo (@nappe89) — 11
+- Grimes Dyke Primary School, Leeds (@nenp_teamgd) — 11
+- North and East Yorkshire Ecological Data Centre (@neyedc) — 11
+- Nicolas Durand (@nico69130) — 11
+- Nicola Crockford (@nicolacrockford) — 11
+- @nicolebuijs — 11
+- Oscar Hopgood (@oscarhopgood) — 11
+- Pierre (@pa94768) — 11
+- Dan L. (@pan_dan_l) — 11
+- Pascal Edel (@pascaledel) — 11
+- Patrick Koster (@patrick_koster) — 11
+- @petrolej — 11
+- @philipp_the_magnanimous — 11
+- PaulJ (@prjepson) — 11
+- Jan Prokeš (@proky01) — 11
+- Rikke Rørby Graversen (@rikke80) — 11
+- Robbin (@robbin28) — 11
+- Steven Fyffe (@sfyffe) — 11
+- Silvia Cova (@silvia_cova1) — 11
+- Simon Steinwender (@simon1285) — 11
+- Stefan Kaster (@skaster) — 11
+- Stéphane Bonhomme (@stephaneb_svt) — 11
+- Марина Тарасова (@taras_mari) — 11
+- Andrea Chemello (@the_spectacled_salamander) — 11
+- Theivaprakasham Hari (@theivaprakashamhari) — 11
+- Torben Bruus (@txbruus) — 11
+- UoE Sustainability (@uoesustainability) — 11
+- Victor Bardashev (@vbrdv) — 11
+- Christoph Harwood (@xtoph1) — 11
+- Юлия Магеррамова (@yuliyia) — 11
+- Matti Aalto (@aallonmatti) — 10
+- Andrea Albani (@aan8) — 10
+- Ashley Butcher (@abutcher) — 10
+- @aehn — 10
+- Andrea Monsalve (@amonsalvesr) — 10
+- Andrew Cottrell (@andrew2973) — 10
+- @andrew_commins — 10
+- Andy Boulcott (@andyboulcott) — 10
+- AnnieT39 (@anniet39) — 10
+- Antoine Havard (@antoine_havard) — 10
+- Emma Creasey (@badbotanist) — 10
+- @bazig23 — 10
+- Cristian Hurtado Cusnir (@beeseducer) — 10
+- Luc Wyn (@belgomex) — 10
+- Benoit Renaud (@benoitrenaud) — 10
+- Beatrice Billi (@billy_bee) — 10
+- @bobcat-otter — 10
+- @campghost — 10
+- Carl Ramirez (@carl_ramirez) — 10
+- @cigazze — 10
+- Coline Rey (@coline45) — 10
+- @d_king — 10
+- Daniel Franco (@danielfranco2) — 10
+- Derek Dohler (@derek) — 10
+- Dave Martin (@djtfmartin) — 10
+- Doruk Ege Aksu (@doruk912) — 10
+- Libby Morris (@elizabeth_morris) — 10
+- Ella Bach (@ella_wait_look) — 10
+- Emilia Trafalgar (@emiliatrafalgar) — 10
+- Erica (@ericaleeds) — 10
+- Murad “Gness Erquint” Beybalaev (@erquint) — 10
+- @fbalboa — 10
+- Fintan McKiernan (@fintanmck) — 10
+- Gabriele Benassi (@gabriele86863) — 10
+- Gill Jakeman (@gillmj) — 10
+- Rose Zappa (@gonodactylus) — 10
+- Luís Silva (@gottsilva) — 10
+- Galloway and Southern Ayrshire UNESCO Biosphere Official Account (@gsabiosphere) — 10
+- Hannah Allen (@hanallen) — 10
+- helmlingen.net (@helmlingen-net) — 10
+- Heather Morrison (@hmartha) — 10
+- Jordi de la presa (@jordi_dlp) — 10
+- Josep Rost Bagudanch (@josep_rost) — 10
+- Josh Baryia (@joshbaryia) — 10
+- @jufox — 10
+- Karel Schoonvaere (@karelschoonvaere) — 10
+- Karen Howitz Johansen (@karen_howitz) — 10
+- Keith Marshall (@keith28) — 10
+- Kirsty Margaret Holcroft (@kirsty57) — 10
+- Lara Maleen Beckmann (@laramaleen) — 10
+- LisaChilton (@lisachilton) — 10
+- Lars Schindler (@listigerlurch) — 10
+- Los Prdos (@los_prdos) — 10
+- Lucy (@lu268) — 10
+- Lucy Ruddle (@lucy3802) — 10
+- Ludvig Hafström (@ludvig_hafstrom) — 10
+- Manuel Herrero (@maheral0) — 10
+- Malc_l (@malc_l) — 10
+- ManRoth (@manroth) — 10
+- Mario (@mariosg) — 10
+- Martin Vincent Strazzacappa (@martin169) — 10
+- Martina T. (@martrent) — 10
+- Matteo Sartori (@matteosartori) — 10
+- @maxmarengo — 10
+- Miguel Vega Ruiz (@migue_vega) — 10
+- @mintylola — 10
+- Nans (@nans_barth) — 10
+- Lisa Phipps (@nethercotelisa) — 10
+- Nikolay Volik (@nvolik) — 10
+- Paul Hughes (@p_hughes) — 10
+- @p_stipticus — 10
+- Paras (@parasksb) — 10
+- @phoneixs — 10
+- @phosphorescences — 10
+- Patrick Schwager (@pschwa) — 10
+- Roman Titov (@ramesses) — 10
+- Rob Wadsworth (@robw) — 10
+- Ruth C (@ruth628) — 10
+- Anastasia Titovets (@sophistika) — 10
+- Spaghetti Tomsk (@spag_tmsk) — 10
+- SueD (@suedowning) — 10
+- Jiao Sun (孙娇) (@sunjiao) — 10
+- Sviatoslav Saviak (@sviatoslav_saviak) — 10
+- @t_ylem — 10
+- @tanyacarey — 10
+- Tommaso Cancellario (@tcanc) — 10
+- Tomos Hughes (@tomhughes97) — 10
+- @vever29 — 10
+- Vincent Mia Edie Verheyen (@vincent_mia_edie_verheyen) — 10
+- Vincent (@vpicavet) — 10
+- @wkee4ager — 10
+- Adrian Wolfgang (@adrian272) — 9
+- Afanasovich Alexey (@afanasovich_alexey) — 9
+- Anders Gideon (@agideon) — 9
+- Jon Summers (@aimlesswelshwanderer) — 9
+- René Heinrich (@aive94) — 9
+- @ajpaines — 9
+- A. Hendriksen (@akhendriksen) — 9
+- Alana Wheat (@alanawheat) — 9
+- BIONNB (@alessandra336) — 9
+- Andrew Simpson (@andrewsimpson1) — 9
+- @arkkos — 9
+- Zahra Kh. (@atsumu) — 9
+- Alexis Williams (@ayatana_biophilium) — 9
+- @bartholomewhasty — 9
+- @beckily_bee — 9
+- Juan García (@cactus7) — 9
+- Camila Barboza (@camilabarboza) — 9
+- Christoph M. (@christophm) — 9
+- Conny Löhne (@connyloehne) — 9
+- Ash David (@corehope) — 9
+- @ctb — 9
+- Johan Liljeblad (@cynips) — 9
+- mokdak (@dakmok) — 9
+- @danielarah — 9
+- Donald (@donaldmathison) — 9
+- Ares Osborn (@dovahbutt) — 9
+- Antón David Pérez Rodríguez (@dr_tugo) — 9
+- @dreamresh — 9
+- Elisa Monterastelli (@elimonci) — 9
+- Eliph Hadert (@eliph) — 9
+- Elisabeth (@elismaho) — 9
+- Černý Lukáš (@enalix) — 9
+- @eugene_fruslov — 9
+- Flavio Basilico (@fla) — 9
+- Марат Адиев (@fogt1) — 9
+- Nathan Sowerby (@foresterslodger) — 9
+- Rich Cassidy (@foundoutdoors) — 9
+- francesco valle (@francescovalle) — 9
+- François Dunoyer (@francois_d) — 9
+- FVL_MULTISPECIES (@fvl_multispecies) — 9
+- Jay Pruett (@greenjay6) — 9
+- Hans Punte (@hans394) — 9
+- @happyearthuk — 9
+- Hector Montero (@hector_montero) — 9
+- Heidi Tillin (@heidi89393) — 9
+- Steven Davies (@heulgi) — 9
+- @holycrab — 9
+- Sally Dalzell (@horsendenskd) — 9
+- @id_doomer — 9
+- Islabear (@islabear) — 9
+- @janh11 — 9
+- Jean-Baptiste Desbas (@jbdesbas) — 9
+- Jean-Lou Justine (@jeanloujustine) — 9
+- Jeremy Rogers (@jeremy4821) — 9
+- Johan Wara (@jjwaara) — 9
+- @joanne_sin — 9
+- @johndev — 9
+- Just_the_Duke (@just_the_duke) — 9
+- Yaroslav Andrianov (@konung-yaropolk) — 9
+- Julia Kondratowicz (@kulcia) — 9
+- @lbugnard — 9
+- Lieven Decrick (@lievendecrick) — 9
+- L. Westerlund (@limonstera) — 9
+- Lucy Milan Neuhaus (@lmneuhaus) — 9
+- @lottieweymouth — 9
+- L Rose (@lrose23) — 9
+- Lula Wattam (@lula-wattami) — 9
+- Tobias Schiller (@lynxrechts) — 9
+- Sasha (@magpiesash) — 9
+- Sashko (@makitpa) — 9
+- @marc0001 — 9
+- @mariemonic — 9
+- Martin Duke (@martindukeuk) — 9
+- Max Coleman (@max_coleman) — 9
+- Kylie Etter (@megakylie) — 9
+- Mike Turton (@mike1945) — 9
+- Núñez (@moscardonquinqui) — 9
+- @mrbpb — 9
+- @mrtxptx — 9
+- Muki Haklay (@muki) — 9
+- Neil Metc (@neil_metc) — 9
+- Kane Sandoval (@neon_the_iguana) — 9
+- Николай Крылов (@nikolay38) — 9
+- Michael McMulkin (@onthewildside) — 9
+- Pablo MR (@pablomr) — 9
+- @pdbs24 — 9
+- Pentti Impiö (@penttiimpi) — 9
+- Петр Шарпило (@petersh) — 9
+- @pjtxxx — 9
+- Daniel Swan (@polygenics) — 9
+- Rebecca Worgan (@rebecca64018) — 9
+- Rob Foster (@rob21) — 9
+- @rossheth — 9
+- Salih Alper (@salih_alper) — 9
+- Saman Ghasemian Sorboni (@samanghs) — 9
+- @samrdavies — 9
+- Sarah Zukoff (@sarie_parie) — 9
+- @saswarren — 9
+- Jacob Saucier (@saucierj) — 9
+- @seanmegh — 9
+- Татьяна Шатрова (@shatrova71) — 9
+- Silviu Chiriac (@silviu6) — 9
+- Sinclair Laing (@sinclairlaing) — 9
+- @siryn84 — 9
+- Salza Palpurina (@spalp) — 9
+- Kai Squires (@squiresk) — 9
+- St-an Pa (@st_an) — 9
+- @stauntonlamb1 — 9
+- Jesenia K. (@stepnoialbum) — 9
+- Антон Алябьев (@subeditor) — 9
+- Sue Ansell RSPB Cymru (@sue_ansell_rspb) — 9
+- Валерий Гончарук (@tagezi) — 9
+- Thom Doeleman (@thom_nl) — 9
+- @tomaszn — 9
+- @valbentley — 9
+- Василина Струс (@vasylyna) — 9
+- Venusta Pietrocini (@venustapietrocini) — 9
+- veronica facciolati (@veronikaf) — 9
+- Victoria Lazareva (@vika-pika) — 9
+- Владислав Клєщєвніков (@vladkleschevnikov) — 9
+- Elaine Mitchell (@whennah) — 9
+- Will Seiler (@will329) — 9
+- @wotnak — 9
+- Hannah Stitt (@xhannahbananaslugx) — 9
+- Young Jun Lee (@yjkiwilee) — 9
+- Zara Aitken (@zara51) — 9
+- Aaron Liston (@aaronliston) — 8
+- @abbie_ferrar — 8
+- Alejandro P (@alejandro20190) — 8
+- Александра Курипко (@aleksandra_78) — 8
+- Alessandro Piovesan (@alessandropiovesan) — 8
+- Alexandr Aerios (@alexandr_aerios) — 8
+- Алла Козурак (@allakozurak) — 8
+- Andrei Orekhov (@andreiorekhov) — 8
+- Andreas Kern (@andy_76) — 8
+- Anna Debenham (@annadebenham) — 8
+- Anne-Cécile Vain (@anne_cecile) — 8
+- Arabella Willing (@arabellawilling) — 8
+- Arturo Femia (@arturo_femia) — 8
+- Emily Evers (@beelovermill) — 8
+- Ben Town (@ben_town) — 8
+- Beribox (@beribox) — 8
+- Bernard Ducarme (@bernardducarme) — 8
+- @bigben747400 — 8
+- Adam Birch (@birch182) — 8
+- Brecht Verstraete (@brechtverstraete) — 8
+- Bruno Eusebi (@brunoeusebi) — 8
+- @byebyeblondie — 8
+- Calum Maclure (@calum12) — 8
+- @carlykipps — 8
+- @carol_edwards — 8
+- cathlinden (@cath_linden) — 8
+- @cedaniel81 — 8
+- Char (@char99687) — 8
+- Melanie (@coolbugbro) — 8
+- Karsten Rohweder (@cortusa) — 8
+- Craig Williams (@craigwilliams1013) — 8
+- Richard Bland (@crichardb) — 8
+- David Dyck (@david_dyck) — 8
+- Denis Bastianelli (@dbastia) — 8
+- @deraffe — 8
+- @derek_onley — 8
+- Dirk Schiffler (@dirk91) — 8
+- Дмитрий Кошелев (@dmitry_birder) — 8
+- Dmitry Babin (@dmittrix) — 8
+- Ed Martin (@ed103) — 8
+- Eli Bel (@eli209) — 8
+- Ella (@ellaserpell) — 8
+- @ellasophia — 8
+- @elmade — 8
+- Nor (@elnornorg) — 8
+- Emilio Rio (@erior) — 8
+- Jan Sarapak (@estrolon) — 8
+- Eva Perez (@evatuc) — 8
+- Fiona Spooner (@fionaspooner) — 8
+- Flávio Ribeiro (@flavioribeiro) — 8
+- Florian Kulla (@florian179) — 8
+- @fungistool — 8
+- Gazza (@gazzaandco) — 8
+- George Lx (@georgelx) — 8
+- @giuliafinches — 8
+- Gonzalo Colomer (@gonzalocolomer2) — 8
+- @greatest_auk — 8
+- Gustaf Fredell (@gustaf1) — 8
+- Gustavo Ciacco (@gustavociacco) — 8
+- Hanna Huovinen (@hannahuovinen) — 8
+- @hawwthorn — 8
+- @hejda_krabbelt_was — 8
+- Helio Lourencini (@helio-lourencini) — 8
+- Екатерина Кропочева (@itallmas) — 8
+- JaHu (@jahu) — 8
+- Jens Gyldenkærne Jensen (@jensgc) — 8
+- Norbert Jeszenői (@jeszenoin) — 8
+- @joannaerck — 8
+- Jolesh (@jolesh) — 8
+- Jonas M. (@jonas_m) — 8
+- Josh Gallagher (@josh_gallagher) — 8
+- Joshua Msika (@joshua44999) — 8
+- Julianna Agócs (@julianna_agocs) — 8
+- jussi majaniemi (@jusuzippol) — 8
+- Alex Stuart (@kantareller) — 8
+- Karthik Thrikkadeeri (@kartrick) — 8
+- Kat Hobbs (@kat_hobbs) — 8
+- @kdramsay29 — 8
+- @kmortimerjones — 8
+- Kristian Dobias (@kristian_dobias) — 8
+- Ladislav Čoček (@ladislav30) — 8
+- @laura04gpn — 8
+- @laurafeatherx — 8
+- Georg E (@limbus) — 8
+- Markus L. (Linsch) (@linsch) — 8
+- @lisaturalist — 8
+- Susanna (@lmsk) — 8
+- Yi CHEN (@lynxisme) — 8
+- Markus (@m4z3) — 8
+- Marita (@makomarita) — 8
+- Manuel Cardeñosa (@manuelcardenosa) — 8
+- Марина (@marina_mi) — 8
+- Martin Maric (@martinoglena) — 8
+- Martyn Drabik-Hamshare (@martyndrabik) — 8
+- Matthew Rose (@matthew_rose) — 8
+- @maxianm — 8
+- Mikel Etxeberria Okariz (@mikel_etxeberria) — 8
+- Miles Russell (@miles16) — 8
+- Mortuum (@mortuum) — 8
+- Szymon Bigos (@mrbigos) — 8
+- @mrkisaolamb — 8
+- Nicola Goddard (@nicolagoddard) — 8
+- @ohschaumal — 8
+- Paula Zermoglio (@paulazermoglio) — 8
+- Peeter Talvistu (@peeter) — 8
+- Peter Ambrose (@peter2584) — 8
+- CiS (@pfaelzer2021) — 8
+- Philipp Steidle (@phemparon) — 8
+- Phil Ayres (@phil480) — 8
+- Philokretes (@philokretes) — 8
+- Ann Pearson (@place6wild) — 8
+- Mark Simmons (@pmagcurator) — 8
+- Andrea Poggi (@poggi_photos) — 8
+- @pratvmvmbrosvm — 8
+- @rachel3175 — 8
+- Rachel White (@rachelwhiteuk) — 8
+- Kieran (@ranger_kieran) — 8
+- @revsharp — 8
+- Riccardo Rocca (@riccardo80) — 8
+- Richard Smith (@richard399) — 8
+- @robmurray — 8
+- Hilary Rose Dawson (@rosawoodsii) — 8
+- Ronny Seime (@s7yx) — 8
+- @samwise_gamgee — 8
+- Silvia Scandura (@silviascandura) — 8
+- Sophie Woollard (@sofishticated) — 8
+- Anna Shuliko (@southcat) — 8
+- @spiderkhan — 8
+- @stepbystepp — 8
+- Steve Green (@stephenrgreen) — 8
+- @stibu — 8
+- @tamang — 8
+- S (@tasteful_gastropod) — 8
+- Николай Корниясов (@tessssla) — 8
+- Thomas Hartmann (@thomas28591) — 8
+- @tobijw — 8
+- Tom (@tom1093) — 8
+- Tom Evans (@tomevans) — 8
+- @tonydean — 8
+- Trixie Hürkamp (@trixie7) — 8
+- @tuohinopsakki — 8
+- UK_Tamil_Naturalist (@uktamilnaturalist) — 8
+- Corin (@uncivilisation) — 8
+- Valeri Golub (@valeriyagolub5) — 8
+- Vanwolf (@vanwolf) — 8
+- Irina Maksimova (@viramente) — 8
+- Wilma Harper (@wilmacgh) — 8
+- Bradley Squarek (@windsweptguy) — 8
+- Юрій Мотрук (@yurii_motruk) — 8
+- Zack Abbey (@zabbey) — 8
+- Zac Peterson (@zacpeterson) — 8
+- Jerzy Tomes (@zjerzy) — 8
+- ZWG (@zwg) — 8
+- @a_virginian — 7
+- Mattia Aaron Miroddi (@aaar) — 7
+- @ailinon — 7
+- Alexander Bach (@aixnatura) — 7
+- @alamettyr — 7
+- Alan Holding (@alanholding) — 7
+- Aleksandra Barczak (@aleba) — 7
+- Alessandro Del Balzo (@alexdb81) — 7
+- @alexminshull — 7
+- Alisa Graham-Brown (@alisagraham_brown) — 7
+- Anders Gravbrøt Finstad (@andersfinstad) — 7
+- Andreas Frey (@andreas822) — 7
+- ANDRÉ SIMÕES (@andresimoes) — 7
+- Angelina (@angelina_kreuzinger) — 7
+- Arseny G (@arseny_g) — 7
+- Betty Schwarz (@askja312) — 7
+- Becky Williams (@becky_williams) — 7
+- @becsehota — 7
+- Alix Sanchis (@begalma) — 7
+- Alžběta Srbkova (@betyy) — 7
+- BIHNZ (@bihnz) — 7
+- @bradwilliamswp — 7
+- Callum (@callumjethomas) — 7
+- @cherry24d — 7
+- Clare Collins (@clare228) — 7
+- Clément Massé (@clement147) — 7
+- @connyklein — 7
+- Mr Mark Coleman (@cooleyman) — 7
+- Corwinn (@corwinn) — 7
+- Izzy (@crabbycrabby) — 7
+- Craig (@craig_mundy) — 7
+- d1618d96 (@d1618d96-832c-49f1-b225-c3d65fddbd7a) — 7
+- Daniel S. Katz (@danielskatz) — 7
+- D J Evetts (@dave606) — 7
+- David Grossmann (@davidgrossmann) — 7
+- @davidroy — 7
+- R. Holthuizen (@dbstaring) — 7
+- Even Dankowicz (@edanko) — 7
+- Константин Верцинский (@elisenvaara) — 7
+- Em TK (@emtk) — 7
+- @fabrizio_mariani_montesorbo — 7
+- Steven Farquhar (@farquaad) — 7
+- Fernando Hidalgo (@ferclimbs) — 7
+- Fethullah ÖZTÜRK (@fethullahkrtz) — 7
+- Fumigator (@fumigator) — 7
+- Francis wyffels (@fwyffels) — 7
+- @fyfe55 — 7
+- Fym Arte (@fym) — 7
+- Gabriel Melescanu (@gabriel_melescanu) — 7
+- G Chandler (@gailsjoy) — 7
+- Gemma (@gemima) — 7
+- Nicola Eccel (@gnikollae) — 7
+- @goodwinmagic — 7
+- Joan Willson (@got-id) — 7
+- Harrison R (@harriso_n) — 7
+- @heatheroakwood — 7
+- @helenaj — 7
+- Holger Huenermund (@holgerh) — 7
+- Ioda (@i-oda) — 7
+- Imrick B. (@imrick) — 7
+- Krzysztof Daszuta (@irukard) — 7
+- Istvan Kovacs (@istvan__kovacs) — 7
+- Ivo Macek (@ivom) — 7
+- Jack C (@jack1492) — 7
+- Jamie Wood (@jamie5301) — 7
+- Jan (@janknowlson) — 7
+- @joao_24lmeida — 7
+- Johan Nuyts (@johan424) — 7
+- Jo Hitchings (@johitchings) — 7
+- Hans-Heinrich Platte (@johnnyexp) — 7
+- Jonas Sielenkämper (@jonas75444) — 7
+- JosselinR (@josselinr) — 7
+- Johnathon Miller-McCall (@jtalksnature) — 7
+- Justin Schoon (@justinschoon17) — 7
+- John White (@jwpwhite) — 7
+- @kalopsia — 7
+- Kell Drinkwater (@kellcompostwitch) — 7
+- Kevin Birch (@kevinindorset) — 7
+- @kingwill60 — 7
+- Kristopher Brand (@kristopher48468) — 7
+- Hanna U. (@kuldkollane) — 7
+- Anniina Kuusijärvi (@kuuannii) — 7
+- @larisa181 — 7
+- Ulrikke Hedegaard (@larix10dua) — 7
+- @lauraeh — 7
+- Lawrence Gray (@lawrence88252) — 7
+- Lennart (@lennter) — 7
+- Rubén Fernández Sotelo (@liceortabro) — 7
+- Ralph Lucas (@lordlucascd) — 7
+- Lorenzo Giordani (@lorenzo_giordani) — 7
+- Maïté Waagmeester (@maitewaag) — 7
+- @malcrigg — 7
+- Martin Gutewort (@martingutewort) — 7
+- @max95168 — 7
+- Mel Bevan (@melbevan) — 7
+- Micelio Kosmico (@micelio-kosmico) — 7
+- Michael Held (@michael5507) — 7
+- Millie Basden (@milliebasden) — 7
+- Dominika Nowak (@minifix) — 7
+- Moments of Stillness (@moments_of_stillness) — 7
+- Monika Pe (@monikape) — 7
+- Margot Gabel (@mrgt) — 7
+- @mrscrumpy — 7
+- Anastasija Bisjukova (@nastjushikk) — 7
+- Nadiia (@ncher2002) — 7
+- Neal Kelso (@nealkelso) — 7
+- нина рафаиловна (@nina_rafailovna) — 7
+- Шухободская Ольга Владимировна (@o11ish) — 7
+- Neil Williams (@orchard-williams) — 7
+- @panasko — 7
+- Pasha Gusev (@pashagusev) — 7
+- Paul Cavers (@paulcavers) — 7
+- Daniel Pizzoni (@pizz11) — 7
+- @poluttaja — 7
+- Powi (@powi) — 7
+- Pyry Toivonen (@pyrytoivonen) — 7
+- R Avery (@ra--ne) — 7
+- @ragnvald — 7
+- Richard Lowry (@richard54205) — 7
+- Robbie Adamson (@robbie73566) — 7
+- Ronan Hogervorst (@ronanhogervorst) — 7
+- RukiaRiver (@rukiariver) — 7
+- SanneDB (@sanne) — 7
+- Verd e Blu Sara Arjó Francés (@saraarjo) — 7
+- Sascha Haberkorn (@saschahaberkorn) — 7
+- Shona Harrower (@shonaturalist) — 7
+- @silvan95 — 7
+- @skysvetlana — 7
+- @slow_walker — 7
+- @snouke — 7
+- Stefano Petrella (@stefano_petrella) — 7
+- Steph Brulot-Sawchyn (@stephbrulot) — 7
+- @suprez — 7
+- Svetlana Polevova (@svetlanapolevova) — 7
+- TadejM (@tadejm) — 7
+- Jonathan Ball (@theoakking) — 7
+- Tobia Marini (@tobia_marini) — 7
+- Anthony Batista (@tonybatista) — 7
+- @tylototriton — 7
+- Peter Uetz (@uetz) — 7
+- @unidentifiedcritter — 7
+- Oliver Schwarz (@vespula-nyosuke) — 7
+- Viktoria Gorbanova (@viktoriagorbanova) — 7
+- Владимир Береснев (@vladimirpenzyak) — 7
+- j (@wholesomename) — 7
+- Thomas Wilson (@wilsowildlife) — 7
+- Karen Timmins (@worldofscience) — 7
+- @yongestation — 7
+- Юрий Носков (@yuriy_noskov) — 7
+- @yvonne_k_b — 7
+- Matthias Wolf (@zelge) — 7
+- @acronin08 — 6
+- @adam_waligora — 6
+- @adamcvean — 6
+- Brian Dickerson (@aggie_wildlifer) — 6
+- Aimée Moretti (@aimeesmoretti) — 6
+- Aleksandr Detkov (@aleksandrd) — 6
+- Alex Sharrod (@alex2193) — 6
+- Тут могла быть ваша реклама (@alexander_melnichenko) — 6
+- @aliasp — 6
+- @alimac30 — 6
+- @alinevod — 6
+- Alison Robertson (@alisonrobertson) — 6
+- Allan T. Souza (@allantsouza) — 6
+- Alex Lu (@allyxd) — 6
+- @alsted — 6
+- Andy Young (@andy-young) — 6
+- Antonín Pospíšil (@antonin33) — 6
+- Antti Leppänen (@antti35772) — 6
+- Astra (@astra_the_dragon) — 6
+- Augustin Villemagne (@augustinvillemagne) — 6
+- Baptiste Leduc (@baptastro) — 6
+- BDaniil (@barbashin_daniil) — 6
+- Bark Hartmann (@bark-from-the-bog) — 6
+- Alison Copeland (@bda_biodiversity) — 6
+- Ben Rushbrooke (@ben_rushbrooke) — 6
+- @benblades — 6
+- Benjamin Bishop (@benjaminbishop) — 6
+- Mityakov DA (@biofaker2004) — 6
+- Susannah Hall (@boatlady) — 6
+- Robert H. Wardell (@bobwardell) — 6
+- Michele Mancini (@bohemicus) — 6
+- Boris Berlijn (@borisberlijn) — 6
+- Brian Robinson (@brian48980) — 6
+- Chelsea Welch (@c_welch) — 6
+- Catriona Hays Howson (@catricat) — 6
+- @charlessnead — 6
+- Charlotte Jones (@charliechee) — 6
+- Damon H (@conehead_nz) — 6
+- Héctor (@conejoaccitano) — 6
+- @cwr202 — 6
+- Cyril Carsalade (@cyril70) — 6
+- Martin Vohralík (@czechitnature) — 6
+- Damián Rafferty (@damianrafferty) — 6
+- Dano Mariwan (@dano_mariwan) — 6
+- Daryl Buck (@daryl_b) — 6
+- @davemateer — 6
+- David F. Belmonte (@davidfbelmonte) — 6
+- DeeF (@deefault) — 6
+- Diogo Pacheco (@diogo_pacheco) — 6
+- David (@djgshef) — 6
+- Jan Droschinski (@droschinskijan) — 6
+- Eeva-Maija Kakko (@eeva-maija) — 6
+- Albert Sackl (@einjahr) — 6
+- Ella Rowan (@ella141) — 6
+- @emiliah125 — 6
+- eric decout (@eric2129) — 6
+- Eric Lamb (@eric_lamb) — 6
+- Sammi (@eukaryotic_organism) — 6
+- Ferenc Molnár (@ferenc9) — 6
+- Fernando Lisón (@fernando_lison) — 6
+- @frankie-learning — 6
+- Сергей Голубев (@geokefir) — 6
+- George Cook (@georgecuckoo) — 6
+- Goober Fox (@goobertron) — 6
+- Keith Mitchell (@goshawk666) — 6
+- Renee Grebe (@grebebird) — 6
+- Günter Pisch (@guenterp) — 6
+- Habib Rehman (@habibrehman) — 6
+- Heather C. (@hacole) — 6
+- Haley Gladitsch (@haleyglad) — 6
+- @hannahmc — 6
+- Heather Alice-Grace Orchard (@heather-hyfae) — 6
+- Heidi Meudt (@heidimeudt) — 6
+- Huey (@hueyl) — 6
+- @ianrainbow — 6
+- @iantrought — 6
+- Ilaria Leoni (@ilaria_leoni) — 6
+- @inatadedi — 6
+- Irene Malone (@irene_malone) — 6
+- Isabel Silva (@isabel766) — 6
+- @ischurov — 6
+- Ivana Capan (@ivanacap) — 6
+- @jabo0021 — 6
+- Jo Neville (@jackrussellmum) — 6
+- James King (@jamesking97) — 6
+- Eresus (@je_ru) — 6
+- @jenwill51 — 6
+- @joha1112 — 6
+- @john_pete — 6
+- Johnniverse (@johnniverse) — 6
+- Johnny C (@johnny68996) — 6
+- John Thomlinson (@jthomlinson) — 6
+- Juanvi (@juanvi) — 6
+- @juniperus_com — 6
+- Karyn Murby (@kandp) — 6
+- Kari Lehikoinen (@kari340) — 6
+- Kaze 719 (@kazenature) — 6
+- @kert01 — 6
+- @kirstytrout — 6
+- @kitlin — 6
+- Kent P. McFarland (@kpmcfarland) — 6
+- Kristine Clark (@ksandsvet) — 6
+- Lawrence Hylton (@lawrencehylton) — 6
+- Leander Krüger (@leanderkruger) — 6
+- libby hepburn (@libbyhepburn) — 6
+- linsepatron (@linesabroe) — 6
+- Lisa Redfern (@lisaredfern) — 6
+- Lobed Homunculus (@lobed-homunculus) — 6
+- @lord_fell — 6
+- Martin Bichler (@m_bichler) — 6
+- Maja Pavičić (@maja50082) — 6
+- Andy (@mamohin) — 6
+- Вадим Ибрагимов (@maoripudel) — 6
+- Marina_Giann (@mar_gnn) — 6
+- Marija Blagović (@marijaexpeharblagovi) — 6
+- marika abbà (@marika_abba) — 6
+- @marko2022 — 6
+- Mary Dean (@marydean1) — 6
+- Masked Lynx (@maskedlynx) — 6
+- Maurizio (@maurizio-valota) — 6
+- @mdayglos — 6
+- Merce Rocadembosch (@merce_rocadembosch) — 6
+- @meteorquake2 — 6
+- Michael Dailly (@mick6489) — 6
+- Scott Allen Davis (@milkweed_mapper) — 6
+- Nevlyutov Marat (@mnevlyutov) — 6
+- Алексей (@mokhovik) — 6
+- Marleen van Gorsel (@murlunii) — 6
+- @mycomutant — 6
+- Μυρσίνη (@myrsiniancat) — 6
+- Natacha Roullé (@nati56) — 6
+- @nev160 — 6
+- @nickpeacock — 6
+- @nicolaainger — 6
+- Nocri (@nocri) — 6
+- @noemnoem — 6
+- Oscar Martin (@o_martin) — 6
+- @oddwhitefly — 6
+- Ольга Зеленова (@olza) — 6
+- @orthhank — 6
+- Philipp (@outsidecontext) — 6
+- Pablo Woodlife (@pablowoodlife) — 6
+- Paul (@paolo45) — 6
+- @patricklux — 6
+- Pierre Cartier (@pcartier) — 6
+- Pedro Alvaro Neves (@pedroalvaro) — 6
+- @peterchapman26 — 6
+- Phil Clifford (@phil53293) — 6
+- Philipp Rauscher (@philipp75) — 6
+- @portugaltee — 6
+- @prodewald — 6
+- Laura J. Costello (@quietlymagical) — 6
+- Reid Hardin (@reidhardin) — 6
+- Rhys (@rhys-outsidelens) — 6
+- Rob Felix (@rob_felix) — 6
+- Rodrigo Urrutia (@roddyu) — 6
+- Roger Butterfield (@rogerbutterfield) — 6
+- Sam Balderson (@sam_balderson) — 6
+- Sam Allon (@samallonthesciencemon) — 6
+- @samsouthgate — 6
+- Sara Nowak (@saranowak) — 6
+- @sazalihdowl — 6
+- S. Menéndez (@sbrnmnndz) — 6
+- Semckin_Timofey (@semckin_timofei) — 6
+- Константин Шатилов (@shatilovbirdphoto) — 6
+- Simone Littledale (@simonele) — 6
+- @slocon — 6
+- @snakesandladders — 6
+- Stefan C (@spcha) — 6
+- Sten van Houwelingen (@stenvanhouwelingen) — 6
+- Stephen Hart (@stephenhart) — 6
+- Stevie Steele (@stevie_steele) — 6
+- @suemay — 6
+- @susygais — 6
+- sujay (@sxv) — 6
+- T Car (@t60) — 6
+- Teppo Savinen (@teppo) — 6
+- Corinna (@theblacktoad) — 6
+- @thehiddengardens — 6
+- Helen Wilkie (@thewilk) — 6
+- Luke Padon (@threeagoutdoors) — 6
+- Tilgate Zoo (@tilgatezoo) — 6
+- Timothy Landricombe (@timlandy) — 6
+- Tim (@tklink) — 6
+- Tomas Broucek (@tomasbroucek) — 6
+- Tom Guilbert (@tomguilbert) — 6
+- Tomáš Svačina (@tosv1348) — 6
+- @tracypurcellcopland — 6
+- @trendafilov — 6
+- Dmitrii Ignatev (@truth_seeker) — 6
+- Theo Summer (@twsummer) — 6
+- Ukorzeniony Aquarium (@ukorzenionyaquarium) — 6
+- Frances Ross (@umbrasumus) — 6
+- Valabe (@valabe) — 6
+- @valenting — 6
+- Valeriia Milkina (@valeriia_milkina) — 6
+- Valuliso (@valuliso) — 6
+- Veronika Florianová (@veronika_florianova) — 6
+- Viktoria Kosmirak (@viktoria_7) — 6
+- Volodymyr Slobodian (@volodymyr_sl) — 6
+- Andy Warham (@w1ll0w1tr33) — 6
+- @walldi222 — 6
+- Willow Mae (@willowexploring) — 6
+- Xavier Mas (@xavier_mas) — 6
+- Yasmine Saad (@yasminesaad) — 6
+- @yatton — 6
+- @yavien — 6
+- Yvan Papa (@yvanpapa) — 6
+- Мария Пивоварова (@zelenyisvitok) — 6
+- Zora (@zorailex) — 6
+- Zuzanna Kulis (@zuzanna45537) — 6
+- @acionnae — 5
+- Adam Kaya (@adam84850) — 5
+- @adkmsrf — 5
+- @aeshnidae28 — 5
+- @agreiner99 — 5
+- Alain Coppin (@alaincoppin) — 5
+- alan.k. parish (@alankparish) — 5
+- Yvi S. (@alchemiashamanica) — 5
+- Aleksandra Pompa (@aleksandrapompa) — 5
+- Alexey Yakovlev (@alexey_yakovlev) — 5
+- @alicemellon — 5
+- Alison (@alison45300) — 5
+- Hana Hrudková (@amaeba) — 5
+- Matti Vaihevuori Hernández (@andest99) — 5
+- @andrew2285 — 5
+- ANGEL MARCOS LUENGO BELLO (@angel_marcos) — 5
+- @antropopoiesi — 5
+- Irene (@aparrot1) — 5
+- Alexander Lydon (@aqualydon) — 5
+- @arees10 — 5
+- Arn Rytter Jensen (@arnrytterjensen) — 5
+- @aroughtbrooks — 5
+- Vladimir Atachkin (@atachkin) — 5
+- Augusto Olmos Mercado (@augustoolmos) — 5
+- Vadim Yangunaev (@avg00r) — 5
+- @axtothemax — 5
+- David Ballesteros (@balles2601) — 5
+- Barbara Banfield (@barbarab) — 5
+- Ben Essere Animale (@benessereanimale) — 5
+- @bg1159 — 5
+- @brendanboyd — 5
+- Charlotte Rankin (@bumble_being) — 5
+- Anders Halling (@caconym) — 5
+- @camicami — 5
+- @capceline — 5
+- charli clark (@charli12777) — 5
+- @charlielinton — 5
+- Chris Deacon (@chrisdeacon) — 5
+- Caroli (@cistus_ladanifer) — 5
+- Kenneth Cross (@clickycross) — 5
+- Капрал Натурал (@corporal-natural) — 5
+- Copthall South Fields Conservation Group (CSFCG) (@csfcg) — 5
+- @dan-trustwildlife — 5
+- Darren (@darrenw) — 5
+- David George (@davidgeorge) — 5
+- David Kelly (@davidkelly85) — 5
+- Davy Hubert (@davyhubert) — 5
+- @dcourtine — 5
+- Dean Bayliss (@deanbayliss) — 5
+- Diederik (@dsmollo) — 5
+- @dugald — 5
+- Emerentia Clarke (@duskywolf) — 5
+- Ed Bailey (@ed_bailey) — 5
+- Eleanor Carne (@eleanorcarne) — 5
+- Emily (@emilyinge) — 5
+- @emmamorrison — 5
+- Enrico Bisenzi (@enricobisenzi) — 5
+- @er-birds — 5
+- Erwin Gruber (@erwin_pteridophilos) — 5
+- Sel (@etching_) — 5
+- Yevhenii Pievtsov (@evgeniy43385) — 5
+- @fabnat — 5
+- Fens (@fensberrycloth) — 5
+- Fiona Boston (@fjb2021) — 5
+- Frances Robertson (@fobwsecretary) — 5
+- Fran (@franrzm) — 5
+- franzi :p (@frau_hirsch) — 5
+- David Booth (@froggydave) — 5
+- @g-rune — 5
+- @gillsmart — 5
+- Konsta Ala-Ilomäki (@gona94) — 5
+- James Graham (@harjgam) — 5
+- RT (@harrowhark) — 5
+- Heather Marie (@heathermarie) — 5
+- heb heb (@hebheb) — 5
+- @helenbarbouti — 5
+- Helen Reid (@helzie1) — 5
+- Chris HD (@hewitt58) — 5
+- Chuck Wilson (@hllrnnr) — 5
+- Holly (@hm1209) — 5
+- Martha (@inaturalistmartha) — 5
+- Ben Wallace (@indyben) — 5
+- Anastasiia Kryvenko (@initial_presence) — 5
+- @ionafraser — 5
+- Thomas Dalley (@isopod-fan) — 5
+- Jacky Judas (@jackyjudas) — 5
+- JadeGunnell (@jadegunnell) — 5
+- James Eaton (@james_birdtourasia) — 5
+- @jamiranda — 5
+- Jan Wegmann (@jan_wegmann) — 5
+- Jana Paulsen (@jana470) — 5
+- @janet1000 — 5
+- Alejandro Calle (@janowowo) — 5
+- Jennie Pistevos (@jennie81) — 5
+- Jennifer Fresco (@jenniferf1971) — 5
+- Jens Edlund (@jensedlund) — 5
+- Jessica (@jmcalpin) — 5
+- Joanne Gilbert (@jogilbert) — 5
+- jtweddle (@johnty) — 5
+- Jon Moore (@jon_moore1) — 5
+- Julia Morris (@joolzya) — 5
+- @joyoungedin — 5
+- @juliatodd — 5
+- @juliecowley — 5
+- Jure Perović (@jure54527) — 5
+- Kari Lahti (@karilahti) — 5
+- Katy Perry (@katyperry89) — 5
+- Kenta Nakahashi (@kentanakahashi) — 5
+- Kimberly (@kimberlysnow) — 5
+- Евгения Михайловна (@kirjava_w) — 5
+- Knud Erik Vinding (@knuderikvinding) — 5
+- Konsta Happonen (@konstahapponen) — 5
+- Konstantinos Tsiolis (@konstantinos_tsiolis) — 5
+- Krissu S (@krissu) — 5
+- Kristy Morley (@kristym) — 5
+- @krolipikan — 5
+- LandB (@landb) — 5
+- @lcjenkins — 5
+- @leonardo_mao — 5
+- @lolochouk — 5
+- Lorenz Wenner (@lrnzo) — 5
+- Lucas Keune (@lucas1253) — 5
+- lucian stănescu (@lucian15) — 5
+- @lucybriz — 5
+- L&amp;L (@lynluc) — 5
+- Maheva B Laursen (@mahevablaursen) — 5
+- Margaret Forrest (@margaret_forrest) — 5
+- MARIANO ORTUÑO (@marianoog) — 5
+- @maribang — 5
+- Daniele Marini (@marinivet) — 5
+- Markéta Žlebková (@marketa-vz) — 5
+- Martin Johansson (@martall) — 5
+- Martin Kleikamp (@martin1222) — 5
+- Mason (@masonb6) — 5
+- Massimiliano Zandomeneghi (@maxzando) — 5
+- James McEvoy (@mcevjp) — 5
+- @melvbavic — 5
+- Mark Reed (@mgreed) — 5
+- Damian (@microecobus) — 5
+- Milan Kovanda (@milcr) — 5
+- Mirko Bliinn (@mirko_bliinn) — 5
+- McKenna Lily (@mlily98) — 5
+- Mark Collings (@mrcol93) — 5
+- Malmesbury River Valleys Trust (@mrvt) — 5
+- @mwseek — 5
+- Neil Birrell (@nbir012) — 5
+- Michael Glanznig (@nebulon42) — 5
+- NENP_eagleyjsBolton (@nenp_eagleyjsbolton) — 5
+- Nerea Gutiérrez Gordillo (@nereagg) — 5
+- Светлана Самусенко (@nika168) — 5
+- Norbert Szewczyk (@norbsz) — 5
+- North Ross (@northross) — 5
+- @olha_chusova — 5
+- Oliver Clarke (@olibclarke) — 5
+- Oliver Bailey (@olimbai) — 5
+- Andy Fairbairn (@ositopanda) — 5
+- Maksim Panish (@pan-myrmekos) — 5
+- @papiliomachaonophile — 5
+- Eliza (@passerbliss) — 5
+- Paul Prior (@paul_prior) — 5
+- @peterdorrighi — 5
+- @phardwick76 — 5
+- @plantilo1 — 5
+- Rachel Dring (@racheldring) — 5
+- @realgandy — 5
+- @relew — 5
+- Reni (@renispring) — 5
+- @rhcooke — 5
+- Eric Watts (@rhizomeric) — 5
+- @richard-16 — 5
+- Richard Ashwell (@richardashwell) — 5
+- Andy (@rinksy) — 5
+- @rippit — 5
+- @rogersnowden — 5
+- Roman Soroka (@roman_soroka) — 5
+- Rubén Sanchez Perez (@ruben91357) — 5
+- Ruben Perez Perez (@rubenperper) — 5
+- Rubén F. A. (@rubn) — 5
+- rudolf brandtner (@rudolf58) — 5
+- RX ZHANG (@ruixuan) — 5
+- Ryan Schmidt (@ryanschmidt1399) — 5
+- Алексей Селезнёв (@safetravels) — 5
+- Samuel Sosnowski (@samuel_sosnowski_pl) — 5
+- @sarahdobson — 5
+- J. Drzewiecka (@sasanka) — 5
+- Sebastián Fornés (@seba_fornes) — 5
+- Seth Musker (@sethmusker) — 5
+- @sharkington — 5
+- Artem (@shvartig) — 5
+- Simon Veal (@simon_veal) — 5
+- Slunky (@slunky) — 5
+- Роман Передерий (@spaceroper) — 5
+- Claire Webster (@sparkynature) — 5
+- Steve Cross (@stevecross) — 5
+- Sue (@sue55jen26) — 5
+- @supervegan — 5
+- Susanna Thornton (@susanna33hello) — 5
+- @susie99 — 5
+- Seebra Young (@syoung1203) — 5
+- Piotr Wojcik (@szczurcik) — 5
+- @tanibrishan — 5
+- @the_tumultuous_glump — 5
+- @thomaslux — 5
+- Thor Bue Hansen (@thor_bue) — 5
+- TC (@tim85738) — 5
+- nina fogel (@tockgoestick) — 5
+- Tom August (@tomaugust) — 5
+- Arzo (@tylian) — 5
+- David Vaughan (@ultimatevyse) — 5
+- Ung Rossen (@ungrossen) — 5
+- @unstone_residents — 5
+- Vladimir Romanov (@varxan) — 5
+- @volumen — 5
+- Simon Garrett (@wagtailsurprise) — 5
+- @wienburg — 5
+- Guille C. Lera (@wildcasler) — 5
+- Xavier (@xavier07_) — 5
+- Yannick Majoros (@yannick_majoros) — 5
+- @yettt — 5
+- @yoanf — 5
+- Юлия Китовски (@yoll) — 5
+- Alexandra Kaganova (@a_kgnv) — 4
+- @actionpyramid — 4
+- Mike Dickison (@adzebill) — 4
+- Alan Piper (@aep7341) — 4
+- Ahikar (@ahikar) — 4
+- Sokratis (@aidworker) — 4
+- allan Reid (@airakalanr) — 4
+- @ajluker — 4
+- Al Kordesch (@al_kordesch) — 4
+- Albert Harsieber (@albertpasquale) — 4
+- Marco Simonazzi (@aldrovando) — 4
+- Alejandro Hoyos Guerrero (@alejandrohoyosguerrero) — 4
+- Aleksi Elovaara (@aleksi3) — 4
+- Andrew Durso (@amdurso) — 4
+- Amelie Jorns (@amselie) — 4
+- Ana Garcia (@anaigar) — 4
+- Andrea (@andreadrew) — 4
+- Andreas Neumann (@andreas_n) — 4
+- Andrew Jennings-Giles (@andyj-g) — 4
+- Angelos Tsikas (@angelo_tsikas) — 4
+- Anwen Evans (@anwenevans) — 4
+- @apaterson11 — 4
+- Ali Rajabali (@arajab8) — 4
+- Artemy Savko (@artemy_savko) — 4
+- @asdombro98 — 4
+- @ashevillebirder — 4
+- @aspace2 — 4
+- @beckyclover — 4
+- Rebecca Fowlds (@beckyfowlds) — 4
+- Ben Keen (@benkeen) — 4
+- Bernard Picton (@bernardpicton) — 4
+- @bethlybeth — 4
+- Helen (@bighelhawk) — 4
+- @bilaterian — 4
+- Fabian (@biofabi) — 4
+- @birgitmanuela — 4
+- Bjarne Langkilde (@bjarnelangkilde) — 4
+- a.c (@blackcat_agc) — 4
+- Igor Lérias (@blacktys) — 4
+- Mike (@bluecherry) — 4
+- Ed (@brampton2) — 4
+- Brian Ó Maoláin (@brianomaolain) — 4
+- Brian White (@brianwhite) — 4
+- Kacper (@brodacz) — 4
+- Yaron Budowski (@budowski) — 4
+- @burgessemma — 4
+- Chema Montero (@chema_montero) — 4
+- Cherry Hibbert (@cherry57623) — 4
+- Toby Holman (@chobey) — 4
+- Chris McKee (@chrismckee) — 4
+- Claire Elliott (@claire2) — 4
+- @clemensoe — 4
+- Igor Shelpiakov (@closterium_mysterium) — 4
+- Corey Farwell (@cofa) — 4
+- Manuel Lopes (@corkant) — 4
+- Cristhian Mace (@cpmaceface) — 4
+- @crrryoo — 4
+- Graham Watson (@cumbriagraham) — 4
+- Arthur Van Ooijen (@d10200960) — 4
+- @daksu — 4
+- Daniel Simonsen (@daniel1425) — 4
+- @danielass — 4
+- Ethan Darnell (@darnell_thesnazzysnouter) — 4
+- Dave Cattleman (@davecattleman) — 4
+- Dave Lunt (@davelunt) — 4
+- David Andreen (@david72083) — 4
+- @dead_flamingo — 4
+- Destynnie K. Berard (@destynnie_berard) — 4
+- @donbull — 4
+- Eleanor Jackson (@ee-jackson) — 4
+- @ellieandmaddie — 4
+- Emilio J Garcia (@emiliojgarcia) — 4
+- Evan Tilton (@emtilt) — 4
+- Eric Haavind-Berman (@eric_haavind_berman) — 4
+- Eric (@ericmago) — 4
+- Erik Paterson (@erikpaterson) — 4
+- Erik Volz (@erikvolz) — 4
+- Etienne BONINO (@etienne_photo) — 4
+- @evinse — 4
+- Faith Hillier (@faith269) — 4
+- Vivi (@feralvivi) — 4
+- Festival of Nature (@festofnature) — 4
+- Ben Coulson (@forestgoldminer) — 4
+- Gabriele Taormina (@gabrielemacro) — 4
+- Gabrielle Jarvis (@gabrielle389) — 4
+- Jacopo Ferrarin (@gandhibaf) — 4
+- @garden_cwg — 4
+- Genny Tunbridge (@gennyt) — 4
+- George Papademetriou (@georgepapademetriou) — 4
+- @gill_lewis — 4
+- Giorgio Miliacca (@giorgiomiliacca) — 4
+- Adrian Tync (@gower) — 4
+- Gratzer Archives (@gratzer_archives) — 4
+- Paul Kearsley (@greenboulderer) — 4
+- Grischa Dalewski (@grischa1) — 4
+- @hallidayjane — 4
+- @hamiltonhillclaypitslnr — 4
+- @hanami_yama — 4
+- Patrick Hanly (@hanly) — 4
+- @hannah_montag — 4
+- Hannah Droop (@hannahdroop) — 4
+- Charalampos Gkikas (@hargikas) — 4
+- @harrisont71 — 4
+- Hattie Findlay-Wilson (@hatkatfindwils) — 4
+- Héctor Ibáñez Cantero (@hector_ibacan) — 4
+- HelenR (@helenfsc) — 4
+- @hkujala — 4
+- Hubert Farnsworth (@hubertfarnsworth) — 4
+- Office Hundianer (@hundianer) — 4
+- Ian Creasey (@ian-creasey) — 4
+- @indrek — 4
+- Ingmar Gaberle (@ingmar_gaberle) — 4
+- Isabelle Pulletz (@isabellepulletz) — 4
+- Giovanni Brivio (@its-torty) — 4
+- @jamesne — 4
+- Jane Tavener (@janetav) — 4
+- @janetmary53 — 4
+- Jens Rademachers (@jens_rademachers) — 4
+- @jimsox — 4
+- @jlledom — 4
+- James Nokes (@jnokes) — 4
+- Giovanni Caudullo (@joecow) — 4
+- Josie (@josiestu) — 4
+- Juan Alarcón (@jotagav) — 4
+- Juan Cruzado Cortés (@juancruzado) — 4
+- @justinm_ — 4
+- @jw2305 — 4
+- @k-a-t-e — 4
+- Kate Williamson-Smith (@kate545) — 4
+- Kaydee Barker (@kaydeebarker) — 4
+- John Smith (@keepitcookie) — 4
+- Dunverig (@kevin_findlater) — 4
+- Кирилл (@kirill_petrov) — 4
+- Karolina Kuczkowska (@kkuczkowska) — 4
+- @klausf — 4
+- Laurent Kloetzer (@laurentkloetzer) — 4
+- @leighmus — 4
+- Lena Perova (@lenaperova) — 4
+- Letniy (@lentniy) — 4
+- @leodhasmassie — 4
+- @lesleytotten — 4
+- @levkoviech — 4
+- @leytongabriel — 4
+- Lídia Carrera (@lidiacarrera) — 4
+- @liz_o — 4
+- Liz (@lizh20) — 4
+- @lowerfurlong — 4
+- @lspinnars — 4
+- Nikita Lunkin (@lunalikiy) — 4
+- Lydia Blake (@lydiablakesustrans) — 4
+- Lynden (@lynden3) — 4
+- Mae (@malayka) — 4
+- Manu Santa-Cruz (@manu_santa-cruz) — 4
+- Maree Rudd (@maree78991) — 4
+- Mark G (@markg123) — 4
+- Matthew Fainman (@mattf1996) — 4
+- Matthew Bruce (@matthew1765) — 4
+- MattM (@mattm7) — 4
+- Max Göricke (@max22915) — 4
+- @maxeasey — 4
+- Mads Meilandt Sørensen (@meilandt) — 4
+- Melanie Gröbl (@meli_gr) — 4
+- Beppe (@merlobs) — 4
+- Michal Torma (@michaltorma) — 4
+- @michcjackson — 4
+- @mike_sue — 4
+- Mike Bacon (@mikebacon) — 4
+- Mike Harvey (@mikeharvey1) — 4
+- Mišo Oprendek (@mio1) — 4
+- Viktória Pintérné Tóth (@mistressorinoco) — 4
+- MiThoWe (@mithowe) — 4
+- Anna (@moonglow98) — 4
+- Jon Brightwell (@moozaad) — 4
+- Morten Ross (@morten) — 4
+- Mud (@muddibuddi) — 4
+- Miles Kitching (@mudnuk) — 4
+- Thierry Onkelinx (@muscardinus) — 4
+- George Elbogen (@myriadmyriapods) — 4
+- Nathan Vaughn (@nathan_vaughn) — 4
+- Nathan Cole (@nathancole) — 4
+- NENP_Colneis (@nenp_colneis) — 4
+- Nicholas Petters (@nicholaspetters) — 4
+- Nickolas Kolesnikov (@nikolay_kolesnikov) — 4
+- Duncan Greenhill (@oceanslad) — 4
+- @ohthatclaire — 4
+- Олег Кудров (@oleg_kudrov) — 4
+- @olenaoitsekh — 4
+- Olivier Niederhauser (@olivier_niederhauser) — 4
+- @only1chunts — 4
+- @orangegecko — 4
+- B Teng (@otter_t) — 4
+- P Walker (@p24560) — 4
+- Vladislav Tsepilov (@pagyew) — 4
+- pepa (@panpepacz) — 4
+- Paolo Moretti (@paolo_moretti) — 4
+- Paolo Spaziani (@paolospaziani) — 4
+- Ville Valtavirta (@patemies) — 4
+- Paul Mnich (@paulmnich) — 4
+- Pav Johnsson (@pav_johnsson) — 4
+- Peer-Sascha Grönebaum (@peer_sascha) — 4
+- Elekes Péter (@peter_elekes) — 4
+- @peterjmayhew — 4
+- @petitfleur — 4
+- Pedo Reis (@pgsr) — 4
+- Leonard Wägele (@picturavis) — 4
+- Anniina (@pikkusormi) — 4
+- Alex Pinch (@pinch) — 4
+- pol parrhesia (@polparrhesia) — 4
+- Prashanth N S (@prashanthns) — 4
+- Przepiór (@przepior) — 4
+- @radek_sokol — 4
+- @ragbird — 4
+- @raynerpete — 4
+- @reallifewren — 4
+- Reatha Brunjes (@reatha1) — 4
+- @rebeccamrt — 4
+- René Boe Sørensen (@reneboe) — 4
+- @rhuaridh_hugh — 4
+- Riccardo Guarino (@riccardo_guarino) — 4
+- Irisa Hudson (@rishud) — 4
+- Roberto (@roberto546) — 4
+- Storm (@rookflight) — 4
+- Ptichnik (@rostover) — 4
+- Romana Ferdanová (@rou08) — 4
+- R. Rosslyn (@rrosslyn) — 4
+- Rubén Rejón Lozano (@rubencillo400) — 4
+- Ruth (@rutha1601) — 4
+- Alexandre Albore (@ruthven) — 4
+- Ryan van Huyssteen (@ryanvanhuyssteen) — 4
+- Sabina E. Vlad (@sabinavlad) — 4
+- Sally Hall (@sallyh_chesterzoo) — 4
+- Steve Hall (@saltwatersteve) — 4
+- @schnglack — 4
+- @sdmike — 4
+- Сергей Хильченко (@sergiuszkiev) — 4
+- shahar chaikin (@shaharchaikin) — 4
+- Simon Hulme (@simon1353) — 4
+- Simona Armeli Minicante (@simonarmeliminicante) — 4
+- Šimun Aščić (@simun_a) — 4
+- Siiri Jaakkola (@sjaakkola) — 4
+- Stephen Elliott (@stephenelliott) — 4
+- @stevec00001 — 4
+- Stefan Metz (@stevem61) — 4
+- @stravaiger — 4
+- Stuart Cable (@stucable) — 4
+- Tapio Haavisto (@tahaavi) — 4
+- Kiia Tammisuo (@tammisuokiia) — 4
+- Tasha Gossett (@tasha96784) — 4
+- Tatiana Pires (@tatiana354) — 4
+- Лариса Артемьева (@tcager) — 4
+- @tens — 4
+- Tero Kuusela (@teroajk) — 4
+- @thecolumbarium — 4
+- @thenearsightedmicroraptor — 4
+- Thomas and Guillaume (@thomas_et_guillaume) — 4
+- Thomas Stjernegaard Jeppesen (@thomasstjernegaardjeppesen) — 4
+- W. Terry Hunefeld (@thunefeld) — 4
+- Tim Robertson (@timrobertson100) — 4
+- @tinyclayman — 4
+- Tittanoora Martikainen (@tittanoora) — 4
+- @toadlett — 4
+- Tomas Šimkūnas (@tomas_simkunas) — 4
+- Tony Grant (@tony_grant) — 4
+- Torben Stemme (@torben_stemme) — 4
+- Татьяна Прозорова (@tprozorova) — 4
+- Troy Paterson (@troy79) — 4
+- Tuoichen (@tuoichen) — 4
+- @tvg — 4
+- MuSA (@vedmed) — 4
+- Мария Ветрова (@vetrovamaria) — 4
+- Vince Smith (@vsmithuk) — 4
+- @vuikaan — 4
+- Alan Weakley (@whiteoak) — 4
+- Zo Clark (@zoclark1993) — 4
+- Zygy (@zygy) — 4
+- Adam F (@adam24061) — 3
+- Michael Hennig (@ahrha) — 3
+- @akoivune — 3
+- Aleksandra Czerwońska (@alekscz) — 3
+- alessandra sana (@alessandra443) — 3
+- Alex Mitroff (@alex_mitroff) — 3
+- Alexander Agafonov (@alexander_agafonov) — 3
+- Alexandre Passos (@alexandre164) — 3
+- Alex Shepard (@alexshepard) — 3
+- Allan Audsley (@allan24714) — 3
+- Vadim Zizov (@alvadia) — 3
+- Алёна Осипова (@alyona_osipova) — 3
+- @amantedarmanin — 3
+- Anders Groth (@andersmedumgroth) — 3
+- Andrew Wilson (@andrew1962abc) — 3
+- Андрей Тихонов (@andreytikhonov) — 3
+- Andy Scargill (@andyscargill) — 3
+- Анна Митрошенкова (@anna_mitroshenkova) — 3
+- @annaemelina — 3
+- Anthony A Simmons (@anthony296) — 3
+- Anthony Barker (@anthony438) — 3
+- @antonarctica — 3
+- Antonio Requena Serrano (@antonio_requena_serrano) — 3
+- @arraypirate — 3
+- Chris Chucholl (@astacoides) — 3
+- Davide Puggioni (@astore21) — 3
+- @at8eqeq3 — 3
+- B Jaeger-Stanley (@b_jaeger_stanley) — 3
+- @barnowl275 — 3
+- @barrie123 — 3
+- Bartosz Cichosz (@bartosz_cichosz) — 3
+- Vasilis Lalaounis (@basilath) — 3
+- @bdockrey456 — 3
+- @berrybbenson — 3
+- Berwickshire Marine Reserve (@berwickshiremarinereserve) — 3
+- @bethanp — 3
+- @blotty1722 — 3
+- Bob Walker (@bobw75) — 3
+- @botchd — 3
+- Jenny Reddish (@brindleshanks) — 3
+- Bruno Durand (@brunodurand1) — 3
+- Møl Herold (@bug_brain) — 3
+- CalebRB (@calebberry) — 3
+- Callum (@calebrey) — 3
+- Camille Boucher (@cam_boucher) — 3
+- Carol Ann McCormick (@camcc) — 3
+- Camilo Iglesias (@camiloiglesiasbiologo) — 3
+- Carapax (@carapax) — 3
+- Carrie Seltzer (@carrieseltzer) — 3
+- Cassidy Best (@cassidybest) — 3
+- Charlène Selva (@chachawombat) — 3
+- Milla Carne (@channara) — 3
+- @chaos_fungoriun — 3
+- Chase Mathey (@chasemathey) — 3
+- I.Calabuig (@chelostoma) — 3
+- Lennie (@chilipower) — 3
+- Chris Jewson (@chris3458) — 3
+- Chris Scott (@chris40473) — 3
+- Chris Sulots (@chrisalises) — 3
+- Christian Vogel (@christianvogel) — 3
+- Christina Elgert (@christinaelgert) — 3
+- @clareusher — 3
+- @colinrb — 3
+- Connor Connolly-Moyls (@connorconnollymoyls) — 3
+- @considerthelilies — 3
+- Christi Flesch (@conti27) — 3
+- @cpiet93 — 3
+- Alison JC Brown (@crazycootlady) — 3
+- Cristina Catellani (@criscat) — 3
+- Mary Crickmore (@crwrcwamt) — 3
+- @damienlabat — 3
+- Dan Connors (@dan308) — 3
+- Daniela Gaspar (@daniela89335) — 3
+- Daniele Alfero (@daniele_alfero) — 3
+- @dariapi — 3
+- David J (@david-j-afc) — 3
+- Dawid P. (@dawid35601) — 3
+- @dazedemon — 3
+- Declan McCabe (@declanmccabe) — 3
+- Daniel Levitis (@dlevitis) — 3
+- Dorothy Lyle (@dlyle) — 3
+- Dominic (@dominicp085) — 3
+- No Name (@doodheli) — 3
+- L.Montfort (@dragonfly_sunflower) — 3
+- Dramatisches Eichhörnchen (@dramatisches) — 3
+- Andrea Campiotti (@dreadn) — 3
+- @dresende — 3
+- @drnancyjackson — 3
+- @drzdrz — 3
+- @dwub — 3
+- Dutza K. (@echosmama) — 3
+- Eddie Fyles (@eddiefyles) — 3
+- Elliott Gordon (@egordon88) — 3
+- Mike Youdale (@ekim8) — 3
+- Ellie Winter (@eleanorwinter) — 3
+- Eliza Spain (@eliza103) — 3
+- @elmob — 3
+- @emtay17 — 3
+- Eric Endelin (@ericendelin) — 3
+- Erik (@erikoid) — 3
+- EvelynG (@evelyngruchala) — 3
+- Luca (@fantomatic) — 3
+- Etienne Beltzung (@fcelt) — 3
+- Filip Zelníček (@filipzelnicek) — 3
+- Florian Hitzler (@florian4300) — 3
+- @forfoster — 3
+- Francesco Geri (@francescogeri) — 3
+- Frederik Kristensen (@frederikhk) — 3
+- @fronk — 3
+- Kita (@fungikita) — 3
+- George Morris (@gb_morris) — 3
+- GEMA GONZALEZ SANCHEZ (@gema44) — 3
+- Georges Moes (@geomoes) — 3
+- Georg Zeindlinger (@georg_zeindlinger) — 3
+- @georges3802 — 3
+- Gerhard Egger (@gerhard_egger) — 3
+- Gillian Gibson (@ggngs) — 3
+- @gina1612 — 3
+- Giuseppe Rizzo (@giuseppe_rizzo) — 3
+- Guillaume Larocque (@glaroc) — 3
+- Gordon Shepherd (@gmgshepherd) — 3
+- Güneş Bodur (@gunes_bodur) — 3
+- Alexander Fordyce (@gus_fordyce) — 3
+- @h4kor — 3
+- Håkan Sagvik (@hakansagvik) — 3
+- Hannes H (@hannes5444) — 3
+- Healthy Yards (@healthyyards) — 3
+- Heikki Auvinen (@heikkiauvinen) — 3
+- @hellojaytee — 3
+- Henrik S (@henrik_straub) — 3
+- TheMongrelKoi (@henrya) — 3
+- Albert Gallego (@hermesblack) — 3
+- @hevincent — 3
+- @humon — 3
+- Allen Hurlbert (@hurlbert) — 3
+- Ігор Мічурін (@ihor97401) — 3
+- Diego Inclan (@inclandj) — 3
+- ines guilabert alonso (@ines94168) — 3
+- Ingo (@ingomueller) — 3
+- Insider10 (@insider10) — 3
+- @iomegan — 3
+- Ismael Olea (@ismaelolea) — 3
+- Ivan Zubkovych (@ivan_zubkovych_11) — 3
+- Jack Forrester (@jackthropod) — 3
+- James Lavin (@james_lavin) — 3
+- @janapar — 3
+- @jardinbioblitz — 3
+- Jaymie Lee (@jaylcollins) — 3
+- @jaynea — 3
+- jay penrice (@jaypenrice) — 3
+- Jean Carlo Mari Fanton (@jeancmf) — 3
+- @jmail_phil — 3
+- Jn C (@jn23) — 3
+- Joep de Ligt (@joepdeligt) — 3
+- John G. Phillips (@johngsalamander) — 3
+- Jonatan Hildén (@jonatanhildn) — 3
+- Jon Paul Rodríguez (@jonparod) — 3
+- Jose Ramon Castro Gomez (@joseramon11) — 3
+- JudithGreig (@judithgreig) — 3
+- Jules Reppert (@julesthebirder) — 3
+- Julie (@julieshort) — 3
+- @jwor — 3
+- Ka B. (@ka_4) — 3
+- Karolina Klimaitė (@karolina148) — 3
+- Garpiya (@karpowaanastasia) — 3
+- Kathryn Elizabeth Burrows (@kat_burrows151) — 3
+- kate cliffe (@katecliffe) — 3
+- Katherine Priestley (@katherine94276) — 3
+- @katherinef2 — 3
+- Katie A (@katie82091) — 3
+- Kristian Bosak (@kbosske) — 3
+- @keldert — 3
+- Adam Knotek (@kerny007) — 3
+- Kevin Holston (@kevin_cornell) — 3
+- Kieran Thomas (@kieran-182) — 3
+- Kirstie de Beaufort (@kirstiedebeau) — 3
+- Kristiina Hurme (@kjhurme) — 3
+- @klober — 3
+- ezra kitson (@kzra) — 3
+- Ellie B (@lasagana) — 3
+- Sander Vollmer (@lastinfantry) — 3
+- Laura Sharp (@laura4880) — 3
+- Lauren Gore (@laurengore42) — 3
+- Carly Slawson (@leafxeater) — 3
+- Lelrond (@lelrond) — 3
+- Jacob Singh (@lemonyayde) — 3
+- Leo (@leo_goo) — 3
+- Leonel Morgado (@leonel11) — 3
+- @lewisw — 3
+- ll r Ирина (@ll_r) — 3
+- @lltespics — 3
+- Lou Filin (@louzfs) — 3
+- Lewis Hayward-Hopkins (@lubey_lu) — 3
+- Lucia Lefter (@lucialefter) — 3
+- Lucy Baldwin (@lucyb95) — 3
+- @lucywalter — 3
+- Manfred Kolbacher (@manfredkohlbacher) — 3
+- Othmar Traninger (@manicou) — 3
+- Manuel Marqués (@manuel_marques) — 3
+- Marc Guittard (@marc92732) — 3
+- Marco Sommer (@marco_sommer) — 3
+- Marc-Olivier Beausoleil (@marcolivierbeausoleil) — 3
+- Mark Pająk (@mark_spider) — 3
+- Mark Gurney (@markgurney) — 3
+- @marklazenby — 3
+- Martyn Moore (@martyn_m) — 3
+- Massimiliano Bedin (@massimilianobedin) — 3
+- Mark Partington (@matbasho) — 3
+- Matthias Tautz (@matthias_tautz) — 3
+- Max Hadoke (@max533) — 3
+- Mike Beard (@mbeard) — 3
+- Mercy Morris (@mercy2) — 3
+- Marina Galenko (@merridewberry) — 3
+- Micah Carrick (@micahpdx) — 3
+- Michael Schuster (@michael_schuster_) — 3
+- @miked2000 — 3
+- Milo Manica (@milomanica) — 3
+- Mitch Van Dyke (@mitchvandyke) — 3
+- @mjopocock — 3
+- Moe Meikle (@moemeikle) — 3
+- Moira Morgan (@moira87968) — 3
+- James Hayes (@moohan) — 3
+- @moorebuesing — 3
+- Виктория (@mozarellla) — 3
+- @mpitkin — 3
+- Emma Gardner (@mrsemmagardner) — 3
+- Diane Shaw (@museocat) — 3
+- Nart Barileva (@nartb) — 3
+- Nathan Ruchalski (@nathan_ruchalski) — 3
+- Dr Nathan Medd (@nathcmedd) — 3
+- Татьяна Ананьева (@naturalist39362) — 3
+- Юрий Щукин (@naturalist97440) — 3
+- @naturejule — 3
+- NENP_Montrose (@nenp_montrose) — 3
+- NENP_WarkCofEPrimary (@nenp_warkcofeprimary) — 3
+- Nick L (@nickrh14) — 3
+- Nicola Zannino (@nicolazannino) — 3
+- @nik-trabi — 3
+- Niklas Laxström (@niklaslaxstrm) — 3
+- Nils Haasler (@nils_h) — 3
+- @njwall — 3
+- AllyP (@nosilla) — 3
+- Michael Innes (@nosun) — 3
+- @odawgie — 3
+- Mandibulata ! (@official_mandibulata) — 3
+- Ольга Щербакова (@olga-scherbakova) — 3
+- Olga Cherkasova (@olga_cherkasova) — 3
+- Bernhard Mair (@osttiroler) — 3
+- Pablo Castilla (@pablo142) — 3
+- Paroulek Ales (@paroulek_ales) — 3
+- Alena Shindyapkina (@paslen) — 3
+- Patrycja Iciek (@patrycja11) — 3
+- Pavel Masalov (@pavel_masalov) — 3
+- Peach (@peach0741) — 3
+- Peter Leth (@peterleth1) — 3
+- Petr Hudeček (@pethu) — 3
+- @philfernandes — 3
+- Phil Handy (@philhandy) — 3
+- PRoe (@philipparoe) — 3
+- Ars Matevosian (@pinkorion) — 3
+- Peter Batty (@pjbatty) — 3
+- @plingus22 — 3
+- @polecat378 — 3
+- Максим Польщиков (@polshchikov-m) — 3
+- @psouthern — 3
+- @r_chitty44 — 3
+- Rafael Greenblatt (@rafaelgreenblatt) — 3
+- Rosalind Mackey (@razorwing) — 3
+- Emily K (@red-tailed) — 3
+- @redshank — 3
+- Reini Mandl (@reinimandl) — 3
+- @rjvdb — 3
+- Roman A. Lagazyuk (Роман А. Лагазюк) (@ro_ko) — 3
+- Robin833 (@robin833) — 3
+- @robinallenson — 3
+- Rodion Andreev (@rodneystoleair) — 3
+- Roman Payer (@roman91386) — 3
+- Rosy Thomson (@rosy_t) — 3
+- @rudolf_may — 3
+- Rukaya Johaadien (@rukaya) — 3
+- Ruslan Salimgareev (@ruslan_salimgareev) — 3
+- @rylenward — 3
+- Sven O. Schmidt (@s0s) — 3
+- Amanda Doty (@salamanda25) — 3
+- Samuel Gonzalez Ariztia (@samuelgonzalezariztia) — 3
+- Sarah Beresford (@sarah40847) — 3
+- Sarah Jane Veevers (@sarah_jane34945) — 3
+- @sarahcalgary — 3
+- @sarahlou1 — 3
+- @sarahnason — 3
+- Alexandra Luckyanchenko (@sashakhatova) — 3
+- Sawyer Hess (@sawdoug29) — 3
+- @scenfaroc — 3
+- Se Lena (@se1) — 3
+- Stacey Tonkin (@sealifestacey) — 3
+- Sebbog (@sebbog) — 3
+- Sophie Cron (@sec3937) — 3
+- @selenice — 3
+- @shanewhite101 — 3
+- Shriya Uday (@shriyazizim) — 3
+- Silvia Gonzalez (@silvia993) — 3
+- Silvia Ten (@silviaten) — 3
+- @simonnew — 3
+- Nix (@skeenix) — 3
+- Yuri Sofronov (@skufidon_os4000) — 3
+- Slocknog (@slocknog) — 3
+- Snap (@snap9037) — 3
+- Sockrosma (@sockrosma) — 3
+- Kat B (@sorrykb) — 3
+- Spontex + Scotch Brite (@spontex-et-scotch-brite) — 3
+- @star_rach — 3
+- Stefan Rüffler (@stefan_ruffler) — 3
+- stefano armiraglio (@stefano_armiraglio) — 3
+- Steph Pereira (@steph123456) — 3
+- @stephvg — 3
+- Stefan T. (@stetre76) — 3
+- Steve (@stevesomuk) — 3
+- Su Hartland Smith (@su30) — 3
+- @suzannehale — 3
+- sycon senti (@sycon) — 3
+- @takeo89 — 3
+- Taja Demchenko (@tallium) — 3
+- @tandria — 3
+- J. Tigris (@taurotragus) — 3
+- Tom Cross (@tc6058) — 3
+- @tellis2001 — 3
+- @themilnes — 3
+- Thibault (@thibault14272) — 3
+- @thibautv — 3
+- @tiberiofiaschi — 3
+- Troy Murphy (@tmurphy) — 3
+- @tomheadl — 3
+- @tonedeaf — 3
+- Toni López Sayas (@tonils) — 3
+- T R Shankar Raman (@trsraman) — 3
+- @tsgeorge — 3
+- Jo Walsh (@ultrazool) — 3
+- Владимир Мельников (@v_melnikov) — 3
+- Valentin Isen (@valentin262) — 3
+- Vanessa Grant (@vanessa1477) — 3
+- Vicky Kleanthous (@vickykleanthous) — 3
+- V. (@viktoriakrajan) — 3
+- Vincent A. Vos (@vincentvosriberalta) — 3
+- Tam Widmann (@viralbus) — 3
+- Sally (@wildwonderer) — 3
+- @willrussell90 — 3
+- Alex Allen (@wonkeydonkey) — 3
+- @xwarli — 3
+- Михаил Орин (@yozh911) — 3
+- @zedk — 3
+- Miljenko Ugarkovic (@zelenilav) — 3
+- Zo Clark (@zoe_clark1) — 3
+- Винер Фаритович Хабибуллин (@zoobiolog) — 3
+- Zak Russell (@zrussell) — 3
+- David Dodd (@a43560) — 2
+- a mariana (@a_mariana) — 2
+- @addie-s — 2
+- @afitzg — 2
+- Agnieszka Bochenek (@agnboc) — 2
+- Agnes Trekker (@agnestrekker) — 2
+- Paul Sopp (@agonum01) — 2
+- @aileensalway — 2
+- Aaron (@aj1337de) — 2
+- Alain Paquet (@alain_paquet) — 2
+- Alan Prather (@alan_prather) — 2
+- Alberto d'angelo (@alberto00) — 2
+- @aleksandra_voloshyna — 2
+- Alex Abair (@alex_abair) — 2
+- Alexander Kristiansen (@alexanderkristiansen) — 2
+- Alexandra Gillespie (@alexandra241) — 2
+- Alex Rolfe (@alexandra_r1) — 2
+- Alexandra Stuart (@alexandra_stuart2) — 2
+- Alexandros N. (@alexandros_n) — 2
+- Alexander Griffiths (@alexg_wildlife) — 2
+- @alexhinojo — 2
+- Alex (@alexjsm) — 2
+- Alice McCormick (@alice804) — 2
+- Alina Bryleva (@alina_bryleva) — 2
+- @alison4y — 2
+- Alex Hindley (@allyhi) — 2
+- Alyona Sausheva (@allyywun) — 2
+- Álvaro Gutiérrez Valladares (@alvaroguva) — 2
+- Andrew (@amcgleish) — 2
+- @amfstocker — 2
+- Ana Ka'ahanui (@ana_kaahanui) — 2
+- Anastasiya Mikhaylova (@anastasiya_mikhaylova_326) — 2
+- Andreas Brune (@andreas649) — 2
+- ks1v (@andrewkiselev) — 2
+- angel fc (@angelfc) — 2
+- Anna Gąciarz (@anna_ga) — 2
+- Anna Gazda (@annagazda) — 2
+- @annbogaerts — 2
+- Johannes Kranemann (@aqua-rock) — 2
+- August (@araneo) — 2
+- ARBA Tres Cantos (@arba3c) — 2
+- Archer Silverman (@archer_birding) — 2
+- Archie (@archie_tarn) — 2
+- K (@argz) — 2
+- @arjandj — 2
+- Ilaria La Bianca (@armillariabianca) — 2
+- @art_leostrin — 2
+- Artur Wasilewski (@art_was) — 2
+- @arthurvandenbossche — 2
+- Danil Asotsky (@asdan) — 2
+- @asebian — 2
+- Ashwin Viswanathan (@ashwinv) — 2
+- aster (@asteraceae__) — 2
+- Andrew Smith (@atsmitharc) — 2
+- Ambra Galassi (@balnibarbi) — 2
+- Beata Muzykiewicz (@bambi89) — 2
+- Barbara Kelly (@barbara_kelly1) — 2
+- Bára Paříková (@barca_parik) — 2
+- Nicolas Barthélemy (@barthoptera) — 2
+- Bart Schuurmans (@bartschuurmans) — 2
+- Bastian Greshake Tzovaras (@bastian_greshake_tzovaras) — 2
+- r (@bathyscapher) — 2
+- B. Caleno (@bcaleno) — 2
+- Becky Hamilton (@becky716) — 2
+- Ben Duncan (@bendman) — 2
+- Ben Wood (@benny_wood) — 2
+- Benny Albro (@bennyalbro) — 2
+- Betty Courquin (@betty296) — 2
+- @bgirardot — 2
+- Bianca Crowley (@biancacrowley) — 2
+- Luis Ferreira (@bidu) — 2
+- Beñat Irasuegi Ibarra (@birasuegi) — 2
+- @birdzilla — 2
+- beep boop (@bitpy) — 2
+- @blackdowntilly — 2
+- Bob Helson (@bobhelson) — 2
+- @bodirama — 2
+- Шальнов Кирилл (@borhammere) — 2
+- Bryn (@bryn_) — 2
+- Mike Prince (@bubomike) — 2
+- @burnside1 — 2
+- candace gillies-wright (@candacegw) — 2
+- Fives (@capblanc) — 2
+- Caroline Wiechmann (@car01inee) — 2
+- Carlos Lozano-Flores (@carlos_lozano_flores) — 2
+- Carlos Olmedo-Castellanos (@carlos_olmcast) — 2
+- Caroline Bowes (@caroline109) — 2
+- Castlehaven Community Association (@ccacamden) — 2
+- Christine Stone (@ceeec) — 2
+- cello caruso-turiello (@celllo) — 2
+- cesare p. (@cesarep) — 2
+- Chloe Figueroa (@chlfig) — 2
+- Chris Brown (@chris77603) — 2
+- Christina Lindeskov (@christina1484) — 2
+- @chrisu — 2
+- @chuckwillmott — 2
+- Researcher, biologist, wildlife frolicker (@chymichor) — 2
+- @cjnature124 — 2
+- Clara Ferreira (@claraferreira6) — 2
+- Clare Langrick (@clare200) — 2
+- Carlo Mangiagalli (@cmangiag) — 2
+- @codhead — 2
+- @colinpena — 2
+- @conservationpark — 2
+- Enrico Mazzanti (@contesty) — 2
+- @cosettetrusty — 2
+- Craig Young (@craig_tcv) — 2
+- @crewn — 2
+- Matt (@crisples) — 2
+- John Roberts (@crofter5) — 2
+- Cindy Chapman (@ctx) — 2
+- Christoph von Krüchten (@cvonk) — 2
+- @cwiths — 2
+- Chris Wyse (@cwyse) — 2
+- Thomas Cygn (@cygn) — 2
+- Clon (@czlon) — 2
+- @dandysealion — 2
+- Daniel (@daniel2f) — 2
+- @danlear — 2
+- @daresso — 2
+- Darren Button (@darrenbutton) — 2
+- @dave_r — 2
+- David and Moira Sinden (@david_and_moira_sinden) — 2
+- Daniel Nunes (@dbn_hfx) — 2
+- @ddoni_h — 2
+- Deep Lucanid (@deeplucanid) — 2
+- Derek Twinn (@derek37399) — 2
+- Diana Jerome (@dianajerome) — 2
+- @disoesk — 2
+- @djnd1986 — 2
+- Dmitriy Abramov (@dmitriy_abramov) — 2
+- Oleg (@dobrokhotov1989) — 2
+- @dominicjamesrose — 2
+- @drych — 2
+- @dvonschiller — 2
+- Dyspteris abortivaria (@dyspteris) — 2
+- Edward (@e_l_s) — 2
+- Umweltbüro Klagenfurt (@ebundp_umweltbuero_gmbh) — 2
+- Emily Geest (@egeest) — 2
+- Egor Dyukarev (@egor_dyukarev) — 2
+- Ekaterina Shilo (@ekaterina169) — 2
+- Étienne Léveillé-Bourret (@elbourret) — 2
+- Eldritch (@eldritchsleuth) — 2
+- Elin Pierce (@elinpierce) — 2
+- @elliejll — 2
+- @emilyoxton — 2
+- Emma Burdon (@emmaburdon) — 2
+- Prue Hilditch (@eregixn) — 2
+- Erica M (@ericam08) — 2
+- @ericswithinbank — 2
+- Sherin (@erinera) — 2
+- @erroneousbee — 2
+- @erwildlife — 2
+- @everbridie — 2
+- Ezra Joy (@ezra_joy) — 2
+- Fabian Brambach (@fabisho) — 2
+- Mikołaj Nowak (@facelessmn) — 2
+- Dan Horowitz (@fake_id) — 2
+- Fallen Rain (@fallen8) — 2
+- Nastya Kovylina (@feathergrass) — 2
+- Felix (@felix151) — 2
+- Filipe Chichorro (@filipechichorro) — 2
+- Fiona Machen Harrison (@fimacharry) — 2
+- @finalapplause — 2
+- Федор Масленников (@fizzybeetleballs) — 2
+- foothook.biz (@foothook) — 2
+- @froggymum — 2
+- @frogspotter — 2
+- @fuggiola — 2
+- Felix Zareie-Vaux (@fvaux) — 2
+- Gabriele. (@gabri14) — 2
+- @gadzina — 2
+- Andrei Gulin (@ganser8) — 2
+- George Greiff (@georgeg) — 2
+- Glenn (@glennj) — 2
+- @glennteschendorf — 2
+- @graouhdyna — 2
+- Grayhorse F. O. (@grayhorse) — 2
+- @graywraith — 2
+- @green_alkanet — 2
+- ika (@green_water_dragonfly) — 2
+- @greenmeters — 2
+- David Caro (@greyllama) — 2
+- @grgwstn — 2
+- Григорий Потапов (@grigoriypotapov) — 2
+- @gt25 — 2
+- Guy Babineau (@guy23) — 2
+- @h-manders-jones — 2
+- @hadanie7 — 2
+- Harm-Jan ter Harmsel (@harmjanterharmsel) — 2
+- @hcarey08 — 2
+- Антон Леонов (@hedgehog_potato) — 2
+- Peggy Schaeffer (@heypeggy) — 2
+- Hendrik Luup (@hluup) — 2
+- @homefield — 2
+- Hugo Martín Fernández (@hugomartin) — 2
+- i like lizards (@i_like_lizards) — 2
+- Ian Higgins (@ian28583) — 2
+- @icipicirakocska — 2
+- id call name (@id_call_name) — 2
+- Iehllmore (@iehllmore) — 2
+- Ilka Schindler (@ilka48400) — 2
+- Aundrea Schneider (@inhalethewild) — 2
+- Helen S. (@insektenjagd) — 2
+- @irmdaen — 2
+- Ivan Avatkov (@ivan_avatkov) — 2
+- @ivanych89 — 2
+- Елена Фитюнина (@izikog) — 2
+- Jonathan Hagström (@j_hgstrm) — 2
+- Jack (@jack1089) — 2
+- @james_jolly — 2
+- James Bednarski (@jamesbednarski) — 2
+- @jamesgc — 2
+- Jake Millidge (@jamilli) — 2
+- Janet Turnbull (@janet280) — 2
+- Janne Säteri (@janne122) — 2
+- Jane Canaway (@janusflytrap) — 2
+- @japrak — 2
+- @jberli — 2
+- Jessica Bernal (@jbernal7) — 2
+- Jose Carlos Rubia Raya (@jcrr) — 2
+- Fish and Dive (@jean-vincentvieux-ingrassia) — 2
+- Jean-Philippe Drécourt (@jeanphilippedrcourt) — 2
+- Jeff Young (@jefflfy) — 2
+- @jerimum — 2
+- @jesseh20 — 2
+- João Fortuna (@jfortuna) — 2
+- James H. Thomas (@jhorthos) — 2
+- Jim Easton 54 (@jimeaston54) — 2
+- @jimgalbraith — 2
+- Jim Kingdon (@jimkingdon) — 2
+- James Fowler (@jimmyjamhikes) — 2
+- Julie Hilligsøe Lisby (@jlisby) — 2
+- J. Magaz-Molina (@jmagaz) — 2
+- @jmd123 — 2
+- Jo Ga (@jo565) — 2
+- Joaquim Santos (@joaquimsantos1) — 2
+- @joey_ebenroth1101 — 2
+- @joeyhillman — 2
+- Johan Tidén (@johantidn) — 2
+- Joe Ka (@joka55) — 2
+- Jonathan Warner (Aviva) (@jonathan_warner_aviva) — 2
+- @josephacthomas — 2
+- @joystercatcher — 2
+- jonathan wordsworth (@jpwordsworth) — 2
+- Joe (@jssnw96) — 2
+- J Straka (@jstraka) — 2
+- James Tatlow (@jtatlow) — 2
+- @juliamac — 2
+- Mika Kähkönen (@kahkonen) — 2
+- Irina Ganochenko (@kanyrka) — 2
+- Karen Offereins (@karenoffereins) — 2
+- Karsten Stanley Andersen (@karsten_stanley_andersen) — 2
+- Kate Zangerl (@kate52738) — 2
+- Kate Ingenloff (@kateingenloff) — 2
+- @katherineh_tverc — 2
+- Kathrin Jäckel (@kathrinjaeckel) — 2
+- Kathryn Cooper (@kathryn__cooper) — 2
+- 김재원 (@ke057) — 2
+- keryann allard (@keryann) — 2
+- Chiara (@kiara_fra) — 2
+- @kitev — 2
+- @kixwi — 2
+- Kjetil Kjernsmo (@kjekje) — 2
+- Klemens Gusenbauer (@klemens1) — 2
+- Stine (@klt75) — 2
+- Krystian_ (@krystian_) — 2
+- Ксения Волянская (@ksanavolya) — 2
+- Tiffany (@kuebler_hiker) — 2
+- @lademandamanda — 2
+- Ladislav (@ladislaff) — 2
+- Lewis Kratky (@lak9162618) — 2
+- Myerscough College (@lanxious88) — 2
+- Laurie Brooks (@laurie254) — 2
+- Leah Bullock (@leah-bullock) — 2
+- Leah Walsh (@leahwalsh) — 2
+- Lee Hoggard (@leehoggard) — 2
+- Jenny Jo Johnson (@leetriplej) — 2
+- @leohempill — 2
+- Davide (@leseatman) — 2
+- @liamm276 — 2
+- Liana Onuk (@liana64) — 2
+- Libby Keatley (@libbykeatley) — 2
+- Lien Decuypere (@lien_d) — 2
+- @lilibugz — 2
+- Linda Glennie (@linda_glennie) — 2
+- @lindanorbury — 2
+- Linna Gurova (@linnagurova) — 2
+- Katherine Parys (@liquidanbar) — 2
+- Liva Erkul (@liva_erkul) — 2
+- @lizfrost47 — 2
+- @lizoxburgh — 2
+- Lorenzo Camporesi (@lorenzocamporesi) — 2
+- Lorna Halliwell (@lornajh) — 2
+- @lponkl — 2
+- Luca Miselli (@luca392) — 2
+- Luca Fabbri (@luca72415) — 2
+- Lucas Christofides (@lucaschristo) — 2
+- Lucas Kaminski (@lucaskaminski) — 2
+- Lucy Joynson (@lucyjoynson) — 2
+- Lucy Keith-Diagne (@lucykeith-diagne) — 2
+- Данил романюта (@lupus_imperium) — 2
+- @lynettescott — 2
+- @lynneadiaz — 2
+- Madelaine Boyle (@maddyboyle) — 2
+- @maeve_jb — 2
+- @mafean — 2
+- Margaret Mahoney (@magziemags) — 2
+- Maija Mehto (@maijaihanpihalla) — 2
+- @majpav — 2
+- @makarnakedi — 2
+- @mammalulu419 — 2
+- Jorge Sanchez (@manticoremx) — 2
+- Manuel Strasser (@manuel64284) — 2
+- @mararaquel — 2
+- Marcin Kwaczyński (@marcinkwaczynski) — 2
+- Marek Pavlica (@marekpavlica) — 2
+- Marité Rosmarinus (@mariterosmarinus) — 2
+- @markyt63 — 2
+- @marrbly — 2
+- @martin-maple — 2
+- Martin Rady (@martin487) — 2
+- MartyJW (@martin_w) — 2
+- @martinac — 2
+- Mary Rutherford (@maryrutherford) — 2
+- @maselko — 2
+- Matej Sapár (@matej59) — 2
+- Matej Vucić (@matej_vucic) — 2
+- Mati Aristeguieta P. (@matiariste) — 2
+- Anna Molnár (@matoday) — 2
+- @matt-deering — 2
+- Matti Koskimies (@matti_koskimies) — 2
+- @mazhem — 2
+- Martin Frost (@mdfrost) — 2
+- Maris Means (@means27) — 2
+- Melissa Meadows (@melissameadows) — 2
+- @meme_busybee — 2
+- Bonnie Semmling (@mertensia) — 2
+- Michael Tetley (@michael_tetley) — 2
+- Michael Beck (@michaelbeck2) — 2
+- Miha Zotler (@miha5) — 2
+- Mikko Saarinen (@mikko_saarinen) — 2
+- Daniel Millano Fernández (@millaneiro) — 2
+- Aurel Kitz (@mogline) — 2
+- Monica Rayo (@monicarl55) — 2
+- Mordecai-Mark Mac Low (@mordecaimarkmaclow) — 2
+- Monica Ventrice (@moventrice) — 2
+- @mrdjplant — 2
+- @mullochman — 2
+- @mumbabumba — 2
+- Murray Yoko (@murray-yoko) — 2
+- Maisie Henderson (@musicalmagpie) — 2
+- victor laborde (@mycototor) — 2
+- Mz Thiemann (@mzthiemann) — 2
+- NehirOzkan (@n_ozkan) — 2
+- Nadia Allée (@nadiaallee) — 2
+- Noel (@naheim) — 2
+- ahma (@nahka) — 2
+- @nathan_flower_child — 2
+- @nehemiahlovesnature — 2
+- @nenp_johndonne — 2
+- @nenp_ns — 2
+- @nettiemars — 2
+- Jacques Neuberg (@neujac) — 2
+- @never_hortensis — 2
+- @nick_goldwater — 2
+- Nicolás Lavandero (@nico_lavandero) — 2
+- Nicola Faulks (@nicola35) — 2
+- @nigelsymington — 2
+- Николай Ковалев (@nikolayswampdog) — 2
+- Nick Block (@nlblock) — 2
+- Nolan Uchizono (@nolan17) — 2
+- Nuno Pequito (@nunopequito) — 2
+- @nyawiens — 2
+- @officehead — 2
+- Ninu Laari (@ojsl1) — 2
+- Oleksii Kraievyi (@ok82) — 2
+- @okay79claud — 2
+- Chris Pfohl (@oldfriendos) — 2
+- Oliver Chope (@oliverchope) — 2
+- Martin (@orl_cz) — 2
+- Patrick Wagner (@patrickjwagner) — 2
+- Patrick Lam (@patricklam2) — 2
+- Paula Wirtanen (@paula_wirtanen) — 2
+- Paul Asman (@paulasman) — 2
+- Paul Coddington (@paulcoddington) — 2
+- @paulcornwell1967 — 2
+- @paulxmas — 2
+- Pavel Samohyl (@pavel326) — 2
+- Peter Brastow (@pbrastow) — 2
+- 呂一起(Lyu yi-chi) (@pchi45) — 2
+- @peatface — 2
+- @pedrorodrigues17 — 2
+- Barry Cottam (@pei-ott) — 2
+- Peter French (@peter14916) — 2
+- Peter Nathaniel Boyer (@peterboyer) — 2
+- @phamed — 2
+- Paul Harrison (@pharrison63) — 2
+- @philllipreeve — 2
+- P Holroyd (@pholroyd) — 2
+- @pillarboxcottage — 2
+- @piotrek30tys — 2
+- Victoria Kolesnichenko (@pizzaonvenus) — 2
+- John Potter (@planteater59) — 2
+- Platworki (@platworki) — 2
+- Amelia (@poianabs) — 2
+- Poppy Lees (@poppy48793) — 2
+- @porkytama — 2
+- Javna ustanova Park prirode Velebit (@ppvelebit) — 2
+- Melanie (@pretz1) — 2
+- Alessandro Pozzati (@pufferpozzi) — 2
+- @py2501 — 2
+- xavier vilaró (@quico) — 2
+- @r_rporter — 2
+- @rad123 — 2
+- Dan Rademacher (@rademacherdan) — 2
+- @ramidos — 2
+- Ramit Singal (@ramitsingal) — 2
+- Razmik Badalyan (@razmikbadalyan) — 2
+- Becky Martin (@rebecca-martin) — 2
+- Cathy Rose (@redkitelady) — 2
+- @rhinojw — 2
+- Ricard Busquets Reverte (@ricardelremate) — 2
+- Richard Irvine (@richard_irvine_rhs) — 2
+- Richard Blake (@richarddblake) — 2
+- Richard Vashalomidze (@richardvashalomidze) — 2
+- @rickcas — 2
+- Dan Riskin (@riskindan) — 2
+- Rebecca Pitts (@rjpitts) — 2
+- Rebecca Carter-Whitehead (@rnpcarterwhitehead) — 2
+- Robert Deppe (@robert_deppe) — 2
+- @robglassey — 2
+- robin (@robin40367) — 2
+- @robinlanark — 2
+- @robpedley — 2
+- RobynH (@robynhaggard) — 2
+- @roddyfairley — 2
+- @rodneystokerob — 2
+- Roger Shaw (@roger_shaw) — 2
+- Roger (@rogergf) — 2
+- Rohan Arthur (@rohanarthur) — 2
+- Роман D. (@roman-d) — 2
+- @ronjakaa — 2
+- @rosehip177 — 2
+- @rosswh — 2
+- Rod Lowther (@rover-rod) — 2
+- Rosalind Lees (@roz_lees) — 2
+- @rtn1 — 2
+- Ruben Moutinho (@rubenmoutinho) — 2
+- Ruslan Saifutdinov (@ruslansaifutdinov) — 2
+- @ruth_yibeige — 2
+- Ryan Watson (@ryan84) — 2
+- Rylan Nimmo (@rylan-nimmo) — 2
+- Safina Rezeda (@safinarezeda) — 2
+- Дауд Арсанукаев (@salazar95) — 2
+- M. Baran (@salix-babylonica) — 2
+- Sam Amy (@sam-amy) — 2
+- @sandor_nagy — 2
+- Sandra Keller (@sandykeller) — 2
+- Саша Сашевна Сашевич (@sasha_sashevich) — 2
+- Simon Galmiche (@saumon) — 2
+- Sarah Bennett (@sbmb2022) — 2
+- Schrodiskitten (@schrodiskitten) — 2
+- L. Camila Pacheco Riaño (@sciurus_cp) — 2
+- Scott Harris (@scohar70) — 2
+- @scolaro_g_ittmajorana — 2
+- @scolym — 2
+- @scottj800 — 2
+- Sébastien Jungo (@sebas1982) — 2
+- Jennifer Frey (@seewind) — 2
+- Selim Türeli (@selimtureli) — 2
+- semion polenok (@semionpolenok) — 2
+- Scott Clark (@sfc155) — 2
+- Elena_Sherehora (@sherehora) — 2
+- Shirley (@shirelae) — 2
+- Shivva Rudra (@shivvarudra) — 2
+- Simon Rowland (@si63) — 2
+- Sigrid Jakob (@sigridjakob) — 2
+- Simon (@simon124875) — 2
+- @simonbrosig — 2
+- Slaidburn (@slaidburn) — 2
+- Vi Murphy (@slimezoan) — 2
+- София Буланова (@sofiya29965) — 2
+- Лисов Александр (@soistes) — 2
+- Sølvi Goard (@solvinaja) — 2
+- Sonia Parsons (@soniaparsons1) — 2
+- Sonstwer (@sonstwer) — 2
+- @sortion — 2
+- Soverby (@soverby) — 2
+- Spencer Champion (@speen) — 2
+- @speetonclay — 2
+- Nicolas Richard (@spleen) — 2
+- Quinn Shemet (@sqshemet) — 2
+- Simon R. Lehn (@srlehn) — 2
+- @stdodrttyl — 2
+- Stefan Adlesgruber (@stefan41626) — 2
+- Stein Arild Hoem (@steinarildhoem) — 2
+- steve lakin (@steve3747) — 2
+- steve b (@stevestevens) — 2
+- Andy Shuttleworth (@stonehenge_andy) — 2
+- @strewick — 2
+- Subhadra Devi (@subhadrad) — 2
+- Sue Kneill-Boxley (@sue932) — 2
+- @sukhorukov_andrey — 2
+- Summerlongtails (@summerlongtails) — 2
+- Elsa De (@sunflower287) — 2
+- Susan Davies (@susan1821) — 2
+- sustainable life (@suslifeuk) — 2
+- Светлана Широбокова (@svetsvetsvetsvetsvetsvet) — 2
+- @swallow-tail — 2
+- Якушев Степан (@syakyshev) — 2
+- Tatyana Aniskova (@tatyana_grasshopper) — 2
+- TCV York (@tcvyork) — 2
+- @teddo — 2
+- Teri Neville (@terineville) — 2
+- Dustin (@the_dotsterr) — 2
+- Bart (@thebooort) — 2
+- Donsky (@thedonsky) — 2
+- Lukas Krug (@thekrugle) — 2
+- Katie Pearson (@themerekat) — 2
+- Jasper (@thisisnotjasper) — 2
+- Thomas Danler (@thomas2896) — 2
+- Thom Starnes (@thomstarnes) — 2
+- Peter (@tide_is_out) — 2
+- Tim (@tim1032) — 2
+- Tim Hirsch (@timhirsch) — 2
+- Tim Dick (@timone) — 2
+- Steve Best (@tizerb) — 2
+- T. J. Samojedny (@tjsa) — 2
+- Tim (@tkirk304) — 2
+- Tommi Rautava (@traut23) — 2
+- Robert Cox (@trebor56) — 2
+- Trey Philips (@treyjp) — 2
+- Drumetul Dacic (@trizen) — 2
+- @trolleway — 2
+- Sergio Hermoso (@trotamundos_88) — 2
+- @tucanjuan — 2
+- Toby Y (@tyh34) — 2
+- Uroš (@urosziv) — 2
+- Vladimir (@v-lad) — 2
+- Mamelut (@valmach) — 2
+- Веда (@vedavedma) — 2
+- Vicky Whyte (@vickyrhg) — 2
+- Vincent B. (@vincent_b) — 2
+- Viola Alekseeva (@violalarson) — 2
+- Мария Стрельникова (@vlesu55) — 2
+- @vlsd — 2
+- Volkmar Geyer (@volkmar5) — 2
+- Will Cornwell (@wcornwell) — 2
+- Wendy Gregory (@wendy1180) — 2
+- @wendyenglish — 2
+- @wenlixue — 2
+- Sebastian Miele (@whxvd) — 2
+- @wildscope — 2
+- @wissp — 2
+- Justin Bull (@worrisomemachine) — 2
+- Michelle Norcéide (@wyrd-eule) — 2
+- Jeffrey Timmers (@xeldor0910) — 2
+- @xi47 — 2
+- @xylocopa-violacea — 2
+- Евгений Бологов (@yevb) — 2
+- Yann Voté (@ygversil) — 2
+- Yurii Basov (@yurii_basov) — 2
+- @zaneotic — 2
+- Tristan Jobin (@ziggypop74) — 2
+- Zuzana Garlikova (@zuzkafoti) — 2
+- Andrey Kurtuchkin (@a-kurtuchkin) — 1
+- JP Dream (@a15262_jose_pechilga) — 1
+- Adam Wachtel (@a_coturnix) — 1
+- ari troner (@a_troner) — 1
+- Abby Benson (@abbybenson) — 1
+- Abraham (@abrahamrio96) — 1
+- Andrew Charleson (@acharleson) — 1
+- Adele Svetova (@adelesvetova) — 1
+- @adimpossibilianemotenetur — 1
+- @adrian-syros — 1
+- Amanda Fisher (@aefisher) — 1
+- Aitor (@agonzalo) — 1
+- Andrey Gulivanov (@agulivanov) — 1
+- @aidanmkeith_uk — 1
+- Aileen Salway (@aileen--salway) — 1
+- @akcoyle-williams — 1
+- Aku laakso (@akuankka) — 1
+- @al_wyatt — 1
+- Alan Flisch (@alan836) — 1
+- Alana Woolley (@alanawoolley) — 1
+- Alberto Alcalá (@alboertoalcala) — 1
+- Aleksi Elovaara (@aleksi_kesalukio) — 1
+- Alena J. (@alenaj) — 1
+- Alex Gault (@alex1850) — 1
+- Alex Hewson (@alex_hewson) — 1
+- Alexandre Barata (@alexandrebarata) — 1
+- Alex Doyle (@alexjdoyle17) — 1
+- Alain Fossé (@alfosse) — 1
+- Jacopo Matticchio (@alfred_butoia) — 1
+- Alice Kenny (@alice42352) — 1
+- Alidz31 (@alidz31) — 1
+- Antoine Lievyns (@alievyns) — 1
+- Alina Fisher (@alinaf) — 1
+- Alisa Graham-Brown (@alisagrahambrown) — 1
+- Allison Shultz (@allisonshultz) — 1
+- @allysally — 1
+- Alun Salt (@alunsalt) — 1
+- @alvarosaurus — 1
+- @am73whel — 1
+- Amanda O'Driscoll (@amanda3442) — 1
+- Amy Dachser (@amy_dachser) — 1
+- Amy (@amymangos) — 1
+- Анна (@an__k) — 1
+- Andrey Bratushev (@an_bratushev) — 1
+- @anacropiedra — 1
+- Anastasia Zaitseva (@anastasia_zaitseva) — 1
+- @and31 — 1
+- @andandger — 1
+- Anders Hastings (@andershastings) — 1
+- @andrath — 1
+- Andrés Espinal (@andresespinalh) — 1
+- Andrew Thornhill (@andrew_thornhill) — 1
+- Andrew Tree (@andrewtree) — 1
+- Andy O (@andy85232) — 1
+- Andy Watson (@andy_watson) — 1
+- Angélica Pardo (@angelica66471) — 1
+- @anibaka — 1
+- Aniol ClaràBossoms (@aniol_clarabossoms) — 1
+- Anisha Kumra (@anishavita) — 1
+- Фалкова Анна (@annafalkova1204) — 1
+- @annecwdubh — 1
+- @anneleen_kool — 1
+- Ann-Sophie Qvarnström (@annsophieq) — 1
+- @antimatterbee — 1
+- Logan Jones (@antjesus) — 1
+- @apalmnewt — 1
+- @apricotrose — 1
+- ari ari (@ari51923) — 1
+- Arkie V (@arkie2) — 1
+- Arild Finne Nybø (@arnybo) — 1
+- Ari (@arskado) — 1
+- @askalotl — 1
+- @astaldur — 1
+- APC (@atheapc) — 1
+- @aubsi — 1
+- Мария Ткаченко (@aurata) — 1
+- Austin 0201 (@austin0201) — 1
+- Austin Stevenson (@austinstevenson) — 1
+- @avduma — 1
+- Anil Madhavapeddy (@avsm) — 1
+- @ayjay3 — 1
+- @ayjayvee — 1
+- André Kulikov (@aykay) — 1
+- @aylathomp — 1
+- @b166er — 1
+- Edvinas (@balacklt) — 1
+- Barnabáš Kováč (@barnabas_kovac) — 1
+- bart klaessens (@bart1980) — 1
+- Bartholomeus van der Geer (@bartholomeusvandergeer) — 1
+- Bartłomiej Biernat (@bartlomiej5) — 1
+- Bartosz (@bartosz43) — 1
+- Bastian Ganze (@bastian66) — 1
+- Dr Ben Cull (@bcull53) — 1
+- David Hepper (@bds-records-officer) — 1
+- Beau Edwards (@beau91) — 1
+- Bellsprout (@bellsprout666) — 1
+- @ben_worthy — 1
+- Bendi Toth (@bender13) — 1
+- Benedikt Schulte (@benedikt42786) — 1
+- Benjamin Kaiser (@benjamin1220) — 1
+- Bernhard Martinak (@bernhard_martinak) — 1
+- @berrynguyen — 1
+- @betony13 — 1
+- @bettong-whisperer — 1
+- Becky Garden (@bgarden) — 1
+- Bhavika Patel (@bhavika235) — 1
+- Bianca S. (@bianchinis) — 1
+- Deana Stephens (@biazadeana) — 1
+- @bidoudas — 1
+- Sam Eberhard (@bigsam) — 1
+- @billyclarke — 1
+- Barbara Barratt (@bipbarratt) — 1
+- @blackmetalmaster — 1
+- @blathers — 1
+- @bmbs_log1 — 1
+- Bob Rutkowski (@bob497) — 1
+- Paweł Drozd (@bodolsog) — 1
+- BondarauAD (@bondarauad) — 1
+- Boris Grozev (@borisgrozev) — 1
+- Marco Iboshi (@botanizing_the_bay) — 1
+- Bouros George (@bourosg) — 1
+- Bradley Draga-Williams (@bradleydragawilliams) — 1
+- Brady Reed (@bradyreed) — 1
+- @brettaugust — 1
+- Briac Levray (@briac_sseal) — 1
+- Bridget Evans (@bridget341) — 1
+- @brinaca — 1
+- Bruce Kirchoff (@brucekirchoff) — 1
+- Bruno Reis (@bruno591) — 1
+- Bryan Dickinson (@bryan428) — 1
+- Brynn Fricke (@brynnfricke) — 1
+- @butterfiyguy — 1
+- Brett Sandford (@bylsand) — 1
+- MS (@cageybee) — 1
+- Cajá-manga (@caja-manga) — 1
+- Camila (@cami-birdie) — 1
+- Cara-Lisa Schloots (@cara-lisa) — 1
+- Cardan (@cardanello) — 1
+- Carla Gavrilescu (@carlagavrilescu) — 1
+- @carlos8762 — 1
+- Carol Pereira (@carol684) — 1
+- CaroleT (@carolethurston) — 1
+- Caroline Lucas (@caroline_lucas) — 1
+- Carrie Powers (@carrie345) — 1
+- Casey Chambliss (@casey_chambliss) — 1
+- Casey Harless (@casey_harless) — 1
+- Catalyst (@catalyst_99) — 1
+- Cathrin Radoy (@cathrin6) — 1
+- Chris Borkent (@cborkent) — 1
+- Cecilia Nilsson (@cecilia_nilsson) — 1
+- Cees1001 (@cees1001) — 1
+- Celestino Quintela Sabarís (@celestino_quintela_sabaris) — 1
+- @cgriggles — 1
+- chi (@ch1i) — 1
+- Chad Wilhite (@chadwilhite) — 1
+- Charles Swift (@chaetura) — 1
+- @charlimclachlan — 1
+- Charlotte (@charlottevkh) — 1
+- José Luis R.M. (@chelurm) — 1
+- @chezm — 1
+- @childrenswood — 1
+- Chris Hodges (@chris16101) — 1
+- @chrisheart — 1
+- @chrisreeduk — 1
+- Christian Kramer (@christiankramer) — 1
+- Christine Moon (@christine_moon) — 1
+- Christine Braaten (@christinebraaten) — 1
+- Chuy Benitez (@chuybenitez) — 1
+- Dan Bender (@ciaodb) — 1
+- Ciara Duggan (@ciaraduggan) — 1
+- @civilizati3 — 1
+- @cjgt3 — 1
+- Clare Bowley (@clare67068) — 1
+- Clare Blencowe (@clareblencowe) — 1
+- Claudia Schneider (@claudia1247) — 1
+- Clôd Schmit (@cldschmit) — 1
+- @cntlsn — 1
+- Cody Prettejohn (@cody24502) — 1
+- Colin Armfield (@colinarmrig) — 1
+- @condorr — 1
+- @coq — 1
+- Coralie (@coralexie) — 1
+- @craigphillips — 1
+- Rusty (@crusty) — 1
+- Mark Cubitt (@cubitmg) — 1
+- Jonathan Curley (@curleycurlew) — 1
+- @cykuk — 1
+- Joseph Aubert (@cynodon) — 1
+- @cynthia722 — 1
+- @dalebro — 1
+- Dalton Watt (@dalton_watt) — 1
+- Dan Scali (@dan_project_admin) — 1
+- Androulidaki Paraskevi-Danai (@danai_androulidaki) — 1
+- DannyB (@danb218) — 1
+- Daniel Gill (@daniel5833) — 1
+- @danorsmith — 1
+- Daria Shabalina (@daria_shabalina) — 1
+- M. Helclová (@dark_afi) — 1
+- Даша Солодкая (@dasha6180) — 1
+- Andrew Sebastian (@data_nerd) — 1
+- Dave Purchase (@davepurchase) — 1
+- David George (@davgeo) — 1
+- David Alarcon Moreno (@david9503) — 1
+- @davidc023 — 1
+- David Slawson (@daviddunbarslawson) — 1
+- David Bird (@davidfbird) — 1
+- @davidjeffrey — 1
+- David K. (@davidk) — 1
+- @dbowler — 1
+- Darrell Bucket (@dbucket) — 1
+- @debworsley — 1
+- @decomposer666 — 1
+- Ксения Витвицкая (@deimosu) — 1
+- della (@dellademarinis) — 1
+- Denis RAMAGE (@denisra76frog) — 1
+- @denndenn165 — 1
+- Derek Sutherland (@derek96459) — 1
+- Deryn Phillips (@deryn1) — 1
+- Станислав Чуванов (@destmord) — 1
+- Devin Berg (@devinberg) — 1
+- @dhonza — 1
+- @di80 — 1
+- Dieter Tyberghein (@dieter_tyberghein) — 1
+- Christopher O'Malley (@digitalrunt) — 1
+- Andrew Quitmeyer (@dinalab) — 1
+- Dinka Matosevic (@dinkamatosevic) — 1
+- Dirk Froebel (@dirk_froebel) — 1
+- Merrick S (@dirkwearswhitesox) — 1
+- Trouble (@disasterdrow) — 1
+- Djay de Gier (@djaygier) — 1
+- Daniel Krsek (@dkrsek) — 1
+- @dngander — 1
+- Daniel J. Layton (@doju) — 1
+- Guillermo Castro (@dolcefarniente) — 1
+- Dominik Maximilián Ramík (@dominik_ramik) — 1
+- Dominykas Druteika (@dominykasdruteika) — 1
+- Donald McAninch (@donald38523) — 1
+- Don Williams (@donmwilliams) — 1
+- Dougal Matthews (@doogstar) — 1
+- Gemma Wyatt &amp; Sean Riha (@doveandshrew) — 1
+- Andrew Drake (@drakedevel) — 1
+- Dramblaz (@dramblaz) — 1
+- @drmaward — 1
+- Stephanie Bird (@drsnufkin) — 1
+- Dubravka Kranjčević (@dubravka4) — 1
+- Dustin Mitchell (@dustinmitchell) — 1
+- @dyo86 — 1
+- @e123456 — 1
+- @ebuwg — 1
+- @ecovore — 1
+- Edi Sz. (@edisz) — 1
+- @edm1_ — 1
+- EduardoA NavarroV (@eduardoanv) — 1
+- Edward Ricemeyer (@edwardrice) — 1
+- Eero Pätsi (@eeroptsi) — 1
+- @eisyeisy — 1
+- Ekkehard Pummer (@ekkehardpummer) — 1
+- @elazinha — 1
+- Elia Berti (@eliaberti) — 1
+- Elise Barozzi (@elibzz) — 1
+- Elisabeth Wesely (@elisabeth_we) — 1
+- Elizaveta Manokhina (@elizaveta_manokhina) — 1
+- Ellen Eiriksson (@elleneiriksson) — 1
+- Eleanor Pyemont (@elliepyemont) — 1
+- @elyseworrell2008 — 1
+- Elias Mangels (@emangels5) — 1
+- David Weiß (@eme1408) — 1
+- Emilie I. Dion (@emilieidion) — 1
+- Emilie P (@emilirondelle) — 1
+- @emmacutting — 1
+- Emma Kirk (@emmerdale20) — 1
+- @emsinthewild — 1
+- Enrica Longo (@enrica38) — 1
+- Enrica Pistorio (@enricapistorio) — 1
+- David Hera (@eosthusiast) — 1
+- Eric Magnien (@eric_magnien) — 1
+- Erica Gremmelmaier (@erica4nature) — 1
+- ERIC NE (@ericne) — 1
+- @erikaleaman — 1
+- Erik Buchwald (@erikbuchwald) — 1
+- Erica (@erikoinenloukku) — 1
+- @erinsuzanne — 1
+- @erothsch — 1
+- @ersken — 1
+- @etcharlotte — 1
+- Eugene Gavrilov (@eugenegavrilov) — 1
+- Eva (@eva_1133) — 1
+- Eva Grabsch (@eva_grabsch) — 1
+- Fabio Spelta (@fabiospelta) — 1
+- @fandor — 1
+- Amanda Janusz (@featherenthusiast) — 1
+- @felixf — 1
+- ffion Jenkins (@ffionj) — 1
+- Filip Sokol (@filip_sokol) — 1
+- Filipa Reis (@filipalexandrareis) — 1
+- Fi (@fimfin) — 1
+- @fionaneame — 1
+- @fivesulas — 1
+- Flora Kyte (@florakyte) — 1
+- Florian Stadler (@florianstadler) — 1
+- flunker the former biophysicist (@flunker) — 1
+- Evgeny Stambulchik (@fnevgeny) — 1
+- Christopher Foott (@foott1) — 1
+- Frances Oliver (@francesfo) — 1
+- François Leroy (@francois_leroy) — 1
+- Frank Dietze (@frankdietze) — 1
+- Frederic Pascual Dose (@fredegarius) — 1
+- Friederike Wölke (@friederikewlke) — 1
+- Loïc Mathieu (@frontyardscientist) — 1
+- Tanya Eyre (@fylingdaleseducation) — 1
+- @g3isk1 — 1
+- @gabsbeauche — 1
+- Gajananan Niranjanan (@gajananan) — 1
+- Bethan Chapman (@gardening_angel) — 1
+- @garearth — 1
+- вук (@gavkalka) — 1
+- Geoffrey Carter (@gcart043) — 1
+- Geoff (@geoffreidnz) — 1
+- @geoffwall — 1
+- David Anderson (@geographerdave) — 1
+- @georginafauconier — 1
+- Gerald Blaich (@gerald100) — 1
+- Gerardo Urbina (@gerardo61378) — 1
+- SIML SIML (@gerber355) — 1
+- G Golding (@ggold) — 1
+- Guillermo Huerta Ramos (@ghuertaramos) — 1
+- Giancarlo (@giancarlozanetti) — 1
+- Gleb Trishkin (@gleb_and_bio) — 1
+- Glebs Vronskis (@glebs) — 1
+- GoEThe (@go_e_the) — 1
+- @goldfynch — 1
+- Goldi (@goldi02) — 1
+- Graham Sargent (@graham82330) — 1
+- @greenline — 1
+- Guillaume Rischard (@grischard) — 1
+- @gsexauer — 1
+- @gwar — 1
+- Hannah Rogers (@h_rogers) — 1
+- Ha Eun Lee (@haeunlee) — 1
+- @haihai — 1
+- Brian Oakes Haiti Hunter (@haiti_hunter_brian_oakes) — 1
+- @haizea — 1
+- Hemminki Johan (@hakkoh) — 1
+- @hall_damien — 1
+- Hannah McCurdy-Adams (@hannah_mcca) — 1
+- @harmoenia — 1
+- @harrii — 1
+- Hauke Abel (@haukeabel) — 1
+- charlie mackenzie (@hawthorn98) — 1
+- @hazelnutkin — 1
+- Heather Mazzaccaro (@heather232) — 1
+- @heaventwig — 1
+- Heiko Hentschel (@heikohentschel) — 1
+- Helen Frost (@helen50145) — 1
+- @helenapedro — 1
+- Helen Bostock (@helenbostock) — 1
+- Helen Wren (@helenw74) — 1
+- @helmut55 — 1
+- Fernando Tassone (@hern60) — 1
+- @hiccup1001 — 1
+- Hilary M Davies (@hilsd) — 1
+- Hailey Majewski (@hrachski) — 1
+- Hugo Reyes Aldana (@hugoraldana) — 1
+- Yan Wong (@hyanwong) — 1
+- Ari B (@hylaeus) — 1
+- @ian_mcallan — 1
+- Ian Wilkinson (@ianw22) — 1
+- Danny (@ibzan_) — 1
+- Isaac Caswell (@icaswell) — 1
+- @icemuon — 1
+- John Hibbard (@icosahedron) — 1
+- Igor Gotsyk (@ig44572) — 1
+- Ihor (@igdra) — 1
+- Ilya Firsov (@ilya__firsov) — 1
+- Ilya A. Zholobov (@ilya_zholobov) — 1
+- Yj (@ineni) — 1
+- @ingridathomew5 — 1
+- Laura (@insecta_joy) — 1
+- Emily Turteltaub Nelson (@ipswich) — 1
+- Islam Galymzhanov (@islam_galymzhanov) — 1
+- @ithorpe — 1
+- Иван Климович (@ivanklimovich) — 1
+- Иван Ладыгин (@ivantey) — 1
+- Jack Darling (@jack1459) — 1
+- @jackmitchell18 — 1
+- K. (@jadekf) — 1
+- Jakub Burdzicki (@jakub_burdzicki) — 1
+- James McGettrick (@james1143) — 1
+- James Beaumont (@james160) — 1
+- James Lid (@jameslid) — 1
+- @jamiegamble04 — 1
+- Janice Parish (@janiceparish) — 1
+- @jankrogsaacom — 1
+- Jannik Hildebrandt (@jannik58393) — 1
+- Jannik Scherer (@jannik_s) — 1
+- Jannyrocks! (@jannyrocks) — 1
+- Jason Burne (@jasonburne) — 1
+- Jason Hehir (@jasonhehir) — 1
+- Jason West (@jasonouthere) — 1
+- James Glen (@jazblog) — 1
+- @jcube — 1
+- jdj4 (@jdj3) — 1
+- J. Roe (@jdrwildlife) — 1
+- Jean McKendree (@jean4808) — 1
+- Jean-Jax Lehax (@jeanjaxlehax) — 1
+- @jeffsustainability — 1
+- Jemma Montgomery (@jemmamontgomery) — 1
+- Jen Gibbons (@jen26747) — 1
+- Jen Hill (@jenhill) — 1
+- Jennifer Pirker (@jennifersp) — 1
+- Jeremy Jones (@jeremyjones_pix) — 1
+- Jessica (@jess_toms) — 1
+- Jess Mullins (@jessmullins) — 1
+- @jgalaxy — 1
+- @jhammock — 1
+- Johannes Jung (@jhnnsjng) — 1
+- @jn505 — 1
+- João Louro (@joao_louro) — 1
+- @joarfish — 1
+- John Nikolo (@john_natu) — 1
+- @johnoved — 1
+- @jojorr — 1
+- alicia penney (@jollygoodyellow) — 1
+- @jomurphy — 1
+- Jonas Haase (@jonas76852) — 1
+- Jonas Holm Hald Therkildsen (@jonasholm) — 1
+- Jon Holden (@jonh82) — 1
+- JordanDaviesPhoto (@jordandaviesphoto) — 1
+- @jorgemet — 1
+- Josh J (@joshjjung) — 1
+- Joshua Taylor (@joshuataylor05) — 1
+- John P (@jpedmd) — 1
+- Julien Piolain (@jpiolain) — 1
+- JSCotan (@jscotan) — 1
+- Lou Wagstaffe (@jsylou) — 1
+- Jeff Davis (@jtdavis05) — 1
+- Juan Carlos Caicedo Hernández (@juan_carlos_caicedo_hdz) — 1
+- Juanito Escamilla (@juanitoescamilla) — 1
+- Judy Aschner (@judya) — 1
+- @justlooking02 — 1
+- Juuso Lehtinen (@juuso1) — 1
+- Jynx torquilla (@jynx_torquilla) — 1
+- @jzfu — 1
+- K Bar (@k_bar) — 1
+- @kaguradler — 1
+- Kat Sullivan (@kat_sullivan) — 1
+- @kate_elliott — 1
+- Kate :) (@kate_storey) — 1
+- @katherineslade — 1
+- @kathiechild — 1
+- Kathryn (@kathryn571) — 1
+- Ekaterina Troshkina (@katia_troshkina) — 1
+- Katie Bryan-Brown (@katie_bryan_brown) — 1
+- Kate (@katiejanemoore) — 1
+- @katiep18 — 1
+- @kchicoine — 1
+- Kylie (@kcousens) — 1
+- Kathy Daniel (@kdaniel20816) — 1
+- Keenan Pepper (@keenanpepper) — 1
+- Kevin (@kefreecomo) — 1
+- Kesava G. (@kegargar) — 1
+- @kennaclason — 1
+- Kennedy (@kennedycat) — 1
+- Kevin Keegan (@kevinliam) — 1
+- Tomas B. (@khmer_) — 1
+- Kimberley Collins (@kimberleycollins) — 1
+- Kirstie S (@kirstie3) — 1
+- Linnea K (@kivelin) — 1
+- Klara V. (@klara_vn) — 1
+- Klaudia Glab (@klaudiaglab) — 1
+- Klemetti Vesanto (@klemetti) — 1
+- Adrian Cerny (@klincek) — 1
+- @kmmskd — 1
+- @knapweed — 1
+- Knoydart Foundation Ranger Service (@knoydartranger) — 1
+- Adéla Navrátilová (@kokosnakytkach) — 1
+- Joseph Bell (@komeles) — 1
+- Eero Koskinen (@kootepe) — 1
+- @korotki — 1
+- Андрей Козлов (@kozlovaa) — 1
+- Kristen Francis (@kristen163) — 1
+- @krystynanedza — 1
+- Кучкаев Марат (@kuchkai_murza) — 1
+- @kuseva — 1
+- Matthew Kvocera (@kvoco) — 1
+- kate (@kwhittle) — 1
+- Kyle Martyn-Clark (@kylem-c) — 1
+- Lauri Elsilä (@laelsila) — 1
+- Laia Gaitán-Botero (@laialilalia) — 1
+- @lapwyct — 1
+- @large_frog — 1
+- Mary Lata (@latacat) — 1
+- Lee Hesketh (@launchycat) — 1
+- Laura Castellini (@laurajc) — 1
+- Lauren Dalby (@laurendalby) — 1
+- @laurenstevens — 1
+- Lawson Cope (@lawsoncope) — 1
+- Liam_B (@lcjb360) — 1
+- Leandro Sanchez (@leandro175) — 1
+- Lee Young (@lee930) — 1
+- Brian (@legacyofherot) — 1
+- Lena Seiger (@lena432) — 1
+- Lewis Tearle (@lewistearle) — 1
+- Liliana Fonseca (@liliana311) — 1
+- Linda Yliniemi (@linda993) — 1
+- @lindashuttleworth — 1
+- Mel (@lipwigvonmoist) — 1
+- Derek Duplessis (@lithobates) — 1
+- @lnoble — 1
+- @lobyxon — 1
+- Logan Vuo (@logvbiology) — 1
+- @lorannavi — 1
+- Lorenz Baldauf (@lorenz_baldauf) — 1
+- Lorenzo De Luca (@lorenzo_de_luca) — 1
+- Lorenzo Martin (@lorenzomartin) — 1
+- Richard Jacob (@lostculture) — 1
+- @lotusmorning — 1
+- Louise Gardiner (@loulougard) — 1
+- Лу (@luchana_zhur) — 1
+- Lukas Mittlinger-David (@lukas11176) — 1
+- @lukeb314 — 1
+- Luk (@luktopus) — 1
+- @maciej123 — 1
+- Maciej Ruciński (@maciej40) — 1
+- Cory Butterfield (@madszn95) — 1
+- @magdalenia — 1
+- @maijin — 1
+- Mário de Pinto Balsemão (@majocapb) — 1
+- @malu_2025 — 1
+- M.Buffet (@mamat74) — 1
+- Manfred Bischof (@manfred121) — 1
+- @mantasink — 1
+- Кирилл П (@mantisprogrammer) — 1
+- @manu_de_pedro — 1
+- Manuel Naranjo (@manuel200) — 1
+- Manuel Corbelle (@manuel_corbelle) — 1
+- Emmanuel Courreges (@manumike) — 1
+- Marcel Just (@marcel7ust) — 1
+- Anton Marchukov (@marchukov) — 1
+- Marco Picarella (@marco1966) — 1
+- @marcosaggioro — 1
+- Maria Dias (@maria4185) — 1
+- @marilou2410 — 1
+- Marina (@marina_d) — 1
+- Марина Ландшафтное бюро LOOK (@marina_landshaftnoe_byuro_look) — 1
+- Marina Shaikina (@marinashaikina) — 1
+- Mario Barroso (@mariobarroso) — 1
+- @marioetcheves — 1
+- Marios Thoma (@marios10) — 1
+- Marissa Balfour (@marissa3) — 1
+- @marius851000 — 1
+- @mark_nefedov — 1
+- Mark Singleton (@mark_singleton) — 1
+- @markus_woodbridge_documenting — 1
+- Maria Madeira Amaro (@marry_raro) — 1
+- @mart1nus — 1
+- Marta Kuznetsova (@marta_kuznetsova) — 1
+- @martinhegmann — 1
+- MaruBernal (@marub) — 1
+- Maryssa (@maryssaaa) — 1
+- Massimo D Eusebio (@massideusebio) — 1
+- Germinando Nativas (@matiduarte) — 1
+- Mateus Godinho (@mattcg) — 1
+- Matthew Barbour (@matthewbarbour) — 1
+- @matthewlewis896 — 1
+- Mattis (@mattis-p) — 1
+- Matt Neidert (@mattneidert) — 1
+- @maxmoulin — 1
+- Michael W Belitz (@mbelitz) — 1
+- Mike Glavin (@mcmikeyg) — 1
+- Mcski (@mcski) — 1
+- @mdewson — 1
+- @mefisher — 1
+- Brendan McIntyre (@megahertzia) — 1
+- mei chang (@mei27351) — 1
+- Mary Jackson (@mejmidge) — 1
+- Melanie Apps (@melanie_apps) — 1
+- Дмитрий Мелешин (@meleshindm) — 1
+- Roman Akberov (@merecaster) — 1
+- Mert Ayral (@mertayral) — 1
+- Michael and Antoni Hinczewski (@mhincz) — 1
+- @mholzhaus — 1
+- Mica Low (@micathemineral) — 1
+- Michael Greeff (@michael1301) — 1
+- Michal Cieply (@michal_hubert_cieply) — 1
+- Michalis T. (@michalis1) — 1
+- @michela_bertoia — 1
+- Gruppo Castanea (@michelbruni) — 1
+- Michelle Nicol (@michellenicol) — 1
+- Michael Twinn (@mick-twinn) — 1
+- wang cai (@microraptor-w) — 1
+- @miggs123 — 1
+- Miguel Esquirol (@miguel_esquirol) — 1
+- Mike Grant (@mikelgrant) — 1
+- Mike Peel (@mikepeel) — 1
+- Михаил Голомысов (@mikhail_golomysov) — 1
+- Mini Malistisch (@mini_malistisch) — 1
+- @miriamhardy — 1
+- Mirta Santarelli (@mirta64242) — 1
+- Michael J. Papay (@mjpapay) — 1
+- Frau Kahrs (@mkahrs) — 1
+- Michael Lemire (@mlemire) — 1
+- Mijail (@mlinares) — 1
+- M Sorensen (@mmsorensen) — 1
+- mnb (@mnb_) — 1
+- Merrill Oates (@moates) — 1
+- @mohabo — 1
+- Monica Rauchwarter (@monicarauchwarter) — 1
+- @moonlight-echo — 1
+- @morbiddread — 1
+- Morgane Dendoncker (@morgane162) — 1
+- Naomi Moore (@mossandivy) — 1
+- mothy (@mostlymothy) — 1
+- Doug Macaulay (@mothmaniac) — 1
+- @moxostoma — 1
+- Karen (with occasional help from Mike) (@mpkw) — 1
+- Dimitris P (@mpliax) — 1
+- Marc Botham (@msbotham) — 1
+- MsMay50 (@msmay50) — 1
+- @mteeter — 1
+- Jesper Munk (@munk75) — 1
+- @munnster77 — 1
+- Mike Wilkes (@mwmw478) — 1
+- @myceliummeaning — 1
+- @myeats — 1
+- o.t. s. (@mykaefer) — 1
+- @mylosr — 1
+- Nikita Kazantsev (@n_kazantsev) — 1
+- Natan Krzyzewski (@natan58865) — 1
+- Nathan Brown (@nathanbrown4) — 1
+- Константин Кривбасс (@naturalist40295) — 1
+- Василий Ломоносов (Graf) (@naturalist88789) — 1
+- Екатерина Евстратова (@naturalist_chuka) — 1
+- Daniel (@naturedan_) — 1
+- Nature Newt (@naturenewt) — 1
+- Engers (@naturengers) — 1
+- Neil Bell (@neil23) — 1
+- Nelson Balcar (@nelsonb) — 1
+- Nenad Pantic (@nenadpantic) — 1
+- @nenp_cvcteam — 1
+- EcoHerschelGrammarSchool (@nenp_ecoherschelgrammarschool) — 1
+- NENP_Mr_Woodhams (@nenp_mrwoodhams) — 1
+- Dr Victoria J Burton (@nenp_nhmlondon) — 1
+- NENP_Shilbottle_E66 (@nenp_shilbottle_e66) — 1
+- @nenp_tomcommsci — 1
+- @nenp_westparkprimaryhartlepool — 1
+- NENP BILLINGSHURST PRIMARY SCHOOL WEST SUSSEX (@nenpbilli9re) — 1
+- JR Ferrer-Paris (@neomapas) — 1
+- @neoslight — 1
+- Garry Lydon (@networkentity) — 1
+- @ngoomie — 1
+- @nharrison00 — 1
+- Nic Charlton (@nic_charlton) — 1
+- @nick2300 — 1
+- Nicholas Allen (@nick_allen) — 1
+- Nick Lavoie (@nicklavoie) — 1
+- Nicky Fahey (@nicky_f) — 1
+- Nicole McShane (@nicmc92) — 1
+- Nico (@nico43331) — 1
+- Nicola Simoncini (@nicolasimoncini) — 1
+- @nicolaslec — 1
+- @nicolimo86 — 1
+- @nicoprof1 — 1
+- Nigel Hufton (@nigel153) — 1
+- @nina_nesterova — 1
+- Nina Filippova (@ninacourlee) — 1
+- @ninagee26 — 1
+- Anis Dris (@ninjago46644) — 1
+- @nmnmnm — 1
+- @no_goodny — 1
+- @noarelou — 1
+- Виктор Норкин (@nork_in) — 1
+- @novvictan — 1
+- @npezz — 1
+- Nathan Sarrazin (@nsarrazin) — 1
+- @nsns23 — 1
+- Александр (@nuclear0) — 1
+- @o645 — 1
+- @ododkruis — 1
+- Оксана Серикова (@oksana_serikova) — 1
+- Jenny (@oldest_soil) — 1
+- Olexandr Shevchenko (@olexandr2) — 1
+- Olha (@olha_h) — 1
+- Ondřej Žalud (@ondrej2952) — 1
+- Rick_Larimore (@onesequoia) — 1
+- Todd Huang (@oqt) — 1
+- Humberto Reyes (@ordinaryman117) — 1
+- Oleksandr Ordynets (@ordynets) — 1
+- Paco Pando (@pacopando) — 1
+- Nadezhda Bortnikova (@pamplemousse28) — 1
+- Simone Pasini (@pasor1) — 1
+- Pat Heslop-Harrison (@patheslopharrison) — 1
+- @patrickc — 1
+- Patrik Novák (@patrik52528) — 1
+- Paulame (@paulame) — 1
+- @pauloldfield — 1
+- Dupont Pascal (@pdupont) — 1
+- @peter_kelly — 1
+- Peter Moore (@peter_robin) — 1
+- Peter Kullberg (@peterkullberg) — 1
+- Peter Neish (@peterneish) — 1
+- Петро Чупрун (@petro87935) — 1
+- @phazelwood — 1
+- Phil McMahon (@phil30422) — 1
+- @phil_adventures — 1
+- Philip Thompson (@philip13450) — 1
+- Valeriia Khabibulina (@pinetreella) — 1
+- Pedro (@pino_carrasco739) — 1
+- Bergkiffer (@pinusmugo123) — 1
+- @pippasouthern — 1
+- Mathieu Rancourt (@pitted_olives) — 1
+- @pizzaraptor — 1
+- Peter de Lange (@pjd1) — 1
+- Roman (@planbeez) — 1
+- @plantybee — 1
+- @platyn — 1
+- @pmala — 1
+- Julius Thelen (@poleshift) — 1
+- Polina Galaganova (@polina_galaganova) — 1
+- @portulaca — 1
+- Prasad Sandbhor (@prasad95874) — 1
+- Preston J McDonald (@premcdonald) — 1
+- @pricklybriar — 1
+- Przemysław Długosz (@przemysaw8) — 1
+- @purplekate — 1
+- Nikita Nedelko (@quantumdrive) — 1
+- @quatauta — 1
+- Ekaterina Bachinina (@quiris) — 1
+- Debra Baker (@quokka2) — 1
+- Rachel Mills (@rachellouisemills) — 1
+- Radek Walkowiak (@radekwalkowiak) — 1
+- Елена Радостева (@radlena) — 1
+- @radspinnenvergleich24punktcom — 1
+- Radu Privantu (@radu67091) — 1
+- Rajesh Balakrishnan (@rajesh_balakrishnan) — 1
+- Ralph Martin (@ralph13262) — 1
+- Rama Narayanan (@ramanarayanan) — 1
+- @randomusername_ — 1
+- rarety (@raret) — 1
+- @rasenior — 1
+- 許慶棠Ray (@ray378) — 1
+- Marc (@rdwz) — 1
+- Régis Guillemin (@regisg21) — 1
+- Ding Lang Reyes (@reyes010) — 1
+- Richard Montagu (@rgmontagu) — 1
+- Richard Hilliard (@rh_snailmail) — 1
+- Ryan Hearty (@rhearty1) — 1
+- Gail A Baker (@ribes2018) — 1
+- Richard Dimon (@richarddimon) — 1
+- @richardgoddard — 1
+- @richarduoy — 1
+- Rick Stafford (@rick59664) — 1
+- @ricofish — 1
+- Rikiya (@rikiya1) — 1
+- @ringmike — 1
+- @rjtizard — 1
+- @robertjohnwills — 1
+- @roberto-rizzi — 1
+- Robert Radbourne (@robertradbourne) — 1
+- @rodneyknight — 1
+- Рогачёва Марина Николаевна (@rogacheva_marina) — 1
+- @rohanmenzies — 1
+- Joseph Rojas (@rojasburke) — 1
+- Maria-Teresa Pallavicini (@romoletta) — 1
+- @ronhoe — 1
+- Rostyslav Gordon (@rostyslav) — 1
+- @rowie24 — 1
+- Russell P. Rai (@rrai_ga) — 1
+- @rubymcleod — 1
+- Ruslan Sadykov (@ruslansadykov) — 1
+- Russ Smith (mrrockitt) (@russ3049) — 1
+- Ryan DeLuca (@ryan_deluca) — 1
+- @ryknield — 1
+- Ryan Donnelly (@rynaturalist) — 1
+- Hannu Saarenmaa (@saarenmaa) — 1
+- Rodrigo Salvador (@sacred_ibis) — 1
+- Phillis (@salmontoast) — 1
+- Stef (@salvatore123) — 1
+- Samantha Bazan (@samanthabazan) — 1
+- Sam Robertson (@samrobertson1) — 1
+- Sand Bugg (@sand_bugg) — 1
+- Kevin Jones (@sandercommander) — 1
+- Sara Loch (@sara2592) — 1
+- @sara_harder — 1
+- Sara Robisco Cavite (@sara_rc) — 1
+- Sarah Anderson (@sarah51441) — 1
+- Sarah Richardson (@sarah_richardson) — 1
+- SarahCW (@sarahcw) — 1
+- Sawyer (@sawyer_14) — 1
+- Sergey Basalaev (@sbasalaev) — 1
+- @sblackford — 1
+- @scohlendorf — 1
+- Scott (@scott5834) — 1
+- @scott_young — 1
+- Sean Haight (@sean579) — 1
+- Sean Rigney (@seanrigney) — 1
+- @secooke1 — 1
+- Roman Sergeychik (@seerthe) — 1
+- Seig (@seigmond) — 1
+- Julia Collet (@sensenjule) — 1
+- @seren_y_bore — 1
+- Serge Brun (@serge41426) — 1
+- Sebastian Serna Muñoz (@sesernam) — 1
+- @setr — 1
+- Shaan Aroeste (@shaanaroeste) — 1
+- @sharonroberts13 — 1
+- Shaun Swanepoel (@shauns) — 1
+- Simone Eusebio Bergò (@sim_eusebio_bergo) — 1
+- @simon1988 — 1
+- @simoneburton — 1
+- Simone Seymour (@simoneseymour76) — 1
+- Sofia Tkacheva (@sofia_tkacheva) — 1
+- Sofia Zvolanek (@sofiazed1) — 1
+- Sofiia Sviridenko (@sofiiasviridenko) — 1
+- Sofia Larrandart (@sofilarrandart) — 1
+- Softshade (@softshade) — 1
+- София Р. (@sofya_hm) — 1
+- Sol Morelli (@solmorelli) — 1
+- Sol Matthew Pombuena (@solpombuena) — 1
+- Полина Полежанкина (@sowjaka) — 1
+- @speciescounter — 1
+- @specto — 1
+- @spelledwrongdotuk — 1
+- @sprcrkwild — 1
+- Karn (@spydarlee) — 1
+- Svea-Sophie Zimmermann (@sszimmermann) — 1
+- @stevebitterne — 1
+- Steven Bodzin (@steven-cyclist) — 1
+- @stijncocalo — 1
+- Brian Henderson (@stinkenroboter) — 1
+- stn ktn (@stn_ktn) — 1
+- Su Adams (@suadams) — 1
+- Summer Grundy (@sumgru) — 1
+- @sunmhotame — 1
+- Alicia D (@sunnydibz) — 1
+- @sunshineandgreen — 1
+- Svetlana Knyazeva (@svetlana_knyazeva) — 1
+- Steve VanderLeest (@svleest) — 1
+- Sharon Walker (ESBC) (@sw_esbc) — 1
+- Steve Wells (@swells) — 1
+- Steven Whitebread (@swhitebread) — 1
+- Sylvia Kusmin (@sylviakusmin) — 1
+- @sylviarimat — 1
+- @szegedigombasz — 1
+- Ronnie (@szmiller) — 1
+- Fabian EGL (@tally_fegl) — 1
+- Tamara Brlek (@tamarabjuzz) — 1
+- @tamsinashton — 1
+- Tapani Hopkins (@tapani_hopkins) — 1
+- Tarantella (He/Him) (@tarantella) — 1
+- Teemu (@teemukataja) — 1
+- Teifion Maddocks (@teifion1) — 1
+- Teresa Jegelewicz Mayfield-Meyer (@teresajmayfield) — 1
+- Javier Baluja Pombo (@terrino) — 1
+- Theodoros Alexandropoulos (@thalexan) — 1
+- Dan Sutton (@the_animal_dan) — 1
+- @therockster — 1
+- Fiona Greenwold (@thistledoo) — 1
+- Thomas Astegger (@thomas88004) — 1
+- Caroline Kane (@thymetofish) — 1
+- Tiago Lubiana (@tiagolubiana) — 1
+- Rebecca Ray (@tigerbb) — 1
+- Timothy Watkins (@tim221) — 1
+- @tlaloc27 — 1
+- @tom_holmes — 1
+- Tomás Pereira (@tomas8488) — 1
+- Tomek Trzęsimiech (@tomek8) — 1
+- Toni Josep Far (@tonijosep) — 1
+- @tonysinnott — 1
+- Fred Jean (@toot_alamouche) — 1
+- Andrew Lie (@trailhapa) — 1
+- @travelling_bookworm — 1
+- Zoe McCormick (@treepublican) — 1
+- Дмитрий Пономарев (@tri820) — 1
+- @tunicatedreamz — 1
+- @turtlecrab — 1
+- Riku (@tuura) — 1
+- the permian extinction (@twofiftytwomya) — 1
+- Tyler O'Sullivan Kroeschell (@tyler708) — 1
+- Tyler Cannon (@tylercannon) — 1
+- Antonia Bezenchek (@tyty4net) — 1
+- Ulf Liebal (@ulfliebal) — 1
+- Uotila (@uotilafi) — 1
+- Alex Wing (@ur_wingman_) — 1
+- U.R. Kempa (@urararar) — 1
+- @username6 — 1
+- Sebastian Uzum (@uzum) — 1
+- Valdevia (@valdevia) — 1
+- Maria Vasileva (@vasileva_maria) — 1
+- Vatsal Panwar (@vatsal4) — 1
+- Vaughn Michael Shirey (@vaughnshirey) — 1
+- Václav Kubaljak (@vclav10) — 1
+- Maxim Gryaznov (@verymoko) — 1
+- @veryverytired — 1
+- Viktor Bystřičan (@viibii) — 1
+- Ким Виктория (@vika_kim) — 1
+- Viktoriia Streltsova (@viktoriias) — 1
+- Viktor Pacholík (@viktorpacholk) — 1
+- Ville Kauppila (@villeka) — 1
+- Валерия Егорова (@vindami) — 1
+- Violetta Dzizyurova (@violettadzizyurova) — 1
+- @virginie-c — 1
+- Tore Danielsson (@visbystar) — 1
+- Vitaliy Rudenko (@vitaliyrudenko) — 1
+- Vladislav_Orekhov (@vladislav_orekhov) — 1
+- bat (Maria Vorontsova) (@vorontsovams) — 1
+- Alexandre Pires (@voxelmush) — 1
+- @w_endo — 1
+- WaiTsun Yeung (@waitsunyeung) — 1
+- @walkingfern — 1
+- Veeti Varjo (@warjo) — 1
+- @welshgraham — 1
+- Shannon Garside (@welshwanderer) — 1
+- Wendy A (@wendelia) — 1
+- Václav Hrubeš (@wendelinln) — 1
+- @wesofthewild — 1
+- @whatcatbroughtin — 1
+- Whitney Brook Matson (@whitneybrook) — 1
+- @wildflowerwatching — 1
+- @will-cockerell — 1
+- William Evans (@william_evans) — 1
+- William Bungay (@williambungay) — 1
+- @winston12345 — 1
+- Dolmen Domikles (@winterbourne_frank) — 1
+- William O'Mullane (@womullan) — 1
+- @wulfrunfrank — 1
+- Wojciech Prekurat (@wupe) — 1
+- Григорий Высоцкий (@wysotskiy_ge) — 1
+- Евгения Якунина (@yakuninazhenya) — 1
+- Liu Yang (@yangliu44) — 1
+- @yneumann — 1
+- @yuioqaz — 1
+- Galina (@yutt_fon_arvalon) — 1
+- Glenn (@yv_avens12) — 1
+- @zoeboulton — 1
+- Zoë Miller (@zoeeeeeee) — 1
+- @zomg5 — 1
+- @zufall21 — 1
+- @zuzka83 — 1

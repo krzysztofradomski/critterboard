@@ -19,7 +19,13 @@ describe('packs/eu-ce.json', () => {
     expect(idx).toEqual(Array.from({ length: idx.length }, (_, i) => i));
     const latins = new Set(bugs.map((b) => b.latin));
     for (const latin of Object.keys(pack.labelMap)) expect(latins.has(latin)).toBe(true);
-    expect(bugs).toHaveLength(idx.length);
+    // Extra entries are allowed: species from older packs are kept so
+    // earlier catches still resolve.
+    expect(bugs.length).toBeGreaterThanOrEqual(idx.length);
+  });
+
+  it('names every species (English common name or its Latin name)', () => {
+    for (const b of bugs) expect(b.name.trim().length).toBeGreaterThan(0);
   });
 
   it('has unique ids and valid rarity / traits', () => {

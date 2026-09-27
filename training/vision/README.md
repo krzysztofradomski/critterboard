@@ -35,7 +35,20 @@ training/vision/stream_photos.sh
     --pack packs/eu-ce.json --version 3 --model-url <url>
 ```
 
-## Results — eu-ce v3 (Sep 2026)
+## Results — eu-1k-commercial-v1 (Sep 2026)
+
+A commercially usable 1,000-species model, **used by the app since pack `eu-ce` v4**. Built from CC0 + CC-BY photos only, on Google's Apache-2.0 ViT-S/16 AugReg weights. Full details, licence obligations and residual risks are in [`results/commercial-1k-v1/MODEL_CARD.md`](results/commercial-1k-v1/MODEL_CARD.md).
+
+| | |
+|---|---|
+| Species | 1,000 (939 insects, 61 arachnids); 74.4% of European observations |
+| Data | 243,202 CC0/CC-BY photos by 5,551 photographers; 202k / 15.5k / 25.3k split by photographer |
+| **Test top-1 / top-3** | **78.2% / 90.1%**, measured on the exported `.pte` at 224 px over 25,338 photos |
+| File | `packs/models/eu-1k-commercial-v1.pte`, fp32, 88.4 MB |
+
+Pipeline for this variant: `stream_commercial_photos.sh`, then `select_commercial.py --top 1000 --min-photos 100 --per-species 250 --test 25 --val 15`, then `download.py --short-side 224`, `train.py` (resumable), `export.py` and `credits.py`.
+
+## Results — eu-ce v3 (Sep 2026, superseded by v4)
 
 | | |
 |---|---|

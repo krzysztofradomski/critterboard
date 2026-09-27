@@ -17,12 +17,17 @@ from pathlib import Path
 
 import timm
 import torch
+from timm.layers import set_fused_attn
 from torch.utils.data import DataLoader
 
 from train import Photos, eval_tf, load_species
 
 
 def build(arch, ckpt, n_cls):
+    # Explicit matmul + softmax attention (same maths as the fused kernel):
+    # XNNPACK delegates bmm/softmax, whereas the fused SDPA op decomposes into
+    # where/eq/logical_not ops that stay on the portable kernels.
+    set_fused_attn(False)
     model = timm.create_model(arch, num_classes=n_cls)
     model.load_state_dict(torch.load(ckpt, map_location="cpu"))
     return model.eval()

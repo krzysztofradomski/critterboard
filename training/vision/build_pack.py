@@ -31,6 +31,14 @@ ORDER_STYLE = {  # emoji, colour
     "Opiliones": ("🕷️", "#8a6a4a"),
     "Orthoptera": ("🦗", "#6aa040"),
     "Mantodea": ("🦗", "#7ab648"),
+    "Blattodea": ("🪳", "#7a4a2a"),
+    "Dermaptera": ("🪲", "#6a3a22"),
+    "Mecoptera": ("🪰", "#b07030"),
+    "Neuroptera": ("🪰", "#5a9a50"),
+    "Ephemeroptera": ("🪰", "#a09060"),
+    "Trichoptera": ("🦋", "#8a7050"),
+    "Ixodida": ("🕷️", "#5a3a2a"),
+    "Sarcoptiformes": ("🐛", "#a07060"),
 }
 
 
@@ -60,7 +68,9 @@ def rarity(obs_count):
         return "common", 20, "★"
     if obs_count >= 20_000:
         return "uncommon", 45, "★★"
-    return "rare", 90, "★★★"
+    if obs_count >= 5_000:
+        return "rare", 90, "★★★"
+    return "epic", 150, "★★★★"
 
 
 def slug(latin):
@@ -95,10 +105,16 @@ def main():
             emoji, color = "🐞", "#d72638"
         r, xp, tier = rarity(int(s["obs_count"]))
         bugs.append({
-            "id": slug(latin), "name": names[latin], "latin": latin,
+            # No established English name → show the Latin name.
+            "id": slug(latin), "name": names.get(latin, latin), "latin": latin,
             "rarity": r, "xp": xp, "tier": tier, "emoji": emoji, "color": color,
             "traits": traits(s["order"], s["family"], latin),
         })
+
+    # Species from the previous pack that this model no longer predicts stay in
+    # the pack (without a label), so earlier catches keep resolving.
+    in_model = {b["latin"] for b in bugs}
+    bugs += [b for b in old["bugs"] if b["latin"] not in in_model]
 
     ids = [b["id"] for b in bugs]
     assert len(set(ids)) == len(ids), "duplicate bug ids"
@@ -113,7 +129,7 @@ def main():
         "labelMap": label_map,
     }
     args.pack.write_text(json.dumps(pack, indent=2, ensure_ascii=False) + "\n")
-    print(f"wrote {args.pack}: {len(bugs)} bugs ({len(existing)} kept), version {args.version}")
+    print(f"wrote {args.pack}: {len(bugs)} bugs, {len(label_map)} labels, version {args.version}")
 
 
 if __name__ == "__main__":
