@@ -28,14 +28,18 @@ def build(arch, ckpt, n_cls):
     return model.eval()
 
 
-def quantize_int8(model, example, calib_loader, n_batches):
+def quantize_int8(model, example, calib_loader, n_batches, dynamic=False):
     from executorch.backends.xnnpack.quantizer.xnnpack_quantizer import (
         XNNPACKQuantizer,
         get_symmetric_quantization_config,
     )
     from torchao.quantization.pt2e.quantize_pt2e import convert_pt2e, prepare_pt2e
 
-    quantizer = XNNPACKQuantizer().set_global(get_symmetric_quantization_config(is_per_channel=True))
+    # dynamic: int8 weights, activations quantised on the fly per inference —
+    # only Linear layers, but that is most of a ConvNeXt's parameters.
+    config = get_symmetric_quantization_config(is_per_channel=True, is_dynamic=dynamic)
+    quantizer = (XNNPACKQuantizer().set_module_type(torch.nn.Linear, config) if dynamic
+                 else XNNPACKQuantizer().set_global(config))
     m = torch.export.export(model, (example,)).module()
     m = prepare_pt2e(m, quantizer)
     with torch.no_grad():
@@ -83,7 +87,8 @@ def main():
     ap.add_argument("--ckpt", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--size", type=int, default=224)
-    ap.add_argument("--int8", action="store_true")
+    ap.add_argument("--int8", action="store_true", help="static int8 (weights + activations)")
+    ap.add_argument("--int8-dynamic", action="store_true", help="int8 weights for Linear layers only")
     ap.add_argument("--calib-batches", type=int, default=16)
     ap.add_argument("--limit", type=int, default=0, help="smoke test: score only N test images")
     args = ap.parse_args()
@@ -95,12 +100,13 @@ def main():
     test_loader = DataLoader(Photos(args.data, "test", species, eval_tf(args.size)),
                              batch_size=64, shuffle=bool(args.limit))
 
-    if args.int8:
+    if args.int8 or args.int8_dynamic:
         calib = DataLoader(Photos(args.data, "train", species, eval_tf(args.size)),
                            batch_size=32, shuffle=True)
-        model = quantize_int8(model, example, calib, args.calib_batches)
+        model = quantize_int8(model, example, calib, args.calib_batches, dynamic=args.int8_dynamic)
 
-    name = "model_int8.pte" if args.int8 else "model_fp32.pte"
+    name = ("model_int8dyn.pte" if args.int8_dynamic
+            else "model_int8.pte" if args.int8 else "model_fp32.pte")
     path = args.out / name
     to_pte(model, example, path)
     top1, top3, ms = eval_pte(path, test_loader, args.limit)

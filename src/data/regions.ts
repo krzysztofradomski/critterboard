@@ -16,7 +16,7 @@ export type Region = {
 };
 
 export const REGIONS: Region[] = [
-  { id: 'eu-ce', emoji: '🌿', size: 6,   color: PB.green  },
+  { id: 'eu-ce', emoji: '🌿', size: 61,  color: PB.green  },
   { id: 'na-ne', emoji: '🍁', size: 84,  color: PB.orange },
   { id: 'na-sw', emoji: '🌵', size: 76,  color: PB.yellow },
   { id: 'eu-uk', emoji: '🇬🇧', size: 62,  color: PB.green  },
@@ -56,13 +56,14 @@ export const REGION_DETAILS: Record<string, RegionDetail> = {
   'eu-ce': {
     id: 'eu-ce',
     emoji: '🌿', color: PB.green,
-    species: 20, size: 6, version: 'v2026.06', updated: 'Jun 2, 2026',
+    species: 200, size: 61, version: 'v2026.09', updated: 'Sep 27, 2026',
     families: [
-      { key: 'lep', count: 9,  color: PB.purple },
-      { key: 'hym', count: 5,  color: PB.yellow },
-      { key: 'col', count: 4,  color: PB.green  },
-      { key: 'hem', count: 1,  color: PB.blue   },
-      { key: 'odo', count: 1,  color: PB.red    },
+      { key: 'lep', count: 90, color: PB.purple },
+      { key: 'col', count: 25, color: PB.green  },
+      { key: 'odo', count: 19, color: PB.red    },
+      { key: 'hem', count: 16, color: PB.blue   },
+      { key: 'hym', count: 13, color: PB.yellow },
+      { key: 'oth', count: 37, color: PB.orange },
     ],
     samples: [
       { id: 'peac', whyKey: 'peac' },

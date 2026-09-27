@@ -1,0 +1,7 @@
+{
+ "pte": "model_fp32.pte",
+ "mb": 60.4,
+ "test_top1": 0.8372294372294372,
+ "test_top3": 0.9396413110698825,
+ "host_ms_per_image": 69.9
+}

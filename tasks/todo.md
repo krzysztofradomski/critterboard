@@ -14,15 +14,22 @@ Goal: a fast classifier for the ~200 most-observed European insects (and spiders
 
 Constraints found: cloud sandbox has 4 CPUs, no GPU. iNaturalist API, Hugging Face and download.pytorch.org are blocked by egress policy. Available: iNaturalist AWS Open Data bucket (metadata dumps + photos), timm weights on GitHub releases, PyPI.
 
-- [ ] Data: stream `taxa` + `observations` dumps → research-grade Insecta/Arachnida observations in a Europe bbox → rank species by count → top 200 (+ force-include the 20 current species)
-- [ ] Data: stream `photos` dump → first photo per observation, ≤3 observations per observer per species, observer-grouped train/val/test split
-- [ ] Data: download medium photos from the open-data bucket, resize to 256 px
-- [ ] Base model: benchmark candidates on this CPU (EfficientNet-B0, EfficientNetV2-B0/B3, EfficientNetV2-S in21k); pick best accuracy/speed/size trade-off
-- [ ] Train: fine-tune with augmentation; report top-1 / top-3 on the held-out test split
-- [ ] Export: ExecuTorch `executorch==1.0.1` (matches the ET12 runtime in react-native-executorch 0.9.3) **with the XNNPACK delegate** (v2 used portable ops only); validate accuracy by running the `.pte` on host
-- [ ] Pack v3: `packs/eu-ce.json` (bugs with en/pl/de/es names, labelMap, modelUrl), bump `packs/manifest.json`
-- [ ] App: map model labels through the pack's species (not the hardcoded 20-species table, which falls back to "lady"); `bugName` falls back to pack names
-- [ ] Docs: `training/vision/README.md`, `docs/ml-roadmap.md`
+- [x] Data: stream `taxa` + `observations` dumps → 12.4M European research-grade Insecta/Arachnida observations → top 200 species (+ the 20 current ones)
+- [x] Data: stream `photos` dump → first photo per observation, ≤3 observations per observer per species, observer-grouped train/val/test split
+- [x] Data: download 79,987 photos (≈240 img/s with a pooled HTTP client), resize to 256 px; licences in `images/manifest.csv`
+- [x] Base model: pilots on this CPU → ConvNeXt-nano (50.0%) over ViT-S in21k (47.2%) and ViT-Ti in21k (38.2%); depthwise-heavy EfficientNets were too slow to train here (no AMX benefit)
+- [x] Train: 6 epochs, 160→192 px, ~3.5 h → test 80.9% top-1 at 192 px
+- [x] Export: `executorch==1.0.1` + XNNPACK; the `.pte` scores **83.7% top-1 / 94.0% top-3 at 224 px** on all 8,085 test photos; fp32 60.4 MB (static int8 lost 9 points, rejected)
+- [x] Pack v3: `packs/eu-ce.json` (200 bugs, labelMap), `packs/models/eu-ce-v3.pte`, manifest v3, region metadata + strings
+- [x] App: labels map through pack species (`findBugByLatin`); `bugName` falls back to the pack name
+- [x] Docs: `training/vision/README.md`, `docs/ml-roadmap.md`
+- [ ] Translate the 180 new species names (pl/de/es fall back to English); no name source was reachable from the sandbox
+- [ ] Follow-up: on-device latency check on an iPhone; consider smaller model (int8 QAT or a LayerNorm-free backbone) if 60 MB is too big
+
+#### Review — vision v3
+- `pnpm run check` ✅ 21 files / 336 tests (new: pack integrity, pack-species lookup + name fallback) · iOS bundle ✅
+- Accuracy is measured on the exported `.pte` itself (the ExecuTorch runtime on host), not only on the PyTorch model; at 192 px it matched PyTorch exactly (80.85%)
+- Not verified here: on-device load and latency in react-native-executorch 0.9.3. The exporter was picked to match its ET12 / 1.0-era runtime, and the ops used are in its kernel set (XNNPACK, dim_order ops)
 
 ## Next — iOS device testing, Leaflet map, Cloudflare setup (plan, awaiting go-ahead)
 

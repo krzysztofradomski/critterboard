@@ -610,6 +610,10 @@
     },
     "regions": {
       "list": {
+        "eu-ce": {
+          "name": "Europa Central",
+          "sub": "200 especies · las más observadas de Europa"
+        },
         "na-ne": {
           "name": "Nordeste NA",
           "sub": "2.140 especies · árboles, lagunas, humedales"

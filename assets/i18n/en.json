@@ -629,7 +629,7 @@
       "list": {
         "eu-ce": {
           "name": "Central Europe",
-          "sub": "20 species · demo pack · pre-installed"
+          "sub": "200 species · most-seen in Europe"
         },
         "na-ne": {
           "name": "Northeast NA",
@@ -680,7 +680,7 @@
             "hym": "Hymenoptera (bees & wasps)",
             "col": "Coleoptera (beetles)",
             "hem": "Hemiptera (true bugs)",
-            "odo": "Odonata (damselflies)",
+            "odo": "Odonata (dragonflies & damselflies)",
             "oth": "Other"
           },
           "why": {

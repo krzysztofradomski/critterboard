@@ -610,6 +610,10 @@
     },
     "regions": {
       "list": {
+        "eu-ce": {
+          "name": "Mitteleuropa",
+          "sub": "200 Arten · die meistbeobachteten Europas"
+        },
         "na-ne": {
           "name": "Nordosten NA",
           "sub": "2.140 Arten · Bäume, Teiche, Feuchtgebiete"

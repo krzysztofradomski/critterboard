@@ -28,11 +28,38 @@ training/vision/stream_photos.sh
 ~/mlenv/bin/python training/vision/download.py --data $DATA
 
 # 5. Fine-tune (see train.py --help), 6. export + verify the .pte, 7. write the pack
+#    (export needs the venv's bundled `flatc` on PATH: export PATH=~/mlenv/bin:$PATH)
 ~/mlenv/bin/python training/vision/train.py --data $DATA --arch <arch> --weights <file> --out runs/x
 ~/mlenv/bin/python training/vision/export.py --data $DATA --arch <arch> --ckpt runs/x/best.pth --out runs/x
 ~/mlenv/bin/python training/vision/build_pack.py --data $DATA --labels runs/x/labels.csv \
     --pack packs/eu-ce.json --version 3 --model-url <url>
 ```
+
+## Results — eu-ce v3 (Sep 2026)
+
+| | |
+|---|---|
+| Species | 200 (186 insects, 14 arachnids); the least-observed has 7.8k European observations |
+| Data | 79,987 photos: 65,809 train / 6,092 val / 8,085 test, split by photographer |
+| Base model | **ConvNeXt-nano** (timm `convnext_nano.d1h_in1k`, 15M params) |
+| Training | 6 epochs, AdamW, bf16, progressive 160→192 px, label smoothing 0.1, drop-path 0.1 (~3.5 h on 4 CPU cores) |
+| **Test top-1 / top-3** | **83.7% / 94.0%** — measured by running the exported `.pte` at 224 px on all 8,085 test photos |
+| Shipped file | `packs/models/eu-ce-v3.pte`, fp32, 60.4 MB, input 1×3×224×224, output 200 logits |
+| Host CPU latency | ~55–70 ms per image (4 threads, x86); phones with XNNPACK are typically faster |
+
+Run artefacts (species list with observation counts, training history, reports, photo manifest with licences) are in [`results/eu-ce-v3/`](results/eu-ce-v3/).
+
+Previous model (v2): EfficientNetV2-S, 20 species, 77% top-1, no XNNPACK delegate.
+
+**Pilot comparison** (1 epoch, 80 photos/species, 160 px, val top-1): ConvNeXt-nano 50.0%, ViT-S/16 in21k 47.2%, ViT-Ti/16 in21k 38.2%.
+
+**Resolution:** trained up to 192 px, evaluated at 224 px (+2.9 points: 80.9% → 83.7%). This is the "FixRes" train/test resolution effect.
+
+**Quantisation tried and rejected:** static int8 (15.6 MB) dropped to 74.8% top-1, because ConvNeXt's LayerNorm/GELU activations don't take PTQ well. Dynamic int8 on Linear layers kept accuracy (82.9% on 1k images) but produced no size saving with ExecuTorch 1.0.1. fp32 ships.
+
+**Delegation:** all convolutions, GELU, add/mul and the classifier run on XNNPACK. The 19 LayerNorms and reshape/copy nodes run on the default kernels (ExecuTorch 1.0's XNNPACK backend doesn't delegate LayerNorm).
+
+**Hardest species** (test top-1 ≈ 48–58%): look-alike groups. These are the *Sympetrum* darters (*striolatum*, *sanguineum*, *vulgatum*), *Pieris rapae* vs other whites, *Vespula germanica* vs *vulgaris*, the colour-variable *Harmonia axyridis*, and crab spiders. They are good candidates for the app's Disambiguate screen.
 
 ## Design notes
 

@@ -20,7 +20,7 @@ import { webNativeLlmChatAdapter } from '@/ai/webNativeLlm';
 
 // Native on-device vision is active. The .pte is NOT bundled — it's downloaded
 // on demand from the brains/region-pack page (Settings → pack install pulls the
-// GitHub release asset named in packs/eu-ce.json → modelUrl). This flag stays
+// file named in packs/eu-ce.json → modelUrl, e.g. packs/models/eu-ce-v3.pte). This flag stays
 // dormant (preventLoad) until a pack is installed; until then Scan falls back to
 // gemini/mock. See packs/eu-ce.json and src/data/regionPacks.ts.
 export const USE_NATIVE_VISION = true;
