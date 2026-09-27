@@ -151,12 +151,14 @@ After `pnpm run submit:ios`, the build appears in TestFlight once Apple finishes
 
 ## Secrets & env
 
-Runtime config uses `EXPO_PUBLIC_*` vars (see [`.env.example`](../.env.example)). For cloud builds these are **not** read from your local `.env` — set them as EAS secrets so the build can see them:
+Runtime config uses `EXPO_PUBLIC_*` vars (see [`.env.example`](../.env.example)). For cloud builds these are **not** read from your local `.env` — set them as EAS environment variables so the build can see them (`eas secret:*` is deprecated):
 
 ```bash
-pnpm exec eas secret:create --scope project --name EXPO_PUBLIC_SENTRY_DSN --value "..."
-pnpm exec eas secret:create --scope project --name EXPO_PUBLIC_BACKEND_URL --value "..."
+pnpm exec eas env:create --name EXPO_PUBLIC_BACKEND_URL --value "..." --environment production --visibility plaintext
+pnpm exec eas env:create --name EXPO_PUBLIC_SENTRY_DSN --value "..." --environment production --visibility plaintext
 ```
+
+Repeat with `--environment preview` / `development` for the other profiles. `EXPO_PUBLIC_*` values end up in the app bundle, so never put real secrets in them.
 
 Or add a non-secret `env` block per profile in `eas.json`. Keep real keys out of git either way.
 
@@ -167,5 +169,5 @@ Or add a non-secret `env` block per profile in `eas.json`. Keep real keys out of
 - [ ] App records created in App Store Connect and Play Console
 - [ ] `submit.production` placeholders filled in `eas.json`
 - [ ] `google-service-account.json` present locally (Android), git-ignored
-- [ ] EAS secrets set for any `EXPO_PUBLIC_*` the app needs at runtime
+- [ ] EAS env vars (`eas env:create`) set for any `EXPO_PUBLIC_*` the app needs at runtime
 - [ ] `pnpm run check` is green

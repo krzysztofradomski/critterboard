@@ -8,6 +8,7 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 
 | Doc | What's inside |
 |---|---|
+| [[handoff]] | **Start here locally** — what to run on your Mac to finish the app: simulator, iPhone, map spike, Cloudflare, store. |
 | [[architecture]] | App map — folders, native modules, network touchpoints, top-level diagram. |
 | [[ml-roadmap]] | On-device ML plan — MVP, full training, deferred placeholders. The master "what's next". |
 | [[deployment]] | Shipping to iOS TestFlight & Google Play via EAS — build profiles, credentials, submit config. |
