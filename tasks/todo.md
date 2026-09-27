@@ -22,7 +22,11 @@ Decisions (user): base = **Google ViT-S/16 AugReg** (Apache 2.0 from Google, no 
 - [x] `train.py` made resumable (checkpoint every 400 steps); ViT-S/16 trained 5 epochs, ~9.5 h, no restarts
 - [x] Export + verify: **78.2% top-1 / 90.1% top-3** on 25,338 test photos (`.pte`, 224 px), 88.4 MB. Static int8 (22.8 MB) failed to load in the runtime, so fp32 ships
 - [x] `credits.csv.gz` (5,551 photographers), `MODEL_CARD.md` with licence obligations and risks → `training/vision/results/commercial-1k-v1/`
-- [ ] Then: non-commercial 1,000-species retrain for this app's pack (ConvNeXt or ViT), English names where established, Latin otherwise
+- [x] ~~Non-commercial retrain~~ → decided: the app uses the commercial model too (one model, clean licensing)
+- [x] Pack `eu-ce` v4: 1,000 species, model `eu-1k-commercial-v1`; 736 English names (established UK/EU names), 264 Latin-only; new **epic** tier (<5k observations); all 200 v3 ids kept; manifest v4; region metadata 1,000 species / 89 MB
+- [x] Licence notices in-app: Settings → Open source libraries → Vision model (model card, ATTRIBUTION.md with 5,551 photographers, Apache 2.0 text)
+- [ ] Dex lists only the 20 bundled species; show all pack species (virtualised grid over the registry)
+- [ ] pl/de/es names for the 980 pack species (fall back to English/Latin today)
 
 ## Now — Vision v3: 200 European species, fast on-device model
 

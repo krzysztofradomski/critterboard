@@ -57,6 +57,64 @@ const DEV_LIBRARIES: readonly Library[] = [
   { name: 'typescript', version: '~5.3.3' },
 ];
 
+const REPO = 'https://github.com/krzysztofradomski/critterboard/blob/main';
+
+/**
+ * Licence notices for the on-device species model (eu-1k-commercial-v1).
+ * Apache 2.0 asks for the licence + a notice with redistributed weights;
+ * CC BY asks for credit to the photographers whose photos trained it.
+ */
+const MODEL_CREDITS: readonly { name: string; detail: string; url: string }[] = [
+  {
+    name: 'Species model: eu-1k-commercial-v1',
+    detail: 'Fine-tuned for insects by Critterboard. Model card, sources, accuracy',
+    url: `${REPO}/training/vision/results/commercial-1k-v1/MODEL_CARD.md`,
+  },
+  {
+    name: 'Training photos: 5,551 iNaturalist contributors',
+    detail: 'CC BY 4.0 / CC0. Photos used for training only; full credits list',
+    url: `${REPO}/training/vision/results/commercial-1k-v1/ATTRIBUTION.md`,
+  },
+  {
+    name: 'Base weights: Google Vision Transformer (AugReg)',
+    detail: '© Google, Apache License 2.0. Modified: fine-tuned',
+    url: `${REPO}/packs/models/LICENSE-google-vit-apache-2.0.txt`,
+  },
+];
+
+function ModelCreditsSection() {
+  return (
+    <Sticker bg={PB.paper} style={{ padding: 0 }}>
+      <View style={styles.sectionHeader}>
+        <Text style={{ fontSize: 24 }}>🐞</Text>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.sectionTitle}>Vision model</Text>
+          <Text style={styles.sectionSub}>On-device species ID: sources and licences</Text>
+        </View>
+      </View>
+      <View style={styles.sectionBody}>
+        {MODEL_CREDITS.map((c) => (
+          <Pressable
+            key={c.name}
+            style={styles.row}
+            onPress={() => {
+              void Linking.openURL(c.url);
+            }}
+            accessibilityRole="link"
+            accessibilityHint={`Open ${c.name}`}
+          >
+            <View style={{ flex: 1 }}>
+              <Text style={styles.rowName}>{c.name}</Text>
+              <Text style={styles.creditDetail}>{c.detail}</Text>
+            </View>
+            <Text style={styles.rowLink}>↗</Text>
+          </Pressable>
+        ))}
+      </View>
+    </Sticker>
+  );
+}
+
 function DependencySection({
   title,
   subtitle,
@@ -114,6 +172,7 @@ export function OpenSourceLibraries() {
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll}>
+        <ModelCreditsSection />
         <DependencySection
           title="Runtime dependencies"
           subtitle={`${RUNTIME_LIBRARIES.length} packages bundled with the app`}
@@ -184,6 +243,7 @@ const styles = StyleSheet.create({
     backgroundColor: PB.yellow,
   },
   versionText: { fontSize: 10, fontWeight: '800', color: PB.ink },
+  creditDetail: { fontSize: 11, color: PB.ink, opacity: 0.7, marginTop: 2 },
   rowLink: { fontSize: 14 },
   footer: {
     marginTop: 2,
