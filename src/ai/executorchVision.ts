@@ -16,6 +16,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { ClassificationModule } from 'react-native-executorch';
 
 import { SCIENTIFIC_TO_BUG_ID } from '@/ai/classMap';
+import { findBugByLatin } from '@/data/bugs';
 import type { Candidate, ClassifyOptions, VisionFrame } from '@/ai/vision';
 
 // ImageNet normalization — must match training/local/train_lite.py
@@ -49,6 +50,15 @@ export type ExecutorchState = {
   /** Set when model loading fails; the Scan screen falls back to cloud/mock. */
   error: Error | null;
 };
+
+/**
+ * Model label (latin name) → app bug id. Installed region packs register
+ * their species via mergeBugs(), so a pack's model can name any of them.
+ * Labels with no known species are dropped rather than guessed.
+ */
+export function labelToBugId(label: string): string | undefined {
+  return findBugByLatin(label)?.id ?? SCIENTIFIC_TO_BUG_ID[label];
+}
 
 // ── Hook ───────────────────────────────────────────────────────────────────
 
@@ -102,12 +112,12 @@ export function useExecutorchClassifier(config: ExecutorchClassifierConfig): Exe
       if (!moduleRef.current || !isReady) return [];
       const topK = opts?.topK ?? 3;
       const scores = await moduleRef.current.forward(frame as string) as Record<string, number>;
-      return (Object.entries(scores))
-        .map(([label, confidence]) => ({
-          bugId: SCIENTIFIC_TO_BUG_ID[label] ?? 'lady',
-          confidence,
-        }))
-        .sort((a, b) => b.confidence - a.confidence)
+      return Object.entries(scores)
+        .sort(([, a], [, b]) => b - a)
+        .flatMap(([label, confidence]) => {
+          const bugId = labelToBugId(label);
+          return bugId ? [{ bugId, confidence }] : [];
+        })
         .slice(0, topK);
     },
     [isReady],

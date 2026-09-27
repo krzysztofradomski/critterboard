@@ -95,7 +95,11 @@ Anything slower than 250 ms feels laggy and is treated as a bug.
 
 > **Goal:** Same UX, 200 species instead of 20, plus a real Gemma 3 1B-IT running locally for the persona chat.
 
-### 2.1  Scale the classifier ⟶ `training/kaggle/insect_classifier_training.ipynb`
+### 2.1  Scale the classifier ⟶ `training/vision/` ✅ *(v3, Sep 2026)*
+
+Done without Kaggle: `training/vision/` streams the iNaturalist open-data dumps, fine-tunes ConvNeXt-nano on a CPU and exports an XNNPACK `.pte`. Result: 200 species, 83.7% top-1 / 94.0% top-3. Full write-up in `training/vision/README.md`. The Kaggle notebook below stays as the GPU route for 1000+ species.
+
+#### Kaggle route (still valid for bigger runs) ⟶ `training/kaggle/insect_classifier_training.ipynb`
 
 The Kaggle notebook is the same EfficientNetV2-S recipe with three knobs in `CFG`:
 
@@ -271,7 +275,7 @@ docs/
 | 1 · `react-native-executorch` wired into `Scan.tsx` | ✅ done — activate by setting `MODEL_SOURCE` + `USE_NATIVE_VISION = true` |
 | 1 · Generate real `.pte` from iNaturalist-trained weights | ⏳ pending — run `04_export.py --pte` after `pip install executorch` |
 | 1 · Bench shutter → Result round-trip on device | ⏳ pending |
-| 2 · Kaggle full-EU run (200 species) | ⏳ pending |
+| 2 · 200-species EU model (`eu-ce` v3) | ✅ done — ConvNeXt-nano, 83.7% top-1 / 94.0% top-3 on held-out photographers; see `training/vision/README.md` |
 | 2 · `llama.rn` integration | ⏳ pending |
 | 2 · `training/personas/` scaffold | ✅ done — run when system-prompt drift > 10% |
 | 3 · Placeholder surfaces | 🅿️ deliberately paused |

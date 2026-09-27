@@ -1,50 +1,2663 @@
 {
   "id": "eu-ce",
-  "version": 2,
-  "modelUrl": "https://github.com/krzysztofradomski/critterboard/releases/download/model-eu-ce-v2/eu-ce.pte",
-  "modelVersion": 2,
+  "version": 3,
+  "modelUrl": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/models/eu-ce-v3.pte",
+  "modelVersion": 3,
   "bugs": [
-    { "id": "hcat", "name": "Honey Bee",             "latin": "Apis mellifera",            "rarity": "common",   "xp": 15,  "tier": "★",   "emoji": "🐝", "color": "#f5b400", "traits": ["pollinator"] },
-    { "id": "buff", "name": "Buff-tailed Bumblebee", "latin": "Bombus terrestris",         "rarity": "common",   "xp": 20,  "tier": "★",   "emoji": "🐝", "color": "#f5a500", "traits": ["pollinator"] },
-    { "id": "gbee", "name": "Garden Bumblebee",      "latin": "Bombus hortorum",           "rarity": "common",   "xp": 20,  "tier": "★",   "emoji": "🐝", "color": "#f0c040", "traits": ["pollinator"] },
-    { "id": "wasp", "name": "Common Wasp",           "latin": "Vespula vulgaris",          "rarity": "common",   "xp": 15,  "tier": "★",   "emoji": "🐝", "color": "#ddc820", "traits": ["wasp", "pollinator"] },
-    { "id": "horn", "name": "European Hornet",       "latin": "Vespa crabro",              "rarity": "uncommon", "xp": 50,  "tier": "★★",  "emoji": "🐝", "color": "#c87800", "traits": ["wasp"] },
-    { "id": "lady", "name": "Seven-spot Ladybird",   "latin": "Coccinella septempunctata", "rarity": "common",   "xp": 20,  "tier": "★",   "emoji": "🐞", "color": "#d72638", "traits": ["beetle", "pollinator"] },
-    { "id": "harl", "name": "Harlequin Ladybird",    "latin": "Harmonia axyridis",         "rarity": "common",   "xp": 25,  "tier": "★",   "emoji": "🐞", "color": "#e84500", "traits": ["beetle"] },
-    { "id": "stag", "name": "Stag Beetle",           "latin": "Lucanus cervus",            "rarity": "rare",     "xp": 120, "tier": "★★★", "emoji": "🪲", "color": "#3d2817", "traits": ["beetle"] },
-    { "id": "rchf", "name": "Rose Chafer",           "latin": "Cetonia aurata",            "rarity": "uncommon", "xp": 60,  "tier": "★★",  "emoji": "🪲", "color": "#2a8c4a", "traits": ["beetle", "pollinator"] },
-    { "id": "gshb", "name": "Green Shield Bug",      "latin": "Palomena prasina",          "rarity": "common",   "xp": 15,  "tier": "★",   "emoji": "🪲", "color": "#3d8c30", "traits": ["bug"] },
-    { "id": "bdam", "name": "Common Blue Damselfly", "latin": "Enallagma cyathigerum",     "rarity": "uncommon", "xp": 45,  "tier": "★★",  "emoji": "🪰", "color": "#2a8fb5", "traits": ["damselfly"] },
-    { "id": "brim", "name": "Common Brimstone",      "latin": "Gonepteryx rhamni",         "rarity": "common",   "xp": 20,  "tier": "★",   "emoji": "🦋", "color": "#e8e028", "traits": ["butterfly", "pollinator"] },
-    { "id": "peac", "name": "Peacock Butterfly",     "latin": "Aglais io",                 "rarity": "common",   "xp": 25,  "tier": "★",   "emoji": "🦋", "color": "#8b1a1a", "traits": ["butterfly", "pollinator"] },
-    { "id": "lwhi", "name": "Large White",           "latin": "Pieris brassicae",          "rarity": "common",   "xp": 15,  "tier": "★",   "emoji": "🦋", "color": "#c8d8e0", "traits": ["butterfly", "pollinator"] },
-    { "id": "swhi", "name": "Small White",           "latin": "Pieris rapae",              "rarity": "common",   "xp": 15,  "tier": "★",   "emoji": "🦋", "color": "#d8e8e8", "traits": ["butterfly", "pollinator"] },
-    { "id": "orng", "name": "Orange Tip",            "latin": "Anthocharis cardamines",    "rarity": "common",   "xp": 20,  "tier": "★",   "emoji": "🦋", "color": "#ff7800", "traits": ["butterfly", "pollinator"] },
-    { "id": "radm", "name": "Red Admiral",           "latin": "Vanessa atalanta",          "rarity": "uncommon", "xp": 40,  "tier": "★★",  "emoji": "🦋", "color": "#c41e3a", "traits": ["butterfly", "pollinator"] },
-    { "id": "tort", "name": "Small Tortoiseshell",   "latin": "Aglais urticae",            "rarity": "uncommon", "xp": 40,  "tier": "★★",  "emoji": "🦋", "color": "#e87820", "traits": ["butterfly", "pollinator"] },
-    { "id": "pntl", "name": "Painted Lady",          "latin": "Vanessa cardui",            "rarity": "uncommon", "xp": 55,  "tier": "★★",  "emoji": "🦋", "color": "#e89060", "traits": ["butterfly", "pollinator"] },
-    { "id": "swal", "name": "Common Swallowtail",    "latin": "Papilio machaon",           "rarity": "rare",     "xp": 100, "tier": "★★★", "emoji": "🦋", "color": "#f0d050", "traits": ["butterfly", "pollinator"] }
+    {
+      "id": "harl",
+      "name": "Harlequin Ladybird",
+      "latin": "Harmonia axyridis",
+      "rarity": "common",
+      "xp": 25,
+      "tier": "★",
+      "emoji": "🐞",
+      "color": "#e84500",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "lady",
+      "name": "Seven-spot Ladybird",
+      "latin": "Coccinella septempunctata",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🐞",
+      "color": "#d72638",
+      "traits": [
+        "beetle",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "hcat",
+      "name": "Honey Bee",
+      "latin": "Apis mellifera",
+      "rarity": "common",
+      "xp": 15,
+      "tier": "★",
+      "emoji": "🐝",
+      "color": "#f5b400",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "pararge-aegeria",
+      "name": "Speckled Wood",
+      "latin": "Pararge aegeria",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "radm",
+      "name": "Red Admiral",
+      "latin": "Vanessa atalanta",
+      "rarity": "uncommon",
+      "xp": 40,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#c41e3a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "peac",
+      "name": "Peacock Butterfly",
+      "latin": "Aglais io",
+      "rarity": "common",
+      "xp": 25,
+      "tier": "★",
+      "emoji": "🦋",
+      "color": "#8b1a1a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "maniola-jurtina",
+      "name": "Meadow Brown",
+      "latin": "Maniola jurtina",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "pyrrhocoris-apterus",
+      "name": "Firebug",
+      "latin": "Pyrrhocoris apterus",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "polyommatus-icarus",
+      "name": "Common Blue",
+      "latin": "Polyommatus icarus",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "bombus-pascuorum",
+      "name": "Common Carder Bee",
+      "latin": "Bombus pascuorum",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🐝",
+      "color": "#f0b020",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "pntl",
+      "name": "Painted Lady",
+      "latin": "Vanessa cardui",
+      "rarity": "uncommon",
+      "xp": 55,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e89060",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "araneus-diadematus",
+      "name": "Garden Cross Spider",
+      "latin": "Araneus diadematus",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🕷️",
+      "color": "#6b5a4a",
+      "traits": []
+    },
+    {
+      "id": "tort",
+      "name": "Small Tortoiseshell",
+      "latin": "Aglais urticae",
+      "rarity": "uncommon",
+      "xp": 40,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e87820",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "polygonia-c-album",
+      "name": "Comma",
+      "latin": "Polygonia c-album",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "pieris-napi",
+      "name": "Green-veined White",
+      "latin": "Pieris napi",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "episyrphus-balteatus",
+      "name": "Marmalade Hoverfly",
+      "latin": "Episyrphus balteatus",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🪰",
+      "color": "#8a7a3a",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "gshb",
+      "name": "Green Shield Bug",
+      "latin": "Palomena prasina",
+      "rarity": "common",
+      "xp": 15,
+      "tier": "★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "eristalis-tenax",
+      "name": "Common Drone Fly",
+      "latin": "Eristalis tenax",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🪰",
+      "color": "#8a7a3a",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "lycaena-phlaeas",
+      "name": "Small Copper",
+      "latin": "Lycaena phlaeas",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "graphosoma-italicum",
+      "name": "Italian Striped Bug",
+      "latin": "Graphosoma italicum",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "noctua-pronuba",
+      "name": "Large Yellow Underwing",
+      "latin": "Noctua pronuba",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "coenonympha-pamphilus",
+      "name": "Small Heath",
+      "latin": "Coenonympha pamphilus",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "pisaura-mirabilis",
+      "name": "Nursery Web Spider",
+      "latin": "Pisaura mirabilis",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🕷️",
+      "color": "#6b5a4a",
+      "traits": []
+    },
+    {
+      "id": "argynnis-paphia",
+      "name": "Silver-washed Fritillary",
+      "latin": "Argynnis paphia",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "swhi",
+      "name": "Small White",
+      "latin": "Pieris rapae",
+      "rarity": "common",
+      "xp": 15,
+      "tier": "★",
+      "emoji": "🦋",
+      "color": "#d8e8e8",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "ischnura-elegans",
+      "name": "Blue-tailed Damselfly",
+      "latin": "Ischnura elegans",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": [
+        "damselfly"
+      ]
+    },
+    {
+      "id": "oxythyrea-funesta",
+      "name": "White-spotted Rose Beetle",
+      "latin": "Oxythyrea funesta",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "coreus-marginatus",
+      "name": "Dock Bug",
+      "latin": "Coreus marginatus",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "rchf",
+      "name": "Rose Chafer",
+      "latin": "Cetonia aurata",
+      "rarity": "uncommon",
+      "xp": 60,
+      "tier": "★★",
+      "emoji": "🪲",
+      "color": "#2a8c4a",
+      "traits": [
+        "beetle",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "brim",
+      "name": "Common Brimstone",
+      "latin": "Gonepteryx rhamni",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🦋",
+      "color": "#e8e028",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "autographa-gamma",
+      "name": "Silver Y",
+      "latin": "Autographa gamma",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "rhagonycha-fulva",
+      "name": "Common Red Soldier Beetle",
+      "latin": "Rhagonycha fulva",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "mantis-religiosa",
+      "name": "European Mantis",
+      "latin": "Mantis religiosa",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦗",
+      "color": "#7ab648",
+      "traits": []
+    },
+    {
+      "id": "tettigonia-viridissima",
+      "name": "Great Green Bush-cricket",
+      "latin": "Tettigonia viridissima",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦗",
+      "color": "#6aa040",
+      "traits": []
+    },
+    {
+      "id": "melanargia-galathea",
+      "name": "Marbled White",
+      "latin": "Melanargia galathea",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "swal",
+      "name": "Common Swallowtail",
+      "latin": "Papilio machaon",
+      "rarity": "rare",
+      "xp": 100,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#f0d050",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "sympetrum-striolatum",
+      "name": "Common Darter",
+      "latin": "Sympetrum striolatum",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": []
+    },
+    {
+      "id": "coenagrion-puella",
+      "name": "Azure Damselfly",
+      "latin": "Coenagrion puella",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": [
+        "damselfly"
+      ]
+    },
+    {
+      "id": "argiope-bruennichi",
+      "name": "Wasp Spider",
+      "latin": "Argiope bruennichi",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🕷️",
+      "color": "#6b5a4a",
+      "traits": []
+    },
+    {
+      "id": "stag",
+      "name": "Stag Beetle",
+      "latin": "Lucanus cervus",
+      "rarity": "rare",
+      "xp": 120,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#3d2817",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "ochlodes-sylvanus",
+      "name": "Large Skipper",
+      "latin": "Ochlodes sylvanus",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "orthetrum-cancellatum",
+      "name": "Black-tailed Skimmer",
+      "latin": "Orthetrum cancellatum",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": []
+    },
+    {
+      "id": "celastrina-argiolus",
+      "name": "Holly Blue",
+      "latin": "Celastrina argiolus",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "dolycoris-baccarum",
+      "name": "Hairy Shield Bug",
+      "latin": "Dolycoris baccarum",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "pentatoma-rufipes",
+      "name": "Red-legged Shield Bug",
+      "latin": "Pentatoma rufipes",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "pyronia-tithonus",
+      "name": "Gatekeeper",
+      "latin": "Pyronia tithonus",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "aphantopus-hyperantus",
+      "name": "Ringlet",
+      "latin": "Aphantopus hyperantus",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "platycnemis-pennipes",
+      "name": "White-legged Damselfly",
+      "latin": "Platycnemis pennipes",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": [
+        "damselfly"
+      ]
+    },
+    {
+      "id": "macroglossum-stellatarum",
+      "name": "Hummingbird Hawk-moth",
+      "latin": "Macroglossum stellatarum",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "dorcus-parallelipipedus",
+      "name": "Lesser Stag Beetle",
+      "latin": "Dorcus parallelipipedus",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "lwhi",
+      "name": "Large White",
+      "latin": "Pieris brassicae",
+      "rarity": "common",
+      "xp": 15,
+      "tier": "★",
+      "emoji": "🦋",
+      "color": "#c8d8e0",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "horn",
+      "name": "European Hornet",
+      "latin": "Vespa crabro",
+      "rarity": "uncommon",
+      "xp": 50,
+      "tier": "★★",
+      "emoji": "🐝",
+      "color": "#c87800",
+      "traits": [
+        "wasp"
+      ]
+    },
+    {
+      "id": "anoplotrupes-stercorosus",
+      "name": "Woodland Dor Beetle",
+      "latin": "Anoplotrupes stercorosus",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "sympetrum-sanguineum",
+      "name": "Ruddy Darter",
+      "latin": "Sympetrum sanguineum",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": []
+    },
+    {
+      "id": "lasiommata-megera",
+      "name": "Wall Brown",
+      "latin": "Lasiommata megera",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "calopteryx-splendens",
+      "name": "Banded Demoiselle",
+      "latin": "Calopteryx splendens",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": [
+        "damselfly"
+      ]
+    },
+    {
+      "id": "euplagia-quadripunctaria",
+      "name": "Jersey Tiger",
+      "latin": "Euplagia quadripunctaria",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "bdam",
+      "name": "Common Blue Damselfly",
+      "latin": "Enallagma cyathigerum",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": [
+        "damselfly"
+      ]
+    },
+    {
+      "id": "halyomorpha-halys",
+      "name": "Brown Marmorated Stink Bug",
+      "latin": "Halyomorpha halys",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "nezara-viridula",
+      "name": "Southern Green Stink Bug",
+      "latin": "Nezara viridula",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "misumena-vatia",
+      "name": "Goldenrod Crab Spider",
+      "latin": "Misumena vatia",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🕷️",
+      "color": "#6b5a4a",
+      "traits": []
+    },
+    {
+      "id": "oedemera-nobilis",
+      "name": "Swollen-thighed Beetle",
+      "latin": "Oedemera nobilis",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "peribatodes-rhomboidaria",
+      "name": "Willow Beauty",
+      "latin": "Peribatodes rhomboidaria",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "propylea-quatuordecimpunctata",
+      "name": "14-spot Ladybird",
+      "latin": "Propylea quatuordecimpunctata",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🐞",
+      "color": "#d72638",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "orng",
+      "name": "Orange Tip",
+      "latin": "Anthocharis cardamines",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🦋",
+      "color": "#ff7800",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "araschnia-levana",
+      "name": "Map Butterfly",
+      "latin": "Araschnia levana",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "pholidoptera-griseoaptera",
+      "name": "Dark Bush-cricket",
+      "latin": "Pholidoptera griseoaptera",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦗",
+      "color": "#6aa040",
+      "traits": []
+    },
+    {
+      "id": "calopteryx-virgo",
+      "name": "Beautiful Demoiselle",
+      "latin": "Calopteryx virgo",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": [
+        "damselfly"
+      ]
+    },
+    {
+      "id": "tyria-jacobaeae",
+      "name": "Cinnabar Moth",
+      "latin": "Tyria jacobaeae",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "cydalima-perspectalis",
+      "name": "Box Tree Moth",
+      "latin": "Cydalima perspectalis",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "eristalis-pertinax",
+      "name": "Tapered Drone Fly",
+      "latin": "Eristalis pertinax",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪰",
+      "color": "#8a7a3a",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "myathropa-florea",
+      "name": "Batman Hoverfly",
+      "latin": "Myathropa florea",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪰",
+      "color": "#8a7a3a",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "idaea-aversata",
+      "name": "Riband Wave",
+      "latin": "Idaea aversata",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "issoria-lathonia",
+      "name": "Queen of Spain Fritillary",
+      "latin": "Issoria lathonia",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "camptogramma-bilineata",
+      "name": "Yellow Shell",
+      "latin": "Camptogramma bilineata",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "iphiclides-podalirius",
+      "name": "Scarce Swallowtail",
+      "latin": "Iphiclides podalirius",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "agrotis-exclamationis",
+      "name": "Heart and Dart",
+      "latin": "Agrotis exclamationis",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "psyllobora-vigintiduopunctata",
+      "name": "22-spot Ladybird",
+      "latin": "Psyllobora vigintiduopunctata",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🐞",
+      "color": "#d72638",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "pyrrhosoma-nymphula",
+      "name": "Large Red Damselfly",
+      "latin": "Pyrrhosoma nymphula",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": [
+        "damselfly"
+      ]
+    },
+    {
+      "id": "macrothylacia-rubi",
+      "name": "Fox Moth",
+      "latin": "Macrothylacia rubi",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "colias-crocea",
+      "name": "Clouded Yellow",
+      "latin": "Colias crocea",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "helophilus-pendulus",
+      "name": "The Footballer Hoverfly",
+      "latin": "Helophilus pendulus",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🪰",
+      "color": "#8a7a3a",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "ematurga-atomaria",
+      "name": "Common Heath",
+      "latin": "Ematurga atomaria",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "bombus-pratorum",
+      "name": "Early Bumblebee",
+      "latin": "Bombus pratorum",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🐝",
+      "color": "#f0b020",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "acronicta-rumicis",
+      "name": "Knot Grass",
+      "latin": "Acronicta rumicis",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "buff",
+      "name": "Buff-tailed Bumblebee",
+      "latin": "Bombus terrestris",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🐝",
+      "color": "#f5a500",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "pseudochorthippus-parallelus",
+      "name": "Meadow Grasshopper",
+      "latin": "Pseudochorthippus parallelus",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦗",
+      "color": "#6aa040",
+      "traits": []
+    },
+    {
+      "id": "anacridium-aegyptium",
+      "name": "Egyptian Grasshopper",
+      "latin": "Anacridium aegyptium",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦗",
+      "color": "#6aa040",
+      "traits": []
+    },
+    {
+      "id": "xestia-c-nigrum",
+      "name": "Setaceous Hebrew Character",
+      "latin": "Xestia c-nigrum",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "bombus-lapidarius",
+      "name": "Red-tailed Bumblebee",
+      "latin": "Bombus lapidarius",
+      "rarity": "uncommon",
+      "xp": 45,
+      "tier": "★★",
+      "emoji": "🐝",
+      "color": "#f0b020",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "rutpela-maculata",
+      "name": "Spotted Longhorn Beetle",
+      "latin": "Rutpela maculata",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "leptoglossus-occidentalis",
+      "name": "Western Conifer Seed Bug",
+      "latin": "Leptoglossus occidentalis",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "aeshna-cyanea",
+      "name": "Southern Hawker",
+      "latin": "Aeshna cyanea",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": []
+    },
+    {
+      "id": "crocothemis-erythraea",
+      "name": "Scarlet Darter",
+      "latin": "Crocothemis erythraea",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": []
+    },
+    {
+      "id": "chiasmia-clathrata",
+      "name": "Latticed Heath",
+      "latin": "Chiasmia clathrata",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "cercopis-vulnerata",
+      "name": "Red-and-black Froghopper",
+      "latin": "Cercopis vulnerata",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "gymnoscelis-rufifasciata",
+      "name": "Double-striped Pug",
+      "latin": "Gymnoscelis rufifasciata",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "stictoleptura-rubra",
+      "name": "Red Longhorn Beetle",
+      "latin": "Stictoleptura rubra",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "agelastica-alni",
+      "name": "Alder Leaf Beetle",
+      "latin": "Agelastica alni",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "sympetrum-fonscolombii",
+      "name": "Red-veined Darter",
+      "latin": "Sympetrum fonscolombii",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": []
+    },
+    {
+      "id": "sphaerophoria-scripta",
+      "name": "Long Hoverfly",
+      "latin": "Sphaerophoria scripta",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#8a7a3a",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "oedipoda-caerulescens",
+      "name": "Blue-winged Grasshopper",
+      "latin": "Oedipoda caerulescens",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦗",
+      "color": "#6aa040",
+      "traits": []
+    },
+    {
+      "id": "libellula-quadrimaculata",
+      "name": "Four-spotted Chaser",
+      "latin": "Libellula quadrimaculata",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": []
+    },
+    {
+      "id": "lasiocampa-quercus",
+      "name": "Oak Eggar",
+      "latin": "Lasiocampa quercus",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "phragmatobia-fuliginosa",
+      "name": "Ruby Tiger",
+      "latin": "Phragmatobia fuliginosa",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "leptophyes-punctatissima",
+      "name": "Speckled Bush-cricket",
+      "latin": "Leptophyes punctatissima",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦗",
+      "color": "#6aa040",
+      "traits": []
+    },
+    {
+      "id": "volucella-zonaria",
+      "name": "Hornet Mimic Hoverfly",
+      "latin": "Volucella zonaria",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#8a7a3a",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "deilephila-elpenor",
+      "name": "Elephant Hawk-moth",
+      "latin": "Deilephila elpenor",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "zygaena-filipendulae",
+      "name": "Six-spot Burnet",
+      "latin": "Zygaena filipendulae",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "nuctenea-umbratica",
+      "name": "Walnut Orb-weaver",
+      "latin": "Nuctenea umbratica",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🕷️",
+      "color": "#6b5a4a",
+      "traits": []
+    },
+    {
+      "id": "chrysoteuchia-culmella",
+      "name": "Garden Grass-veneer",
+      "latin": "Chrysoteuchia culmella",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "libellula-depressa",
+      "name": "Broad-bodied Chaser",
+      "latin": "Libellula depressa",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": []
+    },
+    {
+      "id": "calliteara-pudibunda",
+      "name": "Pale Tussock",
+      "latin": "Calliteara pudibunda",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "lymantria-dispar",
+      "name": "Spongy Moth",
+      "latin": "Lymantria dispar",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "epirrhoe-alternata",
+      "name": "Common Carpet",
+      "latin": "Epirrhoe alternata",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "bombus-hypnorum",
+      "name": "Tree Bumblebee",
+      "latin": "Bombus hypnorum",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🐝",
+      "color": "#f0b020",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "rhaphigaster-nebulosa",
+      "name": "Mottled Shield Bug",
+      "latin": "Rhaphigaster nebulosa",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "diplolepis-rosae",
+      "name": "Mossy Rose Gall Wasp",
+      "latin": "Diplolepis rosae",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🐝",
+      "color": "#f0b020",
+      "traits": [
+        "wasp"
+      ]
+    },
+    {
+      "id": "euthrix-potatoria",
+      "name": "Drinker Moth",
+      "latin": "Euthrix potatoria",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "adalia-bipunctata",
+      "name": "Two-spot Ladybird",
+      "latin": "Adalia bipunctata",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🐞",
+      "color": "#d72638",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "aricia-agestis",
+      "name": "Brown Argus",
+      "latin": "Aricia agestis",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "phalangium-opilio",
+      "name": "Common Harvestman",
+      "latin": "Phalangium opilio",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🕷️",
+      "color": "#8a6a4a",
+      "traits": []
+    },
+    {
+      "id": "triodia-sylvina",
+      "name": "Orange Swift",
+      "latin": "Triodia sylvina",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "pholcus-phalangioides",
+      "name": "Daddy Long-legs Spider",
+      "latin": "Pholcus phalangioides",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🕷️",
+      "color": "#6b5a4a",
+      "traits": []
+    },
+    {
+      "id": "bombylius-major",
+      "name": "Dark-edged Bee-fly",
+      "latin": "Bombylius major",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#8a7a3a",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "synema-globosum",
+      "name": "Napoleon Crab Spider",
+      "latin": "Synema globosum",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🕷️",
+      "color": "#6b5a4a",
+      "traits": []
+    },
+    {
+      "id": "euclidia-glyphica",
+      "name": "Burnet Companion",
+      "latin": "Euclidia glyphica",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "xestia-xanthographa",
+      "name": "Square-spot Rustic",
+      "latin": "Xestia xanthographa",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "cantharis-rustica",
+      "name": "Rustic Sailor Beetle",
+      "latin": "Cantharis rustica",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "zoropsis-spinimana",
+      "name": "False Wolf Spider",
+      "latin": "Zoropsis spinimana",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🕷️",
+      "color": "#6b5a4a",
+      "traits": []
+    },
+    {
+      "id": "lycaena-tityrus",
+      "name": "Sooty Copper",
+      "latin": "Lycaena tityrus",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "volucella-pellucens",
+      "name": "Pellucid Hoverfly",
+      "latin": "Volucella pellucens",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#8a7a3a",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "callophrys-rubi",
+      "name": "Green Hairstreak",
+      "latin": "Callophrys rubi",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "chorthippus-brunneus",
+      "name": "Field Grasshopper",
+      "latin": "Chorthippus brunneus",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦗",
+      "color": "#6aa040",
+      "traits": []
+    },
+    {
+      "id": "nomophila-noctuella",
+      "name": "Rush Veneer",
+      "latin": "Nomophila noctuella",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "pyrausta-despicata",
+      "name": "Straw-barred Pearl",
+      "latin": "Pyrausta despicata",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "idaea-seriata",
+      "name": "Small Dusty Wave",
+      "latin": "Idaea seriata",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "oryctes-nasicornis",
+      "name": "European Rhinoceros Beetle",
+      "latin": "Oryctes nasicornis",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "patania-ruralis",
+      "name": "Mother of Pearl",
+      "latin": "Patania ruralis",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "vespula-germanica",
+      "name": "German Wasp",
+      "latin": "Vespula germanica",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🐝",
+      "color": "#f0b020",
+      "traits": [
+        "wasp",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "opisthograptis-luteolata",
+      "name": "Brimstone Moth",
+      "latin": "Opisthograptis luteolata",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "polistes-dominula",
+      "name": "European Paper Wasp",
+      "latin": "Polistes dominula",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🐝",
+      "color": "#f0b020",
+      "traits": [
+        "wasp",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "apamea-monoglypha",
+      "name": "Dark Arches",
+      "latin": "Apamea monoglypha",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "phalera-bucephala",
+      "name": "Buff-tip",
+      "latin": "Phalera bucephala",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "phaneroptera-nana",
+      "name": "Southern Sickle-bearing Bush-cricket",
+      "latin": "Phaneroptera nana",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦗",
+      "color": "#6aa040",
+      "traits": []
+    },
+    {
+      "id": "anax-imperator",
+      "name": "Emperor Dragonfly",
+      "latin": "Anax imperator",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": []
+    },
+    {
+      "id": "stenurella-melanura",
+      "name": "Black-striped Longhorn Beetle",
+      "latin": "Stenurella melanura",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "melitaea-didyma",
+      "name": "Spotted Fritillary",
+      "latin": "Melitaea didyma",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "opilio-canestrinii",
+      "name": "Canestrini's Harvestman",
+      "latin": "Opilio canestrinii",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🕷️",
+      "color": "#8a6a4a",
+      "traits": []
+    },
+    {
+      "id": "rivula-sericealis",
+      "name": "Straw Dot",
+      "latin": "Rivula sericealis",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "timandra-comae",
+      "name": "Blood-vein",
+      "latin": "Timandra comae",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "pyrochroa-serraticornis",
+      "name": "Red-headed Cardinal Beetle",
+      "latin": "Pyrochroa serraticornis",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "cicindela-campestris",
+      "name": "Green Tiger Beetle",
+      "latin": "Cicindela campestris",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "endotricha-flammealis",
+      "name": "Rosy Tabby",
+      "latin": "Endotricha flammealis",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "chalcolestes-viridis",
+      "name": "Willow Emerald Damselfly",
+      "latin": "Chalcolestes viridis",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": [
+        "damselfly"
+      ]
+    },
+    {
+      "id": "wasp",
+      "name": "Common Wasp",
+      "latin": "Vespula vulgaris",
+      "rarity": "common",
+      "xp": 15,
+      "tier": "★",
+      "emoji": "🐝",
+      "color": "#ddc820",
+      "traits": [
+        "wasp",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "orthetrum-coerulescens",
+      "name": "Keeled Skimmer",
+      "latin": "Orthetrum coerulescens",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": []
+    },
+    {
+      "id": "ochropleura-plecta",
+      "name": "Flame Shoulder",
+      "latin": "Ochropleura plecta",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "spilosoma-lubricipeda",
+      "name": "White Ermine",
+      "latin": "Spilosoma lubricipeda",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "deraeocoris-ruber",
+      "name": "Red Plant Bug",
+      "latin": "Deraeocoris ruber",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "carpocoris-purpureipennis",
+      "name": "Purple Shield Bug",
+      "latin": "Carpocoris purpureipennis",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "vespa-velutina",
+      "name": "Asian Hornet",
+      "latin": "Vespa velutina",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🐝",
+      "color": "#f0b020",
+      "traits": [
+        "wasp"
+      ]
+    },
+    {
+      "id": "eurydema-oleracea",
+      "name": "Brassica Bug",
+      "latin": "Eurydema oleracea",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "helicoverpa-armigera",
+      "name": "Scarce Bordered Straw",
+      "latin": "Helicoverpa armigera",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "syricoris-lacunana",
+      "name": "Dark Strawberry Tortrix",
+      "latin": "Syricoris lacunana",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "pyrausta-aurata",
+      "name": "Mint Moth",
+      "latin": "Pyrausta aurata",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "phlogophora-meticulosa",
+      "name": "Angle Shades",
+      "latin": "Phlogophora meticulosa",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "orthosia-gothica",
+      "name": "Hebrew Character",
+      "latin": "Orthosia gothica",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "orthosia-cerasi",
+      "name": "Common Quaker",
+      "latin": "Orthosia cerasi",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "thomisus-onustus",
+      "name": "Heather Crab Spider",
+      "latin": "Thomisus onustus",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🕷️",
+      "color": "#6b5a4a",
+      "traits": []
+    },
+    {
+      "id": "campaea-margaritaria",
+      "name": "Light Emerald",
+      "latin": "Campaea margaritaria",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "xanthorhoe-fluctuata",
+      "name": "Garden Carpet",
+      "latin": "Xanthorhoe fluctuata",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "roeseliana-roeselii",
+      "name": "Roesel's Bush-cricket",
+      "latin": "Roeseliana roeselii",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦗",
+      "color": "#6aa040",
+      "traits": []
+    },
+    {
+      "id": "plutella-xylostella",
+      "name": "Diamondback Moth",
+      "latin": "Plutella xylostella",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "aporia-crataegi",
+      "name": "Black-veined White",
+      "latin": "Aporia crataegi",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "mangora-acalypha",
+      "name": "Cricket-bat Orb-weaver",
+      "latin": "Mangora acalypha",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🕷️",
+      "color": "#6b5a4a",
+      "traits": []
+    },
+    {
+      "id": "trichodes-apiarius",
+      "name": "Bee-eating Checkered Beetle",
+      "latin": "Trichodes apiarius",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "halyzia-sedecimguttata",
+      "name": "Orange Ladybird",
+      "latin": "Halyzia sedecimguttata",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🐞",
+      "color": "#d72638",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "steatoda-nobilis",
+      "name": "Noble False Widow",
+      "latin": "Steatoda nobilis",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🕷️",
+      "color": "#6b5a4a",
+      "traits": []
+    },
+    {
+      "id": "agrotis-puta",
+      "name": "Shuttle-shaped Dart",
+      "latin": "Agrotis puta",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "hypena-proboscidalis",
+      "name": "Snout Moth",
+      "latin": "Hypena proboscidalis",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "syritta-pipiens",
+      "name": "Thick-legged Hoverfly",
+      "latin": "Syritta pipiens",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#8a7a3a",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "acanthosoma-haemorrhoidale",
+      "name": "Hawthorn Shield Bug",
+      "latin": "Acanthosoma haemorrhoidale",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "chloromyia-formosa",
+      "name": "Broad Centurion",
+      "latin": "Chloromyia formosa",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#8a7a3a",
+      "traits": []
+    },
+    {
+      "id": "corizus-hyoscyami",
+      "name": "Cinnamon Bug",
+      "latin": "Corizus hyoscyami",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#3d8c30",
+      "traits": [
+        "bug"
+      ]
+    },
+    {
+      "id": "polyommatus-bellargus",
+      "name": "Adonis Blue",
+      "latin": "Polyommatus bellargus",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "noctua-comes",
+      "name": "Lesser Yellow Underwing",
+      "latin": "Noctua comes",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "marpissa-muscosa",
+      "name": "Fence-post Jumping Spider",
+      "latin": "Marpissa muscosa",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🕷️",
+      "color": "#6b5a4a",
+      "traits": []
+    },
+    {
+      "id": "lycaena-virgaureae",
+      "name": "Scarce Copper",
+      "latin": "Lycaena virgaureae",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": [
+        "butterfly",
+        "pollinator"
+      ]
+    },
+    {
+      "id": "cossus-cossus",
+      "name": "Goat Moth",
+      "latin": "Cossus cossus",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "agrypnus-murinus",
+      "name": "Grey Click Beetle",
+      "latin": "Agrypnus murinus",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "mimas-tiliae",
+      "name": "Lime Hawk-moth",
+      "latin": "Mimas tiliae",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "phyllopertha-horticola",
+      "name": "Garden Chafer",
+      "latin": "Phyllopertha horticola",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪲",
+      "color": "#5a3a22",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "amata-phegea",
+      "name": "Nine-spotted Moth",
+      "latin": "Amata phegea",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "adalia-decempunctata",
+      "name": "10-spot Ladybird",
+      "latin": "Adalia decempunctata",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🐞",
+      "color": "#d72638",
+      "traits": [
+        "beetle"
+      ]
+    },
+    {
+      "id": "sympetrum-vulgatum",
+      "name": "Vagrant Darter",
+      "latin": "Sympetrum vulgatum",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#2a8fb5",
+      "traits": []
+    },
+    {
+      "id": "mythimna-albipuncta",
+      "name": "White-point",
+      "latin": "Mythimna albipuncta",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦋",
+      "color": "#e8903a",
+      "traits": []
+    },
+    {
+      "id": "gryllus-campestris",
+      "name": "Field Cricket",
+      "latin": "Gryllus campestris",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🦗",
+      "color": "#6aa040",
+      "traits": []
+    },
+    {
+      "id": "eupeodes-corollae",
+      "name": "Migrant Aphideater Hoverfly",
+      "latin": "Eupeodes corollae",
+      "rarity": "rare",
+      "xp": 90,
+      "tier": "★★★",
+      "emoji": "🪰",
+      "color": "#8a7a3a",
+      "traits": [
+        "pollinator"
+      ]
+    },
+    {
+      "id": "gbee",
+      "name": "Garden Bumblebee",
+      "latin": "Bombus hortorum",
+      "rarity": "common",
+      "xp": 20,
+      "tier": "★",
+      "emoji": "🐝",
+      "color": "#f0c040",
+      "traits": [
+        "pollinator"
+      ]
+    }
   ],
   "labelMap": {
-    "Bombus hortorum":           0,
-    "Vespula vulgaris":          1,
-    "Aglais io":                 2,
-    "Apis mellifera":            3,
-    "Harmonia axyridis":         4,
-    "Vanessa cardui":            5,
-    "Vanessa atalanta":          6,
-    "Anthocharis cardamines":    7,
-    "Coccinella septempunctata": 8,
-    "Cetonia aurata":            9,
-    "Gonepteryx rhamni":         10,
-    "Vespa crabro":              11,
-    "Aglais urticae":            12,
-    "Pieris brassicae":          13,
-    "Pieris rapae":              14,
-    "Papilio machaon":           15,
-    "Bombus terrestris":         16,
-    "Lucanus cervus":            17,
-    "Palomena prasina":          18,
-    "Enallagma cyathigerum":     19
+    "Harmonia axyridis": 0,
+    "Coccinella septempunctata": 1,
+    "Apis mellifera": 2,
+    "Pararge aegeria": 3,
+    "Vanessa atalanta": 4,
+    "Aglais io": 5,
+    "Maniola jurtina": 6,
+    "Pyrrhocoris apterus": 7,
+    "Polyommatus icarus": 8,
+    "Bombus pascuorum": 9,
+    "Vanessa cardui": 10,
+    "Araneus diadematus": 11,
+    "Aglais urticae": 12,
+    "Polygonia c-album": 13,
+    "Pieris napi": 14,
+    "Episyrphus balteatus": 15,
+    "Palomena prasina": 16,
+    "Eristalis tenax": 17,
+    "Lycaena phlaeas": 18,
+    "Graphosoma italicum": 19,
+    "Noctua pronuba": 20,
+    "Coenonympha pamphilus": 21,
+    "Pisaura mirabilis": 22,
+    "Argynnis paphia": 23,
+    "Pieris rapae": 24,
+    "Ischnura elegans": 25,
+    "Oxythyrea funesta": 26,
+    "Coreus marginatus": 27,
+    "Cetonia aurata": 28,
+    "Gonepteryx rhamni": 29,
+    "Autographa gamma": 30,
+    "Rhagonycha fulva": 31,
+    "Mantis religiosa": 32,
+    "Tettigonia viridissima": 33,
+    "Melanargia galathea": 34,
+    "Papilio machaon": 35,
+    "Sympetrum striolatum": 36,
+    "Coenagrion puella": 37,
+    "Argiope bruennichi": 38,
+    "Lucanus cervus": 39,
+    "Ochlodes sylvanus": 40,
+    "Orthetrum cancellatum": 41,
+    "Celastrina argiolus": 42,
+    "Dolycoris baccarum": 43,
+    "Pentatoma rufipes": 44,
+    "Pyronia tithonus": 45,
+    "Aphantopus hyperantus": 46,
+    "Platycnemis pennipes": 47,
+    "Macroglossum stellatarum": 48,
+    "Dorcus parallelipipedus": 49,
+    "Pieris brassicae": 50,
+    "Vespa crabro": 51,
+    "Anoplotrupes stercorosus": 52,
+    "Sympetrum sanguineum": 53,
+    "Lasiommata megera": 54,
+    "Calopteryx splendens": 55,
+    "Euplagia quadripunctaria": 56,
+    "Enallagma cyathigerum": 57,
+    "Halyomorpha halys": 58,
+    "Nezara viridula": 59,
+    "Misumena vatia": 60,
+    "Oedemera nobilis": 61,
+    "Peribatodes rhomboidaria": 62,
+    "Propylea quatuordecimpunctata": 63,
+    "Anthocharis cardamines": 64,
+    "Araschnia levana": 65,
+    "Pholidoptera griseoaptera": 66,
+    "Calopteryx virgo": 67,
+    "Tyria jacobaeae": 68,
+    "Cydalima perspectalis": 69,
+    "Eristalis pertinax": 70,
+    "Myathropa florea": 71,
+    "Idaea aversata": 72,
+    "Issoria lathonia": 73,
+    "Camptogramma bilineata": 74,
+    "Iphiclides podalirius": 75,
+    "Agrotis exclamationis": 76,
+    "Psyllobora vigintiduopunctata": 77,
+    "Pyrrhosoma nymphula": 78,
+    "Macrothylacia rubi": 79,
+    "Colias crocea": 80,
+    "Helophilus pendulus": 81,
+    "Ematurga atomaria": 82,
+    "Bombus pratorum": 83,
+    "Acronicta rumicis": 84,
+    "Bombus terrestris": 85,
+    "Pseudochorthippus parallelus": 86,
+    "Anacridium aegyptium": 87,
+    "Xestia c-nigrum": 88,
+    "Bombus lapidarius": 89,
+    "Rutpela maculata": 90,
+    "Leptoglossus occidentalis": 91,
+    "Aeshna cyanea": 92,
+    "Crocothemis erythraea": 93,
+    "Chiasmia clathrata": 94,
+    "Cercopis vulnerata": 95,
+    "Gymnoscelis rufifasciata": 96,
+    "Stictoleptura rubra": 97,
+    "Agelastica alni": 98,
+    "Sympetrum fonscolombii": 99,
+    "Sphaerophoria scripta": 100,
+    "Oedipoda caerulescens": 101,
+    "Libellula quadrimaculata": 102,
+    "Lasiocampa quercus": 103,
+    "Phragmatobia fuliginosa": 104,
+    "Leptophyes punctatissima": 105,
+    "Volucella zonaria": 106,
+    "Deilephila elpenor": 107,
+    "Zygaena filipendulae": 108,
+    "Nuctenea umbratica": 109,
+    "Chrysoteuchia culmella": 110,
+    "Libellula depressa": 111,
+    "Calliteara pudibunda": 112,
+    "Lymantria dispar": 113,
+    "Epirrhoe alternata": 114,
+    "Bombus hypnorum": 115,
+    "Rhaphigaster nebulosa": 116,
+    "Diplolepis rosae": 117,
+    "Euthrix potatoria": 118,
+    "Adalia bipunctata": 119,
+    "Aricia agestis": 120,
+    "Phalangium opilio": 121,
+    "Triodia sylvina": 122,
+    "Pholcus phalangioides": 123,
+    "Bombylius major": 124,
+    "Synema globosum": 125,
+    "Euclidia glyphica": 126,
+    "Xestia xanthographa": 127,
+    "Cantharis rustica": 128,
+    "Zoropsis spinimana": 129,
+    "Lycaena tityrus": 130,
+    "Volucella pellucens": 131,
+    "Callophrys rubi": 132,
+    "Chorthippus brunneus": 133,
+    "Nomophila noctuella": 134,
+    "Pyrausta despicata": 135,
+    "Idaea seriata": 136,
+    "Oryctes nasicornis": 137,
+    "Patania ruralis": 138,
+    "Vespula germanica": 139,
+    "Opisthograptis luteolata": 140,
+    "Polistes dominula": 141,
+    "Apamea monoglypha": 142,
+    "Phalera bucephala": 143,
+    "Phaneroptera nana": 144,
+    "Anax imperator": 145,
+    "Stenurella melanura": 146,
+    "Melitaea didyma": 147,
+    "Opilio canestrinii": 148,
+    "Rivula sericealis": 149,
+    "Timandra comae": 150,
+    "Pyrochroa serraticornis": 151,
+    "Cicindela campestris": 152,
+    "Endotricha flammealis": 153,
+    "Chalcolestes viridis": 154,
+    "Vespula vulgaris": 155,
+    "Orthetrum coerulescens": 156,
+    "Ochropleura plecta": 157,
+    "Spilosoma lubricipeda": 158,
+    "Deraeocoris ruber": 159,
+    "Carpocoris purpureipennis": 160,
+    "Vespa velutina": 161,
+    "Eurydema oleracea": 162,
+    "Helicoverpa armigera": 163,
+    "Syricoris lacunana": 164,
+    "Pyrausta aurata": 165,
+    "Phlogophora meticulosa": 166,
+    "Orthosia gothica": 167,
+    "Orthosia cerasi": 168,
+    "Thomisus onustus": 169,
+    "Campaea margaritaria": 170,
+    "Xanthorhoe fluctuata": 171,
+    "Roeseliana roeselii": 172,
+    "Plutella xylostella": 173,
+    "Aporia crataegi": 174,
+    "Mangora acalypha": 175,
+    "Trichodes apiarius": 176,
+    "Halyzia sedecimguttata": 177,
+    "Steatoda nobilis": 178,
+    "Agrotis puta": 179,
+    "Hypena proboscidalis": 180,
+    "Syritta pipiens": 181,
+    "Acanthosoma haemorrhoidale": 182,
+    "Chloromyia formosa": 183,
+    "Corizus hyoscyami": 184,
+    "Polyommatus bellargus": 185,
+    "Noctua comes": 186,
+    "Marpissa muscosa": 187,
+    "Lycaena virgaureae": 188,
+    "Cossus cossus": 189,
+    "Agrypnus murinus": 190,
+    "Mimas tiliae": 191,
+    "Phyllopertha horticola": 192,
+    "Amata phegea": 193,
+    "Adalia decempunctata": 194,
+    "Sympetrum vulgatum": 195,
+    "Mythimna albipuncta": 196,
+    "Gryllus campestris": 197,
+    "Eupeodes corollae": 198,
+    "Bombus hortorum": 199
   }
 }

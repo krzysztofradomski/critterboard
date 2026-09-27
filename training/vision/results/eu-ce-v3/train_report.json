@@ -1,0 +1,88 @@
+{
+ "arch": "convnext_nano",
+ "classes": 200,
+ "size": 192,
+ "train_images": 65809,
+ "val_images": 6092,
+ "test_images": 8085,
+ "test_top1": 0.8085343228200371,
+ "test_top3": 0.918491032776747,
+ "best_val_top1": 0.8179579776756402,
+ "worst_classes": [
+  {
+   "latin": "Sympetrum striolatum",
+   "top1": 0.475,
+   "n": 40
+  },
+  {
+   "latin": "Sympetrum sanguineum",
+   "top1": 0.4878048780487805,
+   "n": 41
+  },
+  {
+   "latin": "Tettigonia viridissima",
+   "top1": 0.5,
+   "n": 42
+  },
+  {
+   "latin": "Vespula germanica",
+   "top1": 0.525,
+   "n": 40
+  },
+  {
+   "latin": "Pieris rapae",
+   "top1": 0.525,
+   "n": 40
+  },
+  {
+   "latin": "Phaneroptera nana",
+   "top1": 0.55,
+   "n": 40
+  },
+  {
+   "latin": "Sympetrum vulgatum",
+   "top1": 0.55,
+   "n": 40
+  },
+  {
+   "latin": "Harmonia axyridis",
+   "top1": 0.55,
+   "n": 40
+  },
+  {
+   "latin": "Thomisus onustus",
+   "top1": 0.55,
+   "n": 40
+  },
+  {
+   "latin": "Noctua pronuba",
+   "top1": 0.55,
+   "n": 40
+  },
+  {
+   "latin": "Polyommatus icarus",
+   "top1": 0.5609756097560976,
+   "n": 41
+  },
+  {
+   "latin": "Misumena vatia",
+   "top1": 0.5609756097560976,
+   "n": 41
+  },
+  {
+   "latin": "Bombus hortorum",
+   "top1": 0.575,
+   "n": 40
+  },
+  {
+   "latin": "Apis mellifera",
+   "top1": 0.575,
+   "n": 40
+  },
+  {
+   "latin": "Eupeodes corollae",
+   "top1": 0.575,
+   "n": 40
+  }
+ ]
+}
