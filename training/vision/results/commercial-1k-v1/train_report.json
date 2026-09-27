@@ -1,0 +1,88 @@
+{
+ "arch": "vit_small_patch16_224",
+ "classes": 1000,
+ "size": 192,
+ "train_images": 202320,
+ "val_images": 15536,
+ "test_images": 25338,
+ "test_top1": 0.7576762175388744,
+ "test_top3": 0.8823900860367827,
+ "best_val_top1": 0.748390834191555,
+ "worst_classes": [
+  {
+   "latin": "Pyrgus malvoides",
+   "top1": 0.0625,
+   "n": 16
+  },
+  {
+   "latin": "Calliptamus barbarus",
+   "top1": 0.17647058823529413,
+   "n": 17
+  },
+  {
+   "latin": "Coenagrion hastulatum",
+   "top1": 0.2,
+   "n": 20
+  },
+  {
+   "latin": "Thomisus onustus",
+   "top1": 0.28,
+   "n": 25
+  },
+  {
+   "latin": "Argynnis niobe",
+   "top1": 0.2916666666666667,
+   "n": 24
+  },
+  {
+   "latin": "Platycnemis pennipes",
+   "top1": 0.32,
+   "n": 25
+  },
+  {
+   "latin": "Chorthippus brunneus",
+   "top1": 0.32,
+   "n": 25
+  },
+  {
+   "latin": "Chorthippus biguttulus",
+   "top1": 0.32,
+   "n": 25
+  },
+  {
+   "latin": "Eristalis pertinax",
+   "top1": 0.32,
+   "n": 25
+  },
+  {
+   "latin": "Zygaena filipendulae",
+   "top1": 0.32,
+   "n": 25
+  },
+  {
+   "latin": "Sympetrum vulgatum",
+   "top1": 0.34615384615384615,
+   "n": 26
+  },
+  {
+   "latin": "Lestes sponsa",
+   "top1": 0.36,
+   "n": 25
+  },
+  {
+   "latin": "Chorthippus albomarginatus",
+   "top1": 0.36,
+   "n": 25
+  },
+  {
+   "latin": "Steatoda nobilis",
+   "top1": 0.36,
+   "n": 25
+  },
+  {
+   "latin": "Lestes dryas",
+   "top1": 0.3684210526315789,
+   "n": 19
+  }
+ ]
+}

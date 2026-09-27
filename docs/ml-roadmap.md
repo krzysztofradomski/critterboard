@@ -275,6 +275,7 @@ docs/
 | 1 · `react-native-executorch` wired into `Scan.tsx` | ✅ done — activate by setting `MODEL_SOURCE` + `USE_NATIVE_VISION = true` |
 | 1 · Generate real `.pte` from iNaturalist-trained weights | ⏳ pending — run `04_export.py --pte` after `pip install executorch` |
 | 1 · Bench shutter → Result round-trip on device | ⏳ pending |
+| 2 · Commercial 1,000-species model (`eu-1k-commercial-v1`) | ✅ done — ViT-S/16 (Apache 2.0), CC0/CC-BY photos only, 78.2% top-1 / 90.1% top-3; see its MODEL_CARD |
 | 2 · 200-species EU model (`eu-ce` v3) | ✅ done — ConvNeXt-nano, 83.7% top-1 / 94.0% top-3 on held-out photographers; see `training/vision/README.md` |
 | 2 · `llama.rn` integration | ⏳ pending |
 | 2 · `training/personas/` scaffold | ✅ done — run when system-prompt drift > 10% |

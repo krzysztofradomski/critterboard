@@ -16,11 +16,12 @@ Why: 200 species cover only 42.9% of European research-grade observations; 1,000
 
 Decisions (user): base = **Google ViT-S/16 AugReg** (Apache 2.0 from Google, no NC restriction; residual ImageNet-21k provenance risk). The v3 base ConvNeXt-nano `d1h_in1k` fails: timm's author says to assume ImageNet's non-commercial terms apply. Photos = **CC0 + CC-BY only** (no NC / ND / SA). Commercial model first, then the non-commercial retrain.
 
-- [ ] Rank 1,500 candidate species; stream CC0/CC-BY first photos for all their European observations
-- [ ] Sample: first 1,000 species (by observation rank) with ≥ min usable photos; ≤250/species, ≤3 per photographer, observer-grouped split
-- [ ] Download at 224 px short side (disk: ~12 GB free)
-- [ ] Train ViT-S/16 (fused attention for training; unfused for export so XNNPACK takes bmm/softmax)
-- [ ] Export + verify `.pte` on the full test split; `credits.csv` for CC-BY attribution; licence notes
+- [x] Rank 1,500 candidate species; stream CC0/CC-BY first photos for their European observations (1.6M candidates; the stream was cut at 96.9% of the photos dump by a container restart, and only the newest uploads were missed)
+- [x] Sample: first 1,000 species with ≥100 usable photos (only 6 of the top 1,000 skipped); ≤250/species, ≤3 per photographer → 243,202 photos, observer-grouped split
+- [x] Download at 224 px (5.7 GB, 0 failures)
+- [x] `train.py` made resumable (checkpoint every 400 steps); ViT-S/16 trained 5 epochs, ~9.5 h, no restarts
+- [x] Export + verify: **78.2% top-1 / 90.1% top-3** on 25,338 test photos (`.pte`, 224 px), 88.4 MB. Static int8 (22.8 MB) failed to load in the runtime, so fp32 ships
+- [x] `credits.csv.gz` (5,551 photographers), `MODEL_CARD.md` with licence obligations and risks → `training/vision/results/commercial-1k-v1/`
 - [ ] Then: non-commercial 1,000-species retrain for this app's pack (ConvNeXt or ViT), English names where established, Latin otherwise
 
 ## Now — Vision v3: 200 European species, fast on-device model
