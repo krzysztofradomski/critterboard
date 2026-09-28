@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { BUGS, findBug } from '@/data/bugs';
+import { allBugs, findBug } from '@/data/bugs';
 import { LEADERS } from '@/data/leaderboard';
 import { QUESTS } from '@/data/quests';
 import { useAppStore } from '@/store/useAppStore';
@@ -41,7 +41,7 @@ export type LevelInfo = {
 /**
  * Pure: sum of `xp` over every bug whose id is in the supplied dex.
  * Unknown ids are silently skipped — the dex Set is the source of
- * truth, but `BUGS` is what knows how much XP each id is worth.
+ * truth, but the species registry is what knows how much XP each id is worth.
  */
 export function xpFromDex(dex: Iterable<string>): number {
   let total = 0;
@@ -69,10 +69,13 @@ export function xpFromClaimedQuests(claimed: Record<string, number>): number {
 }
 
 /**
- * Total XP awarded if every bug in the species DB were caught — the
- * theoretical ceiling. Useful for the dex-completion progress bar.
+ * Total XP awarded if every known species (bundled + installed packs) were
+ * caught — the theoretical ceiling. A function, not a constant, because
+ * region packs add species after startup.
  */
-export const MAX_XP = BUGS.reduce((sum, b) => sum + b.xp, 0);
+export function maxXp(): number {
+  return allBugs().reduce((sum, b) => sum + b.xp, 0);
+}
 
 /**
  * Pure: derive level + progress from an XP total. Stable across

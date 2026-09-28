@@ -6,7 +6,7 @@ import type { Profile, ChatThread } from '@/store/useAppStore';
 import type { CatchEvent } from '@/lib/streak';
 import type { ConversationMemoryEntry } from '@/lib/conversationMemory';
 
-import { BUGS, findBug } from '@/data/bugs';
+import { allBugs, findBug, type Bug } from '@/data/bugs';
 import { QUESTS, COMPLETED_QUESTS } from '@/data/quests';
 import { LEADERS } from '@/data/leaderboard';
 import { bugOfDay } from '@/lib/bugOfDay';
@@ -39,6 +39,18 @@ export type ToolContext = {
 // ---------------------------------------------------------------------------
 // Tool factory — call once per streamReply invocation with the live context
 // ---------------------------------------------------------------------------
+
+/**
+ * With a 1,000-species pack installed, an unfiltered listing would flood the
+ * model's context. Cap tool results, caught species first (stable order).
+ */
+export const MAX_TOOL_RESULTS = 25;
+
+function capResults(bugs: readonly Bug[], dex: ReadonlySet<string>): Bug[] {
+  return [...bugs]
+    .sort((a, b) => Number(dex.has(b.id)) - Number(dex.has(a.id)))
+    .slice(0, MAX_TOOL_RESULTS);
+}
 
 export function buildChatTools(ctx: ToolContext) {
   return {
@@ -80,7 +92,7 @@ export function buildChatTools(ctx: ToolContext) {
 
     getInsectInfo: tool({
       description:
-        'Look up detailed information about insects in the app database. Supports filtering by ID, trait, rarity tier, or partial name. Returns caught status for each match.',
+        `Look up detailed information about insects in the app database (bundled + installed region packs). Supports filtering by ID, trait, rarity tier, or partial name. Returns caught status for each match; at most ${MAX_TOOL_RESULTS} matches (caught first), so filter to narrow down.`,
       inputSchema: z.object({
         ids: z.array(z.string()).optional().describe('Specific bug IDs e.g. ["hcat","lady"]'),
         trait: z
@@ -88,7 +100,7 @@ export function buildChatTools(ctx: ToolContext) {
           .optional()
           .describe('Filter by trait'),
         rarity: z
-          .enum(['common', 'uncommon', 'rare', 'legendary'])
+          .enum(['common', 'uncommon', 'rare', 'epic', 'legendary'])
           .optional()
           .describe('Filter by rarity tier'),
         nameLike: z
@@ -97,7 +109,7 @@ export function buildChatTools(ctx: ToolContext) {
           .describe('Partial name or latin name match (case-insensitive)'),
       }),
       execute: async ({ ids, trait, rarity, nameLike }) => {
-        let bugs = BUGS;
+        let bugs: readonly Bug[] = allBugs();
         if (ids?.length) bugs = bugs.filter((b) => ids.includes(b.id));
         if (trait) bugs = bugs.filter((b) => (b.traits as string[]).includes(trait));
         if (rarity) bugs = bugs.filter((b) => b.rarity === rarity);
@@ -108,7 +120,7 @@ export function buildChatTools(ctx: ToolContext) {
               b.name.toLowerCase().includes(lower) || b.latin.toLowerCase().includes(lower),
           );
         }
-        return bugs.map((b) => ({
+        return capResults(bugs, ctx.dex).map((b) => ({
           id: b.id,
           name: b.name,
           latin: b.latin,
@@ -171,7 +183,7 @@ export function buildChatTools(ctx: ToolContext) {
         const xp = xpFromDex(ctx.dex) + xpFromClaimedQuests(ctx.questClaimedAt);
         const levelInfo = levelFromXp(xp);
         const streak = currentStreak(ctx.catchLog as CatchEvent[]);
-        const totalSpecies = BUGS.length;
+        const totalSpecies = allBugs().length;
         const caughtSpecies = ctx.dex.size;
         const recentCatches = [...ctx.catchLog]
           .sort((a, b) => b.at - a.at)
@@ -277,7 +289,7 @@ export function buildChatTools(ctx: ToolContext) {
 
     getAvailableImages: tool({
       description:
-        'List insects that have visual/image data in the app (emoji + color swatch). Use when discussing appearance or showing the visual catalogue.',
+        `List insects that have visual/image data in the app (emoji + color swatch). Use when discussing appearance or showing the visual catalogue. At most ${MAX_TOOL_RESULTS} results (caught first).`,
       inputSchema: z.object({
         caughtOnly: z
           .boolean()
@@ -285,8 +297,9 @@ export function buildChatTools(ctx: ToolContext) {
           .describe('When true, only return insects the user has already caught'),
       }),
       execute: async ({ caughtOnly }) => {
-        const bugs = caughtOnly ? BUGS.filter((b) => ctx.dex.has(b.id)) : BUGS;
-        return bugs.map((b) => ({
+        const all = allBugs();
+        const bugs = caughtOnly ? all.filter((b) => ctx.dex.has(b.id)) : all;
+        return capResults(bugs, ctx.dex).map((b) => ({
           id: b.id,
           name: b.name,
           emoji: b.emoji,

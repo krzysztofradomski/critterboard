@@ -1,7 +1,7 @@
 import * as FileSystem from 'expo-file-system/legacy';
 import * as Sharing from 'expo-sharing';
 
-import { BUGS, findBug } from '@/data/bugs';
+import { allBugs, findBug } from '@/data/bugs';
 import type { LangId } from '@/i18n';
 import { bugName } from '@/i18n/helpers';
 import type { CatchEvent } from '@/lib/streak';
@@ -36,7 +36,8 @@ export type ExportBlob = {
 // ──────────────────────────────────────────────────────────────────────────
 
 /**
- * Build the dex export JSON. Includes all 12 species in `BUGS`, flagged
+ * Build the dex export JSON. Includes every known species (bundled +
+ * installed region packs), flagged
  * `caught: true/false`. `firstCaughtAt` is the earliest catchLog
  * timestamp for that species (or null if not caught yet) — gives the
  * user a real history they can re-import or grep through.
@@ -54,7 +55,8 @@ export function buildDexJson(
     if (prev === undefined || e.at < prev) firstAt.set(e.id, e.at);
   }
 
-  const species = BUGS.map((b) => ({
+  const bugs = allBugs();
+  const species = bugs.map((b) => ({
     id: b.id,
     name: bugName(lang, b.id),
     latin: b.latin,
@@ -70,7 +72,7 @@ export function buildDexJson(
     exportedAt: new Date(now).toISOString(),
     trainer: trainerName,
     caught: dex.size,
-    total: BUGS.length,
+    total: bugs.length,
     species,
   };
 
@@ -241,8 +243,8 @@ export function buildAllDataJson(
     deviceUserId,
     dex: {
       caught: dex.size,
-      total: BUGS.length,
-      species: BUGS.map((b) => ({
+      total: allBugs().length,
+      species: allBugs().map((b) => ({
         id: b.id,
         name: bugName(lang, b.id),
         latin: b.latin,

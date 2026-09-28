@@ -1,11 +1,13 @@
 import { describe, it, expect } from 'vitest';
+
+import { BUGS, mergeBugs } from '@/data/bugs';
 import {
   xpFromDex,
   xpFromClaimedQuests,
   levelFromXp,
   formatXp,
   rankFromXp,
-  MAX_XP,
+  maxXp,
 } from '@/lib/level';
 
 // Level thresholds: (L-1)² × 100
@@ -96,9 +98,15 @@ describe('xpFromClaimedQuests', () => {
   });
 });
 
-describe('MAX_XP', () => {
-  it('is the sum of all bug XP values', () => {
-    expect(MAX_XP).toBeGreaterThan(0);
+describe('maxXp', () => {
+  it('is the sum of all known species XP values', () => {
+    expect(maxXp()).toBe(BUGS.reduce((sum, b) => sum + b.xp, 0));
+  });
+
+  it('grows when a region pack adds species', () => {
+    const before = maxXp();
+    mergeBugs([{ id: 'xp-test', name: 'XP Test', latin: 'Xp testus', rarity: 'epic', xp: 150, tier: '★★★★', emoji: '🐛', color: '#000', traits: [] }]);
+    expect(maxXp()).toBe(before + 150);
   });
 });
 
