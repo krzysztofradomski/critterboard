@@ -60,7 +60,8 @@ const REPO = 'https://github.com/krzysztofradomski/critterboard/blob/main';
 /**
  * Licence notices for the on-device species model (eu-1k-commercial-v1).
  * Apache 2.0 asks for the licence + a notice with redistributed weights;
- * CC BY asks for credit to the photographers whose photos trained it.
+ * CC BY asks for credit to the photographers whose photos trained it
+ * (and whose photos a few species icons are drawn from).
  */
 const MODEL_CREDITS: readonly { name: string; detail: string; url: string }[] = [
   {
@@ -77,6 +78,11 @@ const MODEL_CREDITS: readonly { name: string; detail: string; url: string }[] = 
     name: 'Base weights: Google Vision Transformer (AugReg)',
     detail: '© Google, Apache License 2.0. Modified: fine-tuned',
     url: `${REPO}/packs/models/LICENSE-google-vit-apache-2.0.txt`,
+  },
+  {
+    name: 'Species icons: drawn from iNaturalist photos',
+    detail: 'One photo per species, CC0 (a few CC BY 4.0, adapted); photo and photographer per icon',
+    url: `${REPO}/packs/icons/CREDITS.md`,
   },
 ];
 
