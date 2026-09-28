@@ -27,7 +27,7 @@ import {
 } from '@/ai';
 import { generateThreadSummary, SUMMARY_THRESHOLD } from '@/ai/toolChatAdapter';
 import { IconBtn } from '@/components/IconBtn';
-import { BUGS, findBug } from '@/data/bugs';
+import { allBugs, findBug } from '@/data/bugs';
 import { useT } from '@/i18n/helpers';
 import { xpFromClaimedQuests, xpFromDex } from '@/lib/level';
 import { currentStreak } from '@/lib/streak';
@@ -265,7 +265,7 @@ export function Chat() {
           networkOn: profile.networkOn,
           locationShareOn: profile.locationShareOn,
           caughtSpecies: dex.size,
-          totalSpecies: BUGS.length,
+          totalSpecies: allBugs().length,
           xp,
           streakDays: currentStreak(catchLog),
           followedUsers: Array.from(followed).slice(0, 12),

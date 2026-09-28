@@ -14,22 +14,23 @@ import * as FileSystem from 'expo-file-system/legacy';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { generateText } from 'ai';
 
-import { BUGS } from '@/data/bugs';
+import { allBugs } from '@/data/bugs';
 import type { Candidate, ClassifyOptions, VisionClassifier, VisionFrame } from '@/ai/vision';
 
 // ── Prompt ──────────────────────────────────────────────────────────────────
 
-const BUG_CATALOG = BUGS
-  .map((b) => `  { "id": "${b.id}", "name": "${b.name}", "latin": "${b.latin}" }`)
-  .join(',\n');
-
-const IDENTIFY_PROMPT = `You are an expert entomologist assisting an insect-identification app called Critterboard.
+// Built per call, not at import: installed region packs add species after
+// startup. Compact "id | latin | name" lines keep a 1,000-species catalogue
+// at about 60k characters (~15k prompt tokens).
+function identifyPrompt(): string {
+  const catalog = allBugs()
+    .map((b) => `${b.id} | ${b.latin} | ${b.name}`)
+    .join('\n');
+  return `You are an expert entomologist assisting an insect-identification app called Critterboard.
 Examine the photo and identify any insects visible.
 
-Match ONLY against this catalog (use the exact id values):
-[
-${BUG_CATALOG}
-]
+Match ONLY against this catalog, one species per line as "id | latin name | common name" (use the exact id values):
+${catalog}
 
 Respond with ONLY a raw JSON array — no markdown fences, no prose. Format:
 [{"bugId":"<id>","confidence":<float 0.0–1.0>}, ...]
@@ -40,6 +41,7 @@ Rules:
 - confidence 0.8–1.0 = highly confident; 0.5–0.8 = plausible; 0.2–0.5 = uncertain.
 - If no catalog insect is visible, return [].
 - Never invent ids outside the catalog.`;
+}
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -68,9 +70,8 @@ function mimeFromUri(uri: string): 'image/jpeg' | 'image/png' | 'image/webp' {
   return 'image/jpeg';
 }
 
-const KNOWN_IDS = new Set(BUGS.map((b) => b.id));
-
-function parseCandidates(raw: string, topK: number): Candidate[] {
+export function parseCandidates(raw: string, topK: number): Candidate[] {
+  const known = new Set(allBugs().map((b) => b.id));
   // Strip markdown code fences in case the model ignores the no-fences rule
   const stripped = raw.replace(/```(?:json)?\s*/gi, '').replace(/```\s*/g, '').trim();
   const parsed = JSON.parse(stripped) as unknown[];
@@ -80,7 +81,7 @@ function parseCandidates(raw: string, topK: number): Candidate[] {
     .filter(
       (c) =>
         typeof c.bugId === 'string' &&
-        KNOWN_IDS.has(c.bugId) &&
+        known.has(c.bugId) &&
         typeof c.confidence === 'number' &&
         isFinite(c.confidence),
     )
@@ -114,7 +115,7 @@ export const geminiVisionClassifier: VisionClassifier = {
           role: 'user',
           content: [
             { type: 'image', image: base64, mediaType: mimeType },
-            { type: 'text', text: IDENTIFY_PROMPT },
+            { type: 'text', text: identifyPrompt() },
           ],
         },
       ],

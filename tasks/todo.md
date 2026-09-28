@@ -25,7 +25,8 @@ Decisions (user): base = **Google ViT-S/16 AugReg** (Apache 2.0 from Google, no 
 - [x] ~~Non-commercial retrain~~ → decided: the app uses the commercial model too (one model, clean licensing)
 - [x] Pack `eu-ce` v4: 1,000 species, model `eu-1k-commercial-v1`; 736 English names (established UK/EU names), 264 Latin-only; new **epic** tier (<5k observations); all 200 v3 ids kept; manifest v4; region metadata 1,000 species / 89 MB
 - [x] Licence notices in-app: Settings → Open source libraries → Vision model (model card, ATTRIBUTION.md with 5,551 photographers, Apache 2.0 text)
-- [ ] Dex lists only the 20 bundled species; show all pack species (virtualised grid over the registry)
+- [x] Dex lists every known species (bundled + pack) in a virtualised 2-column `FlatList`; caught first; counts only listed species. Checked in headless Chromium with the v4 pack seeded: "7 of 1000 caught", scrolling, `?512` search, no console errors
+- [x] Pack species everywhere: chat tools (`getInsectInfo` / `getAvailableImages` capped at 25, caught first; `epic` rarity filter; totals incl. packs), `Chat.tsx` total, `maxXp()` (was a module-load constant), dex exports, Gemini catalogue built per call (~15k tokens at 1,000 species)
 - [ ] pl/de/es names for the 980 pack species (fall back to English/Latin today)
 
 ## Now — Vision v3: 200 European species, fast on-device model

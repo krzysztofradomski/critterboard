@@ -5,7 +5,7 @@ import { PB } from '@/tokens/pb';
 import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { ModalShell } from '@/components/ModalShell';
-import { BUGS } from '@/data/bugs';
+import { findBug } from '@/data/bugs';
 import { PERSON_PROFILES, type PersonProfile } from '@/data/personProfiles';
 import { useT, useBugName, countryName } from '@/i18n/helpers';
 import { useAppStore } from '@/store/useAppStore';
@@ -144,7 +144,7 @@ export function PersonModal({
 
 function RecentCell({ bugId }: { bugId: string }) {
   const name = useBugName(bugId);
-  const b = BUGS.find((x) => x.id === bugId);
+  const b = findBug(bugId);
   if (!b) return null;
   const short = name.split(' ')[0] ?? name;
   return (
