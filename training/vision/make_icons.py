@@ -13,7 +13,8 @@ For every species in the model's label list:
      frame it as a sticker (cream border, ink outline, hard shadow).
 
 Resumable: species with an icon already in --out are skipped.
---override taxon_id=photo_id forces a photo (used after manual review).
+After review: --reject taxon_id=photo_id drops a bad pick and redoes that
+species with the next best photo; --override taxon_id=photo_id forces one.
 
   python make_icons.py --data $DATA/commercial --labels results/commercial-1k-v1/labels.csv \\
       --ckpt runs/vits/best.pth --out icons/
@@ -189,6 +190,7 @@ def main():
     ap.add_argument("--cutouts", type=int, default=5)
     ap.add_argument("--limit", type=int, help="only the first N species (for trying settings)")
     ap.add_argument("--override", action="append", default=[], help="taxon_id=photo_id")
+    ap.add_argument("--reject", action="append", default=[], help="taxon_id=photo_id (repeatable)")
     args = ap.parse_args()
     torch.set_num_threads(4)
     args.out.mkdir(parents=True, exist_ok=True)
@@ -197,7 +199,12 @@ def main():
     labels = list(csv.DictReader(args.labels.open()))
     idx = {r["taxon_id"]: int(r["index"]) for r in labels}
     overrides = dict(o.split("=") for o in args.override)
-    for tid in overrides:
+    rejected = {}
+    for o in args.reject:
+        tid, pid = o.split("=")
+        rejected.setdefault(tid, set()).add(pid)
+    redo = set(overrides) | set(rejected)
+    for tid in redo:
         (args.out / f"{tid}.webp").unlink(missing_ok=True)
 
     by_taxon = {}
@@ -236,7 +243,7 @@ def main():
         dest = args.out / f"{tax}.webp"
         if dest.exists():
             continue
-        pool = by_taxon.get(tax, [])
+        pool = [c for c in by_taxon.get(tax, []) if c[0] not in rejected.get(tax, ())]
         if tax in overrides:
             pool = [c for c in pool if c[0] == overrides[tax]] or [(overrides[tax], "jpg", "CC0", "")]
         cc0 = [c for c in pool if c[2] == "CC0"]
