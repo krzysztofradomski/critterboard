@@ -1,11 +1,12 @@
-import React, { useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useCallback, useMemo, useState } from 'react';
+import { FlatList, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { Sticker } from '@/components/Sticker';
 import { TabBar } from '@/components/TabBar';
-import { BUGS } from '@/data/bugs';
+import type { Bug } from '@/data/bugs';
 import { useT, bugName } from '@/i18n/helpers';
 import { latestPhotoFor } from '@/lib/streak';
+import { useBugs } from '@/lib/useBugs';
 import { PB, RARITY_COLOR } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
@@ -21,10 +22,14 @@ export function Dex() {
   const t = useT();
   const [filter, setFilter] = useState<FilterKey>('all');
   const [query, setQuery] = useState('');
+  // Bundled + installed pack species (1,000 with the eu-ce pack).
+  const bugs = useBugs();
+  // Dex number (#001…) = position in the registry; a map keeps lookups O(1).
+  const numberOf = useMemo(() => new Map(bugs.map((b, i) => [b.id, i + 1])), [bugs]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return BUGS.filter((b) => {
+    const matches = bugs.filter((b) => {
       if (filter !== 'all' && b.rarity !== filter) return false;
       if (!q) return true;
       if (dex.has(b.id)) {
@@ -36,15 +41,20 @@ export function Dex() {
       }
       if (q.startsWith('?')) {
         const n = q.slice(1).replace(/^0+/, '');
-        const idx = String(BUGS.indexOf(b) + 1);
+        const idx = String(numberOf.get(b.id));
         return idx === n || idx.endsWith(n);
       }
       return false;
     });
-  }, [filter, query, dex, language]);
+    // Caught species first so they aren't buried among hundreds of "???"
+    // cells; stable sort keeps dex-number order within each group.
+    return matches.sort((a, b) => Number(dex.has(b.id)) - Number(dex.has(a.id)));
+  }, [bugs, numberOf, filter, query, dex, language]);
 
-  const total = BUGS.length;
-  const caught = dex.size;
+  const total = bugs.length;
+  // Only count catches of species that are listed (a removed pack's species
+  // would otherwise push this past the total).
+  const caught = useMemo(() => bugs.reduce((n, b) => n + (dex.has(b.id) ? 1 : 0), 0), [bugs, dex]);
   const pct = Math.round((100 * caught) / total);
   const rarities = FILTER_KEYS.slice(1).map((k) => t(`dex.filter.${k}`).toLowerCase()).join(', ');
 
@@ -56,6 +66,40 @@ export function Dex() {
       : pct >= 50
         ? { key: 'half', bg: PB.purple, rotate: 1.5 }
         : null;
+
+  const renderCell = useCallback(
+    ({ item: b }: { item: Bug }) => {
+      const isCaught = dex.has(b.id);
+      return (
+        <Pressable
+          onPress={() => {
+            if (!isCaught) return;
+            const photoUri = latestPhotoFor(catchLog, b.id);
+            go('result', photoUri ? { id: b.id, photoUri } : { id: b.id });
+          }}
+          style={[
+            styles.cell,
+            {
+              backgroundColor: isCaught ? PB.paper : PB.cream2,
+              opacity: isCaught ? 1 : 0.65,
+            },
+          ]}
+        >
+          <View style={[styles.tierPill, { backgroundColor: RARITY_COLOR[b.rarity] }]}>
+            <Text style={styles.tierText}>{b.tier}</Text>
+          </View>
+          <View style={[styles.cellArt, { backgroundColor: isCaught ? '#fff' : PB.cream2 }]}>
+            <Text style={[styles.cellEmoji, !isCaught && { opacity: 0.3 }]}>{b.emoji}</Text>
+          </View>
+          <Text style={styles.cellName} numberOfLines={2}>
+            {isCaught ? bugName(language, b.id) : t('dex.uncaughtName')}
+          </Text>
+          <Text style={styles.cellId}>#{String(numberOf.get(b.id)).padStart(3, '0')}</Text>
+        </Pressable>
+      );
+    },
+    [dex, catchLog, go, language, t, numberOf],
+  );
 
   return (
     <View style={styles.root}>
@@ -138,46 +182,18 @@ export function Dex() {
             <Text style={styles.emptyHint}>{t('dex.emptyHint')}</Text>
           </View>
         ) : (
-          <ScrollView contentContainerStyle={styles.grid}>
-            {filtered.map((b) => {
-              const isCaught = dex.has(b.id);
-              return (
-                <Pressable
-                  key={b.id}
-                  onPress={() => {
-                    if (!isCaught) return;
-                    const photoUri = latestPhotoFor(catchLog, b.id);
-                    go('result', photoUri ? { id: b.id, photoUri } : { id: b.id });
-                  }}
-                  style={[
-                    styles.cell,
-                    {
-                      backgroundColor: isCaught ? PB.paper : PB.cream2,
-                      opacity: isCaught ? 1 : 0.65,
-                    },
-                  ]}
-                >
-                  <View style={[styles.tierPill, { backgroundColor: RARITY_COLOR[b.rarity] }]}>
-                    <Text style={styles.tierText}>{b.tier}</Text>
-                  </View>
-                  <View
-                    style={[
-                      styles.cellArt,
-                      { backgroundColor: isCaught ? '#fff' : PB.cream2 },
-                    ]}
-                  >
-                    <Text style={[styles.cellEmoji, !isCaught && { opacity: 0.3 }]}>
-                      {b.emoji}
-                    </Text>
-                  </View>
-                  <Text style={styles.cellName}>
-                    {isCaught ? bugName(language, b.id) : t('dex.uncaughtName')}
-                  </Text>
-                  <Text style={styles.cellId}>#{String(BUGS.indexOf(b) + 1).padStart(3, '0')}</Text>
-                </Pressable>
-              );
-            })}
-          </ScrollView>
+          <FlatList
+            data={filtered}
+            keyExtractor={(b) => b.id}
+            numColumns={2}
+            renderItem={renderCell}
+            columnWrapperStyle={styles.gridRow}
+            contentContainerStyle={styles.grid}
+            initialNumToRender={12}
+            maxToRenderPerBatch={16}
+            windowSize={7}
+            removeClippedSubviews
+          />
         )}
       </View>
 
@@ -271,7 +287,9 @@ const styles = StyleSheet.create({
     padding: 14,
     marginBottom: 100,
   },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  // paddingTop leaves room for the first row's tier pills (top: -8).
+  grid: { paddingTop: 10, paddingBottom: 12, gap: 14 },
+  gridRow: { justifyContent: 'space-between' },
   cell: {
     width: '47%',
     borderColor: PB.ink,

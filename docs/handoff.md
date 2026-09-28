@@ -155,7 +155,7 @@ Needs the Apple Developer Program, and the app record created in App Store Conne
 | 5 | Pack & model hosting on R2 (instead of GitHub raw) | Me, after 4 | Needs an R2 bucket and an API token |
 | 6 | Translate 180 new species (pl/de/es) | Me or you | They fall back to English today; I couldn't reach a name source |
 | 7 | ~~Commercial-clean vision model~~ | Done | `eu-1k-commercial-v1`, now used by the app; see its MODEL_CARD |
-| 10 | Dex: list all pack species (virtualised grid) | Me | Only the 20 bundled species show today |
+| 10 | ~~Dex: list all pack species~~ | Done | Virtualised grid over bundled + pack species; caught species first |
 | 8 | `react-native-executorch` 0.10 migration | Me | 0.10 rewrote the API; pinned to 0.9.3 until then |
 | 9 | Fill `eas.json` submit config, store listings | You | Needs your Apple / Google accounts |
 
@@ -176,7 +176,6 @@ training/vision/stream_photos.sh && python training/vision/download.py --data $D
 
 - **Model not yet loaded on a device.** The exporter (`executorch` 1.0.1) was chosen to match the app's ET12 runtime, and all operators are supported kernels, but only a phone run proves it.
 - **88 MB model download** on pack install. A static-int8 build (22.8 MB) did not load in the ExecuTorch runtime.
-- **Dex shows only the 20 bundled species.** Catches of the other 980 pack species are recorded but don't appear in the Dex grid yet (needs a virtualised list over the pack registry).
 - **Licence notices:** the model's Apache-2.0 notice and CC-BY photo credits are linked from Settings → Open source libraries → Vision model. Keep them there if you fork the app.
 - **Guardrails are regex-only** since the Node-only library was removed. They are fine for obvious cases, not a full moderation system.
 - **Licences:** the shipped model uses only CC0/CC-BY photos and Google's Apache-2.0 base weights. The residual risk is the base weights' ImageNet-21k pretraining; see `training/vision/results/commercial-1k-v1/MODEL_CARD.md`. The older v3 model (NonCommercial photos) is no longer referenced by the pack.

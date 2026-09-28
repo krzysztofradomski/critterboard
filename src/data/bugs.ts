@@ -56,9 +56,28 @@ export const CAUGHT_IDS: ReadonlySet<string> = new Set([
 // Mutable registry seeded from the bundled list. Regional pack downloads
 // call mergeBugs() at boot to extend it with their species.
 const _registry = new Map<string, Bug>(BUGS.map((b) => [b.id, b]));
+// Snapshot for list UIs (Dex): bundled species first, then pack species in
+// pack order. Replaced (not mutated) on every merge so React can compare it.
+let _all: readonly Bug[] = BUGS;
+const _listeners = new Set<() => void>();
 
 export function mergeBugs(bugs: Bug[]): void {
   for (const b of bugs) _registry.set(b.id, b);
+  _all = Array.from(_registry.values());
+  for (const l of _listeners) l();
+}
+
+/** Every known species: bundled + installed region packs. */
+export function allBugs(): readonly Bug[] {
+  return _all;
+}
+
+/** Notified after mergeBugs(); returns an unsubscribe function. */
+export function subscribeBugs(listener: () => void): () => void {
+  _listeners.add(listener);
+  return () => {
+    _listeners.delete(listener);
+  };
 }
 
 export function findBug(id: string): Bug | undefined {
