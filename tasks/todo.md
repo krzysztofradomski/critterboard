@@ -17,10 +17,12 @@ Decisions (user): remove Gemini entirely (chat = on-device Gemma or scripted rep
 - [x] Remove `geminiVision`, the tool chat adapter, chat tools, evals, and the `ai` / `@ai-sdk/google` / `zod` / `evalite` / `autoevals` deps; ADR [[docs/decisions/004-remove-cloud-gemini]]
 - [x] Chat: `local` (Gemma / Chrome built-in) or `offline` (scripted); offline hint in 4 languages
 - [x] Scan: "install the pack" card when no pack is installed on a phone; toast if the model is still loading; mock classifier only on web
-- [x] `make_icons.py`: pick a photo per species with the trained model, rembg cut-out validated by the model + mask quality, cartoon + sticker frame
-- [ ] Generate 1,000 icons, review contact sheets, re-pick bad ones
-- [ ] Ship as one atlas with the pack (v5), unpack on the phone, `BugIcon` with emoji fallback across screens
-- [ ] Credits for any CC-BY icon photos
+- [x] `make_icons.py`: pick a photo per species with the trained model; attention heat map finds the insect, SAM cuts it out (a salient-object cutter kept flowers/leaves in ~25% of icons); cartoon + sticker frame
+- [x] App: `bugIcons.ts` (download atlas, split into per-species files, `.v<version>` marker, registry), `BugIcon` (emoji fallback, Dex silhouette for uncaught) in Dex, Home, Result, Disambiguate, Map, Activity, region detail, profiles
+- [x] Pack updates skip the ~90 MB model when its URL is unchanged
+- [x] `build_icon_atlas.py`: atlas + pack `icons` block + manifest bump + `packs/icons/CREDITS.md`; docs [[docs/modules/species-icons]]
+- [ ] Generate 1,000 icons (~27 s each), review contact sheets, re-pick bad ones
+- [ ] Build atlas → pack `eu-ce` v5
 
 ## Now — Vision v4: 1,000 species, commercial model first
 

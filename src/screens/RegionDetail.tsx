@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { BugIcon } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
@@ -126,7 +127,7 @@ function SampleRow({
   return (
     <Pressable onPress={onPress} style={styles.sample}>
       <View style={[styles.sampleArt, { backgroundColor: b.color || PB.cream2 }]}>
-        <Text style={{ fontSize: 18 }}>{b.emoji}</Text>
+        <BugIcon bug={b} size={30} />
       </View>
       <View style={{ flex: 1, minWidth: 0 }}>
         <Text numberOfLines={1} style={styles.sampleName}>{name}</Text>

@@ -5,6 +5,7 @@ import {
   CartoonPlanetGlobe,
   type CartoonPlanetGlobeHandle,
 } from "@/components/CartoonPlanetGlobe.web";
+import { BugIcon } from "@/components/BugIcon";
 import { IconBtn } from "@/components/IconBtn";
 import { Sticker } from "@/components/Sticker";
 import { TabBar } from "@/components/TabBar";
@@ -163,7 +164,11 @@ export function MapScreen() {
           <Sticker bg={PB.cream} style={{ padding: 12 }}>
             <View style={styles.cardRow}>
               <View style={styles.cardArt}>
-                <Text style={{ fontSize: 26 }}>{selectedBug?.emoji ?? "🐛"}</Text>
+                {selectedBug ? (
+                  <BugIcon bug={selectedBug} size={44} />
+                ) : (
+                  <Text style={{ fontSize: 26 }}>🐛</Text>
+                )}
               </View>
               <View style={{ flex: 1 }}>
                 <View

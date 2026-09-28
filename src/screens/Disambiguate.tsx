@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { BugIcon } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
@@ -81,7 +82,7 @@ export function Disambiguate() {
                 style={styles.candidate}
               >
                 <View style={[styles.candidateArt, { backgroundColor: c.color || PB.cream2 }]}>
-                  <Text style={{ fontSize: 28 }}>{c.emoji}</Text>
+                  <BugIcon bug={c} size={48} />
                 </View>
                 <View style={{ flex: 1, minWidth: 0 }}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>

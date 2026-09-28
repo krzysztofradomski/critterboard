@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system/legacy';
 
+import { ensurePackIcons, type PackIcons } from '@/data/bugIcons';
 import { mergeBugs, type Bug } from '@/data/bugs';
 
 export type RegionPack = {
@@ -12,6 +13,8 @@ export type RegionPack = {
   bugs: Bug[];
   /** scientific name → class index, matching the model's output layer. */
   labelMap: Record<string, number>;
+  /** Photo-based species icons (pack v5+); see bugIcons.ts. */
+  icons?: PackIcons;
 };
 
 export type PackManifest = {
@@ -68,14 +71,19 @@ export async function removeCachedPack(id: string): Promise<void> {
  * Called at app boot with the persisted list of installed region IDs.
  * Reads each pack's JSON from AsyncStorage and merges its species into
  * the in-memory bug registry so findBug() covers all installed regions.
+ * Icons are registered (or fetched, if missing) in the background.
  */
-export async function hydrateInstalledPacks(installedIds: string[]): Promise<void> {
+export async function hydrateInstalledPacks(
+  installedIds: string[],
+  documentDirectory: string | null = null,
+): Promise<void> {
   await Promise.all(
     installedIds.map(async (id) => {
       const pack = await readCached(id);
       if (!pack) return;
       _packs.set(id, pack);
       mergeBugs(pack.bugs);
+      void ensurePackIcons(documentDirectory, pack);
     }),
   );
 }
@@ -125,6 +133,25 @@ export async function downloadPackModel(
   await dl.downloadAsync();
 }
 
+/**
+ * Does an updated pack need its model downloaded again? Only when the model
+ * URL changed or the file is missing (a pack update may only add icons or
+ * names, and the model is ~90 MB).
+ */
+export async function needsModelDownload(
+  documentDirectory: string,
+  previous: RegionPack | null,
+  next: RegionPack,
+): Promise<boolean> {
+  if (previous?.modelUrl !== next.modelUrl) return true;
+  try {
+    const info = await FileSystem.getInfoAsync(getModelPath(documentDirectory, next.id));
+    return !info.exists;
+  } catch {
+    return true;
+  }
+}
+
 /** Pure decision: is the installed pack older than what the manifest advertises? */
 export function isPackOutdated(
   installedVersion: number | undefined,
@@ -138,8 +165,8 @@ export type PackUpdate = { id: string; pack: RegionPack };
 
 /**
  * Best-effort boot-time refresh. For each installed region whose manifest
- * version is newer than the installed one, re-download the pack JSON + model
- * and report it via onUpdated so the store can bump the version and reapply
+ * version is newer than the installed one, re-download the pack JSON, the
+ * model (only if it changed) and the icons, and report it via onUpdated so the store can bump the version and reapply
  * the (possibly reordered) labelMap. No-ops on web / when the filesystem is
  * unavailable. Failures are swallowed per-pack so the stale-but-working pack
  * stays in place.
@@ -162,8 +189,12 @@ export async function syncInstalledPacks(opts: {
     try {
       const pack = await fetchPack(entry.url);
       if (!pack) continue;
+      const previous = getPackData(id);
+      if (await needsModelDownload(documentDirectory, previous, pack)) {
+        await downloadPackModel(documentDirectory, pack);
+      }
       await cachePackData(pack); // overwrite cached JSON + merge bugs
-      await downloadPackModel(documentDirectory, pack);
+      await ensurePackIcons(documentDirectory, pack);
       onUpdated({ id, pack });
     } catch {
       // best-effort: leave the existing installed version untouched

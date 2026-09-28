@@ -14,6 +14,7 @@ import { CreditsDialog } from "@/components/CreditsDialog";
 import { PersonaPick } from "@/components/PersonaPick";
 import { SettingToggle } from "@/components/SettingToggle";
 import { Sticker } from "@/components/Sticker";
+import { ensurePackIcons, removePackIcons } from "@/data/bugIcons";
 import { REGIONS, type Region, type RegionStatus } from "@/data/regions";
 import {
   cachePackData, getModelPath, PACK_MANIFEST_URL, removeCachedPack,
@@ -170,6 +171,7 @@ export function Settings() {
       // Uninstall: remove from store, clear AsyncStorage, delete model file.
       uninstallRegion(region.id);
       void removeCachedPack(region.id);
+      void removePackIcons(FileSystem.documentDirectory, region.id);
       if (FileSystem.documentDirectory) {
         void FileSystem.deleteAsync(
           getModelPath(FileSystem.documentDirectory, region.id),
@@ -217,6 +219,10 @@ export function Settings() {
       packDownloadHandles.current[region.id] = dl;
       await dl.downloadAsync();
       packDownloadHandles.current[region.id] = null;
+
+      // Species icons: one small atlas, split on the device. Best-effort,
+      // species without an icon show their emoji.
+      await ensurePackIcons(FileSystem.documentDirectory, pack);
 
       // Step 4: Persist installed state (version drives boot-time refresh).
       installRegion(region.id, pack.labelMap, pack.version);

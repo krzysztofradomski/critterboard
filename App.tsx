@@ -61,7 +61,7 @@ export default function App() {
     // refresh any whose manifest version is newer — same pattern as the
     // translation packs below. A bumped pack/model in packs/manifest.json thus
     // reaches installed clients on the next launch without a reinstall.
-    void hydrateInstalledPacks(installedRegions).then(() =>
+    void hydrateInstalledPacks(installedRegions, FileSystem.documentDirectory).then(() =>
       syncInstalledPacks({
         installedIds: installedRegions,
         installedVersions: installedPackVersions,

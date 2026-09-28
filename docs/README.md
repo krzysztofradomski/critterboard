@@ -18,6 +18,7 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 | [[modules/crash-reporting]] | Opt-in Sentry wrapper — toggle, DSN config, graceful degradation, what we send. |
 | [[modules/backend-adapter]] | Backend adapter seam — mock today, Cloudflare Workers tomorrow. Schemas, hooks, privacy gating. |
 | [[modules/offline-map]] | Offline 2D map — MapLibre Native + local PMTiles packs, sticker style, download-once flow. |
+| [[modules/species-icons]] | Photo-based sticker icons per species — how they are made (attention map + SAM), shipped as one atlas with the pack, emoji fallback. |
 | [[decisions/001-crash-reporting-opt-in]] | ADR — why crash reporting is opt-in and why Sentry. |
 | [[decisions/002-backend-adapter-seam]] | ADR — single adapter seam for leaderboard / friends / feed, targeting Cloudflare Workers. |
 | [[decisions/004-remove-cloud-gemini]] | ADR — why the cloud Gemini fallback was removed; what scan and chat do instead. |

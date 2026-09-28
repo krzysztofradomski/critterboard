@@ -2,14 +2,21 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 
 // regionPacks pulls in the filesystem-backed download path via the legacy
 // expo-file-system entrypoint, which the shared setup does not stub.
+const modelOnDisk = vi.hoisted(() => ({ exists: false }));
 vi.mock('expo-file-system/legacy', () => ({
   makeDirectoryAsync: vi.fn().mockResolvedValue(undefined),
+  getInfoAsync: vi.fn(async () => ({ exists: modelOnDisk.exists })),
   createDownloadResumable: vi.fn(() => ({
     downloadAsync: vi.fn().mockResolvedValue({}),
   })),
 }));
 
-import { isPackOutdated, syncInstalledPacks, type RegionPack } from '@/data/regionPacks';
+import {
+  isPackOutdated,
+  needsModelDownload,
+  syncInstalledPacks,
+  type RegionPack,
+} from '@/data/regionPacks';
 
 describe('isPackOutdated', () => {
   it('is true when the manifest advertises a newer version', () => {
@@ -94,5 +101,35 @@ describe('syncInstalledPacks', () => {
 
     expect(fetchSpy).not.toHaveBeenCalled();
     expect(onUpdated).not.toHaveBeenCalled();
+  });
+});
+
+describe('needsModelDownload', () => {
+  const pack: RegionPack = {
+    id: 'eu-ce',
+    version: 5,
+    modelUrl: 'https://example.com/m.pte',
+    modelVersion: 4,
+    bugs: [],
+    labelMap: {},
+  };
+
+  it('skips the download when only the pack JSON changed and the model is on disk', async () => {
+    modelOnDisk.exists = true;
+    expect(await needsModelDownload('/docs/', { ...pack, version: 4 }, pack)).toBe(false);
+  });
+
+  it('downloads when the model URL changed', async () => {
+    modelOnDisk.exists = true;
+    expect(
+      await needsModelDownload('/docs/', { ...pack, modelUrl: 'https://example.com/old.pte' }, pack),
+    ).toBe(true);
+  });
+
+  it('downloads when the model file is missing or there is no previous pack', async () => {
+    modelOnDisk.exists = false;
+    expect(await needsModelDownload('/docs/', pack, pack)).toBe(true);
+    modelOnDisk.exists = true;
+    expect(await needsModelDownload('/docs/', null, pack)).toBe(true);
   });
 });

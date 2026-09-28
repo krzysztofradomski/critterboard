@@ -74,7 +74,7 @@ Everything below is optional. Without it the app degrades to bundled or mock beh
 
 | Call | When | Source |
 |---|---|---|
-| Region pack + `.pte` model | User installs a pack; refreshed on boot | `packs/manifest.json` → GitHub raw / Releases |
+| Region pack + `.pte` model + species icon atlas ([[modules/species-icons]]) | User installs a pack; refreshed on boot (model only if its URL changed) | `packs/manifest.json` → GitHub raw / Releases |
 | Translation packs | Boot, best-effort | `src/i18n/loader.ts` |
 | Map pack (PMTiles) | Once, when the Map tab first opens (spike: `EXPO_PUBLIC_MAP_PACK_URL`) | `src/map/mapPack.ts` |
 | Gemma GGUF | First on-device chat | Hugging Face |

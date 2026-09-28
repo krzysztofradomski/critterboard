@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
+import { BugIcon } from "@/components/BugIcon";
 import { CameraScene } from "@/components/CameraScene";
 import { IconBtn } from "@/components/IconBtn";
 import { Sticker } from "@/components/Sticker";
@@ -146,7 +147,7 @@ export function Home() {
                     onPress={() => go("result", { id })}
                     style={[styles.recentTile, { backgroundColor: bug.color }]}
                   >
-                    <Text style={styles.recentEmoji}>{bug.emoji}</Text>
+                    <BugIcon bug={bug} size={46} />
                     <Text numberOfLines={1} style={styles.recentName}>
                       {bugName(language, id).split(" ")[0]}
                     </Text>
@@ -386,7 +387,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 6,
   },
-  recentEmoji: { fontSize: 30 },
   recentName: {
     marginTop: 4,
     fontSize: 10,
