@@ -1,65 +1,43 @@
 /**
- * Single switchboard for the AI seams.
+ * Single switchboard for the AI seams. Everything runs on the device:
  *
- * Flip the flags below (or back them with a feature-flag service later)
- * to enable each real model once it's ready.
+ * Vision: ExecuTorch model from the installed region pack (Scan uses the
+ *         `useExecutorchClassifier` hook). No pack → Scan asks the user to
+ *         install one. The web preview can't run the model, so it uses the
+ *         mock classifier as a clearly-labelled demo.
+ * Chat:   on-device LLM (llama.rn on iOS/Android, Chrome's built-in model on
+ *         web) when the user turns it on in Settings; otherwise the persona's
+ *         scripted offline replies.
  *
- * Vision priority: native > gemini > mock
- * Chat priority:   local (device) > gemini > mock
- *
- * See `docs/ml-roadmap.md` for the full plan.
+ * The cloud Gemini proof-of-concept was removed (see
+ * docs/decisions/004-remove-cloud-gemini.md). See `docs/ml-roadmap.md`.
  */
 
 import { mockClassifier, type VisionClassifier } from '@/ai/vision';
-import { geminiVisionClassifier } from '@/ai/geminiVision';
 import { llamaRnRuntime, mockRuntime, type LlmRuntime } from '@/ai/llm';
-import { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter, type ChatAdapter } from '@/ai/chatAdapter';
-import { toolChatAdapter } from '@/ai/toolChatAdapter';
+import { localLlmChatAdapter, mockChatAdapter, type ChatAdapter } from '@/ai/chatAdapter';
 import { withGuardrails } from '@/ai/guardrails';
 import { webNativeLlmChatAdapter } from '@/ai/webNativeLlm';
 
-// Native on-device vision is active. The .pte is NOT bundled — it's downloaded
-// on demand from the brains/region-pack page (Settings → pack install pulls the
-// file named in packs/eu-ce.json → modelUrl, e.g. packs/models/eu-1k-commercial-v1.pte). This flag stays
-// dormant (preventLoad) until a pack is installed; until then Scan falls back to
-// gemini/mock. See packs/eu-ce.json and src/data/regionPacks.ts.
+// The .pte is NOT bundled — Settings → Regional packs downloads the file named
+// in packs/eu-ce.json → modelUrl (e.g. packs/models/eu-1k-commercial-v1.pte).
 export const USE_NATIVE_VISION = true;
-const USE_GEMINI_VISION = true;
-const USE_LLAMA_RN = true;        // llama.rn wired; model downloaded on first launch
-const USE_CLOUD_GEMINI_POC = true; // temporary POC until on-device LLM ships
-const HAS_GEMINI_API_KEY = Boolean(
-  process.env.GEMINI_API_KEY ??
-    (process.env.NODE_ENV !== 'production' ? process.env.EXPO_PUBLIC_GEMINI_API_KEY : undefined),
-);
+const USE_LLAMA_RN = true; // llama.rn wired; GGUF downloaded from Settings
 
-export const vision: VisionClassifier =
-  USE_GEMINI_VISION && HAS_GEMINI_API_KEY ? geminiVisionClassifier : mockClassifier;
-
-export const visionMode: 'native' | 'gemini' | 'mock' =
-  USE_GEMINI_VISION && HAS_GEMINI_API_KEY ? 'gemini' : 'mock';
+/** Web-preview fallback only; native builds never classify with the mock. */
+export const vision: VisionClassifier = mockClassifier;
 
 export const llm: LlmRuntime = USE_LLAMA_RN ? llamaRnRuntime : mockRuntime;
-// Tool-based adapter is the default cloud path — the model fetches live state
-// via tools rather than receiving a fat system-prompt blob. Falls back to the
-// legacy geminiChatAdapter only as a reference; mock when no API key.
-export const chatAdapter: ChatAdapter = withGuardrails(
-  USE_CLOUD_GEMINI_POC && HAS_GEMINI_API_KEY ? toolChatAdapter : mockChatAdapter,
-);
-export const chatMode: 'gemini' | 'mock' =
-  USE_CLOUD_GEMINI_POC && HAS_GEMINI_API_KEY ? 'gemini' : 'mock';
 
-// Guarded singletons for the on-device adapters used in Chat.tsx.
-// These share the same guardrails config as the cloud adapter above.
+// Guarded adapters used by Chat.tsx.
+export const offlineChatAdapter: ChatAdapter = withGuardrails(mockChatAdapter);
 export const guardedLocalLlmChatAdapter: ChatAdapter = withGuardrails(localLlmChatAdapter);
 export const guardedWebNativeLlmChatAdapter: ChatAdapter = withGuardrails(webNativeLlmChatAdapter);
 
 export { mockClassifier, nativeClassifier } from '@/ai/vision';
 export { useExecutorchClassifier } from '@/ai/executorchVision';
-export { geminiVisionClassifier } from '@/ai/geminiVision';
 export { mockRuntime, llamaRnRuntime, buildPrompt, MODEL_GGUF_FILENAME, MODEL_GGUF_HF_URL } from '@/ai/llm';
-export { geminiChatAdapter, localLlmChatAdapter, mockChatAdapter } from '@/ai/chatAdapter';
-export { toolChatAdapter, createToolChatAdapter } from '@/ai/toolChatAdapter';
-export { buildChatTools } from '@/ai/tools';
+export { localLlmChatAdapter, mockChatAdapter } from '@/ai/chatAdapter';
 export { webNativeLlmChatAdapter, checkWebNativeLlmStatus } from '@/ai/webNativeLlm';
 export { withGuardrails, checkInput, redactPii } from '@/ai/guardrails';
 export type { GuardCode, GuardResult, GuardrailsConfig } from '@/ai/guardrails';
@@ -73,4 +51,3 @@ export type {
   ChatMemorySnippet,
   ChatUserContext,
 } from '@/ai/chatAdapter';
-export type { ToolContext, ChatTools } from '@/ai/tools';

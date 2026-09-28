@@ -71,7 +71,11 @@
       "permissionDenied": "Kamera abgelehnt. Aktivieren unter Einstellungen → Critterboard → Kamera.",
       "allowCamera": "Kamera erlauben",
       "focus": "Fokus",
-      "matching": "vergleiche…"
+      "matching": "vergleiche…",
+      "needPackTitle": "Artenpaket holen",
+      "needPackBody": "Die Bestimmung läuft auf deinem Handy. Installiere einmal das Paket Mitteleuropa (1.000 Arten, ca. 89 MB), um loszulegen.",
+      "needPackCta": "Artenpakete öffnen",
+      "modelNotReady": "Das Artenmodell lädt noch. Versuch es gleich noch einmal."
     },
     "result": {
       "headTitle": "IDENTIFIZIERT!",
@@ -182,7 +186,8 @@
     "chat": {
       "localStatus": "● lokal · {title}",
       "inputPlaceholder": "Frag etwas über dieses Insekt…",
-      "clearCta": "Chat leeren"
+      "clearCta": "Chat leeren",
+      "offlineHint": "Offline-Modus: Ich kann nur vorgefertigte Antworten geben. Schalte in Einstellungen → Hirn auf dem Gerät das Modell auf dem Gerät ein, um echte Antworten zu bekommen."
     },
     "activity": {
       "title": "Summen",

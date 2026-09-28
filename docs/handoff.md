@@ -10,10 +10,10 @@ What to run locally to finish Critterboard, in order. Everything below assumes t
 
 | Area | State on `main` | Needs you |
 |---|---|---|
-| Build | Typecheck + 336 tests pass; iOS/Android/web JS bundles build; `expo prebuild` works | First real Xcode build |
+| Build | Typecheck + 284 tests pass; iOS/Android/web JS bundles build; `expo prebuild` works | First real Xcode build |
 | Vision | 1,000-species model `eu-1k-commercial-v1` (pack `eu-ce` v4) live: 78.2% top-1 / 90.1% top-3 on held-out photos; licence-clean for commercial use; downloads on pack install | On-device check (load time, latency) |
 | Map | Offline MapLibre + PMTiles spike behind `USE_OFFLINE_MAP` (native); web still uses the globe | Make a map pack and look at it |
-| Chat | Regex guardrails on all platforms; Gemma 1B via `llama.rn`, Gemini POC if a key is set | Optional smoke test |
+| Chat | On-device only: Gemma 1B via `llama.rn` when turned on in Settings, else scripted offline replies; regex guardrails. Cloud Gemini removed (ADR 004) | Optional smoke test |
 | Backend | Worker code ready, **not deployed**; app uses mock data until `EXPO_PUBLIC_BACKEND_URL` is set | Cloudflare account steps |
 | Store | EAS profiles ready; `submit.production` placeholders unfilled | Apple / Play accounts |
 
@@ -43,7 +43,6 @@ pnpm run check               # typecheck + tests, should be green
 |---|---|
 | `EXPO_PUBLIC_MAP_PACK_URL` | App downloads that PMTiles map pack once (spike) |
 | `EXPO_PUBLIC_BACKEND_URL` | Social features switch from mock data to your Worker |
-| `EXPO_PUBLIC_GEMINI_API_KEY` | Dev-only cloud fallback for chat/vision (key ships in the bundle, don't use for release) |
 | `EXPO_PUBLIC_SENTRY_DSN` | Opt-in crash reporting |
 
 ## 2. Simulator
@@ -59,7 +58,8 @@ The first build takes a while (CocoaPods + MapLibre + ExecuTorch + llama.rn). Af
 1. **Onboarding → Home** renders.
 2. **Vision:** Settings → On-device Brains → Regional packs → install **Central Europe**. It downloads the pack JSON and the 88 MB model from GitHub. Then open Scan and use the **photo picker**, because the simulator has no camera. Try a photo of a peacock butterfly, a ladybird or a bumblebee; the result should name the species. If it falls back to mock or "no match", check the Metro log for ExecuTorch load errors.
 3. **Map:** see §4.
-4. **Chat:** answers with the mock or Gemini adapter; on-device Gemma needs its model download from Settings.
+4. **Chat:** scripted offline replies until you turn on the on-device model in Settings (downloads Gemma).
+5. **No pack installed:** Scan shows an "install the Central Europe pack" card instead of results.
 
 The simulator's on-device ML may be slow or unsupported. Treat vision/LLM speed as phone-only measurements.
 

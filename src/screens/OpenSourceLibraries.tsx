@@ -22,11 +22,9 @@ async function openPackageSearch(packageName: string): Promise<void> {
 }
 
 const RUNTIME_LIBRARIES: readonly Library[] = [
-  { name: '@ai-sdk/google', version: '^3.0.79' },
   { name: '@expo/metro-runtime', version: '~4.0.1' },
   { name: '@react-native-async-storage/async-storage', version: '1.23.1' },
   { name: '@sentry/react-native', version: '~6.3.0' },
-  { name: 'ai', version: '^6.0.190' },
   { name: 'expo', version: '~52.0.0' },
   { name: 'expo-asset', version: '~11.0.5' },
   { name: 'expo-camera', version: '~16.0.18' },

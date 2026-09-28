@@ -9,7 +9,7 @@
  * The hook accepts modelSource + labelMap as parameters so each region pack
  * can carry its own trained model and class mapping. Until modelSource is
  * non-null the hook is a no-op: isReady stays false and Scan falls back to
- * gemini/mock transparently.
+ * shows an install-the-pack / model-loading message instead of guessing.
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
