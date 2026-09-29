@@ -31,16 +31,19 @@ Bug ID and AI always stay on-device. If you turn **Network** on in Settings, the
 
 ## Current work
 
-Project status lives in [`tasks/todo.md`](tasks/todo.md) — the living checklist of what's shipped and what's next.
+Project status lives in [`tasks/todo.md`](tasks/todo.md), the living checklist of what's shipped and what's next. To build and test on your own Mac and iPhone, follow [`docs/handoff.md`](docs/handoff.md).
 
-**Local AI training** — The app seams, training pipelines, and React Native integration are complete. One step remains before native vision is live on-device:
+**Where things stand**
 
-- **Vision** — MobileNetV3-Small trained on 20 Central European species. `react-native-executorch` is wired into `Scan.tsx` and dormant until the `.pte` is generated. To activate: `pip install executorch && python training/local/04_export.py --pte`, then set `MODEL_SOURCE` in `src/ai/executorchVision.ts` and flip `USE_NATIVE_VISION = true` in `src/ai/index.ts`. Full pipeline docs in [`training/README.md`](training/README.md).
-- **Personas** — LoRA pipeline for on-device Gemma 3 1B-IT (`training/personas/`). Next step: bundle a GGUF and flip `USE_LLAMA_RN` in `src/ai/`.
+- **Vision:** a 1,000-species European insect and spider model, `eu-1k-commercial-v1`, reaching 78.2% top-1 and 90.1% top-3 on held-out photos. It runs on-device through `react-native-executorch` and is licence-clean for commercial use: it was trained only on CC0/CC-BY photos and built on Google's Apache-2.0 base. It ships in the **Central Europe region pack**, which the app downloads from Settings. Without the pack, Scan asks you to install it. See [`training/vision/README.md`](training/vision/README.md) and the [model card](training/vision/results/commercial-1k-v1/MODEL_CARD.md).
+- **Species icons:** every pack species has a sticker icon drawn from a real CC0 photo. The icons come with the pack as one ~9 MB file and fall back to emoji. See [`docs/modules/species-icons.md`](docs/modules/species-icons.md).
+- **Chat:** fully on-device. Gemma 3 1B runs through `llama.rn` once you turn it on in Settings; until then, the three personas give scripted replies. Personas are system prompts; a LoRA pipeline for per-persona adapters is in [`training/personas/`](training/personas/), but it isn't shipped. The cloud Gemini fallback was removed ([ADR 004](docs/decisions/004-remove-cloud-gemini.md)).
+- **Map:** an offline MapLibre + PMTiles spike is behind a flag; see [`docs/modules/offline-map.md`](docs/modules/offline-map.md).
+- **Not yet done:** the first run on a real iPhone, the Cloudflare backend deploy, and store submission. All three are covered in the handoff.
 
-See [`docs/ml-roadmap.md`](docs/ml-roadmap.md) for the three-track plan and exit criteria.
+See [`docs/ml-roadmap.md`](docs/ml-roadmap.md) for the ML plan and [`docs/README.md`](docs/README.md) for the architecture docs.
 
-A local **Streamlit training dashboard** lives at [`tools/training-ui/`](tools/training-ui/) — run it to manage dataset downloads, kick off training jobs, test inference interactively, and copy exported models into `assets/models/`. See that folder's README for setup.
+The original 20-species pipeline (`training/local/`) and its Streamlit dashboard ([`tools/training-ui/`](tools/training-ui/)) are still in the repo for reference.
 
 ## Links
 

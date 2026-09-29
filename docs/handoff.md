@@ -4,16 +4,17 @@
 
 What to run locally to finish Critterboard, in order. Everything below assumes the latest `main`.
 
-> Related: [[deployment]] (EAS / TestFlight details), [[modules/offline-map]], [[modules/backend-adapter]], [[architecture]], `training/vision/README.md`, `tasks/todo.md` (full checklist).
+> Related: [[deployment]] (EAS / TestFlight details), [[modules/offline-map]], [[modules/species-icons]], [[modules/backend-adapter]], [[architecture]], `training/vision/README.md`, `tasks/todo.md` (full checklist).
 
 ## Where things stand
 
 | Area | State on `main` | Needs you |
 |---|---|---|
-| Build | Typecheck + 284 tests pass; iOS/Android/web JS bundles build; `expo prebuild` works | First real Xcode build |
-| Vision | 1,000-species model `eu-1k-commercial-v1` (pack `eu-ce` v4) live: 78.2% top-1 / 90.1% top-3 on held-out photos; licence-clean for commercial use; downloads on pack install | On-device check (load time, latency) |
+| Build | Typecheck + 294 tests pass; iOS/Android/web JS bundles build; `expo prebuild` works | First real Xcode build |
+| Vision | 1,000-species model `eu-1k-commercial-v1` (pack `eu-ce` v5) live: 78.2% top-1 / 90.1% top-3 on held-out photos; licence-clean for commercial use; downloads on pack install | On-device check (load time, latency) |
+| Species icons | Photo-based sticker icon for all 1,000 pack species (one 9.1 MB file, split on the phone; emoji fallback). Checked only in a headless browser | Phone check (§3) |
 | Map | Offline MapLibre + PMTiles spike behind `USE_OFFLINE_MAP` (native); web still uses the globe | Make a map pack and look at it |
-| Chat | On-device only: Gemma 1B via `llama.rn` when turned on in Settings, else scripted offline replies; regex guardrails. Cloud Gemini removed (ADR 004) | Optional smoke test |
+| Chat | On-device only: Gemma 3 1B via `llama.rn` when turned on in Settings, else scripted offline replies; regex guardrails. Cloud Gemini removed (ADR 004) | Check the Gemma download works (§3) |
 | Backend | Worker code ready, **not deployed**; app uses mock data until `EXPO_PUBLIC_BACKEND_URL` is set | Cloudflare account steps |
 | Store | EAS profiles ready; `submit.production` placeholders unfilled | Apple / Play accounts |
 
@@ -56,7 +57,7 @@ The first build takes a while (CocoaPods + MapLibre + ExecuTorch + llama.rn). Af
 **Smoke test in the simulator:**
 
 1. **Onboarding → Home** renders.
-2. **Vision:** Settings → On-device Brains → Regional packs → install **Central Europe**. It downloads the pack JSON and the 88 MB model from GitHub. Then open Scan and use the **photo picker**, because the simulator has no camera. Try a photo of a peacock butterfly, a ladybird or a bumblebee; the result should name the species. If it falls back to mock or "no match", check the Metro log for ExecuTorch load errors.
+2. **Vision:** Settings → On-device Brains → Regional packs → install **Central Europe**. It downloads the pack JSON, the 88 MB model and the 9.1 MB icon file from GitHub. Afterwards the **Dex** shows sticker icons: caught species in colour, the rest as ink silhouettes. Then open Scan and use the **photo picker**, because the simulator has no camera. Try a photo of a peacock butterfly, a ladybird or a bumblebee; the result should name the species. If it falls back to mock or "no match", check the Metro log for ExecuTorch load errors.
 3. **Map:** see §4.
 4. **Chat:** scripted offline replies until you turn on the on-device model in Settings (downloads Gemma).
 5. **No pack installed:** Scan shows an "install the Central Europe pack" card instead of results.
@@ -79,6 +80,17 @@ The simulator's on-device ML may be slow or unsupported. Treat vision/LLM speed 
 - Time for the model download plus the first scan (cold load), then a second scan (warm).
 - That a real camera shot of a common garden insect is identified.
 - Memory: nothing crashes when the Gemma model loads in chat.
+
+**Species icons (new in pack v5):**
+- **First install:** after the model finishes, time how long until the Dex shows icons. The app downloads one 9.1 MB file and splits it into 1,000 small files; the split is the unknown. Under ~10 s is fine. If it's much slower, tell me and I'll batch it differently.
+- **Update path:** if the phone already had pack v4, relaunch the app. It should fetch only the icon file, not the 88 MB model again (watch the network or the time it takes).
+- **Dex scrolling:** scroll the full 1,000-species list quickly. Note any stutter or blank cells that fill in late.
+- **Looks:** a caught species shows a coloured sticker; an uncaught one shows a grey silhouette. Open a species from the Dex: the result card shows the big icon.
+- **Offline:** turn on flight mode and relaunch. Icons must still show, because they're stored on the phone.
+- **Uninstall:** remove the pack in Settings. The Dex falls back to emoji and nothing crashes.
+- **Credits:** Settings → Open source libraries → Vision model → "Species icons" opens the credits page.
+
+**Chat model download:** Settings → turn on the on-device model and let it download. The app fetches Gemma from Hugging Face (`google/gemma-3-1b-it-GGUF`). Google's Gemma repos usually need a logged-in licence acceptance, so an anonymous download may fail with 401/403. If it does, tell me: the fix is to host the file ourselves (GitHub Releases or R2).
 
 ## 4. Offline map spike
 
@@ -156,6 +168,10 @@ Needs the Apple Developer Program, and the app record created in App Store Conne
 | 6 | Translate 180 new species (pl/de/es) | Me or you | They fall back to English today; I couldn't reach a name source |
 | 7 | ~~Commercial-clean vision model~~ | Done | `eu-1k-commercial-v1`, now used by the app; see its MODEL_CARD |
 | 10 | ~~Dex: list all pack species~~ | Done | Virtualised grid over bundled + pack species; caught species first |
+| 11 | ~~Photo-based species icons~~ | Done | Pack `eu-ce` v5; see [[modules/species-icons]] |
+| 12 | Phone check: icon download/split time, Dex scrolling (§3) | You → me | If the split is slow, I'll batch it or ship per-species files |
+| 13 | Gemma download works without a Hugging Face login (§3) | You → me | If not, I'll host the GGUF ourselves |
+| 14 | Better icons for bumblebees and mining bees | Me | Weakest group: fuzzy outlines come out as blobs |
 | 8 | `react-native-executorch` 0.10 migration | Me | 0.10 rewrote the API; pinned to 0.9.3 until then |
 | 9 | Fill `eas.json` submit config, store listings | You | Needs your Apple / Google accounts |
 
@@ -175,7 +191,9 @@ training/vision/stream_photos.sh && python training/vision/download.py --data $D
 ## Known risks
 
 - **Model not yet loaded on a device.** The exporter (`executorch` 1.0.1) was chosen to match the app's ET12 runtime, and all operators are supported kernels, but only a phone run proves it.
-- **88 MB model download** on pack install. A static-int8 build (22.8 MB) did not load in the ExecuTorch runtime.
+- **88 MB model download** on pack install, plus the 9.1 MB icon file. A static-int8 build (22.8 MB) did not load in the ExecuTorch runtime.
+- **Icon split on the device** (1,000 small file writes) is untested on a phone; see §3.
+- **Gemma download** may need a Hugging Face login; see §3. Gemma is under Google's Gemma Terms of Use (commercial use allowed, with a prohibited-use policy you must pass on to users), not Apache 2.0.
 - **Licence notices:** the model's Apache-2.0 notice and CC-BY photo credits are linked from Settings → Open source libraries → Vision model. Keep them there if you fork the app.
 - **Guardrails are regex-only** since the Node-only library was removed. They are fine for obvious cases, not a full moderation system.
 - **Licences:** the shipped model uses only CC0/CC-BY photos and Google's Apache-2.0 base weights. The residual risk is the base weights' ImageNet-21k pretraining; see `training/vision/results/commercial-1k-v1/MODEL_CARD.md`. The older v3 model (NonCommercial photos) is no longer referenced by the pack.
