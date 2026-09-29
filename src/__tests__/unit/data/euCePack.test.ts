@@ -11,7 +11,22 @@ const bugs = pack.bugs as Bug[];
 describe('packs/eu-ce.json', () => {
   it('matches the manifest version', () => {
     expect(manifest.packs['eu-ce'].version).toBe(pack.version);
-    expect(pack.modelVersion).toBe(pack.version);
+    // A pack update may keep its model (e.g. v5 only added icons).
+    expect(pack.modelVersion).toBeLessThanOrEqual(pack.version);
+  });
+
+  it('has an icon for every species the model knows, packed back to back in the atlas', () => {
+    const icons = pack.icons as { url: string; index: Record<string, number[]> };
+    const idOf = new Map(bugs.map((b) => [b.latin, b.id]));
+    for (const latin of Object.keys(pack.labelMap)) expect(icons.index[idOf.get(latin)!]).toBeDefined();
+    const ranges = Object.values(icons.index).sort((x, y) => x[0] - y[0]);
+    let next = 0;
+    for (const [offset = -1, length = 0] of ranges) {
+      expect(offset).toBe(next);
+      expect(length).toBeGreaterThan(0);
+      next = offset + length;
+    }
+    expect(icons.url).toMatch(/^https:\/\//);
   });
 
   it('has a labelMap covering exactly 0..N-1 with a bug for every label', () => {

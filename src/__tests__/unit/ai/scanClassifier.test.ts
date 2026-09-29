@@ -27,12 +27,12 @@ describe('selectScanClassifier', () => {
       fallback,
     });
 
-    await expect(classify('photo-uri', { topK: 3 })).resolves.toEqual(nativeCandidates);
+    await expect(classify!('photo-uri', { topK: 3 })).resolves.toEqual(nativeCandidates);
     expect(executorch.classify).toHaveBeenCalledOnce();
     expect(fallback.classify).not.toHaveBeenCalled();
   });
 
-  it('falls back when native vision is enabled but ExecuTorch is not ready', async () => {
+  it('uses the given fallback (web preview) when ExecuTorch is not ready', async () => {
     const fallback = classifier(fallbackCandidates);
     const executorch = {
       isReady: false,
@@ -45,8 +45,14 @@ describe('selectScanClassifier', () => {
       fallback,
     });
 
-    await expect(classify('photo-uri', { hint: 'lady', topK: 3 })).resolves.toEqual(fallbackCandidates);
+    await expect(classify!('photo-uri', { hint: 'lady', topK: 3 })).resolves.toEqual(fallbackCandidates);
     expect(executorch.classify).not.toHaveBeenCalled();
     expect(fallback.classify).toHaveBeenCalledOnce();
+  });
+
+  it('returns null on native when the model is not ready: no made-up results', () => {
+    const executorch = { isReady: false, classify: vi.fn(async () => nativeCandidates) };
+    expect(selectScanClassifier({ useNativeVision: true, executorch })).toBeNull();
+    expect(executorch.classify).not.toHaveBeenCalled();
   });
 });

@@ -4,13 +4,15 @@
  * The Chat screen calls `complete()` and streams tokens straight into the
  * bubble. Two implementations live behind this interface:
  *
- *   1. `mockRuntime`  — current default. Picks a canned line keyword-biased
- *      by the user's input and yields it as one chunk after a short delay.
+ *   1. `mockRuntime`  — used when the on-device model is off or not yet
+ *      downloaded (and on web without Chrome's built-in model). Picks a
+ *      canned line keyword-biased by the user's input.
  *
- *   2. `llamaRnRuntime` — production. Wraps `llama.rn` (a `llama.cpp` port
- *      for React Native). Loads `gemma-3-1b-it-q4_k_m.gguf` from the app
- *      bundle plus optional per-persona LoRA adapters (~15 MB each). Runs
- *      Metal/GPU acceleration on iOS, NEON on Android.
+ *   2. `llamaRnRuntime` — used once the user turns the on-device model on in
+ *      Settings. Wraps `llama.rn` (a `llama.cpp` port for React Native) and
+ *      loads `gemma-3-1b-it-q4_k_m.gguf`, downloaded on demand (not bundled).
+ *      Personas are system prompts (see buildPrompt); there are no
+ *      per-persona adapters. Metal on iOS, NEON on Android.
  *
  * The seam intentionally mirrors `llama.rn`'s streaming API so swapping the
  * production runtime is a single import in `src/ai/index.ts`. See

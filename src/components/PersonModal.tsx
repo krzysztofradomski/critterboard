@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { PB } from '@/tokens/pb';
+import { BugIcon } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { ModalShell } from '@/components/ModalShell';
@@ -150,7 +151,7 @@ function RecentCell({ bugId }: { bugId: string }) {
   return (
     <View style={styles.recentCell}>
       <View style={[styles.recentArt, { backgroundColor: b.color ?? PB.cream2 }]}>
-        <Text style={{ fontSize: 22 }}>{b.emoji}</Text>
+        <BugIcon bug={b} size={34} />
       </View>
       <Text numberOfLines={1} style={styles.recentName}>{short}</Text>
     </View>

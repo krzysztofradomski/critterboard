@@ -16,8 +16,7 @@ Every step here maps to either a file in `training/` (Python) or a file in `src/
 
 Before Track 2's on-device Llama integration, chat now has a cloud proof-of-concept adapter:
 
-- `src/ai/chatAdapter.ts` wires AI SDK (`ai` + `@ai-sdk/google`) to `gemini-2.5-flash`.
-- Enabled only when `GEMINI_API_KEY` is present; otherwise it falls back to the in-app mock adapter.
+- **Removed (Sep 2026, ADR 004).** The cloud Gemini POC is gone; vision and chat are on-device only.
 - Prompt includes live user context + insect dataset so the model answers in Critterboard terms.
 
 This is explicitly transitional. The target architecture is still fully on-device LLM inference.
@@ -250,7 +249,6 @@ src/ai/
   vision.ts                                   # VisionClassifier interface + mock impl
   executorchVision.ts                         # useExecutorchClassifier() hook
   classMap.ts                                 # scientific name + index → bug ID (auto-generated)
-  geminiVision.ts                             # cloud fallback (POC)
   llm.ts                                      # AsyncIterable<token>, swap-in seam
   chat.ts                                     # delegates to llm.ts
 

@@ -1,7 +1,7 @@
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Animated, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import * as FileSystem from 'expo-file-system/legacy';
 import { vision, USE_NATIVE_VISION, useExecutorchClassifier, type Candidate } from '@/ai';
@@ -46,6 +46,14 @@ export function Scan() {
     preventLoad: !USE_NATIVE_VISION || !activeRegionId,
   });
 
+  // Phones identify only with the on-device model. No pack installed → ask
+  // the user to install one; the web preview (no ExecuTorch) uses the mock.
+  const isWeb = Platform.OS === 'web';
+  const needsPack = USE_NATIVE_VISION && !isWeb && !activeRegionId;
+  const modelLoading =
+    USE_NATIVE_VISION && !isWeb && !!activeRegionId && !executorch.isReady && !executorch.error;
+  const showToast = useAppStore((s) => s.showToast);
+
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView | null>(null);
 
@@ -87,13 +95,18 @@ export function Scan() {
     void (async () => {
       let candidates: Candidate[] = [];
       try {
-        // Use ExecuTorch when native is enabled and the .pte is loaded;
-        // otherwise fall through to gemini/mock.
         const classifyFn = selectScanClassifier({
           useNativeVision: USE_NATIVE_VISION,
           executorch,
-          fallback: vision,
+          fallback: isWeb ? vision : undefined,
         });
+        if (!classifyFn) {
+          // Pack installed but the model isn't loaded yet: say so, don't guess.
+          haptics.warning();
+          showToast({ text: t('scan.modelNotReady'), icon: '⏳', bg: PB.yellow });
+          setPhase('aim');
+          return;
+        }
         candidates = await classifyFn(photoUri, { hint, topK: 3 });
       } catch {
         candidates = [];
@@ -131,6 +144,10 @@ export function Scan() {
 
   const shutter = async () => {
     if (phase !== 'aim') return;
+    if (needsPack) {
+      haptics.warning();
+      return;
+    }
     haptics.tap();
     setFlash(true);
     setPhase('flash');
@@ -154,6 +171,10 @@ export function Scan() {
 
   const pickFromGallery = async () => {
     if (phase !== 'aim') return;
+    if (needsPack) {
+      haptics.warning();
+      return;
+    }
     const status = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!status.granted) {
       haptics.warning();
@@ -214,7 +235,7 @@ export function Scan() {
         <View style={{ width: 42 }} />
       </View>
 
-      {!cameraReady && permission && (
+      {!cameraReady && permission && !needsPack && (
         <View style={styles.permissionCard}>
           <Sticker bg={PB.cream} rotate={-1} style={{ padding: 16 }}>
             <Text style={styles.permissionTitle}>{t('scan.permissionTitle')}</Text>
@@ -230,7 +251,19 @@ export function Scan() {
         </View>
       )}
 
-      {USE_NATIVE_VISION && !executorch.isReady && !executorch.error && (
+      {needsPack && (
+        <View style={styles.permissionCard}>
+          <Sticker bg={PB.cream} rotate={-1} style={{ padding: 16 }}>
+            <Text style={styles.permissionTitle}>{t('scan.needPackTitle')}</Text>
+            <Text style={styles.permissionDesc}>{t('scan.needPackBody')}</Text>
+            <Btn full bg={PB.ink} color={PB.yellow} onPress={() => go('settings')} style={{ marginTop: 12 }}>
+              {t('scan.needPackCta')}
+            </Btn>
+          </Sticker>
+        </View>
+      )}
+
+      {modelLoading && (
         <View style={styles.modelBanner}>
           <Text style={styles.modelBannerText}>
             {executorch.downloadProgress > 0

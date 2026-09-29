@@ -71,7 +71,11 @@
       "permissionDenied": "Cámara denegada. Actívala en Ajustes → Critterboard → Cámara.",
       "allowCamera": "Permitir cámara",
       "focus": "enfoque",
-      "matching": "buscando coincidencia…"
+      "matching": "buscando coincidencia…",
+      "needPackTitle": "Descarga el paquete de especies",
+      "needPackBody": "La identificación funciona en tu teléfono. Instala una vez el paquete Europa Central (1.000 especies, unos 89 MB) para empezar a escanear.",
+      "needPackCta": "Abrir paquetes de especies",
+      "modelNotReady": "El modelo de especies aún se está cargando. Inténtalo de nuevo en un momento."
     },
     "result": {
       "headTitle": "¡IDENTIFICADO!",
@@ -182,7 +186,8 @@
     "chat": {
       "localStatus": "● local · {title}",
       "inputPlaceholder": "Pregunta sobre este bicho…",
-      "clearCta": "Borrar chat"
+      "clearCta": "Borrar chat",
+      "offlineHint": "Modo sin conexión: solo puedo dar respuestas predefinidas. Activa el modelo en el dispositivo en Ajustes → Cerebro en el dispositivo para obtener respuestas reales."
     },
     "activity": {
       "title": "Zumbido",

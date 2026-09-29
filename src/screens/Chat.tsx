@@ -16,16 +16,13 @@ import {
 import * as FileSystem from 'expo-file-system/legacy';
 
 import {
-  chatAdapter,
-  chatMode,
   guardedLocalLlmChatAdapter,
   guardedWebNativeLlmChatAdapter,
   llamaRnRuntime,
   MODEL_GGUF_FILENAME,
+  offlineChatAdapter,
   type ChatHistoryTurn,
-  type ToolContext,
 } from '@/ai';
-import { generateThreadSummary, SUMMARY_THRESHOLD } from '@/ai/toolChatAdapter';
 import { IconBtn } from '@/components/IconBtn';
 import { allBugs, findBug } from '@/data/bugs';
 import { useT } from '@/i18n/helpers';
@@ -41,29 +38,31 @@ import { useNav } from '@/store/useNav';
 
 type Msg = { who: 'me' | 'larva'; t: string };
 
-type ActiveChatMode = 'local' | 'cloud' | 'offline';
+// Chat never leaves the device: an on-device model when the user turned it on
+// in Settings, otherwise the persona's scripted offline replies.
+type ActiveChatMode = 'local' | 'offline';
 
 function resolveActiveMode(preferLocal: boolean): ActiveChatMode {
-  if (preferLocal) return 'local'; // web uses Gemini Nano; native uses llamaRn
-  if (chatMode === 'gemini') return 'cloud';
-  return 'offline';
+  return preferLocal ? 'local' : 'offline';
 }
 
 function selectLocalAdapter() {
-  // On web: Chrome Built-in AI (Gemini Nano via Prompt API).
+  // On web: Chrome's built-in on-device model (Prompt API).
   // On iOS/Android: on-device llama.rn runtime (Larva-3B GGUF).
   return Platform.OS === 'web' ? guardedWebNativeLlmChatAdapter : guardedLocalLlmChatAdapter;
 }
 
-function initialMessages(P: Persona, mode: ActiveChatMode, topic?: string): Msg[] {
+function initialMessages(
+  P: Persona,
+  mode: ActiveChatMode,
+  offlineHint: string,
+  topic?: string,
+): Msg[] {
   const intro = topic ? P.lines.topicHello(topic) : P.lines.chatHello;
-  if (mode === 'local' || mode === 'cloud') return [{ who: 'larva', t: intro }];
+  if (mode === 'local') return [{ who: 'larva', t: intro }];
   return [
     { who: 'larva', t: intro },
-    {
-      who: 'larva',
-      t: 'Cloud LLM is not active. Set EXPO_PUBLIC_GEMINI_API_KEY (or use a server route) to chat with Gemini.',
-    },
+    { who: 'larva', t: offlineHint },
   ];
 }
 
@@ -76,16 +75,10 @@ export function Chat() {
   const dex = useAppStore((s) => s.dex);
   const catchLog = useAppStore((s) => s.catchLog);
   const followed = useAppStore((s) => s.followed);
-  const questProgress = useAppStore((s) => s.questProgress);
-  const questCompletedAt = useAppStore((s) => s.questCompletedAt);
   const questClaimedAt = useAppStore((s) => s.questClaimedAt);
-  const chatThreads = useAppStore((s) => s.chatThreads);
-  const installedRegions = useAppStore((s) => s.installedRegions);
-  const setProfile = useAppStore((s) => s.setProfile);
   const saveChatThread = useAppStore((s) => s.saveChatThread);
   const indexConversationMessage = useAppStore((s) => s.indexConversationMessage);
   const clearChatThread = useAppStore((s) => s.clearChatThread);
-  const updateThreadSummary = useAppStore((s) => s.updateThreadSummary);
   const removeMessageFromThread = useAppStore((s) => s.removeMessageFromThread);
   const conversationMemory = useAppStore((s) => s.conversationMemory);
   const route = useCurrentRoute();
@@ -94,41 +87,32 @@ export function Chat() {
   const t = useT();
   const threadId = `${P.id}::${topic ?? 'general'}`;
   const storedThread = useAppStore((s) => s.chatThreads[threadId]);
-  // Subscribe to the summary separately so we can use it as a dep without
-  // pulling the whole thread object into every comparison.
-  const threadSummary = useAppStore((s) => s.chatThreads[threadId]?.summary);
 
   const activeMode = resolveActiveMode(profile.localLlmOn);
-  const activeChatAdapter = activeMode === 'local' ? selectLocalAdapter() : chatAdapter;
+  const activeChatAdapter = activeMode === 'local' ? selectLocalAdapter() : offlineChatAdapter;
+  const offlineHint = t('chat.offlineHint');
 
   const [msgs, setMsgs] = useState<Msg[]>(
     () =>
       (storedThread?.messages.length
         ? storedThread.messages
-        : initialMessages(P, activeMode, topic)) as Msg[],
+        : initialMessages(P, activeMode, offlineHint, topic)) as Msg[],
   );
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
   const scrollRef = useRef<ScrollView | null>(null);
   /** Cancellation token for the in-flight `complete()` iteration. */
   const abortRef = useRef<AbortController | null>(null);
-  /**
-   * Guards against spawning multiple concurrent summarization requests for
-   * the same thread. Flipped to true when a request is in-flight; reset on
-   * error or thread change so the next threshold crossing can retry.
-   */
-  const summarizingRef = useRef(false);
 
   useEffect(() => {
     // Switching thread/persona/mode should cancel in-flight replies and load
     // the persisted transcript for that thread.
     abortRef.current?.abort();
     setTyping(false);
-    summarizingRef.current = false; // allow fresh summarization on new thread
     setMsgs(
       (storedThread?.messages.length
         ? storedThread.messages
-        : initialMessages(P, activeMode, topic)) as Msg[],
+        : initialMessages(P, activeMode, offlineHint, topic)) as Msg[],
     );
   }, [threadId, P, topic, activeMode]);
 
@@ -148,43 +132,7 @@ export function Chat() {
   useEffect(() => {
     const persisted: ChatMessage[] = msgs.filter((m) => m.t.trim().length > 0);
     saveChatThread(threadId, persisted);
-
-    // Background context summarization — triggered once per thread when the
-    // transcript reaches SUMMARY_THRESHOLD. The summary is injected into the
-    // next system prompt so the recent-turn window can be smaller without
-    // losing continuity. Fire-and-forget: a failure just means no summary
-    // this round; the ref resets so the next message can retry.
-    const needsSummary =
-      persisted.length >= SUMMARY_THRESHOLD &&
-      !threadSummary &&
-      !summarizingRef.current &&
-      activeMode === 'cloud';
-
-    if (needsSummary) {
-      const apiKey =
-        process.env.GEMINI_API_KEY ??
-        (process.env.NODE_ENV !== 'production'
-          ? process.env.EXPO_PUBLIC_GEMINI_API_KEY
-          : undefined);
-
-      if (apiKey) {
-        summarizingRef.current = true;
-        const olderTurns: ChatHistoryTurn[] = persisted
-          .slice(0, -4) // keep the most recent 4 out of the summary
-          .map((m) => ({
-            role: (m.who === 'me' ? 'user' : 'assistant') as 'user' | 'assistant',
-            text: m.t,
-          }));
-        generateThreadSummary(olderTurns, apiKey)
-          .then((summary) => {
-            if (summary) updateThreadSummary(threadId, summary);
-          })
-          .catch(() => {
-            summarizingRef.current = false; // allow retry on next message
-          });
-      }
-    }
-  }, [msgs, threadId, saveChatThread, threadSummary, activeMode, updateThreadSummary]);
+  }, [msgs, threadId, saveChatThread]);
 
   /**
    * Streamed completion. The mock runtime yields one chunk; production
@@ -229,30 +177,6 @@ export function Chat() {
       keywords: hit.entry.keywords,
     }));
 
-    // Live context snapshot for tool-based adapters. Built here so tools
-    // always see the current store state at the moment the user sends.
-    const toolContext: ToolContext = {
-      profile,
-      dex,
-      catchLog,
-      questProgress,
-      questCompletedAt,
-      questClaimedAt,
-      chatThreads,
-      conversationMemory,
-      followed,
-      language,
-      installedRegions,
-      onUpdateSettings: setProfile,
-    };
-
-    // Queries that mention multiple distinct data sources benefit from
-    // extra agentic steps. Simple heuristic — no UI needed.
-    const multiSourceQuery =
-      /\b(compare|both|also|and then|additionally|versus|leaderboard.+quest|quest.+leaderboard|friend.+catch|catch.+friend)\b/i.test(
-        text,
-      );
-
     try {
       for await (const chunk of activeChatAdapter.streamReply({
         persona: P,
@@ -272,9 +196,6 @@ export function Chat() {
           recentCatches,
         },
         memorySnippets,
-        toolContext,
-        threadSummary,
-        maxSteps: multiSourceQuery ? 8 : undefined,
         signal: ctrl.signal,
       })) {
         if (ctrl.signal.aborted) return;
@@ -308,7 +229,7 @@ export function Chat() {
     abortRef.current?.abort();
     setTyping(false);
     clearChatThread(threadId);
-    setMsgs(initialMessages(P, activeMode, topic));
+    setMsgs(initialMessages(P, activeMode, offlineHint, topic));
   };
 
   return (
@@ -328,9 +249,7 @@ export function Chat() {
               ? Platform.OS === 'web'
                 ? t('chat.webNativeStatus', { title: P.title })
                 : t('chat.localStatus', { title: P.title })
-              : activeMode === 'cloud'
-                ? t('chat.cloudStatus', { title: P.title })
-                : t('chat.offlineStatus', { title: P.title })}
+              : t('chat.offlineStatus', { title: P.title })}
           </Text>
         </View>
         <View style={styles.clearWrap}>
@@ -389,9 +308,6 @@ export function Chat() {
                       setMsgs((prev) => prev.filter((_, j) => j !== i));
                       // Sync to persistent store + strip from memory index.
                       removeMessageFromThread(threadId, i);
-                      // Reset the summarization guard so the next message
-                      // can trigger a fresh summary if needed.
-                      summarizingRef.current = false;
                     },
                   },
                 ],

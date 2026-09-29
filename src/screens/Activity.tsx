@@ -3,6 +3,7 @@ import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-nati
 
 import { useFeed } from '@/backend/hooks';
 import type { FeedEvent } from '@/backend';
+import { BugIcon } from '@/components/BugIcon';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { findBug } from '@/data/bugs';
@@ -35,6 +36,8 @@ type Resolved = {
   emoji: string;
   color: string;
   photoUri?: string;
+  /** Catch rows: the species, for its sticker icon. */
+  bugId?: string;
   title: string;
   sub: string;
   cta: string;
@@ -67,6 +70,7 @@ function resolveFeedEvent(
     return {
       id: ev.id,
       emoji: bug?.emoji ?? baseEmoji,
+      ...(bug ? { bugId: bug.id } : {}),
       color: bug?.color ?? baseColor,
       title: t('activity.kind.friendCatchTitle', {
         name: ev.actor.displayName,
@@ -158,6 +162,7 @@ export function Activity() {
         return {
           id: entry.id,
           emoji: bug?.emoji ?? '🐛',
+          ...(bug ? { bugId: bug.id } : {}),
           color: bug?.color ?? PB.cream2,
           ...(photoUri ? { photoUri } : {}),
           title: t('activity.kind.catchTitle', { name }),
@@ -255,7 +260,11 @@ export function Activity() {
               </View>
             ) : (
               <View style={[styles.icon, { backgroundColor: r.color }]}>
-                <Text style={{ fontSize: 22 }}>{r.emoji}</Text>
+                {r.bugId ? (
+                  <BugIcon bug={{ id: r.bugId, emoji: r.emoji }} size={34} />
+                ) : (
+                  <Text style={{ fontSize: 22 }}>{r.emoji}</Text>
+                )}
               </View>
             )}
             <View style={{ flex: 1, minWidth: 0 }}>

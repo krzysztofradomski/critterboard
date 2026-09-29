@@ -33,7 +33,7 @@ export type Profile = {
    */
   crashReportingOn: boolean;
   /**
-   * Prefer on-device LLM (llama.rn) over cloud Gemini for chat replies.
+   * Use the on-device LLM (llama.rn / browser model) for chat; off = scripted offline replies.
    * Only has effect on iOS/Android — the native model binary is not
    * available on web. When the model file isn't loaded yet the adapter
    * surfaces a prompt to download it from Settings.
@@ -754,7 +754,7 @@ export const useAppStore = create<AppStore>()(
         set((s) => {
           const next = s.installedRegions.filter((r) => r !== id);
           // If the removed region was the active (first) one, clear the label
-          // map — the classifier falls back to mock/Gemini until a region is
+          // map — Scan asks for a pack install until a region is
           // installed again.
           const removedActive = s.installedRegions[0] === id;
           const { [id]: _removed, ...installedPackVersions } = s.installedPackVersions;

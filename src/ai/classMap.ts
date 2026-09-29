@@ -5,7 +5,7 @@
  * Re-run 04_export.py after retraining to keep this in sync.
  *
  * Two lookup shapes:
- *   - SCIENTIFIC_TO_BUG_ID  scientific name  → bug ID  (Gemini path)
+ *   - SCIENTIFIC_TO_BUG_ID  scientific name  → bug ID  (fallback for label lookup)
  *   - INDEX_TO_BUG_ID       class index → bug ID       (native ONNX/CoreML path)
  *
  * Index ordering matches training/local/checkpoints/class_map_lite.json.

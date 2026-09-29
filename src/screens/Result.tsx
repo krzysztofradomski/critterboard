@@ -2,6 +2,7 @@ import * as Location from 'expo-location';
 import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { BugIcon, useBugIconUri } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
@@ -114,6 +115,7 @@ export function Result() {
   const id = params?.id ?? 'mona';
   const photoUri = params?.photoUri ?? null;
   const bug = findBug(id) ?? BUGS[0];
+  const iconUri = useBugIconUri(bug.id);
   const t = useT();
   const localizedName = useBugName(bug?.id ?? 'lady');
   if (!bug) return null;
@@ -203,6 +205,10 @@ export function Result() {
           <View style={styles.heroImage}>
             {photoUri ? (
               <Image source={{ uri: photoUri }} style={styles.heroPhoto} resizeMode="cover" />
+            ) : iconUri ? (
+              <View style={styles.heroIcon}>
+                <BugIcon bug={bug} size={168} />
+              </View>
             ) : (
               <CameraScene dark={false} />
             )}
@@ -276,6 +282,7 @@ const styles = StyleSheet.create({
   headTitle: { fontSize: 16, fontWeight: '800' },
   scroll: { paddingVertical: 12, paddingHorizontal: 14 },
   heroSticker: { padding: 0, overflow: 'hidden' },
+  heroIcon: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: PB.cream2 },
   heroImage: { height: 200, position: 'relative', backgroundColor: '#fff', overflow: 'hidden' },
   heroPhoto: { ...StyleSheet.absoluteFill },
   tierBadge: {

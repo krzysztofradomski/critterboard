@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { FlatList, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
+import { BugIcon } from '@/components/BugIcon';
 import { Sticker } from '@/components/Sticker';
 import { TabBar } from '@/components/TabBar';
 import type { Bug } from '@/data/bugs';
@@ -89,7 +90,7 @@ export function Dex() {
             <Text style={styles.tierText}>{b.tier}</Text>
           </View>
           <View style={[styles.cellArt, { backgroundColor: isCaught ? '#fff' : PB.cream2 }]}>
-            <Text style={[styles.cellEmoji, !isCaught && { opacity: 0.3 }]}>{b.emoji}</Text>
+            <BugIcon bug={b} size={70} silhouette={!isCaught} />
           </View>
           <Text style={styles.cellName} numberOfLines={2}>
             {isCaught ? bugName(language, b.id) : t('dex.uncaughtName')}
@@ -321,7 +322,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  cellEmoji: { fontSize: 38 },
   cellName: { marginTop: 8, fontSize: 13, fontWeight: '800', color: PB.ink, lineHeight: 14 },
   cellId: { marginTop: 2, fontSize: 10, color: PB.ink, opacity: 0.55 },
   empty: { padding: 32, alignItems: 'center' },

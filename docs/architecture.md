@@ -16,8 +16,8 @@ flowchart TB
     Screens --> Store[(store/useAppStore<br/>Zustand + AsyncStorage)]
     Screens --> AI[ai/* seam]
     Screens --> Hooks[backend/hooks]
-    AI --> Vision[ExecuTorch .pte<br/>→ Gemini → mock]
-    AI --> Chat[llama.rn Gemma GGUF<br/>→ Gemini → mock]
+    AI --> Vision[ExecuTorch .pte from region pack<br/>no pack → install prompt]
+    AI --> Chat[llama.rn Gemma GGUF<br/>or scripted offline replies]
     Hooks --> Adapter{backend/index}
     Adapter -->|no URL| Mock[mockAdapter]
     Adapter -->|EXPO_PUBLIC_BACKEND_URL| CF[cloudflareAdapter]
@@ -28,7 +28,6 @@ flowchart TB
     Worker[worker/ Cloudflare Worker<br/>D1 · KV · Durable Object · Cron]
     GH[GitHub raw + Releases<br/>packs/*.json, eu-ce.pte]
     HF[Hugging Face<br/>Gemma 3 1B GGUF]
-    Gemini[Gemini API<br/>POC fallback]
     Sentry[Sentry<br/>opt-in]
   end
 
@@ -36,7 +35,6 @@ flowchart TB
   App -->|region + i18n packs| GH
   Vision -. model download .-> GH
   Chat -. model download .-> HF
-  AI -. if key set .-> Gemini
   App -. if opted in .-> Sentry
 ```
 
@@ -76,10 +74,9 @@ Everything below is optional. Without it the app degrades to bundled or mock beh
 
 | Call | When | Source |
 |---|---|---|
-| Region pack + `.pte` model | User installs a pack; refreshed on boot | `packs/manifest.json` → GitHub raw / Releases |
+| Region pack + `.pte` model + species icon atlas ([[modules/species-icons]]) | User installs a pack; refreshed on boot (model only if its URL changed) | `packs/manifest.json` → GitHub raw / Releases |
 | Translation packs | Boot, best-effort | `src/i18n/loader.ts` |
 | Map pack (PMTiles) | Once, when the Map tab first opens (spike: `EXPO_PUBLIC_MAP_PACK_URL`) | `src/map/mapPack.ts` |
 | Gemma GGUF | First on-device chat | Hugging Face |
-| Gemini | Only if an API key is inlined at build time | `src/ai/geminiVision.ts`, `toolChatAdapter.ts` |
 | Cloudflare Worker | `profile.networkOn` **and** `EXPO_PUBLIC_BACKEND_URL` set | `src/backend/cloudflare.ts` |
 | Sentry | `profile.crashReportingOn` **and** DSN set | `src/lib/crashReporting.ts` |

@@ -71,7 +71,11 @@
       "permissionDenied": "Aparat zablokowany. Włącz w Ustawienia → Critterboard → Aparat.",
       "allowCamera": "Zezwól aparatowi",
       "focus": "ostrość",
-      "matching": "dopasowuję…"
+      "matching": "dopasowuję…",
+      "needPackTitle": "Pobierz paczkę gatunków",
+      "needPackBody": "Rozpoznawanie działa na Twoim telefonie. Zainstaluj raz paczkę Europa Środkowa (1000 gatunków, ok. 89 MB), aby zacząć skanować.",
+      "needPackCta": "Otwórz paczki gatunków",
+      "modelNotReady": "Model gatunków wciąż się wczytuje. Spróbuj za chwilę."
     },
     "result": {
       "headTitle": "ROZPOZNANO!",
@@ -182,7 +186,8 @@
     "chat": {
       "localStatus": "● lokalnie · {title}",
       "inputPlaceholder": "Zapytaj o tego owada…",
-      "clearCta": "Wyczyść czat"
+      "clearCta": "Wyczyść czat",
+      "offlineHint": "Tryb offline: mogę dawać tylko gotowe odpowiedzi. Włącz model na urządzeniu w Ustawienia → Mózg na urządzeniu, aby dostawać prawdziwe odpowiedzi."
     },
     "activity": {
       "title": "Brzęczenie",

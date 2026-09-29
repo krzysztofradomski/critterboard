@@ -22,11 +22,9 @@ async function openPackageSearch(packageName: string): Promise<void> {
 }
 
 const RUNTIME_LIBRARIES: readonly Library[] = [
-  { name: '@ai-sdk/google', version: '^3.0.79' },
   { name: '@expo/metro-runtime', version: '~4.0.1' },
   { name: '@react-native-async-storage/async-storage', version: '1.23.1' },
   { name: '@sentry/react-native', version: '~6.3.0' },
-  { name: 'ai', version: '^6.0.190' },
   { name: 'expo', version: '~52.0.0' },
   { name: 'expo-asset', version: '~11.0.5' },
   { name: 'expo-camera', version: '~16.0.18' },
@@ -62,7 +60,8 @@ const REPO = 'https://github.com/krzysztofradomski/critterboard/blob/main';
 /**
  * Licence notices for the on-device species model (eu-1k-commercial-v1).
  * Apache 2.0 asks for the licence + a notice with redistributed weights;
- * CC BY asks for credit to the photographers whose photos trained it.
+ * CC BY asks for credit to the photographers whose photos trained it
+ * (species icons are drawn from CC0 photos, credited as a courtesy).
  */
 const MODEL_CREDITS: readonly { name: string; detail: string; url: string }[] = [
   {
@@ -79,6 +78,11 @@ const MODEL_CREDITS: readonly { name: string; detail: string; url: string }[] = 
     name: 'Base weights: Google Vision Transformer (AugReg)',
     detail: '© Google, Apache License 2.0. Modified: fine-tuned',
     url: `${REPO}/packs/models/LICENSE-google-vit-apache-2.0.txt`,
+  },
+  {
+    name: 'Species icons: drawn from iNaturalist photos',
+    detail: 'One CC0 photo per species, cartoonised; photo and photographer per icon',
+    url: `${REPO}/packs/icons/CREDITS.md`,
   },
 ];
 

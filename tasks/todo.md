@@ -10,6 +10,21 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 > Local runbook for everything below: [[docs/handoff]].
 
+## Now — Remove cloud Gemini; photo-based species icons
+
+Decisions (user): remove Gemini entirely (chat = on-device Gemma or scripted replies; Scan without a pack shows "install the pack", no mock results on phones). Icons: sticker style made from a real CC0 photo (cut-out, flat cartoon colours, ink lines, cream border, hard shadow), delivered with the species pack, emoji fallback.
+
+- [x] Remove `geminiVision`, the tool chat adapter, chat tools, evals, and the `ai` / `@ai-sdk/google` / `zod` / `evalite` / `autoevals` deps; ADR [[docs/decisions/004-remove-cloud-gemini]]
+- [x] Chat: `local` (Gemma / Chrome built-in) or `offline` (scripted); offline hint in 4 languages
+- [x] Scan: "install the pack" card when no pack is installed on a phone; toast if the model is still loading; mock classifier only on web
+- [x] `make_icons.py`: pick a photo per species with the trained model; attention heat map finds the insect, SAM cuts it out (a salient-object cutter kept flowers/leaves in ~25% of icons); cartoon + sticker frame
+- [x] App: `bugIcons.ts` (download atlas, split into per-species files, `.v<version>` marker, registry), `BugIcon` (emoji fallback, Dex silhouette for uncaught) in Dex, Home, Result, Disambiguate, Map, Activity, region detail, profiles
+- [x] Pack updates skip the ~90 MB model when its URL is unchanged
+- [x] `build_icon_atlas.py`: atlas + pack `icons` block + manifest bump + `packs/icons/CREDITS.md`; docs [[docs/modules/species-icons]]
+- [x] Generate 1,000 icons (~20 s each on 4 CPUs), review contact sheets, re-pick bad ones (148 rejected, 3 rounds); all CC0
+- [x] Build atlas → pack `eu-ce` v5 (icons v1, 9.1 MB atlas, model unchanged), `packs/icons/CREDITS.md`, Settings credit link
+- [ ] Check on a phone: first-install icon download + split time, Dex scrolling with 1,000 image cells
+
 ## Now — Vision v4: 1,000 species, commercial model first
 
 Why: 200 species cover only 42.9% of European research-grade observations; 1,000 cover 74.5% (500: 60.6%, 2,000: 86.0%).
@@ -26,7 +41,7 @@ Decisions (user): base = **Google ViT-S/16 AugReg** (Apache 2.0 from Google, no 
 - [x] Pack `eu-ce` v4: 1,000 species, model `eu-1k-commercial-v1`; 736 English names (established UK/EU names), 264 Latin-only; new **epic** tier (<5k observations); all 200 v3 ids kept; manifest v4; region metadata 1,000 species / 89 MB
 - [x] Licence notices in-app: Settings → Open source libraries → Vision model (model card, ATTRIBUTION.md with 5,551 photographers, Apache 2.0 text)
 - [x] Dex lists every known species (bundled + pack) in a virtualised 2-column `FlatList`; caught first; counts only listed species. Checked in headless Chromium with the v4 pack seeded: "7 of 1000 caught", scrolling, `?512` search, no console errors
-- [x] Pack species everywhere: chat tools (`getInsectInfo` / `getAvailableImages` capped at 25, caught first; `epic` rarity filter; totals incl. packs), `Chat.tsx` total, `maxXp()` (was a module-load constant), dex exports, Gemini catalogue built per call (~15k tokens at 1,000 species)
+- [x] Pack species everywhere: chat tools (`getInsectInfo` / `getAvailableImages` capped at 25, caught first; `epic` rarity filter; totals incl. packs), `Chat.tsx` total, `maxXp()` (was a module-load constant), dex exports
 - [ ] pl/de/es names for the 980 pack species (fall back to English/Latin today)
 
 ## Now — Vision v3: 200 European species, fast on-device model

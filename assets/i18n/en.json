@@ -71,7 +71,11 @@
       "permissionDenied": "Camera was denied. Enable it in Settings → Critterboard → Camera.",
       "allowCamera": "Allow camera",
       "focus": "focus",
-      "matching": "matching…"
+      "matching": "matching…",
+      "needPackTitle": "Get the species pack",
+      "needPackBody": "Bug ID runs on your phone. Install the Central Europe pack (1,000 species, ~89 MB) once to start scanning.",
+      "needPackCta": "Open species packs",
+      "modelNotReady": "The species model is still loading. Try again in a moment."
     },
     "result": {
       "headTitle": "IDENTIFIED!",
@@ -181,11 +185,11 @@
     },
     "chat": {
       "localStatus": "● on-device · {title}",
-      "cloudStatus": "☁ cloud · {title}",
       "offlineStatus": "○ offline · {title}",
       "webNativeStatus": "● Gemini Nano · {title}",
       "inputPlaceholder": "Ask about this bug…",
-      "clearCta": "Clear chat"
+      "clearCta": "Clear chat",
+      "offlineHint": "Offline mode: I can only give scripted replies. Turn on the on-device model in Settings → On-device Brains for real answers."
     },
     "activity": {
       "title": "Buzz",
@@ -596,7 +600,7 @@
       },
       "localLlmLabel": "Use on-device model",
       "localLlmOn": "Chat runs on your device. Private & offline.",
-      "localLlmOff": "Uses cloud API when available, offline mock otherwise.",
+      "localLlmOff": "Off: scripted offline replies. Turn on to download the on-device model.",
       "localLlmNoWeb": "Requires Chrome 127+ with Built-in AI (Gemini Nano).",
       "localLlmWebReady": "Gemini Nano is on this device. Fully private.",
       "localLlmWebDownloading": "Gemini Nano is downloading — toggle on once ready.",
