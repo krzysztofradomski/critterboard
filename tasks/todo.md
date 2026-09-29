@@ -10,6 +10,20 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 > Local runbook for everything below: [[docs/handoff]].
 
+## Now — Chat: Gemma 4 E2B only
+
+Decision (user): use Gemma 4 for all cases; disable chat when it isn't installed. See [[docs/decisions/005-gemma-4-only-chat]].
+
+- [x] Compare Gemma 4 E2B with Granite 4.0 H 1B/7B-A1B, SmolLM3 3B, DavidAU Qwen3 4×0.6B, BitCPM4 8B and LFM2.5 1.2B. Gemma 4 E2B wins on licence (Apache 2.0) and languages (Polish).
+- [x] `src/ai/chatModel.ts`: download (resumable, non-2xx = error), load, delete, cleanup of the old Gemma 3 file; `useChatModel` hook
+- [x] `llm.ts`: chat messages through the GGUF's template (jinja, thinking off), reply language, last 8 turns normalised; mock runtime removed
+- [x] Chat gated: "Download Gemma 4" card instead of the input; web says "phone app only"; scripted replies, `chat.ts`, `webNativeLlm.ts` and the `localLlmOn` flag removed
+- [x] Settings: model tile + toggle on the shared state; turning off confirms and deletes 3.1 GB; Gemma 4 credit (Apache 2.0)
+- [x] Strings in en/pl/de/es; tests for the message builder and the model lifecycle
+- [x] Memory tiers via `expo-device`: ≥ 6 GB class downloads directly, 4 GB class confirms first, smaller phones can't chat
+- [x] Chat header: icon-only clear button, one-line name and status (was wrapping "Prof. Larva" over three lines)
+- [ ] Phone check: download without a login, load time, speed, memory tiers (6 GB / 4 GB / 3 GB iPhones), tone in 4 languages ([[docs/handoff]] §3)
+
 ## Now — Remove cloud Gemini; photo-based species icons
 
 Decisions (user): remove Gemini entirely (chat = on-device Gemma or scripted replies; Scan without a pack shows "install the pack", no mock results on phones). Icons: sticker style made from a real CC0 photo (cut-out, flat cartoon colours, ink lines, cream border, hard shadow), delivered with the species pack, emoji fallback.

@@ -14,7 +14,7 @@ What to run locally to finish Critterboard, in order. Everything below assumes t
 | Vision | 1,000-species model `eu-1k-commercial-v1` (pack `eu-ce` v5) live: 78.2% top-1 / 90.1% top-3 on held-out photos; licence-clean for commercial use; downloads on pack install | On-device check (load time, latency) |
 | Species icons | Photo-based sticker icon for all 1,000 pack species (one 9.1 MB file, split on the phone; emoji fallback). Checked only in a headless browser | Phone check (§3) |
 | Map | Offline MapLibre + PMTiles spike behind `USE_OFFLINE_MAP` (native); web still uses the globe | Make a map pack and look at it |
-| Chat | On-device only: Gemma 3 1B via `llama.rn` when turned on in Settings, else scripted offline replies; regex guardrails. Cloud Gemini removed (ADR 004) | Check the Gemma download works (§3) |
+| Chat | Gemma 4 E2B (Apache 2.0) via `llama.rn`, 3.1 GB download from Settings. Without it chat is disabled (no scripted replies, no web chat); regex guardrails (ADR 005) | Download, speed and memory check (§3) |
 | Backend | Worker code ready, **not deployed**; app uses mock data until `EXPO_PUBLIC_BACKEND_URL` is set | Cloudflare account steps |
 | Store | EAS profiles ready; `submit.production` placeholders unfilled | Apple / Play accounts |
 
@@ -59,7 +59,7 @@ The first build takes a while (CocoaPods + MapLibre + ExecuTorch + llama.rn). Af
 1. **Onboarding → Home** renders.
 2. **Vision:** Settings → On-device Brains → Regional packs → install **Central Europe**. It downloads the pack JSON, the 88 MB model and the 9.1 MB icon file from GitHub. Afterwards the **Dex** shows sticker icons: caught species in colour, the rest as ink silhouettes. Then open Scan and use the **photo picker**, because the simulator has no camera. Try a photo of a peacock butterfly, a ladybird or a bumblebee; the result should name the species. If it falls back to mock or "no match", check the Metro log for ExecuTorch load errors.
 3. **Map:** see §4.
-4. **Chat:** scripted offline replies until you turn on the on-device model in Settings (downloads Gemma).
+4. **Chat:** before the model is downloaded, Chat shows a "Download Gemma 4 to chat" card instead of the input. Settings → On-device chat downloads it (3.1 GB). The simulator may be too slow to chat; the phone check below is the real test.
 5. **No pack installed:** Scan shows an "install the Central Europe pack" card instead of results.
 
 The simulator's on-device ML may be slow or unsupported. Treat vision/LLM speed as phone-only measurements.
@@ -79,7 +79,7 @@ The simulator's on-device ML may be slow or unsupported. Treat vision/LLM speed 
 **On the phone, check and note down:**
 - Time for the model download plus the first scan (cold load), then a second scan (warm).
 - That a real camera shot of a common garden insect is identified.
-- Memory: nothing crashes when the Gemma model loads in chat.
+- Memory: nothing crashes when Gemma 4 loads in chat (it needs about 3 GB of RAM).
 
 **Species icons (new in pack v5):**
 - **First install:** after the model finishes, time how long until the Dex shows icons. The app downloads one 9.1 MB file and splits it into 1,000 small files; the split is the unknown. Under ~10 s is fine. If it's much slower, tell me and I'll batch it differently.
@@ -88,9 +88,16 @@ The simulator's on-device ML may be slow or unsupported. Treat vision/LLM speed 
 - **Looks:** a caught species shows a coloured sticker; an uncaught one shows a grey silhouette. Open a species from the Dex: the result card shows the big icon.
 - **Offline:** turn on flight mode and relaunch. Icons must still show, because they're stored on the phone.
 - **Uninstall:** remove the pack in Settings. The Dex falls back to emoji and nothing crashes.
-- **Credits:** Settings → Open source libraries → Vision model → "Species icons" opens the credits page.
+- **Credits:** Settings → Open source libraries → On-device models → "Species icons" opens the credits page.
 
-**Chat model download:** Settings → turn on the on-device model and let it download. The app fetches Gemma from Hugging Face (`google/gemma-3-1b-it-GGUF`). Google's Gemma repos usually need a logged-in licence acceptance, so an anonymous download may fail with 401/403. If it does, tell me: the fix is to host the file ourselves (GitHub Releases or R2).
+**Chat (Gemma 4 E2B, new):**
+- **Gate:** before downloading, open Chat. The input is replaced by a "Download Gemma 4 to chat" card that opens Settings.
+- **Download:** Settings → On-device chat → on. On Wi-Fi, note how long the 3.1 GB download takes. The file comes from Hugging Face (`unsloth/gemma-4-E2B-it-GGUF`). If it fails straight away (an anonymous download refused), the gate shows an error. Tell me, and I'll host the file ourselves (GitHub Releases or R2).
+- **Load and speed:** time from opening Chat to the input appearing (model load), then time to the first word of a reply and a rough words-per-second figure.
+- **Memory:** chat for a few minutes, switch personas, go to Scan and back. Note any crash or the app restarting.
+- **Memory tiers:** on a 6 GB+ iPhone, turning chat on downloads straight away. On a 4 GB iPhone (iPhone 12 or older non-Pro), it first asks "Download on a 4 GB phone?"; say yes and note whether chat works or the app closes. On a 3 GB phone, the toggle is disabled ("not supported") and Chat says it isn't available. If you can't test a phone in a tier, say so and I'll note it as untested.
+- **Tone:** switch the app language to Polish, German and Spanish and send a message in each. Replies should come in that language, stay short and match the persona.
+- **Turn off:** Settings → On-device chat → off → confirm. Chat shows the gate again and 3.1 GB is freed (Settings → General → iPhone Storage).
 
 ## 4. Offline map spike
 
@@ -170,7 +177,7 @@ Needs the Apple Developer Program, and the app record created in App Store Conne
 | 10 | ~~Dex: list all pack species~~ | Done | Virtualised grid over bundled + pack species; caught species first |
 | 11 | ~~Photo-based species icons~~ | Done | Pack `eu-ce` v5; see [[modules/species-icons]] |
 | 12 | Phone check: icon download/split time, Dex scrolling (§3) | You → me | If the split is slow, I'll batch it or ship per-species files |
-| 13 | Gemma download works without a Hugging Face login (§3) | You → me | If not, I'll host the GGUF ourselves |
+| 13 | Gemma 4 chat on a phone: download, load time, speed, memory tiers, tone in 4 languages (§3) | You → me | If the download is refused, I'll host the GGUF; if 4 GB phones crash even after confirming, disable chat there too |
 | 14 | Better icons for bumblebees and mining bees | Me | Weakest group: fuzzy outlines come out as blobs |
 | 8 | `react-native-executorch` 0.10 migration | Me | 0.10 rewrote the API; pinned to 0.9.3 until then |
 | 9 | Fill `eas.json` submit config, store listings | You | Needs your Apple / Google accounts |
@@ -193,7 +200,7 @@ training/vision/stream_photos.sh && python training/vision/download.py --data $D
 - **Model not yet loaded on a device.** The exporter (`executorch` 1.0.1) was chosen to match the app's ET12 runtime, and all operators are supported kernels, but only a phone run proves it.
 - **88 MB model download** on pack install, plus the 9.1 MB icon file. A static-int8 build (22.8 MB) did not load in the ExecuTorch runtime.
 - **Icon split on the device** (1,000 small file writes) is untested on a phone; see §3.
-- **Gemma download** may need a Hugging Face login; see §3. Gemma is under Google's Gemma Terms of Use (commercial use allowed, with a prohibited-use policy you must pass on to users), not Apache 2.0.
-- **Licence notices:** the model's Apache-2.0 notice and CC-BY photo credits are linked from Settings → Open source libraries → Vision model. Keep them there if you fork the app.
+- **Gemma 4 chat** needs a 3.1 GB download and about 3 GB of RAM. 4 GB phones must confirm first and may still close the app under memory pressure; below 4 GB chat is disabled (ADR 005). The file comes from a community Hugging Face repo; if that ever needs a login, host it ourselves. Licence: Apache 2.0.
+- **Licence notices:** the model's Apache-2.0 notice and CC-BY photo credits (and the Gemma 4 chat model credit) are linked from Settings → Open source libraries → On-device models. Keep them there if you fork the app.
 - **Guardrails are regex-only** since the Node-only library was removed. They are fine for obvious cases, not a full moderation system.
 - **Licences:** the shipped model uses only CC0/CC-BY photos and Google's Apache-2.0 base weights. The residual risk is the base weights' ImageNet-21k pretraining; see `training/vision/results/commercial-1k-v1/MODEL_CARD.md`. The older v3 model (NonCommercial photos) is no longer referenced by the pack.

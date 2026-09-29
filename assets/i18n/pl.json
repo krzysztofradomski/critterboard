@@ -187,7 +187,20 @@
       "localStatus": "● lokalnie · {title}",
       "inputPlaceholder": "Zapytaj o tego owada…",
       "clearCta": "Wyczyść czat",
-      "offlineHint": "Tryb offline: mogę dawać tylko gotowe odpowiedzi. Włącz model na urządzeniu w Ustawienia → Mózg na urządzeniu, aby dostawać prawdziwe odpowiedzi."
+      "lockedStatus": "○ czat wyłączony · {title}",
+      "gate": {
+        "title": "Pobierz {model}, żeby czatować",
+        "body": "Twoi przewodnicy działają w całości na tym telefonie dzięki modelowi {model} od Google: jednorazowe pobranie {size} GB (zalecane Wi-Fi). Nic, co piszesz, nie opuszcza urządzenia.",
+        "errorBody": "Pobieranie {model} nie zostało ukończone. Sprawdź połączenie i wolne miejsce ({size} GB), a potem spróbuj ponownie w Ustawieniach.",
+        "busyBody": "Czat otworzy się, gdy model będzie gotowy. W tym czasie możesz dalej korzystać z aplikacji.",
+        "loadingTitle": "Budzę {model}…",
+        "downloadingTitle": "Pobieranie {model}… {pct}%",
+        "webTitle": "Czat działa w aplikacji na telefon",
+        "webBody": "Przewodnicy używają modelu AI na urządzeniu ({model}), którego wersja webowa nie uruchomi. Otwórz Critterboard na iPhonie lub Androidzie, żeby czatować.",
+        "cta": "Otwórz Ustawienia",
+        "ramTitle": "Czat nie jest dostępny na tym telefonie",
+        "ramBody": "Przewodnicy działają na modelu {model}, który wymaga telefonu z co najmniej 4 GB pamięci. Reszta Critterboard działa normalnie."
+      }
     },
     "activity": {
       "title": "Brzęczenie",
@@ -205,7 +218,7 @@
         "a1Title": "antqueen polubiła Twojego Monarchę",
         "a1Sub": "2 godz. temu · klaster Brooklyn",
         "a1Cta": "Zobacz obserwację",
-        "a2Title": "Larva-3B v1.4 gotowa do instalacji",
+        "a2Title": "Gemma 4 E2B gotowa do instalacji",
         "a2Sub": "Nowe żarty. Ten sam klimat. 240 MB.",
         "a2Cta": "Aktualizuj",
         "a3Title": "Passa 4 dni! Nie zepsuj jej",
@@ -582,11 +595,10 @@
       "crashNeeds": "Wymaga dostępu do sieci.",
       "model": {
         "bugNet": "BugNet v3",
-        "bugNetMeta": "Wizja · 412 MB · 10 247 gatunków",
-        "larva": "Larva-3B (Q4)",
-        "larvaMeta": "Model chatu · {pct} / 1,9 GB · {state}",
+        "bugNetMeta": "Wizja · 88 MB · 1000 gatunków",
+        "larva": "{model} (Q4)",
+        "larvaMeta": "Model czatu · {size} GB · {state}",
         "larvaInstalled": "zainstalowany",
-        "larvaEta": "~2 min do końca",
         "species": "Baza Gatunków",
         "speciesMeta": "Fakty i siedliska · 88 MB · v2026.04",
         "ready": "GOTOWE",
@@ -594,7 +606,12 @@
         "loading": "ŁADOWANIE",
         "error": "BŁĄD",
         "get": "↓ GET",
-        "larvaIdle": "nie na urządzeniu"
+        "larvaIdle": "nie na urządzeniu",
+        "larvaDownloading": "pobrano {done} GB",
+        "larvaPhoneOnly": "tylko w aplikacji na telefon",
+        "phoneOnly": "TYLKO TELEFON",
+        "larvaTooLittleRam": "wymaga 4 GB pamięci",
+        "notSupported": "NIEOBSŁUGIWANE"
       },
       "regionsBand": "Pakiety regionalne",
       "regionsSub": "Zwiększają trafność ID tam, gdzie naprawdę jesteś.",
@@ -612,7 +629,19 @@
       "creditsTitle": "Darmowe na zawsze. Bez reklam. Bez śledzenia.",
       "creditsSub": "Zrobione z miłością przez 3 osoby, które naprawdę lubią chrząszcze.",
       "viewCredits": "ZOBACZ TWÓRCÓW →",
-      "guideToast": "Przewodnik: {name}"
+      "guideToast": "Przewodnik: {name}",
+      "localLlmLabel": "Czat na urządzeniu ({model})",
+      "localLlmOn": "Czat działa na Twoim urządzeniu z {model}. Prywatnie i offline.",
+      "localLlmOff": "Wyłączone: czat jest niedostępny. Włącz, aby pobrać {model} ({size} GB, zalecane Wi-Fi).",
+      "localLlmNoWeb": "Czat wymaga aplikacji na iPhone lub Androida.",
+      "localLlmError": "Pobieranie nie powiodło się. Włącz, aby spróbować ponownie ({size} GB).",
+      "localLlmDeleteTitle": "Wyłączyć czat?",
+      "localLlmDeleteBody": "To usunie {model} z telefonu i zwolni {size} GB. Czat pozostanie wyłączony, dopóki nie pobierzesz modelu ponownie.",
+      "localLlmDeleteCta": "Usuń model",
+      "localLlmTooLittleRam": "Wymaga telefonu z co najmniej 4 GB pamięci.",
+      "localLlmLowRamTitle": "Pobrać na telefonie z 4 GB?",
+      "localLlmLowRamBody": "Ten telefon ma około 4 GB pamięci. {model} zużywa około 3 GB podczas czatu, więc odpowiedzi mogą być wolne, a aplikacja może się zamknąć, gdy działają inne aplikacje. Pobranie ma {size} GB.",
+      "localLlmLowRamCta": "Pobierz mimo to"
     },
     "regions": {
       "list": {
@@ -752,7 +781,7 @@
     "personas": {
       "larva": {
         "name": "Prof. Larwa",
-        "title": "larva-3b · z kamienną twarzą",
+        "title": "gemma-4 · z kamienną twarzą",
         "blurb": "Sarkastyczna. Pomocna wbrew sobie.",
         "lines": {
           "intro": "\"O super, kolejny tropiciel. Pozwól, że wszystko rzucę.\"",
@@ -779,7 +808,7 @@
       },
       "snail": {
         "name": "Dr Ślimak",
-        "title": "snail-3b · cierpliwy",
+        "title": "gemma-4 · cierpliwy",
         "blurb": "Spokojny. Uczy w twoim tempie.",
         "lines": {
           "intro": "\"Witaj. Nie spiesz się — nauczymy się razem.\"",
@@ -806,7 +835,7 @@
       },
       "maywind": {
         "name": "R.A. Maywind",
-        "title": "maywind-3b · ciekawska",
+        "title": "gemma-4 · ciekawska",
         "blurb": "Dowcipna. Wesoła. Kocha każdego owada.",
         "lines": {
           "intro": "\"Cześć cześć! Notes gotowy, buty zasznurowane — szukamy stworków!\"",
@@ -923,15 +952,15 @@
       "models": {
         "bugnet": {
           "name": "BugNet v3",
-          "role": "Wizja · 412 MB · 10 247 gatunków"
+          "role": "Wizja · 88 MB · 1000 gatunków"
         },
         "larva": {
-          "name": "Larva-3B",
-          "role": "Czat · 1,9 GB · kwantyzacja Q4"
+          "name": "Gemma 4 E2B",
+          "role": "Czat · 3,1 GB · Q4_K_M · Apache 2.0"
         },
         "variants": {
           "name": "Maywind / Snail",
-          "role": "Warianty osobowości Larva-3B"
+          "role": "Persony: prompty systemowe na Gemma 4"
         }
       },
       "data": {

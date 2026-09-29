@@ -32,13 +32,6 @@ export type Profile = {
    * reports can't leave a fully-offline device.
    */
   crashReportingOn: boolean;
-  /**
-   * Use the on-device LLM (llama.rn / browser model) for chat; off = scripted offline replies.
-   * Only has effect on iOS/Android — the native model binary is not
-   * available on web. When the model file isn't loaded yet the adapter
-   * surfaces a prompt to download it from Settings.
-   */
-  localLlmOn: boolean;
 };
 
 /**
@@ -332,10 +325,10 @@ type PersistedWire = {
   followed?: string[];
   persona: PersonaId;
   language?: string;
-  // `crashReportingOn` and `localLlmOn` were added after the first ship,
-  // so legacy blobs won't have them. Loosen the wire type so the
-  // deserializer can backfill.
-  profile: Omit<Profile, 'crashReportingOn' | 'localLlmOn'> & {
+  // `crashReportingOn` was added after the first ship, so legacy blobs
+  // won't have it. `localLlmOn` existed until chat became Gemma-only (the
+  // model file on disk now decides); older blobs may still carry it.
+  profile: Omit<Profile, 'crashReportingOn'> & {
     crashReportingOn?: boolean;
     localLlmOn?: boolean;
   };
@@ -370,7 +363,9 @@ const wireStorage: PersistStorage<Persisted> = {
         // flag existed. Defaulting to false keeps the opt-in invariant
         // intact — upgrading the app should never start sending crash
         // reports without an explicit user action.
-        profile: { crashReportingOn: false, localLlmOn: false, ...wrapped.state.profile },
+        profile: (({ localLlmOn: _retired, ...p }) => ({ crashReportingOn: false, ...p }))(
+          wrapped.state.profile,
+        ),
         hasOnboarded: Boolean(wrapped.state.hasOnboarded),
         catchLog: wrapped.state.catchLog ?? buildSeedCatchLog(),
         activityLog: wrapped.state.activityLog ?? [],
@@ -437,7 +432,6 @@ export const useAppStore = create<AppStore>()(
         leaderboardOn: true,
         locationShareOn: false,
         crashReportingOn: false,
-        localLlmOn: false,
       },
       hasOnboarded: false,
       toast: null,
@@ -832,7 +826,6 @@ export const useAppStore = create<AppStore>()(
             leaderboardOn: true,
             locationShareOn: false,
             crashReportingOn: false,
-            localLlmOn: false,
           },
           hasOnboarded: false,
           toast: null,

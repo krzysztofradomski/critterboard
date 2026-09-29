@@ -11,6 +11,8 @@ export type IconBtnProps = {
   size?: number;
   fs?: number;
   style?: StyleProp<ViewStyle>;
+  /** Screen-reader label, for icon-only buttons. */
+  accessibilityLabel?: string;
 };
 
 export function IconBtn({
@@ -21,6 +23,7 @@ export function IconBtn({
   size = 38,
   fs = 16,
   style,
+  accessibilityLabel,
 }: IconBtnProps) {
   const [pressed, setPressed] = useState(false);
   const dynamic: ViewStyle = {
@@ -52,6 +55,8 @@ export function IconBtn({
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
       style={[styles.base, dynamic, style]}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
     >
       {content}
     </Pressable>

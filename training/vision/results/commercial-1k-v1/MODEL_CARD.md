@@ -53,7 +53,7 @@ Reproduce with the scripts in `training/vision/`: `stream_obs.sh`, `select_speci
 2. **CC-BY (photos):** give attribution in a way reasonable for the medium. A common approach is an in-app "Model credits" screen that states the model was trained on photos by iNaturalist contributors under CC-BY 4.0 / CC0, with a link to the full list (host `credits.csv.gz` or a page generated from it) and a link to the licence. Say that the photos were used to train a model rather than being reproduced.
 3. Keep `MODEL_CARD.md`, `labels.csv` and `credits.csv.gz` with the model file.
 
-Critterboard does this in Settings → Open source libraries → **Vision model**. That section links this card, [`ATTRIBUTION.md`](ATTRIBUTION.md) (all 5,551 photographers) and the Apache 2.0 text (`packs/models/LICENSE-google-vit-apache-2.0.txt`).
+Critterboard does this in Settings → Open source libraries → **On-device models**. That section links this card, [`ATTRIBUTION.md`](ATTRIBUTION.md) (all 5,551 photographers) and the Apache 2.0 text (`packs/models/LICENSE-google-vit-apache-2.0.txt`).
 
 ## Residual risks
 

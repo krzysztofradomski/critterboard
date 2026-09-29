@@ -22,7 +22,7 @@ Remove the cloud Gemini integration entirely:
   - With no species pack installed, it shows "install the Central Europe pack" with a button to Settings.
   - While the model loads, a toast asks the user to try again. It never shows invented results.
   - The **web preview** keeps the mock, because ExecuTorch can't run in a browser.
-- **Chat** uses the on-device model when the user turns it on in Settings (which downloads it). Otherwise the persona gives scripted replies, with a message that says so.
+- **Chat** uses the on-device model when the user turns it on in Settings (which downloads it). Otherwise the persona gives scripted replies, with a message that says so. *(Superseded by [[005-gemma-4-only-chat]]: chat is Gemma 4 only, with no scripted fallback and no web chat.)*
 - **Kept:** Chrome's built-in model on web (`webNativeLlm.ts`, "Gemini Nano"). It runs inside the browser on the device and needs no key or server.
 
 ## Consequences

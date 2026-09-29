@@ -1,141 +1,82 @@
 /**
- * Local LLM seam.
+ * On-device LLM runtime for chat.
  *
- * The Chat screen calls `complete()` and streams tokens straight into the
- * bubble. Two implementations live behind this interface:
- *
- *   1. `mockRuntime`  — used when the on-device model is off or not yet
- *      downloaded (and on web without Chrome's built-in model). Picks a
- *      canned line keyword-biased by the user's input.
- *
- *   2. `llamaRnRuntime` — used once the user turns the on-device model on in
- *      Settings. Wraps `llama.rn` (a `llama.cpp` port for React Native) and
- *      loads `gemma-3-1b-it-q4_k_m.gguf`, downloaded on demand (not bundled).
- *      Personas are system prompts (see buildPrompt); there are no
- *      per-persona adapters. Metal on iOS, NEON on Android.
- *
- * The seam intentionally mirrors `llama.rn`'s streaming API so swapping the
- * production runtime is a single import in `src/ai/index.ts`. See
- * `docs/ml-roadmap.md` § Track 2.
+ * `llamaRnRuntime` wraps `llama.rn` (a `llama.cpp` port for React Native) and
+ * runs Gemma 4 E2B (see chatModel.ts for the file and its download). Messages
+ * go through the chat template embedded in the GGUF (jinja), so the prompt
+ * format always matches the model. Personas are system prompts; there are no
+ * per-persona adapters. Metal on iOS, CPU/NEON on Android. There is no mock:
+ * without the model, chat is disabled (see Chat.tsx).
  */
 
 import type { Persona } from '@/personas';
 
+export type LlmMessage = { role: 'system' | 'user' | 'assistant'; content: string };
+
 export type CompleteOpts = {
-  /** Hard cap on tokens. Defaults vary per runtime; mock ignores it. */
+  /** Hard cap on generated tokens. */
   maxTokens?: number;
   /** Standard sampling knob, `0` = deterministic. */
   temperature?: number;
-  /** Abort hook. The mock checks `signal.aborted` between chunks. */
+  /** Abort hook: stops native generation. */
   signal?: AbortSignal;
 };
 
 export interface LlmRuntime {
-  /**
-   * Lazily load the GGUF weights. No-op for the mock impl. Idempotent —
-   * calling twice with the same path returns the same handle.
-   */
+  /** Load the GGUF weights. Idempotent. */
   load(modelPath: string): Promise<void>;
-
-  /**
-   * Streamed completion. Caller `for await`s the iterable and appends each
-   * chunk to the UI live. Mock yields one chunk; real runtime yields one
-   * per token.
-   */
-  complete(prompt: string, opts?: CompleteOpts): AsyncIterable<string>;
-
-  /** Free the model. Call on app background to reclaim ~670 MB of RAM. */
+  /** Streamed chat completion; yields text as the model produces it. */
+  complete(messages: LlmMessage[], opts?: CompleteOpts): AsyncIterable<string>;
+  /** Free the model (~3 GB of RAM for Gemma 4 E2B). */
   unload(): Promise<void>;
-
   /** `true` after `load()` resolves. */
   ready(): boolean;
 }
 
-/**
- * Build a persona-flavoured prompt using Gemma 3's chat template.
- *
- * Gemma 3 1B-IT uses `<start_of_turn>` / `<end_of_turn>` markers.
- * The system persona is placed in the `system` turn; llama.cpp passes it
- * through verbatim when using the raw `complete()` API.
- *
- * If llama.rn exposes a `chat()` method that reads the template from the
- * GGUF tokenizer config, prefer that and drop this builder — keeping it
- * here only for the raw-text path.
- */
-export function buildPrompt(persona: Persona, userText: string, topic?: string): string {
-  const opener = topic
-    ? `We're talking about: ${topic}. The user just said: "${userText}"`
-    : userText;
-  return (
-    `<start_of_turn>system\n${persona.systemPrompt}<end_of_turn>\n` +
-    `<start_of_turn>user\n${opener}<end_of_turn>\n` +
-    `<start_of_turn>model\n`
-  );
-}
-
-// ──────────────────────────────────────────────────────────────────────────
-// Mock implementation
-// ──────────────────────────────────────────────────────────────────────────
-
-/**
- * Picks a canned line from the persona, biased by surface keywords in the
- * user's text. Mirrors the previous behaviour of `src/ai/chat.ts` so the
- * Chat screen renders the same content whether or not the model is loaded.
- *
- * The bias logic is fully synchronous; the artificial delay just makes the
- * typing indicator visible. Real runtime replaces this entirely.
- */
-async function* mockComplete(
-  persona: Persona,
-  userText: string,
-  opts: CompleteOpts | undefined,
-): AsyncIterable<string> {
-  await new Promise((r) => setTimeout(r, 600 + Math.random() * 900));
-  if (opts?.signal?.aborted) return;
-
-  // ~20% "timeout" rate to exercise the chat screen's fallback path.
-  if (Math.random() < 0.2) {
-    throw new Error('mock-timeout');
-  }
-
-  const text = userText.toLowerCase();
-  const idx =
-    text.includes('bee') || text.includes('wasp') || text.includes('hornet')
-      ? 4
-      : text.includes('hover')
-      ? 1
-      : text.includes('photo') || text.includes('blurry')
-      ? 3
-      : Math.floor(Math.random() * persona.canned.length);
-  yield persona.canned[idx % persona.canned.length]!;
-}
-
-export const mockRuntime: LlmRuntime & {
-  /**
-   * Convenience for callers that don't need streaming — preserves the
-   * old `complete()` contract used by Chat.tsx before the seam landed.
-   */
-  completeWithPersona(persona: Persona, userText: string, topic?: string): AsyncIterable<string>;
-} = {
-  async load() {
-    // no-op
-  },
-  // The "raw" prompt API mostly exists for the production runtime; the
-  // mock just routes back through `completeWithPersona`. We keep this
-  // method so the seam matches `llama.rn` exactly.
-  complete(_prompt) {
-    throw new Error('mockRuntime.complete is not used directly. Call completeWithPersona instead.');
-  },
-  async unload() {
-    // no-op
-  },
-  ready() {
-    return true;
-  },
-  completeWithPersona(persona, userText, _topic) {
-    return mockComplete(persona, userText, undefined);
-  },
+const LANGUAGE_NAMES: Record<string, string> = {
+  en: 'English',
+  pl: 'Polish',
+  de: 'German',
+  es: 'Spanish',
 };
+
+/** How many earlier turns go into the prompt (the context is 4k tokens). */
+export const HISTORY_TURNS = 8;
+
+/**
+ * Chat messages for one reply: the persona as the system message (plus the
+ * reply language and optional topic), the last few turns, then the user's
+ * new message.
+ */
+export function buildMessages(opts: {
+  persona: Persona;
+  userText: string;
+  language: string;
+  topic?: string;
+  history?: { role: 'user' | 'assistant'; text: string }[];
+}): LlmMessage[] {
+  const lang = LANGUAGE_NAMES[opts.language] ?? 'English';
+  const system = [
+    opts.persona.systemPrompt,
+    `Always reply in ${lang}. Keep replies short: two or three sentences.`,
+    opts.topic ? `The conversation is about: ${opts.topic}.` : '',
+  ]
+    .filter(Boolean)
+    .join('\n\n');
+  // Chat templates expect user/assistant turns to alternate, starting with
+  // the user: drop leading assistant turns (the persona's greeting) and merge
+  // back-to-back turns from the same side.
+  const turns: LlmMessage[] = [];
+  for (const h of (opts.history ?? []).slice(-HISTORY_TURNS)) {
+    const text = h.text.trim();
+    if (!text || (turns.length === 0 && h.role === 'assistant')) continue;
+    const last = turns[turns.length - 1];
+    if (last && last.role === h.role) last.content += `\n\n${text}`;
+    else turns.push({ role: h.role, content: text });
+  }
+  if (turns[turns.length - 1]?.role === 'user') turns.pop(); // unanswered; the new message follows
+  return [{ role: 'system', content: system }, ...turns, { role: 'user', content: opts.userText }];
+}
 
 // ──────────────────────────────────────────────────────────────────────────
 // llama.rn implementation
@@ -146,27 +87,18 @@ export const mockRuntime: LlmRuntime & {
 type LlamaCtx = {
   completion(
     params: {
-      prompt: string;
+      messages: LlmMessage[];
+      jinja?: boolean;
+      enable_thinking?: boolean;
       n_predict?: number;
       temperature?: number;
       top_p?: number;
-      stop?: string[];
-      emit_partial_completion?: boolean;
     },
     callback?: (data: { token: string }) => void,
   ): Promise<{ text: string }>;
   stopCompletion(): Promise<void>;
   release(): Promise<void>;
 };
-
-// Gemma 3 chat template stop tokens (matches buildPrompt above).
-const GEMMA_STOP = ['<end_of_turn>', '<eos>'];
-
-// Model asset — downloaded on first launch, not bundled (670 MB).
-// See assets/models/README.md for the download source.
-export const MODEL_GGUF_FILENAME = 'gemma-3-1b-it-q4_k_m.gguf';
-export const MODEL_GGUF_HF_URL =
-  'https://huggingface.co/google/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-q4_k_m.gguf';
 
 let _ctx: LlamaCtx | null = null;
 
@@ -191,14 +123,14 @@ export const llamaRnRuntime: LlmRuntime = {
     }
     _ctx = await initLlama({
       model: modelPath,
-      n_ctx: 2048,
+      n_ctx: 4096,
       n_batch: 512,
       n_threads: 4,
       n_gpu_layers: 99, // Metal on iOS; silently capped to 0 on Android without Vulkan
     });
   },
 
-  async *complete(prompt: string, opts?: CompleteOpts): AsyncIterable<string> {
+  async *complete(messages: LlmMessage[], opts?: CompleteOpts): AsyncIterable<string> {
     if (!_ctx) throw new Error('llamaRnRuntime: call load() before complete()');
     const ctx = _ctx;
 
@@ -213,12 +145,12 @@ export const llamaRnRuntime: LlmRuntime = {
     const completionPromise = ctx
       .completion(
         {
-          prompt,
-          n_predict: opts?.maxTokens ?? 512,
-          temperature: opts?.temperature ?? 0.7,
-          top_p: 0.9,
-          stop: GEMMA_STOP,
-          emit_partial_completion: true,
+          messages,
+          jinja: true, // use the chat template embedded in the GGUF
+          enable_thinking: false, // short persona replies; no reasoning pass
+          n_predict: opts?.maxTokens ?? 256,
+          temperature: opts?.temperature ?? 0.8,
+          top_p: 0.95,
         },
         (data: { token: string }) => {
           queue.push(data.token);

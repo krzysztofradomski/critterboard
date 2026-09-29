@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as FileSystem from 'expo-file-system/legacy';
 import {
+  Alert,
   Platform,
   Pressable,
   ScrollView,
@@ -20,7 +21,8 @@ import {
   cachePackData, getModelPath, PACK_MANIFEST_URL, removeCachedPack,
   type PackManifest, type RegionPack,
 } from "@/data/regionPacks";
-import { checkWebNativeLlmStatus, llamaRnRuntime, MODEL_GGUF_FILENAME, MODEL_GGUF_HF_URL, type WebNativeLlmStatus } from "@/ai";
+import { CHAT_MODEL, deleteChatModel, downloadChatModel, initChatModel, type ChatModelStatus } from "@/ai";
+import { useChatModel } from "@/lib/useChatModel";
 import { LANG_META, type LangId } from "@/i18n";
 import { useT } from "@/i18n/helpers";
 import { PERSONA_IDS } from "@/personas";
@@ -33,17 +35,15 @@ import { useNav } from "@/store/useNav";
 const NAME_MAX = 18;
 
 function localLlmDesc(
-  os: string,
-  webStatus: WebNativeLlmStatus,
-  localLlmOn: boolean,
+  status: ChatModelStatus,
   t: (key: string, vars?: Record<string, string | number>) => string,
 ): string {
-  if (os === 'web') {
-    if (webStatus === 'readily') return t('settings.localLlmWebReady');
-    if (webStatus === 'after-download') return t('settings.localLlmWebDownloading');
-    return t('settings.localLlmNoWeb');
-  }
-  return localLlmOn ? t('settings.localLlmOn') : t('settings.localLlmOff');
+  const vars = { model: CHAT_MODEL.name, size: CHAT_MODEL.sizeGb };
+  if (status === 'unsupported') return t('settings.localLlmNoWeb', vars);
+  if (status === 'tooLittleRam') return t('settings.localLlmTooLittleRam', vars);
+  if (status === 'error') return t('settings.localLlmError', vars);
+  if (status === 'absent' || status === 'checking') return t('settings.localLlmOff', vars);
+  return t('settings.localLlmOn', vars);
 }
 
 export function Settings() {
@@ -67,18 +67,10 @@ export function Settings() {
   const P = usePersona(persona);
   const t = useT();
 
-  type ModelState = 'idle' | 'downloading' | 'loading' | 'ready' | 'error';
-  const [modelState, setModelState] = useState<ModelState>('idle');
-  const [downloadPct, setDownloadPct] = useState(0);
-  const dlRef = useRef<FileSystem.DownloadResumable | null>(null);
-  const modelPath = `${FileSystem.documentDirectory ?? ''}models/${MODEL_GGUF_FILENAME}`;
+  const chatModel = useChatModel();
+  const modelState = chatModel.status;
+  const downloadPct = chatModel.pct;
   const [creditsOpen, setCreditsOpen] = useState(false);
-  const [webLlmStatus, setWebLlmStatus] = useState<WebNativeLlmStatus>('unavailable');
-
-  useEffect(() => {
-    if (Platform.OS !== 'web') return;
-    checkWebNativeLlmStatus().then(setWebLlmStatus);
-  }, []);
   const [confirmMemoryWipe, setConfirmMemoryWipe] = useState(false);
   const [nameDraft, setNameDraft] = useState(profile.name);
   const [nameError, setNameError] = useState(false);
@@ -93,18 +85,9 @@ export function Settings() {
     setNameDraft(profile.name);
   }, [profile.name]);
 
-  // Check on mount whether the model file is already on disk; if so, load it.
+  // Pick up a chat model already on disk (loads it) or mark it absent.
   useEffect(() => {
-    if (Platform.OS === 'web') return;
-    FileSystem.getInfoAsync(modelPath).then(({ exists }) => {
-      if (!exists) return;
-      setModelState('loading');
-      llamaRnRuntime.load(modelPath)
-        .then(() => setModelState('ready'))
-        .catch(() => setModelState('error'));
-    });
-  // modelPath is derived from a constant; one-time check is intentional.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    void initChatModel();
   }, []);
 
   useEffect(
@@ -112,7 +95,6 @@ export function Settings() {
       Object.values(packDownloadHandles.current).forEach(
         (h) => h?.pauseAsync().catch(() => {}),
       );
-      dlRef.current?.pauseAsync().catch(() => {});
     },
     [],
   );
@@ -124,34 +106,6 @@ export function Settings() {
     (acc, r) => (regions[r.id] === "installed" ? acc + r.size : acc),
     0,
   );
-
-  const startModelDownload = async () => {
-    if (modelState !== 'idle' && modelState !== 'error') return;
-    try {
-      const dir = `${FileSystem.documentDirectory ?? ''}models/`;
-      await FileSystem.makeDirectoryAsync(dir, { intermediates: true });
-      setModelState('downloading');
-      setDownloadPct(0);
-      const dl = FileSystem.createDownloadResumable(
-        MODEL_GGUF_HF_URL,
-        modelPath,
-        {},
-        ({ totalBytesWritten, totalBytesExpectedToWrite }) => {
-          if (totalBytesExpectedToWrite <= 0) return;
-          setDownloadPct(
-            Math.floor((totalBytesWritten / totalBytesExpectedToWrite) * 100),
-          );
-        },
-      );
-      dlRef.current = dl;
-      await dl.downloadAsync();
-      setModelState('loading');
-      await llamaRnRuntime.load(modelPath);
-      setModelState('ready');
-    } catch {
-      setModelState('error');
-    }
-  };
 
   const commitName = () => {
     const v = nameDraft.trim().slice(0, 18) || t("common.you");
@@ -426,15 +380,21 @@ export function Settings() {
           <ModelTile
             icon="🧠"
             color={PB.pink}
-            title={t("settings.model.larva")}
+            title={t("settings.model.larva", { model: CHAT_MODEL.name })}
             meta={t("settings.model.larvaMeta", {
-              pct: `${(1.9 * (downloadPct / 100)).toFixed(1)} GB`,
+              size: CHAT_MODEL.sizeGb,
               state:
                 modelState === 'downloading'
-                  ? t("settings.model.larvaEta")
+                  ? t("settings.model.larvaDownloading", {
+                      done: ((CHAT_MODEL.sizeGb * downloadPct) / 100).toFixed(1),
+                    })
                   : modelState === 'ready' || modelState === 'loading'
                     ? t("settings.model.larvaInstalled")
-                    : t("settings.model.larvaIdle"),
+                    : modelState === 'unsupported'
+                      ? t("settings.model.larvaPhoneOnly")
+                      : modelState === 'tooLittleRam'
+                        ? t("settings.model.larvaTooLittleRam")
+                        : t("settings.model.larvaIdle"),
             })}
             statusText={
               modelState === 'ready'
@@ -445,7 +405,11 @@ export function Settings() {
                     ? t("settings.model.loading")
                     : modelState === 'error'
                       ? t("settings.model.error")
-                      : t("settings.model.get")
+                      : modelState === 'unsupported'
+                        ? t("settings.model.phoneOnly")
+                        : modelState === 'tooLittleRam'
+                          ? t("settings.model.notSupported")
+                          : t("settings.model.get")
             }
             statusBg={
               modelState === 'ready' ? PB.green
@@ -465,19 +429,47 @@ export function Settings() {
           />
           <View style={{ height: 12 }} />
           <SettingToggle
-            icon={Platform.OS === "web" ? "🌐" : "📱"}
+            icon="📱"
             color={PB.pink}
-            label={t("settings.localLlmLabel")}
-            desc={localLlmDesc(Platform.OS, webLlmStatus, profile.localLlmOn, t)}
+            label={t("settings.localLlmLabel", { model: CHAT_MODEL.name })}
+            desc={localLlmDesc(modelState, t)}
             value={
-              profile.localLlmOn &&
-              (Platform.OS !== "web" || webLlmStatus !== "unavailable")
+              modelState === 'downloading' || modelState === 'loading' || modelState === 'ready'
             }
             onChange={(v) => {
-              setProfile({ localLlmOn: v });
-              if (v && Platform.OS !== 'web') startModelDownload();
+              if (v) {
+                if (chatModel.fit !== 'confirm') {
+                  void downloadChatModel();
+                  return;
+                }
+                // 4 GB phones: the model fits, but only just. Ask first.
+                Alert.alert(
+                  t("settings.localLlmLowRamTitle"),
+                  t("settings.localLlmLowRamBody", { model: CHAT_MODEL.name, size: CHAT_MODEL.sizeGb }),
+                  [
+                    { text: t("common.cancel"), style: "cancel" },
+                    { text: t("settings.localLlmLowRamCta"), onPress: () => void downloadChatModel() },
+                  ],
+                );
+                return;
+              }
+              // Turning chat off frees ~3 GB, but a re-download is slow: confirm.
+              Alert.alert(
+                t("settings.localLlmDeleteTitle"),
+                t("settings.localLlmDeleteBody", { model: CHAT_MODEL.name, size: CHAT_MODEL.sizeGb }),
+                [
+                  { text: t("common.cancel"), style: "cancel" },
+                  {
+                    text: t("settings.localLlmDeleteCta"),
+                    style: "destructive",
+                    onPress: () => void deleteChatModel(),
+                  },
+                ],
+              );
             }}
-            disabled={Platform.OS === "web" && webLlmStatus === "unavailable"}
+            disabled={
+              modelState === "unsupported" || modelState === "tooLittleRam" || modelState === "checking"
+            }
           />
         </Sticker>
 

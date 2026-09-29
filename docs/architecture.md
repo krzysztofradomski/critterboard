@@ -17,7 +17,7 @@ flowchart TB
     Screens --> AI[ai/* seam]
     Screens --> Hooks[backend/hooks]
     AI --> Vision[ExecuTorch .pte from region pack<br/>no pack → install prompt]
-    AI --> Chat[llama.rn Gemma GGUF<br/>or scripted offline replies]
+    AI --> Chat[llama.rn Gemma 4 E2B GGUF<br/>no model → chat disabled]
     Hooks --> Adapter{backend/index}
     Adapter -->|no URL| Mock[mockAdapter]
     Adapter -->|EXPO_PUBLIC_BACKEND_URL| CF[cloudflareAdapter]
@@ -27,7 +27,7 @@ flowchart TB
   subgraph Remote["🌐 Remote (all optional)"]
     Worker[worker/ Cloudflare Worker<br/>D1 · KV · Durable Object · Cron]
     GH[GitHub raw + Releases<br/>packs/*.json, eu-ce.pte]
-    HF[Hugging Face<br/>Gemma 3 1B GGUF]
+    HF[Hugging Face<br/>Gemma 4 E2B GGUF]
     Sentry[Sentry<br/>opt-in]
   end
 
@@ -77,6 +77,6 @@ Everything below is optional. Without it the app degrades to bundled or mock beh
 | Region pack + `.pte` model + species icon atlas ([[modules/species-icons]]) | User installs a pack; refreshed on boot (model only if its URL changed) | `packs/manifest.json` → GitHub raw / Releases |
 | Translation packs | Boot, best-effort | `src/i18n/loader.ts` |
 | Map pack (PMTiles) | Once, when the Map tab first opens (spike: `EXPO_PUBLIC_MAP_PACK_URL`) | `src/map/mapPack.ts` |
-| Gemma GGUF | First on-device chat | Hugging Face |
+| Gemma 4 E2B GGUF (3.1 GB) | User turns on chat in Settings | Hugging Face (`unsloth/gemma-4-E2B-it-GGUF`) |
 | Cloudflare Worker | `profile.networkOn` **and** `EXPO_PUBLIC_BACKEND_URL` set | `src/backend/cloudflare.ts` |
 | Sentry | `profile.crashReportingOn` **and** DSN set | `src/lib/crashReporting.ts` |

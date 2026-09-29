@@ -187,7 +187,20 @@
       "localStatus": "● local · {title}",
       "inputPlaceholder": "Pregunta sobre este bicho…",
       "clearCta": "Borrar chat",
-      "offlineHint": "Modo sin conexión: solo puedo dar respuestas predefinidas. Activa el modelo en el dispositivo en Ajustes → Cerebro en el dispositivo para obtener respuestas reales."
+      "lockedStatus": "○ chat desactivado · {title}",
+      "gate": {
+        "title": "Descarga {model} para chatear",
+        "body": "Tus guías funcionan por completo en este teléfono con el modelo {model} de Google: una descarga única de {size} GB (se recomienda Wi-Fi). Nada de lo que escribes sale del dispositivo.",
+        "errorBody": "La descarga de {model} no terminó. Revisa tu conexión y el espacio libre ({size} GB) y vuelve a intentarlo en Ajustes.",
+        "busyBody": "El chat se abrirá en cuanto el modelo esté listo. Mientras tanto puedes seguir usando la app.",
+        "loadingTitle": "Despertando a {model}…",
+        "downloadingTitle": "Descargando {model}… {pct}%",
+        "webTitle": "El chat funciona en la app del teléfono",
+        "webBody": "Los guías usan un modelo de IA en el dispositivo ({model}) que la vista previa web no puede ejecutar. Abre Critterboard en iPhone o Android para chatear.",
+        "cta": "Abrir Ajustes",
+        "ramTitle": "El chat no está disponible en este teléfono",
+        "ramBody": "Los guías funcionan con {model}, que necesita un teléfono con al menos 4 GB de memoria. El resto de Critterboard funciona con normalidad."
+      }
     },
     "activity": {
       "title": "Zumbido",
@@ -205,7 +218,7 @@
         "a1Title": "A antqueen le gustó tu Monarca",
         "a1Sub": "hace 2 h · grupo Brooklyn",
         "a1Cta": "Ver avistamiento",
-        "a2Title": "Larva-3B v1.4 lista para instalar",
+        "a2Title": "Gemma 4 E2B lista para instalar",
         "a2Sub": "Chistes nuevos. Mismo rollo. 240 MB.",
         "a2Cta": "Actualizar",
         "a3Title": "¡Racha de 4 días! No la rompas",
@@ -581,11 +594,10 @@
       "crashNeeds": "Requiere acceso a la red.",
       "model": {
         "bugNet": "BugNet v3",
-        "bugNetMeta": "Visión · 412 MB · 10.247 especies",
-        "larva": "Larva-3B (Q4)",
-        "larvaMeta": "Modelo de chat · {pct} / 1,9 GB · {state}",
+        "bugNetMeta": "Visión · 88 MB · 1.000 especies",
+        "larva": "{model} (Q4)",
+        "larvaMeta": "Modelo de chat · {size} GB · {state}",
         "larvaInstalled": "instalado",
-        "larvaEta": "~2 min restantes",
         "species": "Base de Especies",
         "speciesMeta": "Datos y hábitats · 88 MB · v2026.04",
         "ready": "LISTO",
@@ -593,7 +605,12 @@
         "loading": "CARGANDO",
         "error": "ERROR",
         "get": "↓ GET",
-        "larvaIdle": "no en dispositivo"
+        "larvaIdle": "no en dispositivo",
+        "larvaDownloading": "{done} GB descargados",
+        "larvaPhoneOnly": "solo en la app del teléfono",
+        "phoneOnly": "SOLO MÓVIL",
+        "larvaTooLittleRam": "necesita 4 GB de memoria",
+        "notSupported": "NO COMPATIBLE"
       },
       "regionsBand": "Packs regionales",
       "regionsSub": "Mejoran la precisión donde de verdad estás.",
@@ -611,7 +628,19 @@
       "creditsTitle": "Gratis para siempre. Sin anuncios. Sin rastreo.",
       "creditsSub": "Hecho con cariño por 3 personas a las que de verdad les gustan los escarabajos.",
       "viewCredits": "VER CRÉDITOS →",
-      "guideToast": "Guía: {name}"
+      "guideToast": "Guía: {name}",
+      "localLlmLabel": "Chat en el dispositivo ({model})",
+      "localLlmOn": "El chat funciona en tu dispositivo con {model}. Privado y sin conexión.",
+      "localLlmOff": "Desactivado: el chat no está disponible. Actívalo para descargar {model} ({size} GB, se recomienda Wi-Fi).",
+      "localLlmNoWeb": "El chat necesita la app de iPhone o Android.",
+      "localLlmError": "La descarga falló. Actívalo para intentarlo de nuevo ({size} GB).",
+      "localLlmDeleteTitle": "¿Desactivar el chat?",
+      "localLlmDeleteBody": "Esto borra {model} del teléfono y libera {size} GB. El chat seguirá desactivado hasta que lo descargues de nuevo.",
+      "localLlmDeleteCta": "Borrar modelo",
+      "localLlmTooLittleRam": "Necesita un teléfono con al menos 4 GB de memoria.",
+      "localLlmLowRamTitle": "¿Descargar en un teléfono de 4 GB?",
+      "localLlmLowRamBody": "Este teléfono tiene unos 4 GB de memoria. {model} usa unos 3 GB mientras chateas, así que las respuestas pueden ser lentas y la app puede cerrarse si hay otras apps abiertas. La descarga es de {size} GB.",
+      "localLlmLowRamCta": "Descargar igualmente"
     },
     "regions": {
       "list": {
@@ -751,7 +780,7 @@
     "personas": {
       "larva": {
         "name": "Prof. Larva",
-        "title": "larva-3b · seca",
+        "title": "gemma-4 · seca",
         "blurb": "Sarcástica. Útil a su pesar.",
         "lines": {
           "intro": "\"Genial, otra entrenadora. Déjame soltarlo todo.\"",
@@ -778,7 +807,7 @@
       },
       "snail": {
         "name": "Dr. Caracol",
-        "title": "snail-3b · paciente",
+        "title": "gemma-4 · paciente",
         "blurb": "Calmado. Enseña a tu ritmo.",
         "lines": {
           "intro": "\"Bienvenido. Tómate tu tiempo — aprenderemos juntos.\"",
@@ -805,7 +834,7 @@
       },
       "maywind": {
         "name": "R.A. Maywind",
-        "title": "maywind-3b · curiosa",
+        "title": "gemma-4 · curiosa",
         "blurb": "Ingeniosa. Alegre. Adora cada bicho.",
         "lines": {
           "intro": "\"¡Hola hola! Libreta lista, botas atadas — ¡a buscar bichos!\"",
@@ -922,15 +951,15 @@
       "models": {
         "bugnet": {
           "name": "BugNet v3",
-          "role": "Visión · 412 MB · 10.247 especies"
+          "role": "Visión · 88 MB · 1.000 especies"
         },
         "larva": {
-          "name": "Larva-3B",
-          "role": "Chat · 1,9 GB · cuantizado Q4"
+          "name": "Gemma 4 E2B",
+          "role": "Chat · 3,1 GB · Q4_K_M · Apache 2.0"
         },
         "variants": {
           "name": "Maywind / Snail",
-          "role": "Variantes de persona de Larva-3B"
+          "role": "Personajes: prompts de sistema sobre Gemma 4"
         }
       },
       "data": {

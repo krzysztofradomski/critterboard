@@ -22,6 +22,7 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 | [[decisions/001-crash-reporting-opt-in]] | ADR — why crash reporting is opt-in and why Sentry. |
 | [[decisions/002-backend-adapter-seam]] | ADR — single adapter seam for leaderboard / friends / feed, targeting Cloudflare Workers. |
 | [[decisions/004-remove-cloud-gemini]] | ADR — why the cloud Gemini fallback was removed; what scan and chat do instead. |
+| [[decisions/005-gemma-4-only-chat]] | ADR — chat runs only on Gemma 4 E2B (Apache 2.0); no scripted fallback, no web chat; alternatives considered. |
 | [[decisions/003-offline-map-maplibre-pmtiles]] | ADR — why an offline MapLibre + PMTiles map instead of Leaflet or the globe. |
 
 ## Conventions
