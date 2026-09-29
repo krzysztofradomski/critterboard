@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  useWindowDimensions,
   View,
 } from 'react-native';
 
@@ -67,6 +68,7 @@ export function Chat() {
   const threadId = `${P.id}::${topic ?? 'general'}`;
   const storedThread = useAppStore((s) => s.chatThreads[threadId]);
 
+  const { width } = useWindowDimensions();
   const model = useChatModel();
   const chatReady = model.status === 'ready';
 
@@ -213,31 +215,31 @@ export function Chat() {
     >
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
-        <View style={[styles.headAvatar, { backgroundColor: P.avatarBg }]}>
-          <Text style={{ fontSize: 22 }}>{P.emoji}</Text>
-        </View>
+        {width >= 360 ? (
+          <View style={[styles.headAvatar, { backgroundColor: P.avatarBg }]}>
+            <Text style={{ fontSize: 22 }}>{P.emoji}</Text>
+          </View>
+        ) : null}
         <View style={{ flex: 1, minWidth: 0 }}>
-          <Text style={styles.headName}>{P.name}</Text>
-          <Text style={styles.headStatus}>
+          <Text style={styles.headName} numberOfLines={1}>
+            {P.name}
+          </Text>
+          <Text style={styles.headStatus} numberOfLines={1}>
             {chatReady
               ? t('chat.localStatus', { title: P.title })
               : t('chat.lockedStatus', { title: P.title })}
           </Text>
         </View>
-        <View style={styles.clearWrap}>
-          <IconBtn
-            onPress={clearCurrentThread}
-            size={34}
-            fs={14}
-            bg={PB.cream}
-            style={styles.clearBtn}
-          >
-            🗑
-          </IconBtn>
-          <Pressable onPress={clearCurrentThread}>
-            <Text style={styles.clearText}>{t('chat.clearCta')}</Text>
-          </Pressable>
-        </View>
+        <IconBtn
+          onPress={clearCurrentThread}
+          size={34}
+          fs={14}
+          bg={PB.cream}
+          style={styles.clearBtn}
+          accessibilityLabel={t('chat.clearCta')}
+        >
+          🗑
+        </IconBtn>
         <View style={styles.switcher}>
           {PERSONA_IDS.map((pid) => (
             <Pressable
@@ -323,11 +325,13 @@ function ChatGate({ state, onOpenSettings }: { state: ChatModelState; onOpenSett
     state.status === 'checking' || state.status === 'loading' || state.status === 'downloading';
   const title =
     state.status === 'unsupported' ? t('chat.gate.webTitle')
+    : state.status === 'tooLittleRam' ? t('chat.gate.ramTitle')
     : state.status === 'downloading' ? t('chat.gate.downloadingTitle', vars)
     : busy ? t('chat.gate.loadingTitle', vars)
     : t('chat.gate.title', vars);
   const body =
     state.status === 'unsupported' ? t('chat.gate.webBody', vars)
+    : state.status === 'tooLittleRam' ? t('chat.gate.ramBody', vars)
     : state.status === 'error' ? t('chat.gate.errorBody', vars)
     : busy ? t('chat.gate.busyBody', vars)
     : t('chat.gate.body', vars);
@@ -432,7 +436,7 @@ const styles = StyleSheet.create({
     backgroundColor: PB.yellow,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 10,
   },
   headAvatar: {
     width: 44,
@@ -465,16 +469,6 @@ const styles = StyleSheet.create({
   },
   clearBtn: {
     borderRadius: 999,
-  },
-  clearWrap: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  clearText: {
-    fontSize: 11,
-    fontWeight: '800',
-    color: PB.ink,
   },
   switchDot: {
     width: 22,

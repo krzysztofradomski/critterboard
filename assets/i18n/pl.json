@@ -197,7 +197,9 @@
         "downloadingTitle": "Pobieranie {model}… {pct}%",
         "webTitle": "Czat działa w aplikacji na telefon",
         "webBody": "Przewodnicy używają modelu AI na urządzeniu ({model}), którego wersja webowa nie uruchomi. Otwórz Critterboard na iPhonie lub Androidzie, żeby czatować.",
-        "cta": "Otwórz Ustawienia"
+        "cta": "Otwórz Ustawienia",
+        "ramTitle": "Czat nie jest dostępny na tym telefonie",
+        "ramBody": "Przewodnicy działają na modelu {model}, który wymaga telefonu z co najmniej 4 GB pamięci. Reszta Critterboard działa normalnie."
       }
     },
     "activity": {
@@ -607,7 +609,9 @@
         "larvaIdle": "nie na urządzeniu",
         "larvaDownloading": "pobrano {done} GB",
         "larvaPhoneOnly": "tylko w aplikacji na telefon",
-        "phoneOnly": "TYLKO TELEFON"
+        "phoneOnly": "TYLKO TELEFON",
+        "larvaTooLittleRam": "wymaga 4 GB pamięci",
+        "notSupported": "NIEOBSŁUGIWANE"
       },
       "regionsBand": "Pakiety regionalne",
       "regionsSub": "Zwiększają trafność ID tam, gdzie naprawdę jesteś.",
@@ -633,7 +637,11 @@
       "localLlmError": "Pobieranie nie powiodło się. Włącz, aby spróbować ponownie ({size} GB).",
       "localLlmDeleteTitle": "Wyłączyć czat?",
       "localLlmDeleteBody": "To usunie {model} z telefonu i zwolni {size} GB. Czat pozostanie wyłączony, dopóki nie pobierzesz modelu ponownie.",
-      "localLlmDeleteCta": "Usuń model"
+      "localLlmDeleteCta": "Usuń model",
+      "localLlmTooLittleRam": "Wymaga telefonu z co najmniej 4 GB pamięci.",
+      "localLlmLowRamTitle": "Pobrać na telefonie z 4 GB?",
+      "localLlmLowRamBody": "Ten telefon ma około 4 GB pamięci. {model} zużywa około 3 GB podczas czatu, więc odpowiedzi mogą być wolne, a aplikacja może się zamknąć, gdy działają inne aplikacje. Pobranie ma {size} GB.",
+      "localLlmLowRamCta": "Pobierz mimo to"
     },
     "regions": {
       "list": {

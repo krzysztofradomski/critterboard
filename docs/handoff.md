@@ -94,7 +94,8 @@ The simulator's on-device ML may be slow or unsupported. Treat vision/LLM speed 
 - **Gate:** before downloading, open Chat. The input is replaced by a "Download Gemma 4 to chat" card that opens Settings.
 - **Download:** Settings → On-device chat → on. On Wi-Fi, note how long the 3.1 GB download takes. The file comes from Hugging Face (`unsloth/gemma-4-E2B-it-GGUF`). If it fails straight away (an anonymous download refused), the gate shows an error. Tell me, and I'll host the file ourselves (GitHub Releases or R2).
 - **Load and speed:** time from opening Chat to the input appearing (model load), then time to the first word of a reply and a rough words-per-second figure.
-- **Memory:** chat for a few minutes, switch personas, go to Scan and back. Note any crash or the app restarting. If you have a 4 GB iPhone (iPhone 12 or older non-Pro), try it there too: it may fail to load. That's the known risk of not having a RAM check.
+- **Memory:** chat for a few minutes, switch personas, go to Scan and back. Note any crash or the app restarting.
+- **Memory tiers:** on a 6 GB+ iPhone, turning chat on downloads straight away. On a 4 GB iPhone (iPhone 12 or older non-Pro), it first asks "Download on a 4 GB phone?"; say yes and note whether chat works or the app closes. On a 3 GB phone, the toggle is disabled ("not supported") and Chat says it isn't available. If you can't test a phone in a tier, say so and I'll note it as untested.
 - **Tone:** switch the app language to Polish, German and Spanish and send a message in each. Replies should come in that language, stay short and match the persona.
 - **Turn off:** Settings → On-device chat → off → confirm. Chat shows the gate again and 3.1 GB is freed (Settings → General → iPhone Storage).
 
@@ -176,7 +177,7 @@ Needs the Apple Developer Program, and the app record created in App Store Conne
 | 10 | ~~Dex: list all pack species~~ | Done | Virtualised grid over bundled + pack species; caught species first |
 | 11 | ~~Photo-based species icons~~ | Done | Pack `eu-ce` v5; see [[modules/species-icons]] |
 | 12 | Phone check: icon download/split time, Dex scrolling (§3) | You → me | If the split is slow, I'll batch it or ship per-species files |
-| 13 | Gemma 4 chat on a phone: download, load time, speed, memory, tone in 4 languages (§3) | You → me | If the download is refused, I'll host the GGUF; if 4 GB phones crash, add a RAM check |
+| 13 | Gemma 4 chat on a phone: download, load time, speed, memory tiers, tone in 4 languages (§3) | You → me | If the download is refused, I'll host the GGUF; if 4 GB phones crash even after confirming, disable chat there too |
 | 14 | Better icons for bumblebees and mining bees | Me | Weakest group: fuzzy outlines come out as blobs |
 | 8 | `react-native-executorch` 0.10 migration | Me | 0.10 rewrote the API; pinned to 0.9.3 until then |
 | 9 | Fill `eas.json` submit config, store listings | You | Needs your Apple / Google accounts |
@@ -199,7 +200,7 @@ training/vision/stream_photos.sh && python training/vision/download.py --data $D
 - **Model not yet loaded on a device.** The exporter (`executorch` 1.0.1) was chosen to match the app's ET12 runtime, and all operators are supported kernels, but only a phone run proves it.
 - **88 MB model download** on pack install, plus the 9.1 MB icon file. A static-int8 build (22.8 MB) did not load in the ExecuTorch runtime.
 - **Icon split on the device** (1,000 small file writes) is untested on a phone; see §3.
-- **Gemma 4 chat** needs a 3.1 GB download and about 3 GB of RAM; there's no RAM check, so 4 GB phones may fail to load it (ADR 005). The file comes from a community Hugging Face repo; if that ever needs a login, host it ourselves. Licence: Apache 2.0.
+- **Gemma 4 chat** needs a 3.1 GB download and about 3 GB of RAM. 4 GB phones must confirm first and may still close the app under memory pressure; below 4 GB chat is disabled (ADR 005). The file comes from a community Hugging Face repo; if that ever needs a login, host it ourselves. Licence: Apache 2.0.
 - **Licence notices:** the model's Apache-2.0 notice and CC-BY photo credits (and the Gemma 4 chat model credit) are linked from Settings → Open source libraries → On-device models. Keep them there if you fork the app.
 - **Guardrails are regex-only** since the Node-only library was removed. They are fine for obvious cases, not a full moderation system.
 - **Licences:** the shipped model uses only CC0/CC-BY photos and Google's Apache-2.0 base weights. The residual risk is the base weights' ImageNet-21k pretraining; see `training/vision/results/commercial-1k-v1/MODEL_CARD.md`. The older v3 model (NonCommercial photos) is no longer referenced by the pack.

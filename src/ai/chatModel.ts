@@ -1,3 +1,4 @@
+import * as Device from 'expo-device';
 import * as FileSystem from 'expo-file-system/legacy';
 import { Platform } from 'react-native';
 
@@ -8,7 +9,9 @@ import { llamaRnRuntime } from '@/ai/llm';
  *
  * Chat only works once this file is downloaded and loaded; there is no
  * scripted fallback. Settings downloads/deletes it, Chat reads the status.
- * Web has no llama.rn, so chat is phone-only.
+ * Web has no llama.rn, so chat is phone-only. The model needs about 3 GB of
+ * RAM: 6 GB phones download it directly, 4 GB phones must confirm first, and
+ * smaller phones can't use chat (see memoryFit).
  */
 export const CHAT_MODEL = {
   name: 'Gemma 4 E2B',
@@ -21,8 +24,24 @@ export const CHAT_MODEL = {
 /** Earlier chat models whose files are deleted on sight to free space. */
 const RETIRED_FILES = ['gemma-3-1b-it-q4_k_m.gguf'];
 
+/**
+ * How well the phone's memory fits Gemma 4 E2B (~3 GB while loaded).
+ * Phones report a little less than their marketed RAM (a "4 GB" iPhone
+ * reports about 3.6–3.9 GiB), hence the thresholds below the round numbers.
+ */
+export type MemoryFit = 'ok' | 'confirm' | 'tooLittle';
+
+export function memoryFit(totalBytes: number | null | undefined): MemoryFit {
+  if (totalBytes == null) return 'confirm'; // unknown: let the user decide
+  const gib = totalBytes / 1024 ** 3;
+  if (gib >= 5) return 'ok'; // 6 GB class and up
+  if (gib >= 3.3) return 'confirm'; // 4 GB class
+  return 'tooLittle';
+}
+
 export type ChatModelStatus =
   | 'unsupported' // web: no on-device runtime
+  | 'tooLittleRam' // phone with less than ~4 GB of RAM
   | 'checking'
   | 'absent'
   | 'downloading'
@@ -30,11 +49,19 @@ export type ChatModelStatus =
   | 'ready'
   | 'error';
 
-export type ChatModelState = { status: ChatModelStatus; pct: number };
+export type ChatModelState = { status: ChatModelStatus; pct: number; fit: MemoryFit };
+
+const FIT: MemoryFit = memoryFit(Device.totalMemory);
+
+function idleStatus(): ChatModelStatus {
+  if (Platform.OS === 'web') return 'unsupported';
+  return FIT === 'tooLittle' ? 'tooLittleRam' : 'absent';
+}
 
 let _state: ChatModelState = {
-  status: Platform.OS === 'web' ? 'unsupported' : 'checking',
+  status: Platform.OS === 'web' || FIT === 'tooLittle' ? idleStatus() : 'checking',
   pct: 0,
+  fit: FIT,
 };
 const _listeners = new Set<() => void>();
 let _download: FileSystem.DownloadResumable | null = null;
@@ -85,6 +112,12 @@ export async function initChatModel(): Promise<void> {
   if (_state.status === 'ready' || _state.status === 'loading' || _state.status === 'downloading') {
     return;
   }
+  if (FIT === 'tooLittle') {
+    // Not enough memory to load it; delete a file left from a restored backup.
+    await FileSystem.deleteAsync(path, { idempotent: true }).catch(() => undefined);
+    set({ status: 'tooLittleRam', pct: 0 });
+    return;
+  }
   for (const f of RETIRED_FILES) {
     await FileSystem.deleteAsync(`${dir}${f}`, { idempotent: true }).catch(() => undefined);
   }
@@ -97,11 +130,14 @@ export async function initChatModel(): Promise<void> {
   }
 }
 
-/** Download (resumable) and load the model, reporting progress. */
+/**
+ * Download (resumable) and load the model, reporting progress. On a 4 GB
+ * phone (`fit === 'confirm'`) the caller must have asked the user first.
+ */
 export async function downloadChatModel(): Promise<void> {
   const dir = modelsDir();
   const path = chatModelPath();
-  if (!dir || !path) return;
+  if (!dir || !path || FIT === 'tooLittle') return;
   if (_state.status !== 'absent' && _state.status !== 'error') return;
   set({ status: 'downloading', pct: 0 });
   try {
@@ -137,5 +173,5 @@ export async function deleteChatModel(): Promise<void> {
   _download = null;
   await llamaRnRuntime.unload().catch(() => undefined);
   if (path) await FileSystem.deleteAsync(path, { idempotent: true }).catch(() => undefined);
-  set({ status: Platform.OS === 'web' ? 'unsupported' : 'absent', pct: 0 });
+  set({ status: idleStatus(), pct: 0 });
 }

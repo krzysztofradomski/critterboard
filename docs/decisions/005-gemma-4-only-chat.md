@@ -23,7 +23,10 @@
 - **One chat model everywhere:** Gemma 4 E2B instruct, Q4_K_M GGUF, from `unsloth/gemma-4-E2B-it-GGUF`. The file is downloaded in Settings and stored on the phone.
 - **No fallback.** Without the model, the Chat screen shows a card ("Download Gemma 4 to chat" → Settings) instead of the input. The scripted replies and the mock runtime are removed.
 - **Web has no chat.** Chrome's built-in model (`webNativeLlm.ts`) is removed, and the web preview explains that chat needs the phone app.
-- **No RAM gate**, by user decision. Phones with 4 GB RAM may not be able to load the model; that shows up as a load error on the gate.
+- **Memory tiers** (user decision), from the phone's total RAM (`expo-device`). Phones report slightly less than their marketed RAM, so the thresholds sit below the round numbers:
+  - **6 GB class and up** (reports ≥ 5 GiB): download directly.
+  - **4 GB class** (3.3–5 GiB, or unknown): Settings asks for confirmation before downloading, warning that replies may be slow and the app may close.
+  - **Below that:** chat is disabled. Settings shows "not supported" and Chat says so.
 - **Prompt:**
   - messages go through the model's embedded chat template (`jinja: true`) with thinking turned off;
   - the persona `systemPrompt` is sent as the system message, together with "reply in the app language" and the topic;
@@ -34,7 +37,8 @@
 
 - One Apache-2.0 chat model and no per-user licence obligations to pass on. The Settings credits list Gemma 4.
 - A 3.1 GB download before anyone can chat, instead of 0.7 GB, or chatting straight away with scripted replies.
-- Chat is unavailable on web and on phones that can't load the model.
+- Chat is unavailable on web and on phones with less than about 4 GB of RAM; 4 GB phones run it at their own risk after a warning.
+- New native dependency: `expo-device` (for the RAM check), so native builds need a fresh `pod install`.
 - Still to check on a phone (see [[../handoff]]):
   - whether the download works without a Hugging Face login;
   - load time, tokens per second and memory on a 6 GB and a 4 GB iPhone;

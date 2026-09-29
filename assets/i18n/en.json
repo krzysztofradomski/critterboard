@@ -197,7 +197,9 @@
         "downloadingTitle": "Downloading {model}… {pct}%",
         "webTitle": "Chat runs in the phone app",
         "webBody": "The guides use an on-device AI model ({model}) that the web preview can't run. Open Critterboard on iPhone or Android to chat.",
-        "cta": "Open Settings"
+        "cta": "Open Settings",
+        "ramTitle": "Chat isn't available on this phone",
+        "ramBody": "The guides run on {model}, which needs a phone with at least 4 GB of memory. Everything else in Critterboard works as usual."
       }
     },
     "activity": {
@@ -607,7 +609,9 @@
         "larvaIdle": "not on device",
         "larvaDownloading": "{done} GB downloaded",
         "larvaPhoneOnly": "phone app only",
-        "phoneOnly": "PHONE ONLY"
+        "phoneOnly": "PHONE ONLY",
+        "larvaTooLittleRam": "needs 4 GB of memory",
+        "notSupported": "NOT SUPPORTED"
       },
       "localLlmLabel": "On-device chat ({model})",
       "localLlmOn": "Chat runs on your device with {model}. Private & offline.",
@@ -640,7 +644,11 @@
       "localLlmError": "Download failed. Turn on to try again ({size} GB).",
       "localLlmDeleteTitle": "Turn off chat?",
       "localLlmDeleteBody": "This deletes {model} from your phone and frees {size} GB. Chat stays disabled until you download it again.",
-      "localLlmDeleteCta": "Delete model"
+      "localLlmDeleteCta": "Delete model",
+      "localLlmTooLittleRam": "Needs a phone with at least 4 GB of memory.",
+      "localLlmLowRamTitle": "Download on a 4 GB phone?",
+      "localLlmLowRamBody": "This phone has about 4 GB of memory. {model} uses about 3 GB while you chat, so replies may be slow and the app may close if other apps are open. The download is {size} GB.",
+      "localLlmLowRamCta": "Download anyway"
     },
     "regions": {
       "list": {

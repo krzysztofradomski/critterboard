@@ -197,7 +197,9 @@
         "downloadingTitle": "Descargando {model}… {pct}%",
         "webTitle": "El chat funciona en la app del teléfono",
         "webBody": "Los guías usan un modelo de IA en el dispositivo ({model}) que la vista previa web no puede ejecutar. Abre Critterboard en iPhone o Android para chatear.",
-        "cta": "Abrir Ajustes"
+        "cta": "Abrir Ajustes",
+        "ramTitle": "El chat no está disponible en este teléfono",
+        "ramBody": "Los guías funcionan con {model}, que necesita un teléfono con al menos 4 GB de memoria. El resto de Critterboard funciona con normalidad."
       }
     },
     "activity": {
@@ -606,7 +608,9 @@
         "larvaIdle": "no en dispositivo",
         "larvaDownloading": "{done} GB descargados",
         "larvaPhoneOnly": "solo en la app del teléfono",
-        "phoneOnly": "SOLO MÓVIL"
+        "phoneOnly": "SOLO MÓVIL",
+        "larvaTooLittleRam": "necesita 4 GB de memoria",
+        "notSupported": "NO COMPATIBLE"
       },
       "regionsBand": "Packs regionales",
       "regionsSub": "Mejoran la precisión donde de verdad estás.",
@@ -632,7 +636,11 @@
       "localLlmError": "La descarga falló. Actívalo para intentarlo de nuevo ({size} GB).",
       "localLlmDeleteTitle": "¿Desactivar el chat?",
       "localLlmDeleteBody": "Esto borra {model} del teléfono y libera {size} GB. El chat seguirá desactivado hasta que lo descargues de nuevo.",
-      "localLlmDeleteCta": "Borrar modelo"
+      "localLlmDeleteCta": "Borrar modelo",
+      "localLlmTooLittleRam": "Necesita un teléfono con al menos 4 GB de memoria.",
+      "localLlmLowRamTitle": "¿Descargar en un teléfono de 4 GB?",
+      "localLlmLowRamBody": "Este teléfono tiene unos 4 GB de memoria. {model} usa unos 3 GB mientras chateas, así que las respuestas pueden ser lentas y la app puede cerrarse si hay otras apps abiertas. La descarga es de {size} GB.",
+      "localLlmLowRamCta": "Descargar igualmente"
     },
     "regions": {
       "list": {

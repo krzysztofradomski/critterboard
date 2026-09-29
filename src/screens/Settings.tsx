@@ -40,6 +40,7 @@ function localLlmDesc(
 ): string {
   const vars = { model: CHAT_MODEL.name, size: CHAT_MODEL.sizeGb };
   if (status === 'unsupported') return t('settings.localLlmNoWeb', vars);
+  if (status === 'tooLittleRam') return t('settings.localLlmTooLittleRam', vars);
   if (status === 'error') return t('settings.localLlmError', vars);
   if (status === 'absent' || status === 'checking') return t('settings.localLlmOff', vars);
   return t('settings.localLlmOn', vars);
@@ -391,7 +392,9 @@ export function Settings() {
                     ? t("settings.model.larvaInstalled")
                     : modelState === 'unsupported'
                       ? t("settings.model.larvaPhoneOnly")
-                      : t("settings.model.larvaIdle"),
+                      : modelState === 'tooLittleRam'
+                        ? t("settings.model.larvaTooLittleRam")
+                        : t("settings.model.larvaIdle"),
             })}
             statusText={
               modelState === 'ready'
@@ -404,7 +407,9 @@ export function Settings() {
                       ? t("settings.model.error")
                       : modelState === 'unsupported'
                         ? t("settings.model.phoneOnly")
-                        : t("settings.model.get")
+                        : modelState === 'tooLittleRam'
+                          ? t("settings.model.notSupported")
+                          : t("settings.model.get")
             }
             statusBg={
               modelState === 'ready' ? PB.green
@@ -433,7 +438,19 @@ export function Settings() {
             }
             onChange={(v) => {
               if (v) {
-                void downloadChatModel();
+                if (chatModel.fit !== 'confirm') {
+                  void downloadChatModel();
+                  return;
+                }
+                // 4 GB phones: the model fits, but only just. Ask first.
+                Alert.alert(
+                  t("settings.localLlmLowRamTitle"),
+                  t("settings.localLlmLowRamBody", { model: CHAT_MODEL.name, size: CHAT_MODEL.sizeGb }),
+                  [
+                    { text: t("common.cancel"), style: "cancel" },
+                    { text: t("settings.localLlmLowRamCta"), onPress: () => void downloadChatModel() },
+                  ],
+                );
                 return;
               }
               // Turning chat off frees ~3 GB, but a re-download is slow: confirm.
@@ -450,7 +467,9 @@ export function Settings() {
                 ],
               );
             }}
-            disabled={modelState === "unsupported" || modelState === "checking"}
+            disabled={
+              modelState === "unsupported" || modelState === "tooLittleRam" || modelState === "checking"
+            }
           />
         </Sticker>
 

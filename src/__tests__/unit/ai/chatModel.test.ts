@@ -6,9 +6,16 @@ const env = vi.hoisted(() => ({
   status: 200,
   loadFails: false,
   loaded: null as string | null,
+  mem: 6 * 1024 ** 3 as number | null,
 }));
 
 vi.mock('react-native', () => ({ Platform: { OS: 'ios' } }));
+
+vi.mock('expo-device', () => ({
+  get totalMemory() {
+    return env.mem;
+  },
+}));
 
 vi.mock('expo-file-system/legacy', () => ({
   documentDirectory: 'file:///docs/',
@@ -56,6 +63,38 @@ describe('chatModel', () => {
     env.status = 200;
     env.loadFails = false;
     env.loaded = null;
+    env.mem = 6 * 1024 ** 3;
+  });
+
+  it('sorts phones into memory tiers', async () => {
+    const { memoryFit } = await fresh();
+    const gib = (n: number) => n * 1024 ** 3;
+    expect(memoryFit(gib(7.5))).toBe('ok'); // 8 GB phone
+    expect(memoryFit(gib(5.6))).toBe('ok'); // 6 GB phone
+    expect(memoryFit(gib(3.7))).toBe('confirm'); // 4 GB phone
+    expect(memoryFit(gib(2.8))).toBe('tooLittle'); // 3 GB phone
+    expect(memoryFit(null)).toBe('confirm'); // unknown
+  });
+
+  it('disables chat on phones with too little memory, even if the file is there', async () => {
+    env.mem = 2.8 * 1024 ** 3;
+    env.files.add(PATH);
+    const m = await fresh();
+    expect(m.chatModelState()).toMatchObject({ status: 'tooLittleRam', fit: 'tooLittle' });
+    await m.initChatModel();
+    await m.downloadChatModel();
+    expect(m.chatModelState().status).toBe('tooLittleRam');
+    expect(env.loaded).toBeNull();
+    expect(env.files.has(PATH)).toBe(false);
+  });
+
+  it('marks 4 GB phones as needing confirmation but still allows the download', async () => {
+    env.mem = 3.7 * 1024 ** 3;
+    const m = await fresh();
+    expect(m.chatModelState().fit).toBe('confirm');
+    await m.initChatModel();
+    await m.downloadChatModel();
+    expect(m.chatModelState().status).toBe('ready');
   });
 
   it('is absent when the file is not on disk, and removes the retired Gemma 3 file', async () => {

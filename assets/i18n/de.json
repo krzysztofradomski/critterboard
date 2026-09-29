@@ -197,7 +197,9 @@
         "downloadingTitle": "{model} wird geladen… {pct}%",
         "webTitle": "Der Chat läuft in der Handy-App",
         "webBody": "Die Guides nutzen ein KI-Modell auf dem Gerät ({model}), das die Web-Vorschau nicht ausführen kann. Öffne Critterboard auf iPhone oder Android, um zu chatten.",
-        "cta": "Einstellungen öffnen"
+        "cta": "Einstellungen öffnen",
+        "ramTitle": "Chat ist auf diesem Handy nicht verfügbar",
+        "ramBody": "Die Guides laufen auf {model}, das ein Handy mit mindestens 4 GB Arbeitsspeicher braucht. Alles andere in Critterboard funktioniert wie gewohnt."
       }
     },
     "activity": {
@@ -606,7 +608,9 @@
         "larvaIdle": "nicht auf Gerät",
         "larvaDownloading": "{done} GB geladen",
         "larvaPhoneOnly": "nur in der Handy-App",
-        "phoneOnly": "NUR HANDY"
+        "phoneOnly": "NUR HANDY",
+        "larvaTooLittleRam": "braucht 4 GB Arbeitsspeicher",
+        "notSupported": "NICHT UNTERSTÜTZT"
       },
       "regionsBand": "Regionalpakete",
       "regionsSub": "Verbessert ID-Genauigkeit dort, wo du tatsächlich bist.",
@@ -632,7 +636,11 @@
       "localLlmError": "Download fehlgeschlagen. Zum erneuten Versuch einschalten ({size} GB).",
       "localLlmDeleteTitle": "Chat ausschalten?",
       "localLlmDeleteBody": "Damit wird {model} vom Handy gelöscht und {size} GB werden frei. Der Chat bleibt aus, bis du das Modell erneut lädst.",
-      "localLlmDeleteCta": "Modell löschen"
+      "localLlmDeleteCta": "Modell löschen",
+      "localLlmTooLittleRam": "Braucht ein Handy mit mindestens 4 GB Arbeitsspeicher.",
+      "localLlmLowRamTitle": "Auf einem 4-GB-Handy laden?",
+      "localLlmLowRamBody": "Dieses Handy hat etwa 4 GB Arbeitsspeicher. {model} belegt beim Chatten etwa 3 GB, daher können Antworten langsam sein und die App kann sich schließen, wenn andere Apps offen sind. Der Download ist {size} GB groß.",
+      "localLlmLowRamCta": "Trotzdem laden"
     },
     "regions": {
       "list": {

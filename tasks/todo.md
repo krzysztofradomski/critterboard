@@ -20,7 +20,9 @@ Decision (user): use Gemma 4 for all cases; disable chat when it isn't installed
 - [x] Chat gated: "Download Gemma 4" card instead of the input; web says "phone app only"; scripted replies, `chat.ts`, `webNativeLlm.ts` and the `localLlmOn` flag removed
 - [x] Settings: model tile + toggle on the shared state; turning off confirms and deletes 3.1 GB; Gemma 4 credit (Apache 2.0)
 - [x] Strings in en/pl/de/es; tests for the message builder and the model lifecycle
-- [ ] Phone check: download without a login, load time, speed, memory (6 GB and 4 GB iPhones), tone in 4 languages ([[docs/handoff]] §3)
+- [x] Memory tiers via `expo-device`: ≥ 6 GB class downloads directly, 4 GB class confirms first, smaller phones can't chat
+- [x] Chat header: icon-only clear button, one-line name and status (was wrapping "Prof. Larva" over three lines)
+- [ ] Phone check: download without a login, load time, speed, memory tiers (6 GB / 4 GB / 3 GB iPhones), tone in 4 languages ([[docs/handoff]] §3)
 
 ## Now — Remove cloud Gemini; photo-based species icons
 

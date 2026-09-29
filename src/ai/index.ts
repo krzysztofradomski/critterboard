@@ -41,10 +41,11 @@ export {
   initChatModel,
   downloadChatModel,
   deleteChatModel,
+  memoryFit,
 } from '@/ai/chatModel';
 export { withGuardrails, checkInput, redactPii } from '@/ai/guardrails';
 export type { GuardCode, GuardResult, GuardrailsConfig } from '@/ai/guardrails';
-export type { ChatModelState, ChatModelStatus } from '@/ai/chatModel';
+export type { ChatModelState, ChatModelStatus, MemoryFit } from '@/ai/chatModel';
 export type { Candidate, VisionClassifier, VisionFrame, ClassifyOptions } from '@/ai/vision';
 export type { ExecutorchState, ExecutorchClassifierConfig } from '@/ai/executorchVision';
 export type { LlmRuntime, LlmMessage, CompleteOpts } from '@/ai/llm';
