@@ -963,7 +963,7 @@ with tab_vision:
 with tab_persona:
     st.header("Persona LoRA Training")
     st.markdown(
-        "Per-persona LoRA adapters on top of **Llama-3.2-1B-Instruct**.  \n"
+        "Per-persona LoRA adapters on top of **Gemma 4 E2B** (the app's chat model; untested).  \n"
         "Five steps: **Seed → Curate → Train → Test → Export**."
     )
     st.info(
@@ -1114,7 +1114,7 @@ with tab_persona:
 
     with st.expander("### Step 3 · Train LoRA Adapters", expanded=False):
         st.markdown(
-            "Trains one 15 MB LoRA adapter per persona on top of Llama-3.2-1B-Instruct.  \n"
+            "Trains one LoRA adapter per persona on top of Gemma 4 E2B.  \n"
             "Best on Kaggle T4 GPU. Works on M-series Mac (slower)."
         )
 
@@ -1245,10 +1245,9 @@ with tab_status:
         ("insect_classifier.onnx",             "Android vision classifier",               False),
         ("insect_classifier.mlpackage",         "iOS vision classifier",                   False),
         ("class_map.json",                      "Label → species mapping (full model)",    False),
-        ("llama-3.2-1b-instruct-q4_k_m.gguf",  "Base LLM — download separately (~800 MB)", True),
-        ("larva.gguf",                          "Larva persona adapter (~15 MB)",          False),
-        ("snail.gguf",                          "Snail persona adapter (~15 MB)",          False),
-        ("maywind.gguf",                        "Maywind persona adapter (~15 MB)",        False),
+        ("larva.gguf",                          "Larva persona adapter (not loaded by the app yet)",   False),
+        ("snail.gguf",                          "Snail persona adapter (not loaded by the app yet)",   False),
+        ("maywind.gguf",                        "Maywind persona adapter (not loaded by the app yet)", False),
     ]
 
     asset_rows = []
@@ -1261,17 +1260,10 @@ with tab_status:
 
     st.dataframe(pd.DataFrame(asset_rows), use_container_width=True, hide_index=True)
 
-    with st.expander("How to get the base LLM weights"):
-        st.markdown("""
-```bash
-pip install huggingface_hub
-huggingface-cli download bartowski/Llama-3.2-1B-Instruct-GGUF \\
-    Llama-3.2-1B-Instruct-Q4_K_M.gguf \\
-    --local-dir assets/models/ --local-dir-use-symlinks False
-
-mv assets/models/Llama-3.2-1B-Instruct-Q4_K_M.gguf \\
-   assets/models/llama-3.2-1b-instruct-q4_k_m.gguf
-```""")
+    st.caption(
+        "The chat model (Gemma 4 E2B, 3.1 GB) is not stored here: the app downloads it "
+        "from Settings (src/ai/chatModel.ts)."
+    )
 
     st.subheader("🦋 Vision Training Artifacts")
 

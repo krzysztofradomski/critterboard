@@ -14,9 +14,9 @@ export type PersonaMeta = {
   avatarBg: string;
   cardBg: string;
   /**
-   * Tone pin for the production Llama runtime. Kept in English — Llama
-   * 3.2 1B follows English system prompts most reliably even when
-   * replying in another language.
+   * Tone pin for the on-device chat model (Gemma 4 E2B). Kept in English;
+   * `buildMessages` adds "reply in <app language>" so the reply follows the
+   * user's language.
    */
   systemPrompt: string;
 };

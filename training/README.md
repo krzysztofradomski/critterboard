@@ -4,7 +4,8 @@ Two model families live here:
 
 - **Vision classifier** (this file) — identifies the insect from a photo.
 - **Persona LoRA adapters** ([`personas/`](personas/)) — small adapters on top of
-  Llama-3.2-1B that give Larva / Snail / Maywind their voice.
+  the chat model (Gemma 4 E2B) that would give Larva / Snail / Maywind their voice.
+  Not shipped: the app uses system prompts only.
 
 The vision pipeline is the **MVP blocker**. The persona pipeline is **deferred** — only
 worth running once the system-prompt approach shows real drift in user testing.

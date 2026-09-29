@@ -58,9 +58,9 @@ Opens at `http://localhost:8501` in your browser.
 
 1. **Seed** — bootstrap ~80 dialogue examples per persona via Anthropic API (~$1–3 with Haiku)
 2. **Curate** — review examples one-by-one (Accept / Edit / Reject); progress bar tracks the 300-example target
-3. **Train** — LoRA fine-tune on `Llama-3.2-1B-Instruct`; configurable rank, alpha, epochs
+3. **Train** — LoRA fine-tune on Gemma 4 E2B (`google/gemma-4-E2B-it`, the app's chat model; untested); configurable rank, alpha, epochs
 4. **Test** — side-by-side comparison: base model + system prompt vs base + LoRA
-5. **Export** — GGUF adapter files ready for `llama.rn`, then copy to `assets/models/`
+5. **Export** — GGUF adapter files for `llama.rn` (the app does not load adapters yet)
 
 ## Cleanup / Uninstall
 

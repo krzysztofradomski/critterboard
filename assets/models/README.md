@@ -1,6 +1,8 @@
 # `assets/models/`
 
-Drop the exported insect classifier and (eventually) the Llama GGUF here.
+Legacy drop folder for the original 20-species classifier. The shipped models are
+not here: the species model comes with the region pack and the chat model
+(Gemma 4 E2B) is downloaded by the app (see the table below).
 
 ## Expected files
 

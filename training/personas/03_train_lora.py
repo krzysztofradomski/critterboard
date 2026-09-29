@@ -1,11 +1,15 @@
 """
 STEP 3: Train one LoRA adapter per persona.
 ===========================================
-Uses PEFT + TRL's SFTTrainer on top of google/gemma-3-1b-it.
-Each persona's curated dataset becomes a small adapter (~15 MB) that we
-hot-swap at runtime via llama.rn.
+Uses PEFT + TRL's SFTTrainer on top of google/gemma-4-E2B-it (the app's
+chat model). Each persona's curated dataset becomes a small adapter that
+would be hot-swapped at runtime via llama.rn (not wired into the app yet).
 
-Hardware notes:
+Untested with Gemma 4 E2B: the timings below were measured for a 1B model.
+E2B is ~5B parameters in total, so expect several times longer and more
+GPU memory (lower BATCH_SIZE if a T4 runs out).
+
+Hardware notes (1B model):
   - CUDA T4 (Kaggle): ~10-15 min per persona at 300 rows × 3 epochs
   - CUDA T4 ×2: same wall time, ~doubled throughput
   - M-series MPS: ~30-45 min per persona, set BATCH_SIZE=2
@@ -46,7 +50,7 @@ OUT_DIR    = ROOT / "adapters"
 OUT_DIR.mkdir(exist_ok=True)
 
 CFG = {
-    "base_model":     "google/gemma-3-1b-it",
+    "base_model":     "google/gemma-4-E2B-it",  # the app's chat model (ADR 005)
     "max_seq_len":    512,
     "batch_size":     8,         # 8 on T4, drop to 2 on MPS
     "grad_accum":     2,
@@ -57,7 +61,8 @@ CFG = {
     "lora_dropout":   0.05,
     "warmup_steps":   10,
     "weight_decay":   0.01,
-    # Gemma 3 shares the same attention + MLP projection names as Llama.
+    # Standard attention + MLP projection names. Untested on Gemma 4: check
+    # model.named_modules() and adjust if PEFT reports missing targets.
     "lora_targets":   ["q_proj", "k_proj", "v_proj", "o_proj",
                        "gate_proj", "up_proj", "down_proj"],
 }
@@ -79,9 +84,9 @@ def load_persona_prompts() -> dict[str, str]:
 def to_chat(row: dict, system_prompt: str) -> dict:
     """
     Format one curated row using the standard HuggingFace messages dict.
-    SFTTrainer calls tokenizer.apply_chat_template() which automatically
-    applies Gemma 3's <start_of_turn> format. The system prompt is folded
-    into the first user turn by the tokenizer (Gemma 3 style).
+    SFTTrainer calls tokenizer.apply_chat_template(), which applies the
+    model's own chat template (the same one the app uses via llama.rn's
+    jinja templates), including how it places the system prompt.
     """
     return {
         "messages": [

@@ -1,16 +1,16 @@
 # Critterboard — Persona LoRA Training
 
-Pipeline for fine-tuning per-persona LoRA adapters on top of a shared `google/gemma-3-1b-it` base. **Do not run this until the system-prompt approach has shipped and you've measured real drift in user chats** — see `docs/ml-roadmap.md` § Track 2 for the decision criteria.
+Pipeline for fine-tuning per-persona LoRA adapters on top of the app's chat model, `google/gemma-4-E2B-it` (Gemma 4 E2B, Apache 2.0). **Untested with Gemma 4:** the scripts were written for a 1B text-only model; check that the model loads with `AutoModelForCausalLM` and that the LoRA target modules exist before a full run. **Do not run this until the system-prompt approach has shipped and you've measured real drift in user chats** — see `docs/ml-roadmap.md` § Track 2 for the decision criteria.
 
 ## What this produces
 
 | File | Size | Used by |
 |------|------|---------|
-| `exported/larva.gguf` | ~15 MB | `llamaRnRuntime` (persona = larva) |
-| `exported/snail.gguf` | ~15 MB | `llamaRnRuntime` (persona = snail) |
-| `exported/maywind.gguf` | ~15 MB | `llamaRnRuntime` (persona = maywind) |
+| `exported/larva.gguf` | tens of MB | not loaded by the app yet |
+| `exported/snail.gguf` | tens of MB | not loaded by the app yet |
+| `exported/maywind.gguf` | tens of MB | not loaded by the app yet |
 
-Adapters are **swapped at persona-change time** — the base model stays loaded once. ~670 MB base + 3 × 15 MB adapters = ~715 MB total bundle weight.
+The plan: adapters are **swapped at persona-change time** while the base model (3.1 GB, downloaded by the app) stays loaded. `llamaRnRuntime` has no adapter loading yet; wire it up (llama.rn's LoRA API) before shipping adapters.
 
 ## Pipeline (5 steps)
 
@@ -77,6 +77,6 @@ The bottleneck is **curation hours**, not GPU minutes. Plan one full day of huma
 
 ## Why LoRA and not full fine-tune
 
-- **Bundle size**: a full 1B fine-tune is ~700 MB. Three personas = 2.1 GB → app gets rejected from the App Store.
-- **LoRA**: ~15 MB per adapter, hot-swappable at runtime via `llama.cpp`'s adapter API.
+- **Download size**: a full fine-tune means one 3 GB model per persona. Three personas = 9 GB of downloads.
+- **LoRA**: a small adapter per persona (tens of MB), hot-swappable at runtime via `llama.cpp`'s adapter API.
 - **Base upgrades for free**: when a newer Gemma ships, swap `CFG["base_model"]` in `03_train_lora.py`, retrain — same data, same script.
