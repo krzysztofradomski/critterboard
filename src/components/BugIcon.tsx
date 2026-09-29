@@ -28,7 +28,7 @@ export function BugIcon({ bug, size, silhouette = false }: BugIconProps) {
         accessibilityIgnoresInvertColors
         style={[
           { width: size, height: size },
-          silhouette && { tintColor: PB.ink, opacity: 0.22 },
+          silhouette && { tintColor: PB.ink, opacity: 0.4 },
         ]}
       />
     );

@@ -21,8 +21,9 @@ Decisions (user): remove Gemini entirely (chat = on-device Gemma or scripted rep
 - [x] App: `bugIcons.ts` (download atlas, split into per-species files, `.v<version>` marker, registry), `BugIcon` (emoji fallback, Dex silhouette for uncaught) in Dex, Home, Result, Disambiguate, Map, Activity, region detail, profiles
 - [x] Pack updates skip the ~90 MB model when its URL is unchanged
 - [x] `build_icon_atlas.py`: atlas + pack `icons` block + manifest bump + `packs/icons/CREDITS.md`; docs [[docs/modules/species-icons]]
-- [ ] Generate 1,000 icons (~27 s each), review contact sheets, re-pick bad ones
-- [ ] Build atlas → pack `eu-ce` v5
+- [x] Generate 1,000 icons (~20 s each on 4 CPUs), review contact sheets, re-pick bad ones (148 rejected, 3 rounds); all CC0
+- [x] Build atlas → pack `eu-ce` v5 (icons v1, 9.1 MB atlas, model unchanged), `packs/icons/CREDITS.md`, Settings credit link
+- [ ] Check on a phone: first-install icon download + split time, Dex scrolling with 1,000 image cells
 
 ## Now — Vision v4: 1,000 species, commercial model first
 

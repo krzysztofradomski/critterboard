@@ -16,13 +16,12 @@ describe('packs/eu-ce.json', () => {
   });
 
   it('has an icon for every species the model knows, packed back to back in the atlas', () => {
-    const icons = (pack as { icons?: { url: string; index: Record<string, [number, number]> } }).icons;
-    if (!icons) return; // packs before v5 ship without icons
+    const icons = pack.icons as { url: string; index: Record<string, number[]> };
     const idOf = new Map(bugs.map((b) => [b.latin, b.id]));
     for (const latin of Object.keys(pack.labelMap)) expect(icons.index[idOf.get(latin)!]).toBeDefined();
     const ranges = Object.values(icons.index).sort((x, y) => x[0] - y[0]);
     let next = 0;
-    for (const [offset, length] of ranges) {
+    for (const [offset = -1, length = 0] of ranges) {
       expect(offset).toBe(next);
       expect(length).toBeGreaterThan(0);
       next = offset + length;
