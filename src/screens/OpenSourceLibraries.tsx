@@ -58,7 +58,8 @@ const DEV_LIBRARIES: readonly Library[] = [
 const REPO = 'https://github.com/krzysztofradomski/critterboard/blob/main';
 
 /**
- * Licence notices for the on-device species model (eu-1k-commercial-v1).
+ * Licence notices for the on-device models: species ID (eu-1k-commercial-v1),
+ * species icons and the chat model (Gemma 4 E2B, Apache 2.0).
  * Apache 2.0 asks for the licence + a notice with redistributed weights;
  * CC BY asks for credit to the photographers whose photos trained it
  * (species icons are drawn from CC0 photos, credited as a courtesy).
@@ -80,6 +81,11 @@ const MODEL_CREDITS: readonly { name: string; detail: string; url: string }[] = 
     url: `${REPO}/packs/models/LICENSE-google-vit-apache-2.0.txt`,
   },
   {
+    name: 'Chat model: Google Gemma 4 E2B',
+    detail: '© Google, Apache License 2.0. 4-bit GGUF conversion by Unsloth, downloaded when you turn on chat',
+    url: 'https://huggingface.co/google/gemma-4-E2B-it',
+  },
+  {
     name: 'Species icons: drawn from iNaturalist photos',
     detail: 'One CC0 photo per species, cartoonised; photo and photographer per icon',
     url: `${REPO}/packs/icons/CREDITS.md`,
@@ -92,8 +98,8 @@ function ModelCreditsSection() {
       <View style={styles.sectionHeader}>
         <Text style={{ fontSize: 24 }}>🐞</Text>
         <View style={{ flex: 1 }}>
-          <Text style={styles.sectionTitle}>Vision model</Text>
-          <Text style={styles.sectionSub}>On-device species ID: sources and licences</Text>
+          <Text style={styles.sectionTitle}>On-device models</Text>
+          <Text style={styles.sectionSub}>Species ID and chat: sources and licences</Text>
         </View>
       </View>
       <View style={styles.sectionBody}>

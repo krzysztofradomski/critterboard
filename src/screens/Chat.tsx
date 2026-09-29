@@ -13,22 +13,22 @@ import {
   View,
 } from 'react-native';
 
-import * as FileSystem from 'expo-file-system/legacy';
-
 import {
+  CHAT_MODEL,
   guardedLocalLlmChatAdapter,
-  guardedWebNativeLlmChatAdapter,
-  llamaRnRuntime,
-  MODEL_GGUF_FILENAME,
-  offlineChatAdapter,
+  initChatModel,
   type ChatHistoryTurn,
+  type ChatModelState,
 } from '@/ai';
+import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
+import { Sticker } from '@/components/Sticker';
 import { allBugs, findBug } from '@/data/bugs';
 import { useT } from '@/i18n/helpers';
 import { xpFromClaimedQuests, xpFromDex } from '@/lib/level';
 import { currentStreak } from '@/lib/streak';
 import { haptics } from '@/lib/haptics';
+import { useChatModel } from '@/lib/useChatModel';
 import { searchConversationMemories } from '@/lib/conversationMemory';
 import { PERSONA_META, PERSONA_IDS, type Persona } from '@/personas';
 import { usePersona } from '@/personas/hooks';
@@ -38,36 +38,15 @@ import { useNav } from '@/store/useNav';
 
 type Msg = { who: 'me' | 'larva'; t: string };
 
-// Chat never leaves the device: an on-device model when the user turned it on
-// in Settings, otherwise the persona's scripted offline replies.
-type ActiveChatMode = 'local' | 'offline';
-
-function resolveActiveMode(preferLocal: boolean): ActiveChatMode {
-  return preferLocal ? 'local' : 'offline';
-}
-
-function selectLocalAdapter() {
-  // On web: Chrome's built-in on-device model (Prompt API).
-  // On iOS/Android: on-device llama.rn runtime (Larva-3B GGUF).
-  return Platform.OS === 'web' ? guardedWebNativeLlmChatAdapter : guardedLocalLlmChatAdapter;
-}
-
-function initialMessages(
-  P: Persona,
-  mode: ActiveChatMode,
-  offlineHint: string,
-  topic?: string,
-): Msg[] {
-  const intro = topic ? P.lines.topicHello(topic) : P.lines.chatHello;
-  if (mode === 'local') return [{ who: 'larva', t: intro }];
-  return [
-    { who: 'larva', t: intro },
-    { who: 'larva', t: offlineHint },
-  ];
+// Chat runs only on the on-device Gemma 4 model (downloaded in Settings).
+// Until it's ready, the screen shows a gate instead of the input; there are
+// no scripted replies.
+function initialMessages(P: Persona, topic?: string): Msg[] {
+  return [{ who: 'larva', t: topic ? P.lines.topicHello(topic) : P.lines.chatHello }];
 }
 
 export function Chat() {
-  const { back } = useNav();
+  const { back, go } = useNav();
   const persona = useAppStore((s) => s.persona);
   const setPersona = useAppStore((s) => s.setPersona);
   const language = useAppStore((s) => s.language);
@@ -88,15 +67,14 @@ export function Chat() {
   const threadId = `${P.id}::${topic ?? 'general'}`;
   const storedThread = useAppStore((s) => s.chatThreads[threadId]);
 
-  const activeMode = resolveActiveMode(profile.localLlmOn);
-  const activeChatAdapter = activeMode === 'local' ? selectLocalAdapter() : offlineChatAdapter;
-  const offlineHint = t('chat.offlineHint');
+  const model = useChatModel();
+  const chatReady = model.status === 'ready';
 
   const [msgs, setMsgs] = useState<Msg[]>(
     () =>
       (storedThread?.messages.length
         ? storedThread.messages
-        : initialMessages(P, activeMode, offlineHint, topic)) as Msg[],
+        : initialMessages(P, topic)) as Msg[],
   );
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
@@ -105,25 +83,22 @@ export function Chat() {
   const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    // Switching thread/persona/mode should cancel in-flight replies and load
+    // Switching thread/persona should cancel in-flight replies and load
     // the persisted transcript for that thread.
     abortRef.current?.abort();
     setTyping(false);
     setMsgs(
       (storedThread?.messages.length
         ? storedThread.messages
-        : initialMessages(P, activeMode, offlineHint, topic)) as Msg[],
+        : initialMessages(P, topic)) as Msg[],
     );
-  }, [threadId, P, topic, activeMode]);
+  }, [threadId, P, topic]);
 
-  // Eagerly load the on-device model when local mode is active on native so
-  // the first message doesn't wait for a cold-start. Silently no-ops when the
-  // GGUF hasn't been downloaded yet — localLlmChatAdapter shows the prompt.
+  // Load the model if its file is on disk (no-op when already loaded/absent),
+  // so the first message doesn't wait for a cold start.
   useEffect(() => {
-    if (activeMode !== 'local' || Platform.OS === 'web') return;
-    const path = `${FileSystem.documentDirectory ?? ''}models/${MODEL_GGUF_FILENAME}`;
-    llamaRnRuntime.load(path).catch(() => {});
-  }, [activeMode]);
+    void initChatModel();
+  }, []);
 
   useEffect(() => {
     scrollRef.current?.scrollToEnd({ animated: true });
@@ -135,13 +110,12 @@ export function Chat() {
   }, [msgs, threadId, saveChatThread]);
 
   /**
-   * Streamed completion. The mock runtime yields one chunk; production
-   * Llama yields one chunk per token. Either way we append into the
-   * last "larva" bubble live so the user sees the answer materialise.
+   * Streamed completion: Gemma yields text as it generates, appended into
+   * the last "larva" bubble so the answer materialises live.
    */
   const send = async () => {
     const text = input.trim();
-    if (!text) return;
+    if (!text || !chatReady) return;
     abortRef.current?.abort();
     const ctrl = new AbortController();
     abortRef.current = ctrl;
@@ -178,7 +152,7 @@ export function Chat() {
     }));
 
     try {
-      for await (const chunk of activeChatAdapter.streamReply({
+      for await (const chunk of guardedLocalLlmChatAdapter.streamReply({
         persona: P,
         topic,
         userText: text,
@@ -229,7 +203,7 @@ export function Chat() {
     abortRef.current?.abort();
     setTyping(false);
     clearChatThread(threadId);
-    setMsgs(initialMessages(P, activeMode, offlineHint, topic));
+    setMsgs(initialMessages(P, topic));
   };
 
   return (
@@ -245,11 +219,9 @@ export function Chat() {
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text style={styles.headName}>{P.name}</Text>
           <Text style={styles.headStatus}>
-            {activeMode === 'local'
-              ? Platform.OS === 'web'
-                ? t('chat.webNativeStatus', { title: P.title })
-                : t('chat.localStatus', { title: P.title })
-              : t('chat.offlineStatus', { title: P.title })}
+            {chatReady
+              ? t('chat.localStatus', { title: P.title })
+              : t('chat.lockedStatus', { title: P.title })}
           </Text>
         </View>
         <View style={styles.clearWrap}>
@@ -318,24 +290,59 @@ export function Chat() {
         {typing ? <TypingDots /> : null}
       </ScrollView>
 
-      <View style={styles.inputRow}>
-        <TextInput
-          value={input}
-          onChangeText={setInput}
-          onSubmitEditing={send}
-          returnKeyType="send"
-          placeholder={t('chat.inputPlaceholder')}
-          placeholderTextColor={PB.ink + '80'}
-          style={styles.input}
-        />
-        <Pressable
-          onPress={send}
-          style={[styles.sendBtn, { backgroundColor: input.trim() ? PB.green : PB.cream2 }]}
-        >
-          <Text style={[styles.sendText, { color: input.trim() ? PB.cream : PB.ink }]}>→</Text>
-        </Pressable>
-      </View>
+      {!chatReady ? (
+        <ChatGate state={model} onOpenSettings={() => go('settings')} />
+      ) : (
+        <View style={styles.inputRow}>
+          <TextInput
+            value={input}
+            onChangeText={setInput}
+            onSubmitEditing={send}
+            returnKeyType="send"
+            placeholder={t('chat.inputPlaceholder')}
+            placeholderTextColor={PB.ink + '80'}
+            style={styles.input}
+          />
+          <Pressable
+            onPress={send}
+            style={[styles.sendBtn, { backgroundColor: input.trim() ? PB.green : PB.cream2 }]}
+          >
+            <Text style={[styles.sendText, { color: input.trim() ? PB.cream : PB.ink }]}>→</Text>
+          </Pressable>
+        </View>
+      )}
     </KeyboardAvoidingView>
+  );
+}
+
+/** Shown instead of the input until Gemma 4 is downloaded and loaded. */
+function ChatGate({ state, onOpenSettings }: { state: ChatModelState; onOpenSettings: () => void }) {
+  const t = useT();
+  const vars = { model: CHAT_MODEL.name, size: CHAT_MODEL.sizeGb, pct: state.pct };
+  const busy =
+    state.status === 'checking' || state.status === 'loading' || state.status === 'downloading';
+  const title =
+    state.status === 'unsupported' ? t('chat.gate.webTitle')
+    : state.status === 'downloading' ? t('chat.gate.downloadingTitle', vars)
+    : busy ? t('chat.gate.loadingTitle', vars)
+    : t('chat.gate.title', vars);
+  const body =
+    state.status === 'unsupported' ? t('chat.gate.webBody', vars)
+    : state.status === 'error' ? t('chat.gate.errorBody', vars)
+    : busy ? t('chat.gate.busyBody', vars)
+    : t('chat.gate.body', vars);
+  return (
+    <View style={styles.gate}>
+      <Sticker bg={PB.cream} rotate={-1} style={{ padding: 16 }}>
+        <Text style={styles.gateTitle}>{title}</Text>
+        <Text style={styles.gateBody}>{body}</Text>
+        {state.status === 'absent' || state.status === 'error' ? (
+          <Btn full bg={PB.ink} color={PB.yellow} onPress={onOpenSettings} style={{ marginTop: 12 }}>
+            {t('chat.gate.cta')}
+          </Btn>
+        ) : null}
+      </Sticker>
+    </View>
   );
 }
 
@@ -515,6 +522,15 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   typingDot: { width: 8, height: 8, borderRadius: 99, backgroundColor: PB.ink },
+  gate: {
+    padding: 14,
+    paddingBottom: 28,
+    borderTopColor: PB.ink,
+    borderTopWidth: 2.5,
+    backgroundColor: PB.cream,
+  },
+  gateTitle: { fontSize: 17, fontWeight: '800', color: PB.ink },
+  gateBody: { fontSize: 13, color: PB.ink, marginTop: 6, lineHeight: 18 },
   inputRow: {
     padding: 14,
     paddingBottom: 28,

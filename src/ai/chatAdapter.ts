@@ -1,4 +1,4 @@
-import { buildPrompt, llamaRnRuntime, mockRuntime } from '@/ai/llm';
+import { buildMessages, llamaRnRuntime } from '@/ai/llm';
 import type { Persona } from '@/personas';
 
 export type ChatHistoryTurn = {
@@ -48,30 +48,21 @@ export interface ChatAdapter {
   ready(): boolean;
 }
 
-export const mockChatAdapter: ChatAdapter = {
-  async *streamReply(params) {
-    for await (const chunk of mockRuntime.completeWithPersona(
-      params.persona,
-      params.userText,
-      params.topic,
-    )) {
-      if (params.signal?.aborted) return;
-      yield chunk;
-    }
-  },
-  ready() {
-    return true;
-  },
-};
-
+/**
+ * On-device chat with Gemma 4 (llama.rn). Chat.tsx only offers the input once
+ * the model is ready, so a not-ready call is a programming error.
+ */
 export const localLlmChatAdapter: ChatAdapter = {
   async *streamReply(params) {
-    if (!llamaRnRuntime.ready()) {
-      yield 'On-device model not loaded yet. Download Larva-3B from Settings → On-device Brains to enable private, offline chat.';
-      return;
-    }
-    const prompt = buildPrompt(params.persona, params.userText, params.topic);
-    for await (const chunk of llamaRnRuntime.complete(prompt, { signal: params.signal })) {
+    if (!llamaRnRuntime.ready()) throw new Error('chat model not loaded');
+    const messages = buildMessages({
+      persona: params.persona,
+      userText: params.userText,
+      language: params.userContext.language,
+      topic: params.topic,
+      history: params.history,
+    });
+    for await (const chunk of llamaRnRuntime.complete(messages, { signal: params.signal })) {
       if (params.signal?.aborted) return;
       yield chunk;
     }

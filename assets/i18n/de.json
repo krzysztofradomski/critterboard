@@ -187,7 +187,18 @@
       "localStatus": "● lokal · {title}",
       "inputPlaceholder": "Frag etwas über dieses Insekt…",
       "clearCta": "Chat leeren",
-      "offlineHint": "Offline-Modus: Ich kann nur vorgefertigte Antworten geben. Schalte in Einstellungen → Hirn auf dem Gerät das Modell auf dem Gerät ein, um echte Antworten zu bekommen."
+      "lockedStatus": "○ Chat aus · {title}",
+      "gate": {
+        "title": "{model} laden, um zu chatten",
+        "body": "Deine Guides laufen komplett auf diesem Handy mit Googles Modell {model}: einmaliger Download von {size} GB (WLAN empfohlen). Nichts, was du schreibst, verlässt das Gerät.",
+        "errorBody": "Der Download von {model} wurde nicht abgeschlossen. Prüfe Verbindung und freien Speicher ({size} GB) und versuche es in den Einstellungen erneut.",
+        "busyBody": "Der Chat öffnet sich, sobald das Modell bereit ist. Du kannst die App solange weiter nutzen.",
+        "loadingTitle": "{model} wird geweckt…",
+        "downloadingTitle": "{model} wird geladen… {pct}%",
+        "webTitle": "Der Chat läuft in der Handy-App",
+        "webBody": "Die Guides nutzen ein KI-Modell auf dem Gerät ({model}), das die Web-Vorschau nicht ausführen kann. Öffne Critterboard auf iPhone oder Android, um zu chatten.",
+        "cta": "Einstellungen öffnen"
+      }
     },
     "activity": {
       "title": "Summen",
@@ -205,7 +216,7 @@
         "a1Title": "antqueen mochte deinen Monarchen",
         "a1Sub": "vor 2 Std. · Brooklyn-Cluster",
         "a1Cta": "Sichtung ansehen",
-        "a2Title": "Larva-3B v1.4 zur Installation bereit",
+        "a2Title": "Gemma 4 E2B zur Installation bereit",
         "a2Sub": "Neue Witze. Gleicher Vibe. 240 MB.",
         "a2Cta": "Aktualisieren",
         "a3Title": "4-Tage-Serie! Brich sie nicht ab",
@@ -581,11 +592,10 @@
       "crashNeeds": "Erfordert Netzwerkzugriff.",
       "model": {
         "bugNet": "BugNet v3",
-        "bugNetMeta": "Vision · 412 MB · 10.247 Arten",
-        "larva": "Larva-3B (Q4)",
-        "larvaMeta": "Chat-Modell · {pct} / 1,9 GB · {state}",
+        "bugNetMeta": "Vision · 88 MB · 1.000 Arten",
+        "larva": "{model} (Q4)",
+        "larvaMeta": "Chat-Modell · {size} GB · {state}",
         "larvaInstalled": "installiert",
-        "larvaEta": "~2 Min. übrig",
         "species": "Artendatenbank",
         "speciesMeta": "Fakten & Habitate · 88 MB · v2026.04",
         "ready": "BEREIT",
@@ -593,7 +603,10 @@
         "loading": "LADEN",
         "error": "FEHLER",
         "get": "↓ GET",
-        "larvaIdle": "nicht auf Gerät"
+        "larvaIdle": "nicht auf Gerät",
+        "larvaDownloading": "{done} GB geladen",
+        "larvaPhoneOnly": "nur in der Handy-App",
+        "phoneOnly": "NUR HANDY"
       },
       "regionsBand": "Regionalpakete",
       "regionsSub": "Verbessert ID-Genauigkeit dort, wo du tatsächlich bist.",
@@ -611,7 +624,15 @@
       "creditsTitle": "Für immer kostenlos. Keine Werbung. Kein Tracking.",
       "creditsSub": "Mit Liebe von 3 Leuten gebaut, die wirklich Käfer mögen.",
       "viewCredits": "CREDITS ANSEHEN →",
-      "guideToast": "Guide: {name}"
+      "guideToast": "Guide: {name}",
+      "localLlmLabel": "Chat auf dem Gerät ({model})",
+      "localLlmOn": "Der Chat läuft mit {model} auf deinem Gerät. Privat & offline.",
+      "localLlmOff": "Aus: Chat ist deaktiviert. Einschalten, um {model} zu laden ({size} GB, WLAN empfohlen).",
+      "localLlmNoWeb": "Der Chat braucht die iPhone- oder Android-App.",
+      "localLlmError": "Download fehlgeschlagen. Zum erneuten Versuch einschalten ({size} GB).",
+      "localLlmDeleteTitle": "Chat ausschalten?",
+      "localLlmDeleteBody": "Damit wird {model} vom Handy gelöscht und {size} GB werden frei. Der Chat bleibt aus, bis du das Modell erneut lädst.",
+      "localLlmDeleteCta": "Modell löschen"
     },
     "regions": {
       "list": {
@@ -751,7 +772,7 @@
     "personas": {
       "larva": {
         "name": "Prof. Larva",
-        "title": "larva-3b · trocken",
+        "title": "gemma-4 · trocken",
         "blurb": "Schnippisch. Hilfreich wider Willen.",
         "lines": {
           "intro": "\"Oh super, noch ein Trainer. Lass mich alles stehen lassen.\"",
@@ -778,7 +799,7 @@
       },
       "snail": {
         "name": "Dr. Schnecke",
-        "title": "snail-3b · geduldig",
+        "title": "gemma-4 · geduldig",
         "blurb": "Ruhig. Lehrt in deinem Tempo.",
         "lines": {
           "intro": "\"Willkommen. Lass dir Zeit — wir lernen gemeinsam.\"",
@@ -805,7 +826,7 @@
       },
       "maywind": {
         "name": "R.A. Maywind",
-        "title": "maywind-3b · neugierig",
+        "title": "gemma-4 · neugierig",
         "blurb": "Witzig. Fröhlich. Liebt jedes Insekt.",
         "lines": {
           "intro": "\"Hi hi! Notizbuch bereit, Stiefel geschnürt — los, suchen wir ein Tierchen!\"",
@@ -922,15 +943,15 @@
       "models": {
         "bugnet": {
           "name": "BugNet v3",
-          "role": "Vision · 412 MB · 10.247 Arten"
+          "role": "Vision · 88 MB · 1.000 Arten"
         },
         "larva": {
-          "name": "Larva-3B",
-          "role": "Chat · 1,9 GB · Q4 quantisiert"
+          "name": "Gemma 4 E2B",
+          "role": "Chat · 3,1 GB · Q4_K_M · Apache 2.0"
         },
         "variants": {
           "name": "Maywind / Snail",
-          "role": "Persona-Varianten von Larva-3B"
+          "role": "Personas: System-Prompts auf Gemma 4"
         }
       },
       "data": {

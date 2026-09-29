@@ -20,7 +20,6 @@ const BASE_STATE = {
     leaderboardOn: true,
     locationShareOn: false,
     crashReportingOn: false,
-    localLlmOn: false,
   },
   hasOnboarded: false,
   toast: null,
