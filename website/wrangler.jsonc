@@ -1,0 +1,8 @@
+// Landing page: static assets only, no Worker script.
+// Deploy: cd website && npx wrangler deploy
+{
+  "name": "critterboard-site",
+  "compatibility_date": "2026-09-30",
+  "assets": { "directory": "." },
+  "routes": [{ "pattern": "critterboard.app", "custom_domain": true }]
+}

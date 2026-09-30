@@ -55,7 +55,7 @@ flowchart TB
 | `worker/` | Cloudflare Worker (`critterboard-api`), D1 schema, wrangler config. Deployed on its own, not bundled into the app. |
 | `packs/` | Region-pack manifest + pack JSON, served from `raw.githubusercontent.com`. |
 | `training/`, `tools/training-ui/` | Python pipelines for the vision model and persona LoRAs. |
-| `website/` | Static landing page (currently configured for Netlify). |
+| `website/` | Static landing page, served at critterboard.app by an assets-only Cloudflare Worker (see [[deployment]]). |
 | `evals/` | Evalite chat evals. |
 
 ## Native surface (what forces a dev client)

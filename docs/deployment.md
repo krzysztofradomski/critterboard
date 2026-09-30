@@ -171,3 +171,17 @@ Or add a non-secret `env` block per profile in `eas.json`. Keep real keys out of
 - [ ] `google-service-account.json` present locally (Android), git-ignored
 - [ ] EAS env vars (`eas env:create`) set for any `EXPO_PUBLIC_*` the app needs at runtime
 - [ ] `pnpm run check` is green
+
+## Landing page (critterboard.app)
+
+`website/index.html` is a single self-contained page served by an assets-only
+Cloudflare Worker (`critterboard-site`, config in `website/wrangler.jsonc`) on
+the `critterboard.app` custom domain. No build step.
+
+```bash
+cd website && npx wrangler deploy
+```
+
+Cloudflare manages the apex DNS record for the custom domain; don't add A/CNAME
+records for `critterboard.app` by hand, or the next deploy fails with
+"already has externally managed DNS records".

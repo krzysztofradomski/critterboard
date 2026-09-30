@@ -32,7 +32,6 @@ tools/
 docs/
 tasks/
 packs/
-netlify.toml
 
 # --- store credentials: never upload as plain files ---
 google-service-account.json

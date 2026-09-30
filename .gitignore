@@ -56,3 +56,4 @@ venv/
 # Offline map packs (tools/map/extract.sh output)
 *.pmtiles
 tools/map/out/
+.wrangler/
