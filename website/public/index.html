@@ -931,10 +931,7 @@
           class="form"
           id="form"
           name="waitlist"
-          netlify
-          netlify-honeypot="bot-field"
         >
-          <input type="hidden" name="form-name" value="waitlist" />
           <p class="honeypot-field">
             <label>Don't fill this out: <input name="bot-field" /></label>
           </p>
@@ -1173,6 +1170,7 @@
           email_ph: "your@email.com",
           submit: "Join the European Beta 🪲",
           success: "🎉 You're in. European beta, limited spots.",
+          err: "Didn't save. Try again? 🐛",
           note: "Early access for Europe. Limited spots.",
           tag_acc: "✓ no account",
           tag_net: "✓ no internet needed",
@@ -1234,6 +1232,7 @@
           submit: "Dołącz do europejskiej bety 🪲",
           success:
             "🎉 Jesteś w środku. Europejska beta, ograniczona liczba miejsc.",
+          err: "Nie zapisało się. Spróbuj jeszcze raz 🐛",
           note: "Wczesny dostęp dla Europy. Ograniczona liczba miejsc.",
           tag_acc: "✓ bez konta",
           tag_net: "✓ bez netu",
@@ -1295,6 +1294,7 @@
           email_ph: "tu@email.com",
           submit: "Únete a la beta europea 🪲",
           success: "🎉 Estás dentro. Beta europea, plazas limitadas.",
+          err: "No se guardó. ¿Otra vez? 🐛",
           note: "Acceso anticipado para Europa. Plazas limitadas.",
           tag_acc: "✓ sin cuenta",
           tag_net: "✓ sin internet",
@@ -1357,6 +1357,7 @@
           email_ph: "deine@email.com",
           submit: "Europa-Beta beitreten 🪲",
           success: "🎉 Du bist dabei. Europa-Beta, begrenzte Plätze.",
+          err: "Nicht gespeichert. Nochmal? 🐛",
           note: "Früher Zugang für Europa. Begrenzte Plätze.",
           tag_acc: "✓ kein Konto",
           tag_net: "✓ kein Internet nötig",
@@ -1489,17 +1490,20 @@
         const botField = form.querySelector("input[name=bot-field]").value;
         btn.textContent = "...";
         btn.disabled = true;
+        let ok = false;
         try {
-          await fetch("/", {
+          const res = await fetch("/api/waitlist", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams({
-              "form-name": "waitlist",
-              "bot-field": botField,
-              email,
-            }).toString(),
+            body: new URLSearchParams({ "bot-field": botField, email }).toString(),
           });
+          ok = res.ok;
         } catch {}
+        if (!ok) {
+          btn.textContent = (I18N[document.documentElement.lang] || I18N.en).err;
+          btn.disabled = false;
+          return;
+        }
         form.style.display = "none";
         document.getElementById("ok").style.display = "block";
       });

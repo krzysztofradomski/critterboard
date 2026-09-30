@@ -174,12 +174,18 @@ Or add a non-secret `env` block per profile in `eas.json`. Keep real keys out of
 
 ## Landing page (critterboard.app)
 
-`website/index.html` is a single self-contained page served by an assets-only
-Cloudflare Worker (`critterboard-site`, config in `website/wrangler.jsonc`) on
-the `critterboard.app` custom domain. No build step.
+`website/public/index.html` is a single self-contained page. The Cloudflare
+Worker `critterboard-site` (`website/wrangler.jsonc`) serves it as a static
+asset on the `critterboard.app` custom domain. No build step.
+
+`website/worker.js` only handles `POST /api/waitlist`, the email form. It stores
+`email -> ISO date` in the `WAITLIST` KV namespace (nothing else, per the page's
+privacy note). Bots filling the hidden `bot-field` get a 204 and are dropped.
 
 ```bash
-cd website && npx wrangler deploy
+cd website && npx wrangler deploy        # deploy
+npx wrangler dev                         # local, uses a local KV
+npx wrangler kv key list --binding WAITLIST --remote   # read the waitlist
 ```
 
 Cloudflare manages the apex DNS record for the custom domain; don't add A/CNAME
