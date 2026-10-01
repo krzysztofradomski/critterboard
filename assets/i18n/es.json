@@ -49,7 +49,6 @@
       "bugOfDay": "BICHO DEL DÍA",
       "hunt": "CAZAR →",
       "bugOfDayDesc": "Captura uno hoy por",
-      "bugOfDayXp": " +500 XP ",
       "bugOfDayDescTail": " y una insignia brillante.",
       "yourWeek": "Tu semana",
       "daysToBadge": "{n} días para la insignia",
@@ -130,14 +129,13 @@
     },
     "disambiguate": {
       "headTitle": "NO MUY SEGURO",
-      "lowConfidence": "POCA CONFIANZA · 62%",
-      "shotMeta": "📷 1/250s · borroso",
+      "lowConfidence": "POCA CONFIANZA · {pct}%",
       "topCandidates": "MEJORES CANDIDATOS",
       "tapToConfirm": "pulsa para confirmar",
       "askForHelp": "Pide ayuda a {name} →",
       "noneOfThese": "Ninguno de estos",
       "thisMystery": "este bicho misterioso",
-      "foot": "ID ejecutada en el dispositivo · 320 ms · ninguna foto salió del teléfono"
+      "foot": "ID ejecutada en el dispositivo · ninguna foto salió del teléfono"
     },
     "noMatch": {
       "headTitle": "SIN COINCIDENCIA",
@@ -339,7 +337,10 @@
       "hunt": "CAZAR →",
       "pinRemove": "Eliminar pin",
       "emptyTitle": "Aún no hay pines",
-      "emptySub": "Atrapa un bicho con la ubicación activada y aparecerá aquí."
+      "emptySub": "Atrapa un bicho con la ubicación activada y aparecerá aquí.",
+      "packDownloading": "Descargando mapa sin conexión… {pct}%",
+      "packMissing": "Los datos del mapa sin conexión aún no están disponibles.",
+      "packError": "No se pudo descargar el mapa sin conexión. Inténtalo más tarde."
     },
     "permissions": {
       "title": "Tres preguntas rápidas.",
@@ -537,7 +538,8 @@
       },
       "freezeTitle": "Congeladores de racha",
       "freezeDesc": "Se usan solos en un día perdido para que la racha siga. Ganas uno cada 7 días.",
-      "keepAlive": "📷 Mantén la racha viva"
+      "keepAlive": "📷 Mantén la racha viva",
+      "noStreak": "Aún sin racha."
     },
     "settings": {
       "title": "Cerebro en el dispositivo",
@@ -596,7 +598,7 @@
       "helpTile": "Ayuda y acerca de",
       "helpSub": "FAQ · exportar datos",
       "creditsTitle": "Gratis para siempre. Sin anuncios. Sin rastreo.",
-      "creditsSub": "Hecho con cariño por 3 personas a las que de verdad les gustan los escarabajos.",
+      "creditsSub": "Hecho con cariño para quienes aman los escarabajos.",
       "viewCredits": "VER CRÉDITOS →",
       "guideToast": "Guía: {name}",
       "localLlmLabel": "Chat en el dispositivo ({model})",
@@ -758,7 +760,7 @@
           "intro": "\"Genial, otra entrenadora. Déjame soltarlo todo.\"",
           "scanTip": "Sí sí, enfoca la cámara. Soy una IA, no maga.",
           "analyzing": "Entornando los ojos. No me metas prisa.",
-          "streak": "\"Tres días seguidos. Tu terapeuta estará encantado.\"",
+          "streak": "\"Apareciendo una y otra vez. Tu terapeuta estará encantado.\"",
           "chatHello": "¿Sí? ¿Qué ahora?",
           "topicHello": "¿Así que ahora hablamos del {topic}? Vale.",
           "common": "\"Es una {name}. Sí. ¿De verdad me necesitabas para esto?\"",
@@ -785,7 +787,7 @@
           "intro": "\"Bienvenido. Tómate tu tiempo — aprenderemos juntos.\"",
           "scanTip": "Sostén la cámara firme. No hay prisa. El bicho espera.",
           "analyzing": "Examinando con cuidado. Un momento, por favor.",
-          "streak": "\"Cuatro días maravillosos de atención. Bien hecho.\"",
+          "streak": "\"Día tras día prestando atención. Bien hecho.\"",
           "chatHello": "Hola, amigo. ¿Qué has encontrado hoy?",
           "topicHello": "Ah, el {topic}. Buen tema. ¿Por dónde empezamos?",
           "common": "\"Una {name}. Una visita común muy querida — del tipo que enseña a mirar de cerca.\"",
@@ -812,7 +814,7 @@
           "intro": "\"¡Hola hola! Libreta lista, botas atadas — ¡a buscar bichos!\"",
           "scanTip": "¡Ooh ooh — apunta esa lente! ME ENCANTA esta parte.",
           "analyzing": "Cruzando la base — ¡esta es la parte divertida!",
-          "streak": "\"¡Cuatro días seguidos! ¡Eres una leyenda!\"",
+          "streak": "\"¡Día tras día! ¡Eres una leyenda!\"",
           "chatHello": "¡Hola! ¿Qué miramos hoy? Cuéntamelo todo.",
           "topicHello": "¡Ooh, un {topic}! Genial elección. ¡Pregúntame lo que sea!",
           "common": "\"¡Una {name}! Clásica favorita. Diez sobre diez, la identificaría de nuevo.\"",
@@ -820,7 +822,7 @@
         },
         "uncertain": "¡Ooh, un puzle! Lo reduje a tres. ¡Ayúdame a elegir!",
         "noMatch": "¡Hmm! Salió vacío. ¡Otro ángulo, más luz y lo clavamos!",
-        "streakSass": "¡CUATRO DÍAS! Mañana son cinco — ¡tú puedes!",
+        "streakSass": "¡UNA RACHA! Mañana sigue — ¡tú puedes!",
         "badgeLocked": "¡Ooh, esta es GENIAL — te va a encantar desbloquearla!",
         "badgeEarned": "¡SÍ! ¡Mírate! ¡Va a la libreta!",
         "canned": [
@@ -894,9 +896,9 @@
         "wipeToast": "Borrado en cola — reinicia la app."
       },
       "appName": "Critterboard",
-      "appBuild": "v1.4.0 · build 2026.05 · licencia MIT",
-      "appSpecOn": "iOS 16+ · 312 MB en disco · red ACTIVADA",
-      "appSpecOff": "iOS 16+ · 312 MB en disco · totalmente offline"
+      "appBuild": "v{version} · licencia MIT",
+      "appSpecOn": "iOS 17+ · red ACTIVADA",
+      "appSpecOff": "iOS 17+ · totalmente offline"
     },
     "credits": {
       "build": "v{version}",

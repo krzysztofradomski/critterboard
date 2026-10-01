@@ -9,6 +9,7 @@ import {
 } from "@maplibre/maplibre-react-native";
 
 import { PixelBug } from "@/components/PixelBug";
+import { useT } from "@/i18n/helpers";
 import {
   DEV_MAP_PACK_ID,
   devMapPackUrl,
@@ -76,11 +77,12 @@ function useMapPack(): PackState {
   return state;
 }
 
-function statusText(state: PackState): string | null {
+/** User-facing pack status; null once ready (or while the local file is being looked up). */
+function statusText(state: PackState, t: ReturnType<typeof useT>): string | null {
   switch (state.kind) {
-    case "downloading": return `Downloading offline map… ${state.pct}%`;
-    case "missing": return "No offline map pack (set EXPO_PUBLIC_MAP_PACK_URL)";
-    case "error": return `Map pack failed: ${state.message}`;
+    case "downloading": return t("map.packDownloading", { pct: state.pct });
+    case "missing": return t("map.packMissing");
+    case "error": return t("map.packError");
     default: return null;
   }
 }
@@ -92,6 +94,7 @@ function statusText(state: PackState): string | null {
 export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
   function OfflineMap({ markers, initialView, onMarkerClick }, ref) {
     const cameraRef = useRef<CameraRef>(null);
+    const t = useT();
     const pack = useMapPack();
     const tilesUrl = pack.kind === "ready" ? pack.tilesUrl : null;
     const mapStyle = useMemo(() => buildStickerStyle(tilesUrl), [tilesUrl]);
@@ -112,7 +115,7 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
       },
     }));
 
-    const status = __DEV__ ? statusText(pack) : null;
+    const status = statusText(pack, t);
 
     return (
       <View style={StyleSheet.absoluteFill}>

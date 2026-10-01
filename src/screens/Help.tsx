@@ -1,3 +1,4 @@
+import appJson from '../../app.json';
 import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
@@ -208,7 +209,7 @@ export function Help() {
 
         <Sticker bg={PB.cream2} style={{ padding: 14, alignItems: 'center' }}>
           <Text style={styles.appName}>{t('help.appName')}</Text>
-          <Text style={styles.appBuild}>{t('help.appBuild')}</Text>
+          <Text style={styles.appBuild}>{t('help.appBuild', { version: appJson.expo.version })}</Text>
           <Text style={styles.appSpec}>
             {profile.networkOn ? t('help.appSpecOn') : t('help.appSpecOff')}
           </Text>

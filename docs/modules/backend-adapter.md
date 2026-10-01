@@ -22,7 +22,7 @@ One adapter, one chokepoint:
 |---|---|
 | `src/backend/types.ts` | Wire schemas — `BackendUser`, `LeaderboardEntry`, `FriendNode`, `FeedEvent`, page envelopes, `BackendError`. |
 | `src/backend/adapter.ts` | `BackendAdapter` interface — `identity / syncProfile / publishCatch / fetchLeaderboard / fetchFriends / fetchFeed / follow / unfollow / ready`. |
-| `src/backend/mock.ts` | Default impl. Projects `LEADERS` and `FRIENDS` onto the wire types, generates a deterministic peer-activity ticker for the social feed. Identity is injected via `bindMockIdentity`. |
+| `src/backend/mock.ts` | Default impl. Projects `LEADERS` and `FRIENDS` onto the wire types (empty apart from the user unless `EXPO_PUBLIC_DEMO_PEERS=1`, see [[../decisions/006-fresh-start-no-seed-data]]), generates a deterministic peer-activity ticker for the social feed. Identity is injected via `bindMockIdentity`. |
 | `src/backend/cloudflare.ts` | Real HTTP client for `worker/`. Exchanges `backendUserId` for a JWT, retries once on 401. Auto-selected when `EXPO_PUBLIC_BACKEND_URL` is set. |
 | `src/backend/index.ts` | Switchboard. `USE_REMOTE_BACKEND` flag picks mock or cloudflare. Re-exports types so consumers can import from `@/backend`. |
 | `src/backend/hooks.ts` | React layer — `useLeaderboard / useFriends / useFeed / useToggleFollow / usePublishCatch / useBackendIdentityBridge`. Owns request state, network gating, and live identity binding. |

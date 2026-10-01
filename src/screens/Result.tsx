@@ -123,7 +123,8 @@ export function Result() {
   const publishCatch = usePublishCatch();
   const P = usePersona(persona);
   const alreadyCaught = dex.has(bug.id);
-  const conf = params?.conf ?? (bug.rarity === 'legendary' ? 88 : bug.rarity === 'common' ? 98 : 94);
+  // Only a fresh scan carries a model confidence; opening a bug from the Dex has none.
+  const conf = params?.conf;
   const facts = FACT_KEYS[bug.id] ?? DEFAULT_FACT_KEYS;
 
   const snarkLine = bug.rarity === 'legendary'
@@ -229,13 +230,17 @@ export function Result() {
           <View style={{ padding: 14 }}>
             <Text style={styles.bugName}>{localizedName}</Text>
             <Text style={styles.bugLatin}>{bug.latin}</Text>
-            <View style={styles.confRow}>
-              <Text style={styles.confLabel}>{t('result.confidence')}</Text>
-              <Text style={[styles.confValue, { color: PB.green }]}>{conf}%</Text>
-            </View>
-            <View style={styles.confBar}>
-              <View style={[styles.confFill, { width: `${conf}%` }]} />
-            </View>
+            {conf !== undefined && (
+              <>
+                <View style={styles.confRow}>
+                  <Text style={styles.confLabel}>{t('result.confidence')}</Text>
+                  <Text style={[styles.confValue, { color: PB.green }]}>{conf}%</Text>
+                </View>
+                <View style={styles.confBar}>
+                  <View style={[styles.confFill, { width: `${conf}%` }]} />
+                </View>
+              </>
+            )}
           </View>
         </Sticker>
 

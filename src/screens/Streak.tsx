@@ -79,9 +79,9 @@ export function Streak() {
             </View>
             <View style={{ flex: 1, minWidth: 0 }}>
               <Text style={styles.heroTitle}>
-                {t("streak.dayOnFire", { n: cur })}
+                {cur > 0 ? t("streak.dayOnFire", { n: cur }) : t("streak.noStreak")}
               </Text>
-              <Text style={styles.heroSass}>{P.streakSass}</Text>
+              <Text style={styles.heroSass}>{cur > 0 ? P.streakSass : P.lines.intro}</Text>
             </View>
           </View>
         </Sticker>

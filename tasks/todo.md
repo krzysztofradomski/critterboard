@@ -618,24 +618,24 @@ Lessons learned mid-task go in [[tasks/lessons]].
 Reported: seeded user data on a new install, fake people/leaderboard/credits, packs listed that don't exist, model naming mixed up, location not detected, slow map tiles, hero tag always "Legendary".
 
 **A. Fresh start (no seeded user data)**
-- [ ] Store starts empty: dex, catchLog, activityLog, quest progress, followed; profile name empty until onboarding asks for it
-- [ ] Drop seed data: `CAUGHT_IDS`, `buildSeedCatchLog`, `INITIAL_FOLLOWED`, `COMPLETED_QUESTS` seed rows, quest template progress
-- [ ] Home / Quests / Dex / Streak / Activity render sane empty states
-- [ ] Map: drop demo `SIGHTINGS`; show only the user's own pins, real count in the header, empty-state card
+- [x] Store starts empty: dex, catchLog, activityLog, quest progress, followed; profile name empty until onboarding asks for it
+- [x] Drop seed data: `CAUGHT_IDS`, `buildSeedCatchLog`, `INITIAL_FOLLOWED`, `COMPLETED_QUESTS` seed rows, quest template progress
+- [x] Home / Quests / Dex / Streak / Activity render sane empty states
+- [x] Map: drop demo `SIGHTINGS`; show only the user's own pins, real count in the header, empty-state card
 
 **B. Fake people and rankings**
-- [ ] Credits: remove invented team; fix "made by three people" copy in all 4 locales
-- [ ] Leaderboard / Friends / PersonModal: no synthetic LEADERS or profiles; empty states; mock backend must not invent people
+- [x] Credits: remove invented team; fix "made by three people" copy in all 4 locales
+- [x] Leaderboard / Friends / PersonModal: no synthetic LEADERS or profiles; empty states; mock backend must not invent people
 
 **C. Models and packs naming**
-- [ ] One user-facing name for the vision model (single source), real id only in licences
-- [ ] "Species Database" card: decide what it really is (pack data vs model) and fix or remove
-- [ ] Regions in Settings: only packs present in `packs/manifest.json` are enabled, others greyed out + "coming soon"
+- [x] One user-facing name for the vision model (single source), real id only in licences
+- [x] "Species Database" card: decide what it really is (pack data vs model) and fix or remove
+- [x] Regions in Settings: only packs present in `packs/manifest.json` are enabled, others greyed out + "coming soon"
 
 **D. Map and home**
-- [ ] Location: ask permission when sharing is turned on, then detect; clear "why private" state
-- [ ] Profile tile loading speed (measure first)
-- [ ] Home hero: rotate rarity tags as a preview instead of a fixed Legendary
+- [x] Location: ask permission when sharing is turned on, then detect; clear "why private" state
+- [x] Tile loading: first Map open downloads the 17 MB pack with no feedback; now shows progress/errors. Still open: TestFlight builds have no `EXPO_PUBLIC_MAP_PACK_URL`, so need a hosted pack (R2) before the map has tiles
+- [x] Home hero: rotate rarity tags as a preview instead of a fixed Legendary
 
 **E. Audit** — other hardcoded demo numbers/copy (e.g. "320 ms", "0.4 mi"), logic and UX issues found on the way
 

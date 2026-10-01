@@ -48,7 +48,12 @@ export function Home() {
    */
   const streakAtRisk =
     streakDays >= 1 && !week.some((c) => c.isToday && c.caught);
-  const personaLine = streakAtRisk ? P.streakSass : P.lines.streak;
+  // No streak yet (new user, or it lapsed): greet instead of praising.
+  const personaLine = streakAtRisk
+    ? P.streakSass
+    : streakDays >= 1
+      ? P.lines.streak
+      : P.lines.intro;
   const personaStickerBg = streakAtRisk ? PB.red : PB.yellow;
   const personaTextColor = streakAtRisk ? PB.cream : PB.ink;
 

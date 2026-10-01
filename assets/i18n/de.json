@@ -49,7 +49,6 @@
       "bugOfDay": "INSEKT DES TAGES",
       "hunt": "JAGD →",
       "bugOfDayDesc": "Fang heute einen für",
-      "bugOfDayXp": " +500 XP ",
       "bugOfDayDescTail": " und ein glänzendes Abzeichen.",
       "yourWeek": "Deine Woche",
       "daysToBadge": "Noch {n} Tage bis zum Abzeichen",
@@ -130,14 +129,13 @@
     },
     "disambiguate": {
       "headTitle": "NICHT GANZ SICHER",
-      "lowConfidence": "GERINGE SICHERHEIT · 62%",
-      "shotMeta": "📷 1/250s · verwackelt",
+      "lowConfidence": "GERINGE SICHERHEIT · {pct}%",
       "topCandidates": "TOP-KANDIDATEN",
       "tapToConfirm": "tippen zum Bestätigen",
       "askForHelp": "{name} um Hilfe fragen →",
       "noneOfThese": "Keines davon",
       "thisMystery": "diesem mysteriösen Insekt",
-      "foot": "ID lief komplett auf dem Gerät · 320 ms · kein Foto verließ dein Telefon"
+      "foot": "ID lief komplett auf dem Gerät · kein Foto verließ dein Telefon"
     },
     "noMatch": {
       "headTitle": "KEIN TREFFER",
@@ -339,7 +337,10 @@
       "hunt": "JAGD →",
       "pinRemove": "Pin entfernen",
       "emptyTitle": "Noch keine Pins",
-      "emptySub": "Fang einen Käfer mit aktiviertem Standort, dann erscheint er hier."
+      "emptySub": "Fang einen Käfer mit aktiviertem Standort, dann erscheint er hier.",
+      "packDownloading": "Offline-Karte wird geladen… {pct}%",
+      "packMissing": "Offline-Kartendaten sind noch nicht verfügbar.",
+      "packError": "Offline-Karte konnte nicht geladen werden. Versuche es später erneut."
     },
     "permissions": {
       "title": "Drei kurze Fragen.",
@@ -537,7 +538,8 @@
       },
       "freezeTitle": "Serien-Frostschilde",
       "freezeDesc": "Wird automatisch an einem verpassten Tag genutzt, damit die Serie überlebt. Einer alle 7 Tage.",
-      "keepAlive": "📷 Serie am Leben halten"
+      "keepAlive": "📷 Serie am Leben halten",
+      "noStreak": "Noch keine Serie."
     },
     "settings": {
       "title": "Hirn auf dem Gerät",
@@ -596,7 +598,7 @@
       "helpTile": "Hilfe & Info",
       "helpSub": "FAQ · Datenexport",
       "creditsTitle": "Für immer kostenlos. Keine Werbung. Kein Tracking.",
-      "creditsSub": "Mit Liebe von 3 Leuten gebaut, die wirklich Käfer mögen.",
+      "creditsSub": "Mit Liebe gebaut für Leute, die Käfer mögen.",
       "viewCredits": "CREDITS ANSEHEN →",
       "guideToast": "Guide: {name}",
       "localLlmLabel": "Chat auf dem Gerät ({model})",
@@ -758,7 +760,7 @@
           "intro": "\"Oh super, noch ein Trainer. Lass mich alles stehen lassen.\"",
           "scanTip": "Ja ja, fokussier die Kamera. Ich bin eine KI, kein Magier.",
           "analyzing": "Kneife die Augen zusammen. Dräng nicht.",
-          "streak": "\"Drei Tage am Stück. Dein Therapeut muss begeistert sein.\"",
+          "streak": "\"Immer wieder auftauchen. Dein Therapeut muss begeistert sein.\"",
           "chatHello": "Ja? Was jetzt?",
           "topicHello": "Also reden wir jetzt über {topic}? Schön.",
           "common": "\"Ein {name}. Ja. Hast du mich wirklich dafür gebraucht?\"",
@@ -785,7 +787,7 @@
           "intro": "\"Willkommen. Lass dir Zeit — wir lernen gemeinsam.\"",
           "scanTip": "Halte die Kamera ruhig. Keine Eile. Das Insekt wartet.",
           "analyzing": "Untersuche sorgfältig. Einen Moment bitte.",
-          "streak": "\"Vier wunderbare Tage Aufmerksamkeit. Gut gemacht.\"",
+          "streak": "\"Tag für Tag Aufmerksamkeit. Gut gemacht.\"",
           "chatHello": "Hallo, Freund. Was hast du heute gefunden?",
           "topicHello": "Ah, der {topic}. Eine schöne Wahl zum Studieren. Wo fangen wir an?",
           "common": "\"Ein {name}. Ein freundlicher häufiger Besucher — der Käfer, der dich genaues Hinsehen lehrt.\"",
@@ -812,7 +814,7 @@
           "intro": "\"Hi hi! Notizbuch bereit, Stiefel geschnürt — los, suchen wir ein Tierchen!\"",
           "scanTip": "Ooh ooh — zeig das Objektiv hin! Ich LIEBE diesen Teil.",
           "analyzing": "Datenbank-Abgleich läuft — das ist der spaßige Part!",
-          "streak": "\"Vier Tage am Stück! Du absolute Legende!\"",
+          "streak": "\"Tag für Tag! Du absolute Legende!\"",
           "chatHello": "Hi! Was schauen wir uns heute an? Erzähl alles.",
           "topicHello": "Ooh, ein {topic}! Tolle Wahl. Frag mich alles!",
           "common": "\"Ein {name}! Klassischer Liebling. Zehn von zehn, würde wieder bestimmen.\"",
@@ -820,7 +822,7 @@
         },
         "uncertain": "Ooh, ein Rätsel! Ich hab's auf drei eingegrenzt. Hilf mir wählen!",
         "noMatch": "Hmm! Leer ausgegangen. Neuer Winkel, mehr Licht — und wir packen das!",
-        "streakSass": "VIER TAGE! Morgen sind's fünf — du schaffst das!",
+        "streakSass": "EINE SERIE! Morgen geht's weiter — du schaffst das!",
         "badgeLocked": "Ooh, das hier ist GROSSARTIG — du wirst es lieben, das freizuschalten!",
         "badgeEarned": "JA! Schau dich an! Das kommt ins Notizbuch!",
         "canned": [
@@ -894,9 +896,9 @@
         "wipeToast": "Löschung in Warteschlange — App neu starten."
       },
       "appName": "Critterboard",
-      "appBuild": "v1.4.0 · Build 2026.05 · MIT-Lizenz",
-      "appSpecOn": "iOS 16+ · 312 MB auf Disk · Netzwerk AN",
-      "appSpecOff": "iOS 16+ · 312 MB auf Disk · komplett offline"
+      "appBuild": "v{version} · MIT-Lizenz",
+      "appSpecOn": "iOS 17+ · Netzwerk AN",
+      "appSpecOff": "iOS 17+ · komplett offline"
     },
     "credits": {
       "build": "v{version}",

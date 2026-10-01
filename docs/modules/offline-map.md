@@ -37,6 +37,10 @@ flowchart LR
 
 Protomaps basemap v4 layers: `earth`, `water`, `landcover`, `landuse`, `roads`, `buildings`, `boundaries` (plus `places` / `pois`, unused because there are no labels). Features are classified by `kind` (`park`, `forest`, `highway`, `major_road`, `minor_road`, `path`, `river`, …). Reference: <https://docs.protomaps.com/basemaps/layers>.
 
+## Location and pins
+
+The map centres on the device location whenever the OS permission is granted (the Map asks once if it never was). The user's own catches become pins when they have coordinates. Public sharing (`profile.locationShareOn`) is separate: it only decides whether coordinates are published to the backend. There are no demo sightings; an empty map shows a hint card.
+
 ## Sizing
 
 Each extra zoom level is about 4× more data. Plan: the whole region at low zoom (≈10) inside the region pack, plus the user's local area at street zoom (14–15) as a separate "save my area" download. Measure real numbers with `tools/map/extract.sh --sizes <bbox>`.

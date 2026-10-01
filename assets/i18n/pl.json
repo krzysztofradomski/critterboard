@@ -49,7 +49,6 @@
       "bugOfDay": "OWAD DNIA",
       "hunt": "ŁOWY →",
       "bugOfDayDesc": "Złap dziś jednego dla",
-      "bugOfDayXp": " +500 XP ",
       "bugOfDayDescTail": " i błyszczącej odznaki.",
       "yourWeek": "Twój tydzień",
       "daysToBadge": "{n} dni do odznaki",
@@ -130,14 +129,13 @@
     },
     "disambiguate": {
       "headTitle": "NIE JESTEM PEWIEN",
-      "lowConfidence": "NISKA PEWNOŚĆ · 62%",
-      "shotMeta": "📷 1/250s · rozmyte",
+      "lowConfidence": "NISKA PEWNOŚĆ · {pct}%",
       "topCandidates": "TOP KANDYDACI",
       "tapToConfirm": "naciśnij, by potwierdzić",
       "askForHelp": "Zapytaj {name} o pomoc →",
       "noneOfThese": "Żaden z tych",
       "thisMystery": "ten tajemniczy owad",
-      "foot": "ID w pełni na urządzeniu · 320 ms · żadne zdjęcie nie opuściło telefonu"
+      "foot": "ID w pełni na urządzeniu · żadne zdjęcie nie opuściło telefonu"
     },
     "noMatch": {
       "headTitle": "BRAK DOPASOWANIA",
@@ -340,7 +338,10 @@
       "pinRemove": "Usuń pin",
       "viewInsect": "Zobacz owada →",
       "emptyTitle": "Na razie brak pinezek",
-      "emptySub": "Złap robaka z włączoną lokalizacją, a pojawi się tutaj."
+      "emptySub": "Złap robaka z włączoną lokalizacją, a pojawi się tutaj.",
+      "packDownloading": "Pobieranie mapy offline… {pct}%",
+      "packMissing": "Dane mapy offline nie są jeszcze dostępne.",
+      "packError": "Nie udało się pobrać mapy offline. Spróbuj później."
     },
     "permissions": {
       "title": "Trzy szybkie prośby.",
@@ -538,7 +539,8 @@
       },
       "freezeTitle": "Zamrożenia Passy",
       "freezeDesc": "Używają się automatycznie, by passa przetrwała pominięty dzień. Jedno co 7 dni.",
-      "keepAlive": "📷 Utrzymaj passę"
+      "keepAlive": "📷 Utrzymaj passę",
+      "noStreak": "Jeszcze bez serii."
     },
     "settings": {
       "title": "Mózg na urządzeniu",
@@ -597,7 +599,7 @@
       "helpTile": "Pomoc i informacje",
       "helpSub": "FAQ · eksport danych",
       "creditsTitle": "Darmowe na zawsze. Bez reklam. Bez śledzenia.",
-      "creditsSub": "Zrobione z miłością przez 3 osoby, które naprawdę lubią chrząszcze.",
+      "creditsSub": "Zrobione z miłością dla ludzi, którzy lubią chrząszcze.",
       "viewCredits": "ZOBACZ TWÓRCÓW →",
       "guideToast": "Przewodnik: {name}",
       "localLlmLabel": "Czat na urządzeniu ({model})",
@@ -759,7 +761,7 @@
           "intro": "\"O super, kolejny tropiciel. Pozwól, że wszystko rzucę.\"",
           "scanTip": "No tak, ustaw ostrość. Jestem AI, nie magikiem.",
           "analyzing": "Mrużę oczy. Nie poganiaj.",
-          "streak": "\"Trzy dni z rzędu. Twój terapeuta musi być zachwycony.\"",
+          "streak": "\"Wracasz raz za razem. Twój terapeuta musi być zachwycony.\"",
           "chatHello": "Tak? Co teraz?",
           "topicHello": "Więc teraz rozmawiamy o {topic}? No dobra.",
           "common": "\"To {name}. Tak. Naprawdę byłem ci do tego potrzebny?\"",
@@ -786,7 +788,7 @@
           "intro": "\"Witaj. Nie spiesz się — nauczymy się razem.\"",
           "scanTip": "Ustabilizuj aparat. Nie ma pośpiechu. Owad czeka.",
           "analyzing": "Sprawdzam uważnie. Chwilę proszę.",
-          "streak": "\"Cztery wspaniałe dni uważności. Brawo.\"",
+          "streak": "\"Dzień po dniu uważności. Brawo.\"",
           "chatHello": "Witaj, przyjacielu. Co dziś znalazłeś?",
           "topicHello": "Ach, {topic}. Dobry wybór do studiowania. Od czego zaczniemy?",
           "common": "\"{name}. Urocza, pospolita osoba — owad, który uczy patrzeć uważnie.\"",
@@ -813,7 +815,7 @@
           "intro": "\"Cześć cześć! Notes gotowy, buty zasznurowane — szukamy stworków!\"",
           "scanTip": "Ooo ooo — wyceluj obiektyw! UWIELBIAM tę część.",
           "analyzing": "Sprawdzam bazę — to jest fajna część!",
-          "streak": "\"Cztery dni z rzędu! Absolutna legenda!\"",
+          "streak": "\"Dzień po dniu! Absolutna legenda!\"",
           "chatHello": "Cześć! Co dziś oglądamy? Opowiadaj wszystko.",
           "topicHello": "Ooo, {topic}! Świetny wybór. Pytaj o cokolwiek!",
           "common": "\"{name}! Klasyczny ulubieniec. Dziesięć na dziesięć, identyfikowałabym ponownie.\"",
@@ -821,7 +823,7 @@
         },
         "uncertain": "Ooo, zagadka! Zawęziłam do trzech. Pomóż mi wybrać!",
         "noMatch": "Hmm! Wyszło na zero. Nowy kąt, więcej światła i damy radę!",
-        "streakSass": "CZTERY DNI! Jutro robi pięć — dasz radę!",
+        "streakSass": "SERIA! Jutro ciąg dalszy — dasz radę!",
         "badgeLocked": "Ooo, ta jest ŚWIETNA — pokochasz jej odblokowanie!",
         "badgeEarned": "TAK! Spójrz na siebie! Wpisuję to do notesu!",
         "canned": [
@@ -895,9 +897,9 @@
         "wipeToast": "Wymazywanie w kolejce — uruchom aplikację ponownie."
       },
       "appName": "Critterboard",
-      "appBuild": "v1.4.0 · build 2026.05 · licencja MIT",
-      "appSpecOn": "iOS 16+ · 312 MB na dysku · sieć WŁ.",
-      "appSpecOff": "iOS 16+ · 312 MB na dysku · w pełni offline"
+      "appBuild": "v{version} · licencja MIT",
+      "appSpecOn": "iOS 17+ · sieć WŁ.",
+      "appSpecOff": "iOS 17+ · w pełni offline"
     },
     "credits": {
       "build": "v{version}",

@@ -49,7 +49,6 @@
       "bugOfDay": "BUG OF THE DAY",
       "hunt": "HUNT →",
       "bugOfDayDesc": "Catch one today for",
-      "bugOfDayXp": " +500 XP ",
       "bugOfDayDescTail": " and a shiny badge.",
       "yourWeek": "Your week",
       "daysToBadge": "{n} days till badge",
@@ -130,14 +129,13 @@
     },
     "disambiguate": {
       "headTitle": "NOT QUITE SURE",
-      "lowConfidence": "LOW CONFIDENCE · 62%",
-      "shotMeta": "📷 1/250s · blurry",
+      "lowConfidence": "LOW CONFIDENCE · {pct}%",
       "topCandidates": "TOP CANDIDATES",
       "tapToConfirm": "tap to confirm",
       "askForHelp": "Ask {name} for help →",
       "noneOfThese": "None of these",
       "thisMystery": "this mystery bug",
-      "foot": "ID ran fully on-device · 320 ms · no photo left your phone"
+      "foot": "ID ran fully on-device · no photo left your phone"
     },
     "noMatch": {
       "headTitle": "NO MATCH",
@@ -340,7 +338,10 @@
       "pinRemove": "Remove pin",
       "viewInsect": "View insect →",
       "emptyTitle": "No pins yet",
-      "emptySub": "Catch a bug with location on and it lands here."
+      "emptySub": "Catch a bug with location on and it lands here.",
+      "packDownloading": "Downloading offline map… {pct}%",
+      "packMissing": "Offline map data is not available yet.",
+      "packError": "Couldn't download the offline map. Try again later."
     },
     "permissions": {
       "title": "Three quick asks.",
@@ -538,7 +539,8 @@
       },
       "freezeTitle": "Streak Freezes",
       "freezeDesc": "Auto-uses on a missed day so your streak survives. Earn one every 7 days.",
-      "keepAlive": "📷 Keep the streak alive"
+      "keepAlive": "📷 Keep the streak alive",
+      "noStreak": "No streak yet."
     },
     "settings": {
       "title": "On-device Brains",
@@ -608,7 +610,7 @@
       "helpTile": "Help & About",
       "helpSub": "FAQ · data export",
       "creditsTitle": "Free forever. No ads. No tracking.",
-      "creditsSub": "Built with love by 3 people who really like beetles.",
+      "creditsSub": "Built with love for people who really like beetles.",
       "viewCredits": "VIEW CREDITS →",
       "guideToast": "Guide: {name}",
       "localLlmError": "Download failed. Turn on to try again ({size} GB).",
@@ -814,7 +816,7 @@
           "intro": "\"Oh great, another trainer. Let me drop everything.\"",
           "scanTip": "Yeah yeah, focus the camera. I'm an AI, not a magician.",
           "analyzing": "Squinting. Don't rush me.",
-          "streak": "\"Three days in a row. Your therapist must be thrilled.\"",
+          "streak": "\"Showing up again and again. Your therapist must be thrilled.\"",
           "chatHello": "Yes? What now?",
           "topicHello": "So we're talking about the {topic} now? Fine.",
           "common": "\"It's a {name}. Yes. You really needed me for this?\"",
@@ -841,7 +843,7 @@
           "intro": "\"Welcome. Take your time — we'll learn together.\"",
           "scanTip": "Steady the camera. There is no rush. The bug is waiting.",
           "analyzing": "Examining carefully. One moment, please.",
-          "streak": "\"Four wonderful days of paying attention. Well done.\"",
+          "streak": "\"Day after day of paying attention. Well done.\"",
           "chatHello": "Hello, friend. What did you find today?",
           "topicHello": "Ah, the {topic}. A fine choice to study. Where shall we begin?",
           "common": "\"A {name}. A lovely common visitor — the kind of bug that teaches you to look closely.\"",
@@ -868,7 +870,7 @@
           "intro": "\"Hi hi! Notebook ready, boots laced — let's find a critter!\"",
           "scanTip": "Ooh ooh — point that lens! I LOVE this part.",
           "analyzing": "Cross-checking the database — this is the fun bit!",
-          "streak": "\"Four days in a row! You absolute legend!\"",
+          "streak": "\"Day after day! You absolute legend!\"",
           "chatHello": "Hi! What are we looking at today? Tell me everything.",
           "topicHello": "Ooh, a {topic}! Brilliant pick. Ask me anything!",
           "common": "\"A {name}! Classic crowd-pleaser. Ten out of ten, would identify again.\"",
@@ -876,7 +878,7 @@
         },
         "uncertain": "Ooh, a puzzle! I narrowed it to three. Help me pick!",
         "noMatch": "Hmm! Came up empty. New angle, brighter light, and we'll nail it!",
-        "streakSass": "FOUR DAYS! Tomorrow makes five — you've got this!",
+        "streakSass": "A STREAK! Tomorrow keeps it going — you've got this!",
         "badgeLocked": "Ooh, this one's GREAT — you're gonna love unlocking it!",
         "badgeEarned": "YES! Look at you! I'm putting this in the notebook!",
         "canned": [
@@ -950,9 +952,9 @@
         "wipeToast": "Wipe queued — restart the app."
       },
       "appName": "Critterboard",
-      "appBuild": "v1.4.0 · build 2026.05 · MIT-licensed",
-      "appSpecOn": "iOS 16+ · 312 MB on disk · network ON",
-      "appSpecOff": "iOS 16+ · 312 MB on disk · fully offline"
+      "appBuild": "v{version} · MIT-licensed",
+      "appSpecOn": "iOS 17+ · network ON",
+      "appSpecOff": "iOS 17+ · fully offline"
     },
     "credits": {
       "build": "v{version}",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { BugIcon } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
@@ -21,8 +21,8 @@ export function Disambiguate() {
   const t = useT();
   const route = useCurrentRoute();
   const params = (route.params as { candidates?: string[]; confs?: number[]; photoUri?: string } | undefined) ?? {};
-  const candIds = params.candidates ?? ['mona', 'atla', 'drag'];
-  const confs = params.confs ?? [62, 41, 23];
+  const candIds = params.candidates ?? [];
+  const confs = params.confs ?? [];
   const photoUri = params.photoUri;
 
   const candidates = candIds
@@ -47,14 +47,19 @@ export function Disambiguate() {
       <ScrollView contentContainerStyle={{ paddingHorizontal: 14, paddingVertical: 12 }}>
         <Sticker bg={PB.cream} rotate={-1} style={{ padding: 0, overflow: 'hidden' }}>
           <View style={styles.photo}>
-            <CameraScene dark={false} />
+            {photoUri ? (
+              <Image source={{ uri: photoUri }} style={StyleSheet.absoluteFill} resizeMode="cover" />
+            ) : (
+              <CameraScene dark={false} />
+            )}
             <View style={styles.fuzz} pointerEvents="none" />
-            <View style={styles.lowBadge}>
-              <Text style={styles.lowText}>{t('disambiguate.lowConfidence')}</Text>
-            </View>
-            <View style={styles.shotBadge}>
-              <Text style={styles.shotText}>{t('disambiguate.shotMeta')}</Text>
-            </View>
+            {candidates[0] && (
+              <View style={styles.lowBadge}>
+                <Text style={styles.lowText}>
+                  {t('disambiguate.lowConfidence', { pct: candidates[0].conf })}
+                </Text>
+              </View>
+            )}
           </View>
         </Sticker>
 
@@ -135,18 +140,6 @@ const styles = StyleSheet.create({
     borderRadius: 99,
   },
   lowText: { fontSize: 11, fontWeight: '800', color: PB.ink },
-  shotBadge: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    backgroundColor: PB.cream,
-    borderColor: PB.ink,
-    borderWidth: 2,
-    borderRadius: 99,
-  },
-  shotText: { fontSize: 10, fontWeight: '700', color: PB.ink },
   snarkRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
   snarkAvatar: {
     width: 32,
