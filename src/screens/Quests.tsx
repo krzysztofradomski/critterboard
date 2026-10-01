@@ -141,11 +141,11 @@ export function Quests() {
                   ]}
                 >
                   <Text style={{ fontSize: 30 }}>
-                    {b.unlocked ? b.icon : "?"}
+                    {b.unlocked || !b.hidden ? b.icon : "?"}
                   </Text>
                 </View>
                 <Text numberOfLines={1} style={styles.badgeName}>
-                  {b.unlocked
+                  {b.unlocked || !b.hidden
                     ? t(`badges.items.${b.id}.name`)
                     : t("badges.uncaughtName")}
                 </Text>

@@ -2,8 +2,18 @@ import { useMemo } from 'react';
 
 import { BADGES, type Badge } from '@/data/badges';
 import { findBug } from '@/data/bugs';
-import { bestStreak, type CatchEvent } from '@/lib/streak';
+import { bestStreak, bucketByLocalDay, type CatchEvent } from '@/lib/streak';
 import { useAppStore } from '@/store/useAppStore';
+
+/** How many caught species satisfy a predicate (species the registry doesn't know are skipped). */
+function countDex(dex: Set<string>, pred: (b: NonNullable<ReturnType<typeof findBug>>) => boolean): number {
+  let n = 0;
+  for (const id of dex) {
+    const b = findBug(id);
+    if (b && pred(b)) n += 1;
+  }
+  return n;
+}
 
 /**
  * Derive badge unlock state from real catch history.
@@ -12,9 +22,8 @@ import { useAppStore } from '@/store/useAppStore';
  * (the source of truth for everything streak-related) plus the dex
  * (uniqueness of species caught).
  *
- * `b5` (Splitter) needs a "lookalike correctly distinguished" signal
- * we don't track yet; `b7`/`b8` are deliberate hidden teasers. Both
- * fall through to `false` here.
+ * `b7`/`b8` are hidden teasers (`Badge.hidden`): same rules, but the UI
+ * keeps their name and criteria secret until they are earned.
  */
 export function isBadgeUnlocked(
   id: string,
@@ -47,12 +56,62 @@ export function isBadgeUnlocked(
       return seen.size >= 10;
     }
 
+    case 'b5':
+      // Photographer — 10 catches saved with a photo.
+      return catchLog.filter((e) => !!e.photoUri).length >= 10;
+
     case 'b6':
       // Centurion — 100 total catches.
       return catchLog.length >= 100;
 
+    case 'b7':
+      // Early Bird — a catch between 04:00 and 07:59 local time.
+      return catchLog.some((e) => {
+        const h = new Date(e.at).getHours();
+        return h >= 4 && h < 8;
+      });
+
+    case 'b8':
+      // Legend Hunter — any legendary species in the dex.
+      return countDex(dex, (b) => b.rarity === 'legendary') >= 1;
+
+    case 'b9':
+      // Beetle Mania — 5 distinct beetles.
+      return countDex(dex, (b) => b.traits.includes('beetle')) >= 5;
+
+    case 'b10':
+      // Wing Collector — 5 distinct butterflies.
+      return countDex(dex, (b) => b.traits.includes('butterfly')) >= 5;
+
+    case 'b11':
+      // Dex Starter — 10 distinct species.
+      return dex.size >= 10;
+
+    case 'b12':
+      // Dex Scholar — 50 distinct species.
+      return dex.size >= 50;
+
+    case 'b13':
+      // Week Warrior — ever hit a 7-day run.
+      return bestStreak(catchLog) >= 7;
+
+    case 'b14':
+      // Iron Habit — ever hit a 30-day run.
+      return bestStreak(catchLog) >= 30;
+
+    case 'b15':
+      // Cartographer — 5 catches with a location pinned.
+      return catchLog.filter((e) => e.lat !== undefined && e.lng !== undefined).length >= 5;
+
+    case 'b16':
+      // Triple Play — 3 catches on one local day.
+      return [...bucketByLocalDay(catchLog).values()].some((n) => n >= 3);
+
+    case 'b17':
+      // Rare Find — any rare-or-better species in the dex.
+      return countDex(dex, (b) => ['rare', 'epic', 'legendary'].includes(b.rarity)) >= 1;
+
     default:
-      // b5 / b7 / b8 — no derivation rule yet.
       return false;
   }
 }

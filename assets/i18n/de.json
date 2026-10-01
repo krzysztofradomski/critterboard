@@ -490,9 +490,9 @@
           "crit": "Bestimme 10 verschiedene Bestäuber."
         },
         "b5": {
-          "name": "Splitter",
-          "desc": "Du erkennst eine Schwebfliege von einer Wespe auf zwanzig Schritt. Lumper fürchten dich.",
-          "crit": "Unterscheide 5 Nachahmer-Arten korrekt."
+          "name": "Fotograf",
+          "desc": "Ohne Foto war es nicht da. Du dokumentierst deine Funde.",
+          "crit": "Fange 10 Insekten mit Foto."
         },
         "b6": {
           "name": "Zenturio",
@@ -500,16 +500,63 @@
           "crit": "Erreiche insgesamt 100 Bestimmungen."
         },
         "b7": {
-          "name": "???",
-          "desc": "Gesperrt. Mach weiter und es zeigt sich von selbst.",
-          "crit": "Versteckt, bis du es verdienst."
+          "name": "Frühaufsteher",
+          "desc": "Du warst auf, bevor der Tau trocknete. Die besten Insekten haben frühe Zeiten.",
+          "crit": "Fange ein Insekt zwischen 4 und 8 Uhr."
         },
         "b8": {
-          "name": "???",
-          "desc": "Gesperrt. Mach weiter und es zeigt sich von selbst.",
-          "crit": "Versteckt, bis du es verdienst."
+          "name": "Legendenjäger",
+          "desc": "Du hast ein Tier gefunden, von dem die meisten nur lesen. Rahme das Foto ein.",
+          "crit": "Fange eine legendäre Art."
+        },
+        "b9": {
+          "name": "Käfer-Fan",
+          "desc": "Glänzend, gepanzert und überall. Du hast einen Typ.",
+          "crit": "Fange 5 verschiedene Käfer."
+        },
+        "b10": {
+          "name": "Flügelsammler",
+          "desc": "Schuppen, Flügel und ein Auge fürs richtige Timing.",
+          "crit": "Fange 5 verschiedene Schmetterlinge."
+        },
+        "b11": {
+          "name": "Dex-Starter",
+          "desc": "Das Notizbuch ist offiziell eröffnet.",
+          "crit": "Fange 10 verschiedene Arten."
+        },
+        "b12": {
+          "name": "Dex-Kenner",
+          "desc": "Fünfzig Arten und die Seiten füllen sich schön.",
+          "crit": "Fange 50 verschiedene Arten."
+        },
+        "b13": {
+          "name": "Wochenkämpfer",
+          "desc": "Eine ganze Woche Aufmerksamkeit. Die Insekten haben es bemerkt.",
+          "crit": "Erreiche eine 7-Tage-Serie."
+        },
+        "b14": {
+          "name": "Eiserne Gewohnheit",
+          "desc": "Dreißig Tage. Das ist kein Hobby mehr, das ist ein Lebensstil.",
+          "crit": "Erreiche eine 30-Tage-Serie."
+        },
+        "b15": {
+          "name": "Kartograf",
+          "desc": "Deine Karte sieht langsam aus wie ein echtes Feldbuch.",
+          "crit": "Fange 5 Insekten mit Standort."
+        },
+        "b16": {
+          "name": "Dreierpack",
+          "desc": "Drei Funde vor dem Abendessen. Produktiver Nachmittag.",
+          "crit": "Fange 3 Insekten an einem Tag."
+        },
+        "b17": {
+          "name": "Seltener Fund",
+          "desc": "Nicht jeder entdeckt so etwas. Du schon.",
+          "crit": "Fange eine seltene (oder seltenere) Art."
         }
-      }
+      },
+      "hiddenDesc": "Gesperrt. Jage weiter, dann zeigt sich dieses Abzeichen von selbst.",
+      "hiddenCrit": "Verborgen, bis du es verdienst."
     },
     "notify": {
       "streak": {

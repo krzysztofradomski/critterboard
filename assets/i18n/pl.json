@@ -491,9 +491,9 @@
           "crit": "Rozpoznaj 10 różnych zapylaczy."
         },
         "b5": {
-          "name": "Rozdzielacz",
-          "desc": "Odróżniasz bzyga od osy z dwudziestu kroków. Generaliści się ciebie boją.",
-          "crit": "Poprawnie rozróżnij 5 gatunków mimetycznych."
+          "name": "Fotograf",
+          "desc": "Bez zdjęcia się nie liczy. Dokumentujesz swoje znaleziska.",
+          "crit": "Złap 10 robaków ze zdjęciem."
         },
         "b6": {
           "name": "Centurion",
@@ -501,16 +501,63 @@
           "crit": "Osiągnij łącznie 100 rozpoznań."
         },
         "b7": {
-          "name": "???",
-          "desc": "Zablokowane. Tropij dalej, a sama się ujawni.",
-          "crit": "Ukryte do czasu zdobycia."
+          "name": "Ranny ptaszek",
+          "desc": "Rosa jeszcze nie obeschła, a polowanie trwa. Najlepsze owady wstają wcześnie.",
+          "crit": "Złap owada między 4 a 8 rano."
         },
         "b8": {
-          "name": "???",
-          "desc": "Zablokowane. Tropij dalej, a sama się ujawni.",
-          "crit": "Ukryte do czasu zdobycia."
+          "name": "Łowca legend",
+          "desc": "Udało się spotkać stworzenie, o którym większość tylko czyta. Oprawić to zdjęcie!",
+          "crit": "Złap legendarny gatunek."
+        },
+        "b9": {
+          "name": "Chrząszczomania",
+          "desc": "Błyszczące, opancerzone i wszędzie. Masz swój typ.",
+          "crit": "Złap 5 różnych chrząszczy."
+        },
+        "b10": {
+          "name": "Kolekcjoner skrzydeł",
+          "desc": "Łuski, skrzydła i oko do właściwej chwili.",
+          "crit": "Złap 5 różnych motyli."
+        },
+        "b11": {
+          "name": "Początek Dexu",
+          "desc": "Notes oficjalnie otwarty.",
+          "crit": "Złap 10 różnych gatunków."
+        },
+        "b12": {
+          "name": "Znawca Dexu",
+          "desc": "Pięćdziesiąt gatunków i strony pięknie się zapełniają.",
+          "crit": "Złap 50 różnych gatunków."
+        },
+        "b13": {
+          "name": "Tygodniowy wojownik",
+          "desc": "Cały tydzień uważności. Owady to zauważyły.",
+          "crit": "Osiągnij serię 7 dni."
+        },
+        "b14": {
+          "name": "Żelazny nawyk",
+          "desc": "Trzydzieści dni. To już nie hobby, to styl życia.",
+          "crit": "Osiągnij serię 30 dni."
+        },
+        "b15": {
+          "name": "Kartograf",
+          "desc": "Twoja mapa zaczyna wyglądać jak prawdziwy dziennik terenowy.",
+          "crit": "Złap 5 owadów z zaznaczoną lokalizacją."
+        },
+        "b16": {
+          "name": "Hat-trick",
+          "desc": "Trzy znaleziska przed obiadem. Produktywne popołudnie.",
+          "crit": "Złap 3 owady jednego dnia."
+        },
+        "b17": {
+          "name": "Rzadkie znalezisko",
+          "desc": "Nie każdy takie dostrzeże. Tobie się udało.",
+          "crit": "Złap rzadki (lub rzadszy) gatunek."
         }
-      }
+      },
+      "hiddenDesc": "Zablokowane. Poluj dalej, a samo się ujawni.",
+      "hiddenCrit": "Ukryte, dopóki go nie zdobędziesz."
     },
     "notify": {
       "streak": {

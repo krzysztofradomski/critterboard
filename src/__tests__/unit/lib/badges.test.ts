@@ -10,6 +10,7 @@ vi.mock('@/store/useAppStore', () => ({
   }),
 }));
 
+import { BADGES } from '@/data/badges';
 import { isBadgeUnlocked } from '@/lib/badges';
 import type { CatchEvent } from '@/lib/streak';
 
@@ -25,7 +26,7 @@ describe('isBadgeUnlocked (U-B-*)', () => {
   const emptyDex = new Set<string>();
 
   it('U-B-01: no catches → no badges unlocked', () => {
-    for (const id of ['b1', 'b2', 'b3', 'b4', 'b6']) {
+    for (const id of BADGES.map((b) => b.id)) {
       expect(isBadgeUnlocked(id, empty, emptyDex)).toBe(false);
     }
   });
@@ -92,12 +93,61 @@ describe('isBadgeUnlocked (U-B-*)', () => {
     expect(isBadgeUnlocked('b6', almostThere, emptyDex)).toBe(false);
   });
 
-  it('U-B-05/U-B-07: b5/b7/b8 always return false (no derivation rule)', () => {
-    const richLog = Array.from({ length: 200 }, (_, i) => ev('hcat', i % 30));
-    const richDex = new Set(['hcat', 'buff', 'gbee']);
-    for (const id of ['b5', 'b7', 'b8']) {
-      expect(isBadgeUnlocked(id, richLog, richDex)).toBe(false);
-    }
+  it('b5 (Photographer): 10 catches with a photo', () => {
+    const withPhoto = (n: number) =>
+      Array.from({ length: n }, (_, i) => ({ ...ev('hcat', i), photoUri: 'file:///p.jpg' }));
+    expect(isBadgeUnlocked('b5', withPhoto(9), emptyDex)).toBe(false);
+    expect(isBadgeUnlocked('b5', withPhoto(10), emptyDex)).toBe(true);
+    expect(isBadgeUnlocked('b5', Array.from({ length: 10 }, (_, i) => ev('hcat', i)), emptyDex)).toBe(false);
+  });
+
+  it('b7 (Early Bird): a catch between 04:00 and 07:59', () => {
+    expect(isBadgeUnlocked('b7', [ev('hcat', 0, 5)], emptyDex)).toBe(true);
+    expect(isBadgeUnlocked('b7', [ev('hcat', 0, 8)], emptyDex)).toBe(false);
+    expect(isBadgeUnlocked('b7', [ev('hcat', 0, 3)], emptyDex)).toBe(false);
+  });
+
+  it('b8 (Legend Hunter) stays locked without a legendary species', () => {
+    expect(isBadgeUnlocked('b8', [ev('hcat', 0)], new Set(['hcat', 'lady']))).toBe(false);
+  });
+
+  it('b9 / b10: distinct beetles and butterflies in the dex', () => {
+    expect(isBadgeUnlocked('b9', empty, new Set(['lady', 'harl', 'stag', 'rchf']))).toBe(false);
+    expect(isBadgeUnlocked('b10', empty, new Set(['brim', 'peac', 'lwhi', 'swhi', 'orng']))).toBe(true);
+    expect(isBadgeUnlocked('b10', empty, new Set(['brim', 'peac', 'lwhi', 'swhi']))).toBe(false);
+  });
+
+  it('b11 / b12: dex size milestones', () => {
+    const dexOf = (n: number) => new Set(Array.from({ length: n }, (_, i) => `x${i}`));
+    expect(isBadgeUnlocked('b11', empty, dexOf(9))).toBe(false);
+    expect(isBadgeUnlocked('b11', empty, dexOf(10))).toBe(true);
+    expect(isBadgeUnlocked('b12', empty, dexOf(49))).toBe(false);
+    expect(isBadgeUnlocked('b12', empty, dexOf(50))).toBe(true);
+  });
+
+  it('b13 / b14: streak milestones (7 and 30 days)', () => {
+    const run = (n: number) => Array.from({ length: n }, (_, i) => ev('hcat', i));
+    expect(isBadgeUnlocked('b13', run(6), emptyDex)).toBe(false);
+    expect(isBadgeUnlocked('b13', run(7), emptyDex)).toBe(true);
+    expect(isBadgeUnlocked('b14', run(29), emptyDex)).toBe(false);
+    expect(isBadgeUnlocked('b14', run(30), emptyDex)).toBe(true);
+  });
+
+  it('b15 (Cartographer): 5 catches with coordinates', () => {
+    const pinned = (n: number) =>
+      Array.from({ length: n }, (_, i) => ({ ...ev('hcat', i), lat: 50, lng: 19 }));
+    expect(isBadgeUnlocked('b15', pinned(4), emptyDex)).toBe(false);
+    expect(isBadgeUnlocked('b15', pinned(5), emptyDex)).toBe(true);
+  });
+
+  it('b16 (Triple Play): 3 catches on one day, not across days', () => {
+    expect(isBadgeUnlocked('b16', [ev('a', 0, 9), ev('b', 0, 12), ev('c', 0, 15)], emptyDex)).toBe(true);
+    expect(isBadgeUnlocked('b16', [ev('a', 0), ev('b', 1), ev('c', 2)], emptyDex)).toBe(false);
+  });
+
+  it('b17 (Rare Find): needs a rare-or-better species', () => {
+    expect(isBadgeUnlocked('b17', empty, new Set(['hcat', 'lady']))).toBe(false);
+    expect(isBadgeUnlocked('b17', empty, new Set(['swal']))).toBe(true);
   });
 
   it('U-B-06: re-evaluating same state is idempotent', () => {

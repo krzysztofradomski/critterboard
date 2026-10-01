@@ -491,9 +491,9 @@
           "crit": "Identify 10 different pollinators."
         },
         "b5": {
-          "name": "Splitter",
-          "desc": "You can tell a hoverfly from a wasp at twenty paces. Lumpers fear you.",
-          "crit": "Correctly distinguish 5 mimic species."
+          "name": "Photographer",
+          "desc": "Pictures or it didn't happen. You keep photographic evidence of your finds.",
+          "crit": "Catch 10 bugs with a photo."
         },
         "b6": {
           "name": "Centurion",
@@ -501,16 +501,63 @@
           "crit": "Reach 100 total identifications."
         },
         "b7": {
-          "name": "???",
-          "desc": "Locked. Keep hunting and this one will reveal itself.",
-          "crit": "Hidden until you earn it."
+          "name": "Early Bird",
+          "desc": "You were up before the dew dried. The best bugs keep early hours.",
+          "crit": "Catch a bug between 4am and 8am."
         },
         "b8": {
-          "name": "???",
-          "desc": "Locked. Keep hunting and this one will reveal itself.",
-          "crit": "Hidden until you earn it."
+          "name": "Legend Hunter",
+          "desc": "You found a creature most people only read about. Frame that photo.",
+          "crit": "Catch a legendary species."
+        },
+        "b9": {
+          "name": "Beetle Mania",
+          "desc": "Shiny, armoured and everywhere. You have developed a type.",
+          "crit": "Catch 5 different beetles."
+        },
+        "b10": {
+          "name": "Wing Collector",
+          "desc": "Scales, wings and a good eye for timing.",
+          "crit": "Catch 5 different butterflies."
+        },
+        "b11": {
+          "name": "Dex Starter",
+          "desc": "The notebook is officially open for business.",
+          "crit": "Catch 10 different species."
+        },
+        "b12": {
+          "name": "Dex Scholar",
+          "desc": "Fifty species in and the pages are filling up nicely.",
+          "crit": "Catch 50 different species."
+        },
+        "b13": {
+          "name": "Week Warrior",
+          "desc": "A full week of paying attention. The bugs noticed.",
+          "crit": "Reach a 7-day streak."
+        },
+        "b14": {
+          "name": "Iron Habit",
+          "desc": "Thirty days. This is no longer a hobby; it is a lifestyle.",
+          "crit": "Reach a 30-day streak."
+        },
+        "b15": {
+          "name": "Cartographer",
+          "desc": "Your map is starting to look like a real field journal.",
+          "crit": "Catch 5 bugs with a location pinned."
+        },
+        "b16": {
+          "name": "Triple Play",
+          "desc": "Three finds before dinner. Productive afternoon.",
+          "crit": "Catch 3 bugs in one day."
+        },
+        "b17": {
+          "name": "Rare Find",
+          "desc": "Not everyone spots one of these. You did.",
+          "crit": "Catch a rare (or rarer) species."
         }
-      }
+      },
+      "hiddenDesc": "Locked. Keep hunting and this one will reveal itself.",
+      "hiddenCrit": "Hidden until you earn it."
     },
     "notify": {
       "streak": {

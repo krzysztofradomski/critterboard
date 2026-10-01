@@ -490,9 +490,9 @@
           "crit": "Identifica 10 polinizadores distintos."
         },
         "b5": {
-          "name": "Divisor",
-          "desc": "Distingues un sírfido de una avispa a veinte pasos. Los unificadores te temen.",
-          "crit": "Distingue correctamente 5 especies mimicas."
+          "name": "Fotógrafo",
+          "desc": "Sin foto no cuenta. Guardas pruebas de tus hallazgos.",
+          "crit": "Atrapa 10 bichos con foto."
         },
         "b6": {
           "name": "Centurión",
@@ -500,16 +500,63 @@
           "crit": "Llega a 100 identificaciones totales."
         },
         "b7": {
-          "name": "???",
-          "desc": "Bloqueada. Sigue cazando y se revelará.",
-          "crit": "Oculta hasta que la ganes."
+          "name": "Madrugador",
+          "desc": "Estabas despierto antes de que se secara el rocío. Los mejores bichos madrugan.",
+          "crit": "Atrapa un bicho entre las 4 y las 8."
         },
         "b8": {
-          "name": "???",
-          "desc": "Bloqueada. Sigue cazando y se revelará.",
-          "crit": "Oculta hasta que la ganes."
+          "name": "Cazador de leyendas",
+          "desc": "Encontraste una criatura de la que la mayoría solo lee. Enmarca esa foto.",
+          "crit": "Atrapa una especie legendaria."
+        },
+        "b9": {
+          "name": "Fiebre de escarabajos",
+          "desc": "Brillantes, blindados y por todas partes. Ya tienes tu tipo.",
+          "crit": "Atrapa 5 escarabajos distintos."
+        },
+        "b10": {
+          "name": "Coleccionista de alas",
+          "desc": "Escamas, alas y buen ojo para el momento.",
+          "crit": "Atrapa 5 mariposas distintas."
+        },
+        "b11": {
+          "name": "Dex inicial",
+          "desc": "El cuaderno queda oficialmente abierto.",
+          "crit": "Atrapa 10 especies distintas."
+        },
+        "b12": {
+          "name": "Erudito del Dex",
+          "desc": "Cincuenta especies y las páginas se llenan bien.",
+          "crit": "Atrapa 50 especies distintas."
+        },
+        "b13": {
+          "name": "Guerrero semanal",
+          "desc": "Una semana entera prestando atención. Los bichos lo notaron.",
+          "crit": "Alcanza una racha de 7 días."
+        },
+        "b14": {
+          "name": "Hábito de hierro",
+          "desc": "Treinta días. Ya no es un hobby, es un estilo de vida.",
+          "crit": "Alcanza una racha de 30 días."
+        },
+        "b15": {
+          "name": "Cartógrafo",
+          "desc": "Tu mapa ya parece un cuaderno de campo de verdad.",
+          "crit": "Atrapa 5 bichos con ubicación."
+        },
+        "b16": {
+          "name": "Triplete",
+          "desc": "Tres hallazgos antes de cenar. Tarde productiva.",
+          "crit": "Atrapa 3 bichos en un día."
+        },
+        "b17": {
+          "name": "Hallazgo raro",
+          "desc": "No todos ven uno de estos. Tú sí.",
+          "crit": "Atrapa una especie rara (o más rara)."
         }
-      }
+      },
+      "hiddenDesc": "Bloqueada. Sigue cazando y esta se revelará sola.",
+      "hiddenCrit": "Oculta hasta que la consigas."
     },
     "notify": {
       "streak": {
