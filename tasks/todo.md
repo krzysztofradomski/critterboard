@@ -21,7 +21,8 @@ Findings from the audit of the committed model and training pipeline. The model 
 - [x] `training/vision/requirements.txt` (executorch 1.0.1 pinned; other versions of the shipped run were not recorded)
 - [ ] Retrain `eu-1k-commercial-v1` on the photographer-grouped split (~9.5 h on 4 CPUs) and re-measure the `.pte`; save `pip freeze` with the run
 - [ ] Decide where the model lives (R2 / Releases / Hugging Face / stays in git). `packs/eu-ce.json` `modelUrl` points at `raw.githubusercontent.com/.../main/`, so the app needs the repo public. Then `.gitignore` `*.pte`, bump the pack version
-- [ ] Decide the weights' own licence (see `NOTICE.md`); lawyer review before commercial launch
+- [x] Weights licence: Apache-2.0 + required attribution (`NOTICE.md`)
+- [ ] Lawyer review before commercial launch
 - [ ] Old `eu-ce-v3.pte` is still in git history; rewrite history or start a clean public repo if the repo goes public
 
 ---

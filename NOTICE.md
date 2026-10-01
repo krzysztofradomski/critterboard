@@ -8,8 +8,14 @@ The MIT licence in [`LICENSE`](LICENSE) covers the **source code**. The files be
 
 - **Base weights:** Google ViT-S/16 AugReg checkpoint, © Google, [Apache License 2.0](packs/models/LICENSE-google-vit-apache-2.0.txt). Modified: fine-tuned for insect and spider classification.
 - **Training photos:** 243,202 iNaturalist photos licensed **CC0** or **CC-BY 4.0**, by 5,551 photographers. They were used to train the model and are not reproduced. Credits: [`ATTRIBUTION.md`](training/vision/results/commercial-1k-v1/ATTRIBUTION.md), per-photo list in [`credits.csv.gz`](training/vision/results/commercial-1k-v1/credits.csv.gz).
-- **If you redistribute the weights**, keep this notice, the Apache 2.0 text, the [model card](training/vision/results/commercial-1k-v1/MODEL_CARD.md) and the attribution files with them.
-- **Not covered by MIT.** Whether the weights themselves get a separate licence is an open decision. Until then, treat the obligations above as the terms.
+- **Licence of the fine-tuned weights:** [Apache License 2.0](packs/models/LICENSE-google-vit-apache-2.0.txt) (the same text applies), © 2026 Krzysztof Radomski, **with required attribution** (below). Commercial use is allowed.
+- **Required attribution:** anyone who uses or redistributes the weights, or a model derived from them, must keep this notice and show, in their app's credits or documentation:
+
+  > Uses the Critterboard species model by Krzysztof Radomski (https://github.com/krzysztofradomski/critterboard), a fine-tune of Google's Vision Transformer (AugReg, Apache 2.0), trained on iNaturalist photos under CC0 and CC-BY 4.0.
+
+- **Also keep with the weights:** the Apache 2.0 text, the [model card](training/vision/results/commercial-1k-v1/MODEL_CARD.md) and the photo attribution files above, since the CC-BY photographers must be credited.
+- **No warranty.** Accuracy is measured on held-out photos only, see the model card. Not yet run on a phone.
+- **Open points:** the legal status of training on CC photos and the ImageNet-21k provenance of the base weights are listed in the model card. Have a lawyer review before a commercial launch.
 
 ## Species icons: `packs/icons/`
 
