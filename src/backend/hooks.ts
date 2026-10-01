@@ -118,7 +118,7 @@ function useSelfBridge(): void {
       displayName: profile.name,
       country:
         profile.locationShareOn && profile.networkOn
-          ? mapLocation?.region ?? 'US'
+          ? mapLocation?.region || 'private'
           : 'private',
       xp,
       followed,

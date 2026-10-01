@@ -84,7 +84,7 @@ export function Home() {
           <View style={styles.heroImage}>
             <CameraScene />
             <View style={styles.legendaryBadge}>
-              <Text style={styles.legendaryText}>{t("home.legendary")}</Text>
+              <Text style={styles.legendaryText}>{`${todayBug.tier} ${t(`dex.filter.${todayBug.rarity}`).toUpperCase()}`}</Text>
             </View>
             <View style={styles.huntBadge}>
               <Text style={styles.huntText}>{t("home.hunt")}</Text>
@@ -195,7 +195,7 @@ export function Home() {
             },
             {
               k: t("home.stat.rank"),
-              v: `#${rank}`,
+              v: rank === null ? "–" : `#${rank}`,
               c: PB.purple,
               route: "leaderboard" as const,
             },

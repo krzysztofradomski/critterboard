@@ -3,6 +3,7 @@ import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-na
 
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
+import { VISION_MODEL_LABEL } from '@/data/visionModel';
 import { useNav } from '@/store/useNav';
 import { PB } from '@/tokens/pb';
 
@@ -66,7 +67,7 @@ const REPO = 'https://github.com/krzysztofradomski/critterboard/blob/main';
  */
 const MODEL_CREDITS: readonly { name: string; detail: string; url: string }[] = [
   {
-    name: 'Species model: eu-1k-commercial-v1',
+    name: `Species model: ${VISION_MODEL_LABEL}`,
     detail: 'Fine-tuned for insects by Critterboard. Model card, sources, accuracy',
     url: `${REPO}/training/vision/results/commercial-1k-v1/MODEL_CARD.md`,
   },

@@ -159,34 +159,39 @@ export function Result() {
         ...(photoUri ? { photoUri } : {}),
         ...(coords ? { lat: coords.lat, lng: coords.lng } : {}),
       });
-      publishCatch(bug.id, at, coords?.lat, coords?.lng);
+      // Coordinates leave the device only for users who opted in to sharing.
+      publishCatch(bug.id, at, locationShareOn ? coords?.lat : undefined, locationShareOn ? coords?.lng : undefined);
     };
 
-    if (!locationShareOn) {
-      finalize();
-      return;
-    }
-
-    let settled = false;
-    const timer = setTimeout(() => {
-      if (settled) return;
-      settled = true;
-      finalize();
-    }, 2500);
-
-    void Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced })
-      .then((pos) => {
-        if (settled) return;
-        settled = true;
-        clearTimeout(timer);
-        finalize({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-      })
-      .catch(() => {
-        if (settled) return;
-        settled = true;
-        clearTimeout(timer);
+    // The catch is pinned on the user's own (private) map whenever the OS
+    // location permission is granted; coordinates are only *published*
+    // when they opted in to sharing.
+    void (async () => {
+      const perm = await Location.getForegroundPermissionsAsync().catch(() => null);
+      if (!perm?.granted) {
         finalize();
-      });
+        return;
+      }
+      let settled = false;
+      const timer = setTimeout(() => {
+        if (settled) return;
+        settled = true;
+        finalize();
+      }, 2500);
+      Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced })
+        .then((pos) => {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          finalize({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        })
+        .catch(() => {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          finalize();
+        });
+    })();
   };
 
   const titleColor = bug.rarity === 'legendary' ? PB.cream : PB.ink;

@@ -48,11 +48,6 @@ export const BUGS: Bug[] = [
   { id: 'swal', name: 'Common Swallowtail',     latin: 'Papilio machaon',           rarity: 'rare',     xp: 100, tier: '★★★',  emoji: '🦋', color: '#f0d050', traits: ['butterfly', 'pollinator'] },
 ];
 
-/** Initial dex — bugs the user has already "found" on first launch. */
-export const CAUGHT_IDS: ReadonlySet<string> = new Set([
-  'hcat', 'lady', 'buff', 'brim', 'peac', 'wasp', 'gshb',
-]);
-
 // Mutable registry seeded from the bundled list. Regional pack downloads
 // call mergeBugs() at boot to extend it with their species.
 const _registry = new Map<string, Bug>(BUGS.map((b) => [b.id, b]));

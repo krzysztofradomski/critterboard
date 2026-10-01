@@ -41,13 +41,12 @@
       "pickGuide": "WYBIERZ PRZEWODNIKA",
       "startHunting": "Zaczynamy →",
       "legal": "✓ bez konta · ✓ bez internetu · ✓ za darmo",
-      "legalOnline": "✓ bez konta · ✓ z internetem · ✓ za darmo"
+      "legalOnline": "✓ bez konta · ✓ z internetem · ✓ za darmo",
+      "namePrompt": "JAK MAMY CIĘ NAZYWAĆ?"
     },
     "home": {
       "streakPill": "passa {days} dni",
       "bugOfDay": "OWAD DNIA",
-      "bugOfDayName": "Ćma Luna 🌙",
-      "legendary": "★★★★★ LEGENDARNY",
       "hunt": "ŁOWY →",
       "bugOfDayDesc": "Złap dziś jednego dla",
       "bugOfDayXp": " +500 XP ",
@@ -143,7 +142,7 @@
     "noMatch": {
       "headTitle": "BRAK DOPASOWANIA",
       "heroTitle": "Nie udało się rozpoznać.",
-      "heroSub": "BugNet v3 zwrócił wszystkich kandydatów poniżej 15%.",
+      "heroSub": "{model} zwrócił wszystkich kandydatów poniżej 15%.",
       "tryThis": "SPRÓBUJ TAK",
       "tip": {
         "lightTitle": "Więcej światła",
@@ -214,33 +213,6 @@
       "emptyTitle": "Cisza.",
       "emptySub": "Jeszcze nic tu nie ma.",
       "newBadge": "NOWE",
-      "item": {
-        "a1Title": "antqueen polubiła Twojego Monarchę",
-        "a1Sub": "2 godz. temu · klaster Brooklyn",
-        "a1Cta": "Zobacz obserwację",
-        "a2Title": "Gemma 4 E2B gotowa do instalacji",
-        "a2Sub": "Nowe żarty. Ten sam klimat. 240 MB.",
-        "a2Cta": "Aktualizuj",
-        "a3Title": "Passa 4 dni! Nie zepsuj jej",
-        "a3Sub": "Złap dziś jednego owada. Nawet bzygowate.",
-        "a3Cta": "Otwórz skan",
-        "a4Title": "Wyprzedziłeś bug_dad_42",
-        "a4Sub": "Jesteś #6 w globalnym rankingu.",
-        "a4Cta": "Ranking",
-        "a5Title": "Zadanie ukończone: 3 zapylacze",
-        "a5Sub": "+75 XP. Nagroda odblokowana.",
-        "a5Cta": "Odbierz",
-        "a6Title": "mothwhisperer złapał Ćmę Luna",
-        "a6Sub": "420 m od ciebie · 6 godz. temu",
-        "a6Cta": "Pokaż na mapie",
-        "a7Title": "Pakiet regionalny: Northeast NA",
-        "a7Sub": "Zsynchronizowano nowy indeks sezonowy (+38 gatunków).",
-        "a7Cta": "Zobacz pakiet",
-        "a8Title": "wingedfren odpowiedział w wątku o bzygach",
-        "a8Sub": "\"Wygląda na bzyga marmoladowego — paski na skrzydłach.\"",
-        "a8Cta": "Otwórz czat",
-        "a8Topic": "Bzygi"
-      },
       "kind": {
         "catchTitle": "Złapano {name}",
         "catchSub": "+{xp} XP · {when}",
@@ -348,27 +320,27 @@
     },
     "leaderboard": {
       "title": "Ranking",
-      "sub": "Reset za 3d 14h · 482 tys. tropicieli",
+      "sub": "Tylko dobrowolnie. Tylko nazwa i XP.",
       "tab": {
         "global": "Globalny",
         "weekly": "Tygodniowy",
         "friends": "Znajomi"
       },
-      "meta": "{country} · poziom 12",
+      "meta": "{country}",
       "hiddenTitle": "Jesteś ukryty w rankingu",
       "hiddenDesc": "Włącz \"Pokaż mnie w rankingu\" by się pojawić.",
-      "fix": "POPRAW →"
+      "fix": "POPRAW →",
+      "emptyTitle": "Na razie brak rywali",
+      "emptySub": "Ranking zapełni się, gdy dołączą inni. Na razie jesteś tylko ty."
     },
     "map": {
-      "locName": "Brooklyn, NY",
-      "locNamePrivate": "Lokalizacja ukryta",
-      "locSub": "{n} obserwacji · ostatnie 30 dni",
-      "sightings": "{n}× obserwacje",
-      "distance": "0,6 km",
-      "where": "Prospect Park · 2 dni temu",
+      "locName": "Twoja mapa",
+      "locSub": "{n} pinezek na Twojej mapie",
       "hunt": "ŁOWY →",
       "pinRemove": "Usuń pin",
-      "viewInsect": "Zobacz owada →"
+      "viewInsect": "Zobacz owada →",
+      "emptyTitle": "Na razie brak pinezek",
+      "emptySub": "Złap robaka z włączoną lokalizacją, a pojawi się tutaj."
     },
     "permissions": {
       "title": "Trzy szybkie prośby.",
@@ -594,13 +566,9 @@
       "crashOff": "Żadne dane o awariach nie opuszczają urządzenia.",
       "crashNeeds": "Wymaga dostępu do sieci.",
       "model": {
-        "bugNet": "BugNet v3",
-        "bugNetMeta": "Wizja · 88 MB · 1000 gatunków",
         "larva": "{model} (Q4)",
         "larvaMeta": "Model czatu · {size} GB · {state}",
         "larvaInstalled": "zainstalowany",
-        "species": "Baza Gatunków",
-        "speciesMeta": "Fakty i siedliska · 88 MB · v2026.04",
         "ready": "GOTOWE",
         "downloading": "↓ {pct}%",
         "loading": "ŁADOWANIE",
@@ -611,7 +579,9 @@
         "larvaPhoneOnly": "tylko w aplikacji na telefon",
         "phoneOnly": "TYLKO TELEFON",
         "larvaTooLittleRam": "wymaga 4 GB pamięci",
-        "notSupported": "NIEOBSŁUGIWANE"
+        "notSupported": "NIEOBSŁUGIWANE",
+        "visionMeta": "{id} · {mb} MB · {n} gatunków",
+        "noPack": "BRAK PACZKI"
       },
       "regionsBand": "Pakiety regionalne",
       "regionsSub": "Zwiększają trafność ID tam, gdzie naprawdę jesteś.",
@@ -641,7 +611,9 @@
       "localLlmTooLittleRam": "Wymaga telefonu z co najmniej 4 GB pamięci.",
       "localLlmLowRamTitle": "Pobrać na telefonie z 4 GB?",
       "localLlmLowRamBody": "Ten telefon ma około 4 GB pamięci. {model} zużywa około 3 GB podczas czatu, więc odpowiedzi mogą być wolne, a aplikacja może się zamknąć, gdy działają inne aplikacje. Pobranie ma {size} GB.",
-      "localLlmLowRamCta": "Pobierz mimo to"
+      "localLlmLowRamCta": "Pobierz mimo to",
+      "regionSoon": "WKRÓTCE",
+      "regionSoonSub": "Wkrótce"
     },
     "regions": {
       "list": {
@@ -928,31 +900,16 @@
       "appSpecOff": "iOS 16+ · 312 MB na dysku · w pełni offline"
     },
     "credits": {
-      "build": "v1.4.0 · build 2026.05",
-      "intro": "Zrobione przez trzy osoby, które naprawdę uważają, że owady są fajne. Bez VC, bez reklam, bez śledzenia, bez konta. Tylko owady i telefon.",
+      "build": "v{version}",
+      "intro": "Zrobione przez niezależnego dewelopera, który naprawdę uważa, że owady są fajne. Bez VC, bez reklam, bez śledzenia, bez konta. Tylko owady i telefon.",
       "section": {
-        "team": "Zespół",
         "models": "Modele na urządzeniu",
         "data": "Dane i podziękowania"
       },
-      "team": {
-        "mira": {
-          "name": "Mira Ostrov",
-          "role": "Design i ilustracje"
-        },
-        "theo": {
-          "name": "Theo Bramble",
-          "role": "Inżynieria iOS"
-        },
-        "junie": {
-          "name": "Junie Halverson",
-          "role": "ML i modele na urządzeniu"
-        }
-      },
       "models": {
         "bugnet": {
-          "name": "BugNet v3",
-          "role": "Wizja · 88 MB · 1000 gatunków"
+          "name": "BugNet",
+          "role": "Wizja · {id} · {mb} MB · {n} gatunków"
         },
         "larva": {
           "name": "Gemma 4 E2B",
@@ -966,7 +923,7 @@
       "data": {
         "iNat": {
           "name": "iNaturalist",
-          "role": "Zdjęcia referencyjne (CC-BY-NC)"
+          "role": "Zdjęcia treningowe i referencyjne (CC0 / CC BY)"
         },
         "gbif": {
           "name": "GBIF",
@@ -974,7 +931,7 @@
         },
         "beta": {
           "name": "Każdy beta tester",
-          "role": "Testowane w terenie w 14 miastach"
+          "role": "Dzięki za zgłoszenia błędów"
         }
       },
       "contactTitle": "Znalazłeś bug bug?",

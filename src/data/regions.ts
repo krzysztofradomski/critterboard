@@ -15,6 +15,12 @@ export type Region = {
   color: string;
 };
 
+/**
+ * Regions that have a real pack. Keep in sync with `packs/manifest.json`
+ * (a test enforces it); every other region renders as "coming soon".
+ */
+export const AVAILABLE_REGION_IDS: ReadonlySet<string> = new Set(['eu-ce']);
+
 export const REGIONS: Region[] = [
   { id: 'eu-ce', emoji: '🌿', size: 89,  color: PB.green  },
   { id: 'na-ne', emoji: '🍁', size: 84,  color: PB.orange },

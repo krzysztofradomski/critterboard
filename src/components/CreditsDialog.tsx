@@ -5,23 +5,17 @@ import { PB } from '@/tokens/pb';
 import { IconBtn } from '@/components/IconBtn';
 import { ModalShell } from '@/components/ModalShell';
 import { useT } from '@/i18n/helpers';
+import { VISION_MODEL } from '@/data/visionModel';
+import appJson from '../../app.json';
 
 type CreditEntry = { key: string; emoji: string; color: string };
-type CreditSection = { sectionKey: 'team' | 'models' | 'data'; items: CreditEntry[] };
+type CreditSection = { sectionKey: 'models' | 'data'; items: CreditEntry[] };
 
 /**
  * Static credits structure. Names + roles come from translation packs:
  *   credits.<sectionKey>.<key>.name / .role
  */
 const CREDITS: CreditSection[] = [
-  {
-    sectionKey: 'team',
-    items: [
-      { key: 'mira',  emoji: '🎨', color: PB.pink },
-      { key: 'theo',  emoji: '📱', color: PB.blue },
-      { key: 'junie', emoji: '🧠', color: PB.purple },
-    ],
-  },
   {
     sectionKey: 'models',
     items: [
@@ -56,7 +50,7 @@ export function CreditsDialog({
         </View>
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text style={styles.title}>{t('help.appName')}</Text>
-          <Text style={styles.sub}>{t('credits.build')}</Text>
+          <Text style={styles.sub}>{t('credits.build', { version: appJson.expo.version })}</Text>
         </View>
         <IconBtn onPress={onClose} size={32} fs={14} bg={PB.cream}>✕</IconBtn>
       </View>
@@ -82,7 +76,11 @@ export function CreditsDialog({
                       {t(`credits.${section.sectionKey}.${p.key}.name`)}
                     </Text>
                     <Text style={styles.itemRole}>
-                      {t(`credits.${section.sectionKey}.${p.key}.role`)}
+                      {t(`credits.${section.sectionKey}.${p.key}.role`, {
+                        id: VISION_MODEL.id,
+                        mb: VISION_MODEL.sizeMb,
+                        n: VISION_MODEL.species.toLocaleString(),
+                      })}
                     </Text>
                   </View>
                 </View>

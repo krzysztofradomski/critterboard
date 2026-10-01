@@ -41,13 +41,12 @@
       "pickGuide": "PICK YOUR GUIDE",
       "startHunting": "Start hunting →",
       "legal": "✓ no account · ✓ no internet · ✓ no $$",
-      "legalOnline": "✓ no account · ✓ with internet · ✓ no $$"
+      "legalOnline": "✓ no account · ✓ with internet · ✓ no $$",
+      "namePrompt": "WHAT SHOULD WE CALL YOU?"
     },
     "home": {
       "streakPill": "{days}-day streak",
       "bugOfDay": "BUG OF THE DAY",
-      "bugOfDayName": "Luna Moth 🌙",
-      "legendary": "★★★★★ LEGENDARY",
       "hunt": "HUNT →",
       "bugOfDayDesc": "Catch one today for",
       "bugOfDayXp": " +500 XP ",
@@ -143,7 +142,7 @@
     "noMatch": {
       "headTitle": "NO MATCH",
       "heroTitle": "Couldn't ID this one.",
-      "heroSub": "BugNet v3 returned all candidates below 15%.",
+      "heroSub": "{model} returned all candidates below 15%.",
       "tryThis": "TRY THIS",
       "tip": {
         "lightTitle": "Brighter light",
@@ -214,33 +213,6 @@
       "emptyTitle": "Crickets.",
       "emptySub": "Nothing here yet.",
       "newBadge": "NEW",
-      "item": {
-        "a1Title": "antqueen liked your Monarch",
-        "a1Sub": "2 hr ago · Brooklyn cluster",
-        "a1Cta": "View sighting",
-        "a2Title": "Gemma 4 E2B ready to install",
-        "a2Sub": "New jokes. Same vibe. 240 MB.",
-        "a2Cta": "Update",
-        "a3Title": "4-day streak! Don't break it",
-        "a3Sub": "Catch one bug today. Even a hoverfly.",
-        "a3Cta": "Open scan",
-        "a4Title": "You passed bug_dad_42",
-        "a4Sub": "You're #6 on the global board.",
-        "a4Cta": "Leaderboard",
-        "a5Title": "Quest complete: 3 pollinators",
-        "a5Sub": "+75 XP. Reward unlocked.",
-        "a5Cta": "Claim",
-        "a6Title": "mothwhisperer caught a Luna Moth",
-        "a6Sub": "420 m from you · 6 hr ago",
-        "a6Cta": "View on map",
-        "a7Title": "Regional pack: Northeast NA",
-        "a7Sub": "New seasonal index synced (+38 species).",
-        "a7Cta": "View pack",
-        "a8Title": "wingedfren replied to your hoverfly thread",
-        "a8Sub": "\"Pretty sure that's a Marmalade — wing bands.\"",
-        "a8Cta": "Open chat",
-        "a8Topic": "Hoverflies"
-      },
       "kind": {
         "catchTitle": "Caught {name}",
         "catchSub": "+{xp} XP · {when}",
@@ -348,27 +320,27 @@
     },
     "leaderboard": {
       "title": "Leaderboard",
-      "sub": "Resets in 3d 14h · 482k trainers",
+      "sub": "Opt-in only. Just a name and your XP.",
       "tab": {
         "global": "Global",
         "weekly": "Weekly",
         "friends": "Friends"
       },
-      "meta": "{country} · level 12",
+      "meta": "{country}",
       "hiddenTitle": "You are hidden from rankings",
       "hiddenDesc": "Turn on \"Show me on leaderboard\" to appear.",
-      "fix": "FIX →"
+      "fix": "FIX →",
+      "emptyTitle": "Nobody to race yet",
+      "emptySub": "Rankings fill up once other trainers join. For now it is just you."
     },
     "map": {
-      "locName": "Brooklyn, NY",
-      "locNamePrivate": "Private location",
-      "locSub": "{n} sightings · last 30 days",
-      "sightings": "{n}× sightings",
-      "distance": "0.4 mi",
-      "where": "Prospect Park · 2 days ago",
+      "locName": "Your map",
+      "locSub": "{n} pins on your map",
       "hunt": "HUNT →",
       "pinRemove": "Remove pin",
-      "viewInsect": "View insect →"
+      "viewInsect": "View insect →",
+      "emptyTitle": "No pins yet",
+      "emptySub": "Catch a bug with location on and it lands here."
     },
     "permissions": {
       "title": "Three quick asks.",
@@ -594,13 +566,9 @@
       "crashOff": "No crash data leaves your device.",
       "crashNeeds": "Requires network access.",
       "model": {
-        "bugNet": "BugNet v3",
-        "bugNetMeta": "Vision · 88 MB · 1,000 species",
         "larva": "{model} (Q4)",
         "larvaMeta": "Chat model · {size} GB · {state}",
         "larvaInstalled": "installed",
-        "species": "Species Database",
-        "speciesMeta": "Facts & habitats · 88 MB · v2026.04",
         "ready": "READY",
         "downloading": "↓ {pct}%",
         "loading": "LOADING",
@@ -611,7 +579,9 @@
         "larvaPhoneOnly": "phone app only",
         "phoneOnly": "PHONE ONLY",
         "larvaTooLittleRam": "needs 4 GB of memory",
-        "notSupported": "NOT SUPPORTED"
+        "notSupported": "NOT SUPPORTED",
+        "visionMeta": "{id} · {mb} MB · {n} species",
+        "noPack": "NO PACK"
       },
       "localLlmLabel": "On-device chat ({model})",
       "localLlmOn": "Chat runs on your device with {model}. Private & offline.",
@@ -648,7 +618,9 @@
       "localLlmTooLittleRam": "Needs a phone with at least 4 GB of memory.",
       "localLlmLowRamTitle": "Download on a 4 GB phone?",
       "localLlmLowRamBody": "This phone has about 4 GB of memory. {model} uses about 3 GB while you chat, so replies may be slow and the app may close if other apps are open. The download is {size} GB.",
-      "localLlmLowRamCta": "Download anyway"
+      "localLlmLowRamCta": "Download anyway",
+      "regionSoon": "SOON",
+      "regionSoonSub": "Coming soon"
     },
     "regions": {
       "list": {
@@ -983,31 +955,16 @@
       "appSpecOff": "iOS 16+ · 312 MB on disk · fully offline"
     },
     "credits": {
-      "build": "v1.4.0 · build 2026.05",
-      "intro": "Made by three people who genuinely think bugs are cool. No VC money, no ads, no tracking, no account. Just bugs and a phone.",
+      "build": "v{version}",
+      "intro": "Made by an independent developer who genuinely thinks bugs are cool. No VC money, no ads, no tracking, no account. Just bugs and a phone.",
       "section": {
-        "team": "The team",
         "models": "On-device models",
         "data": "Data & thanks"
       },
-      "team": {
-        "mira": {
-          "name": "Mira Ostrov",
-          "role": "Design & illustration"
-        },
-        "theo": {
-          "name": "Theo Bramble",
-          "role": "iOS engineering"
-        },
-        "junie": {
-          "name": "Junie Halverson",
-          "role": "ML & on-device models"
-        }
-      },
       "models": {
         "bugnet": {
-          "name": "BugNet v3",
-          "role": "Vision · 88 MB · 1,000 species"
+          "name": "BugNet",
+          "role": "Vision · {id} · {mb} MB · {n} species"
         },
         "larva": {
           "name": "Gemma 4 E2B",
@@ -1021,7 +978,7 @@
       "data": {
         "iNat": {
           "name": "iNaturalist",
-          "role": "Reference imagery (CC-BY-NC)"
+          "role": "Training & reference photos (CC0 / CC BY)"
         },
         "gbif": {
           "name": "GBIF",
@@ -1029,7 +986,7 @@
         },
         "beta": {
           "name": "Every beta tester",
-          "role": "Field-tested in 14 cities"
+          "role": "Thanks for the bug reports"
         }
       },
       "contactTitle": "Found a bug bug?",

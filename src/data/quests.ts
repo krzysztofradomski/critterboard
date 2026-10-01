@@ -46,10 +46,10 @@ export type Quest = {
 };
 
 export const QUESTS: Quest[] = [
-  { id: 'q1', progress: 2, total: 3, reward: 75,  kind: 'daily'  },
+  { id: 'q1', progress: 0, total: 3, reward: 75,  kind: 'daily'  },
   { id: 'q2', progress: 0, total: 1, reward: 40,  kind: 'daily'  },
   { id: 'q3', progress: 0, total: 1, reward: 500, kind: 'weekly' },
-  { id: 'q4', progress: 4, total: 7, reward: 200, kind: 'weekly' },
+  { id: 'q4', progress: 0, total: 7, reward: 200, kind: 'weekly' },
 ];
 
 /**
@@ -71,15 +71,8 @@ export type CompletedQuest = {
   completedAt?: number;
 };
 
-export const COMPLETED_QUESTS: CompletedQuest[] = [
-  { id: 'c1', reward: 75,  kind: 'daily',  icon: '🌼' },
-  { id: 'c2', reward: 30,  kind: 'daily',  icon: '🦋' },
-  { id: 'c3', reward: 100, kind: 'weekly', icon: '🔥' },
-  { id: 'c4', reward: 50,  kind: 'daily',  icon: '🌙' },
-  { id: 'c5', reward: 150, kind: 'weekly', icon: '✋' },
-  { id: 'c6', reward: 40,  kind: 'daily',  icon: '🪲' },
-  { id: 'c7', reward: 25,  kind: 'daily',  icon: '🌟' },
-];
+/** Nothing is pre-completed: the drawer lists only quests the user finished. */
+export const COMPLETED_QUESTS: CompletedQuest[] = [];
 
 /**
  * Detail-screen metadata. Strings (`desc`, tips) are translation keys.

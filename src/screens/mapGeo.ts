@@ -1,5 +1,4 @@
 import { findBug } from "@/data/bugs";
-import { SIGHTINGS } from "@/data/sightings";
 import type { CatchEvent } from "@/lib/streak";
 import { PB } from "@/tokens/pb";
 
@@ -13,10 +12,6 @@ export type Marker = {
   color?: string;
   shape?: "icon" | "orb";
 };
-
-const USER_PIN_SCALE_PCT_PER_KM = 5;
-const PIN_X_CENTER = 46;
-const PIN_Y_CENTER = 52;
 
 /** Fallback map focus when the user has no location and no catches yet. */
 const EUROPE_CENTER = { lat: 50, lng: 15 };
@@ -38,9 +33,7 @@ export type UserPinData = {
   lng: number;
 };
 
-export type MapMarkerMeta =
-  | { kind: "sighting"; index: number; bugId: string }
-  | { kind: "user"; pin: UserPinData };
+export type MapMarkerMeta = { kind: "user"; pin: UserPinData };
 
 export type MapInitialView = {
   lng: number;
@@ -121,40 +114,6 @@ export function altitudeToZoom(altM: number, lat: number): number {
   return Math.min(20, Math.max(1, zoom));
 }
 
-export function project(
-  lat: number,
-  lng: number,
-  centerLat: number,
-  centerLng: number,
-): { x: number; y: number } {
-  const kmPerDegLat = 111;
-  const kmPerDegLng = 111 * Math.cos((centerLat * Math.PI) / 180);
-  const dxKm = (lng - centerLng) * kmPerDegLng;
-  const dyKm = (lat - centerLat) * kmPerDegLat;
-  const x = PIN_X_CENTER + dxKm * USER_PIN_SCALE_PCT_PER_KM;
-  const y = PIN_Y_CENTER - dyKm * USER_PIN_SCALE_PCT_PER_KM;
-  return {
-    x: Math.max(4, Math.min(96, x)),
-    y: Math.max(4, Math.min(96, y)),
-  };
-}
-
-export function unproject(
-  xPct: number,
-  yPct: number,
-  centerLat: number,
-  centerLng: number,
-): { lat: number; lng: number } {
-  const kmPerDegLat = 111;
-  const kmPerDegLng = 111 * Math.cos((centerLat * Math.PI) / 180);
-  const dxKm = (xPct - PIN_X_CENTER) / USER_PIN_SCALE_PCT_PER_KM;
-  const dyKm = (PIN_Y_CENTER - yPct) / USER_PIN_SCALE_PCT_PER_KM;
-  return {
-    lat: centerLat + dyKm / kmPerDegLat,
-    lng: centerLng + dxKm / kmPerDegLng,
-  };
-}
-
 export function resolveMapCenter(
   mapLocation: { lat: number; lng: number } | null,
   userCatches: CatchEvent[],
@@ -189,29 +148,11 @@ export function buildUserPins(
 }
 
 export function buildGlobeMarkers(
-  center: { lat: number; lng: number },
   userPins: UserPinData[],
   mapLocation: { lat: number; lng: number } | null,
 ): { markers: Marker[]; meta: Map<string, MapMarkerMeta> } {
   const markers: Marker[] = [];
   const meta = new Map<string, MapMarkerMeta>();
-
-  SIGHTINGS.forEach((sp, index) => {
-    const bug = findBug(sp.bugId);
-    const { lat, lng } = unproject(sp.x, sp.y, center.lat, center.lng);
-    const id = `sighting-${index}`;
-    markers.push({
-      id,
-      label: bug?.name ?? sp.bugId,
-      lat,
-      lng,
-      icon: bug?.emoji ?? "🐛",
-      shape: "icon",
-      // Colour the pin by its species so sightings read as distinct.
-      color: bug?.color ?? PB.cream,
-    });
-    meta.set(id, { kind: "sighting", index, bugId: sp.bugId });
-  });
 
   for (const pin of userPins) {
     markers.push({

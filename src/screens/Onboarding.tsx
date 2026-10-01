@@ -1,11 +1,12 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 
 import { Btn } from '@/components/Btn';
 import { PersonaPick } from '@/components/PersonaPick';
 import { Sticker } from '@/components/Sticker';
 import { useT } from '@/i18n/helpers';
+import { isOffensiveName } from '@/lib/moderation';
 import { PERSONA_IDS } from '@/personas';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
@@ -14,7 +15,20 @@ import { useNav } from '@/store/useNav';
 export function Onboarding() {
   const { go } = useNav();
   const networkOn = useAppStore((s) => s.profile.networkOn);
+  const setProfile = useAppStore((s) => s.setProfile);
   const t = useT();
+  const [name, setName] = useState('');
+  const [nameError, setNameError] = useState(false);
+
+  const start = () => {
+    const v = name.trim();
+    if (v && isOffensiveName(v)) {
+      setNameError(true);
+      return;
+    }
+    if (v) setProfile({ name: v });
+    go('permissions');
+  };
   return (
     <View style={styles.root}>
       {/* Decorative confetti */}
@@ -55,6 +69,21 @@ export function Onboarding() {
         </View>
 
         <View style={styles.personaBlock}>
+          <Text style={styles.section}>{t('onboarding.namePrompt')}</Text>
+          <TextInput
+            value={name}
+            onChangeText={(v) => { setName(v); setNameError(false); }}
+            onSubmitEditing={start}
+            placeholder={t('settings.namePlaceholder')}
+            placeholderTextColor={PB.ink + '99'}
+            maxLength={18}
+            returnKeyType="done"
+            style={styles.nameInput}
+          />
+          {nameError && <Text style={styles.nameError}>{t('settings.nameOffensive')}</Text>}
+        </View>
+
+        <View style={styles.personaBlock}>
           <Text style={styles.section}>{t('onboarding.pickGuide')}</Text>
           <View style={{ gap: 8 }}>
             {PERSONA_IDS.map((pid) => (
@@ -64,7 +93,7 @@ export function Onboarding() {
         </View>
 
         <View style={styles.footer}>
-          <Btn full bg={PB.ink} color={PB.yellow} size="lg" onPress={() => go('permissions')}>
+          <Btn full bg={PB.ink} color={PB.yellow} size="lg" onPress={start}>
             {t('onboarding.startHunting')}
           </Btn>
           <Text style={styles.legal}>
@@ -102,6 +131,22 @@ const styles = StyleSheet.create({
   choiceText: { fontSize: 18, color: PB.cream, fontWeight: '800', textAlign: 'center' },
   personaBlock: { marginTop: 26 },
   section: { fontSize: 11, fontWeight: '800', color: PB.ink, opacity: 0.7, letterSpacing: 0.8, marginBottom: 8 },
+  nameInput: {
+    height: 42,
+    paddingHorizontal: 12,
+    backgroundColor: PB.cream,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    borderRadius: 12,
+    fontSize: 15,
+    fontWeight: '700',
+    color: PB.ink,
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 2, height: 2 },
+  },
+  nameError: { marginTop: 4, fontSize: 11, fontWeight: '700', color: PB.red },
   footer: { marginTop: 'auto', gap: 10 },
   legal: { textAlign: 'center', fontSize: 12, color: PB.ink, fontWeight: '600' },
 });

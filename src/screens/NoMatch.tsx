@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
+import { VISION_MODEL } from '@/data/visionModel';
 import { useT } from '@/i18n/helpers';
 import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
@@ -35,7 +36,7 @@ export function NoMatch() {
         <Sticker bg={PB.red} rotate={-2} style={{ paddingVertical: 22, paddingHorizontal: 18, alignItems: 'center' }}>
           <Text style={{ fontSize: 60 }}>🤷</Text>
           <Text style={styles.heroTitle}>{t('noMatch.heroTitle')}</Text>
-          <Text style={styles.heroSub}>{t('noMatch.heroSub')}</Text>
+          <Text style={styles.heroSub}>{t('noMatch.heroSub', { model: VISION_MODEL.name })}</Text>
         </Sticker>
 
         <Sticker bg={P.cardBg} rotate={1.2} style={{ marginTop: 14, paddingVertical: 10, paddingHorizontal: 12 }}>

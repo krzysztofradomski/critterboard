@@ -21,7 +21,6 @@ import {
   recentBugIds,
   geotaggedCatches,
   latestPhotoFor,
-  buildSeedCatchLog,
   type CatchEvent,
 } from '@/lib/streak';
 
@@ -230,38 +229,6 @@ describe('latestPhotoFor', () => {
       { id: 'b', at: msAt(0), photoUri: 'file://other.jpg' },
     ];
     expect(latestPhotoFor(events, 'a')).toBeUndefined();
-  });
-});
-
-describe('buildSeedCatchLog', () => {
-  it('returns a non-empty array', () => {
-    const log = buildSeedCatchLog();
-    expect(log.length).toBeGreaterThan(0);
-  });
-
-  it('all events have valid id and at fields', () => {
-    const log = buildSeedCatchLog();
-    for (const e of log) {
-      expect(typeof e.id).toBe('string');
-      expect(e.id.length).toBeGreaterThan(0);
-      expect(typeof e.at).toBe('number');
-      expect(e.at).toBeGreaterThan(0);
-    }
-  });
-
-  it('all events are in the past', () => {
-    const now = Date.now();
-    const log = buildSeedCatchLog(now);
-    for (const e of log) {
-      expect(e.at).toBeLessThanOrEqual(now);
-    }
-  });
-
-  it('produces a positive best-streak for the seeded data', () => {
-    // The seed pattern ends with two missed days so currentStreak may be 0,
-    // but the historical best-streak is always > 0.
-    const log = buildSeedCatchLog();
-    expect(bestStreak(log)).toBeGreaterThan(0);
   });
 });
 

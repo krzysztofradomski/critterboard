@@ -41,13 +41,12 @@
       "pickGuide": "WÄHLE DEINEN GUIDE",
       "startHunting": "Auf die Jagd →",
       "legal": "✓ kein Konto · ✓ kein Internet · ✓ kein Geld",
-      "legalOnline": "✓ kein Konto · ✓ mit Internet · ✓ kein Geld"
+      "legalOnline": "✓ kein Konto · ✓ mit Internet · ✓ kein Geld",
+      "namePrompt": "WIE SOLLEN WIR DICH NENNEN?"
     },
     "home": {
       "streakPill": "{days}-Tage-Serie",
       "bugOfDay": "INSEKT DES TAGES",
-      "bugOfDayName": "Mondspinner 🌙",
-      "legendary": "★★★★★ LEGENDÄR",
       "hunt": "JAGD →",
       "bugOfDayDesc": "Fang heute einen für",
       "bugOfDayXp": " +500 XP ",
@@ -143,7 +142,7 @@
     "noMatch": {
       "headTitle": "KEIN TREFFER",
       "heroTitle": "Konnte das nicht bestimmen.",
-      "heroSub": "BugNet v3 lieferte alle Kandidaten unter 15%.",
+      "heroSub": "{model} lieferte alle Kandidaten unter 15%.",
       "tryThis": "PROBIER DAS",
       "tip": {
         "lightTitle": "Mehr Licht",
@@ -214,33 +213,6 @@
       "emptyTitle": "Grillen.",
       "emptySub": "Hier ist noch nichts.",
       "newBadge": "NEU",
-      "item": {
-        "a1Title": "antqueen mochte deinen Monarchen",
-        "a1Sub": "vor 2 Std. · Brooklyn-Cluster",
-        "a1Cta": "Sichtung ansehen",
-        "a2Title": "Gemma 4 E2B zur Installation bereit",
-        "a2Sub": "Neue Witze. Gleicher Vibe. 240 MB.",
-        "a2Cta": "Aktualisieren",
-        "a3Title": "4-Tage-Serie! Brich sie nicht ab",
-        "a3Sub": "Fang heute ein Insekt. Auch eine Schwebfliege zählt.",
-        "a3Cta": "Scan öffnen",
-        "a4Title": "Du hast bug_dad_42 überholt",
-        "a4Sub": "Du bist #6 auf der globalen Rangliste.",
-        "a4Cta": "Rangliste",
-        "a5Title": "Quest erfüllt: 3 Bestäuber",
-        "a5Sub": "+75 XP. Belohnung freigeschaltet.",
-        "a5Cta": "Einlösen",
-        "a6Title": "mothwhisperer hat einen Mondspinner gefangen",
-        "a6Sub": "420 m von dir · vor 6 Std.",
-        "a6Cta": "Auf Karte ansehen",
-        "a7Title": "Regionalpaket: Nordosten NA",
-        "a7Sub": "Neuer Saisonindex synchronisiert (+38 Arten).",
-        "a7Cta": "Paket ansehen",
-        "a8Title": "wingedfren antwortete in deinem Schwebfliegen-Thread",
-        "a8Sub": "\"Ziemlich sicher eine Marmalade — Flügelbänder.\"",
-        "a8Cta": "Chat öffnen",
-        "a8Topic": "Schwebfliegen"
-      },
       "kind": {
         "catchTitle": "{name} gefangen",
         "catchSub": "+{xp} XP · {when}",
@@ -348,26 +320,26 @@
     },
     "leaderboard": {
       "title": "Rangliste",
-      "sub": "Reset in 3T 14h · 482k Trainer",
+      "sub": "Nur freiwillig. Nur Name und XP.",
       "tab": {
         "global": "Global",
         "weekly": "Wöchentlich",
         "friends": "Freunde"
       },
-      "meta": "{country} · Stufe 12",
+      "meta": "{country}",
       "hiddenTitle": "Du bist in der Rangliste versteckt",
       "hiddenDesc": "Aktiviere \"In Rangliste anzeigen\", um zu erscheinen.",
-      "fix": "FIX →"
+      "fix": "FIX →",
+      "emptyTitle": "Noch keine Gegner",
+      "emptySub": "Die Rangliste füllt sich, sobald andere mitmachen. Bis dahin bist nur du dabei."
     },
     "map": {
-      "locName": "Brooklyn, NY",
-      "locNamePrivate": "Privater Standort",
-      "locSub": "{n} Sichtungen · letzte 30 Tage",
-      "sightings": "{n}× Sichtungen",
-      "distance": "0,6 km",
-      "where": "Prospect Park · vor 2 Tagen",
+      "locName": "Deine Karte",
+      "locSub": "{n} Pins auf deiner Karte",
       "hunt": "JAGD →",
-      "pinRemove": "Pin entfernen"
+      "pinRemove": "Pin entfernen",
+      "emptyTitle": "Noch keine Pins",
+      "emptySub": "Fang einen Käfer mit aktiviertem Standort, dann erscheint er hier."
     },
     "permissions": {
       "title": "Drei kurze Fragen.",
@@ -593,13 +565,9 @@
       "crashOff": "Keine Absturzdaten verlassen dein Gerät.",
       "crashNeeds": "Erfordert Netzwerkzugriff.",
       "model": {
-        "bugNet": "BugNet v3",
-        "bugNetMeta": "Vision · 88 MB · 1.000 Arten",
         "larva": "{model} (Q4)",
         "larvaMeta": "Chat-Modell · {size} GB · {state}",
         "larvaInstalled": "installiert",
-        "species": "Artendatenbank",
-        "speciesMeta": "Fakten & Habitate · 88 MB · v2026.04",
         "ready": "BEREIT",
         "downloading": "↓ {pct}%",
         "loading": "LADEN",
@@ -610,7 +578,9 @@
         "larvaPhoneOnly": "nur in der Handy-App",
         "phoneOnly": "NUR HANDY",
         "larvaTooLittleRam": "braucht 4 GB Arbeitsspeicher",
-        "notSupported": "NICHT UNTERSTÜTZT"
+        "notSupported": "NICHT UNTERSTÜTZT",
+        "visionMeta": "{id} · {mb} MB · {n} Arten",
+        "noPack": "KEIN PAKET"
       },
       "regionsBand": "Regionalpakete",
       "regionsSub": "Verbessert ID-Genauigkeit dort, wo du tatsächlich bist.",
@@ -640,7 +610,9 @@
       "localLlmTooLittleRam": "Braucht ein Handy mit mindestens 4 GB Arbeitsspeicher.",
       "localLlmLowRamTitle": "Auf einem 4-GB-Handy laden?",
       "localLlmLowRamBody": "Dieses Handy hat etwa 4 GB Arbeitsspeicher. {model} belegt beim Chatten etwa 3 GB, daher können Antworten langsam sein und die App kann sich schließen, wenn andere Apps offen sind. Der Download ist {size} GB groß.",
-      "localLlmLowRamCta": "Trotzdem laden"
+      "localLlmLowRamCta": "Trotzdem laden",
+      "regionSoon": "BALD",
+      "regionSoonSub": "Kommt bald"
     },
     "regions": {
       "list": {
@@ -927,31 +899,16 @@
       "appSpecOff": "iOS 16+ · 312 MB auf Disk · komplett offline"
     },
     "credits": {
-      "build": "v1.4.0 · Build 2026.05",
-      "intro": "Gemacht von drei Leuten, die Insekten ernsthaft cool finden. Kein VC-Geld, keine Werbung, kein Tracking, kein Konto. Nur Insekten und ein Telefon.",
+      "build": "v{version}",
+      "intro": "Gemacht von einem unabhängigen Entwickler, der Insekten ernsthaft cool findet. Kein VC-Geld, keine Werbung, kein Tracking, kein Konto. Nur Insekten und ein Telefon.",
       "section": {
-        "team": "Das Team",
         "models": "Modelle auf dem Gerät",
         "data": "Daten & Dank"
       },
-      "team": {
-        "mira": {
-          "name": "Mira Ostrov",
-          "role": "Design & Illustration"
-        },
-        "theo": {
-          "name": "Theo Bramble",
-          "role": "iOS-Entwicklung"
-        },
-        "junie": {
-          "name": "Junie Halverson",
-          "role": "ML & Modelle auf dem Gerät"
-        }
-      },
       "models": {
         "bugnet": {
-          "name": "BugNet v3",
-          "role": "Vision · 88 MB · 1.000 Arten"
+          "name": "BugNet",
+          "role": "Vision · {id} · {mb} MB · {n} Arten"
         },
         "larva": {
           "name": "Gemma 4 E2B",
@@ -965,7 +922,7 @@
       "data": {
         "iNat": {
           "name": "iNaturalist",
-          "role": "Referenzbilder (CC-BY-NC)"
+          "role": "Trainings- & Referenzfotos (CC0 / CC BY)"
         },
         "gbif": {
           "name": "GBIF",
@@ -973,7 +930,7 @@
         },
         "beta": {
           "name": "Jeder Beta-Tester",
-          "role": "Feldgetestet in 14 Städten"
+          "role": "Danke für die Fehlermeldungen"
         }
       },
       "contactTitle": "Einen Bug-Bug gefunden?",

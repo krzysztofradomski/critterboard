@@ -2,51 +2,48 @@ import * as Location from 'expo-location';
 
 import { useAppStore } from '@/store/useAppStore';
 
-const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const CACHE_TTL_MS = 15 * 60 * 1000;
 
 /**
- * Refresh the cached Map header location. Idempotent and safe to call
- * on every Map mount — it short-circuits when:
+ * Refresh the cached Map location. Idempotent and safe to call on every
+ * Map mount — it short-circuits when the cache is under 15 minutes old.
  *
- *   - `profile.locationShareOn` is off (also clears any stale cache so
- *     toggling share off makes the header go private immediately)
- *   - the cache is fresh (<24h since `at`)
- *   - the OS hasn't granted foreground location permission
- *
- * Failures are swallowed: the Map renders a fallback label rather than
- * surfacing a transient permission/network blip.
+ * This is the *local* location the map centres on; it is independent of
+ * `profile.locationShareOn`, which only controls whether coordinates are
+ * published. If the OS has never been asked, the Map is the natural place
+ * to ask. Denied/failed lookups are swallowed: the Map renders a fallback.
  */
 export async function refreshMapLocation(now: number = Date.now()): Promise<void> {
-  const { profile, mapLocation, setMapLocation } = useAppStore.getState();
-
-  if (!profile.locationShareOn) {
-    if (mapLocation) setMapLocation(null);
-    return;
-  }
+  const { mapLocation, setMapLocation } = useAppStore.getState();
   if (mapLocation && now - mapLocation.at < CACHE_TTL_MS) return;
 
   try {
-    const perm = await Location.getForegroundPermissionsAsync();
+    let perm = await Location.getForegroundPermissionsAsync();
+    if (!perm.granted && perm.canAskAgain && perm.status === Location.PermissionStatus.UNDETERMINED) {
+      perm = await Location.requestForegroundPermissionsAsync();
+    }
     if (!perm.granted) return;
 
     const pos = await Location.getCurrentPositionAsync({
       accuracy: Location.Accuracy.Balanced,
     });
-    const places = await Location.reverseGeocodeAsync({
+    // Coordinates are enough to centre the map; the place name is a bonus
+    // (reverse geocoding is flaky offline and on simulators).
+    const place = await Location.reverseGeocodeAsync({
       latitude: pos.coords.latitude,
       longitude: pos.coords.longitude,
-    });
-    const place = places[0];
-    if (!place) return;
+    })
+      .then((places) => places[0])
+      .catch(() => undefined);
 
     setMapLocation({
       lat: pos.coords.latitude,
       lng: pos.coords.longitude,
-      city: place.city ?? place.subregion ?? place.district ?? '',
-      region: place.region ?? place.country ?? '',
+      city: place?.city ?? place?.subregion ?? place?.district ?? '',
+      region: place?.region ?? place?.country ?? '',
       at: now,
     });
   } catch {
-    // Best-effort — header falls back to its static label on failure.
+    // Best-effort — the Map falls back to its static label on failure.
   }
 }

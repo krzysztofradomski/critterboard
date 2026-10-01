@@ -1,17 +1,14 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import { BugIcon } from "@/components/BugIcon";
 import { IconBtn } from "@/components/IconBtn";
 import { OfflineMap, type OfflineMapHandle } from "@/components/OfflineMap";
 import { Sticker } from "@/components/Sticker";
 import { TabBar } from "@/components/TabBar";
-import { findBug } from "@/data/bugs";
-import { SIGHTINGS } from "@/data/sightings";
 import { bugName, useT } from "@/i18n/helpers";
 import { refreshMapLocation } from "@/lib/geocode";
 import { useGeotaggedCatches } from "@/lib/useStreak";
-import { PB, RARITY_COLOR } from "@/tokens/pb";
+import { PB } from "@/tokens/pb";
 import { useAppStore } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
 
@@ -26,11 +23,7 @@ import {
 export function MapScreen() {
   const { go } = useNav();
   const t = useT();
-  const [selected, setSelected] = useState(2);
-  const s = SIGHTINGS[selected]!;
-  const selectedBug = findBug(s.bugId);
   const userCatches = useGeotaggedCatches();
-  const locationShareOn = useAppStore((state) => state.profile.locationShareOn);
   const mapLocation = useAppStore((state) => state.mapLocation);
   const language = useAppStore((state) => state.language);
   const removeMapPin = useAppStore((state) => state.removeMapPin);
@@ -39,11 +32,10 @@ export function MapScreen() {
 
   useEffect(() => {
     void refreshMapLocation();
-  }, [locationShareOn]);
+  }, []);
 
-  const headerLocName = !locationShareOn
-    ? t("map.locNamePrivate")
-    : mapLocation && (mapLocation.city || mapLocation.region)
+  const headerLocName =
+    mapLocation && (mapLocation.city || mapLocation.region)
       ? [mapLocation.city, mapLocation.region].filter(Boolean).join(", ")
       : t("map.locName");
 
@@ -58,14 +50,22 @@ export function MapScreen() {
   );
 
   const { markers, meta } = useMemo(
-    () => buildGlobeMarkers(center, userPins, mapLocation),
-    [center, userPins, mapLocation],
+    () => buildGlobeMarkers(userPins, mapLocation),
+    [userPins, mapLocation],
   );
 
   const initialView = useMemo(
     () => resolveInitialMapView(markers, mapLocation, center),
     [markers, mapLocation, center],
   );
+
+  // The first location fix usually lands after the map is already up.
+  const hadLocation = useRef(mapLocation !== null);
+  useEffect(() => {
+    if (!mapLocation || hadLocation.current) return;
+    hadLocation.current = true;
+    globeRef.current?.flyTo(mapLocation.lng, mapLocation.lat, 400_000);
+  }, [mapLocation]);
 
   const recenter = () => {
     if (mapLocation) {
@@ -87,13 +87,7 @@ export function MapScreen() {
             return false;
           }
           const info = meta.get(marker.id);
-          if (!info) return false;
-          if (info.kind === "sighting") {
-            setSelected(info.index);
-            setSelectedPin(null);
-          } else {
-            setSelectedPin(info.pin);
-          }
+          if (info) setSelectedPin(info.pin);
           return false;
         }}
       />
@@ -107,7 +101,7 @@ export function MapScreen() {
             <View style={{ flex: 1 }}>
               <Text style={styles.locName}>{headerLocName}</Text>
               <Text style={styles.locSub}>
-                {t("map.locSub", { n: SIGHTINGS.length })}
+                {t("map.locSub", { n: userPins.length })}
               </Text>
             </View>
             <IconBtn bg={PB.yellow} onPress={recenter}>
@@ -161,47 +155,12 @@ export function MapScreen() {
           <Sticker bg={PB.cream} style={{ padding: 12 }}>
             <View style={styles.cardRow}>
               <View style={styles.cardArt}>
-                {selectedBug ? (
-                  <BugIcon bug={selectedBug} size={44} />
-                ) : (
-                  <Text style={{ fontSize: 26 }}>🐛</Text>
-                )}
+                <Text style={{ fontSize: 26 }}>📍</Text>
               </View>
               <View style={{ flex: 1 }}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 6,
-                  }}
-                >
-                  <Text style={styles.cardTitle}>
-                    {bugName(language, s.bugId)}
-                  </Text>
-                  {selectedBug ? (
-                    <View
-                      style={[
-                        styles.rarityChip,
-                        { backgroundColor: RARITY_COLOR[selectedBug.rarity] },
-                      ]}
-                    >
-                      <Text style={styles.rarityChipText}>
-                        {t(`dex.filter.${selectedBug.rarity}`)}
-                      </Text>
-                    </View>
-                  ) : null}
-                </View>
-                <Text style={styles.cardWhere}>{selectedBug?.latin}</Text>
-                <Text style={styles.cardDistance}>
-                  {t("map.sightings", { n: s.size + 1 })} · {t("map.distance")}
-                </Text>
+                <Text style={styles.cardTitle}>{t("map.emptyTitle")}</Text>
+                <Text style={styles.cardWhere}>{t("map.emptySub")}</Text>
               </View>
-              <Pressable
-                onPress={() => go("result", { id: s.bugId })}
-                style={styles.huntPill}
-              >
-                <Text style={styles.huntPillText}>{t("map.viewInsect")}</Text>
-              </Pressable>
             </View>
           </Sticker>
         )}
@@ -236,15 +195,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   cardTitle: { fontSize: 16, fontWeight: "800", color: PB.ink },
-  rarityChip: {
-    paddingVertical: 1,
-    paddingHorizontal: 6,
-    borderRadius: 6,
-    borderColor: PB.ink,
-    borderWidth: 1.5,
-  },
-  rarityChipText: { fontSize: 9, fontWeight: "800", color: PB.ink },
-  cardDistance: { fontSize: 11, color: PB.ink, opacity: 0.6 },
   cardWhere: { fontSize: 13, color: PB.ink, fontWeight: "600" },
   huntPill: {
     paddingVertical: 4,

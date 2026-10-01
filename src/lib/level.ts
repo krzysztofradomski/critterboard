@@ -151,8 +151,9 @@ export function rankFromXp(xp: number): number {
   return rank;
 }
 
-export function useRank(): number {
+/** The user's rank, or `null` while there is nobody to rank against (no peers yet). */
+export function useRank(): number | null {
   const xp = useXp();
-  return useMemo(() => rankFromXp(xp), [xp]);
+  return useMemo(() => (LEADERS.some((r) => !r.self) ? rankFromXp(xp) : null), [xp]);
 }
 

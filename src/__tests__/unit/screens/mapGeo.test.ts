@@ -1,34 +1,24 @@
 import { describe, expect, it } from "vitest";
 
-import { findBug } from "@/data/bugs";
-import { SIGHTINGS } from "@/data/sightings";
 import type { CatchEvent } from "@/lib/streak";
 import { altitudeToZoom, buildGlobeMarkers, buildUserPins } from "@/screens/mapGeo";
 
-describe("demo sightings map to real species", () => {
-  it("every sighting bugId resolves to a real bug", () => {
-    for (const s of SIGHTINGS) {
-      expect(findBug(s.bugId), `sighting bugId "${s.bugId}"`).toBeDefined();
-    }
-  });
-});
-
 describe("buildGlobeMarkers", () => {
-  const center = { lat: 50, lng: 15 };
+  it("starts empty: no invented sightings, only the user's own pins", () => {
+    const { markers, meta } = buildGlobeMarkers([], null);
+    expect(markers).toEqual([]);
+    expect(meta.size).toBe(0);
+  });
 
-  it("colours each sighting marker by its species and records bugId in meta", () => {
-    const { markers, meta } = buildGlobeMarkers(center, [], null);
-
-    SIGHTINGS.forEach((s, index) => {
-      const bug = findBug(s.bugId)!;
-      const id = `sighting-${index}`;
-      const marker = markers.find((m) => m.id === id);
-
-      expect(marker, id).toBeDefined();
-      expect(marker!.color).toBe(bug.color);
-      expect(marker!.icon).toBe(bug.emoji);
-      expect(meta.get(id)).toEqual({ kind: "sighting", index, bugId: s.bugId });
-    });
+  it("adds a pin per catch and a 'you' marker when the location is known", () => {
+    const pins = buildUserPins(
+      [{ id: "lady", at: 1, lat: 50, lng: 15 }],
+      { lat: 50, lng: 15 },
+      () => "Ladybird",
+    );
+    const { markers, meta } = buildGlobeMarkers(pins, { lat: 51, lng: 16 });
+    expect(markers.map((m) => m.id)).toEqual([pins[0]!.id, "you"]);
+    expect(meta.get(pins[0]!.id)).toEqual({ kind: "user", pin: pins[0] });
   });
 });
 

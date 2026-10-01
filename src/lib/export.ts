@@ -2,6 +2,7 @@ import * as FileSystem from 'expo-file-system/legacy';
 import * as Sharing from 'expo-sharing';
 
 import { allBugs, findBug } from '@/data/bugs';
+import { VISION_MODEL_LABEL } from '@/data/visionModel';
 import type { LangId } from '@/i18n';
 import { bugName } from '@/i18n/helpers';
 import type { CatchEvent } from '@/lib/streak';
@@ -200,7 +201,7 @@ export function buildGbifOccurrenceCsv(
         hasCoords ? 'WGS84' : '',
         'Critterboard',
         trainerName,
-        'Critterboard BugNet v3',
+        `Critterboard ${VISION_MODEL_LABEL}`,
       ]
         .map(csvField)
         .join(','),

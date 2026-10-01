@@ -4,13 +4,12 @@ import * as FileSystem from 'expo-file-system';
 import { create } from 'zustand';
 import { persist, type PersistStorage, type StorageValue } from 'zustand/middleware';
 
-import { CAUGHT_IDS } from '@/data/bugs';
 import { INITIAL_FOLLOWED } from '@/data/personProfiles';
 import { QUESTS, QUEST_RULES } from '@/data/quests';
 import { DEFAULT_LANG, coerceLang, t, type LangId } from '@/i18n';
 import { type PersonaId, getPersonaName } from '@/personas';
 import { ME_SUB_ALIAS, type RouteName, type RouteParamMap, isMainTab } from '@/navigation/routes';
-import { buildSeedCatchLog, currentStreak, type CatchEvent } from '@/lib/streak';
+import { currentStreak, type CatchEvent } from '@/lib/streak';
 import {
   buildConversationMemoryEntry,
   type ConversationMemoryEntry,
@@ -134,8 +133,8 @@ type State = {
   activityLog: ActivityEntry[];
   /**
    * Reverse-geocoded location for the Map header, refreshed at most
-   * every 24h. Null when `profile.locationShareOn` is off or before the
-   * first successful fetch.
+   * every 15 minutes. Null before the first successful fix or when the OS
+   * location permission isn't granted.
    */
   mapLocation: MapLocationCache | null;
 
@@ -145,8 +144,7 @@ type State = {
    * Epoch ms at which each quest first reached 100%. Sticky — once
    * stamped, the entry stays even if the rolling counter dips below the
    * target (a daily quest that hits goal then rolls over still shows in
-   * the completed drawer). Empty on first run; the drawer falls back to
-   * the seeded `COMPLETED_QUESTS` so the screen isn't empty.
+   * the completed drawer). Empty on first run.
    */
   questCompletedAt: Record<string, number>;
   /**
@@ -259,23 +257,6 @@ function initialQuestProgress(): Record<string, number> {
 }
 
 /**
- * Synthesize an initial activity feed from the seed catch log so the
- * Activity screen isn't a sea of crickets the first time the user
- * opens it. Only the 10 most recent catches are turned into entries —
- * older catches still drive streak math, they just don't show up in
- * the feed.
- */
-function initialActivityLog(catchLog: CatchEvent[]): ActivityEntry[] {
-  const sorted = [...catchLog].sort((a, b) => b.at - a.at).slice(0, 10);
-  return sorted.map((e, i) => ({
-    id: `seed-${i}`,
-    kind: 'catch' as const,
-    at: e.at,
-    bugId: e.id,
-  }));
-}
-
-/**
  * Generate a stable-ish id for activity entries. `at` + a tiny counter
  * is plenty — we never reconcile across devices.
  */
@@ -363,7 +344,7 @@ const wireStorage: PersistStorage<Persisted> = {
           wrapped.state.profile,
         ),
         hasOnboarded: Boolean(wrapped.state.hasOnboarded),
-        catchLog: wrapped.state.catchLog ?? buildSeedCatchLog(),
+        catchLog: wrapped.state.catchLog ?? [],
         activityLog: wrapped.state.activityLog ?? [],
         mapLocation: wrapped.state.mapLocation ?? null,
         questProgress: { ...initialQuestProgress(), ...(wrapped.state.questProgress ?? {}) },
@@ -412,13 +393,11 @@ const wireStorage: PersistStorage<Persisted> = {
 // Store
 // ──────────────────────────────────────────────────────────────────────────
 
-const SEED_CATCH_LOG = buildSeedCatchLog();
-
 export const useAppStore = create<AppStore>()(
   persist(
     (set, get) => ({
       stack: [{ name: 'onboarding', params: undefined }],
-      dex: new Set(CAUGHT_IDS),
+      dex: new Set(),
       followed: new Set(INITIAL_FOLLOWED),
       persona: 'larva',
       language: DEFAULT_LANG,
@@ -433,8 +412,8 @@ export const useAppStore = create<AppStore>()(
       toast: null,
       lastPhotoUri: null,
 
-      catchLog: SEED_CATCH_LOG,
-      activityLog: initialActivityLog(SEED_CATCH_LOG),
+      catchLog: [],
+      activityLog: [],
       mapLocation: null,
       questProgress: initialQuestProgress(),
       questCompletedAt: {},
@@ -807,9 +786,7 @@ export const useAppStore = create<AppStore>()(
           toastTimer = null;
         }
         await AsyncStorage.removeItem('critterboard:v1');
-        // Reset every persisted slice. Note: dex/catchLog go to EMPTY,
-        // not back to the seeded values — "wipe" means lose the
-        // history, not regenerate yesterday's fake catches.
+        // Reset every persisted slice back to a brand-new install.
         set({
           stack: [{ name: 'onboarding', params: undefined }],
           dex: new Set(),

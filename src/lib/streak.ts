@@ -9,8 +9,8 @@
  * camera capture failed silently fall back to undefined.
  *
  * `lat` / `lng` (when present) come from `expo-location` at catch time,
- * gated on `profile.locationShareOn`. Drives the user's pins on the
- * Map screen. Both fields are optional and travel together.
+ * whenever the OS location permission is granted (private, on-device).
+ * Drives the user's pins on the Map screen. Both fields are optional and travel together.
  */
 export type CatchEvent = {
   id: string;
@@ -247,62 +247,6 @@ export function calendarGrid(
       freeze: spent.has(key),
       isToday: i === 0,
     });
-  }
-  return out;
-}
-
-// ──────────────────────────────────────────────────────────────────────────
-// Seeded "history" so first-run UI doesn't look empty
-// ──────────────────────────────────────────────────────────────────────────
-
-/**
- * The pattern the prototype's Streak.tsx hard-coded — 35 days, 1 = caught,
- * 0 = missed, 2 = freeze used. Rebuilding catchLog from this preserves
- * the prototype's "Day 4 on fire" feel as the first-run state.
- *
- * Freeze-marked days (`2`) become real missed days in the seed log —
- * the freeze-replay above derives the protection without needing a
- * second source of truth.
- */
-const SEED_PATTERN: ReadonlyArray<0 | 1 | 2> = [
-  1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0, 1, 1, 0, 0, 1,
-  1, 1, 1, 1, 1, 1, 1, 0, 0,
-];
-
-const SEED_IDS = [
-  "hcat",
-  "lady",
-  "buff",
-  "brim",
-  "tort",
-  "wasp",
-  "peac",
-  "radm",
-  "swhi",
-  "gshb",
-  "bdam",
-  "orng",
-];
-
-/**
- * Build the seeded catch log that the store starts with. Each "caught"
- * day in `SEED_PATTERN` becomes one event, cycling through bug ids.
- */
-export function buildSeedCatchLog(now: number = Date.now()): CatchEvent[] {
-  const out: CatchEvent[] = [];
-  const total = SEED_PATTERN.length;
-  let idIdx = 0;
-  for (let i = 0; i < total; i++) {
-    const v = SEED_PATTERN[i];
-    if (v === 1) {
-      const daysAgo = total - 1 - i;
-      const d = new Date(now);
-      d.setDate(d.getDate() - daysAgo);
-      // Anchor at noon so DST flips can't push the event into the
-      // neighbouring day.
-      d.setHours(12, 0, 0, 0);
-      out.push({ id: SEED_IDS[idIdx++ % SEED_IDS.length]!, at: d.getTime() });
-    }
   }
   return out;
 }

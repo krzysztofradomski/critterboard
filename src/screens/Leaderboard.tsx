@@ -30,7 +30,9 @@ export function Leaderboard() {
   const [openName, setOpenName] = useState<string | null>(null);
 
   const userVisible = profile.networkOn && profile.leaderboardOn;
-  const userCountry = profile.locationShareOn && profile.networkOn ? 'US' : 'private';
+  const mapRegion = useAppStore((s) => s.mapLocation?.region);
+  const userCountry =
+    profile.locationShareOn && profile.networkOn && mapRegion ? mapRegion : 'private';
 
   // Backend-fed leaderboard. While offline (`networkOn === false`) the
   // hook short-circuits to `data: null` — fall back to the same in-app
@@ -55,6 +57,9 @@ export function Leaderboard() {
       ...(l.self ? { isSelf: true } : {}),
     }));
   }, [page, userXp, profile.name]);
+
+  // Nobody but the user: don't dress a one-person list up as a podium.
+  const hasPeers = sorted.some((e) => !e.isSelf);
 
   const podium = useMemo(() => {
     const top = [sorted[0], sorted[1], sorted[2]];
@@ -93,6 +98,7 @@ export function Leaderboard() {
         </View>
       </View>
 
+      {hasPeers && (
       <View style={styles.podium}>
         {podium.map((p) => {
           if (!p.row) return null;
@@ -121,10 +127,20 @@ export function Leaderboard() {
           );
         })}
       </View>
+      )}
 
       <View style={styles.list}>
         <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
-          {sorted.slice(3).map((l) => {
+          {!hasPeers && (
+            <View style={styles.hiddenRow}>
+              <Text style={{ fontSize: 22 }}>🐜</Text>
+              <View style={{ flex: 1, minWidth: 0 }}>
+                <Text style={styles.hiddenTitle}>{t('leaderboard.emptyTitle')}</Text>
+                <Text style={styles.hiddenDesc}>{t('leaderboard.emptySub')}</Text>
+              </View>
+            </View>
+          )}
+          {hasPeers && sorted.slice(3).map((l) => {
             if (l.isSelf && !userVisible) return null;
             const name = l.isSelf ? profile.name : l.displayName;
             const country = l.isSelf ? userCountry : (l.country ?? 'private');

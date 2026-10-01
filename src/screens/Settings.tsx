@@ -16,7 +16,8 @@ import { PersonaPick } from "@/components/PersonaPick";
 import { SettingToggle } from "@/components/SettingToggle";
 import { Sticker } from "@/components/Sticker";
 import { ensurePackIcons, removePackIcons } from "@/data/bugIcons";
-import { REGIONS, type Region, type RegionStatus } from "@/data/regions";
+import { AVAILABLE_REGION_IDS, REGIONS, type Region, type RegionStatus } from "@/data/regions";
+import { VISION_MODEL } from "@/data/visionModel";
 import {
   cachePackData, getModelPath, PACK_MANIFEST_URL, removeCachedPack,
   type PackManifest, type RegionPack,
@@ -368,11 +369,19 @@ export function Settings() {
           <ModelTile
             icon="👁️"
             color={PB.blue}
-            title={t("settings.model.bugNet")}
-            meta={t("settings.model.bugNetMeta")}
-            statusText={t("settings.model.ready")}
-            statusBg={PB.green}
-            statusFg={PB.cream}
+            title={VISION_MODEL.name}
+            meta={t("settings.model.visionMeta", {
+              id: VISION_MODEL.id,
+              mb: VISION_MODEL.sizeMb,
+              n: VISION_MODEL.species.toLocaleString(),
+            })}
+            statusText={
+              installedRegions.length > 0
+                ? t("settings.model.ready")
+                : t("settings.model.noPack")
+            }
+            statusBg={installedRegions.length > 0 ? PB.green : PB.cream2}
+            statusFg={installedRegions.length > 0 ? PB.cream : PB.ink}
           />
         </Sticker>
 
@@ -473,18 +482,6 @@ export function Settings() {
           />
         </Sticker>
 
-        <Sticker bg={PB.paper} style={{ padding: 14 }}>
-          <ModelTile
-            icon="📚"
-            color={PB.orange}
-            title={t("settings.model.species")}
-            meta={t("settings.model.speciesMeta")}
-            statusText={t("settings.model.ready")}
-            statusBg={PB.green}
-            statusFg={PB.cream}
-          />
-        </Sticker>
-
         <Sticker bg={PB.paper} style={{ padding: 0 }}>
           <View style={[styles.bandHeader, { backgroundColor: PB.green }]}>
             <Text style={{ fontSize: 26 }}>🗺️</Text>
@@ -496,7 +493,7 @@ export function Settings() {
               <Text style={styles.regionMetaText}>
                 {t("settings.regionMeta", {
                   installed: installedCount,
-                  total: REGIONS.length,
+                  total: AVAILABLE_REGION_IDS.size,
                   mb: totalInstalledMb,
                 })}
               </Text>
@@ -505,6 +502,7 @@ export function Settings() {
           <View style={{ padding: 10, gap: 8 }}>
             {REGIONS.map((region) => {
               const status = regions[region.id];
+              const available = AVAILABLE_REGION_IDS.has(region.id);
               const isInstalled = status === "installed";
               const isDownloading = typeof status === "object";
               const downloadPct = isDownloading
@@ -514,6 +512,7 @@ export function Settings() {
               return (
                 <Pressable
                   key={region.id}
+                  disabled={!available}
                   onPress={() => {
                     if (isDownloading) return;
                     if (isInstalled) {
@@ -522,7 +521,7 @@ export function Settings() {
                       startDownload(region);
                     }
                   }}
-                  style={styles.regionRow}
+                  style={[styles.regionRow, !available && { opacity: 0.45 }]}
                 >
                   {isDownloading && (
                     <View
@@ -554,7 +553,9 @@ export function Settings() {
                             pct: Math.floor(downloadPct),
                             mb: region.size,
                           })
-                        : `${t(`regions.list.${region.id}.sub`)} · ${region.size} MB`}
+                        : available
+                          ? `${t(`regions.list.${region.id}.sub`)} · ${region.size} MB`
+                          : t("settings.regionSoonSub")}
                     </Text>
                   </View>
                   <View
@@ -575,7 +576,9 @@ export function Settings() {
                         { color: isInstalled ? PB.cream : PB.ink },
                       ]}
                     >
-                      {isInstalled
+                      {!available
+                        ? t("settings.regionSoon")
+                        : isInstalled
                         ? t("settings.regionInstalled")
                         : isDownloading
                           ? `${Math.floor(downloadPct)}%`

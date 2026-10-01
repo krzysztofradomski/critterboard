@@ -612,3 +612,31 @@ These need either a backend or a substantial change and are explicitly **not** o
 5. After a batch lands, summarize in a "Review" section here and link the commit hash.
 
 Lessons learned mid-task go in [[tasks/lessons]].
+
+## Fresh-start & honesty pass (2026-10-01, from simulator testing)
+
+Reported: seeded user data on a new install, fake people/leaderboard/credits, packs listed that don't exist, model naming mixed up, location not detected, slow map tiles, hero tag always "Legendary".
+
+**A. Fresh start (no seeded user data)**
+- [ ] Store starts empty: dex, catchLog, activityLog, quest progress, followed; profile name empty until onboarding asks for it
+- [ ] Drop seed data: `CAUGHT_IDS`, `buildSeedCatchLog`, `INITIAL_FOLLOWED`, `COMPLETED_QUESTS` seed rows, quest template progress
+- [ ] Home / Quests / Dex / Streak / Activity render sane empty states
+- [ ] Map: drop demo `SIGHTINGS`; show only the user's own pins, real count in the header, empty-state card
+
+**B. Fake people and rankings**
+- [ ] Credits: remove invented team; fix "made by three people" copy in all 4 locales
+- [ ] Leaderboard / Friends / PersonModal: no synthetic LEADERS or profiles; empty states; mock backend must not invent people
+
+**C. Models and packs naming**
+- [ ] One user-facing name for the vision model (single source), real id only in licences
+- [ ] "Species Database" card: decide what it really is (pack data vs model) and fix or remove
+- [ ] Regions in Settings: only packs present in `packs/manifest.json` are enabled, others greyed out + "coming soon"
+
+**D. Map and home**
+- [ ] Location: ask permission when sharing is turned on, then detect; clear "why private" state
+- [ ] Profile tile loading speed (measure first)
+- [ ] Home hero: rotate rarity tags as a preview instead of a fixed Legendary
+
+**E. Audit** — other hardcoded demo numbers/copy (e.g. "320 ms", "0.4 mi"), logic and UX issues found on the way
+
+**Verify**: typecheck, vitest, simulator walkthrough on a wiped install.
