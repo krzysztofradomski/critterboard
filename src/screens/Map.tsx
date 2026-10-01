@@ -2,12 +2,15 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { IconBtn } from "@/components/IconBtn";
+import { MapLocked } from "@/components/MapLocked";
 import { OfflineMap, type OfflineMapHandle } from "@/components/OfflineMap";
 import { Sticker } from "@/components/Sticker";
 import { TabBar } from "@/components/TabBar";
 import { bugName, useT } from "@/i18n/helpers";
 import { refreshMapLocation } from "@/lib/geocode";
 import { useGeotaggedCatches } from "@/lib/useStreak";
+import { REGIONS } from "@/data/regions";
+import { useRegionMap } from "@/map/useRegionMap";
 import { PB } from "@/tokens/pb";
 import { useAppStore } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
@@ -30,6 +33,11 @@ export function MapScreen() {
   const removeMapPin = useAppStore((state) => state.removeMapPin);
   const [selectedPin, setSelectedPin] = useState<UserPinData | null>(null);
   const globeRef = useRef<OfflineMapHandle>(null);
+
+  // The map belongs to the active regional pack and is off until its file is on the device.
+  const activeRegion = useAppStore((state) => state.activeRegion);
+  const { state: mapState, download: downloadMap } = useRegionMap(activeRegion);
+  const region = REGIONS.find((r) => r.id === activeRegion);
 
   useEffect(() => {
     void refreshMapLocation();
@@ -78,8 +86,18 @@ export function MapScreen() {
 
   return (
     <View style={styles.root}>
+      {mapState.kind !== "ready" ? (
+        <MapLocked
+          state={mapState}
+          regionName={activeRegion ? t(`regions.list.${activeRegion}.name`) : ""}
+          mapMb={region?.mapSize ?? 0}
+          onDownload={downloadMap}
+          onOpenBrains={() => go("settings")}
+        />
+      ) : (
       <OfflineMap
         ref={globeRef}
+        packUri={mapState.fileUri}
         markers={markers}
         initialView={initialView}
         onMarkerClick={(marker) => {
@@ -92,7 +110,9 @@ export function MapScreen() {
           return false;
         }}
       />
+      )}
 
+      {mapState.kind === "ready" && (
       <View style={styles.zoomCol}>
         <IconBtn
           bg={PB.cream}
@@ -113,6 +133,7 @@ export function MapScreen() {
           −
         </IconBtn>
       </View>
+      )}
 
       <View style={styles.topbar}>
         <Sticker
@@ -133,6 +154,7 @@ export function MapScreen() {
         </Sticker>
       </View>
 
+      {mapState.kind === "ready" && (
       <View style={styles.bottombar}>
         {selectedPin ? (
           <Sticker bg={PB.cream} style={{ padding: 12 }}>
@@ -187,6 +209,7 @@ export function MapScreen() {
           </Sticker>
         )}
       </View>
+      )}
 
       <TabBar active="map" />
     </View>

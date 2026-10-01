@@ -1,5 +1,5 @@
 import React, { useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
   Camera,
   Images,
@@ -10,15 +10,7 @@ import {
 } from "@maplibre/maplibre-react-native";
 
 import { PixelBug } from "@/components/PixelBug";
-import { useT } from "@/i18n/helpers";
-import {
-  DEV_MAP_PACK_ID,
-  devMapPackUrl,
-  downloadMapPack,
-  installedMapPack,
-  readPmtilesBounds,
-  type PackBounds,
-} from "@/map/mapPack";
+import { readPmtilesInfo, type PackInfo } from "@/map/mapPack";
 import { buildStickerStyle, toPmtilesUrl, NODATA_PATTERN, POI_ICONS, WATER_PATTERN } from "@/map/stickerStyle";
 import { altitudeToZoom, type MapInitialView, type Marker } from "@/screens/mapGeo";
 import { PB } from "@/tokens/pb";
@@ -38,89 +30,41 @@ export type OfflineMapHandle = {
   zoomBy: (delta: number) => void;
 };
 
-// Pack tiles stop at z14; a little over-zoom still reads fine, more is just blur.
 const MIN_ZOOM = 1;
-const MAX_ZOOM = 18;
+// Vector tiles over-zoom gracefully, but only so far: allow a few levels past the pack's deepest.
+const OVERZOOM_LEVELS = 3;
+const FALLBACK_MAX_ZOOM = 10;
 
 type Props = {
+  /** Local file URI of the region's PMTiles map (it is already on the device). */
+  packUri: string;
   markers: Marker[];
   initialView: MapInitialView;
   onMarkerClick?: (marker: Marker) => boolean | void;
 };
-
-type PackState =
-  | { kind: "loading" }
-  | { kind: "ready"; tilesUrl: string }
-  | { kind: "downloading"; pct: number }
-  | { kind: "missing" }
-  | { kind: "error"; message: string };
-
-/** Resolve the local PMTiles pack, downloading it once if a URL is configured. */
-function useMapPack(): PackState {
-  const [state, setState] = useState<PackState>({ kind: "loading" });
-
-  useEffect(() => {
-    let cancelled = false;
-    const set = (s: PackState) => { if (!cancelled) setState(s); };
-
-    void (async () => {
-      const local = await installedMapPack(DEV_MAP_PACK_ID);
-      if (local) return set({ kind: "ready", tilesUrl: toPmtilesUrl(local) });
-
-      const url = devMapPackUrl();
-      if (!url) return set({ kind: "missing" });
-
-      try {
-        set({ kind: "downloading", pct: 0 });
-        const path = await downloadMapPack(DEV_MAP_PACK_ID, url, (pct) =>
-          set({ kind: "downloading", pct }),
-        );
-        set({ kind: "ready", tilesUrl: toPmtilesUrl(path) });
-      } catch (e) {
-        set({ kind: "error", message: e instanceof Error ? e.message : String(e) });
-      }
-    })();
-
-    return () => { cancelled = true; };
-  }, []);
-
-  return state;
-}
-
-/** User-facing pack status; null once ready (or while the local file is being looked up). */
-function statusText(state: PackState, t: ReturnType<typeof useT>): string | null {
-  switch (state.kind) {
-    case "downloading": return t("map.packDownloading", { pct: state.pct });
-    case "missing": return t("map.packMissing");
-    case "error": return t("map.packError");
-    default: return null;
-  }
-}
 
 /**
  * Offline 2D map: MapLibre Native rendering a local PMTiles pack with the
  * sticker style.
  */
 export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
-  function OfflineMap({ markers, initialView, onMarkerClick }, ref) {
+  function OfflineMap({ packUri, markers, initialView, onMarkerClick }, ref) {
     const cameraRef = useRef<CameraRef>(null);
-    const t = useT();
-    const pack = useMapPack();
-    const tilesUrl = pack.kind === "ready" ? pack.tilesUrl : null;
+    const tilesUrl = useMemo(() => toPmtilesUrl(packUri), [packUri]);
     const mapRef = useRef<MapRef>(null);
 
-    // Coverage of the local pack, so the map can mark "no data" outside it.
-    const [bounds, setBounds] = useState<PackBounds | null>(null);
+    // Coverage + depth of the local pack, from its header.
+    const [info, setInfo] = useState<PackInfo | null>(null);
     useEffect(() => {
-      if (!tilesUrl) return;
       let cancelled = false;
-      void readPmtilesBounds(tilesUrl.replace(/^pmtiles:\/\//, "")).then((b) => {
-        if (!cancelled) setBounds(b);
+      void readPmtilesInfo(tilesUrl.replace(/^pmtiles:\/\//, "")).then((b) => {
+        if (!cancelled) setInfo(b);
       });
       return () => { cancelled = true; };
     }, [tilesUrl]);
 
-    const mapStyle = useMemo(() => buildStickerStyle(tilesUrl, bounds), [tilesUrl, bounds]);
+    const mapStyle = useMemo(() => buildStickerStyle(tilesUrl, info), [tilesUrl, info]);
+    const maxZoom = info ? info.maxZoom + OVERZOOM_LEVELS : FALLBACK_MAX_ZOOM;
 
     // Only the first view seeds the camera; later changes go through flyTo.
     const [initialViewState] = useState(() => ({
@@ -139,12 +83,10 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
       async zoomBy(delta) {
         const current = await mapRef.current?.getZoom();
         if (current === undefined) return;
-        const zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.round(current + delta)));
+        const zoom = Math.min(maxZoom, Math.max(MIN_ZOOM, Math.round(current + delta)));
         cameraRef.current?.zoomTo(zoom, { duration: 300 });
       },
     }));
-
-    const status = statusText(pack, t);
 
     return (
       <View style={StyleSheet.absoluteFill}>
@@ -158,7 +100,12 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
           attributionPosition={{ top: 120, right: 12 }}
         >
           <Images images={MAP_IMAGES} />
-          <Camera ref={cameraRef} initialViewState={initialViewState} />
+          <Camera
+            ref={cameraRef}
+            initialViewState={initialViewState}
+            minZoom={MIN_ZOOM}
+            maxZoom={maxZoom}
+          />
           {markers.map((m) => (
             <MapMarker
               key={m.id}
@@ -176,11 +123,6 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
             </MapMarker>
           ))}
         </MapLibreMap>
-        {status ? (
-          <View style={styles.status} pointerEvents="none">
-            <Text style={styles.statusText}>{status}</Text>
-          </View>
-        ) : null}
       </View>
     );
   },
@@ -208,16 +150,4 @@ const styles = StyleSheet.create({
     borderColor: PB.cream,
     backgroundColor: PB.red,
   },
-  status: {
-    position: "absolute",
-    top: 130,
-    left: 12,
-    right: 12,
-    padding: 8,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: PB.ink,
-    backgroundColor: PB.cream,
-  },
-  statusText: { fontSize: 12, fontWeight: "700", color: PB.ink },
 });

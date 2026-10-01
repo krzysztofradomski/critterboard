@@ -71,7 +71,7 @@
       "focus": "enfoque",
       "matching": "buscando coincidencia…",
       "needPackTitle": "Descarga el paquete de especies",
-      "needPackBody": "La identificación funciona en tu teléfono. Instala una vez el paquete Europa Central (1.000 especies, unos 89 MB) para empezar a escanear.",
+      "needPackBody": "La identificación funciona en tu teléfono. Instala una vez el paquete Europa Central (1.000 especies y el mapa sin conexión, unos 145 MB) para empezar a escanear.",
       "needPackCta": "Abrir paquetes de especies",
       "modelNotReady": "El modelo de especies aún se está cargando. Inténtalo de nuevo en un momento."
     },
@@ -338,11 +338,17 @@
       "pinRemove": "Eliminar pin",
       "emptyTitle": "Aún no hay pines",
       "emptySub": "Atrapa un bicho con la ubicación activada y aparecerá aquí.",
-      "packDownloading": "Descargando mapa sin conexión… {pct}%",
-      "packMissing": "Los datos del mapa sin conexión aún no están disponibles.",
-      "packError": "No se pudo descargar el mapa sin conexión. Inténtalo más tarde.",
       "zoomIn": "Acercar",
-      "zoomOut": "Alejar"
+      "zoomOut": "Alejar",
+      "lockedTitle": "El mapa está apagado",
+      "noRegionSub": "El mapa sin conexión viene con un pack regional. Instala uno en Brains y se desbloquea.",
+      "noRegionCta": "Abrir Brains",
+      "unavailableSub": "{name} aún no tiene mapa sin conexión.",
+      "needsDownloadSub": "Descarga el mapa de {name} ({mb} MB) para usarlo sin conexión.",
+      "downloadCta": "↓ Descargar mapa · {mb} MB",
+      "downloadingSub": "Descargando el mapa… {pct}%",
+      "errorSub": "No se pudo descargar el mapa. Revisa tu conexión e inténtalo de nuevo.",
+      "retryCta": "Reintentar"
     },
     "permissions": {
       "title": "Tres preguntas rápidas.",
@@ -665,7 +671,8 @@
       "regionUse": "USAR",
       "regionSwitched": "BugNet ahora usa {name}",
       "packCta": "↓ Descargar {name} · {mb} MB",
-      "packHint": "BugNet necesita un pack regional para identificar bichos. El modelo y la lista de especies se descargan juntos."
+      "packHint": "BugNet necesita un pack regional para identificar bichos. El modelo, la lista de especies y el mapa sin conexión se descargan juntos.",
+      "mapDownloadFailed": "El pack está instalado, pero el mapa no se descargó. Reinténtalo desde la pestaña Mapa."
     },
     "regions": {
       "list": {

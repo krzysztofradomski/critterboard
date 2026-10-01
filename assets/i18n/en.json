@@ -71,7 +71,7 @@
       "focus": "focus",
       "matching": "matching…",
       "needPackTitle": "Get the species pack",
-      "needPackBody": "Bug ID runs on your phone. Install the Central Europe pack (1,000 species, ~89 MB) once to start scanning.",
+      "needPackBody": "Bug ID runs on your phone. Install the Central Europe pack (1,000 species and the offline map, ~145 MB) once to start scanning.",
       "needPackCta": "Open species packs",
       "modelNotReady": "The species model is still loading. Try again in a moment."
     },
@@ -339,11 +339,17 @@
       "viewInsect": "View insect →",
       "emptyTitle": "No pins yet",
       "emptySub": "Catch a bug with location on and it lands here.",
-      "packDownloading": "Downloading offline map… {pct}%",
-      "packMissing": "Offline map data is not available yet.",
-      "packError": "Couldn't download the offline map. Try again later.",
       "zoomIn": "Zoom in",
-      "zoomOut": "Zoom out"
+      "zoomOut": "Zoom out",
+      "lockedTitle": "Map is off",
+      "noRegionSub": "The offline map comes with a regional pack. Install one in Brains and the map unlocks.",
+      "noRegionCta": "Open Brains",
+      "unavailableSub": "{name} has no offline map yet.",
+      "needsDownloadSub": "Download the {name} map ({mb} MB) to use it offline.",
+      "downloadCta": "↓ Download map · {mb} MB",
+      "downloadingSub": "Downloading the map… {pct}%",
+      "errorSub": "Couldn't download the map. Check your connection and try again.",
+      "retryCta": "Try again"
     },
     "permissions": {
       "title": "Three quick asks.",
@@ -673,7 +679,8 @@
       "regionUse": "USE",
       "regionSwitched": "BugNet now uses {name}",
       "packCta": "↓ Download {name} · {mb} MB",
-      "packHint": "BugNet needs a region pack to identify bugs. The model and species list download together."
+      "packHint": "BugNet needs a region pack to identify bugs. The model, species list and offline map download together.",
+      "mapDownloadFailed": "The pack is installed, but its map didn't download. Retry from the Map tab."
     },
     "regions": {
       "list": {

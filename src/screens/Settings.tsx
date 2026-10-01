@@ -18,6 +18,7 @@ import { Sticker } from "@/components/Sticker";
 import { ensurePackIcons, removePackIcons } from "@/data/bugIcons";
 import { AVAILABLE_REGION_IDS, REGIONS, type Region, type RegionStatus } from "@/data/regions";
 import { VISION_MODEL } from "@/data/visionModel";
+import { downloadMapPack, removeMapPack, resolveMapUrl } from "@/map/mapPack";
 import {
   cachePackData, getModelPath, PACK_MANIFEST_URL, removeCachedPack,
   type PackManifest, type RegionPack,
@@ -129,6 +130,7 @@ export function Settings() {
       uninstallRegion(region.id);
       void removeCachedPack(region.id);
       void removePackIcons(FileSystem.documentDirectory, region.id);
+      void removeMapPack(region.id);
       if (FileSystem.documentDirectory) {
         void FileSystem.deleteAsync(
           getModelPath(FileSystem.documentDirectory, region.id),
@@ -163,13 +165,17 @@ export function Settings() {
       await FileSystem.makeDirectoryAsync(modelDir, { intermediates: true });
       const modelPath = getModelPath(FileSystem.documentDirectory, region.id);
 
+      // One progress bar for the whole install: the model's share is its
+      // slice of the total download, the map takes the rest.
+      const mapUrl = region.mapSize > 0 ? resolveMapUrl(pack) : null;
+      const modelShare = mapUrl ? (region.size - region.mapSize) / region.size : 1;
       const dl = FileSystem.createDownloadResumable(
         pack.modelUrl,
         modelPath,
         {},
         ({ totalBytesWritten, totalBytesExpectedToWrite }) => {
           if (totalBytesExpectedToWrite <= 0) return;
-          const pct = Math.floor((totalBytesWritten / totalBytesExpectedToWrite) * 100);
+          const pct = Math.floor((totalBytesWritten / totalBytesExpectedToWrite) * 100 * modelShare);
           setRegions((prev) => ({ ...prev, [region.id]: { downloading: pct } }));
         },
       );
@@ -180,6 +186,21 @@ export function Settings() {
       // Species icons: one small atlas, split on the device. Best-effort,
       // species without an icon show their emoji.
       await ensurePackIcons(FileSystem.documentDirectory, pack);
+
+      // The region's offline map. Not fatal: the region still works for
+      // scanning, and the Map tab offers the download again.
+      if (mapUrl) {
+        try {
+          await downloadMapPack(region.id, mapUrl, (pct) =>
+            setRegions((prev) => ({
+              ...prev,
+              [region.id]: { downloading: Math.floor(modelShare * 100 + pct * (1 - modelShare)) },
+            })),
+          );
+        } catch {
+          showToast({ text: t("settings.mapDownloadFailed"), icon: "🗺️", bg: PB.cream2 });
+        }
+      }
 
       // Step 4: Persist installed state (version drives boot-time refresh).
       installRegion(region.id, pack.labelMap, pack.version);

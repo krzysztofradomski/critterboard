@@ -71,7 +71,7 @@
       "focus": "ostrość",
       "matching": "dopasowuję…",
       "needPackTitle": "Pobierz paczkę gatunków",
-      "needPackBody": "Rozpoznawanie działa na Twoim telefonie. Zainstaluj raz paczkę Europa Środkowa (1000 gatunków, ok. 89 MB), aby zacząć skanować.",
+      "needPackBody": "Rozpoznawanie działa na Twoim telefonie. Zainstaluj raz paczkę Europa Środkowa (1000 gatunków i mapa offline, ok. 145 MB), aby zacząć skanować.",
       "needPackCta": "Otwórz paczki gatunków",
       "modelNotReady": "Model gatunków wciąż się wczytuje. Spróbuj za chwilę."
     },
@@ -339,11 +339,17 @@
       "viewInsect": "Zobacz owada →",
       "emptyTitle": "Na razie brak pinezek",
       "emptySub": "Złap robaka z włączoną lokalizacją, a pojawi się tutaj.",
-      "packDownloading": "Pobieranie mapy offline… {pct}%",
-      "packMissing": "Dane mapy offline nie są jeszcze dostępne.",
-      "packError": "Nie udało się pobrać mapy offline. Spróbuj później.",
       "zoomIn": "Przybliż",
-      "zoomOut": "Oddal"
+      "zoomOut": "Oddal",
+      "lockedTitle": "Mapa jest wyłączona",
+      "noRegionSub": "Mapa offline jest częścią pakietu regionalnego. Zainstaluj go w Brains, a mapa się odblokuje.",
+      "noRegionCta": "Otwórz Brains",
+      "unavailableSub": "{name} nie ma jeszcze mapy offline.",
+      "needsDownloadSub": "Pobierz mapę {name} ({mb} MB), by używać jej offline.",
+      "downloadCta": "↓ Pobierz mapę · {mb} MB",
+      "downloadingSub": "Pobieranie mapy… {pct}%",
+      "errorSub": "Nie udało się pobrać mapy. Sprawdź połączenie i spróbuj ponownie.",
+      "retryCta": "Spróbuj ponownie"
     },
     "permissions": {
       "title": "Trzy szybkie prośby.",
@@ -666,7 +672,8 @@
       "regionUse": "UŻYJ",
       "regionSwitched": "BugNet używa teraz: {name}",
       "packCta": "↓ Pobierz {name} · {mb} MB",
-      "packHint": "BugNet potrzebuje pakietu regionalnego, by rozpoznawać owady. Model i lista gatunków pobierają się razem."
+      "packHint": "BugNet potrzebuje pakietu regionalnego, by rozpoznawać owady. Model, lista gatunków i mapa offline pobierają się razem.",
+      "mapDownloadFailed": "Pakiet zainstalowany, ale mapa się nie pobrała. Spróbuj ponownie w zakładce Mapa."
     },
     "regions": {
       "list": {

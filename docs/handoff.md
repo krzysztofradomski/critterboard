@@ -103,9 +103,9 @@ The simulator's on-device ML may be slow or unsupported. Treat vision/LLM speed 
 
 ```bash
 tools/map/extract.sh --sizes 19.79,49.97,20.22,50.13        # size per zoom level (Kraków example)
-tools/map/extract.sh krakow 19.79,49.97,20.22,50.13 14      # → tools/map/out/krakow.pmtiles
+tools/map/extract.sh europe -25,34,45,72 7      # → tools/map/out/europe.pmtiles (~56 MB)
 python3 -m http.server 8787 --directory tools/map/out        # keep running
-echo 'EXPO_PUBLIC_MAP_PACK_URL=http://localhost:8787/krakow.pmtiles' >> .env
+echo 'EXPO_PUBLIC_MAP_PACK_URL=http://localhost:8787/europe.pmtiles' >> .env
 pnpm ios:sim
 ```
 

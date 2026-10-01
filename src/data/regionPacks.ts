@@ -15,6 +15,9 @@ export type RegionPack = {
   labelMap: Record<string, number>;
   /** Photo-based species icons (pack v5+); see bugIcons.ts. */
   icons?: PackIcons;
+  /** Offline map (PMTiles) for this region, downloaded with the pack. Absent until hosted. */
+  mapUrl?: string;
+  mapVersion?: number;
 };
 
 export type PackManifest = {

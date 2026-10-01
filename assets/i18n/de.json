@@ -71,7 +71,7 @@
       "focus": "Fokus",
       "matching": "vergleiche…",
       "needPackTitle": "Artenpaket holen",
-      "needPackBody": "Die Bestimmung läuft auf deinem Handy. Installiere einmal das Paket Mitteleuropa (1.000 Arten, ca. 89 MB), um loszulegen.",
+      "needPackBody": "Die Bestimmung läuft auf deinem Handy. Installiere einmal das Paket Mitteleuropa (1.000 Arten und die Offline-Karte, ca. 145 MB), um loszulegen.",
       "needPackCta": "Artenpakete öffnen",
       "modelNotReady": "Das Artenmodell lädt noch. Versuch es gleich noch einmal."
     },
@@ -338,11 +338,17 @@
       "pinRemove": "Pin entfernen",
       "emptyTitle": "Noch keine Pins",
       "emptySub": "Fang einen Käfer mit aktiviertem Standort, dann erscheint er hier.",
-      "packDownloading": "Offline-Karte wird geladen… {pct}%",
-      "packMissing": "Offline-Kartendaten sind noch nicht verfügbar.",
-      "packError": "Offline-Karte konnte nicht geladen werden. Versuche es später erneut.",
       "zoomIn": "Vergrößern",
-      "zoomOut": "Verkleinern"
+      "zoomOut": "Verkleinern",
+      "lockedTitle": "Karte ist aus",
+      "noRegionSub": "Die Offline-Karte gehört zu einem Regionalpaket. Installiere eines unter Brains, dann wird die Karte freigeschaltet.",
+      "noRegionCta": "Brains öffnen",
+      "unavailableSub": "{name} hat noch keine Offline-Karte.",
+      "needsDownloadSub": "Lade die Karte {name} ({mb} MB) für die Offline-Nutzung.",
+      "downloadCta": "↓ Karte laden · {mb} MB",
+      "downloadingSub": "Karte wird geladen… {pct}%",
+      "errorSub": "Karte konnte nicht geladen werden. Prüfe die Verbindung und versuche es erneut.",
+      "retryCta": "Erneut versuchen"
     },
     "permissions": {
       "title": "Drei kurze Fragen.",
@@ -665,7 +671,8 @@
       "regionUse": "NUTZEN",
       "regionSwitched": "BugNet nutzt jetzt {name}",
       "packCta": "↓ {name} laden · {mb} MB",
-      "packHint": "BugNet braucht ein Regionalpaket, um Insekten zu erkennen. Modell und Artenliste werden zusammen geladen."
+      "packHint": "BugNet braucht ein Regionalpaket, um Insekten zu erkennen. Modell, Artenliste und Offline-Karte werden zusammen geladen.",
+      "mapDownloadFailed": "Das Paket ist installiert, aber die Karte wurde nicht geladen. Versuche es erneut im Karten-Tab."
     },
     "regions": {
       "list": {

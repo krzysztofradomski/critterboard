@@ -39,12 +39,13 @@ Protomaps basemap v4 layers: `earth`, `water`, `landcover`, `landuse`, `roads`, 
 
 ## Coverage and zoom
 
-A pack only covers its extract bbox (plus the low-zoom parent tiles above it). Outside that, tiles don't exist, so the style must not pretend it is sea:
+The app ships one pack for the whole supported area: **Europe, zoom ≤ 7** (`tools/map/extract.sh europe -25,34,45,72 7`, ~56 MB). That is country and region level: coastlines, lakes, rivers, borders, land cover and motorways. Street detail would be 187 MB at zoom 8 and 546 MB at zoom 9, which is too large to ship; a smaller "my city in detail" pack is a possible later add-on.
 
-- The background is a muted "no data" paper with a pixel-dot pattern (`assets/map/nodata.png`).
-- The sea is drawn from a GeoJSON box of the pack's coverage (`coverage_sea` / `coverage_waves`), read from the PMTiles v3 header (`parsePmtilesBounds`, bytes 102..117) when the pack is loaded. Real water polygons from the tiles draw on top.
-- `+` / `−` buttons on the Map call `OfflineMapHandle.zoomBy`, which rounds to whole zoom levels and clamps to 1..18 (tiles stop at 14; beyond that is over-zoom).
-- When the location is known the map frames about 12 km (`LOCAL_VIEW_ALT_M`, zoom ~11.7) instead of a continent. A tight pack can't show wide-area context.
+- The pack's header (`parsePmtilesHeader`, bytes 100..117) gives its bounds and deepest zoom. The map limits zoom to that depth plus 3 levels of over-zoom, so it never magnifies into mush.
+- Outside the pack the background is a muted "no data" paper with a pixel-dot pattern (`assets/map/nodata.png`); the sea is drawn from a GeoJSON box of the pack's bounds (`coverage_sea` / `coverage_waves`) with real water polygons on top.
+- `+` / `−` buttons call `OfflineMapHandle.zoomBy` (whole levels).
+- The pack id is `europe`; a legacy spike pack (`dev`) is deleted on sight.
+- Landmark icons (trees, peaks) only show at zoom 13+, so they need a street-detail pack and won't appear with the Europe pack.
 
 MapLibre Native briefly requests its built-in demo style at startup and cancels it as soon as our style is applied; that is inside the native library and can't be turned off from JS.
 
