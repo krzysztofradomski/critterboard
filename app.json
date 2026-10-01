@@ -39,6 +39,7 @@
       ]
     },
     "plugins": [
+      "./plugins/withSceneDelegate",
       [
         "expo-camera",
         {

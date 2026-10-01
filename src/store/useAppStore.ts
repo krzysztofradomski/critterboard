@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { randomUUID } from 'expo-crypto';
 import * as FileSystem from 'expo-file-system';
 import { create } from 'zustand';
 import { persist, type PersistStorage, type StorageValue } from 'zustand/middleware';
@@ -40,17 +41,12 @@ export type Profile = {
  * handshake. Reset by `wipeAll` so a fresh install is genuinely
  * indistinguishable from a new user.
  *
- * Generates a RFC-4122 v4 UUID using crypto.getRandomValues so the
- * result is cryptographically random — required because the ID acts
- * as a bearer token.
+ * Generates a RFC-4122 v4 UUID with expo-crypto (native secure RNG; Hermes
+ * has no global `crypto`). Required to be cryptographically random because
+ * the ID acts as a bearer token.
  */
 function newBackendUserId(): string {
-  const bytes = new Uint8Array(16);
-  crypto.getRandomValues(bytes);
-  bytes[6] = (bytes[6]! & 0x0f) | 0x40; // version 4
-  bytes[8] = (bytes[8]! & 0x3f) | 0x80; // variant bits
-  const h = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
-  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+  return randomUUID();
 }
 
 export type ToastSpec = {

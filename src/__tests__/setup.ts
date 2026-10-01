@@ -13,6 +13,8 @@ vi.mock('expo-file-system', () => ({
   deleteAsync: vi.fn().mockResolvedValue(undefined),
 }));
 
+vi.mock('expo-crypto', () => ({ randomUUID: () => globalThis.crypto.randomUUID() }));
+
 vi.mock('expo-notifications', () => ({
   scheduleNotificationAsync: vi.fn().mockResolvedValue('id'),
   cancelScheduledNotificationAsync: vi.fn().mockResolvedValue(undefined),

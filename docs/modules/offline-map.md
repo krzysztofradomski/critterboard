@@ -47,6 +47,13 @@ Each extra zoom level is about 4× more data. Plan: the whole region at low zoom
 - To prove on device: MapLibre Native reads `pmtiles://file://…` from the app's documents folder on iOS, the look on a real extract, marker tap behaviour, performance, and pack sizes.
 - Next: `mapUrl` in region packs, R2 hosting, remove the globe dependencies, web renderer (`maplibre-gl` + `pmtiles` protocol), OSM credit in `CreditsDialog`.
 
+## Running on the iOS 27 simulator
+
+- Xcode 27 / iOS 27 kill apps that don't use the UIScene life cycle. Expo SDK 57's template doesn't yet, so `plugins/withSceneDelegate.js` wires in Expo's `ExpoAppSceneDelegate` at prebuild. Delete the plugin once the Expo template does this itself.
+- `pod install` needs a UTF-8 locale: `LANG=en_US.UTF-8 npx expo run:ios`.
+- The device ID comes from `expo-crypto` (Hermes has no global `crypto`).
+- To see the map, make a pack with `tools/map/extract.sh` and serve it ([[../../tools/map/README]]). Landmark icons only appear at zoom 13 and up.
+
 ## Licensing
 
 Map data is © OpenStreetMap contributors (ODbL). The style sets the source attribution, and MapLibre's attribution button shows it on the map.
