@@ -152,7 +152,7 @@ Deliberately held back: Babel 8 (`babel-preset-expo` is on Babel 7), SDK-pinned 
 **After the spike**
 - [ ] Add `mapUrl` / `mapVersion` to region packs; download with the species + model pack
 - [ ] Optional "save my area" high-zoom download (`OfflineManager.createPack` or a second extract)
-- [ ] Remove `react-cartoon-planet`, `three`, `@types/three`, `expo-gl`, the `.geojson` Metro ext, `CartoonPlanetGlobe.*`, `Map.web.tsx`
+- [x] Remove `react-cartoon-planet`, `three`, `@types/three`, `expo-gl`, the `.geojson` Metro ext, `CartoonPlanetGlobe.*`, `Map.web.tsx`
 - [ ] "© OpenStreetMap contributors" on the map + in `CreditsDialog`
 - [ ] Docs: `docs/modules/offline-map.md` + ADR 003
 

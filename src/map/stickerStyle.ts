@@ -30,6 +30,13 @@ export const MAP_COLORS = {
 } as const;
 
 export const MAP_SOURCE_ID = "protomaps";
+/** Image names registered with `<Images>` in OfflineMap (art in assets/map/). */
+export const WATER_PATTERN = "water-wave";
+export const POI_ICONS = {
+  tree: "poi-tree",
+  flower: "poi-flower",
+  peak: "poi-peak",
+} as const;
 export const OSM_ATTRIBUTION = "© OpenStreetMap contributors";
 
 const SRC = { source: MAP_SOURCE_ID } as const;
@@ -157,6 +164,14 @@ function tileLayers(): LayerSpecification[] {
       paint: { "fill-color": MAP_COLORS.water },
     },
     {
+      id: "water_pattern",
+      type: "fill",
+      ...SRC,
+      "source-layer": "water",
+      filter: isPolygon,
+      paint: { "fill-pattern": WATER_PATTERN, "fill-antialias": false },
+    },
+    {
       id: "water_lines",
       type: "line",
       ...SRC,
@@ -212,6 +227,25 @@ function tileLayers(): LayerSpecification[] {
         "fill-outline-color": MAP_COLORS.ink,
       },
     },
+    // Pixel landmark icons: no text, so still no glyphs to fetch.
+    {
+      id: "pois",
+      type: "symbol",
+      ...SRC,
+      "source-layer": "pois",
+      minzoom: 13,
+      filter: kindIn("park", "nature_reserve", "forest", "wood", "garden", "peak"),
+      layout: {
+        "icon-image": [
+          "match",
+          ["get", "kind"],
+          "garden", POI_ICONS.flower,
+          "peak", POI_ICONS.peak,
+          POI_ICONS.tree,
+        ],
+        "icon-size": 1,
+      },
+    },
     {
       id: "boundaries_country",
       type: "line",
@@ -254,6 +288,12 @@ export function buildStickerStyle(tilesUrl: string | null): StyleSpecification {
         id: "background",
         type: "background",
         paint: { "background-color": MAP_COLORS.sea },
+      },
+      // Transparent pixel waves over the sea; solid colour above is the fallback.
+      {
+        id: "background_waves",
+        type: "background",
+        paint: { "background-pattern": WATER_PATTERN },
       },
       ...(tilesUrl ? tileLayers() : []),
     ],

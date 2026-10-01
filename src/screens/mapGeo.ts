@@ -1,20 +1,22 @@
-import type { Marker } from "react-cartoon-planet";
-
 import { findBug } from "@/data/bugs";
 import { SIGHTINGS } from "@/data/sightings";
 import type { CatchEvent } from "@/lib/streak";
 import { PB } from "@/tokens/pb";
 
+/** A pin on the map. `icon` is an emoji; `color` is the pin background. */
+export type Marker = {
+  id: string;
+  label: string;
+  lat: number;
+  lng: number;
+  icon?: string;
+  color?: string;
+  shape?: "icon" | "orb";
+};
+
 const USER_PIN_SCALE_PCT_PER_KM = 5;
 const PIN_X_CENTER = 46;
 const PIN_Y_CENTER = 52;
-
-// react-cartoon-planet sizes markers relative to a ~0.024 reference radius
-// (globe radius is 1). Values near 1 render as Earth-sized cream blobs, so keep
-// every marker in the library's intended 0.02–0.03 band.
-const SIGHTING_MARKER_SIZE = 0.024;
-const USER_PIN_MARKER_SIZE = 0.026;
-const YOU_MARKER_SIZE = 0.02;
 
 /** Fallback map focus when the user has no location and no catches yet. */
 const EUROPE_CENTER = { lat: 50, lng: 15 };
@@ -61,7 +63,7 @@ function haversineMeters(
   return 6_371_000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-/** Altitude that frames a marker group in view (mirrors react-cartoon-planet clustering). */
+/** Altitude that frames a marker group in view . */
 function frameAltitudeM(
   markers: Array<{ lng: number; lat: number }>,
   centerLng: number,
@@ -117,17 +119,6 @@ export function altitudeToZoom(altM: number, lat: number): number {
   const cosLat = Math.max(0.01, Math.cos((lat * Math.PI) / 180));
   const zoom = Math.log2((METERS_PER_PX_Z0 * cosLat * SCREEN_WIDTH_PT) / Math.max(1, altM));
   return Math.min(20, Math.max(1, zoom));
-}
-
-export function critterboardEarthMap(
-  base: import("react-cartoon-planet").PlanetMapDefinition,
-  url: string,
-): import("react-cartoon-planet").PlanetMapDefinition {
-  return {
-    ...base,
-    url,
-    atmosphereStrength: 0,
-  };
 }
 
 export function project(
@@ -216,9 +207,8 @@ export function buildGlobeMarkers(
       lng,
       icon: bug?.emoji ?? "🐛",
       shape: "icon",
-      // Colour the pin by its species so sightings read as distinct on the globe.
+      // Colour the pin by its species so sightings read as distinct.
       color: bug?.color ?? PB.cream,
-      size: SIGHTING_MARKER_SIZE,
     });
     meta.set(id, { kind: "sighting", index, bugId: sp.bugId });
   });
@@ -232,7 +222,6 @@ export function buildGlobeMarkers(
       icon: pin.emoji,
       shape: "icon",
       color: PB.purple,
-      size: USER_PIN_MARKER_SIZE,
     });
     meta.set(pin.id, { kind: "user", pin });
   }
@@ -245,7 +234,6 @@ export function buildGlobeMarkers(
       lng: mapLocation.lng,
       shape: "orb",
       color: PB.red,
-      size: YOU_MARKER_SIZE,
     });
   }
 

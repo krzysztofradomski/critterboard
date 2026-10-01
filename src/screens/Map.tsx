@@ -1,13 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import {
-  CartoonPlanetGlobe,
-  type CartoonPlanetGlobeHandle,
-} from "@/components/CartoonPlanetGlobe.native";
 import { BugIcon } from "@/components/BugIcon";
 import { IconBtn } from "@/components/IconBtn";
-import { OfflineMap } from "@/components/OfflineMap";
+import { OfflineMap, type OfflineMapHandle } from "@/components/OfflineMap";
 import { Sticker } from "@/components/Sticker";
 import { TabBar } from "@/components/TabBar";
 import { findBug } from "@/data/bugs";
@@ -27,11 +23,6 @@ import {
   type UserPinData,
 } from "./mapGeo";
 
-// Spike: offline MapLibre + PMTiles map (see docs/modules/offline-map.md).
-// Flip to false to fall back to the cartoon globe.
-const USE_OFFLINE_MAP = true;
-const MapView = USE_OFFLINE_MAP ? OfflineMap : CartoonPlanetGlobe;
-
 export function MapScreen() {
   const { go } = useNav();
   const t = useT();
@@ -44,7 +35,7 @@ export function MapScreen() {
   const language = useAppStore((state) => state.language);
   const removeMapPin = useAppStore((state) => state.removeMapPin);
   const [selectedPin, setSelectedPin] = useState<UserPinData | null>(null);
-  const globeRef = useRef<CartoonPlanetGlobeHandle>(null);
+  const globeRef = useRef<OfflineMapHandle>(null);
 
   useEffect(() => {
     void refreshMapLocation();
@@ -86,7 +77,7 @@ export function MapScreen() {
 
   return (
     <View style={styles.root}>
-      <MapView
+      <OfflineMap
         ref={globeRef}
         markers={markers}
         initialView={initialView}

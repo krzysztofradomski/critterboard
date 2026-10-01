@@ -19,7 +19,7 @@ describe("buildStickerStyle", () => {
     const style = buildStickerStyle(null);
     expect(validateStyleMin(style as never)).toEqual([]);
     expect(style.sources).toEqual({});
-    expect(style.layers.map((l) => l.id)).toEqual(["background"]);
+    expect(style.layers.map((l) => l.id)).toEqual(["background", "background_waves"]);
   });
 
   it("reads only the local PMTiles source and credits OSM", () => {
@@ -34,11 +34,15 @@ describe("buildStickerStyle", () => {
     }
   });
 
-  it("needs no network assets: no glyphs, sprites or symbol layers", () => {
+  it("needs no network assets: no glyphs, sprites or text labels", () => {
     const style = buildStickerStyle(TILES);
     expect(style.glyphs).toBeUndefined();
     expect(style.sprite).toBeUndefined();
-    expect(style.layers.some((l) => l.type === "symbol")).toBe(false);
+    // Icons come from bundled <Images>; text would need glyph downloads.
+    const text = style.layers.filter(
+      (l) => l.type === "symbol" && "text-field" in (l.layout ?? {}),
+    );
+    expect(text).toEqual([]);
   });
 
   it("has unique layer ids", () => {

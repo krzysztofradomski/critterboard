@@ -2,22 +2,34 @@ import React, { useEffect, useImperativeHandle, useMemo, useRef, useState } from
 import { StyleSheet, Text, View } from "react-native";
 import {
   Camera,
+  Images,
   Map as MapLibreMap,
   Marker as MapMarker,
   type CameraRef,
 } from "@maplibre/maplibre-react-native";
-import type { Marker } from "react-cartoon-planet";
 
-import type { CartoonPlanetGlobeHandle } from "@/components/CartoonPlanetGlobe.native";
+import { PixelBug } from "@/components/PixelBug";
 import {
   DEV_MAP_PACK_ID,
   devMapPackUrl,
   downloadMapPack,
   installedMapPack,
 } from "@/map/mapPack";
-import { buildStickerStyle, toPmtilesUrl } from "@/map/stickerStyle";
-import { altitudeToZoom, type MapInitialView } from "@/screens/mapGeo";
+import { buildStickerStyle, toPmtilesUrl, POI_ICONS, WATER_PATTERN } from "@/map/stickerStyle";
+import { altitudeToZoom, type MapInitialView, type Marker } from "@/screens/mapGeo";
 import { PB } from "@/tokens/pb";
+
+// Module-level so `<Images>` gets a stable object across renders.
+const MAP_IMAGES = {
+  [WATER_PATTERN]: require("../../assets/map/water-wave.png"),
+  [POI_ICONS.tree]: require("../../assets/map/poi-tree.png"),
+  [POI_ICONS.flower]: require("../../assets/map/poi-flower.png"),
+  [POI_ICONS.peak]: require("../../assets/map/poi-peak.png"),
+};
+
+export type OfflineMapHandle = {
+  flyTo: (lng: number, lat: number, altM?: number) => void;
+};
 
 type Props = {
   markers: Marker[];
@@ -75,9 +87,9 @@ function statusText(state: PackState): string | null {
 
 /**
  * Offline 2D map: MapLibre Native rendering a local PMTiles pack with the
- * sticker style. Drop-in for `CartoonPlanetGlobe` — same props and handle.
+ * sticker style.
  */
-export const OfflineMap = React.forwardRef<CartoonPlanetGlobeHandle, Props>(
+export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
   function OfflineMap({ markers, initialView, onMarkerClick }, ref) {
     const cameraRef = useRef<CameraRef>(null);
     const pack = useMapPack();
@@ -112,6 +124,7 @@ export const OfflineMap = React.forwardRef<CartoonPlanetGlobeHandle, Props>(
           touchPitch={false}
           attributionPosition={{ top: 120, right: 12 }}
         >
+          <Images images={MAP_IMAGES} />
           <Camera ref={cameraRef} initialViewState={initialViewState} />
           {markers.map((m) => (
             <MapMarker
@@ -124,7 +137,7 @@ export const OfflineMap = React.forwardRef<CartoonPlanetGlobeHandle, Props>(
                 <View style={styles.you} />
               ) : (
                 <View style={[styles.pin, { backgroundColor: m.color ?? PB.cream }]}>
-                  <Text style={styles.pinEmoji}>{m.icon ?? "🐛"}</Text>
+                  <PixelBug size={24} color={PB.ink} accent={PB.cream} />
                 </View>
               )}
             </MapMarker>
@@ -154,7 +167,6 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     shadowOffset: { width: 2, height: 2 },
   },
-  pinEmoji: { fontSize: 18 },
   you: {
     width: 18,
     height: 18,

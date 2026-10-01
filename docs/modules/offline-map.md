@@ -2,7 +2,7 @@
 
 `#architecture` `#map` `#offline`
 
-The Map tab is a flat 2D map that works with **no network** after a one-time download. MapLibre Native draws a local PMTiles vector-tile file with Critterboard's own "sticker" style. It replaces the `react-cartoon-planet` 3D globe (still available behind a flag during the spike).
+The Map tab is a flat 2D map that works with **no network** after a one-time download. MapLibre Native draws a local PMTiles vector-tile file with Critterboard's own "sticker" style. It replaced the old `react-cartoon-planet` 3D globe, which has been removed.
 
 > See also: [[../decisions/003-offline-map-maplibre-pmtiles]] (why), [[../architecture]], [[backend-adapter]] (packs will be hosted on Cloudflare R2), `tools/map/README.md` (making packs).
 
@@ -26,9 +26,9 @@ flowchart LR
 
 | File | Role |
 |---|---|
-| `src/map/stickerStyle.ts` | Builds the MapLibre style from `pb.ts` colours: land with a hard ink offset shadow, ink coastlines, flat greens, chunky ink-cased roads. No labels, so no glyph or sprite downloads. With no pack it returns just the sea background. |
+| `src/map/stickerStyle.ts` | Builds the MapLibre style from `pb.ts` colours: land with a hard ink offset shadow, ink coastlines, flat greens, chunky ink-cased roads. Pixel landmark icons (tree, flower, peak) at z13+ come from `assets/map/` via `<Images>` (regenerate with `tools/map/gen_pixel_icons.py`). No text labels, so no glyph or sprite downloads. With no pack it returns just the sea background. |
 | `src/map/mapPack.ts` | Download-once helper. Writes `<id>.pmtiles.part`, renames on success, so a half download never counts as installed. |
-| `src/components/OfflineMap.tsx` | Drop-in replacement for `CartoonPlanetGlobe`, with the same props and `flyTo` handle. Renders markers as React views (emoji stickers). |
+| `src/components/OfflineMap.tsx` | The map component, with a `flyTo` handle. Renders markers as React views (round stickers with a `PixelBug` sprite). Registers the water wave texture with `<Images>`. |
 | `src/screens/mapGeo.ts` | `altitudeToZoom()` converts the globe's camera altitudes to Mercator zoom, so the existing framing logic carries over. |
 | `src/screens/Map.tsx` | `USE_OFFLINE_MAP` flag picks `OfflineMap` or the globe (native only; web still uses the globe). |
 | `tools/map/extract.sh` | Cuts a region out of the Protomaps planet build; `--sizes` estimates pack size per zoom. |

@@ -65,7 +65,6 @@ These modules have native code, so the app **cannot run in Expo Go** and needs a
 - `react-native-executorch` (vision; its podspec pins iOS **17.0**)
 - `llama.rn` (on-device LLM; postinstall downloads `rnllama.xcframework`)
 - `@maplibre/maplibre-react-native` (offline map)
-- `expo-gl` + `three` (legacy Map globe, to be removed after the spike)
 - `@sentry/react-native`, `expo-camera`, `expo-location`, `expo-notifications`, `expo-image-picker`, Reanimated/Worklets
 
 ## Network touchpoints
