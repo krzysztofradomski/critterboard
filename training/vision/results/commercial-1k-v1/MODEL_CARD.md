@@ -34,6 +34,17 @@ An insect and spider classifier for the **1,000 most-observed European species**
 
 Reproduce with the scripts in `training/vision/`: `stream_obs.sh`, `select_species.py`, `stream_commercial_photos.sh`, `select_commercial.py`, `download.py`, `train.py`, `export.py`, `credits.py`. See `training/vision/README.md`.
 
+## How the data was split, and what it means for the score
+
+The photos were divided into **train** (the model learns from them), **val** (used to tune and pick the best epoch) and **test** (an exam the model never studies). The 78.2% is the score on the test photos.
+
+For this model the division was made **per species**. For each species, some photographers were set aside for test and the rest went to train. Photographers were not tracked across species, so one person could be in test for ladybirds and in train for bees (2,974 of the 5,551 photographers appear in both).
+
+- **What stays clean:** a test photo is never seen in training, and no photographer's photos of the *same species* appear on both sides. The model cannot score by recognising a person's earlier shots of that species.
+- **What leaks:** the model may have picked up a photographer's camera, colours, lighting or favourite spots from their *other* species in train. That can help it slightly on their test photos.
+- **Consequence:** the 78.2% / 90.1% is probably a little higher than what new users' photos will get. We have not measured by how much (a guess is one to two points, not more). Real-world accuracy depends on the phone camera and conditions anyway.
+- **Nothing about the shipped model is affected:** only the reported score. The scripts now split by photographer across all species (`splits.py`). The first retrain will give a stricter number.
+
 ## Licensing
 
 ### Base weights — Apache 2.0 (Google)
@@ -64,7 +75,7 @@ Critterboard does this in Settings → Open source libraries → **On-device mod
 
 ## Known limitations
 
-- **Test score is slightly optimistic.** See the split note above. An honest number needs a retrain on the photographer-grouped split.
+- **Test score is slightly optimistic.** See "How the data was split" above.
 - **Look-alike species score low.** For example *Pyrgus malvoides* (6%, nearly identical to *P. malvae*), *Calliptamus barbarus*, *Coenagrion hastulatum*, *Chorthippus* grasshoppers, crab spiders and burnet moths (18–32%). Show top-3 candidates for these.
 - **Photo skew:** photos are European, mostly of adults, and taken in daylight. Larvae and pinned specimens are under-represented.
 - **No int8 build:** a static-int8 export (22.8 MB) did not load in the ExecuTorch 1.0.1 runtime, so only fp32 ships. Quantisation-aware training or a newer exporter is a follow-up.
