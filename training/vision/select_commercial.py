@@ -20,6 +20,8 @@ import random
 from collections import defaultdict
 from pathlib import Path
 
+from splits import split_of_observer
+
 ALLOWED = {"CC0", "CC-BY"}
 
 
@@ -30,8 +32,8 @@ def main():
     ap.add_argument("--min-photos", type=int, default=0, help="skip species with fewer usable photos")
     ap.add_argument("--per-species", type=int, default=400)
     ap.add_argument("--max-per-observer", type=int, default=3)
-    ap.add_argument("--test", type=int, default=40)
-    ap.add_argument("--val", type=int, default=30)
+    ap.add_argument("--test-frac", type=float, default=0.10, help="share of photographers held out for test")
+    ap.add_argument("--val-frac", type=float, default=0.065, help="share of photographers held out for validation")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
     rng = random.Random(args.seed)
@@ -75,29 +77,17 @@ def main():
             (out / "picked.tsv").open("w") as fk:
         for s, picked in chosen:
             taxon = s["taxon_id"]
-            # Scale test/val down for sparse species.
-            n = len(picked)
-            want_test = min(args.test, n // 8)
-            want_val = min(args.val, n // 10)
-            split_of, n_test, n_val = {}, 0, 0
-            per_obs = defaultdict(int)
-            for _, o in picked:
-                per_obs[o] += 1
-            for _, o in picked:
-                if o in split_of:
-                    continue
-                if n_test < want_test:
-                    split_of[o], n_test = "test", n_test + per_obs[o]
-                elif n_val < want_val:
-                    split_of[o], n_val = "val", n_val + per_obs[o]
-                else:
-                    split_of[o] = "train"
+            split_of = {o: split_of_observer(o, args.seed, args.test_frac, args.val_frac) for _, o in picked}
             for (photo_id, ext, lic, uuid), o in picked:
                 fs.write(f"{uuid}\t{taxon}\t{split_of[o]}\n")
                 fp.write(f"{photo_id}\t{ext}\t{lic}\t{uuid}\n")
                 fk.write(f"{photo_id}\t{lic}\t{o}\t{taxon}\n")
-            counts.append((n, s["latin"]))
+            counts.append((len(picked), s["latin"]))
 
+    split_counts = defaultdict(int)
+    for line in (out / "sampled.tsv").open():
+        split_counts[line.rstrip("\n").split("\t")[2]] += 1
+    print("split (photos):", dict(split_counts))
     counts.sort()
     total = sum(c for c, _ in counts)
     print(f"{total:,} photos for {len(counts)} species (CC0 + CC-BY only)")

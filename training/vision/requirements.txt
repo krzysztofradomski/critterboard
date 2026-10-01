@@ -1,0 +1,14 @@
+# Vision pipeline (training/vision). Create a venv, then: pip install -r requirements.txt
+#
+# executorch is pinned: it is the exporter whose program format (ET12) the app's
+# runtime reads. It pulls in the torch build it was released against, so torch
+# is left unpinned on purpose.
+#
+# The exact timm/torchvision/numpy/pillow versions of the shipped
+# eu-1k-commercial-v1 run were not recorded. On the next training run, save
+# `pip freeze > results/<run>/requirements.lock.txt` next to the other reports.
+executorch==1.0.1
+timm
+torchvision
+numpy
+pillow

@@ -23,7 +23,7 @@
 | **Hunt & Rank**  | Quests, XP, rarity tiers, global board. |
 | **On-Device AI** | 3 guide personas. Snarky to calm.       |
 
-✓ no account · ✓ no internet needed · ✓ no $$$ · ✓ no tracking by default · ✓ MIT licensed
+✓ no account · ✓ no internet needed · ✓ no $$$ · ✓ no tracking by default · ✓ MIT licensed code (models and icons: see [`NOTICE.md`](NOTICE.md))
 
 ### Optional social (opt-in)
 

@@ -12,13 +12,14 @@ Everything runs on a CPU. No iNaturalist API, Hugging Face or pytorch.org access
 ## Steps
 
 ```bash
-python3 -m venv ~/mlenv && ~/mlenv/bin/pip install "executorch==1.0.1" timm pillow numpy
+python3 -m venv ~/mlenv && ~/mlenv/bin/pip install -r training/vision/requirements.txt
 export DATA=~/vdata
 
 # 1. Taxonomy + European research-grade observations (streams ~13 GB, keeps ~0.5 GB)
 training/vision/stream_obs.sh
 
-# 2. Rank species, sample ≤400 observations each (≤3 per observer), split by observer
+# 2. Rank species, sample ≤400 observations each (≤3 per observer); split by photographer
+#    (each photographer lands in exactly one of train/val/test, across all species)
 ~/mlenv/bin/python training/vision/select_species.py --data $DATA --top 200
 
 # 3. First photo of each sampled observation (streams ~20 GB)
@@ -43,12 +44,14 @@ A commercially usable 1,000-species model, **used by the app since pack `eu-ce` 
 |---|---|
 | Species | 1,000 (939 insects, 61 arachnids); 74.4% of European observations |
 | Data | 243,202 CC0/CC-BY photos by 5,551 photographers; 202k / 15.5k / 25.3k split by photographer |
-| **Test top-1 / top-3** | **78.2% / 90.1%**, measured on the exported `.pte` at 224 px over 25,338 photos |
+| **Test top-1 / top-3** | **78.2% / 90.1%**, measured on the exported `.pte` at 224 px over 25,338 photos. Slightly optimistic: split per species, not per photographer (see model card) |
 | File | `packs/models/eu-1k-commercial-v1.pte`, fp32, 88.4 MB |
 
-Pipeline for this variant: `stream_commercial_photos.sh`, then `select_commercial.py --top 1000 --min-photos 100 --per-species 250 --test 25 --val 15`, then `download.py --short-side 224`, `train.py` (resumable), `export.py` and `credits.py`.
+Pipeline for this variant: `stream_commercial_photos.sh`, then `select_commercial.py --top 1000 --min-photos 100 --per-species 250` (the shipped model used the older per-species split, see the model card), then `download.py --short-side 224`, `train.py` (resumable), `export.py` and `credits.py`.
 
 ## Results — eu-ce v3 (Sep 2026, superseded by v4)
+
+> **Not licensed for reuse.** Trained on photos that include CC-BY-NC/ND/SA and on timm's ImageNet-1k weights. The `.pte` was deleted from the repo (see [[../../NOTICE]]); only the run reports remain.
 
 | | |
 |---|---|
@@ -57,7 +60,7 @@ Pipeline for this variant: `stream_commercial_photos.sh`, then `select_commercia
 | Base model | **ConvNeXt-nano** (timm `convnext_nano.d1h_in1k`, 15M params) |
 | Training | 6 epochs, AdamW, bf16, progressive 160→192 px, label smoothing 0.1, drop-path 0.1 (~3.5 h on 4 CPU cores) |
 | **Test top-1 / top-3** | **83.7% / 94.0%** — measured by running the exported `.pte` at 224 px on all 8,085 test photos |
-| Shipped file | `packs/models/eu-ce-v3.pte`, fp32, 60.4 MB, input 1×3×224×224, output 200 logits |
+| File (deleted) | `eu-ce-v3.pte`, fp32, 60.4 MB, input 1×3×224×224, output 200 logits |
 | Host CPU latency | ~55–70 ms per image (4 threads, x86); phones with XNNPACK are typically faster |
 
 Run artefacts (species list with observation counts, training history, reports, photo manifest with licences) are in [`results/eu-ce-v3/`](results/eu-ce-v3/).
@@ -77,7 +80,7 @@ Previous model (v2): EfficientNetV2-S, 20 species, 77% top-1, no XNNPACK delegat
 ## Design notes
 
 - **Species choice:** ranked by European research-grade observation count (Insecta + Arachnida, infraspecific taxa rolled up). The app's original 20 species are always included so existing ids and translations keep working.
-- **No photographer leakage:** train, val and test are split by observer, so the test score measures generalisation to new people's photos.
+- **No photographer leakage:** `splits.py` hashes each observer id into train, val or test, the same way for every species, so the test score measures generalisation to new people's photos. (The shipped `eu-1k-commercial-v1` was built before this fix, with a per-species split.)
 - **Preprocessing matches the app:** `react-native-executorch` squashes the whole frame to the model input size (no crop) and applies softmax itself. So evaluation squashes too, and the model outputs raw logits.
 - **Export:** `executorch==1.0.1`, the oldest 1.x exporter. The app's runtime (react-native-executorch 0.9.3) reads program format ET12 and ExecuTorch is backward compatible from 1.0, so an older exporter is the safe side. The model is lowered to the **XNNPACK** delegate; the v2 model ran on slow portable kernels.
 - **Verification:** `export.py` runs the exported `.pte` with the ExecuTorch runtime on the whole test split. The reported accuracy is the shipped artefact's, not just the PyTorch model's.

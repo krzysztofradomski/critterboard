@@ -10,6 +10,22 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 > Local runbook for everything below: [[docs/handoff]].
 
+## Now — Licensing and pipeline audit
+
+Findings from the audit of the committed model and training pipeline. The model host is still undecided (user is thinking), so `eu-1k-commercial-v1.pte` stays in git for now.
+
+- [x] Split by photographer across all species: `training/vision/splits.py`, used by `select_commercial.py` and `select_species.py` (`--test-frac` / `--val-frac` replace `--test` / `--val`); checked on synthetic data: no photographer in two splits
+- [x] Delete `packs/models/eu-ce-v3.pte` (trained on NC/ND/SA photos + ImageNet-1k weights); run reports kept, marked not licensed for reuse
+- [x] `LICENSE` (MIT, code only), `NOTICE.md` (model, photo, icon and chat-model terms), `license` in `package.json`, README wording
+- [x] Model card and vision README: per-species split disclosed, test score called slightly optimistic
+- [x] `training/vision/requirements.txt` (executorch 1.0.1 pinned; other versions of the shipped run were not recorded)
+- [ ] Retrain `eu-1k-commercial-v1` on the photographer-grouped split (~9.5 h on 4 CPUs) and re-measure the `.pte`; save `pip freeze` with the run
+- [ ] Decide where the model lives (R2 / Releases / Hugging Face / stays in git). `packs/eu-ce.json` `modelUrl` points at `raw.githubusercontent.com/.../main/`, so the app needs the repo public. Then `.gitignore` `*.pte`, bump the pack version
+- [ ] Decide the weights' own licence (see `NOTICE.md`); lawyer review before commercial launch
+- [ ] Old `eu-ce-v3.pte` is still in git history; rewrite history or start a clean public repo if the repo goes public
+
+---
+
 ## Now — Chat: Gemma 4 E2B only
 
 Decision (user): use Gemma 4 for all cases; disable chat when it isn't installed. See [[docs/decisions/005-gemma-4-only-chat]].
