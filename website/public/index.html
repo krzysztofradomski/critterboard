@@ -3,18 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Critterboard — the bug-collecting game that works offline</title>
+    <title>Critterboard — find a bug, snap it, collect it</title>
     <meta
       name="description"
-      content="A free, open-source game about finding and collecting real insects. It identifies them on your phone, with no account and no internet. Coming soon to iOS and Android."
+      content="A free, open-source game where you hunt for real insects and build your own collection. Your phone identifies them, no internet or sign-up needed. Coming soon to iOS and Android."
     />
     <meta
       property="og:title"
-      content="Critterboard — the bug-collecting game that works offline"
+      content="Critterboard — find a bug, snap it, collect it"
     />
     <meta
       property="og:description"
-      content="A free, open-source game about finding and collecting real insects. It identifies them on your phone, with no account and no internet. Coming soon to iOS and Android."
+      content="A free, open-source game where you hunt for real insects and build your own collection. Your phone identifies them, no internet or sign-up needed. Coming soon to iOS and Android."
     />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -438,21 +438,15 @@
         text-align: center;
         gap: 6px;
       }
-      .zero-pct {
-        font-family: "Fredoka", sans-serif;
-        font-size: 3rem;
-        font-weight: 700;
-        color: var(--y);
-        line-height: 1;
-      }
-      .zero-card--full .zero-pct {
-        color: var(--gn);
-      }
       .zero-title {
         font-family: "Fredoka", sans-serif;
-        font-size: 1.05rem;
-        font-weight: 600;
-        color: #fff;
+        font-size: 1.6rem;
+        font-weight: 700;
+        line-height: 1.1;
+        color: var(--y);
+      }
+      .zero-card--full .zero-title {
+        color: var(--gn);
       }
       .zero-desc {
         font-size: 0.8rem;
@@ -789,9 +783,6 @@
         .zero-card--full {
           grid-column: 1 / -1;
         }
-        .zero-pct {
-          font-size: 2.4rem;
-        }
         .mit {
           display: none;
         }
@@ -843,8 +834,8 @@
         .zero-card {
           padding: 28px 12px;
         }
-        .zero-pct {
-          font-size: 2rem;
+        .zero-title {
+          font-size: 1.3rem;
         }
       }
     </style>
@@ -918,9 +909,9 @@
         </h1>
         <p class="sub">
           <span data-i18n="sub_l1"
-            >A free game about finding and collecting real insects. It identifies them right on your phone.</span
+            >A free game where you hunt for real insects and build your own collection. Your phone identifies them, even with no signal.</span
           ><br />
-          <span data-i18n="sub_l2">No cloud, no account, no cost.</span>
+          <span data-i18n="sub_l2">No cloud, no sign-up, no cost.</span>
         </p>
 
         <form
@@ -946,7 +937,7 @@
         <p class="note" data-i18n="note">The beta opens in Europe first. Spots are limited.</p>
 
         <div class="promises">
-          <span class="tag" data-i18n="tag_acc">✓ no account</span>
+          <span class="tag" data-i18n="tag_acc">✓ no sign-up</span>
           <span class="tag" data-i18n="tag_net">✓ works offline</span>
           <span class="tag" data-i18n="tag_cost">✓ free</span>
           <span class="tag" data-i18n="tag_track">✓ no tracking</span>
@@ -978,38 +969,33 @@
 
     <div class="zeroes">
       <div class="zero-card">
-        <span class="zero-pct">0%</span>
-        <strong class="zero-title" data-i18n="z1_t">Cloud</strong>
+        <strong class="zero-title" data-i18n="z1_t">No cloud</strong>
         <span class="zero-desc" data-i18n="z1_d"
-          >The AI runs on your phone, not on a server.</span
+          >Your phone identifies the bugs, not some server.</span
         >
       </div>
       <div class="zero-card">
-        <span class="zero-pct">0%</span>
-        <strong class="zero-title" data-i18n="z2_t">Tracking</strong>
+        <strong class="zero-title" data-i18n="z2_t">No tracking</strong>
         <span class="zero-desc" data-i18n="z2_d"
-          >Your photos never leave your device.</span
+          >Your photos stay on your phone.</span
         >
       </div>
       <div class="zero-card">
-        <span class="zero-pct">0%</span>
-        <strong class="zero-title" data-i18n="z3_t">Accounts</strong>
+        <strong class="zero-title" data-i18n="z3_t">No sign-up</strong>
         <span class="zero-desc" data-i18n="z3_d"
-          >Open the app and start looking.</span
+          >Install it and go bug hunting.</span
         >
       </div>
       <div class="zero-card">
-        <span class="zero-pct">0%</span>
-        <strong class="zero-title" data-i18n="z4_t">Cost</strong>
+        <strong class="zero-title" data-i18n="z4_t">Free</strong>
         <span class="zero-desc" data-i18n="z4_d"
-          >Free and open source (MIT).</span
+          >Open source, under the MIT license.</span
         >
       </div>
       <div class="zero-card zero-card--full">
-        <span class="zero-pct">100%</span>
-        <strong class="zero-title" data-i18n="z5_t">Game</strong>
+        <strong class="zero-title" data-i18n="z5_t">Seriously fun</strong>
         <span class="zero-desc" data-i18n="z5_d"
-          >Earn XP, keep your streak, finish quests and pin your finds on a 3D globe.</span
+          >XP, streaks, quests, and a 3D globe with everything you've found.</span
         >
       </div>
     </div>
@@ -1019,19 +1005,19 @@
       <div class="container">
       <div class="tech-l">
         <p class="tech-label" data-i18n="tech_label">How it works</p>
-        <h2 class="tech-h2" data-i18n="tech_h2">The AI lives on your phone.</h2>
-        <p class="tech-body" data-i18n="tech_p1">Critterboard identifies insects with a small vision model that runs directly on your phone. Your photos are never uploaded, so it works just as well deep in a forest as it does at home.</p>
-        <p class="tech-body" data-i18n="tech_p2">Models are trained per region, so they only need to know the species you're likely to meet. That keeps them small and accurate. No API keys, no usage limits, no waiting on a network.</p>
+        <h2 class="tech-h2" data-i18n="tech_h2">Your phone does the identifying.</h2>
+        <p class="tech-body" data-i18n="tech_p1">Critterboard uses a small AI model that runs on your phone. Photos are never uploaded anywhere, so it works just as well deep in the woods as it does at home.</p>
+        <p class="tech-body" data-i18n="tech_p2">Each region gets its own model, trained only on the species you're likely to find there. That keeps it small and accurate. No API keys, no limits, no waiting for a signal.</p>
       </div>
       <div class="tech-specs">
         <div class="spec-card">
           <span class="spec-icon">🧠</span>
           <div>
             <span class="spec-title" data-i18n="spec1_t"
-              >Compact models</span
+              >Small and fast</span
             >
             <span class="spec-desc" data-i18n="spec1_d"
-              >Slimmed-down models that run quickly on everyday phones, not just the latest flagships.</span
+              >Runs smoothly on everyday phones, not just the latest flagships.</span
             >
           </div>
         </div>
@@ -1039,10 +1025,10 @@
           <span class="spec-icon">⚡</span>
           <div>
             <span class="spec-title" data-i18n="spec2_t"
-              >Runs on your phone</span
+              >Nothing leaves your phone</span
             >
             <span class="spec-desc" data-i18n="spec2_d"
-              >Recognition happens on the device itself. Nothing gets uploaded, and you don't need signal.</span
+              >Photos are analysed on the device. Nothing is sent anywhere, and you don't need signal.</span
             >
           </div>
         </div>
@@ -1050,10 +1036,10 @@
           <span class="spec-icon">🗺️</span>
           <div>
             <span class="spec-title" data-i18n="spec3_t"
-              >Regional packs</span
+              >One pack per region</span
             >
             <span class="spec-desc" data-i18n="spec3_d"
-              >Each pack covers the insects of one region, so downloads stay small and results stay accurate for the species you'll actually find.</span
+              >Each pack covers one region's insects, so it stays small and knows the species you'll actually see.</span
             >
           </div>
         </div>
@@ -1068,7 +1054,7 @@
       <div>
         <p class="model-dl-title">
           <span data-i18n="dl_title"
-            >One download before you head out</span
+            >Download once, before you go</span
           >
           <span class="model-dl-badge">~50–100 MB</span>
         </p>
@@ -1082,8 +1068,8 @@
       <div class="container">
       <span class="science-icon">🔬</span>
       <div class="science-copy">
-        <p class="science-title" data-i18n="sci_title">Useful for real science</p>
-        <p class="science-body" data-i18n="sci_body">Export your sightings in Darwin Core, the standard format used by GBIF and research institutions around the world.</p>
+        <p class="science-title" data-i18n="sci_title">Your finds can help science</p>
+        <p class="science-body" data-i18n="sci_body">Export your sightings in Darwin Core, the format used by GBIF and research institutions around the world.</p>
       </div>
       <span class="science-badge" data-i18n="sci_badge">GBIF-compatible</span>
       </div>
@@ -1114,244 +1100,244 @@
       const I18N = {
         en: {
           _label: "EN",
-          title: "Critterboard — the bug-collecting game that works offline",
+          title: "Critterboard — find a bug, snap it, collect it",
           meta_desc:
-            "A free, open-source game about finding and collecting real insects. It identifies them on your phone, with no account and no internet. Coming soon to iOS and Android.",
+            "A free, open-source game where you hunt for real insects and build your own collection. Your phone identifies them, no internet or sign-up needed. Coming soon to iOS and Android.",
           nav_mit: "Open source (MIT)",
           pill: "Coming soon to iOS & Android",
           h1_l1: "Find a bug.",
           h1_l2: "Snap it.",
           h1_l3: "Collect it.",
           sub_l1:
-            "A free game about finding and collecting real insects. It identifies them right on your phone.",
-          sub_l2: "No cloud, no account, no cost.",
+            "A free game where you hunt for real insects and build your own collection. Your phone identifies them, even with no signal.",
+          sub_l2: "No cloud, no sign-up, no cost.",
           email_ph: "you@email.com",
           submit: "Join the beta 🪲",
           success: "🎉 You're on the list. We'll email you when the beta opens.",
           err: "That didn't work. Try again? 🐛",
           note: "The beta opens in Europe first. Spots are limited.",
-          tag_acc: "✓ no account",
+          tag_acc: "✓ no sign-up",
           tag_net: "✓ works offline",
           tag_cost: "✓ free",
           tag_track: "✓ no tracking",
           tag_mit: "✓ MIT license",
-          z1_t: "Cloud",
-          z1_d: "The AI runs on your phone, not on a server.",
-          z2_t: "Tracking",
-          z2_d: "Your photos never leave your device.",
-          z3_t: "Accounts",
-          z3_d: "Open the app and start looking.",
-          z4_t: "Cost",
-          z4_d: "Free and open source (MIT).",
-          z5_t: "Game",
-          z5_d: "Earn XP, keep your streak, finish quests and pin your finds on a 3D globe.",
+          z1_t: "No cloud",
+          z1_d: "Your phone identifies the bugs, not some server.",
+          z2_t: "No tracking",
+          z2_d: "Your photos stay on your phone.",
+          z3_t: "No sign-up",
+          z3_d: "Install it and go bug hunting.",
+          z4_t: "Free",
+          z4_d: "Open source, under the MIT license.",
+          z5_t: "Seriously fun",
+          z5_d: "XP, streaks, quests, and a 3D globe with everything you've found.",
           ft_tag: "Free · Open source (MIT) · Europe first · Coming soon",
           ft_contact: "Contact",
           gh_star: "★ Star on GitHub",
           tech_label: "How it works",
-          tech_h2: "The AI lives on your phone.",
+          tech_h2: "Your phone does the identifying.",
           tech_p1:
-            "Critterboard identifies insects with a small vision model that runs directly on your phone. Your photos are never uploaded, so it works just as well deep in a forest as it does at home.",
+            "Critterboard uses a small AI model that runs on your phone. Photos are never uploaded anywhere, so it works just as well deep in the woods as it does at home.",
           tech_p2:
-            "Models are trained per region, so they only need to know the species you're likely to meet. That keeps them small and accurate. No API keys, no usage limits, no waiting on a network.",
-          spec1_t: "Compact models",
+            "Each region gets its own model, trained only on the species you're likely to find there. That keeps it small and accurate. No API keys, no limits, no waiting for a signal.",
+          spec1_t: "Small and fast",
           spec1_d:
-            "Slimmed-down models that run quickly on everyday phones, not just the latest flagships.",
-          spec2_t: "Runs on your phone",
+            "Runs smoothly on everyday phones, not just the latest flagships.",
+          spec2_t: "Nothing leaves your phone",
           spec2_d:
-            "Recognition happens on the device itself. Nothing gets uploaded, and you don't need signal.",
-          spec3_t: "Regional packs",
+            "Photos are analysed on the device. Nothing is sent anywhere, and you don't need signal.",
+          spec3_t: "One pack per region",
           spec3_d:
-            "Each pack covers the insects of one region, so downloads stay small and results stay accurate for the species you'll actually find.",
-          dl_title: "One download before you head out",
+            "Each pack covers one region's insects, so it stays small and knows the species you'll actually see.",
+          dl_title: "Download once, before you go",
           dl_body:
             "Download the AI pack for your region once, ideally at home on Wi-Fi. After that, Critterboard works without a connection: in the woods, in a meadow, or anywhere with no signal.",
-          sci_title: "Useful for real science",
+          sci_title: "Your finds can help science",
           sci_body:
-            "Export your sightings in Darwin Core, the standard format used by GBIF and research institutions around the world.",
+            "Export your sightings in Darwin Core, the format used by GBIF and research institutions around the world.",
           sci_badge: "GBIF-compatible",
           privacy_note:
             "We only store your email address and the date you signed up. Nothing else.",
         },
         pl: {
           _label: "PL",
-          title: "Critterboard — znajdź robala, pstryknij fotkę, kolekcjonuj",
+          title: "Critterboard — złap robala na gimbala albo z rąsi",
           meta_desc:
-            "Darmowa gra open source, w której szukasz i kolekcjonujesz prawdziwe owady. Aplikacja rozpoznaje je w telefonie, bez konta i bez internetu. Wkrótce na iOS i Androida.",
+            "Darmowa gra open source, w której polujesz na prawdziwe owady i budujesz własną kolekcję. Telefon sam je rozpozna, bez internetu i bez rejestracji. Wkrótce na iOS i Androida.",
           nav_mit: "Open source (MIT)",
           pill: "Wkrótce na iOS i Androida",
-          h1_l1: "Znajdź robala.",
-          h1_l2: "Pstryknij fotkę.",
-          h1_l3: "Kolekcjonuj.",
+          h1_l1: "Złap robala",
+          h1_l2: "na gimbala",
+          h1_l3: "albo z rąsi.",
           sub_l1:
-            "Darmowa gra, w której szukasz i kolekcjonujesz prawdziwe owady. Aplikacja rozpoznaje je w telefonie.",
+            "Darmowa gra, w której polujesz na prawdziwe owady i budujesz własną kolekcję. Telefon sam je rozpozna, nawet bez zasięgu.",
           sub_l2: "Bez chmury, bez konta, bez płacenia.",
           email_ph: "ty@email.pl",
           submit: "Dołącz do bety 🪲",
           success: "🎉 Jesteś na liście. Napiszemy, gdy ruszy beta.",
           err: "Nie udało się zapisać. Spróbuj jeszcze raz 🐛",
           note: "Beta rusza najpierw w Europie. Liczba miejsc ograniczona.",
-          tag_acc: "✓ bez konta",
+          tag_acc: "✓ bez rejestracji",
           tag_net: "✓ działa bez internetu",
           tag_cost: "✓ za darmo",
           tag_track: "✓ bez śledzenia",
           tag_mit: "✓ licencja MIT",
-          z1_t: "Chmura",
-          z1_d: "Rozpoznawanie działa w telefonie, nie na serwerze.",
-          z2_t: "Śledzenie",
-          z2_d: "Twoje zdjęcia nie opuszczają telefonu.",
-          z3_t: "Konta",
-          z3_d: "Instalujesz i od razu ruszasz na łowy.",
-          z4_t: "Opłaty",
-          z4_d: "Za darmo i open source (licencja MIT).",
-          z5_t: "Zabawa",
-          z5_d: "Zbieraj XP, nie przerywaj passy, wykonuj zadania i zaznaczaj znaleziska na globusie 3D.",
+          z1_t: "Bez chmury",
+          z1_d: "Owady rozpoznaje Twój telefon, a nie jakiś serwer.",
+          z2_t: "Bez śledzenia",
+          z2_d: "Twoje zdjęcia zostają w telefonie.",
+          z3_t: "Bez rejestracji",
+          z3_d: "Instalujesz i ruszasz na łowy.",
+          z4_t: "Za darmo",
+          z4_d: "Kod jest otwarty, na licencji MIT.",
+          z5_t: "Wciąga",
+          z5_d: "Zbierasz XP, pilnujesz passy, robisz zadania, a każde znalezisko ląduje na globusie 3D.",
           ft_tag: "Za darmo · Open source (MIT) · Najpierw w Europie · Wkrótce",
           ft_contact: "Kontakt",
           gh_star: "★ Daj gwiazdkę na GitHubie",
           tech_label: "Jak to działa",
-          tech_h2: "Sztuczna inteligencja w Twoim telefonie.",
+          tech_h2: "Owady rozpoznaje Twój telefon.",
           tech_p1:
-            "Critterboard rozpoznaje owady małym modelem AI zainstalowanym w telefonie. Zdjęcia nie trafiają na żaden serwer, więc aplikacja działa tak samo w środku lasu jak w domu.",
+            "Critterboard korzysta z małego modelu AI, który działa w telefonie. Zdjęcia nigdzie nie są wysyłane, więc w środku lasu aplikacja działa tak samo jak w domu.",
           tech_p2:
-            "Każdy region ma osobno wytrenowany model, który zna tylko gatunki, jakie naprawdę możesz spotkać. Dzięki temu jest mały i dokładny. Bez kluczy API, bez limitów, bez czekania na zasięg.",
-          spec1_t: "Lekkie modele",
+            "Każdy region ma osobny model, wytrenowany na gatunkach, które naprawdę możesz tam spotkać. Dzięki temu jest mały i celny. Bez kluczy API, bez limitów i bez czekania na zasięg.",
+          spec1_t: "Mały i szybki",
           spec1_d:
-            "Działają szybko na zwykłych telefonach, nie tylko na flagowcach.",
-          spec2_t: "Wszystko dzieje się w telefonie",
+            "Śmiga na zwykłych telefonach, nie tylko na flagowcach.",
+          spec2_t: "Nic nie wychodzi z telefonu",
           spec2_d:
-            "Nic nie jest wysyłane, a zasięg nie jest potrzebny.",
-          spec3_t: "Pakiety regionalne",
+            "Zdjęcia są analizowane na miejscu. Nic nie jest wysyłane, a zasięg nie jest potrzebny.",
+          spec3_t: "Jeden pakiet na region",
           spec3_d:
-            "Każdy pakiet obejmuje owady jednego regionu, więc zajmuje mało miejsca i dobrze rozpoznaje gatunki, które faktycznie spotkasz.",
+            "Każdy pakiet obejmuje owady jednego regionu, więc jest lekki i zna gatunki, które faktycznie spotkasz.",
           dl_title: "Pobierz raz, przed wyjściem w teren",
           dl_body:
             "Pakiet AI dla swojego regionu pobierasz tylko raz — najlepiej w domu, przez Wi-Fi. Potem Critterboard działa bez internetu: w lesie, na łące i wszędzie tam, gdzie nie ma zasięgu.",
-          sci_title: "Dla nauki obywatelskiej",
+          sci_title: "Twoje obserwacje przydadzą się naukowcom",
           sci_body:
-            "Swoje obserwacje możesz wyeksportować w formacie Darwin Core — standardzie używanym przez GBIF i instytucje naukowe na całym świecie.",
+            "Wyeksportujesz je w formacie Darwin Core — tym samym, którego używają GBIF i instytucje naukowe na całym świecie.",
           sci_badge: "Zgodny z GBIF",
           privacy_note:
             "Zapisujemy tylko Twój adres e-mail i datę zapisu. Nic więcej.",
         },
         es: {
           _label: "ES",
-          title: "Critterboard — el juego de coleccionar bichos que funciona sin conexión",
+          title: "Critterboard — busca un bicho, hazle una foto, colecciónalo",
           meta_desc:
-            "Un juego gratuito y de código abierto para encontrar y coleccionar insectos reales. Los identifica en tu móvil, sin cuenta y sin internet. Muy pronto en iOS y Android.",
+            "Un juego gratis y de código abierto en el que sales a cazar insectos de verdad y montas tu propia colección. El móvil los reconoce solo, sin internet y sin registro. Muy pronto en iOS y Android.",
           nav_mit: "Código abierto (MIT)",
           pill: "Muy pronto en iOS y Android",
           h1_l1: "Busca un bicho.",
           h1_l2: "Hazle una foto.",
           h1_l3: "Colecciónalo.",
           sub_l1:
-            "Un juego gratuito para encontrar y coleccionar insectos reales. Los identifica directamente en tu móvil.",
-          sub_l2: "Sin nube, sin cuenta, sin pagar nada.",
+            "Un juego gratis en el que sales a cazar insectos de verdad y montas tu propia colección. El móvil los reconoce solo, incluso sin cobertura.",
+          sub_l2: "Sin nube, sin registro, sin pagar nada.",
           email_ph: "tu@correo.com",
           submit: "Únete a la beta 🪲",
           success: "🎉 Ya estás en la lista. Te escribiremos cuando abra la beta.",
           err: "No se ha podido guardar. ¿Lo intentas otra vez? 🐛",
           note: "La beta abre primero en Europa. Hay plazas limitadas.",
-          tag_acc: "✓ sin cuenta",
+          tag_acc: "✓ sin registro",
           tag_net: "✓ funciona sin conexión",
           tag_cost: "✓ gratis",
           tag_track: "✓ sin rastreo",
           tag_mit: "✓ licencia MIT",
-          z1_t: "Nube",
-          z1_d: "La IA funciona en tu móvil, no en un servidor.",
-          z2_t: "Rastreo",
-          z2_d: "Tus fotos no salen de tu dispositivo.",
-          z3_t: "Cuentas",
-          z3_d: "Abre la app y empieza a buscar.",
-          z4_t: "Coste",
-          z4_d: "Gratis y de código abierto (MIT).",
-          z5_t: "Juego",
-          z5_d: "Gana XP, mantén tu racha, completa misiones y marca tus hallazgos en un globo 3D.",
+          z1_t: "Sin nube",
+          z1_d: "Los bichos los reconoce tu móvil, no un servidor.",
+          z2_t: "Sin rastreo",
+          z2_d: "Tus fotos se quedan en tu móvil.",
+          z3_t: "Sin registro",
+          z3_d: "Instálala y sal a cazar bichos.",
+          z4_t: "Gratis",
+          z4_d: "Y de código abierto, con licencia MIT.",
+          z5_t: "Engancha",
+          z5_d: "Gana XP, mantén tu racha, completa misiones y mira todo lo que has encontrado en un globo 3D.",
           ft_tag: "Gratis · Código abierto (MIT) · Primero en Europa · Muy pronto",
           ft_contact: "Contacto",
           gh_star: "★ Danos una estrella en GitHub",
           tech_label: "Cómo funciona",
-          tech_h2: "La IA vive en tu móvil.",
+          tech_h2: "Tu móvil reconoce los bichos.",
           tech_p1:
-            "Critterboard identifica insectos con un pequeño modelo de visión que funciona directamente en tu móvil. Tus fotos nunca se suben a un servidor, así que funciona igual en mitad del bosque que en casa.",
+            "Critterboard usa un pequeño modelo de IA que funciona en tu móvil. Las fotos no se suben a ningún sitio, así que funciona igual en mitad del monte que en casa.",
           tech_p2:
-            "Los modelos se entrenan por regiones, así que solo necesitan conocer las especies que probablemente te encuentres. Por eso son ligeros y precisos. Sin claves de API, sin límites de uso, sin esperar a la red.",
-          spec1_t: "Modelos compactos",
+            "Hay un modelo para cada región, entrenado solo con las especies que de verdad puedes encontrar allí. Por eso ocupa poco y acierta mucho. Sin claves de API, sin límites y sin esperar a tener cobertura.",
+          spec1_t: "Ligero y rápido",
           spec1_d:
-            "Modelos reducidos que van rápido en móviles normales, no solo en los de gama alta.",
-          spec2_t: "Funciona en tu móvil",
+            "Va fluido en móviles normales, no solo en los de gama alta.",
+          spec2_t: "Nada sale de tu móvil",
           spec2_d:
-            "El reconocimiento se hace en el propio dispositivo. No se envía nada y no hace falta cobertura.",
-          spec3_t: "Paquetes regionales",
+            "Las fotos se analizan en el propio móvil. No se envía nada y no necesitas cobertura.",
+          spec3_t: "Un paquete por región",
           spec3_d:
-            "Cada paquete cubre los insectos de una región, así que las descargas son pequeñas y los resultados, precisos para las especies que de verdad vas a encontrar.",
-          dl_title: "Una descarga antes de salir",
+            "Cada paquete cubre los insectos de una región, así que ocupa poco y conoce las especies que vas a ver de verdad.",
+          dl_title: "Descárgalo una vez antes de salir",
           dl_body:
-            "Descarga una vez el paquete de IA de tu región, mejor en casa y con Wi-Fi. Después, Critterboard funciona sin conexión: en el bosque, en el prado o en cualquier sitio sin cobertura.",
-          sci_title: "Útil para la ciencia",
+            "Descarga el paquete de tu región una sola vez, mejor en casa y con wifi. A partir de ahí, Critterboard funciona sin conexión: en el bosque, en el campo o donde no haya cobertura.",
+          sci_title: "Tus hallazgos sirven a la ciencia",
           sci_body:
-            "Exporta tus observaciones en Darwin Core, el formato estándar que usan GBIF e instituciones de investigación de todo el mundo.",
+            "Exporta tus observaciones en Darwin Core, el formato que usan GBIF y centros de investigación de todo el mundo.",
           sci_badge: "Compatible con GBIF",
           privacy_note:
             "Solo guardamos tu correo electrónico y la fecha en que te apuntaste. Nada más.",
         },
         de: {
           _label: "DE",
-          title: "Critterboard — das Insekten-Sammelspiel, das offline funktioniert",
+          title: "Critterboard — Krabbler finden, knipsen, sammeln",
           meta_desc:
-            "Ein kostenloses Open-Source-Spiel, in dem du echte Insekten findest und sammelst. Die Bestimmung läuft direkt auf deinem Handy – ohne Konto, ohne Internet. Bald für iOS und Android.",
+            "Ein kostenloses Open-Source-Spiel: Du gehst auf Insektenjagd und baust deine eigene Sammlung auf. Dein Handy bestimmt die Tiere selbst – ohne Internet und ohne Anmeldung. Bald für iOS und Android.",
           nav_mit: "Open Source (MIT)",
           pill: "Bald für iOS & Android",
           h1_l1: "Krabbler finden.",
           h1_l2: "Knipsen.",
           h1_l3: "Sammeln.",
           sub_l1:
-            "Ein kostenloses Spiel, in dem du echte Insekten findest und sammelst. Bestimmt werden sie direkt auf deinem Handy.",
-          sub_l2: "Keine Cloud, kein Konto, keine Kosten.",
+            "Ein kostenloses Spiel: Du gehst auf Insektenjagd und baust deine eigene Sammlung auf. Dein Handy bestimmt die Tiere selbst – auch ohne Netz.",
+          sub_l2: "Keine Cloud, keine Anmeldung, keine Kosten.",
           email_ph: "du@email.de",
           submit: "Zur Beta anmelden 🪲",
           success: "🎉 Du stehst auf der Liste. Wir melden uns, sobald die Beta startet.",
           err: "Das hat nicht geklappt. Nochmal versuchen? 🐛",
           note: "Die Beta startet zuerst in Europa. Die Plätze sind begrenzt.",
-          tag_acc: "✓ kein Konto",
+          tag_acc: "✓ ohne Anmeldung",
           tag_net: "✓ funktioniert offline",
           tag_cost: "✓ kostenlos",
           tag_track: "✓ kein Tracking",
           tag_mit: "✓ MIT-Lizenz",
-          z1_t: "Cloud",
-          z1_d: "Die KI läuft auf deinem Handy, nicht auf einem Server.",
-          z2_t: "Tracking",
-          z2_d: "Deine Fotos verlassen dein Gerät nicht.",
-          z3_t: "Konten",
-          z3_d: "App öffnen und direkt loslegen.",
-          z4_t: "Kosten",
-          z4_d: "Kostenlos und Open Source (MIT).",
-          z5_t: "Spiel",
-          z5_d: "Sammle XP, halte deine Serie, erledige Quests und markiere deine Funde auf einem 3D-Globus.",
+          z1_t: "Keine Cloud",
+          z1_d: "Dein Handy erkennt die Insekten, nicht irgendein Server.",
+          z2_t: "Kein Tracking",
+          z2_d: "Deine Fotos bleiben auf deinem Handy.",
+          z3_t: "Ohne Anmeldung",
+          z3_d: "Installieren und direkt losziehen.",
+          z4_t: "Kostenlos",
+          z4_d: "Und Open Source unter MIT-Lizenz.",
+          z5_t: "Macht süchtig",
+          z5_d: "XP sammeln, Serie halten, Quests erledigen und alle Funde auf dem 3D-Globus sehen.",
           ft_tag: "Kostenlos · Open Source (MIT) · Zuerst in Europa · Bald verfügbar",
           ft_contact: "Kontakt",
           gh_star: "★ Gib uns einen Stern auf GitHub",
           tech_label: "So funktioniert's",
-          tech_h2: "Die KI steckt in deinem Handy.",
+          tech_h2: "Dein Handy erkennt die Insekten.",
           tech_p1:
-            "Critterboard bestimmt Insekten mit einem kleinen Bilderkennungsmodell, das direkt auf deinem Handy läuft. Deine Fotos werden nie hochgeladen – deshalb funktioniert die App mitten im Wald genauso wie zu Hause.",
+            "Critterboard nutzt ein kleines KI-Modell, das direkt auf deinem Handy läuft. Fotos werden nirgendwohin hochgeladen – deshalb klappt das mitten im Wald genauso gut wie zu Hause.",
           tech_p2:
-            "Die Modelle werden pro Region trainiert und kennen nur die Arten, denen du wahrscheinlich begegnest. Dadurch bleiben sie klein und treffsicher. Keine API-Schlüssel, keine Nutzungslimits, kein Warten aufs Netz.",
-          spec1_t: "Kompakte Modelle",
+            "Für jede Region gibt es ein eigenes Modell, trainiert nur auf die Arten, die dir dort wirklich begegnen. So bleibt es klein und treffsicher. Keine API-Schlüssel, keine Limits, kein Warten auf Empfang.",
+          spec1_t: "Klein und schnell",
           spec1_d:
-            "Abgespeckte Modelle, die auch auf ganz normalen Handys schnell laufen – nicht nur auf Flaggschiffen.",
-          spec2_t: "Läuft auf deinem Handy",
+            "Läuft flüssig auf ganz normalen Handys, nicht nur auf Flaggschiffen.",
+          spec2_t: "Nichts verlässt dein Handy",
           spec2_d:
-            "Die Erkennung passiert auf dem Gerät selbst. Nichts wird hochgeladen, und du brauchst keinen Empfang.",
-          spec3_t: "Regionale Pakete",
+            "Die Fotos werden direkt auf dem Gerät ausgewertet. Es wird nichts verschickt, und du brauchst keinen Empfang.",
+          spec3_t: "Ein Paket pro Region",
           spec3_d:
-            "Jedes Paket deckt die Insekten einer Region ab. So bleiben die Downloads klein und die Ergebnisse genau – für die Arten, die du wirklich findest.",
-          dl_title: "Ein Download, bevor du losziehst",
+            "Jedes Paket deckt die Insekten einer Region ab. So bleibt es klein und kennt die Arten, die du wirklich siehst.",
+          dl_title: "Einmal laden, bevor du losziehst",
           dl_body:
             "Lade das KI-Paket für deine Region einmal herunter, am besten zu Hause im WLAN. Danach funktioniert Critterboard ohne Verbindung – im Wald, auf der Wiese und überall, wo es keinen Empfang gibt.",
-          sci_title: "Nützlich für die Wissenschaft",
+          sci_title: "Deine Funde helfen der Forschung",
           sci_body:
-            "Exportiere deine Beobachtungen im Darwin-Core-Format – dem Standard, den GBIF und Forschungseinrichtungen weltweit nutzen.",
+            "Exportiere deine Beobachtungen im Darwin-Core-Format, das auch GBIF und Forschungseinrichtungen weltweit nutzen.",
           sci_badge: "GBIF-kompatibel",
           privacy_note:
             "Wir speichern nur deine E-Mail-Adresse und das Anmeldedatum. Sonst nichts.",
