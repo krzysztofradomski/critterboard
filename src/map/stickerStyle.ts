@@ -3,6 +3,7 @@ import type {
   StyleSpecification,
 } from "@maplibre/maplibre-react-native";
 
+import type { PackBounds } from "@/map/mapPack";
 import { PB } from "@/tokens/pb";
 
 /**
@@ -15,6 +16,8 @@ import { PB } from "@/tokens/pb";
 
 export const MAP_COLORS = {
   sea: "#9cc7ff",
+  /** Outside the map pack: muted paper, so missing data doesn't read as sea. */
+  noData: "#e6d9bd",
   land: PB.cream,
   shadow: PB.ink,
   forest: "#7cc47f",
@@ -32,6 +35,7 @@ export const MAP_COLORS = {
 export const MAP_SOURCE_ID = "protomaps";
 /** Image names registered with `<Images>` in OfflineMap (art in assets/map/). */
 export const WATER_PATTERN = "water-wave";
+export const NODATA_PATTERN = "nodata";
 export const POI_ICONS = {
   tree: "poi-tree",
   flower: "poi-flower",
@@ -266,35 +270,87 @@ export function toPmtilesUrl(fileUri: string): string {
   return `pmtiles://${fileUri}`;
 }
 
+export const COVERAGE_SOURCE_ID = "coverage";
+
+/** The pack's bounding box as a GeoJSON polygon: sea is drawn inside it, "no data" outside. */
+function coverageGeoJson(b: PackBounds) {
+  return {
+    type: "Feature" as const,
+    properties: {},
+    geometry: {
+      type: "Polygon" as const,
+      coordinates: [[
+        [b.minLng, b.minLat],
+        [b.maxLng, b.minLat],
+        [b.maxLng, b.maxLat],
+        [b.minLng, b.maxLat],
+        [b.minLng, b.minLat],
+      ]],
+    },
+  };
+}
+
 /**
  * Build the style. With no tiles (no map pack installed yet) it is just the
- * sea background, so the screen still renders and pins still show.
+ * "no data" background, so the screen still renders and pins still show.
+ * With `bounds` (the pack's coverage) the sea fills that box; outside it the
+ * map says "nothing here" instead of pretending to be ocean.
  */
-export function buildStickerStyle(tilesUrl: string | null): StyleSpecification {
+export function buildStickerStyle(
+  tilesUrl: string | null,
+  bounds: PackBounds | null = null,
+): StyleSpecification {
+  const coverage: LayerSpecification[] = bounds
+    ? ([
+        {
+          id: "coverage_sea",
+          type: "fill",
+          source: COVERAGE_SOURCE_ID,
+          paint: { "fill-color": MAP_COLORS.sea, "fill-antialias": false },
+        },
+        {
+          id: "coverage_waves",
+          type: "fill",
+          source: COVERAGE_SOURCE_ID,
+          paint: { "fill-pattern": WATER_PATTERN, "fill-antialias": false },
+        },
+      ] as LayerSpecification[])
+    : [];
   return {
     version: 8,
     name: "critterboard-sticker",
-    sources: tilesUrl
-      ? {
-          [MAP_SOURCE_ID]: {
-            type: "vector",
-            url: tilesUrl,
-            attribution: OSM_ATTRIBUTION,
-          },
-        }
-      : {},
+    sources: {
+      ...(tilesUrl
+        ? {
+            [MAP_SOURCE_ID]: {
+              type: "vector" as const,
+              url: tilesUrl,
+              attribution: OSM_ATTRIBUTION,
+            },
+          }
+        : {}),
+      ...(bounds
+        ? {
+            [COVERAGE_SOURCE_ID]: {
+              type: "geojson" as const,
+              data: coverageGeoJson(bounds),
+            },
+          }
+        : {}),
+    },
     layers: [
       {
         id: "background",
         type: "background",
-        paint: { "background-color": MAP_COLORS.sea },
+        paint: { "background-color": MAP_COLORS.noData },
       },
-      // Transparent pixel waves over the sea; solid colour above is the fallback.
+      // Pixel dots over the no-data colour.
       {
-        id: "background_waves",
+        id: "background_nodata",
         type: "background",
-        paint: { "background-pattern": WATER_PATTERN },
+        paint: { "background-pattern": NODATA_PATTERN },
       },
+      ...coverage,
       ...(tilesUrl ? tileLayers() : []),
     ],
   };

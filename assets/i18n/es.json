@@ -340,7 +340,9 @@
       "emptySub": "Atrapa un bicho con la ubicación activada y aparecerá aquí.",
       "packDownloading": "Descargando mapa sin conexión… {pct}%",
       "packMissing": "Los datos del mapa sin conexión aún no están disponibles.",
-      "packError": "No se pudo descargar el mapa sin conexión. Inténtalo más tarde."
+      "packError": "No se pudo descargar el mapa sin conexión. Inténtalo más tarde.",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar"
     },
     "permissions": {
       "title": "Tres preguntas rápidas.",

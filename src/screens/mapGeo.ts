@@ -18,9 +18,9 @@ const EUROPE_CENTER = { lat: 50, lng: 15 };
 // Continental framing for the Europe fallback (shows the continent + coastlines
 // + surrounding seas, not a green inland patch).
 const EUROPE_VIEW_ALT_M = 6_000_000;
-// Regional framing once we know the user's actual spot — close enough to read
-// the area, far enough to keep geographic context.
-const REGIONAL_ALT_M = 2_000_000;
+// Framing once we know the user's actual spot: roughly a city (zoom ~11.7),
+// since an offline pack has street-level detail, not continent-scale context.
+export const LOCAL_VIEW_ALT_M = 12_000;
 
 export type UserPinData = {
   id: string;
@@ -89,11 +89,11 @@ export function resolveInitialMapView(
   }
 
   if (you) {
-    return { lng: you.lng, lat: you.lat, altM: REGIONAL_ALT_M };
+    return { lng: you.lng, lat: you.lat, altM: LOCAL_VIEW_ALT_M };
   }
 
   if (mapLocation) {
-    return { lng: mapLocation.lng, lat: mapLocation.lat, altM: REGIONAL_ALT_M };
+    return { lng: mapLocation.lng, lat: mapLocation.lat, altM: LOCAL_VIEW_ALT_M };
   }
 
   // No computed location yet — start on the predefined centre of Europe rather

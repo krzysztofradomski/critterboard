@@ -13,6 +13,7 @@ import { useAppStore } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
 
 import {
+  LOCAL_VIEW_ALT_M,
   buildGlobeMarkers,
   buildUserPins,
   resolveInitialMapView,
@@ -64,12 +65,12 @@ export function MapScreen() {
   useEffect(() => {
     if (!mapLocation || hadLocation.current) return;
     hadLocation.current = true;
-    globeRef.current?.flyTo(mapLocation.lng, mapLocation.lat, 400_000);
+    globeRef.current?.flyTo(mapLocation.lng, mapLocation.lat, LOCAL_VIEW_ALT_M);
   }, [mapLocation]);
 
   const recenter = () => {
     if (mapLocation) {
-      globeRef.current?.flyTo(mapLocation.lng, mapLocation.lat, 400_000);
+      globeRef.current?.flyTo(mapLocation.lng, mapLocation.lat, LOCAL_VIEW_ALT_M);
       return;
     }
     globeRef.current?.flyTo(initialView.lng, initialView.lat, initialView.altM);
@@ -91,6 +92,27 @@ export function MapScreen() {
           return false;
         }}
       />
+
+      <View style={styles.zoomCol}>
+        <IconBtn
+          bg={PB.cream}
+          size={44}
+          fs={24}
+          accessibilityLabel={t("map.zoomIn")}
+          onPress={() => globeRef.current?.zoomBy(1)}
+        >
+          +
+        </IconBtn>
+        <IconBtn
+          bg={PB.cream}
+          size={44}
+          fs={24}
+          accessibilityLabel={t("map.zoomOut")}
+          onPress={() => globeRef.current?.zoomBy(-1)}
+        >
+          −
+        </IconBtn>
+      </View>
 
       <View style={styles.topbar}>
         <Sticker
@@ -173,6 +195,7 @@ export function MapScreen() {
 
 const styles = StyleSheet.create({
   root: { ...StyleSheet.absoluteFill, backgroundColor: PB.blue },
+  zoomCol: { position: "absolute", right: 12, bottom: 250, gap: 8, zIndex: 2 },
   topbar: { position: "absolute", top: 50, left: 12, right: 12, zIndex: 2 },
   locName: { fontSize: 18, fontWeight: "800", color: PB.ink, lineHeight: 18 },
   locSub: { fontSize: 11, color: PB.ink, opacity: 0.6, marginTop: 2 },

@@ -341,7 +341,9 @@
       "emptySub": "Catch a bug with location on and it lands here.",
       "packDownloading": "Downloading offline map… {pct}%",
       "packMissing": "Offline map data is not available yet.",
-      "packError": "Couldn't download the offline map. Try again later."
+      "packError": "Couldn't download the offline map. Try again later.",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
     },
     "permissions": {
       "title": "Three quick asks.",

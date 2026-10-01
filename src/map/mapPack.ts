@@ -61,3 +61,33 @@ export async function downloadMapPack(
   await FileSystem.moveAsync({ from: partPath, to: path });
   return path;
 }
+
+export type PackBounds = { minLng: number; minLat: number; maxLng: number; maxLat: number };
+
+/**
+ * Geographic coverage of a PMTiles v3 archive, from its 127-byte header
+ * (int32 E7 degrees at bytes 102..117). Null if the bytes aren't PMTiles.
+ */
+export function parsePmtilesBounds(header: Uint8Array): PackBounds | null {
+  if (header.length < 118) return null;
+  const magic = String.fromCharCode(...header.slice(0, 7));
+  if (magic !== 'PMTiles' || header[7] !== 3) return null;
+  const view = new DataView(header.buffer, header.byteOffset, header.byteLength);
+  const deg = (offset: number) => view.getInt32(offset, true) / 1e7;
+  return { minLng: deg(102), minLat: deg(106), maxLng: deg(110), maxLat: deg(114) };
+}
+
+/** Read a local pack's coverage; null on any failure (the map then just has no coverage mask). */
+export async function readPmtilesBounds(fileUri: string): Promise<PackBounds | null> {
+  try {
+    const b64 = await FileSystem.readAsStringAsync(fileUri, {
+      encoding: FileSystem.EncodingType.Base64,
+      position: 0,
+      length: 127,
+    });
+    const bin = atob(b64);
+    return parsePmtilesBounds(Uint8Array.from(bin, (c) => c.charCodeAt(0)));
+  } catch {
+    return null;
+  }
+}

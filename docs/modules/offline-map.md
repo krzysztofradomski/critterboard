@@ -37,6 +37,17 @@ flowchart LR
 
 Protomaps basemap v4 layers: `earth`, `water`, `landcover`, `landuse`, `roads`, `buildings`, `boundaries` (plus `places` / `pois`, unused because there are no labels). Features are classified by `kind` (`park`, `forest`, `highway`, `major_road`, `minor_road`, `path`, `river`, …). Reference: <https://docs.protomaps.com/basemaps/layers>.
 
+## Coverage and zoom
+
+A pack only covers its extract bbox (plus the low-zoom parent tiles above it). Outside that, tiles don't exist, so the style must not pretend it is sea:
+
+- The background is a muted "no data" paper with a pixel-dot pattern (`assets/map/nodata.png`).
+- The sea is drawn from a GeoJSON box of the pack's coverage (`coverage_sea` / `coverage_waves`), read from the PMTiles v3 header (`parsePmtilesBounds`, bytes 102..117) when the pack is loaded. Real water polygons from the tiles draw on top.
+- `+` / `−` buttons on the Map call `OfflineMapHandle.zoomBy`, which rounds to whole zoom levels and clamps to 1..18 (tiles stop at 14; beyond that is over-zoom).
+- When the location is known the map frames about 12 km (`LOCAL_VIEW_ALT_M`, zoom ~11.7) instead of a continent. A tight pack can't show wide-area context.
+
+MapLibre Native briefly requests its built-in demo style at startup and cancels it as soon as our style is applied; that is inside the native library and can't be turned off from JS.
+
 ## Location and pins
 
 The map centres on the device location whenever the OS permission is granted (the Map asks once if it never was). The user's own catches become pins when they have coordinates. Public sharing (`profile.locationShareOn`) is separate: it only decides whether coordinates are published to the backend. There are no demo sightings; an empty map shows a hint card.

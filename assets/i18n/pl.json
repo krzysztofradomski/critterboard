@@ -341,7 +341,9 @@
       "emptySub": "Złap robaka z włączoną lokalizacją, a pojawi się tutaj.",
       "packDownloading": "Pobieranie mapy offline… {pct}%",
       "packMissing": "Dane mapy offline nie są jeszcze dostępne.",
-      "packError": "Nie udało się pobrać mapy offline. Spróbuj później."
+      "packError": "Nie udało się pobrać mapy offline. Spróbuj później.",
+      "zoomIn": "Przybliż",
+      "zoomOut": "Oddal"
     },
     "permissions": {
       "title": "Trzy szybkie prośby.",

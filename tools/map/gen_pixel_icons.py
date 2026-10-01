@@ -7,7 +7,8 @@ import zlib
 
 PAL = {'x': (0x3a, 0x26, 0x18), 'g': (0x4f, 0xa8, 0x5a), 'G': (0x8f, 0xd6, 0x8a),
        'b': (0x8a, 0x5a, 0x2b), 'y': (0xf5, 0xc8, 0x42), 'p': (0xf2, 0x7a, 0xa8),
-       's': (0xa8, 0xa8, 0xb8), 'w': (0xff, 0xff, 0xff), 'W': (0xd6, 0xea, 0xff)}
+       's': (0xa8, 0xa8, 0xb8), 'w': (0xff, 0xff, 0xff), 'W': (0xd6, 0xea, 0xff),
+       'n': (0xcf, 0xbe, 0x98)}
 
 ICONS = {
     "poi-tree": [
@@ -51,6 +52,12 @@ ICONS = {
         "xssssssssssx",
         "xxxxxxxxxxxx",
         "............",
+    ],
+    # "Beyond the map pack": sparse dots on the muted no-data background.
+    "nodata": [
+        "n...........", "............", "............", "......n.....",
+        "............", "............", "............", "............",
+        "n...........", "............", "............", "......n.....",
     ],
     # Sparse light wave marks on transparent: sits over the solid sea colour.
     "water-wave": [

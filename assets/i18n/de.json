@@ -340,7 +340,9 @@
       "emptySub": "Fang einen Käfer mit aktiviertem Standort, dann erscheint er hier.",
       "packDownloading": "Offline-Karte wird geladen… {pct}%",
       "packMissing": "Offline-Kartendaten sind noch nicht verfügbar.",
-      "packError": "Offline-Karte konnte nicht geladen werden. Versuche es später erneut."
+      "packError": "Offline-Karte konnte nicht geladen werden. Versuche es später erneut.",
+      "zoomIn": "Vergrößern",
+      "zoomOut": "Verkleinern"
     },
     "permissions": {
       "title": "Drei kurze Fragen.",

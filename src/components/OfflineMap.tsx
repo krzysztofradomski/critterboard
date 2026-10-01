@@ -4,6 +4,7 @@ import {
   Camera,
   Images,
   Map as MapLibreMap,
+  type MapRef,
   Marker as MapMarker,
   type CameraRef,
 } from "@maplibre/maplibre-react-native";
@@ -15,14 +16,17 @@ import {
   devMapPackUrl,
   downloadMapPack,
   installedMapPack,
+  readPmtilesBounds,
+  type PackBounds,
 } from "@/map/mapPack";
-import { buildStickerStyle, toPmtilesUrl, POI_ICONS, WATER_PATTERN } from "@/map/stickerStyle";
+import { buildStickerStyle, toPmtilesUrl, NODATA_PATTERN, POI_ICONS, WATER_PATTERN } from "@/map/stickerStyle";
 import { altitudeToZoom, type MapInitialView, type Marker } from "@/screens/mapGeo";
 import { PB } from "@/tokens/pb";
 
 // Module-level so `<Images>` gets a stable object across renders.
 const MAP_IMAGES = {
   [WATER_PATTERN]: require("../../assets/map/water-wave.png"),
+  [NODATA_PATTERN]: require("../../assets/map/nodata.png"),
   [POI_ICONS.tree]: require("../../assets/map/poi-tree.png"),
   [POI_ICONS.flower]: require("../../assets/map/poi-flower.png"),
   [POI_ICONS.peak]: require("../../assets/map/poi-peak.png"),
@@ -30,7 +34,13 @@ const MAP_IMAGES = {
 
 export type OfflineMapHandle = {
   flyTo: (lng: number, lat: number, altM?: number) => void;
+  /** Zoom by `delta` levels around the current centre (negative zooms out). */
+  zoomBy: (delta: number) => void;
 };
+
+// Pack tiles stop at z14; a little over-zoom still reads fine, more is just blur.
+const MIN_ZOOM = 1;
+const MAX_ZOOM = 18;
 
 type Props = {
   markers: Marker[];
@@ -97,7 +107,20 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
     const t = useT();
     const pack = useMapPack();
     const tilesUrl = pack.kind === "ready" ? pack.tilesUrl : null;
-    const mapStyle = useMemo(() => buildStickerStyle(tilesUrl), [tilesUrl]);
+    const mapRef = useRef<MapRef>(null);
+
+    // Coverage of the local pack, so the map can mark "no data" outside it.
+    const [bounds, setBounds] = useState<PackBounds | null>(null);
+    useEffect(() => {
+      if (!tilesUrl) return;
+      let cancelled = false;
+      void readPmtilesBounds(tilesUrl.replace(/^pmtiles:\/\//, "")).then((b) => {
+        if (!cancelled) setBounds(b);
+      });
+      return () => { cancelled = true; };
+    }, [tilesUrl]);
+
+    const mapStyle = useMemo(() => buildStickerStyle(tilesUrl, bounds), [tilesUrl, bounds]);
 
     // Only the first view seeds the camera; later changes go through flyTo.
     const [initialViewState] = useState(() => ({
@@ -113,6 +136,12 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
           duration: 1200,
         });
       },
+      async zoomBy(delta) {
+        const current = await mapRef.current?.getZoom();
+        if (current === undefined) return;
+        const zoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.round(current + delta)));
+        cameraRef.current?.zoomTo(zoom, { duration: 300 });
+      },
     }));
 
     const status = statusText(pack, t);
@@ -120,6 +149,7 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
     return (
       <View style={StyleSheet.absoluteFill}>
         <MapLibreMap
+          ref={mapRef}
           style={StyleSheet.absoluteFill}
           mapStyle={mapStyle}
           logo={false}
