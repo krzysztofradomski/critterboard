@@ -122,6 +122,9 @@
       }
 
       .mit {
+        align-self: stretch;
+        display: flex;
+        align-items: center;
         font-size: 0.72rem;
         font-weight: 600;
         letter-spacing: 0.4px;
@@ -716,6 +719,7 @@
       }
       .science-badge {
         flex-shrink: 0;
+        text-decoration: none;
         font-size: 0.7rem;
         font-weight: 700;
         letter-spacing: 0.7px;
@@ -726,6 +730,11 @@
         border-radius: 100px;
         border: var(--bd);
         white-space: nowrap;
+      }
+
+      a.science-badge:hover {
+        background: var(--y);
+        color: var(--bk);
       }
 
       /* ── RESPONSIVE ── */
@@ -1061,7 +1070,13 @@
         <p class="science-title" data-i18n="sci_title">Your finds can help science</p>
         <p class="science-body" data-i18n="sci_body">Export your sightings in Darwin Core, the format used by GBIF and research institutions around the world.</p>
       </div>
-      <span class="science-badge" data-i18n="sci_badge">GBIF-compatible</span>
+      <a
+        href="https://www.gbif.org"
+        target="_blank"
+        rel="noopener"
+        class="science-badge"
+        data-i18n="sci_badge"
+        >GBIF-compatible</a>
       </div>
     </div>
 
