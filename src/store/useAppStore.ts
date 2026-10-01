@@ -9,6 +9,7 @@ import { QUESTS, QUEST_RULES } from '@/data/quests';
 import { DEFAULT_LANG, coerceLang, t, type LangId } from '@/i18n';
 import { type PersonaId, getPersonaName } from '@/personas';
 import { ME_SUB_ALIAS, type RouteName, type RouteParamMap, isMainTab } from '@/navigation/routes';
+import { getPackData } from '@/data/regionPacks';
 import { currentStreak, type CatchEvent } from '@/lib/streak';
 import {
   buildConversationMemoryEntry,
@@ -170,7 +171,13 @@ type State = {
   /** Region IDs for which the pack JSON + model .pte have been downloaded. */
   installedRegions: string[];
   /**
-   * Label map from the first installed region pack (scientific name →
+   * The one region whose model Scan uses (null when none is installed).
+   * Installing a region activates it; the user can switch among installed
+   * regions in Brains.
+   */
+  activeRegion: string | null;
+  /**
+   * Label map of the active region pack (scientific name →
    * class index). Persisted so Scan can load the model without waiting
    * for hydrateInstalledPacks() to replay AsyncStorage on each boot.
    */
@@ -233,6 +240,8 @@ type Actions = {
   removeMessageFromThread: (threadId: string, index: number) => void;
   installRegion: (id: string, labelMap: Record<string, number>, version: number) => void;
   uninstallRegion: (id: string) => void;
+  /** Make an installed region the active one (its model + label map drive Scan). */
+  setActiveRegion: (id: string) => void;
   /**
    * Strip the GPS coordinates from a catch event so it no longer appears
    * as a pin on the map. The catch itself stays in the log and dex.
@@ -293,6 +302,7 @@ type Persisted = Pick<
   | 'chatThreads'
   | 'conversationMemory'
   | 'installedRegions'
+  | 'activeRegion'
   | 'activeLabelMap'
   | 'installedPackVersions'
 >;
@@ -321,6 +331,7 @@ type PersistedWire = {
   chatThreads?: Record<string, ChatThread>;
   conversationMemory?: ConversationMemoryEntry[];
   installedRegions?: string[];
+  activeRegion?: string | null;
   activeLabelMap?: Record<string, number>;
   installedPackVersions?: Record<string, number>;
 };
@@ -354,6 +365,9 @@ const wireStorage: PersistStorage<Persisted> = {
         chatThreads: wrapped.state.chatThreads ?? {},
         conversationMemory: wrapped.state.conversationMemory ?? [],
         installedRegions: wrapped.state.installedRegions ?? [],
+        // Older saves had no explicit choice: the first installed region was active.
+        activeRegion:
+          wrapped.state.activeRegion ?? wrapped.state.installedRegions?.[0] ?? null,
         activeLabelMap: wrapped.state.activeLabelMap ?? {},
         installedPackVersions: wrapped.state.installedPackVersions ?? {},
       },
@@ -379,6 +393,7 @@ const wireStorage: PersistStorage<Persisted> = {
       chatThreads: value.state.chatThreads,
       conversationMemory: value.state.conversationMemory,
       installedRegions: value.state.installedRegions,
+      activeRegion: value.state.activeRegion,
       activeLabelMap: value.state.activeLabelMap,
       installedPackVersions: value.state.installedPackVersions,
     };
@@ -422,6 +437,7 @@ export const useAppStore = create<AppStore>()(
       chatThreads: {},
       conversationMemory: [],
       installedRegions: [],
+      activeRegion: null,
       activeLabelMap: {},
       installedPackVersions: {},
 
@@ -703,35 +719,43 @@ export const useAppStore = create<AppStore>()(
           };
         }),
 
-      // Upsert: also used to refresh a pack in place (version bump). When the
-      // region is the active (first) one, its labelMap is (re)applied so an
-      // updated model's class order takes effect immediately.
+      // Upsert: also used to refresh a pack in place (version bump). A newly
+      // installed region becomes the active one; refreshing the active region
+      // re-applies its labelMap so an updated model's class order takes effect.
       installRegion: (id, labelMap, version) =>
         set((s) => {
-          const installedRegions = s.installedRegions.includes(id)
-            ? s.installedRegions
-            : [...s.installedRegions, id];
-          const isActive = installedRegions[0] === id;
+          const isNew = !s.installedRegions.includes(id);
+          const installedRegions = isNew ? [...s.installedRegions, id] : s.installedRegions;
+          const becomesActive = isNew || s.activeRegion === id;
           return {
             installedRegions,
             installedPackVersions: { ...s.installedPackVersions, [id]: version },
-            activeLabelMap: isActive ? labelMap : s.activeLabelMap,
+            activeRegion: becomesActive ? id : s.activeRegion,
+            activeLabelMap: becomesActive ? labelMap : s.activeLabelMap,
           };
         }),
 
       uninstallRegion: (id) =>
         set((s) => {
-          const next = s.installedRegions.filter((r) => r !== id);
-          // If the removed region was the active (first) one, clear the label
-          // map — Scan asks for a pack install until a region is
-          // installed again.
-          const removedActive = s.installedRegions[0] === id;
+          const installedRegions = s.installedRegions.filter((r) => r !== id);
           const { [id]: _removed, ...installedPackVersions } = s.installedPackVersions;
+          if (s.activeRegion !== id) return { installedRegions, installedPackVersions };
+          // The active region went away: fall back to another installed one
+          // (if its pack is loaded), otherwise Scan asks for a pack again.
+          const next = installedRegions.find((r) => getPackData(r)) ?? null;
           return {
-            installedRegions: next,
-            activeLabelMap: removedActive ? {} : s.activeLabelMap,
+            installedRegions,
             installedPackVersions,
+            activeRegion: next,
+            activeLabelMap: next ? getPackData(next)!.labelMap : {},
           };
+        }),
+
+      setActiveRegion: (id) =>
+        set((s) => {
+          const pack = getPackData(id);
+          if (!s.installedRegions.includes(id) || !pack) return s;
+          return { activeRegion: id, activeLabelMap: pack.labelMap };
         }),
 
       removeMapPin: (catchAt) =>
@@ -812,6 +836,7 @@ export const useAppStore = create<AppStore>()(
           chatThreads: {},
           conversationMemory: [],
           installedRegions: [],
+          activeRegion: null,
           activeLabelMap: {},
           installedPackVersions: {},
           // Rotate the backend identity on every wipe so a fresh install
@@ -840,6 +865,7 @@ export const useAppStore = create<AppStore>()(
         chatThreads: s.chatThreads,
         conversationMemory: s.conversationMemory,
         installedRegions: s.installedRegions,
+        activeRegion: s.activeRegion,
         activeLabelMap: s.activeLabelMap,
         installedPackVersions: s.installedPackVersions,
       }),

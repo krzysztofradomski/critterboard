@@ -14,9 +14,7 @@ import { useAppStore } from '@/store/useAppStore';
  *
  * `b5` (Splitter) needs a "lookalike correctly distinguished" signal
  * we don't track yet; `b7`/`b8` are deliberate hidden teasers. Both
- * fall through to `false` here — the static `unlocked` field still
- * wins where the prototype shipped a true, so the seeded UI doesn't
- * regress.
+ * fall through to `false` here.
  */
 export function isBadgeUnlocked(
   id: string,
@@ -60,9 +58,7 @@ export function isBadgeUnlocked(
 }
 
 /**
- * `BADGES` augmented with live unlock state. We OR with the static
- * `unlocked` so badges the prototype shipped as already-earned stay
- * earned even before the user accumulates the derivation criteria.
+ * `BADGES` augmented with live unlock state (everything starts locked).
  */
 export function useBadges(): Badge[] {
   const catchLog = useAppStore((s) => s.catchLog);
@@ -71,7 +67,7 @@ export function useBadges(): Badge[] {
     () =>
       BADGES.map((b) => ({
         ...b,
-        unlocked: b.unlocked || isBadgeUnlocked(b.id, catchLog, dex),
+        unlocked: isBadgeUnlocked(b.id, catchLog, dex),
       })),
     [catchLog, dex],
   );

@@ -19,5 +19,6 @@ The prototype pre-filled the app so every screen looked busy: 7 caught species, 
 - Existing installs keep their persisted (seeded) state until the user wipes data in Settings or reinstalls.
 - Empty states are now real UI and need to stay designed (Home, Dex, Quests, Leaderboard, Friends, Map, Activity).
 - The mock backend returns an empty world by default; it is still useful with `EXPO_PUBLIC_DEMO_PEERS=1` for demos and for developing social screens before the Cloudflare backend is deployed.
+- **One BugNet, one active region.** A region pack is the model + species list + label map + icons, installed together. Brains shows a single BugNet card containing the regions; exactly one installed region is *active* (persisted as `activeRegion`) and drives Scan. Installing a pack activates it; tapping another installed region switches to it. Species from every installed pack stay in the Dex.
 
 Related: [[../modules/backend-adapter]], [[../modules/offline-map]], [[003-offline-map-maplibre-pmtiles]].

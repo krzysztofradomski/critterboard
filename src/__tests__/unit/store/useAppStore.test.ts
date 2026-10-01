@@ -370,3 +370,61 @@ describe('removeMessageFromThread (U-ST-rm-*)', () => {
     expect(updatedAt).toBeGreaterThanOrEqual(before);
   });
 });
+
+// ──────────────────────────────────────────────────────────────────────────
+// Regional packs: one active region at a time
+// ──────────────────────────────────────────────────────────────────────────
+
+describe('active region', () => {
+  const reset = () =>
+    useAppStore.setState({
+      installedRegions: [],
+      activeRegion: null,
+      activeLabelMap: {},
+      installedPackVersions: {},
+    });
+
+  it('installing a region activates it and applies its label map', () => {
+    reset();
+    useAppStore.getState().installRegion('eu-ce', { a: 0 }, 5);
+    const s = useAppStore.getState();
+    expect(s.activeRegion).toBe('eu-ce');
+    expect(s.activeLabelMap).toEqual({ a: 0 });
+  });
+
+  it('a newly installed region replaces the active one; only one is active', () => {
+    reset();
+    useAppStore.getState().installRegion('eu-ce', { a: 0 }, 5);
+    useAppStore.getState().installRegion('eu-uk', { b: 1 }, 1);
+    const s = useAppStore.getState();
+    expect(s.installedRegions).toEqual(['eu-ce', 'eu-uk']);
+    expect(s.activeRegion).toBe('eu-uk');
+    expect(s.activeLabelMap).toEqual({ b: 1 });
+  });
+
+  it('refreshing a non-active region leaves the active one alone', () => {
+    reset();
+    useAppStore.getState().installRegion('eu-ce', { a: 0 }, 5);
+    useAppStore.getState().installRegion('eu-uk', { b: 1 }, 1);
+    useAppStore.getState().installRegion('eu-ce', { a: 9 }, 6);
+    const s = useAppStore.getState();
+    expect(s.activeRegion).toBe('eu-uk');
+    expect(s.activeLabelMap).toEqual({ b: 1 });
+    expect(s.installedPackVersions['eu-ce']).toBe(6);
+  });
+
+  it('uninstalling the only region clears the active region', () => {
+    reset();
+    useAppStore.getState().installRegion('eu-ce', { a: 0 }, 5);
+    useAppStore.getState().uninstallRegion('eu-ce');
+    const s = useAppStore.getState();
+    expect(s.activeRegion).toBeNull();
+    expect(s.activeLabelMap).toEqual({});
+  });
+
+  it('setActiveRegion ignores regions that are not installed', () => {
+    reset();
+    useAppStore.getState().setActiveRegion('na-ne');
+    expect(useAppStore.getState().activeRegion).toBeNull();
+  });
+});

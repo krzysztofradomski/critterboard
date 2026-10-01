@@ -472,19 +472,16 @@
       "items": {
         "b1": {
           "name": "Pierwsza Zdobycz",
-          "earned": "12 kwi",
           "desc": "Twoje pierwsze ID. Witaj w klubie — każdy przyrodnik ma tę odznakę z przodu notesu.",
           "crit": "Rozpoznaj pierwszego owada."
         },
         "b2": {
           "name": "Passa 3",
-          "earned": "4 maja",
           "desc": "Trzy dni uważności z rzędu. Trudna jest pierwsza próba; trudniejsze pojawienie się jutro.",
           "crit": "Rozpoznaj co najmniej jednego owada przez trzy kolejne dni."
         },
         "b3": {
           "name": "Nocny Marek",
-          "earned": "9 maja",
           "desc": "Wyszedłeś po zmroku z latarką i znalazłeś coś, co odpowiedziało spojrzeniem. Ćmy salutują.",
           "crit": "Rozpoznaj owada między 21:00 a 4:00."
         },
@@ -585,7 +582,7 @@
         "visionMeta": "{id} · {mb} MB · {n} gatunków",
         "noPack": "BRAK PACZKI"
       },
-      "regionsBand": "Pakiety regionalne",
+      "regionsBand": "Pakiety regionalne · jeden aktywny",
       "regionsSub": "Zwiększają trafność ID tam, gdzie naprawdę jesteś.",
       "regionMeta": "{installed}/{total} · {mb} MB",
       "regionInstalled": "✓ NA URZĄDZ.",
@@ -615,7 +612,12 @@
       "localLlmLowRamBody": "Ten telefon ma około 4 GB pamięci. {model} zużywa około 3 GB podczas czatu, więc odpowiedzi mogą być wolne, a aplikacja może się zamknąć, gdy działają inne aplikacje. Pobranie ma {size} GB.",
       "localLlmLowRamCta": "Pobierz mimo to",
       "regionSoon": "WKRÓTCE",
-      "regionSoonSub": "Wkrótce"
+      "regionSoonSub": "Wkrótce",
+      "regionActive": "● AKTYWNY",
+      "regionUse": "UŻYJ",
+      "regionSwitched": "BugNet używa teraz: {name}",
+      "packCta": "↓ Pobierz {name} · {mb} MB",
+      "packHint": "BugNet potrzebuje pakietu regionalnego, by rozpoznawać owady. Model i lista gatunków pobierają się razem."
     },
     "regions": {
       "list": {

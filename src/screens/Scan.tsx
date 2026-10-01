@@ -29,14 +29,13 @@ export function Scan() {
   const route = useCurrentRoute();
   const hint = (route.params as { hint?: string } | undefined)?.hint ?? 'lady';
 
-  const installedRegions = useAppStore((s) => s.installedRegions);
+  const activeRegionId = useAppStore((s) => s.activeRegion);
   const activeLabelMap = useAppStore((s) => s.activeLabelMap);
-  const activeRegionId = installedRegions[0] ?? null;
   const modelSource = activeRegionId && FileSystem.documentDirectory
     ? getModelPath(FileSystem.documentDirectory, activeRegionId)
     : null;
 
-  // ExecuTorch on-device classifier. Driven by the first installed region
+  // ExecuTorch on-device classifier. Driven by the active region
   // pack — modelSource is its .pte path on disk, labelMap maps scientific
   // names to class indices. preventLoad keeps it dormant until both
   // USE_NATIVE_VISION is on and a pack has been installed.

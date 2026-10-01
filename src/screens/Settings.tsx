@@ -63,6 +63,8 @@ export function Settings() {
   );
   const showToast = useAppStore((s) => s.showToast);
   const installedRegions = useAppStore((s) => s.installedRegions);
+  const activeRegion = useAppStore((s) => s.activeRegion);
+  const setActiveRegion = useAppStore((s) => s.setActiveRegion);
   const installRegion = useAppStore((s) => s.installRegion);
   const uninstallRegion = useAppStore((s) => s.uninstallRegion);
   const P = usePersona(persona);
@@ -367,26 +369,6 @@ export function Settings() {
 
         <Sticker bg={PB.paper} style={{ padding: 14 }}>
           <ModelTile
-            icon="👁️"
-            color={PB.blue}
-            title={VISION_MODEL.name}
-            meta={t("settings.model.visionMeta", {
-              id: VISION_MODEL.id,
-              mb: VISION_MODEL.sizeMb,
-              n: VISION_MODEL.species.toLocaleString(),
-            })}
-            statusText={
-              installedRegions.length > 0
-                ? t("settings.model.ready")
-                : t("settings.model.noPack")
-            }
-            statusBg={installedRegions.length > 0 ? PB.green : PB.cream2}
-            statusFg={installedRegions.length > 0 ? PB.cream : PB.ink}
-          />
-        </Sticker>
-
-        <Sticker bg={PB.paper} style={{ padding: 14 }}>
-          <ModelTile
             icon="🧠"
             color={PB.pink}
             title={t("settings.model.larva", { model: CHAT_MODEL.name })}
@@ -483,27 +465,49 @@ export function Settings() {
         </Sticker>
 
         <Sticker bg={PB.paper} style={{ padding: 0 }}>
-          <View style={[styles.bandHeader, { backgroundColor: PB.green }]}>
-            <Text style={{ fontSize: 26 }}>🗺️</Text>
+          <View style={[styles.bandHeader, { backgroundColor: PB.blue }]}>
+            <Text style={{ fontSize: 26 }}>👁️</Text>
             <View style={{ flex: 1, minWidth: 0 }}>
-              <Text style={styles.bandTitle}>{t("settings.regionsBand")}</Text>
-              <Text style={styles.bandSub}>{t("settings.regionsSub")}</Text>
-            </View>
-            <View style={styles.regionMetaPill}>
-              <Text style={styles.regionMetaText}>
-                {t("settings.regionMeta", {
-                  installed: installedCount,
-                  total: AVAILABLE_REGION_IDS.size,
-                  mb: totalInstalledMb,
+              <Text style={styles.bandTitle}>{VISION_MODEL.name}</Text>
+              <Text style={styles.bandSub}>
+                {t("settings.model.visionMeta", {
+                  id: VISION_MODEL.id,
+                  mb: VISION_MODEL.sizeMb,
+                  n: VISION_MODEL.species.toLocaleString(),
                 })}
               </Text>
             </View>
+            <View style={styles.regionMetaPill}>
+              <Text style={styles.regionMetaText}>
+                {activeRegion ? t("settings.model.ready") : t("settings.model.noPack")}
+              </Text>
+            </View>
           </View>
+          {!activeRegion && !Object.values(regions).some((r) => typeof r === "object") && (
+            <View style={{ paddingHorizontal: 10, paddingTop: 10, gap: 8 }}>
+              <Text style={styles.regionFoot}>{t("settings.packHint")}</Text>
+              <Pressable
+                onPress={() => startDownload(REGIONS.find((r) => r.id === "eu-ce")!)}
+                style={styles.packCta}
+              >
+                <Text style={styles.packCtaText}>
+                  {t("settings.packCta", {
+                    name: t("regions.list.eu-ce.name"),
+                    mb: REGIONS.find((r) => r.id === "eu-ce")!.size,
+                  })}
+                </Text>
+              </Pressable>
+            </View>
+          )}
+          <Text style={[styles.sectionLabel, { paddingHorizontal: 12, paddingTop: 10 }]}>
+            {t("settings.regionsBand")}
+          </Text>
           <View style={{ padding: 10, gap: 8 }}>
             {REGIONS.map((region) => {
               const status = regions[region.id];
               const available = AVAILABLE_REGION_IDS.has(region.id);
               const isInstalled = status === "installed";
+              const isActive = isInstalled && activeRegion === region.id;
               const isDownloading = typeof status === "object";
               const downloadPct = isDownloading
                 ? (status as { downloading: number }).downloading
@@ -515,13 +519,24 @@ export function Settings() {
                   disabled={!available}
                   onPress={() => {
                     if (isDownloading) return;
-                    if (isInstalled) {
+                    if (isActive) {
                       go("region", { id: region.id });
+                    } else if (isInstalled) {
+                      setActiveRegion(region.id);
+                      showToast({
+                        text: t("settings.regionSwitched", { name: t(`regions.list.${region.id}.name`) }),
+                        icon: region.emoji,
+                        bg: PB.green,
+                      });
                     } else {
                       startDownload(region);
                     }
                   }}
-                  style={[styles.regionRow, !available && { opacity: 0.45 }]}
+                  style={[
+                    styles.regionRow,
+                    isActive && { borderWidth: 3, backgroundColor: region.color + "44" },
+                    !available && { opacity: 0.45 },
+                  ]}
                 >
                   {isDownloading && (
                     <View
@@ -562,7 +577,7 @@ export function Settings() {
                     style={[
                       styles.regionStatus,
                       {
-                        backgroundColor: isInstalled
+                        backgroundColor: isActive
                           ? PB.green
                           : isDownloading
                             ? PB.yellow
@@ -573,14 +588,16 @@ export function Settings() {
                     <Text
                       style={[
                         styles.regionStatusText,
-                        { color: isInstalled ? PB.cream : PB.ink },
+                        { color: isActive ? PB.cream : PB.ink },
                       ]}
                     >
                       {!available
                         ? t("settings.regionSoon")
-                        : isInstalled
-                        ? t("settings.regionInstalled")
-                        : isDownloading
+                        : isActive
+                          ? t("settings.regionActive")
+                          : isInstalled
+                            ? t("settings.regionUse")
+                            : isDownloading
                           ? `${Math.floor(downloadPct)}%`
                           : t("settings.regionGet")}
                     </Text>
@@ -942,6 +959,20 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 99,
   },
+  packCta: {
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    backgroundColor: PB.yellow,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    borderRadius: 14,
+    alignItems: "center",
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 2, height: 2 },
+  },
+  packCtaText: { fontSize: 14, fontWeight: "800", color: PB.ink },
   regionMetaText: { fontSize: 10, fontWeight: "800", color: PB.ink },
   regionRow: {
     flexDirection: "row",

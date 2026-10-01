@@ -55,9 +55,6 @@ export function BadgeDialog({
                   {locked ? t('badges.lockedPill') : t('badges.earnedPill')}
                 </Text>
               </View>
-              {!locked && t(`badges.items.${badge.id}.earned`) ? (
-                <Text style={styles.earned}>{t(`badges.items.${badge.id}.earned`)}</Text>
-              ) : null}
             </View>
             <Text style={styles.title}>
               {isHidden ? t('badges.hiddenName') : localizedName}
@@ -109,7 +106,6 @@ const styles = StyleSheet.create({
   pillRow: { flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' },
   pill: { paddingVertical: 2, paddingHorizontal: 8, borderColor: PB.ink, borderWidth: 2, borderRadius: 99 },
   pillText: { fontSize: 9, fontWeight: '800', letterSpacing: 0.6 },
-  earned: { fontSize: 11, color: PB.ink, opacity: 0.65, fontWeight: '700' },
   title: { fontSize: 22, fontWeight: '800', color: PB.ink, lineHeight: 24, marginTop: 6 },
   descBox: {
     marginTop: 14,

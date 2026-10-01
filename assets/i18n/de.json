@@ -471,19 +471,16 @@
       "items": {
         "b1": {
           "name": "Erster Fang",
-          "earned": "12. Apr",
           "desc": "Deine allererste ID. Willkommen im Club — jeder Naturkundige hat dieses Abzeichen vorne im Notizbuch.",
           "crit": "Bestimme dein erstes Insekt."
         },
         "b2": {
           "name": "Serie 3",
-          "earned": "4. Mai",
           "desc": "Drei Tage Aufmerksamkeit am Stück. Anfangen ist schwer; morgen wieder aufzutauchen ist schwerer.",
           "crit": "Bestimme mindestens ein Insekt an drei Tagen in Folge."
         },
         "b3": {
           "name": "Nachteule",
-          "earned": "9. Mai",
           "desc": "Du gingst mit Taschenlampe in die Nacht und fandst etwas, das zurückschaute. Die Motten salutieren.",
           "crit": "Bestimme ein Insekt zwischen 21 und 4 Uhr."
         },
@@ -584,7 +581,7 @@
         "visionMeta": "{id} · {mb} MB · {n} Arten",
         "noPack": "KEIN PAKET"
       },
-      "regionsBand": "Regionalpakete",
+      "regionsBand": "Regionalpakete · eines aktiv",
       "regionsSub": "Verbessert ID-Genauigkeit dort, wo du tatsächlich bist.",
       "regionMeta": "{installed}/{total} · {mb} MB",
       "regionInstalled": "✓ AUF GERÄT",
@@ -614,7 +611,12 @@
       "localLlmLowRamBody": "Dieses Handy hat etwa 4 GB Arbeitsspeicher. {model} belegt beim Chatten etwa 3 GB, daher können Antworten langsam sein und die App kann sich schließen, wenn andere Apps offen sind. Der Download ist {size} GB groß.",
       "localLlmLowRamCta": "Trotzdem laden",
       "regionSoon": "BALD",
-      "regionSoonSub": "Kommt bald"
+      "regionSoonSub": "Kommt bald",
+      "regionActive": "● AKTIV",
+      "regionUse": "NUTZEN",
+      "regionSwitched": "BugNet nutzt jetzt {name}",
+      "packCta": "↓ {name} laden · {mb} MB",
+      "packHint": "BugNet braucht ein Regionalpaket, um Insekten zu erkennen. Modell und Artenliste werden zusammen geladen."
     },
     "regions": {
       "list": {
