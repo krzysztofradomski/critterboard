@@ -11,6 +11,7 @@ import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
+import { TabBar } from '@/components/TabBar';
 import { useT } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
 import { usePersona } from '@/personas/hooks';
@@ -314,6 +315,8 @@ export function Scan() {
         </Pressable>
         <IconBtn size={48} fs={22} onPress={() => phase === 'aim' && go('nomatch')}>🤷</IconBtn>
       </View>
+
+      <TabBar active="scan" />
     </View>
   );
 }
@@ -380,7 +383,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   focusTagText: { fontSize: 11, fontWeight: '800', color: PB.ink },
-  tipWrap: { position: 'absolute', bottom: 200, left: 12, right: 12, zIndex: 10 },
+  tipWrap: { position: 'absolute', bottom: 222, left: 12, right: 12, zIndex: 10 },
   tipRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   tipAvatar: {
     width: 32,
@@ -394,7 +397,7 @@ const styles = StyleSheet.create({
   tipText: { flex: 1, fontSize: 13, color: PB.ink, fontWeight: '600', lineHeight: 17 },
   bottomRow: {
     position: 'absolute',
-    bottom: 60,
+    bottom: 118, // clears the tab bar (28 + 70)
     left: 12,
     right: 12,
     flexDirection: 'row',
@@ -430,7 +433,7 @@ const styles = StyleSheet.create({
   },
   modelBanner: {
     position: 'absolute',
-    bottom: 160,
+    bottom: 300,
     left: 12,
     right: 12,
     backgroundColor: PB.ink,
