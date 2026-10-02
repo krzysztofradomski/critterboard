@@ -82,8 +82,8 @@ export function Onboarding() {
           <Sticker bg={PB.green} rotate={-4} style={styles.choice} onPress={() => go('scan')}>
             <Text style={styles.choiceText}>{t('onboarding.snap')}</Text>
           </Sticker>
-          <Sticker bg={PB.blue} rotate={3} style={styles.choice} onPress={() => go('chat')}>
-            <Text style={styles.choiceText}>{t('onboarding.sassyId')}</Text>
+          <Sticker bg={PB.blue} rotate={3} style={styles.choice} onPress={() => go('scan')}>
+            <Text style={styles.choiceText}>{t('onboarding.identify')}</Text>
           </Sticker>
           <Sticker bg={PB.purple} rotate={-2} style={styles.choice} onPress={() => go('dex')}>
             <Text style={styles.choiceText}>{t('onboarding.buildDex')}</Text>
