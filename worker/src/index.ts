@@ -2,7 +2,7 @@
  * Critterboard API — Cloudflare Worker
  *
  * Routes:
- *   POST   /v1/auth              Exchange device UUID for JWT
+ *   POST   /v1/auth              Exchange { userId, secret } for a JWT (secret proves ownership of the public id)
  *   GET    /v1/identity          Get caller's BackendUser
  *   POST   /v1/profile           Sync profile snapshot
  *   POST   /v1/catches           Publish a catch + fan out feed events
@@ -300,6 +300,30 @@ function rowToUser(row: UserRow): BackendUser {
 
 // ── Handlers ──────────────────────────────────────────────────────────────────
 
+const USER_ID_RE = /^[a-zA-Z0-9_-]{8,128}$/;
+
+async function sha256Hex(text: string): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/** Constant-time string comparison (equal-length hex digests). */
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
+/**
+ * Exchange `{ userId, secret }` for a JWT.
+ *
+ * The userId is public (it appears in leaderboard and friends responses), so it
+ * proves nothing. The `secret` is a high-entropy value generated on the device and
+ * never shown to anyone: the first login for an id registers its SHA-256 hash, and
+ * every later login must present a secret with the same hash. An id with no stored
+ * hash can't be claimed, so a login can only ever create a *new* user.
+ */
 async function handleAuth(request: Request, env: Env): Promise<Response> {
   // Rate-limit auth attempts to 10 per IP per minute using the LEADERBOARD KV.
   const ip = request.headers.get('CF-Connecting-IP') ?? request.headers.get('X-Forwarded-For') ?? 'unknown';
@@ -315,18 +339,44 @@ async function handleAuth(request: Request, env: Env): Promise<Response> {
     await env.LEADERBOARD.put(rlKey, JSON.stringify({ count: 1, reset: rlNow + rlWindow }), { expirationTtl: rlWindow });
   }
 
-  const body = (await request.json()) as { userId?: unknown };
-  if (typeof body.userId !== 'string' || !body.userId) return json({ error: 'userId required' }, 400);
+  let body: { userId?: unknown; secret?: unknown };
+  try {
+    body = (await request.json()) as typeof body;
+  } catch {
+    return json({ error: 'invalid json' }, 400);
+  }
+  if (typeof body.userId !== 'string' || !USER_ID_RE.test(body.userId)) {
+    return json({ error: 'userId required' }, 400);
+  }
+  if (typeof body.secret !== 'string' || body.secret.length < 32 || body.secret.length > 256) {
+    return json({ error: 'secret required' }, 400);
+  }
   const userId = body.userId;
+  const secretHash = await sha256Hex(body.secret);
   const now = Date.now();
 
-  await env.DB.prepare(
-    `INSERT INTO users (id, display_name, xp_total, leaderboard_visible, joined_at, last_seen_at)
-     VALUES (?, ?, 0, 1, ?, ?)
-     ON CONFLICT(id) DO UPDATE SET last_seen_at = excluded.last_seen_at`,
-  )
-    .bind(userId, `user_${userId.slice(0, 6)}`, now, now)
-    .run();
+  const existing = await env.DB.prepare('SELECT secret_hash FROM users WHERE id = ?')
+    .bind(userId)
+    .first<{ secret_hash: string | null }>();
+
+  if (existing) {
+    // Wrong secret, or a pre-secret row nobody may claim: same answer either way.
+    if (!existing.secret_hash || !timingSafeEqual(existing.secret_hash, secretHash)) return errUnauthorized();
+    await env.DB.prepare('UPDATE users SET last_seen_at = ? WHERE id = ?').bind(now, userId).run();
+  } else {
+    // First login: register the secret. INSERT OR IGNORE keeps a concurrent first
+    // login with a different secret from overwriting the winner.
+    await env.DB.prepare(
+      `INSERT OR IGNORE INTO users (id, display_name, xp_total, leaderboard_visible, joined_at, last_seen_at, secret_hash)
+       VALUES (?, ?, 0, 1, ?, ?, ?)`,
+    )
+      .bind(userId, `user_${userId.slice(0, 6)}`, now, now, secretHash)
+      .run();
+    const created = await env.DB.prepare('SELECT secret_hash FROM users WHERE id = ?')
+      .bind(userId)
+      .first<{ secret_hash: string | null }>();
+    if (!created?.secret_hash || !timingSafeEqual(created.secret_hash, secretHash)) return errUnauthorized();
+  }
 
   const row = await env.DB.prepare('SELECT * FROM users WHERE id = ?').bind(userId).first<UserRow>();
   if (!row) return json({ error: 'internal error' }, 500);

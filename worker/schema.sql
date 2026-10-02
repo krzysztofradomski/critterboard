@@ -9,7 +9,10 @@ CREATE TABLE IF NOT EXISTS users (
   xp_total             INTEGER NOT NULL DEFAULT 0,
   leaderboard_visible  INTEGER NOT NULL DEFAULT 1,
   joined_at            INTEGER NOT NULL,
-  last_seen_at         INTEGER NOT NULL
+  last_seen_at         INTEGER NOT NULL,
+  -- SHA-256 (hex) of the per-device secret that proves ownership of this id.
+  -- Existing databases: ALTER TABLE users ADD COLUMN secret_hash TEXT;
+  secret_hash          TEXT
 );
 
 CREATE TABLE IF NOT EXISTS follows (

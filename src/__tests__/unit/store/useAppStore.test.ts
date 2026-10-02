@@ -428,3 +428,22 @@ describe('active region', () => {
     expect(useAppStore.getState().activeRegion).toBeNull();
   });
 });
+
+// ──────────────────────────────────────────────────────────────────────────
+// Backend identity: the secret that proves ownership of the public user id
+// ──────────────────────────────────────────────────────────────────────────
+
+describe('backend secret', () => {
+  it('is 64 hex chars (32 random bytes)', () => {
+    expect(useAppStore.getState().backendSecret).toMatch(/^[0-9a-f]{64}$/);
+  });
+
+  it('wipeAll rotates both the id and the secret', async () => {
+    useAppStore.setState({ backendUserId: 'old-id', backendSecret: 'a'.repeat(64) });
+    await useAppStore.getState().wipeAll();
+    const s = useAppStore.getState();
+    expect(s.backendUserId).not.toBe('old-id');
+    expect(s.backendSecret).not.toBe('a'.repeat(64));
+    expect(s.backendSecret).toMatch(/^[0-9a-f]{64}$/);
+  });
+});

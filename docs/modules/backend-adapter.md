@@ -125,3 +125,14 @@ The local store is always the source of truth for follow state. Backend writes a
 2. Set `EXPO_PUBLIC_BACKEND_URL` in `.env`.
 3. Flip `USE_REMOTE_BACKEND = true` in `src/backend/index.ts`.
 4. Run the app on a dev client with `profile.networkOn = true`. Watch the network tab — every screen should issue exactly the calls listed in this doc, no more.
+
+## Identity and login
+
+The user id is **public**: it appears in leaderboard, friends and feed responses. It therefore proves nothing on its own. Each device also generates a random `backendSecret` (32 bytes, kept in the persisted store, rotated with the id on wipe). `POST /v1/auth` takes `{ userId, secret }`:
+
+- First login for an id registers `SHA-256(secret)` in `users.secret_hash` (`INSERT OR IGNORE`, so a racing second login can't overwrite the winner).
+- Every later login must present a secret with the same hash (constant-time compare), otherwise `401`.
+- An id with no stored hash can't be claimed; a login only ever creates a *new* user.
+- Missing or short secrets and malformed ids get `400`. Auth is still rate-limited (10 per IP per minute).
+
+Before this, `/v1/auth` minted a token for any claimed id, so anyone who read an id off the leaderboard could impersonate that user. Existing databases need `ALTER TABLE users ADD COLUMN secret_hash TEXT` (already applied to the live one).

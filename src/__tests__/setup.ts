@@ -20,7 +20,10 @@ vi.mock('expo-file-system/legacy', () => ({
   makeDirectoryAsync: vi.fn().mockResolvedValue(undefined),
 }));
 
-vi.mock('expo-crypto', () => ({ randomUUID: () => globalThis.crypto.randomUUID() }));
+vi.mock('expo-crypto', () => ({
+  randomUUID: () => globalThis.crypto.randomUUID(),
+  getRandomBytes: (n: number) => globalThis.crypto.getRandomValues(new Uint8Array(n)),
+}));
 
 vi.mock('expo-notifications', () => ({
   scheduleNotificationAsync: vi.fn().mockResolvedValue('id'),

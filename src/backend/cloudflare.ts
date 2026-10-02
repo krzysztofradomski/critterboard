@@ -1,8 +1,8 @@
 /**
  * Cloudflare backend adapter — real HTTP client.
  *
- * Exchanges the device-local `backendUserId` for a signed JWT on first
- * call, then sends every subsequent request with `Authorization: Bearer
+ * Exchanges the device-local `backendUserId` + `backendSecret` for a signed JWT on
+ * first call (the id is public; the secret proves ownership), then sends every subsequent request with `Authorization: Bearer
  * <jwt>`. Token is cached in memory (warm across navigations, reset on
  * cold start — cheap because auth is one D1 upsert + JWT mint).
  *
@@ -58,14 +58,14 @@ function getBaseUrl(): string {
 let cachedToken: string | null = null;
 let adapterReady = false;
 
-async function fetchToken(userId: string): Promise<string> {
+async function fetchToken(userId: string, secret: string): Promise<string> {
   const base = getBaseUrl();
   let resp: Response;
   try {
     resp = await fetch(`${base}/v1/auth`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId }),
+      body: JSON.stringify({ userId, secret }),
     });
   } catch {
     throw new BackendError('offline', 'Network request failed during auth');
@@ -82,10 +82,10 @@ async function fetchToken(userId: string): Promise<string> {
 
 async function authedFetch(path: string, init?: RequestInit): Promise<Response> {
   const base = getBaseUrl();
-  const userId = useAppStore.getState().backendUserId;
+  const { backendUserId: userId, backendSecret: secret } = useAppStore.getState();
 
   if (!cachedToken) {
-    cachedToken = await fetchToken(userId);
+    cachedToken = await fetchToken(userId, secret);
     adapterReady = true;
   }
 
@@ -112,7 +112,7 @@ async function authedFetch(path: string, init?: RequestInit): Promise<Response> 
   if (resp.status === 401) {
     cachedToken = null;
     adapterReady = false;
-    cachedToken = await fetchToken(userId);
+    cachedToken = await fetchToken(userId, secret);
     adapterReady = true;
     resp = await doRequest(cachedToken);
   }

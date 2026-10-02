@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { randomUUID } from 'expo-crypto';
+import { getRandomBytes, randomUUID } from 'expo-crypto';
 import * as FileSystem from 'expo-file-system';
 import { create } from 'zustand';
 import { persist, type PersistStorage, type StorageValue } from 'zustand/middleware';
@@ -47,6 +47,15 @@ export type Profile = {
  */
 function newBackendUserId(): string {
   return randomUUID();
+}
+
+/**
+ * Secret that proves this device owns `backendUserId`. The id is public (it appears in
+ * leaderboards); this never leaves the phone except in the login request, where the
+ * server stores only its hash. 32 random bytes, hex.
+ */
+function newBackendSecret(): string {
+  return Array.from(getRandomBytes(32), (b) => b.toString(16).padStart(2, '0')).join('');
 }
 
 export type ToastSpec = {
@@ -164,6 +173,8 @@ type State = {
    * not *committed* to be sent. There is no account.
    */
   backendUserId: string;
+  /** Proof of ownership of `backendUserId` (see `newBackendSecret`); rotated with it on wipe. */
+  backendSecret: string;
   /** Persisted chat transcripts keyed by `persona::topic`. */
   chatThreads: Record<string, ChatThread>;
   /** Searchable conversation index for cross-thread memory retrieval. */
@@ -299,6 +310,7 @@ type Persisted = Pick<
   | 'questCompletedAt'
   | 'questClaimedAt'
   | 'backendUserId'
+  | 'backendSecret'
   | 'chatThreads'
   | 'conversationMemory'
   | 'installedRegions'
@@ -328,6 +340,8 @@ type PersistedWire = {
   questClaimedAt?: Record<string, number>;
   /** Backfilled to a fresh id for users persisted before the slice existed. */
   backendUserId?: string;
+  /** Backfilled for users persisted before login required a secret. */
+  backendSecret?: string;
   chatThreads?: Record<string, ChatThread>;
   conversationMemory?: ConversationMemoryEntry[];
   installedRegions?: string[];
@@ -362,6 +376,7 @@ const wireStorage: PersistStorage<Persisted> = {
         questCompletedAt: wrapped.state.questCompletedAt ?? {},
         questClaimedAt: wrapped.state.questClaimedAt ?? {},
         backendUserId: wrapped.state.backendUserId ?? newBackendUserId(),
+        backendSecret: wrapped.state.backendSecret ?? newBackendSecret(),
         chatThreads: wrapped.state.chatThreads ?? {},
         conversationMemory: wrapped.state.conversationMemory ?? [],
         installedRegions: wrapped.state.installedRegions ?? [],
@@ -390,6 +405,7 @@ const wireStorage: PersistStorage<Persisted> = {
       questCompletedAt: value.state.questCompletedAt,
       questClaimedAt: value.state.questClaimedAt,
       backendUserId: value.state.backendUserId,
+      backendSecret: value.state.backendSecret,
       chatThreads: value.state.chatThreads,
       conversationMemory: value.state.conversationMemory,
       installedRegions: value.state.installedRegions,
@@ -434,6 +450,7 @@ export const useAppStore = create<AppStore>()(
       questCompletedAt: {},
       questClaimedAt: {},
       backendUserId: newBackendUserId(),
+      backendSecret: newBackendSecret(),
       chatThreads: {},
       conversationMemory: [],
       installedRegions: [],
@@ -842,6 +859,7 @@ export const useAppStore = create<AppStore>()(
           // Rotate the backend identity on every wipe so a fresh install
           // and a wiped install look identical to the server.
           backendUserId: newBackendUserId(),
+          backendSecret: newBackendSecret(),
         });
       },
     }),
@@ -862,6 +880,7 @@ export const useAppStore = create<AppStore>()(
         questCompletedAt: s.questCompletedAt,
         questClaimedAt: s.questClaimedAt,
         backendUserId: s.backendUserId,
+        backendSecret: s.backendSecret,
         chatThreads: s.chatThreads,
         conversationMemory: s.conversationMemory,
         installedRegions: s.installedRegions,
