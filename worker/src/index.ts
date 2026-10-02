@@ -6,6 +6,9 @@
  *   GET    /v1/identity          Get caller's BackendUser
  *   POST   /v1/profile           Sync profile snapshot
  *   POST   /v1/catches           Publish a catch + fan out feed events
+ *   POST   /v1/catches/batch     Upload older catches (idempotent, no fan-out)
+ *   DELETE /v1/catches/locations Clear the stored coordinates of every catch
+ *   DELETE /v1/account           Delete the user and everything stored for them
  *   GET    /v1/leaderboard       Fetch leaderboard page (global/weekly/friends)
  *   GET    /v1/friends           Fetch friend graph page (following/followers/suggested)
  *   GET    /v1/feed              Fetch social feed from per-user Durable Object inbox
@@ -18,6 +21,8 @@
  *   FEED_INBOX   — Durable Object: per-user feed inbox, holds last 200 events
  *   JWT_SECRET   — Worker secret: HMAC-SHA256 signing key
  */
+
+import { DEFAULT_SPECIES_XP, SPECIES_XP } from './speciesXp';
 
 // ── Environment ───────────────────────────────────────────────────────────────
 
@@ -285,9 +290,26 @@ function isOffensiveName(name: string): boolean {
   return BLOCKED_NAME_TERMS.some((term) => n.includes(term));
 }
 
-// ── XP per confirmed catch ────────────────────────────────────────────────────
+// ── XP ────────────────────────────────────────────────────────────────────────
+// Leaderboard XP is computed here, never sent by the client: each distinct species a user
+// has caught is worth its listed XP once (the same rule as the app's Dex).
 
-const XP_PER_CATCH = 100;
+/** Recompute and store a user's XP from their distinct caught species. */
+async function recomputeXp(userId: string, env: Env): Promise<void> {
+  const rows = await env.DB.prepare('SELECT DISTINCT bug_id FROM catches WHERE user_id = ?')
+    .bind(userId)
+    .all<{ bug_id: string }>();
+  const xp = rows.results.reduce((sum, r) => sum + (SPECIES_XP[r.bug_id] ?? DEFAULT_SPECIES_XP), 0);
+  await env.DB.prepare('UPDATE users SET xp_total = ? WHERE id = ?').bind(xp, userId).run();
+}
+
+async function invalidateLeaderboards(env: Env): Promise<void> {
+  await Promise.all([env.LEADERBOARD.delete('leaderboard:global'), env.LEADERBOARD.delete('leaderboard:weekly')]);
+}
+
+const BUG_ID_RE = /^[a-z0-9-]{1,64}$/;
+/** One catch is identified by user + species + time, so uploading it twice is harmless. */
+const catchId = (userId: string, bugId: string, at: number) => `${userId}:${bugId}:${at}`;
 
 // ── User row → BackendUser ────────────────────────────────────────────────────
 
@@ -408,22 +430,17 @@ async function handleSyncProfile(userId: string, request: Request, env: Env): Pr
 
 async function handlePublishCatch(userId: string, request: Request, env: Env): Promise<Response> {
   const input = (await request.json()) as PublishCatchInput;
-  const catchId = crypto.randomUUID();
-  const at = input.at ?? Date.now();
+  if (typeof input.bugId !== 'string' || !BUG_ID_RE.test(input.bugId)) return json({ error: 'bad_bug_id' }, 400);
+  const at = Number.isFinite(input.at) ? Math.floor(input.at) : Date.now();
+  const id = catchId(userId, input.bugId, at);
 
-  await env.DB.prepare('INSERT INTO catches (id, user_id, bug_id, lat, lng, at) VALUES (?, ?, ?, ?, ?, ?)')
-    .bind(catchId, userId, input.bugId, input.lat ?? null, input.lng ?? null, at)
+  const ins = await env.DB.prepare('INSERT OR IGNORE INTO catches (id, user_id, bug_id, lat, lng, at) VALUES (?, ?, ?, ?, ?, ?)')
+    .bind(id, userId, input.bugId, input.lat ?? null, input.lng ?? null, at)
     .run();
+  if (!ins.meta.changes) return noContent(); // already uploaded
 
-  await env.DB.prepare('UPDATE users SET xp_total = xp_total + ? WHERE id = ?')
-    .bind(XP_PER_CATCH, userId)
-    .run();
-
-  // Invalidate KV snapshots so the next leaderboard read recomputes.
-  await Promise.all([
-    env.LEADERBOARD.delete('leaderboard:global'),
-    env.LEADERBOARD.delete('leaderboard:weekly'),
-  ]);
+  await recomputeXp(userId, env);
+  await invalidateLeaderboards(env);
 
   // Fan out a catch event into each follower's inbox.
   const catcher = await env.DB.prepare(
@@ -434,7 +451,7 @@ async function handlePublishCatch(userId: string, request: Request, env: Env): P
     const actor: ActorRef = { userId: catcher.id, displayName: catcher.display_name, rel: 'following' };
     if (catcher.avatar_emoji) actor.avatarEmoji = catcher.avatar_emoji;
 
-    const event: FeedEvent = { id: catchId, kind: 'catch', at, actor, bugId: input.bugId };
+    const event: FeedEvent = { id, kind: 'catch', at, actor, bugId: input.bugId };
 
     const followers = await env.DB.prepare('SELECT follower_id FROM follows WHERE followee_id = ?')
       .bind(userId)
@@ -452,6 +469,59 @@ async function handlePublishCatch(userId: string, request: Request, env: Env): P
     );
   }
 
+  return noContent();
+}
+
+async function handleBatchCatches(userId: string, request: Request, env: Env): Promise<Response> {
+  const body = (await request.json()) as { catches?: PublishCatchInput[] };
+  const list = body.catches;
+  if (!Array.isArray(list) || list.length === 0 || list.length > 100) return json({ error: 'bad_batch' }, 400);
+
+  const now = Date.now();
+  const stmts: D1PreparedStatement[] = [];
+  for (const c of list) {
+    const validAt = Number.isFinite(c?.at) && c.at > 1_577_836_800_000 && c.at <= now + 86_400_000;
+    if (typeof c?.bugId !== 'string' || !BUG_ID_RE.test(c.bugId) || !validAt) return json({ error: 'bad_catch' }, 400);
+    const at = Math.floor(c.at);
+    const hasLoc = Number.isFinite(c.lat) && Number.isFinite(c.lng);
+    stmts.push(
+      env.DB.prepare('INSERT OR IGNORE INTO catches (id, user_id, bug_id, lat, lng, at) VALUES (?, ?, ?, ?, ?, ?)')
+        .bind(catchId(userId, c.bugId, at), userId, c.bugId, hasLoc ? c.lat : null, hasLoc ? c.lng : null, at),
+    );
+  }
+  await env.DB.batch(stmts);
+  await recomputeXp(userId, env);
+  await invalidateLeaderboards(env); // no follower fan-out: these are old catches, not news
+  return noContent();
+}
+
+async function handleClearLocations(userId: string, env: Env): Promise<Response> {
+  await env.DB.prepare('UPDATE catches SET lat = NULL, lng = NULL WHERE user_id = ?').bind(userId).run();
+  return noContent();
+}
+
+async function handleDeleteAccount(userId: string, env: Env): Promise<Response> {
+  // Followers' inboxes hold feed events naming this user: scrub those first, while we still know who they are.
+  const followers = await env.DB.prepare('SELECT follower_id FROM follows WHERE followee_id = ?')
+    .bind(userId)
+    .all<{ follower_id: string }>();
+  await Promise.allSettled(
+    followers.results.map((row) =>
+      env.FEED_INBOX.get(env.FEED_INBOX.idFromName(row.follower_id)).fetch('https://inbox/purge-actor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId }),
+      }),
+    ),
+  );
+  await env.FEED_INBOX.get(env.FEED_INBOX.idFromName(userId)).fetch('https://inbox/clear', { method: 'POST' });
+
+  await env.DB.batch([
+    env.DB.prepare('DELETE FROM catches WHERE user_id = ?').bind(userId),
+    env.DB.prepare('DELETE FROM follows WHERE follower_id = ? OR followee_id = ?').bind(userId, userId),
+    env.DB.prepare('DELETE FROM users WHERE id = ?').bind(userId),
+  ]);
+  await invalidateLeaderboards(env);
   return noContent();
 }
 
@@ -493,16 +563,26 @@ async function handleLeaderboard(userId: string, url: URL, env: Env): Promise<Re
     await env.LEADERBOARD.put('leaderboard:global', JSON.stringify(snapshot), { expirationTtl: 300 });
   } else if (scope === 'weekly') {
     const weekStart = Date.now() - 7 * 24 * 3600 * 1000;
-    const rows = await env.DB.prepare(
-      `SELECT u.id, u.display_name, u.avatar_emoji, u.country, u.leaderboard_visible,
-              COUNT(c.id) * ? AS xp
-       FROM users u
-       LEFT JOIN catches c ON c.user_id = u.id AND c.at >= ?
-       WHERE u.leaderboard_visible = 1 OR u.id = ?
-       GROUP BY u.id
-       ORDER BY xp DESC
-       LIMIT 1000`,
-    ).bind(XP_PER_CATCH, weekStart, userId).all<WeeklyRow>();
+    // Weekly XP: each distinct species a user caught this week, at its listed XP.
+    const [users, caught] = await Promise.all([
+      env.DB.prepare(
+        `SELECT id, display_name, avatar_emoji, country, leaderboard_visible
+         FROM users WHERE leaderboard_visible = 1 OR id = ?`,
+      ).bind(userId).all<Omit<UserRow, 'xp_total' | 'joined_at' | 'last_seen_at' | 'secret_hash'>>(),
+      env.DB.prepare('SELECT DISTINCT user_id, bug_id FROM catches WHERE at >= ?')
+        .bind(weekStart)
+        .all<{ user_id: string; bug_id: string }>(),
+    ]);
+    const weekly = new Map<string, number>();
+    for (const c of caught.results) {
+      weekly.set(c.user_id, (weekly.get(c.user_id) ?? 0) + (SPECIES_XP[c.bug_id] ?? DEFAULT_SPECIES_XP));
+    }
+    const rows = {
+      results: users.results
+        .map((u) => ({ ...u, xp: weekly.get(u.id) ?? 0 }))
+        .sort((x, y) => y.xp - x.xp)
+        .slice(0, 1000),
+    };
     entries = rows.results.map((r, i) => {
       const e: LeaderboardEntry = {
         userId: r.id, displayName: r.display_name, xp: r.xp, rank: i + 1, rankDelta: null,
@@ -704,6 +784,18 @@ export class FeedInbox implements DurableObject {
       return new Response(null, { status: 204 });
     }
 
+    if (request.method === 'POST' && url.pathname === '/clear') {
+      await this.state.storage.deleteAll();
+      return new Response(null, { status: 204 });
+    }
+
+    if (request.method === 'POST' && url.pathname === '/purge-actor') {
+      const { userId } = (await request.json()) as { userId: string };
+      const events: FeedEvent[] = (await this.state.storage.get<FeedEvent[]>('events')) ?? [];
+      await this.state.storage.put('events', events.filter((e) => e.actor?.userId !== userId));
+      return new Response(null, { status: 204 });
+    }
+
     if (request.method === 'GET' && url.pathname === '/read') {
       const offset = Math.max(0, parseInt(url.searchParams.get('cursor') ?? '0', 10));
       const limit = Math.min(100, Math.max(1, parseInt(url.searchParams.get('limit') ?? '20', 10)));
@@ -754,6 +846,9 @@ async function routeRequest(request: Request, env: Env): Promise<Response> {
   if (method === 'GET'  && path === '/v1/identity')   return handleIdentity(userId, env);
   if (method === 'POST' && path === '/v1/profile')    return handleSyncProfile(userId, request, env);
   if (method === 'POST' && path === '/v1/catches')    return handlePublishCatch(userId, request, env);
+  if (method === 'POST' && path === '/v1/catches/batch') return handleBatchCatches(userId, request, env);
+  if (method === 'DELETE' && path === '/v1/catches/locations') return handleClearLocations(userId, env);
+  if (method === 'DELETE' && path === '/v1/account')  return handleDeleteAccount(userId, env);
   if (method === 'GET'  && path === '/v1/leaderboard') return handleLeaderboard(userId, url, env);
   if (method === 'GET'  && path === '/v1/friends')    return handleFriends(userId, url, env);
   if (method === 'GET'  && path === '/v1/feed')       return handleFeed(userId, url, env);
