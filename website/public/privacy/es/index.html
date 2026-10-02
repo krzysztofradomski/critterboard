@@ -3,34 +3,296 @@
 <title>Privacidad — Critterboard</title><meta name="description" content="Critterboard es un juego gratuito para identificar bichos. No tiene cuentas, publicidad, compras ni analítica. Funciona totalmente sin conexión y tu colección se guarda en tu teléfono.">
 <link rel="canonical" href="https://critterboard.app/privacy/es/"><link rel="alternate" hreflang="en" href="https://critterboard.app/privacy/"><link rel="alternate" hreflang="pl" href="https://critterboard.app/privacy/pl/"><link rel="alternate" hreflang="de" href="https://critterboard.app/privacy/de/"><link rel="alternate" hreflang="es" href="https://critterboard.app/privacy/es/">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-<style>:root{--y:#f5c840;--cr:#fdf6e3;--bk:#1a1209;--bl:#3b6fd4;--gn:#3d9a4f;--bd:2.5px solid var(--bk);--sh:4px 4px 0 var(--bk)}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{font-family:"DM Sans",sans-serif;background:var(--y);color:var(--bk);line-height:1.65;min-height:100vh}
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>:root {
+        --y: #f5c840;
+        --yd: #e0b020;
+        --cr: #fdf6e3;
+        --bk: #1a1209;
+        --gn: #3d9a4f;
+        --bl: #3b6fd4;
+        --pu: #7b4fc4;
+        --rd: #d94040;
+        --bd: 2.5px solid var(--bk);
+        --sh: 4px 4px 0 var(--bk);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--y);
+        color: var(--bk);
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1120px;
+        margin-inline: auto;
+        padding-inline: clamp(16px, 4vw, 32px);
+      }
+
+      /* noise */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 999;
+        opacity: 0.35;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--y);
+        border-bottom: var(--bd);
+        padding-block: 12px;
+      }
+      nav .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--bk);
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.35rem;
+        font-weight: 700;
+      }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: var(--rd);
+        border: var(--bd);
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        box-shadow: var(--sh);
+      }
+
+      .nav-r {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .mit {
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.4px;
+        background: var(--bk);
+        color: var(--y);
+        padding: 4px 11px;
+        border-radius: 100px;
+        text-decoration: none;
+        transition: opacity 0.15s;
+      }
+      .mit:hover {
+        opacity: 0.8;
+      }
+
+      .nav-btn {
+        font-family: "Fredoka", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        background: var(--bk);
+        color: var(--y);
+        border: var(--bd);
+        border-radius: 100px;
+        padding: 8px 20px;
+        text-decoration: none;
+        cursor: pointer;
+        box-shadow: var(--sh);
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+      }
+      .nav-btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0 var(--bk);
+      }
+      .nav-btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0 var(--bk);
+      }
+
+      /* ── LANGUAGE SWITCH ── */
+      .lang-switch {
+        position: relative;
+      }
+      .lang-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: transparent;
+        border: 2px solid var(--bk);
+        border-radius: 100px;
+        padding: 6px 12px;
+        font-family: "Fredoka", sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--bk);
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+      }
+      .lang-btn:hover {
+        background: var(--bk);
+        color: var(--y);
+      }
+      .lang-caret {
+        font-size: 0.7rem;
+        line-height: 1;
+        transition: transform 0.2s;
+      }
+      .lang-btn[aria-expanded="true"] .lang-caret {
+        transform: rotate(180deg);
+      }
+      .lang-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        list-style: none;
+        margin: 0;
+        padding: 6px;
+        background: var(--cr);
+        border: var(--bd);
+        border-radius: 14px;
+        box-shadow: var(--sh);
+        z-index: 50;
+        min-width: 160px;
+      }
+      .lang-menu[hidden] {
+        display: none;
+      }
+      .lang-menu li {
+        list-style: none;
+      }
+      .lang-menu button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        background: transparent;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.9rem;
+        color: var(--bk);
+        cursor: pointer;
+      }
+      .lang-menu button:hover,
+      .lang-menu button[aria-current="true"] {
+        background: var(--y);
+      }
+
+            footer {
+        background: var(--y);
+        border-top: var(--bd);
+        padding-block: 24px;
+      }
+      footer .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+      .ft-logo {
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .ft-links {
+        display: flex;
+        gap: 24px;
+      }
+      .ft-links a {
+        font-size: 0.82rem;
+        color: var(--bk);
+        opacity: 0.55;
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+      .ft-links a:hover {
+        opacity: 1;
+      }
+      .ft-links .gh-star {
+        opacity: 0.85;
+        font-weight: 600;
+      }
+      footer p {
+        font-size: 0.75rem;
+        opacity: 0.35;
+      }
 .w{max-width:720px;margin:0 auto;padding:0 20px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:22px 0}
-.brand{font-family:Fredoka,sans-serif;font-weight:700;font-size:1.15rem;color:var(--bk);text-decoration:none}
-.top a.back{color:var(--bk);font-weight:600}
-.langs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.langs a{padding:3px 11px;border:var(--bd);border-radius:99px;background:var(--cr);color:var(--bk);text-decoration:none;font-size:.85rem}
-.langs a[aria-current]{background:var(--bk);color:var(--cr)}
-.eyebrow{font-weight:700;letter-spacing:.14em;font-size:.78rem;margin-top:22px}
+.eyebrow{font-weight:700;letter-spacing:.14em;font-size:.78rem;margin-top:34px}
 h1{font-family:Fredoka,sans-serif;font-size:clamp(2.2rem,7vw,3.2rem);line-height:1.1;margin:6px 0 10px}
 .lead{font-size:1.1rem;max-width:560px}.upd{font-size:.9rem;opacity:.75;margin-top:6px}
 .card{background:var(--cr);border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0}
 .card section+section{margin-top:22px;padding-top:20px;border-top:1.5px solid #ecdcae}
 h2{font-family:Fredoka,sans-serif;font-size:1.3rem;margin-bottom:8px}
-p{margin-bottom:10px}ul{padding-left:20px;margin-bottom:10px}li{margin-bottom:6px}
-a{color:var(--bl)}
+main p{line-height:1.65;margin-bottom:10px}main ul{padding-left:20px;margin-bottom:10px}main li{margin-bottom:6px;line-height:1.6}
+main a{color:var(--bl)}
 details{border-top:1.5px solid #ecdcae;padding:8px 0}details:first-of-type{border-top:0}
 summary{cursor:pointer;font-weight:700}details p{margin:8px 0 2px}
 .tip{display:flex;gap:12px;margin-bottom:10px}.tip i{font-style:normal;font-size:1.4rem}
-.help{background:var(--gn);color:#fff;border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0}
+.help{background:var(--gn);color:#fff;border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0 40px}
 .help a{color:#fff;font-weight:700}.help h2{color:#fff}
-footer{display:flex;gap:10px 20px;flex-wrap:wrap;justify-content:center;padding:6px 20px 40px;font-weight:600}
-footer a{color:var(--bk)}footer small{width:100%;text-align:center;font-weight:400;opacity:.75}</style></head><body><div class="w">
-<div class="top"><a class="brand" href="/">critterboard</a><a class="back" href="/">← Volver a critterboard.app</a></div>
-<div class="langs"><a href="/privacy/" hreflang="en">English</a><a href="/privacy/pl/" hreflang="pl">Polski</a><a href="/privacy/de/" hreflang="de">Deutsch</a><a href="/privacy/es/" hreflang="es" aria-current=page>Español</a></div>
-<p class="eyebrow">TUS BICHOS, TUYOS</p><h1>Privacidad, sin rodeos.</h1><p class="lead">Critterboard es un juego gratuito para identificar bichos. No tiene cuentas, publicidad, compras ni analítica. Funciona totalmente sin conexión y tu colección se guarda en tu teléfono.</p><p class="upd">Última actualización: 2 de octubre de 2026</p>
-<div class="card"><section><h2>En tu teléfono</h2><p>Tu Dex, avistamientos, fotos, ajustes e historial de chat se guardan en tu dispositivo. Identificar un bicho y charlar con las guías ocurre en tu teléfono. Las fotos que haces o eliges nunca se suben. Permanecen en tu dispositivo hasta que las borres o borres los datos de la app. También pueden aplicarse los ajustes de copia de seguridad de tu teléfono.</p></section><section><h2>Cámara, fotos y ubicación</h2><p>Critterboard pide acceso a la cámara y, si quieres, a tu fototeca para identificar un bicho. Esto ocurre en tu teléfono.</p><p>La ubicación es opcional. Centra tu mapa y ayuda a priorizar especies cercanas. Para mostrar el nombre de un lugar, se puede pedir al servicio de ubicación del sistema que busque la dirección de tus coordenadas; lo gestiona Apple según su política de privacidad. Tu ubicación no se nos envía salvo que actives «Compartir ubicaciones de avistamientos».</p></section><section><h2>Funciones en línea (desactivadas por defecto)</h2><p>El interruptor de red está apagado cuando abres la app por primera vez. Solo si lo activas Critterboard se comunica con nuestro servidor, que funciona en Cloudflare. Entonces trata:</p><ul><li>Un ID anónimo aleatorio creado en tu teléfono y un hash de una clave privada del dispositivo (la clave en sí nunca sale de tu teléfono).</li><li>Tu nombre visible, tu total de XP, si apareces en el ranking y a quién sigues.</li><li>Las especies que capturas y cuándo, para que tus amigos vean tu actividad.</li><li>Una etiqueta de país o región y una ubicación aproximada de la captura, solo si activas «Compartir ubicaciones de avistamientos». Las ubicaciones se difuminan hasta unos 500 m en tu teléfono antes de enviarse.</li></ul><p>Tu nombre y tu XP solo son visibles para otros jugadores si decides aparecer en el ranking o si te siguen. Los nombres pasan por un filtro básico.</p><p>Por seguridad, contamos brevemente (alrededor de un minuto) los intentos de inicio de sesión por dirección IP para limitar abusos. Cloudflare, nuestro proveedor de alojamiento, también procesa datos de conexión como tu dirección IP para prestar el servicio; consulta su política de privacidad.</p></section><section><h2>Descargas</h2><p>Los packs regionales, el mapa sin conexión y el modelo de chat opcional se descargan desde servidores como GitHub y Hugging Face. Como en cualquier descarga, esos servidores ven tu dirección IP y el archivo que pides. No añadimos ningún identificador a esas peticiones.</p></section><section><h2>Informes de fallos (desactivados por defecto)</h2><p>Si activas los informes de fallos, se puede enviar información de diagnóstico anónima sobre un fallo a nuestro proveedor de informes de errores, Sentry. No incluye tus fotos. Puedes desactivarlo en la app cuando quieras.</p></section><section><h2>Borrar tus datos</h2><p>Datos locales: «Borrar todo» (Yo → Ayuda) elimina de tu teléfono el Dex, avistamientos, fotos, ajustes y modelos descargados, y da a la app un ID anónimo nuevo. Al desinstalar la app desaparece el resto.</p><p>Datos en el servidor: si usaste las funciones en línea, también guardamos los datos indicados arriba bajo tu antiguo ID anónimo. Para que los borremos, escribe a la dirección de contacto de la pantalla de Ayuda e incluye tu ID anónimo (aparece en «Descargar todos mis datos»). Los eliminaremos y te lo confirmaremos. No necesitas una cuenta para pedirlo.</p></section><section><h2>Tus derechos y contacto</h2><p>Según dónde vivas, puedes tener derecho a acceder a los datos que guardamos sobre ti, corregirlos, borrarlos u oponerte a su uso. Escribe a hello@critterboard.app y te ayudaremos. Conservamos la correspondencia mientras resolvemos tu solicitud. Envía solo lo necesario.</p></section><section><h2>Cambios</h2><p>Si esta política cambia de forma importante, actualizaremos la fecha de arriba y, cuando importe, te lo diremos en la app.</p></section></div>
-</div><footer><a href="/support/es/">Soporte</a><a href="/privacy/es/">Privacidad</a><a href="/terms/es/">Términos</a><small>Todo el procesamiento ocurre en tu dispositivo. © 2026 Critterboard · código abierto</small></footer></body></html>
+.lang-menu a{display:block;width:100%;text-align:left;border-radius:8px;padding:8px 12px;font-family:"DM Sans",sans-serif;font-size:.9rem;color:var(--bk);text-decoration:none}
+.lang-menu a:hover,.lang-menu a[aria-current="true"]{background:var(--y)}
+.ft-links{flex-wrap:wrap}
+@media (max-width:768px){nav .container{max-width:none}.mit{display:none}footer .container{flex-direction:column;align-items:flex-start;gap:10px}}
+</style></head><body>
+<nav><div class="container">
+<a href="/" class="logo"><div class="logo-icon">🪲</div>Critterboard</a>
+<div class="nav-r"><div class="lang-switch">
+<button class="lang-btn" id="lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Idioma"><span>ES</span><span class="lang-caret" aria-hidden="true">▾</span></button>
+<ul class="lang-menu" id="lang-menu" role="listbox" hidden><li><a href="/privacy/" hreflang="en" data-lang="en">🇬🇧 English</a></li><li><a href="/privacy/pl/" hreflang="pl" data-lang="pl">🇵🇱 Polski</a></li><li><a href="/privacy/es/" hreflang="es" data-lang="es" aria-current=true>🇪🇸 Español</a></li><li><a href="/privacy/de/" hreflang="de" data-lang="de">🇩🇪 Deutsch</a></li></ul></div>
+<a href="https://github.com/krzysztofradomski/critterboard" target="_blank" rel="noopener" class="mit">Código abierto (MIT)</a></div>
+</div></nav>
+<main class="w"><p class="eyebrow">TUS BICHOS, TUYOS</p><h1>Privacidad, sin rodeos.</h1><p class="lead">Critterboard es un juego gratuito para identificar bichos. No tiene cuentas, publicidad, compras ni analítica. Funciona totalmente sin conexión y tu colección se guarda en tu teléfono.</p><p class="upd">Última actualización: 2 de octubre de 2026</p>
+<div class="card"><section><h2>En tu teléfono</h2><p>Tu Dex, avistamientos, fotos, ajustes e historial de chat se guardan en tu dispositivo. Identificar un bicho y charlar con las guías ocurre en tu teléfono. Las fotos que haces o eliges nunca se suben. Permanecen en tu dispositivo hasta que las borres o borres los datos de la app. También pueden aplicarse los ajustes de copia de seguridad de tu teléfono.</p></section><section><h2>Cámara, fotos y ubicación</h2><p>Critterboard pide acceso a la cámara y, si quieres, a tu fototeca para identificar un bicho. Esto ocurre en tu teléfono.</p><p>La ubicación es opcional. Centra tu mapa y ayuda a priorizar especies cercanas. Para mostrar el nombre de un lugar, se puede pedir al servicio de ubicación del sistema que busque la dirección de tus coordenadas; lo gestiona Apple según su política de privacidad. Tu ubicación no se nos envía salvo que actives «Compartir ubicaciones de avistamientos».</p></section><section><h2>Funciones en línea (desactivadas por defecto)</h2><p>El interruptor de red está apagado cuando abres la app por primera vez. Solo si lo activas Critterboard se comunica con nuestro servidor, que funciona en Cloudflare. Entonces trata:</p><ul><li>Un ID anónimo aleatorio creado en tu teléfono y un hash de una clave privada del dispositivo (la clave en sí nunca sale de tu teléfono).</li><li>Tu nombre visible, tu total de XP, si apareces en el ranking y a quién sigues.</li><li>Las especies que capturas y cuándo, para que tus amigos vean tu actividad.</li><li>Una etiqueta de país o región y una ubicación aproximada de la captura, solo si activas «Compartir ubicaciones de avistamientos». Las ubicaciones se difuminan hasta unos 500 m en tu teléfono antes de enviarse.</li></ul><p>Tu nombre y tu XP solo son visibles para otros jugadores si decides aparecer en el ranking o si te siguen. Los nombres pasan por un filtro básico.</p><p>Por seguridad, contamos brevemente (alrededor de un minuto) los intentos de inicio de sesión por dirección IP para limitar abusos. Cloudflare, nuestro proveedor de alojamiento, también procesa datos de conexión como tu dirección IP para prestar el servicio; consulta su política de privacidad.</p></section><section><h2>Descargas</h2><p>Los packs regionales, el mapa sin conexión y el modelo de chat opcional se descargan desde servidores como GitHub y Hugging Face. Como en cualquier descarga, esos servidores ven tu dirección IP y el archivo que pides. No añadimos ningún identificador a esas peticiones.</p></section><section><h2>Informes de fallos (desactivados por defecto)</h2><p>Si activas los informes de fallos, se puede enviar información de diagnóstico anónima sobre un fallo a nuestro proveedor de informes de errores, Sentry. No incluye tus fotos. Puedes desactivarlo en la app cuando quieras.</p></section><section><h2>Borrar tus datos</h2><p>Datos locales: «Borrar todo» (Yo → Ayuda) elimina de tu teléfono el Dex, avistamientos, fotos, ajustes y modelos descargados, y da a la app un ID anónimo nuevo. Al desinstalar la app desaparece el resto.</p><p>Datos en el servidor: si usaste las funciones en línea, también guardamos los datos indicados arriba bajo tu antiguo ID anónimo. Para que los borremos, escribe a la dirección de contacto de la pantalla de Ayuda e incluye tu ID anónimo (aparece en «Descargar todos mis datos»). Los eliminaremos y te lo confirmaremos. No necesitas una cuenta para pedirlo.</p></section><section><h2>Tus derechos y contacto</h2><p>Según dónde vivas, puedes tener derecho a acceder a los datos que guardamos sobre ti, corregirlos, borrarlos u oponerte a su uso. Escribe a hello@critterboard.app y te ayudaremos. Conservamos la correspondencia mientras resolvemos tu solicitud. Envía solo lo necesario.</p></section><section><h2>Cambios</h2><p>Si esta política cambia de forma importante, actualizaremos la fecha de arriba y, cuando importe, te lo diremos en la app.</p></section></div></main>
+<footer><div class="container">
+<div class="ft-logo">🪲 Critterboard</div>
+<p>Gratis · Código abierto (MIT) · Muy pronto</p>
+<div class="ft-links"><a href="https://github.com/krzysztofradomski/critterboard" target="_blank" rel="noopener" class="gh-star">★ Danos una estrella en GitHub</a><a href="mailto:hello@critterboard.app">Contacto</a><a href="/support/es/">Soporte</a><a href="/privacy/es/">Privacidad</a><a href="/terms/es/">Términos</a></div>
+</div></footer>
+<script>
+(function(){var b=document.getElementById('lang-btn'),m=document.getElementById('lang-menu');
+function c(){m.hidden=true;b.setAttribute('aria-expanded','false')}
+b.addEventListener('click',function(e){e.stopPropagation();var o=m.hidden;m.hidden=!o;b.setAttribute('aria-expanded',String(o))});
+document.addEventListener('click',function(e){if(!m.hidden&&!e.target.closest('.lang-switch'))c()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')c()});
+m.addEventListener('click',function(e){var a=e.target.closest('[data-lang]');if(a)try{localStorage.setItem('cb-lang',a.dataset.lang)}catch(_){}});
+try{localStorage.setItem('cb-lang',document.documentElement.lang)}catch(_){}})();
+</script></body></html>

@@ -365,14 +365,6 @@
         box-shadow: 3px 3px 0 var(--bk);
       }
 
-      .gallery { padding: 8px 0 40px; }
-      .gallery h2 { font-family: "Fredoka", sans-serif; font-size: clamp(1.6rem, 4vw, 2.2rem); text-align: center; margin-bottom: 22px; }
-      .g-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-      .g-grid figure { text-align: center; }
-      .g-grid img { width: 100%; height: auto; border: 3px solid var(--bk); border-radius: 26px; box-shadow: 5px 5px 0 var(--bk); background: var(--cr); }
-      .g-grid figcaption { margin-top: 12px; font-weight: 700; font-size: 0.95rem; }
-      @media (max-width: 760px) { .g-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
-
       /* right – screenshots */
       .hero-r {
         display: flex;
@@ -410,27 +402,34 @@
         z-index: 10 !important;
       }
 
-      /* fan triptych — left, centre-front, right */
+      /* fan of four: home front and centre, map left, brains right, quests peeking behind */
       .sc-1 {
-        top: 12%;
+        top: 14%;
         left: 0;
-        transform: rotate(-8deg);
+        transform: rotate(-9deg);
         z-index: 2;
         animation: fa 7s ease-in-out infinite;
       }
       .sc-2 {
         top: 0;
         left: 28%;
-        transform: rotate(2deg) scale(1.04);
-        z-index: 3;
+        transform: rotate(1deg) scale(1.05);
+        z-index: 4;
         animation: fb 8.5s ease-in-out infinite;
       }
       .sc-3 {
         top: 14%;
         right: 0;
-        transform: rotate(8deg);
-        z-index: 1;
+        transform: rotate(9deg);
+        z-index: 2;
         animation: fc 6.5s ease-in-out infinite;
+      }
+      .sc-4 {
+        top: -7%;
+        left: 12%;
+        transform: rotate(-4deg);
+        z-index: 1;
+        animation: fd 9s ease-in-out infinite;
       }
 
       /* ── ZEROES GRID ── */
@@ -561,10 +560,19 @@
       @keyframes fb {
         0%,
         100% {
-          transform: rotate(2deg) scale(1.04) translateY(0);
+          transform: rotate(1deg) scale(1.05) translateY(0);
         }
         50% {
-          transform: rotate(2deg) scale(1.04) translateY(-14px);
+          transform: rotate(1deg) scale(1.05) translateY(-14px);
+        }
+      }
+      @keyframes fd {
+        0%,
+        100% {
+          transform: rotate(-4deg) translateY(0);
+        }
+        50% {
+          transform: rotate(-4deg) translateY(-6px);
         }
       }
       @keyframes fc {
@@ -769,6 +777,7 @@
            just tighten the chrome for small screens */
         .screens {
           max-width: 340px;
+          margin-bottom: 64px; /* the tall phone cards overflow the 5:4 box */
         }
         .sc {
           border-radius: 22px;
@@ -966,9 +975,10 @@
 
       <div class="hero-r">
         <div class="screens">
-          <img class="sc sc-1" src="/img/screens/en-home.webp" data-shot="home" width="540" height="1174" alt="" data-i18n-alt="alt_home" />
-          <img class="sc sc-2" src="/img/screens/en-map.webp" data-shot="map" width="540" height="1174" alt="" data-i18n-alt="alt_map" />
+          <img class="sc sc-1" src="/img/screens/en-map.webp" data-shot="map" width="540" height="1174" alt="" data-i18n-alt="alt_map" />
+          <img class="sc sc-2" src="/img/screens/en-home.webp" data-shot="home" width="540" height="1174" alt="" data-i18n-alt="alt_home" />
           <img class="sc sc-3" src="/img/screens/en-brains.webp" data-shot="brains" width="540" height="1174" alt="" data-i18n-alt="alt_brains" />
+          <img class="sc sc-4" src="/img/screens/en-quests.webp" data-shot="quests" width="540" height="1174" alt="" data-i18n-alt="alt_quests" />
         </div>
       </div>
       </div>
@@ -1006,18 +1016,6 @@
         >
       </div>
     </div>
-
-    <section class="gallery" id="screens">
-      <div class="container">
-        <h2 data-i18n="g_title">A look inside</h2>
-        <div class="g-grid">
-          <figure><img src="/img/screens/en-home.webp" data-shot="home" width="540" height="1174" loading="lazy" alt="" data-i18n-alt="alt_home" /><figcaption data-i18n="g_home">A bug of the day to hunt</figcaption></figure>
-          <figure><img src="/img/screens/en-map.webp" data-shot="map" width="540" height="1174" loading="lazy" alt="" data-i18n-alt="alt_map" /><figcaption data-i18n="g_map">An offline map of Europe</figcaption></figure>
-          <figure><img src="/img/screens/en-quests.webp" data-shot="quests" width="540" height="1174" loading="lazy" alt="" data-i18n-alt="alt_quests" /><figcaption data-i18n="g_quests">Quests, XP and badges</figcaption></figure>
-          <figure><img src="/img/screens/en-brains.webp" data-shot="brains" width="540" height="1174" loading="lazy" alt="" data-i18n-alt="alt_brains" /><figcaption data-i18n="g_brains">Everything runs on your phone</figcaption></figure>
-        </div>
-      </div>
-    </section>
 
     <!-- ── TECH SECTION ── -->
     <section class="tech" id="tech">
@@ -1179,11 +1177,6 @@
           alt_brains: "Choosing the on-device AI models",
           alt_map: "Map of Europe, working offline",
           alt_quests: "Quests and badges",
-          g_title: "A look inside",
-          g_home: "A bug of the day to hunt",
-          g_map: "An offline map of Europe",
-          g_quests: "Quests, XP and badges",
-          g_brains: "Everything runs on your phone",
           lang_label: "Language",
         },
         pl: {
@@ -1250,11 +1243,6 @@
           alt_brains: "Wybór modeli AI w telefonie",
           alt_map: "Mapa Europy działająca offline",
           alt_quests: "Zadania i odznaki",
-          g_title: "Rzut oka do środka",
-          g_home: "Owad dnia do upolowania",
-          g_map: "Mapa Europy offline",
-          g_quests: "Zadania, XP i odznaki",
-          g_brains: "Wszystko działa na telefonie",
           lang_label: "Język",
         },
         es: {
@@ -1321,11 +1309,6 @@
           alt_brains: "Elección de los modelos de IA del móvil",
           alt_map: "Mapa de Europa sin conexión",
           alt_quests: "Misiones e insignias",
-          g_title: "Un vistazo por dentro",
-          g_home: "Un bicho del día para cazar",
-          g_map: "Un mapa de Europa sin conexión",
-          g_quests: "Misiones, XP e insignias",
-          g_brains: "Todo funciona en tu teléfono",
           lang_label: "Idioma",
         },
         de: {
@@ -1392,11 +1375,6 @@
           alt_brains: "Auswahl der KI-Modelle auf dem Handy",
           alt_map: "Europakarte, die offline funktioniert",
           alt_quests: "Quests und Abzeichen",
-          g_title: "Ein Blick hinein",
-          g_home: "Ein Insekt des Tages zum Jagen",
-          g_map: "Eine Offline-Karte von Europa",
-          g_quests: "Quests, XP und Abzeichen",
-          g_brains: "Alles läuft auf deinem Telefon",
           lang_label: "Sprache",
         },
       };

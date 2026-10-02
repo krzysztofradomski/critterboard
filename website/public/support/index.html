@@ -3,34 +3,296 @@
 <title>Support — Critterboard</title><meta name="description" content="Everything about finding, scanning and collecting bugs.">
 <link rel="canonical" href="https://critterboard.app/support/"><link rel="alternate" hreflang="en" href="https://critterboard.app/support/"><link rel="alternate" hreflang="pl" href="https://critterboard.app/support/pl/"><link rel="alternate" hreflang="de" href="https://critterboard.app/support/de/"><link rel="alternate" hreflang="es" href="https://critterboard.app/support/es/">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-<style>:root{--y:#f5c840;--cr:#fdf6e3;--bk:#1a1209;--bl:#3b6fd4;--gn:#3d9a4f;--bd:2.5px solid var(--bk);--sh:4px 4px 0 var(--bk)}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{font-family:"DM Sans",sans-serif;background:var(--y);color:var(--bk);line-height:1.65;min-height:100vh}
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>:root {
+        --y: #f5c840;
+        --yd: #e0b020;
+        --cr: #fdf6e3;
+        --bk: #1a1209;
+        --gn: #3d9a4f;
+        --bl: #3b6fd4;
+        --pu: #7b4fc4;
+        --rd: #d94040;
+        --bd: 2.5px solid var(--bk);
+        --sh: 4px 4px 0 var(--bk);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--y);
+        color: var(--bk);
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1120px;
+        margin-inline: auto;
+        padding-inline: clamp(16px, 4vw, 32px);
+      }
+
+      /* noise */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 999;
+        opacity: 0.35;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--y);
+        border-bottom: var(--bd);
+        padding-block: 12px;
+      }
+      nav .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--bk);
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.35rem;
+        font-weight: 700;
+      }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: var(--rd);
+        border: var(--bd);
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        box-shadow: var(--sh);
+      }
+
+      .nav-r {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .mit {
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.4px;
+        background: var(--bk);
+        color: var(--y);
+        padding: 4px 11px;
+        border-radius: 100px;
+        text-decoration: none;
+        transition: opacity 0.15s;
+      }
+      .mit:hover {
+        opacity: 0.8;
+      }
+
+      .nav-btn {
+        font-family: "Fredoka", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        background: var(--bk);
+        color: var(--y);
+        border: var(--bd);
+        border-radius: 100px;
+        padding: 8px 20px;
+        text-decoration: none;
+        cursor: pointer;
+        box-shadow: var(--sh);
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+      }
+      .nav-btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0 var(--bk);
+      }
+      .nav-btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0 var(--bk);
+      }
+
+      /* ── LANGUAGE SWITCH ── */
+      .lang-switch {
+        position: relative;
+      }
+      .lang-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: transparent;
+        border: 2px solid var(--bk);
+        border-radius: 100px;
+        padding: 6px 12px;
+        font-family: "Fredoka", sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--bk);
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+      }
+      .lang-btn:hover {
+        background: var(--bk);
+        color: var(--y);
+      }
+      .lang-caret {
+        font-size: 0.7rem;
+        line-height: 1;
+        transition: transform 0.2s;
+      }
+      .lang-btn[aria-expanded="true"] .lang-caret {
+        transform: rotate(180deg);
+      }
+      .lang-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        list-style: none;
+        margin: 0;
+        padding: 6px;
+        background: var(--cr);
+        border: var(--bd);
+        border-radius: 14px;
+        box-shadow: var(--sh);
+        z-index: 50;
+        min-width: 160px;
+      }
+      .lang-menu[hidden] {
+        display: none;
+      }
+      .lang-menu li {
+        list-style: none;
+      }
+      .lang-menu button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        background: transparent;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.9rem;
+        color: var(--bk);
+        cursor: pointer;
+      }
+      .lang-menu button:hover,
+      .lang-menu button[aria-current="true"] {
+        background: var(--y);
+      }
+
+            footer {
+        background: var(--y);
+        border-top: var(--bd);
+        padding-block: 24px;
+      }
+      footer .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+      .ft-logo {
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .ft-links {
+        display: flex;
+        gap: 24px;
+      }
+      .ft-links a {
+        font-size: 0.82rem;
+        color: var(--bk);
+        opacity: 0.55;
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+      .ft-links a:hover {
+        opacity: 1;
+      }
+      .ft-links .gh-star {
+        opacity: 0.85;
+        font-weight: 600;
+      }
+      footer p {
+        font-size: 0.75rem;
+        opacity: 0.35;
+      }
 .w{max-width:720px;margin:0 auto;padding:0 20px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:22px 0}
-.brand{font-family:Fredoka,sans-serif;font-weight:700;font-size:1.15rem;color:var(--bk);text-decoration:none}
-.top a.back{color:var(--bk);font-weight:600}
-.langs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.langs a{padding:3px 11px;border:var(--bd);border-radius:99px;background:var(--cr);color:var(--bk);text-decoration:none;font-size:.85rem}
-.langs a[aria-current]{background:var(--bk);color:var(--cr)}
-.eyebrow{font-weight:700;letter-spacing:.14em;font-size:.78rem;margin-top:22px}
+.eyebrow{font-weight:700;letter-spacing:.14em;font-size:.78rem;margin-top:34px}
 h1{font-family:Fredoka,sans-serif;font-size:clamp(2.2rem,7vw,3.2rem);line-height:1.1;margin:6px 0 10px}
 .lead{font-size:1.1rem;max-width:560px}.upd{font-size:.9rem;opacity:.75;margin-top:6px}
 .card{background:var(--cr);border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0}
 .card section+section{margin-top:22px;padding-top:20px;border-top:1.5px solid #ecdcae}
 h2{font-family:Fredoka,sans-serif;font-size:1.3rem;margin-bottom:8px}
-p{margin-bottom:10px}ul{padding-left:20px;margin-bottom:10px}li{margin-bottom:6px}
-a{color:var(--bl)}
+main p{line-height:1.65;margin-bottom:10px}main ul{padding-left:20px;margin-bottom:10px}main li{margin-bottom:6px;line-height:1.6}
+main a{color:var(--bl)}
 details{border-top:1.5px solid #ecdcae;padding:8px 0}details:first-of-type{border-top:0}
 summary{cursor:pointer;font-weight:700}details p{margin:8px 0 2px}
 .tip{display:flex;gap:12px;margin-bottom:10px}.tip i{font-style:normal;font-size:1.4rem}
-.help{background:var(--gn);color:#fff;border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0}
+.help{background:var(--gn);color:#fff;border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0 40px}
 .help a{color:#fff;font-weight:700}.help h2{color:#fff}
-footer{display:flex;gap:10px 20px;flex-wrap:wrap;justify-content:center;padding:6px 20px 40px;font-weight:600}
-footer a{color:var(--bk)}footer small{width:100%;text-align:center;font-weight:400;opacity:.75}</style></head><body><div class="w">
-<div class="top"><a class="brand" href="/">critterboard</a><a class="back" href="/">← Back to critterboard.app</a></div>
-<div class="langs"><a href="/support/" hreflang="en" aria-current=page>English</a><a href="/support/pl/" hreflang="pl">Polski</a><a href="/support/de/" hreflang="de">Deutsch</a><a href="/support/es/" hreflang="es">Español</a></div>
-<p class="eyebrow">A LITTLE HELP TO HUNT</p><h1>Happy hunting.</h1><p class="lead">Everything about finding, scanning and collecting bugs.</p>
-<div class="card"><section id="start"><h2>Getting started</h2><p>Open the <b>Scan</b> tab, point the camera at an insect and take the photo. Critterboard identifies it on your phone, adds it to your <b>Dex</b> and gives you XP.</p><p>Identification needs a regional pack. Go to <b>Me → Brains</b>, pick your region and tap <b>Get</b>. The pack holds the species list and the BugNet vision model (about 88 MB) and is downloaded once.</p></section><section id="regions"><h2>Regional packs and the offline map</h2><p>Only one regional pack is active at a time. It decides which species Critterboard can recognise and which map you see. Right now Central Europe is available; other regions are marked <i>soon</i>.</p><p>The offline map comes with the pack (about 56 MB, all of Europe at low detail). The <b>Map</b> tab stays locked until it is downloaded. After that it works without any connection and shows pins where you caught things.</p><ul><li>Download packs on Wi-Fi: the model and the map are tens of megabytes.</li><li>Your location is used only to centre the map and place pins. It is never sent anywhere unless you turn on location sharing.</li></ul></section><section id="progress"><h2>XP, rarity, quests, badges and streaks</h2><ul><li><b>XP and levels:</b> every new species earns XP. Rarer species (common → uncommon → rare → epic → legendary) earn more.</li><li><b>Quests:</b> weekly goals such as “Find a Legendary”. Open <b>Me → Quests</b>.</li><li><b>Badges:</b> start at zero and unlock as you play. Tap one to see how to earn it.</li><li><b>Streaks:</b> catch something every day. You earn a freeze every 7 days of activity (up to three) and it is spent automatically if you miss a day.</li></ul></section><section id="network"><h2>Network, leaderboard and friends</h2><p>Critterboard works fully offline and the network switch is <b>off by default</b>. Turn it on in <b>Me → Brains</b> only if you want the online features.</p><ul><li><b>Leaderboard:</b> opt-in. Your name and XP appear only if you switch it on.</li><li><b>Friends:</b> follow other trainers from the Ranks tab. Friends see your public profile only.</li><li><b>Share spotting locations:</b> optional. Public pins are blurred by about 500 m.</li><li><b>Crash reports:</b> optional and anonymous.</li></ul><p>There are no accounts. Your phone creates a random private key on first use; it is how the server recognises your device. If you reinstall the app or wipe your data you start over as a new trainer.</p></section><section id="chat"><h2>Chat and the guides</h2><p>The chat guides (Prof. Larva, Dr. Snail and the research assistant) run on your phone with the Gemma 4 E2B model. It is an optional download (about 3.1 GB, Wi-Fi recommended) in <b>Me → Brains</b>. Without it, chat is off and everything else still works.</p></section><section id="trouble"><h2>Troubleshooting</h2><ul><li><b>No match or low confidence:</b> see the photo tips below, and check that you installed the pack for your region.</li><li><b>The Map tab is locked:</b> download the active region in <b>Me → Brains</b>. You need a connection once.</li><li><b>The map or a download fails:</b> check your connection and try again; interrupted downloads are discarded, never half-installed.</li><li><b>Location not detected:</b> allow location for Critterboard in iOS or Android Settings, then reopen the Map tab.</li><li><b>Change the language:</b> <b>Me → Brains → Language</b>. It changes the app, species names and the guides.</li></ul></section><section id="photo"><h2>Taking a good photo</h2><div class="tip"><i>🔆</i><div><b>Brighter light</b><br>Move into the sun or use the flash. Shadow eats detail.</div></div><div class="tip"><i>🔍</i><div><b>Fill the frame</b><br>Get within 20 cm and crop tight on the body.</div></div><div class="tip"><i>🌿</i><div><b>Plain backdrop</b><br>Less foliage clutter helps the model focus.</div></div><div class="tip"><i>📐</i><div><b>Side profile</b><br>Wings and legs visible from the side are easiest.</div></div></section><section id="faq"><h2>FAQ</h2><details><summary>Does Critterboard work without internet?</summary><p>Yes. Vision, chat, and the species database all run on your phone. The only reason to turn on Network access is to share to the leaderboard or post sightings publicly.</p></details><details><summary>Why is my ID confidence low?</summary><p>Usually one of three things: the photo is blurry, the bug fills less than 1/4 of the frame, or you&#x27;re outside an installed regional pack. Try a closer crop, brighter light, and a side profile.</p></details><details><summary>How do streak freezes work?</summary><p>You earn one freeze every 7 days of activity, capped at three banked. If you miss a day, the freeze auto-spends to keep your streak alive. You don&#x27;t have to do anything.</p></details><details><summary>Can I use Critterboard if I&#x27;m colorblind?</summary><p>Yes. All confidence and rarity cues double-encode with shape and label. There&#x27;s a high-contrast pass in development; ping us if a specific screen is hurting you.</p></details><details><summary>Where do reference images come from?</summary><p>iNaturalist (CC-BY-NC) for photos; GBIF for ranges. We don&#x27;t train on your photos — model updates ship from our side only.</p></details><details><summary>How do I delete my data?</summary><p>Scroll down to &quot;Wipe everything.&quot; It nukes your dex, sightings, settings, and on-device models. Followers and leaderboard entries go too. There is no undo.</p></details></section><section id="data"><h2>Your data</h2><p>Everything lives on your phone: your Dex, sightings, photos and settings. There is no account, no ad tracking and no analytics unless you opt into crash reports.</p><ul><li><b>Export:</b> <b>Me → Help</b> lets you export your Dex (JSON), sightings (CSV), a GBIF-ready occurrence file (Darwin Core) or everything at once.</li><li><b>Wipe:</b> “Wipe everything” in the same screen removes your Dex, sightings, settings and downloaded models. Followers and leaderboard entries go too. There is no undo.</li><li><b>Photos and models:</b> reference photos come from iNaturalist and GBIF ranges. We never train on your photos.</li></ul></section></div><div class="help"><h2>Still need a hand?</h2><p>Tell us your device, operating system and app version, and what happened. Screenshots help. Never send passwords or personal files.</p><p><a href="mailto:hello@critterboard.app">hello@critterboard.app</a></p></div>
-</div><footer><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><small>All processing happens on your device. © 2026 Critterboard · open source</small></footer></body></html>
+.lang-menu a{display:block;width:100%;text-align:left;border-radius:8px;padding:8px 12px;font-family:"DM Sans",sans-serif;font-size:.9rem;color:var(--bk);text-decoration:none}
+.lang-menu a:hover,.lang-menu a[aria-current="true"]{background:var(--y)}
+.ft-links{flex-wrap:wrap}
+@media (max-width:768px){nav .container{max-width:none}.mit{display:none}footer .container{flex-direction:column;align-items:flex-start;gap:10px}}
+</style></head><body>
+<nav><div class="container">
+<a href="/" class="logo"><div class="logo-icon">🪲</div>Critterboard</a>
+<div class="nav-r"><div class="lang-switch">
+<button class="lang-btn" id="lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Language"><span>EN</span><span class="lang-caret" aria-hidden="true">▾</span></button>
+<ul class="lang-menu" id="lang-menu" role="listbox" hidden><li><a href="/support/" hreflang="en" data-lang="en" aria-current=true>🇬🇧 English</a></li><li><a href="/support/pl/" hreflang="pl" data-lang="pl">🇵🇱 Polski</a></li><li><a href="/support/es/" hreflang="es" data-lang="es">🇪🇸 Español</a></li><li><a href="/support/de/" hreflang="de" data-lang="de">🇩🇪 Deutsch</a></li></ul></div>
+<a href="https://github.com/krzysztofradomski/critterboard" target="_blank" rel="noopener" class="mit">Open source (MIT)</a></div>
+</div></nav>
+<main class="w"><p class="eyebrow">A LITTLE HELP TO HUNT</p><h1>Happy hunting.</h1><p class="lead">Everything about finding, scanning and collecting bugs.</p>
+<div class="card"><section id="start"><h2>Getting started</h2><p>Open the <b>Scan</b> tab, point the camera at an insect and take the photo. Critterboard identifies it on your phone, adds it to your <b>Dex</b> and gives you XP.</p><p>Identification needs a regional pack. Go to <b>Me → Brains</b>, pick your region and tap <b>Get</b>. The pack holds the species list and the BugNet vision model (about 88 MB) and is downloaded once.</p></section><section id="regions"><h2>Regional packs and the offline map</h2><p>Only one regional pack is active at a time. It decides which species Critterboard can recognise and which map you see. Right now Central Europe is available; other regions are marked <i>soon</i>.</p><p>The offline map comes with the pack (about 56 MB, all of Europe at low detail). The <b>Map</b> tab stays locked until it is downloaded. After that it works without any connection and shows pins where you caught things.</p><ul><li>Download packs on Wi-Fi: the model and the map are tens of megabytes.</li><li>Your location is used only to centre the map and place pins. It is never sent anywhere unless you turn on location sharing.</li></ul></section><section id="progress"><h2>XP, rarity, quests, badges and streaks</h2><ul><li><b>XP and levels:</b> every new species earns XP. Rarer species (common → uncommon → rare → epic → legendary) earn more.</li><li><b>Quests:</b> weekly goals such as “Find a Legendary”. Open <b>Me → Quests</b>.</li><li><b>Badges:</b> start at zero and unlock as you play. Tap one to see how to earn it.</li><li><b>Streaks:</b> catch something every day. You earn a freeze every 7 days of activity (up to three) and it is spent automatically if you miss a day.</li></ul></section><section id="network"><h2>Network, leaderboard and friends</h2><p>Critterboard works fully offline and the network switch is <b>off by default</b>. Turn it on in <b>Me → Brains</b> only if you want the online features.</p><ul><li><b>Leaderboard:</b> opt-in. Your name and XP appear only if you switch it on.</li><li><b>Friends:</b> follow other trainers from the Ranks tab. Friends see your public profile only.</li><li><b>Share spotting locations:</b> optional. Public pins are blurred by about 500 m.</li><li><b>Crash reports:</b> optional and anonymous.</li></ul><p>There are no accounts. Your phone creates a random private key on first use; it is how the server recognises your device. If you reinstall the app or wipe your data you start over as a new trainer.</p></section><section id="chat"><h2>Chat and the guides</h2><p>The chat guides (Prof. Larva, Dr. Snail and R.A. Maywind) run on your phone with the Gemma 4 E2B model. It is an optional download (about 3.1 GB, Wi-Fi recommended) in <b>Me → Brains</b>. Without it, chat is off and everything else still works.</p></section><section id="trouble"><h2>Troubleshooting</h2><ul><li><b>No match or low confidence:</b> see the photo tips below, and check that you installed the pack for your region.</li><li><b>The Map tab is locked:</b> download the active region in <b>Me → Brains</b>. You need a connection once.</li><li><b>The map or a download fails:</b> check your connection and try again; interrupted downloads are discarded, never half-installed.</li><li><b>Location not detected:</b> allow location for Critterboard in iOS or Android Settings, then reopen the Map tab.</li><li><b>Change the language:</b> <b>Me → Brains → Language</b>. It changes the app, species names and the guides.</li></ul></section><section id="photo"><h2>Taking a good photo</h2><div class="tip"><i>🔆</i><div><b>Brighter light</b><br>Move into the sun or use the flash. Shadow eats detail.</div></div><div class="tip"><i>🔍</i><div><b>Fill the frame</b><br>Get within 20 cm and crop tight on the body.</div></div><div class="tip"><i>🌿</i><div><b>Plain backdrop</b><br>Less foliage clutter helps the model focus.</div></div><div class="tip"><i>📐</i><div><b>Side profile</b><br>Wings and legs visible from the side are easiest.</div></div></section><section id="faq"><h2>FAQ</h2><details><summary>Does Critterboard work without internet?</summary><p>Yes. Vision, chat, and the species database all run on your phone. The only reason to turn on Network access is to share to the leaderboard or post sightings publicly.</p></details><details><summary>Why is my ID confidence low?</summary><p>Usually one of three things: the photo is blurry, the bug fills less than 1/4 of the frame, or you&#x27;re outside an installed regional pack. Try a closer crop, brighter light, and a side profile.</p></details><details><summary>How do streak freezes work?</summary><p>You earn one freeze every 7 days of activity, capped at three banked. If you miss a day, the freeze auto-spends to keep your streak alive. You don&#x27;t have to do anything.</p></details><details><summary>Can I use Critterboard if I&#x27;m colorblind?</summary><p>Yes. All confidence and rarity cues double-encode with shape and label. There&#x27;s a high-contrast pass in development; ping us if a specific screen is hurting you.</p></details><details><summary>Where do reference images come from?</summary><p>iNaturalist (CC-BY-NC) for photos; GBIF for ranges. We don&#x27;t train on your photos — model updates ship from our side only.</p></details><details><summary>How do I delete my data?</summary><p>Scroll down to &quot;Wipe everything.&quot; It nukes your dex, sightings, settings, and on-device models. Followers and leaderboard entries go too. There is no undo.</p></details></section><section id="data"><h2>Your data</h2><p>Everything lives on your phone: your Dex, sightings, photos and settings. There is no account, no ad tracking and no analytics unless you opt into crash reports.</p><ul><li><b>Export:</b> <b>Me → Help</b> lets you export your Dex (JSON), sightings (CSV), a GBIF-ready occurrence file (Darwin Core) or everything at once.</li><li><b>Wipe:</b> “Wipe everything” in the same screen removes your Dex, sightings, settings and downloaded models. Followers and leaderboard entries go too. There is no undo.</li><li><b>Photos and models:</b> reference photos come from iNaturalist and GBIF ranges. We never train on your photos.</li></ul></section></div><div class="help"><h2>Still need a hand?</h2><p>Tell us your device, operating system and app version, and what happened. Screenshots help. Never send passwords or personal files.</p><p><a href="mailto:hello@critterboard.app">hello@critterboard.app</a></p></div></main>
+<footer><div class="container">
+<div class="ft-logo">🪲 Critterboard</div>
+<p>Free · Open source (MIT) · Coming soon</p>
+<div class="ft-links"><a href="https://github.com/krzysztofradomski/critterboard" target="_blank" rel="noopener" class="gh-star">★ Star on GitHub</a><a href="mailto:hello@critterboard.app">Contact</a><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div>
+</div></footer>
+<script>
+(function(){var b=document.getElementById('lang-btn'),m=document.getElementById('lang-menu');
+function c(){m.hidden=true;b.setAttribute('aria-expanded','false')}
+b.addEventListener('click',function(e){e.stopPropagation();var o=m.hidden;m.hidden=!o;b.setAttribute('aria-expanded',String(o))});
+document.addEventListener('click',function(e){if(!m.hidden&&!e.target.closest('.lang-switch'))c()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')c()});
+m.addEventListener('click',function(e){var a=e.target.closest('[data-lang]');if(a)try{localStorage.setItem('cb-lang',a.dataset.lang)}catch(_){}});
+try{localStorage.setItem('cb-lang',document.documentElement.lang)}catch(_){}})();
+</script></body></html>

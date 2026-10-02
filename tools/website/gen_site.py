@@ -51,7 +51,7 @@ CONTENT = {
    "There are no accounts. Your phone creates a random private key on first use; it is how the server recognises your device. If you reinstall the app or wipe your data you start over as a new trainer.",
  ]),
  ("chat", "Chat and the guides", [
-   "The chat guides (Prof. Larva, Dr. Snail and the research assistant) run on your phone with the Gemma 4 E2B model. It is an optional download (about 3.1 GB, Wi-Fi recommended) in <b>Me → Brains</b>. Without it, chat is off and everything else still works.",
+   "The chat guides (Prof. Larva, Dr. Snail and R.A. Maywind) run on your phone with the Gemma 4 E2B model. It is an optional download (about 3.1 GB, Wi-Fi recommended) in <b>Me → Brains</b>. Without it, chat is off and everything else still works.",
  ]),
  ("trouble", "Troubleshooting", [
    ("ul", [
@@ -100,7 +100,7 @@ CONTENT = {
    "Nie ma kont. Telefon tworzy przy pierwszym użyciu losowy prywatny klucz, po którym serwer rozpoznaje urządzenie. Po ponownej instalacji lub wymazaniu danych zaczynasz jako nowy trener.",
  ]),
  ("chat", "Czat i przewodnicy", [
-   "Przewodnicy czatu (Prof. Larwa, Dr Ślimak i asystent badawczy) działają na twoim telefonie z modelem Gemma 4 E2B. To opcjonalne pobranie (ok. 3,1 GB, zalecane Wi-Fi) w <b>Ja → Mózg</b>. Bez niego czat jest wyłączony, a reszta aplikacji działa normalnie.",
+   "Przewodnicy czatu (Prof. Larwa, Dr Ślimak i Asystent Maj) działają na twoim telefonie z modelem Gemma 4 E2B. To opcjonalne pobranie (ok. 3,1 GB, zalecane Wi-Fi) w <b>Ja → Mózg</b>. Bez niego czat jest wyłączony, a reszta aplikacji działa normalnie.",
  ]),
  ("trouble", "Rozwiązywanie problemów", [
    ("ul", [
@@ -149,7 +149,7 @@ CONTENT = {
    "Es gibt keine Konten. Dein Telefon erzeugt bei der ersten Nutzung einen zufälligen privaten Schlüssel, an dem der Server dein Gerät erkennt. Nach Neuinstallation oder Löschen deiner Daten startest du als neuer Trainer.",
  ]),
  ("chat", "Chat und die Guides", [
-   "Die Chat-Guides (Prof. Larva, Dr. Schnecke und der Forschungsassistent) laufen mit dem Modell Gemma 4 E2B auf deinem Telefon. Es ist ein optionaler Download (etwa 3,1 GB, WLAN empfohlen) in <b>Ich → Hirn</b>. Ohne ihn ist der Chat aus und alles andere funktioniert weiter.",
+   "Die Chat-Guides (Prof. Larva, Dr. Schnecke und Assistent Mai) laufen mit dem Modell Gemma 4 E2B auf deinem Telefon. Es ist ein optionaler Download (etwa 3,1 GB, WLAN empfohlen) in <b>Ich → Hirn</b>. Ohne ihn ist der Chat aus und alles andere funktioniert weiter.",
  ]),
  ("trouble", "Fehlerbehebung", [
    ("ul", [
@@ -198,7 +198,7 @@ CONTENT = {
    "No hay cuentas. Tu teléfono crea una clave privada aleatoria la primera vez que se usa y con ella el servidor reconoce tu dispositivo. Si reinstalas la app o borras tus datos, empiezas como un entrenador nuevo.",
  ]),
  ("chat", "Chat y guías", [
-   "Las guías del chat (Prof. Larva, Dr. Caracol y el asistente de investigación) funcionan en tu teléfono con el modelo Gemma 4 E2B. Es una descarga opcional (unos 3,1 GB, mejor con Wi-Fi) en <b>Yo → Cerebro</b>. Sin él, el chat está desactivado y todo lo demás sigue funcionando.",
+   "Las guías del chat (Prof. Larva, Dr. Caracol y Asistente Mayo) funcionan en tu teléfono con el modelo Gemma 4 E2B. Es una descarga opcional (unos 3,1 GB, mejor con Wi-Fi) en <b>Yo → Cerebro</b>. Sin él, el chat está desactivado y todo lo demás sigue funcionando.",
  ]),
  ("trouble", "Solución de problemas", [
    ("ul", [
@@ -230,31 +230,84 @@ NAV = {  # footer links + page labels
 EYEBROW = {"en": "A LITTLE HELP TO HUNT", "pl": "TROCHĘ POMOCY NA ŁOWACH", "de": "EIN BISSCHEN HILFE BEIM JAGEN", "es": "UN POCO DE AYUDA PARA CAZAR"}
 HEADLINE = {"en": "Happy hunting.", "pl": "Udanych łowów.", "de": "Viel Spaß bei der Jagd.", "es": "Feliz caza."}
 
-CSS = """:root{--y:#f5c840;--cr:#fdf6e3;--bk:#1a1209;--bl:#3b6fd4;--gn:#3d9a4f;--bd:2.5px solid var(--bk);--sh:4px 4px 0 var(--bk)}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{font-family:"DM Sans",sans-serif;background:var(--y);color:var(--bk);line-height:1.65;min-height:100vh}
+# Page-specific styles. The base, header (nav + language menu) and footer styles are lifted
+# from the landing page itself (website/public/index.html), so every page stays in sync with it.
+PAGE_CSS = """
 .w{max-width:720px;margin:0 auto;padding:0 20px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:22px 0}
-.brand{font-family:Fredoka,sans-serif;font-weight:700;font-size:1.15rem;color:var(--bk);text-decoration:none}
-.top a.back{color:var(--bk);font-weight:600}
-.langs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.langs a{padding:3px 11px;border:var(--bd);border-radius:99px;background:var(--cr);color:var(--bk);text-decoration:none;font-size:.85rem}
-.langs a[aria-current]{background:var(--bk);color:var(--cr)}
-.eyebrow{font-weight:700;letter-spacing:.14em;font-size:.78rem;margin-top:22px}
+.eyebrow{font-weight:700;letter-spacing:.14em;font-size:.78rem;margin-top:34px}
 h1{font-family:Fredoka,sans-serif;font-size:clamp(2.2rem,7vw,3.2rem);line-height:1.1;margin:6px 0 10px}
 .lead{font-size:1.1rem;max-width:560px}.upd{font-size:.9rem;opacity:.75;margin-top:6px}
 .card{background:var(--cr);border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0}
 .card section+section{margin-top:22px;padding-top:20px;border-top:1.5px solid #ecdcae}
 h2{font-family:Fredoka,sans-serif;font-size:1.3rem;margin-bottom:8px}
-p{margin-bottom:10px}ul{padding-left:20px;margin-bottom:10px}li{margin-bottom:6px}
-a{color:var(--bl)}
+main p{line-height:1.65;margin-bottom:10px}main ul{padding-left:20px;margin-bottom:10px}main li{margin-bottom:6px;line-height:1.6}
+main a{color:var(--bl)}
 details{border-top:1.5px solid #ecdcae;padding:8px 0}details:first-of-type{border-top:0}
 summary{cursor:pointer;font-weight:700}details p{margin:8px 0 2px}
 .tip{display:flex;gap:12px;margin-bottom:10px}.tip i{font-style:normal;font-size:1.4rem}
-.help{background:var(--gn);color:#fff;border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0}
+.help{background:var(--gn);color:#fff;border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0 40px}
 .help a{color:#fff;font-weight:700}.help h2{color:#fff}
-footer{display:flex;gap:10px 20px;flex-wrap:wrap;justify-content:center;padding:6px 20px 40px;font-weight:600}
-footer a{color:var(--bk)}footer small{width:100%;text-align:center;font-weight:400;opacity:.75}"""
+.lang-menu a{display:block;width:100%;text-align:left;border-radius:8px;padding:8px 12px;font-family:"DM Sans",sans-serif;font-size:.9rem;color:var(--bk);text-decoration:none}
+.lang-menu a:hover,.lang-menu a[aria-current="true"]{background:var(--y)}
+.ft-links{flex-wrap:wrap}
+@media (max-width:768px){nav .container{max-width:none}.mit{display:none}footer .container{flex-direction:column;align-items:flex-start;gap:10px}}
+"""
+
+INDEX = (ROOT / "website/public/index.html").read_text()
+
+
+def _between(text, start, end):
+    a = text.index(start)
+    return text[a:text.index(end, a)]
+
+
+def shared_css():
+    base = _between(INDEX, ":root {", "/* ── HERO ── */")                      # vars, reset, body, nav, language switch
+    foot = _between(INDEX, "      footer {\n        background", "      footer p {")  # footer rules
+    foot_p = foot + _between(INDEX, "      footer p {", "}") + "}"
+    return base + foot_p
+
+
+def landing_strings(lang):
+    """The landing page's own header/footer strings for `lang`, read from its I18N table."""
+    block = _between(INDEX, f"\n        {lang}: {{\n          _label", "\n        }")
+    import re
+    return {k: v.replace('\\"', '"') for k, v in re.findall(r'(\w+):\s*"((?:[^"\\]|\\.)*)"', block)}
+
+
+def shared_nav(page, lang):
+    st = landing_strings(lang)
+    items = "".join(
+        f'<li><a href="{path(page, l)}" hreflang="{l}" data-lang="{l}"{" aria-current=true" if l == lang else ""}>{flag} {nm}</a></li>'
+        for l, flag, nm in (("en", "🇬🇧", "English"), ("pl", "🇵🇱", "Polski"), ("es", "🇪🇸", "Español"), ("de", "🇩🇪", "Deutsch")))
+    return f"""<nav><div class="container">
+<a href="/" class="logo"><div class="logo-icon">🪲</div>Critterboard</a>
+<div class="nav-r"><div class="lang-switch">
+<button class="lang-btn" id="lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="{html.escape(st.get('lang_label', 'Language'))}"><span>{lang.upper()}</span><span class="lang-caret" aria-hidden="true">▾</span></button>
+<ul class="lang-menu" id="lang-menu" role="listbox" hidden>{items}</ul></div>
+<a href="https://github.com/krzysztofradomski/critterboard" target="_blank" rel="noopener" class="mit">{html.escape(st['nav_mit'])}</a></div>
+</div></nav>"""
+
+
+def shared_footer(lang):
+    st = landing_strings(lang)
+    links = "".join(f'<a href="{path(pg, lang)}">{html.escape(st["ft_" + pg])}</a>' for pg in ("support", "privacy", "terms"))
+    return f"""<footer><div class="container">
+<div class="ft-logo">🪲 Critterboard</div>
+<p>{html.escape(st['ft_tag'])}</p>
+<div class="ft-links"><a href="https://github.com/krzysztofradomski/critterboard" target="_blank" rel="noopener" class="gh-star">{html.escape(st['gh_star'])}</a><a href="mailto:hello@critterboard.app">{html.escape(st['ft_contact'])}</a>{links}</div>
+</div></footer>"""
+
+
+MENU_JS = """<script>
+(function(){var b=document.getElementById('lang-btn'),m=document.getElementById('lang-menu');
+function c(){m.hidden=true;b.setAttribute('aria-expanded','false')}
+b.addEventListener('click',function(e){e.stopPropagation();var o=m.hidden;m.hidden=!o;b.setAttribute('aria-expanded',String(o))});
+document.addEventListener('click',function(e){if(!m.hidden&&!e.target.closest('.lang-switch'))c()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')c()});
+m.addEventListener('click',function(e){var a=e.target.closest('[data-lang]');if(a)try{localStorage.setItem('cb-lang',a.dataset.lang)}catch(_){}});
+try{localStorage.setItem('cb-lang',document.documentElement.lang)}catch(_){}})();
+</script>"""
 
 
 def block(x):
@@ -282,10 +335,8 @@ def render(page, lang):
     else:
         eyebrow, headline, upd, lead, body = (PRIVACY if page == "privacy" else TERMS)[lang]
         secs = [(None, t, "".join(block(b) for b in bs)) for t, bs in body]
-    cards = "".join(f'<section{f" id={s!r}".replace(chr(39), chr(34)) if s else ""}><h2>{e(t)}</h2>{b}</section>' for s, t, b in secs)
-    langs = "".join(f'<a href="{path(page, l)}" hreflang="{l}"{" aria-current=page" if l == lang else ""}>{nm}</a>' for l, nm in LANGS.items())
+    cards = "".join(f'<section{f" id=" + chr(34) + s + chr(34) if s else ""}><h2>{e(t)}</h2>{b}</section>' for s, t, b in secs)
     alts = "".join(f'<link rel="alternate" hreflang="{l}" href="https://critterboard.app{path(page, l)}">' for l in LANGS)
-    foot = "".join(f'<a href="{path(pg, lang)}">{n[pg]}</a>' for pg in ("support", "privacy", "terms"))
     helpbox = f'<div class="help"><h2>{e(n["more"])}</h2><p>{e(n["moreText"])}</p><p><a href="mailto:hello@critterboard.app">hello@critterboard.app</a></p></div>'
     title = {"support": n["support"], "privacy": n["privacy"], "terms": n["terms"]}[page]
     return f"""<!doctype html>
@@ -293,16 +344,17 @@ def render(page, lang):
 <title>{e(title)} — Critterboard</title><meta name="description" content="{e(lead)}">
 <link rel="canonical" href="https://critterboard.app{path(page, lang)}">{alts}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-<style>{CSS}</style></head><body><div class="w">
-<div class="top"><a class="brand" href="/">critterboard</a><a class="back" href="/">{e(UI[lang]["home"])}</a></div>
-<div class="langs">{langs}</div>
-<p class="eyebrow">{e(eyebrow)}</p><h1>{e(headline)}</h1><p class="lead">{e(lead)}</p>{f'<p class="upd">{e(upd)}</p>' if upd else ''}
-<div class="card">{cards}</div>{helpbox if page == "support" else ""}
-</div><footer>{foot}<small>{e(UI[lang]["footer"])}</small></footer></body></html>"""
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>{SHARED_CSS}{PAGE_CSS}</style></head><body>
+{shared_nav(page, lang)}
+<main class="w"><p class="eyebrow">{e(eyebrow)}</p><h1>{e(headline)}</h1><p class="lead">{e(lead)}</p>{f'<p class="upd">{e(upd)}</p>' if upd else ''}
+<div class="card">{cards}</div>{helpbox if page == "support" else ""}</main>
+{shared_footer(lang)}
+{MENU_JS}</body></html>"""
 
 
 import shutil
+SHARED_CSS = shared_css()
 shutil.rmtree(PUB / "help", ignore_errors=True)  # superseded by /support/ (see _redirects)
 for page in ("support", "privacy", "terms"):
     for lang in LANGS:

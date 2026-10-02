@@ -3,34 +3,296 @@
 <title>Términos — Critterboard</title><meta name="description" content="Estos términos se aplican a la app Critterboard y a su sitio web. Al usarlos aceptas hacerlo con responsabilidad y conforme a la ley.">
 <link rel="canonical" href="https://critterboard.app/terms/es/"><link rel="alternate" hreflang="en" href="https://critterboard.app/terms/"><link rel="alternate" hreflang="pl" href="https://critterboard.app/terms/pl/"><link rel="alternate" hreflang="de" href="https://critterboard.app/terms/de/"><link rel="alternate" hreflang="es" href="https://critterboard.app/terms/es/">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-<style>:root{--y:#f5c840;--cr:#fdf6e3;--bk:#1a1209;--bl:#3b6fd4;--gn:#3d9a4f;--bd:2.5px solid var(--bk);--sh:4px 4px 0 var(--bk)}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{font-family:"DM Sans",sans-serif;background:var(--y);color:var(--bk);line-height:1.65;min-height:100vh}
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>:root {
+        --y: #f5c840;
+        --yd: #e0b020;
+        --cr: #fdf6e3;
+        --bk: #1a1209;
+        --gn: #3d9a4f;
+        --bl: #3b6fd4;
+        --pu: #7b4fc4;
+        --rd: #d94040;
+        --bd: 2.5px solid var(--bk);
+        --sh: 4px 4px 0 var(--bk);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--y);
+        color: var(--bk);
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1120px;
+        margin-inline: auto;
+        padding-inline: clamp(16px, 4vw, 32px);
+      }
+
+      /* noise */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 999;
+        opacity: 0.35;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--y);
+        border-bottom: var(--bd);
+        padding-block: 12px;
+      }
+      nav .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--bk);
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.35rem;
+        font-weight: 700;
+      }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: var(--rd);
+        border: var(--bd);
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        box-shadow: var(--sh);
+      }
+
+      .nav-r {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .mit {
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.4px;
+        background: var(--bk);
+        color: var(--y);
+        padding: 4px 11px;
+        border-radius: 100px;
+        text-decoration: none;
+        transition: opacity 0.15s;
+      }
+      .mit:hover {
+        opacity: 0.8;
+      }
+
+      .nav-btn {
+        font-family: "Fredoka", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        background: var(--bk);
+        color: var(--y);
+        border: var(--bd);
+        border-radius: 100px;
+        padding: 8px 20px;
+        text-decoration: none;
+        cursor: pointer;
+        box-shadow: var(--sh);
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+      }
+      .nav-btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0 var(--bk);
+      }
+      .nav-btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0 var(--bk);
+      }
+
+      /* ── LANGUAGE SWITCH ── */
+      .lang-switch {
+        position: relative;
+      }
+      .lang-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: transparent;
+        border: 2px solid var(--bk);
+        border-radius: 100px;
+        padding: 6px 12px;
+        font-family: "Fredoka", sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--bk);
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+      }
+      .lang-btn:hover {
+        background: var(--bk);
+        color: var(--y);
+      }
+      .lang-caret {
+        font-size: 0.7rem;
+        line-height: 1;
+        transition: transform 0.2s;
+      }
+      .lang-btn[aria-expanded="true"] .lang-caret {
+        transform: rotate(180deg);
+      }
+      .lang-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        list-style: none;
+        margin: 0;
+        padding: 6px;
+        background: var(--cr);
+        border: var(--bd);
+        border-radius: 14px;
+        box-shadow: var(--sh);
+        z-index: 50;
+        min-width: 160px;
+      }
+      .lang-menu[hidden] {
+        display: none;
+      }
+      .lang-menu li {
+        list-style: none;
+      }
+      .lang-menu button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        background: transparent;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.9rem;
+        color: var(--bk);
+        cursor: pointer;
+      }
+      .lang-menu button:hover,
+      .lang-menu button[aria-current="true"] {
+        background: var(--y);
+      }
+
+            footer {
+        background: var(--y);
+        border-top: var(--bd);
+        padding-block: 24px;
+      }
+      footer .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+      .ft-logo {
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .ft-links {
+        display: flex;
+        gap: 24px;
+      }
+      .ft-links a {
+        font-size: 0.82rem;
+        color: var(--bk);
+        opacity: 0.55;
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+      .ft-links a:hover {
+        opacity: 1;
+      }
+      .ft-links .gh-star {
+        opacity: 0.85;
+        font-weight: 600;
+      }
+      footer p {
+        font-size: 0.75rem;
+        opacity: 0.35;
+      }
 .w{max-width:720px;margin:0 auto;padding:0 20px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:22px 0}
-.brand{font-family:Fredoka,sans-serif;font-weight:700;font-size:1.15rem;color:var(--bk);text-decoration:none}
-.top a.back{color:var(--bk);font-weight:600}
-.langs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.langs a{padding:3px 11px;border:var(--bd);border-radius:99px;background:var(--cr);color:var(--bk);text-decoration:none;font-size:.85rem}
-.langs a[aria-current]{background:var(--bk);color:var(--cr)}
-.eyebrow{font-weight:700;letter-spacing:.14em;font-size:.78rem;margin-top:22px}
+.eyebrow{font-weight:700;letter-spacing:.14em;font-size:.78rem;margin-top:34px}
 h1{font-family:Fredoka,sans-serif;font-size:clamp(2.2rem,7vw,3.2rem);line-height:1.1;margin:6px 0 10px}
 .lead{font-size:1.1rem;max-width:560px}.upd{font-size:.9rem;opacity:.75;margin-top:6px}
 .card{background:var(--cr);border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0}
 .card section+section{margin-top:22px;padding-top:20px;border-top:1.5px solid #ecdcae}
 h2{font-family:Fredoka,sans-serif;font-size:1.3rem;margin-bottom:8px}
-p{margin-bottom:10px}ul{padding-left:20px;margin-bottom:10px}li{margin-bottom:6px}
-a{color:var(--bl)}
+main p{line-height:1.65;margin-bottom:10px}main ul{padding-left:20px;margin-bottom:10px}main li{margin-bottom:6px;line-height:1.6}
+main a{color:var(--bl)}
 details{border-top:1.5px solid #ecdcae;padding:8px 0}details:first-of-type{border-top:0}
 summary{cursor:pointer;font-weight:700}details p{margin:8px 0 2px}
 .tip{display:flex;gap:12px;margin-bottom:10px}.tip i{font-style:normal;font-size:1.4rem}
-.help{background:var(--gn);color:#fff;border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0}
+.help{background:var(--gn);color:#fff;border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0 40px}
 .help a{color:#fff;font-weight:700}.help h2{color:#fff}
-footer{display:flex;gap:10px 20px;flex-wrap:wrap;justify-content:center;padding:6px 20px 40px;font-weight:600}
-footer a{color:var(--bk)}footer small{width:100%;text-align:center;font-weight:400;opacity:.75}</style></head><body><div class="w">
-<div class="top"><a class="brand" href="/">critterboard</a><a class="back" href="/">← Volver a critterboard.app</a></div>
-<div class="langs"><a href="/terms/" hreflang="en">English</a><a href="/terms/pl/" hreflang="pl">Polski</a><a href="/terms/de/" hreflang="de">Deutsch</a><a href="/terms/es/" hreflang="es" aria-current=page>Español</a></div>
-<p class="eyebrow">UN POCO DE ESPACIO PARA CAZAR</p><h1>Términos de uso.</h1><p class="lead">Estos términos se aplican a la app Critterboard y a su sitio web. Al usarlos aceptas hacerlo con responsabilidad y conforme a la ley.</p><p class="upd">Última actualización: 2 de octubre de 2026</p>
-<div class="card"><section><h2>Usar Critterboard</h2><p>Critterboard es gratuito para uso personal y no comercial. No intentes perturbar la app, sus servidores o su alojamiento, hacer trampas en el ranking ni usarla para dañar o acosar a otros.</p></section><section><h2>Las identificaciones son una estimación</h2><p>La app identifica insectos con un modelo en tu teléfono. Los resultados pueden ser erróneos. No te fíes de ellos para nada importante, como decidir si un insecto es seguro de tocar o si una planta o una casa están afectadas por una plaga. Mantén la distancia con insectos que pican o muerden, y respeta la propiedad privada y las zonas protegidas cuando salgas a buscar.</p></section><section><h2>Tu contenido y tu nombre</h2><p>El nombre visible que elijas y las capturas que publiques se muestran a otros jugadores cuando usas las funciones en línea. Elige un nombre que no sea ofensivo ni engañoso. Podemos eliminar nombres o restringir el acceso en línea por abuso. Eres responsable de cualquier archivo que exportes o compartas.</p></section><section><h2>Tus datos</h2><p>Tu colección se guarda en tu teléfono. Haz copias de lo que te importe; los datos locales pueden perderse si borras o desinstalas la app. Consulta la página de Privacidad para más detalles.</p></section><section><h2>Código abierto y fuentes de datos</h2><p>El código de la app es de código abierto con licencia MIT. Los modelos del dispositivo, los datos de especies y las fotos proceden de terceros con sus propias licencias, que aparecen en la app en Yo → Cerebro (créditos y bibliotecas de código abierto).</p></section><section><h2>La versión de App Store</h2><p>Salvo que la ficha de App Store incluya un acuerdo propio, la app para iOS se licencia bajo el contrato de licencia de usuario final estándar de Apple.</p></section><section><h2>Disponibilidad y cambios</h2><p>Podemos actualizar, pausar o retirar funciones, packs, el servicio en línea o estos términos a medida que avanza el proyecto. Seguir usando la app tras una actualización significa que aceptas los términos actualizados.</p></section><section><h2>Sin garantía</h2><p>La app se ofrece tal como está disponible. En la máxima medida que permita la ley, no garantizamos que esté siempre disponible, libre de errores o sea adecuada para un fin concreto, y no respondemos de pérdidas derivadas de su uso, incluidas las causadas por una identificación incorrecta.</p></section><section><h2>Preguntas</h2><p>Escribe a hello@critterboard.app con preguntas sobre estos términos o la app.</p></section></div>
-</div><footer><a href="/support/es/">Soporte</a><a href="/privacy/es/">Privacidad</a><a href="/terms/es/">Términos</a><small>Todo el procesamiento ocurre en tu dispositivo. © 2026 Critterboard · código abierto</small></footer></body></html>
+.lang-menu a{display:block;width:100%;text-align:left;border-radius:8px;padding:8px 12px;font-family:"DM Sans",sans-serif;font-size:.9rem;color:var(--bk);text-decoration:none}
+.lang-menu a:hover,.lang-menu a[aria-current="true"]{background:var(--y)}
+.ft-links{flex-wrap:wrap}
+@media (max-width:768px){nav .container{max-width:none}.mit{display:none}footer .container{flex-direction:column;align-items:flex-start;gap:10px}}
+</style></head><body>
+<nav><div class="container">
+<a href="/" class="logo"><div class="logo-icon">🪲</div>Critterboard</a>
+<div class="nav-r"><div class="lang-switch">
+<button class="lang-btn" id="lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Idioma"><span>ES</span><span class="lang-caret" aria-hidden="true">▾</span></button>
+<ul class="lang-menu" id="lang-menu" role="listbox" hidden><li><a href="/terms/" hreflang="en" data-lang="en">🇬🇧 English</a></li><li><a href="/terms/pl/" hreflang="pl" data-lang="pl">🇵🇱 Polski</a></li><li><a href="/terms/es/" hreflang="es" data-lang="es" aria-current=true>🇪🇸 Español</a></li><li><a href="/terms/de/" hreflang="de" data-lang="de">🇩🇪 Deutsch</a></li></ul></div>
+<a href="https://github.com/krzysztofradomski/critterboard" target="_blank" rel="noopener" class="mit">Código abierto (MIT)</a></div>
+</div></nav>
+<main class="w"><p class="eyebrow">UN POCO DE ESPACIO PARA CAZAR</p><h1>Términos de uso.</h1><p class="lead">Estos términos se aplican a la app Critterboard y a su sitio web. Al usarlos aceptas hacerlo con responsabilidad y conforme a la ley.</p><p class="upd">Última actualización: 2 de octubre de 2026</p>
+<div class="card"><section><h2>Usar Critterboard</h2><p>Critterboard es gratuito para uso personal y no comercial. No intentes perturbar la app, sus servidores o su alojamiento, hacer trampas en el ranking ni usarla para dañar o acosar a otros.</p></section><section><h2>Las identificaciones son una estimación</h2><p>La app identifica insectos con un modelo en tu teléfono. Los resultados pueden ser erróneos. No te fíes de ellos para nada importante, como decidir si un insecto es seguro de tocar o si una planta o una casa están afectadas por una plaga. Mantén la distancia con insectos que pican o muerden, y respeta la propiedad privada y las zonas protegidas cuando salgas a buscar.</p></section><section><h2>Tu contenido y tu nombre</h2><p>El nombre visible que elijas y las capturas que publiques se muestran a otros jugadores cuando usas las funciones en línea. Elige un nombre que no sea ofensivo ni engañoso. Podemos eliminar nombres o restringir el acceso en línea por abuso. Eres responsable de cualquier archivo que exportes o compartas.</p></section><section><h2>Tus datos</h2><p>Tu colección se guarda en tu teléfono. Haz copias de lo que te importe; los datos locales pueden perderse si borras o desinstalas la app. Consulta la página de Privacidad para más detalles.</p></section><section><h2>Código abierto y fuentes de datos</h2><p>El código de la app es de código abierto con licencia MIT. Los modelos del dispositivo, los datos de especies y las fotos proceden de terceros con sus propias licencias, que aparecen en la app en Yo → Cerebro (créditos y bibliotecas de código abierto).</p></section><section><h2>La versión de App Store</h2><p>Salvo que la ficha de App Store incluya un acuerdo propio, la app para iOS se licencia bajo el contrato de licencia de usuario final estándar de Apple.</p></section><section><h2>Disponibilidad y cambios</h2><p>Podemos actualizar, pausar o retirar funciones, packs, el servicio en línea o estos términos a medida que avanza el proyecto. Seguir usando la app tras una actualización significa que aceptas los términos actualizados.</p></section><section><h2>Sin garantía</h2><p>La app se ofrece tal como está disponible. En la máxima medida que permita la ley, no garantizamos que esté siempre disponible, libre de errores o sea adecuada para un fin concreto, y no respondemos de pérdidas derivadas de su uso, incluidas las causadas por una identificación incorrecta.</p></section><section><h2>Preguntas</h2><p>Escribe a hello@critterboard.app con preguntas sobre estos términos o la app.</p></section></div></main>
+<footer><div class="container">
+<div class="ft-logo">🪲 Critterboard</div>
+<p>Gratis · Código abierto (MIT) · Muy pronto</p>
+<div class="ft-links"><a href="https://github.com/krzysztofradomski/critterboard" target="_blank" rel="noopener" class="gh-star">★ Danos una estrella en GitHub</a><a href="mailto:hello@critterboard.app">Contacto</a><a href="/support/es/">Soporte</a><a href="/privacy/es/">Privacidad</a><a href="/terms/es/">Términos</a></div>
+</div></footer>
+<script>
+(function(){var b=document.getElementById('lang-btn'),m=document.getElementById('lang-menu');
+function c(){m.hidden=true;b.setAttribute('aria-expanded','false')}
+b.addEventListener('click',function(e){e.stopPropagation();var o=m.hidden;m.hidden=!o;b.setAttribute('aria-expanded',String(o))});
+document.addEventListener('click',function(e){if(!m.hidden&&!e.target.closest('.lang-switch'))c()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')c()});
+m.addEventListener('click',function(e){var a=e.target.closest('[data-lang]');if(a)try{localStorage.setItem('cb-lang',a.dataset.lang)}catch(_){}});
+try{localStorage.setItem('cb-lang',document.documentElement.lang)}catch(_){}})();
+</script></body></html>
