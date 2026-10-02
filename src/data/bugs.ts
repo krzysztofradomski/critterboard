@@ -19,6 +19,19 @@ export type Bug = {
   traits: BugTrait[];
   /** Vernacular names per UI language, for pack species without bundled strings (tools/names/). */
   names?: Partial<Record<"pl" | "de" | "es", string>>;
+  /**
+   * Educational facts for pack species (tools/facts/): order, family, typical habitat and diet
+   * keys, size in mm (k: length or wingspan) and GBIF regions where it is recorded.
+   */
+  facts?: {
+    o?: string;
+    fa?: string;
+    h?: string;
+    d?: string;
+    sz?: [number, number];
+    k?: "l" | "w";
+    r?: string[];
+  };
 };
 
 /** 20 Central European species. IDs mirror src/ai/classMap.ts. */

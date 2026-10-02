@@ -89,7 +89,8 @@
       "addToDex": "Dodaj do Dexa 📔",
       "askCta": "ZAPYTAJ {name} →",
       "caughtToast": "Złapany! +{xp} XP · {tier}",
-      "tooUnsure": "Za mało pewne, by dodać (wymaga {min}%+). Zrób inne zdjęcie."
+      "tooUnsure": "Za mało pewne, by dodać (wymaga {min}%+). Zrób inne zdjęcie.",
+      "readMore": "Więcej na Wikipedii ↗"
     },
     "facts": {
       "habitat": "Siedlisko",
@@ -133,6 +134,54 @@
         "leaves": "Liście",
         "nighttime": "Noc",
         "nectar": "Nektar"
+      },
+      "family": "Rodzina",
+      "region": {
+        "EUROPE": "Europa",
+        "NORTH_AMERICA": "Ameryka Płn.",
+        "ASIA": "Azja",
+        "AFRICA": "Afryka",
+        "OCEANIA": "Oceania",
+        "LATIN_AMERICA": "Ameryka Łac."
+      },
+      "habitatOf": {
+        "flowery": "Łąki, ogrody, skraje lasów",
+        "water": "Stawy, jeziora, wolne strumienie",
+        "grassland": "Murawy i łąki",
+        "vegetation": "Krzewy, rośliny i ziemia",
+        "leaflitter": "Ściółka i gleba",
+        "dry_sunny": "Ciepłe, suche, słoneczne miejsca",
+        "crevices": "Wilgotne szczeliny, kora, budynki",
+        "damp_woods": "Wilgotne lasy i cienisty podszyt",
+        "deadwood": "Lasy i martwe drewno",
+        "ground": "Gleba, ściółka, pod kamieniami",
+        "plants": "Rośliny, krzewy i drzewa"
+      },
+      "dietOf": {
+        "lepi": "Gąsienice jedzą liście; dorosłe piją nektar",
+        "predator": "Poluje na inne owady",
+        "predator_flying": "Poluje na latające owady",
+        "aphid_eaters": "Głównie mszyce",
+        "sap": "Sok roślin",
+        "nectar_pollen": "Nektar i pyłek",
+        "wasp": "Owady, nektar i słodkie rzeczy",
+        "omnivore_ant": "Prawie wszystko: owady, spadź, nasiona",
+        "gall": "Larwy żyją w galasach roślin",
+        "parasitoid": "Larwy żywią się innymi owadami lub pająkami",
+        "leaves": "Liście i tkanki roślin",
+        "grass": "Trawy i liście",
+        "plants_insects": "Rośliny i drobne owady",
+        "wood": "Larwy jedzą drewno; dorosłe piją sok lub pyłek",
+        "beetle_mixed": "Odchody, rośliny, pyłek lub owoce, zależnie od gatunku",
+        "pollen": "Pyłek i płatki",
+        "detritus": "Gnijące resztki roślin i odpadki",
+        "spiders": "Łowi owady siecią lub z zasadzki",
+        "harvestman": "Drobne bezkręgowce i martwa materia",
+        "blood": "Krew zwierząt",
+        "hoverfly": "Nektar i pyłek; larwy często jedzą mszyce",
+        "nonfeeding": "Dorosłe prawie nie jedzą; larwy żyją w wodzie",
+        "scavenge": "Martwe owady i opadłe owoce",
+        "varied": "Zależy od gatunku"
       }
     },
     "disambiguate": {

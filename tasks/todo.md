@@ -640,3 +640,13 @@ Reported: seeded user data on a new install, fake people/leaderboard/credits, pa
 **E. Audit** — other hardcoded demo numbers/copy (e.g. "320 ms", "0.4 mi"), logic and UX issues found on the way
 
 **Verify**: typecheck, vitest, simulator walkthrough on a wiped install.
+
+## Device feedback round (Oct 2026)
+- [x] Scan: gallery button (drop pre-permission, `mediaTypes: ['images']`, toast on failure)
+- [x] Scan: guide hint card fades after 6 s instead of always showing
+- [x] Confidence floor (default 33%, Brains: 20/33/50/70) — below it nothing can reach the Dex
+- [x] Species facts: habitat, size/family, range, diet for pack species (tools/facts, docs/modules/species-facts.md) + Wikipedia link
+- [x] Result screen: dead ↗ removed
+- [x] Dex / Quests / Ranks: whole page scrolls under the floating menus, header as a card
+- [x] Level curve 300·(L−1)^1.7 (L2 ≈ three catches)
+- [ ] Verify on device: scan gallery on a real phone, layouts, pack v10 sync

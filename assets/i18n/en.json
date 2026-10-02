@@ -89,7 +89,8 @@
       "addToDex": "Add to Dex 📔",
       "askCta": "ASK {name} →",
       "caughtToast": "Caught! +{xp} XP · {tier}",
-      "tooUnsure": "Too unsure to add (needs {min}%+). Try another photo."
+      "tooUnsure": "Too unsure to add (needs {min}%+). Try another photo.",
+      "readMore": "Read more on Wikipedia ↗"
     },
     "facts": {
       "habitat": "Habitat",
@@ -133,6 +134,54 @@
         "leaves": "Leaves",
         "nighttime": "Nighttime",
         "nectar": "Nectar"
+      },
+      "family": "Family",
+      "region": {
+        "EUROPE": "Europe",
+        "NORTH_AMERICA": "N. America",
+        "ASIA": "Asia",
+        "AFRICA": "Africa",
+        "OCEANIA": "Oceania",
+        "LATIN_AMERICA": "Latin America"
+      },
+      "habitatOf": {
+        "flowery": "Meadows, gardens, woodland edges",
+        "water": "Ponds, lakes, slow streams",
+        "grassland": "Grassland and meadows",
+        "vegetation": "Shrubs, plants and ground",
+        "leaflitter": "Leaf litter and soil",
+        "dry_sunny": "Warm, dry, sunny places",
+        "crevices": "Damp crevices, bark, buildings",
+        "damp_woods": "Damp woods and shady undergrowth",
+        "deadwood": "Woodland and dead wood",
+        "ground": "Soil, leaf litter, under stones",
+        "plants": "Plants, shrubs and trees"
+      },
+      "dietOf": {
+        "lepi": "Caterpillars eat leaves; adults sip nectar",
+        "predator": "Hunts other insects",
+        "predator_flying": "Hunts flying insects",
+        "aphid_eaters": "Mostly aphids",
+        "sap": "Plant sap",
+        "nectar_pollen": "Nectar and pollen",
+        "wasp": "Insects, nectar and sweet things",
+        "omnivore_ant": "Almost anything: insects, honeydew, seeds",
+        "gall": "Larvae live inside plant galls",
+        "parasitoid": "Larvae feed on other insects or spiders",
+        "leaves": "Leaves and plant tissue",
+        "grass": "Grasses and leaves",
+        "plants_insects": "Plants and small insects",
+        "wood": "Larvae eat wood; adults sip sap or pollen",
+        "beetle_mixed": "Dung, plants, pollen or fruit, by species",
+        "pollen": "Pollen and petals",
+        "detritus": "Decaying plant matter and scraps",
+        "spiders": "Catches insects with a web or ambush",
+        "harvestman": "Small invertebrates and dead matter",
+        "blood": "Blood of animals",
+        "hoverfly": "Nectar and pollen; larvae often eat aphids",
+        "nonfeeding": "Adults barely feed; larvae live in water",
+        "scavenge": "Dead insects and fallen fruit",
+        "varied": "Varies by species"
       }
     },
     "disambiguate": {

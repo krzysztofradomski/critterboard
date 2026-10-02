@@ -1,6 +1,6 @@
 import * as Location from 'expo-location';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { BugIcon, useBugIconUri } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
@@ -8,6 +8,7 @@ import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { BUGS, findBug } from '@/data/bugs';
+import { factTiles, wikipediaUrl } from '@/data/speciesFacts';
 import { useT, useBugName } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
 import { usePersona } from '@/personas/hooks';
@@ -126,7 +127,11 @@ export function Result() {
   const alreadyCaught = dex.has(bug.id);
   // Only a fresh scan carries a model confidence; opening a bug from the Dex has none.
   const conf = params?.conf;
-  const facts = FACT_KEYS[bug.id] ?? DEFAULT_FACT_KEYS;
+  const language = useAppStore((s) => s.language);
+  // Hand-written facts for the bundled species; pack species carry data-driven ones.
+  const handFacts = FACT_KEYS[bug.id];
+  const packTiles = handFacts ? null : factTiles(bug, language, t);
+  const facts = handFacts ?? DEFAULT_FACT_KEYS;
 
   const snarkLine = bug.rarity === 'legendary'
     ? P.lines.legendary(localizedName)
@@ -269,13 +274,27 @@ export function Result() {
         </Sticker>
 
         <View style={styles.factGrid}>
-          {facts.map(([labelKey, valueKey, c]) => (
-            <View key={labelKey} style={styles.factTile}>
-              <Text style={[styles.factLabel, { color: c }]}>{t(labelKey).toUpperCase()}</Text>
-              <Text style={styles.factValue}>{t(valueKey)}</Text>
-            </View>
-          ))}
+          {packTiles
+            ? packTiles.map((tile) => (
+                <View key={tile.label} style={styles.factTile}>
+                  <Text style={[styles.factLabel, { color: tile.color }]}>{tile.label.toUpperCase()}</Text>
+                  <Text style={styles.factValueSmall}>{tile.value}</Text>
+                </View>
+              ))
+            : facts.map(([labelKey, valueKey, c]) => (
+                <View key={labelKey} style={styles.factTile}>
+                  <Text style={[styles.factLabel, { color: c }]}>{t(labelKey).toUpperCase()}</Text>
+                  <Text style={styles.factValue}>{t(valueKey)}</Text>
+                </View>
+              ))}
         </View>
+        <Pressable
+          onPress={() => void Linking.openURL(wikipediaUrl(bug, language))}
+          accessibilityRole="link"
+          style={styles.readMore}
+        >
+          <Text style={styles.readMoreText}>{t('result.readMore')}</Text>
+        </Pressable>
 
         <View style={{ marginTop: 14 }}>
           <Btn
@@ -367,4 +386,7 @@ const styles = StyleSheet.create({
   },
   factLabel: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5 },
   factValue: { fontSize: 16, fontWeight: '800', color: PB.ink, marginTop: 2 },
+  factValueSmall: { fontSize: 13, fontWeight: '800', color: PB.ink, marginTop: 3, lineHeight: 16 },
+  readMore: { marginTop: 12, alignSelf: 'center', paddingVertical: 6, paddingHorizontal: 12 },
+  readMoreText: { fontSize: 12, fontWeight: '800', color: PB.ink, textDecorationLine: 'underline' },
 });

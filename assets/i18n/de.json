@@ -89,7 +89,8 @@
       "addToDex": "Zum Dex hinzufügen 📔",
       "askCta": "FRAG {name} →",
       "caughtToast": "Gefangen! +{xp} XP · {tier}",
-      "tooUnsure": "Zu unsicher zum Hinzufügen (ab {min}%). Versuch ein anderes Foto."
+      "tooUnsure": "Zu unsicher zum Hinzufügen (ab {min}%). Versuch ein anderes Foto.",
+      "readMore": "Mehr auf Wikipedia ↗"
     },
     "facts": {
       "habitat": "Lebensraum",
@@ -133,6 +134,54 @@
         "leaves": "Blätter",
         "nighttime": "Nachts",
         "nectar": "Nektar"
+      },
+      "family": "Familie",
+      "region": {
+        "EUROPE": "Europa",
+        "NORTH_AMERICA": "Nordamerika",
+        "ASIA": "Asien",
+        "AFRICA": "Afrika",
+        "OCEANIA": "Ozeanien",
+        "LATIN_AMERICA": "Lateinamerika"
+      },
+      "habitatOf": {
+        "flowery": "Wiesen, Gärten, Waldränder",
+        "water": "Teiche, Seen, langsame Bäche",
+        "grassland": "Grasland und Wiesen",
+        "vegetation": "Sträucher, Pflanzen und Boden",
+        "leaflitter": "Laubstreu und Boden",
+        "dry_sunny": "Warme, trockene, sonnige Orte",
+        "crevices": "Feuchte Ritzen, Rinde, Gebäude",
+        "damp_woods": "Feuchte Wälder und schattiges Unterholz",
+        "deadwood": "Wälder und Totholz",
+        "ground": "Boden, Laubstreu, unter Steinen",
+        "plants": "Pflanzen, Sträucher und Bäume"
+      },
+      "dietOf": {
+        "lepi": "Raupen fressen Blätter; Falter trinken Nektar",
+        "predator": "Jagt andere Insekten",
+        "predator_flying": "Jagt fliegende Insekten",
+        "aphid_eaters": "Meist Blattläuse",
+        "sap": "Pflanzensaft",
+        "nectar_pollen": "Nektar und Pollen",
+        "wasp": "Insekten, Nektar und Süßes",
+        "omnivore_ant": "Fast alles: Insekten, Honigtau, Samen",
+        "gall": "Larven leben in Pflanzengallen",
+        "parasitoid": "Larven fressen andere Insekten oder Spinnen",
+        "leaves": "Blätter und Pflanzengewebe",
+        "grass": "Gräser und Blätter",
+        "plants_insects": "Pflanzen und kleine Insekten",
+        "wood": "Larven fressen Holz; Käfer trinken Saft oder Pollen",
+        "beetle_mixed": "Dung, Pflanzen, Pollen oder Obst, je nach Art",
+        "pollen": "Pollen und Blütenblätter",
+        "detritus": "Faulende Pflanzenreste und Abfälle",
+        "spiders": "Fängt Insekten mit Netz oder aus dem Hinterhalt",
+        "harvestman": "Kleine Wirbellose und Totes",
+        "blood": "Blut von Tieren",
+        "hoverfly": "Nektar und Pollen; Larven fressen oft Blattläuse",
+        "nonfeeding": "Erwachsene fressen kaum; Larven leben im Wasser",
+        "scavenge": "Tote Insekten und Fallobst",
+        "varied": "Je nach Art verschieden"
       }
     },
     "disambiguate": {

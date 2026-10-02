@@ -89,7 +89,8 @@
       "addToDex": "Añadir al Dex 📔",
       "askCta": "PREGUNTA A {name} →",
       "caughtToast": "¡Capturado! +{xp} XP · {tier}",
-      "tooUnsure": "Demasiado dudoso para añadir (mínimo {min}%). Prueba otra foto."
+      "tooUnsure": "Demasiado dudoso para añadir (mínimo {min}%). Prueba otra foto.",
+      "readMore": "Más en Wikipedia ↗"
     },
     "facts": {
       "habitat": "Hábitat",
@@ -133,6 +134,54 @@
         "leaves": "Hojas",
         "nighttime": "Nocturno",
         "nectar": "Néctar"
+      },
+      "family": "Familia",
+      "region": {
+        "EUROPE": "Europa",
+        "NORTH_AMERICA": "Norteamérica",
+        "ASIA": "Asia",
+        "AFRICA": "África",
+        "OCEANIA": "Oceanía",
+        "LATIN_AMERICA": "Latinoamérica"
+      },
+      "habitatOf": {
+        "flowery": "Prados, jardines, bordes de bosque",
+        "water": "Estanques, lagos, arroyos lentos",
+        "grassland": "Pastizales y praderas",
+        "vegetation": "Arbustos, plantas y suelo",
+        "leaflitter": "Hojarasca y suelo",
+        "dry_sunny": "Lugares cálidos, secos y soleados",
+        "crevices": "Grietas húmedas, corteza, edificios",
+        "damp_woods": "Bosques húmedos y sotobosque sombrío",
+        "deadwood": "Bosques y madera muerta",
+        "ground": "Suelo, hojarasca, bajo piedras",
+        "plants": "Plantas, arbustos y árboles"
+      },
+      "dietOf": {
+        "lepi": "Las orugas comen hojas; los adultos, néctar",
+        "predator": "Caza otros insectos",
+        "predator_flying": "Caza insectos voladores",
+        "aphid_eaters": "Sobre todo pulgones",
+        "sap": "Savia de plantas",
+        "nectar_pollen": "Néctar y polen",
+        "wasp": "Insectos, néctar y cosas dulces",
+        "omnivore_ant": "Casi todo: insectos, melaza, semillas",
+        "gall": "Las larvas viven en agallas de plantas",
+        "parasitoid": "Las larvas se alimentan de otros insectos o arañas",
+        "leaves": "Hojas y tejido vegetal",
+        "grass": "Hierbas y hojas",
+        "plants_insects": "Plantas e insectos pequeños",
+        "wood": "Las larvas comen madera; los adultos, savia o polen",
+        "beetle_mixed": "Estiércol, plantas, polen o fruta, según la especie",
+        "pollen": "Polen y pétalos",
+        "detritus": "Restos vegetales en descomposición",
+        "spiders": "Atrapa insectos con tela o al acecho",
+        "harvestman": "Pequeños invertebrados y materia muerta",
+        "blood": "Sangre de animales",
+        "hoverfly": "Néctar y polen; las larvas suelen comer pulgones",
+        "nonfeeding": "Los adultos casi no comen; las larvas viven en el agua",
+        "scavenge": "Insectos muertos y fruta caída",
+        "varied": "Varía según la especie"
       }
     },
     "disambiguate": {
