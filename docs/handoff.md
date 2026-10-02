@@ -118,6 +118,8 @@ pnpm ios:sim
 
 ## 5. Cloudflare backend
 
+> **Deployed 2026-10-02** to `https://critterboard-api.stronginarm.workers.dev` (D1 `critterboard`, KV `LEADERBOARD`, `JWT_SECRET` set, Durable Object on SQLite). Smoke-tested live: auth, profile, follow, catch, leaderboard, friends, feed. The URL is baked into every EAS profile via `EXPO_PUBLIC_BACKEND_URL`. The rest of this section is how it was provisioned.
+
 The code is ready; the account resources aren't. From `worker/`:
 
 ```bash

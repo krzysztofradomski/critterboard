@@ -13,6 +13,9 @@
       },
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_BACKEND_URL": "https://critterboard-api.stronginarm.workers.dev"
       }
     },
     "development-device": {
@@ -24,6 +27,9 @@
       },
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_BACKEND_URL": "https://critterboard-api.stronginarm.workers.dev"
       }
     },
     "preview": {
@@ -34,6 +40,9 @@
       },
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_BACKEND_URL": "https://critterboard-api.stronginarm.workers.dev"
       }
     },
     "production": {
@@ -44,6 +53,9 @@
       },
       "android": {
         "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_BACKEND_URL": "https://critterboard-api.stronginarm.workers.dev"
       }
     }
   },
