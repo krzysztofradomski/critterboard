@@ -222,7 +222,7 @@ export function Activity() {
           <Text style={styles.title}>{t('activity.title')}</Text>
           <Text style={styles.sub}>{t('activity.sub', { n: activityLog.length })}</Text>
         </View>
-        <IconBtn fs={14}>✓</IconBtn>
+        <View style={{ width: 38 }} />
       </View>
 
       <View style={styles.tabs}>

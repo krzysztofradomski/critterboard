@@ -122,7 +122,8 @@ export type ActivityEntry =
   | { id: string; kind: 'persona'; at: number; personaId: PersonaId }
   | { id: string; kind: 'streak';  at: number; days: number };
 
-const ACTIVITY_CAP = 50;
+const ACTIVITY_CAP = 30;
+const ACTIVITY_MAX_AGE_MS = 30 * 24 * 3600 * 1000;
 const MEMORY_CAP = 1200;
 const STREAK_MILESTONES: ReadonlySet<number> = new Set([3, 7, 14, 30]);
 
@@ -326,9 +327,25 @@ function newActivityId(at: number): string {
   return `${at}-${activityCounter}`;
 }
 
+/**
+ * Keep the Buzz feed short: newest first, nothing older than 30 days, at most ACTIVITY_CAP entries,
+ * and only the latest "switched guide" (that is a state, not a history worth listing).
+ */
+export function pruneActivity(log: ActivityEntry[], now = Date.now()): ActivityEntry[] {
+  let seenPersona = false;
+  const kept = log.filter((e) => {
+    if (now - e.at > ACTIVITY_MAX_AGE_MS) return false;
+    if (e.kind === 'persona') {
+      if (seenPersona) return false;
+      seenPersona = true;
+    }
+    return true;
+  });
+  return kept.length > ACTIVITY_CAP ? kept.slice(0, ACTIVITY_CAP) : kept;
+}
+
 function prependActivity(log: ActivityEntry[], entry: ActivityEntry): ActivityEntry[] {
-  const next = [entry, ...log];
-  return next.length > ACTIVITY_CAP ? next.slice(0, ACTIVITY_CAP) : next;
+  return pruneActivity([entry, ...log]);
 }
 
 // ──────────────────────────────────────────────────────────────────────────
@@ -414,7 +431,7 @@ const wireStorage: PersistStorage<Persisted> = {
         ),
         hasOnboarded: Boolean(wrapped.state.hasOnboarded),
         catchLog: wrapped.state.catchLog ?? [],
-        activityLog: wrapped.state.activityLog ?? [],
+        activityLog: pruneActivity(wrapped.state.activityLog ?? []),
         mapLocation: wrapped.state.mapLocation ?? null,
         questProgress: { ...initialQuestProgress(), ...(wrapped.state.questProgress ?? {}) },
         questCompletedAt: wrapped.state.questCompletedAt ?? {},

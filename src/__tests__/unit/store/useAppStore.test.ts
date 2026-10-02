@@ -6,7 +6,7 @@ vi.mock('zustand/middleware', async (importOriginal) => {
   return { ...mod, persist: (fn: unknown) => fn };
 });
 
-import { useAppStore } from '@/store/useAppStore';
+import { pruneActivity, useAppStore } from '@/store/useAppStore';
 
 const BASE_STATE = {
   stack: [{ name: 'home' as const, params: undefined }],
@@ -447,5 +447,24 @@ describe('backend secret', () => {
     expect(s.backendUserId).not.toBe('old-id');
     expect(s.backendSecret).not.toBe('a'.repeat(64));
     expect(s.backendSecret).toMatch(/^[0-9a-f]{64}$/);
+  });
+});
+
+describe('pruneActivity', () => {
+  const now = 100 * 24 * 3600 * 1000;
+  const catchAt = (i: number, at: number) => ({ id: `c${i}`, kind: 'catch' as const, at, bugId: 'lady' });
+
+  it('keeps only the newest guide switch, drops entries older than 30 days and caps the list', () => {
+    const log = [
+      { id: 'p1', kind: 'persona' as const, at: now - 1000, personaId: 'larva' as const },
+      { id: 'p2', kind: 'persona' as const, at: now - 2000, personaId: 'snail' as const },
+      ...Array.from({ length: 40 }, (_, i) => catchAt(i, now - 10_000 - i)),
+      catchAt(99, now - 31 * 24 * 3600 * 1000),
+    ];
+    const out = pruneActivity(log, now);
+    expect(out.filter((e) => e.kind === 'persona')).toHaveLength(1);
+    expect(out.find((e) => e.id === 'p1')).toBeDefined();
+    expect(out.find((e) => e.id === 'c99')).toBeUndefined();
+    expect(out).toHaveLength(30);
   });
 });
