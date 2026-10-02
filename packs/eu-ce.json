@@ -1,6 +1,6 @@
 {
   "id": "eu-ce",
-  "version": 7,
+  "version": 8,
   "mapUrl": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/maps/europe.pmtiles",
   "mapVersion": 1,
   "modelUrl": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/models/eu-1k-commercial-v1.pte",
@@ -56,6 +56,7 @@
       ],
       "names": {
         "de": "Westliche Honigbiene",
+        "es": "Abeja doméstica europea",
         "pl": "Pszczoła miodna"
       }
     },
@@ -74,6 +75,7 @@
       ],
       "names": {
         "de": "Waldbrettspiel",
+        "es": "Maculada",
         "pl": "Osadnik egeria"
       }
     },
@@ -130,6 +132,7 @@
       ],
       "names": {
         "de": "Großes Ochsenauge",
+        "es": "Loba",
         "pl": "Przestrojnik jurtina"
       }
     },
@@ -147,6 +150,7 @@
       ],
       "names": {
         "de": "Gemeine Feuerwanze",
+        "es": "Chinche de la malva arbórea",
         "pl": "Kowal bezskrzydły"
       }
     },
@@ -165,6 +169,7 @@
       ],
       "names": {
         "de": "Hauhechel-Bläuling",
+        "es": "Ícaro",
         "pl": "Modraszek ikar"
       }
     },
@@ -182,6 +187,7 @@
       ],
       "names": {
         "de": "Ackerhummel",
+        "es": "Abejorro de campo",
         "pl": "Trzmiel rudy"
       }
     },
@@ -200,6 +206,7 @@
       ],
       "names": {
         "de": "Distelfalter",
+        "es": "Cardera",
         "pl": "Rusałka osetnik"
       }
     },
@@ -233,6 +240,7 @@
       ],
       "names": {
         "de": "Kleiner Fuchs",
+        "es": "Ortiguera",
         "pl": "Rusałka pokrzywnik"
       }
     },
@@ -251,6 +259,7 @@
       ],
       "names": {
         "de": "C-Falter",
+        "es": "Mariposa c-blanca",
         "pl": "Rusałka ceik"
       }
     },
@@ -269,6 +278,7 @@
       ],
       "names": {
         "de": "Rapsweißling",
+        "es": "Blanca verdinervada",
         "pl": "Bielinek bytomkowiec"
       }
     },
@@ -286,6 +296,7 @@
       ],
       "names": {
         "de": "Hainschwebfliege",
+        "es": "Mosca cernidora",
         "pl": "Bzyg prążkowany"
       }
     },
@@ -320,6 +331,7 @@
       ],
       "names": {
         "de": "Mistbiene",
+        "es": "Mosca abeja",
         "pl": "Gnojka wytrwała"
       }
     },
@@ -338,6 +350,7 @@
       ],
       "names": {
         "de": "Kleiner Feuerfalter",
+        "es": "Manto común",
         "pl": "Czerwończyk żarek"
       }
     },
@@ -355,6 +368,7 @@
       ],
       "names": {
         "de": "Streifenwanze",
+        "es": "Chinche rojinegra europea",
         "pl": "Strojnica włoska"
       }
     },
@@ -370,6 +384,7 @@
       "traits": [],
       "names": {
         "de": "Hausmutter",
+        "es": "Noctuido de la acedera",
         "pl": "Rolnica tasiemka"
       }
     },
@@ -388,6 +403,7 @@
       ],
       "names": {
         "de": "Kleines Wiesenvögelchen",
+        "es": "Ocelada común",
         "pl": "Strzępotek ruczajnik"
       }
     },
@@ -403,6 +419,7 @@
       "traits": [],
       "names": {
         "de": "Listspinne",
+        "es": "Araña ladrona",
         "pl": "Darownik przedziwny"
       }
     },
@@ -421,6 +438,7 @@
       ],
       "names": {
         "de": "Kaisermantel",
+        "es": "Nacarada",
         "pl": "Perłowiec malinowiec"
       }
     },
@@ -439,6 +457,7 @@
       ],
       "names": {
         "de": "Kleiner Kohlweißling",
+        "es": "Blanquilla de la col",
         "pl": "Bielinek rzepnik"
       }
     },
@@ -456,6 +475,7 @@
       ],
       "names": {
         "de": "Große Pechlibelle",
+        "es": "Agrion elegante",
         "pl": "Tężnica wytworna"
       }
     },
@@ -527,6 +547,7 @@
       ],
       "names": {
         "de": "Zitronenfalter",
+        "es": "Limonera",
         "pl": "Listkowiec cytrynek"
       }
     },
@@ -542,6 +563,7 @@
       "traits": [],
       "names": {
         "de": "Gammaeule",
+        "es": "Plusia gamma",
         "pl": "Błyszczka jarzynówka"
       }
     },
@@ -559,6 +581,7 @@
       ],
       "names": {
         "de": "Roter Weichkäfer",
+        "es": "Coracero",
         "pl": "Zmięk żółty"
       }
     },
@@ -589,6 +612,7 @@
       "traits": [],
       "names": {
         "de": "Grünes Heupferd",
+        "es": "Saltamontes verde común europeo",
         "pl": "Pasikonik zielony"
       }
     },
@@ -607,6 +631,7 @@
       ],
       "names": {
         "de": "Schachbrettfalter",
+        "es": "Medioluto norteña",
         "pl": "Polowiec szachownica"
       }
     },
@@ -625,6 +650,7 @@
       ],
       "names": {
         "de": "Schwalbenschwanz",
+        "es": "Makaon",
         "pl": "Paź królowej"
       }
     },
@@ -640,6 +666,7 @@
       "traits": [],
       "names": {
         "de": "Große Heidelibelle",
+        "es": "Libélula estriada",
         "pl": "Szablak podobny"
       }
     },
@@ -657,6 +684,7 @@
       ],
       "names": {
         "de": "Hufeisen-Azurjungfer",
+        "es": "Agrion doncella",
         "pl": "Łątka dzieweczka"
       }
     },
@@ -672,6 +700,7 @@
       "traits": [],
       "names": {
         "de": "Wespenspinne",
+        "es": "Araña tigre",
         "pl": "Tygrzyk paskowany"
       }
     },
@@ -689,6 +718,7 @@
       ],
       "names": {
         "de": "Hirschkäfer",
+        "es": "Ciervo volante",
         "pl": "Jelonek rogacz"
       }
     },
@@ -707,6 +737,7 @@
       ],
       "names": {
         "de": "Rostfarbiger Dickkopffalter",
+        "es": "Dorada difusa",
         "pl": "Karłątek kniejnik"
       }
     },
@@ -722,6 +753,7 @@
       "traits": [],
       "names": {
         "de": "Großer Blaupfeil",
+        "es": "Libélula centinela",
         "pl": "Lecicha pospolita"
       }
     },
@@ -740,6 +772,7 @@
       ],
       "names": {
         "de": "Faulbaum-Bläuling",
+        "es": "Náyade",
         "pl": "Modraszek wieszczek"
       }
     },
@@ -757,6 +790,7 @@
       ],
       "names": {
         "de": "Beerenwanze",
+        "es": "Chinche de la fresa",
         "pl": "Plusknia jagodziak"
       }
     },
@@ -774,6 +808,7 @@
       ],
       "names": {
         "de": "Rotbeinige Baumwanze",
+        "es": "Chinche de bosque",
         "pl": "Tarczówka rudonoga"
       }
     },
@@ -791,7 +826,9 @@
         "pollinator"
       ],
       "names": {
-        "de": "Rotbraunes Ochsenauge"
+        "de": "Rotbraunes Ochsenauge",
+        "es": "Lobito agreste",
+        "pl": "Przestrojnik titonus"
       }
     },
     {
@@ -809,6 +846,7 @@
       ],
       "names": {
         "de": "Brauner Waldvogel",
+        "es": "Sortijitas",
         "pl": "Przestrojnik trawnik"
       }
     },
@@ -826,6 +864,7 @@
       ],
       "names": {
         "de": "Blaue Federlibelle",
+        "es": "Caballito celeste",
         "pl": "Pióronóg zwykły"
       }
     },
@@ -858,6 +897,7 @@
       ],
       "names": {
         "de": "Balkenschröter",
+        "es": "Ciervo volante menor",
         "pl": "Ciołek matowy"
       }
     },
@@ -876,6 +916,7 @@
       ],
       "names": {
         "de": "Großer Kohlweißling",
+        "es": "Blanca de la col",
         "pl": "Bielinek kapustnik"
       }
     },
@@ -893,6 +934,7 @@
       ],
       "names": {
         "de": "Hornisse",
+        "es": "Avispón europeo",
         "pl": "Szerszeń europejski"
       }
     },
@@ -910,6 +952,7 @@
       ],
       "names": {
         "de": "Waldmistkäfer",
+        "es": "Escarabajo pelotero zumbador",
         "pl": "Żuk leśny"
       }
     },
@@ -925,6 +968,7 @@
       "traits": [],
       "names": {
         "de": "Blutrote Heidelibelle",
+        "es": "Libélula sanguínea",
         "pl": "Szablak krwisty"
       }
     },
@@ -943,6 +987,7 @@
       ],
       "names": {
         "de": "Mauerfuchs",
+        "es": "Saltacercas",
         "pl": "Osadnik megera"
       }
     },
@@ -960,6 +1005,7 @@
       ],
       "names": {
         "de": "Gebänderte Prachtlibelle",
+        "es": "Gaitero listado",
         "pl": "Świtezianka błyszcząca"
       }
     },
@@ -975,6 +1021,7 @@
       "traits": [],
       "names": {
         "de": "Russischer Bär",
+        "es": "Calimorfa",
         "pl": "Krasopani hera"
       }
     },
@@ -992,6 +1039,7 @@
       ],
       "names": {
         "de": "Gemeine Becherjungfer",
+        "es": "Agrion enallagma",
         "pl": "Nimfa stawowa"
       }
     },
@@ -1009,6 +1057,7 @@
       ],
       "names": {
         "de": "Marmorierte Baumwanze",
+        "es": "Chinche marmolada asiática",
         "pl": "Tarczówka marmurkowata"
       }
     },
@@ -1025,7 +1074,8 @@
         "bug"
       ],
       "names": {
-        "de": "Grüne Reiswanze"
+        "de": "Grüne Reiswanze",
+        "es": "Chinche verde"
       }
     },
     {
@@ -1040,6 +1090,7 @@
       "traits": [],
       "names": {
         "de": "Veränderliche Krabbenspinne",
+        "es": "Araña camuflada de las flores",
         "pl": "Kwietnik"
       }
     },
@@ -1056,7 +1107,9 @@
         "beetle"
       ],
       "names": {
-        "de": "Grüner Scheinbockkäfer"
+        "de": "Grüner Scheinbockkäfer",
+        "es": "Escarabajo metálico de fémur grueso",
+        "pl": "Zalęszczyca lśniąca"
       }
     },
     {
@@ -1070,7 +1123,9 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Rauten-Rindenspanner"
+        "de": "Rauten-Rindenspanner",
+        "es": "Oruga romboidal",
+        "pl": "Przylepek kruszyniak"
       }
     },
     {
@@ -1105,6 +1160,7 @@
       ],
       "names": {
         "de": "Aurorafalter",
+        "es": "Aurora blanca",
         "pl": "Zorzynek rzeżuchowiec"
       }
     },
@@ -1123,6 +1179,7 @@
       ],
       "names": {
         "de": "Landkärtchen",
+        "es": "Levana",
         "pl": "Rusałka kratkowiec"
       }
     },
@@ -1155,6 +1212,7 @@
       ],
       "names": {
         "de": "Blauflügel-Prachtlibelle",
+        "es": "Damisela añil",
         "pl": "Świtezianka dziewica"
       }
     },
@@ -1184,7 +1242,9 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Buchsbaumzünsler"
+        "de": "Buchsbaumzünsler",
+        "es": "Oruga del boj",
+        "pl": "Ćma bukszpanowa"
       }
     },
     {
@@ -1200,7 +1260,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Gemeine Keilfleckschwebfliege"
+        "de": "Gemeine Keilfleckschwebfliege",
+        "pl": "Gnojka postawna"
       }
     },
     {
@@ -1216,7 +1277,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Totenkopfschwebfliege"
+        "de": "Totenkopfschwebfliege",
+        "pl": "Kwiatówka zmierzchnicowata"
       }
     },
     {
@@ -1230,7 +1292,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Breitgebänderter Staudenspanner"
+        "de": "Breitgebänderter Staudenspanner",
+        "pl": "Krocznik odwrotnik"
       }
     },
     {
@@ -1248,6 +1311,7 @@
       ],
       "names": {
         "de": "Kleiner Perlmuttfalter",
+        "es": "Sofía",
         "pl": "Dostojka latonia"
       }
     },
@@ -1262,7 +1326,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Ockergelber Blattspanner"
+        "de": "Ockergelber Blattspanner",
+        "pl": "Paśnik goździeniak"
       }
     },
     {
@@ -1280,6 +1345,7 @@
       ],
       "names": {
         "de": "Segelfalter",
+        "es": "Podalirio",
         "pl": "Paź żeglarz"
       }
     },
@@ -1312,6 +1378,7 @@
       ],
       "names": {
         "de": "Zweiundzwanzigpunkt-Marienkäfer",
+        "es": "Mariquita de veintidós puntos",
         "pl": "Biedronka mączniakówka"
       }
     },
@@ -1329,6 +1396,7 @@
       ],
       "names": {
         "de": "Frühe Adonislibelle",
+        "es": "Caballito de fuego",
         "pl": "Łunica czerwona"
       }
     },
@@ -1344,6 +1412,7 @@
       "traits": [],
       "names": {
         "de": "Brombeerspinner",
+        "es": "Polilla de la zarzamora",
         "pl": "Barczatka malinówka"
       }
     },
@@ -1361,6 +1430,8 @@
         "pollinator"
       ],
       "names": {
+        "de": "Postillon",
+        "es": "Colias común",
         "pl": "Szlaczkoń sylwetnik"
       }
     },
@@ -1377,7 +1448,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Gemeine Sumpfschwebfliege"
+        "de": "Gemeine Sumpfschwebfliege",
+        "pl": "Gniłun naliściak"
       }
     },
     {
@@ -1389,7 +1461,11 @@
       "tier": "★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Heidekraut-Spanner",
+        "pl": "Poproch pylinkowiak"
+      }
     },
     {
       "id": "bombus-pratorum",
@@ -1450,7 +1526,12 @@
       "tier": "★★",
       "emoji": "🦗",
       "color": "#6aa040",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Gemeiner Grashüpfer",
+        "es": "Saltamontes de los prados",
+        "pl": "Konik wąsacz"
+      }
     },
     {
       "id": "anacridium-aegyptium",
@@ -1464,6 +1545,7 @@
       "traits": [],
       "names": {
         "de": "Ägyptische Wanderheuschrecke",
+        "es": "Langosta egipcia",
         "pl": "Szarańcza egipska"
       }
     },
@@ -1496,6 +1578,7 @@
       ],
       "names": {
         "de": "Steinhummel",
+        "es": "Abejorro de cola roja",
         "pl": "Trzmiel kamiennik"
       }
     },
@@ -1530,6 +1613,7 @@
       ],
       "names": {
         "de": "Amerikanische Kiefernwanze",
+        "es": "Chinche americana del pino",
         "pl": "Wtyk amerykański"
       }
     },
@@ -1545,6 +1629,7 @@
       "traits": [],
       "names": {
         "de": "Blaugrüne Mosaikjungfer",
+        "es": "Esna de bosques",
         "pl": "Żagnica sina"
       }
     },
@@ -1560,6 +1645,7 @@
       "traits": [],
       "names": {
         "de": "Feuerlibelle",
+        "es": "Vigilante escarlata",
         "pl": "Szafranka czerwona"
       }
     },
@@ -1591,6 +1677,7 @@
         "bug"
       ],
       "names": {
+        "de": "Blutzikade",
         "pl": "Krasanka natrawka"
       }
     },
@@ -1606,6 +1693,7 @@
       "traits": [],
       "names": {
         "de": "Rotgebänderter Blütenspanner",
+        "es": "Mariposa de doble banda",
         "pl": "Grotniczek rudopasek"
       }
     },
@@ -1655,6 +1743,7 @@
       "traits": [],
       "names": {
         "de": "Frühe Heidelibelle",
+        "es": "Libélula de fonscolombe",
         "pl": "Szablak wędrowny"
       }
     },
@@ -1671,7 +1760,9 @@
         "pollinator"
       ],
       "names": {
-        "de": "Gewöhnliche Langbauchschwebfliege"
+        "de": "Gewöhnliche Langbauchschwebfliege",
+        "es": "Mosca plumón",
+        "pl": "Kuliboda"
       }
     },
     {
@@ -1686,6 +1777,7 @@
       "traits": [],
       "names": {
         "de": "Blauflügelige Ödlandschrecke",
+        "es": "Saltamontes de alas azules",
         "pl": "Siwoszek błękitny"
       }
     },
@@ -1701,6 +1793,7 @@
       "traits": [],
       "names": {
         "de": "Vierfleck",
+        "es": "Libélula de 4 manchas",
         "pl": "Ważka czteroplama"
       }
     },
@@ -1716,6 +1809,7 @@
       "traits": [],
       "names": {
         "de": "Eichenspinner",
+        "es": "Bómbix del roble",
         "pl": "Barczatka dębówka"
       }
     },
@@ -1746,6 +1840,7 @@
       "traits": [],
       "names": {
         "de": "Punktierte Zartschrecke",
+        "es": "Saltamontes verde punteado",
         "pl": "Wątlik charłaj"
       }
     },
@@ -1762,7 +1857,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Hornissenschwebfliege"
+        "de": "Hornissenschwebfliege",
+        "pl": "Trzmielówka wielka"
       }
     },
     {
@@ -1792,6 +1888,7 @@
       "traits": [],
       "names": {
         "de": "Sechsfleck-Widderchen",
+        "es": "Gitanilla de collar blanco",
         "pl": "Kraśnik sześcioplamek"
       }
     },
@@ -1821,7 +1918,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Rispengraszünsler"
+        "de": "Rispengraszünsler",
+        "pl": "Wachlarzyk ździeblaczek"
       }
     },
     {
@@ -1836,6 +1934,7 @@
       "traits": [],
       "names": {
         "de": "Plattbauch",
+        "es": "Libélula plana",
         "pl": "Ważka płaskobrzucha"
       }
     },
@@ -1866,6 +1965,7 @@
       "traits": [],
       "names": {
         "de": "Schwammspinner",
+        "es": "Lagarta peluda del los encinares",
         "pl": "Brudnica nieparka"
       }
     },
@@ -1880,7 +1980,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Graubinden-Labkrautspanner"
+        "de": "Graubinden-Labkrautspanner",
+        "pl": "Paśnik zmiennik"
       }
     },
     {
@@ -1914,6 +2015,7 @@
       ],
       "names": {
         "de": "Graue Gartenwanze",
+        "es": "Chinche hedionda gris",
         "pl": "Dzidosz mglisty"
       }
     },
@@ -1963,6 +2065,7 @@
       ],
       "names": {
         "de": "Zweipunkt-Marienkäfer",
+        "es": "Mariquita de dos puntos",
         "pl": "Biedronka dwukropka"
       }
     },
@@ -1980,7 +2083,9 @@
         "pollinator"
       ],
       "names": {
-        "de": "Kleiner Sonnenröschen-Bläuling"
+        "de": "Kleiner Sonnenröschen-Bläuling",
+        "es": "Morena oriental",
+        "pl": "Modraszek agestis"
       }
     },
     {
@@ -2085,7 +2190,9 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Braune Spätsommer-Bodeneule"
+        "de": "Braune Spätsommer-Bodeneule",
+        "es": "Rústico de mancha cuadrada",
+        "pl": "Rolnica znakówka"
       }
     },
     {
@@ -2101,6 +2208,7 @@
         "beetle"
       ],
       "names": {
+        "de": "Soldatenkäfer",
         "pl": "Omomiłek wiejski"
       }
     },
@@ -2115,7 +2223,8 @@
       "color": "#6b5a4a",
       "traits": [],
       "names": {
-        "de": "Nosferatu-Spinne"
+        "de": "Nosferatu-Spinne",
+        "es": "Falsa araña lobo espinosa mediterránea"
       }
     },
     {
@@ -2133,6 +2242,7 @@
       ],
       "names": {
         "de": "Brauner Feuerfalter",
+        "es": "Manto oscuro",
         "pl": "Czerwończyk uroczek"
       }
     },
@@ -2168,6 +2278,7 @@
       ],
       "names": {
         "de": "Grüner Zipfelfalter",
+        "es": "Cejialba",
         "pl": "Zieleńczyk ostrężyniec"
       }
     },
@@ -2183,6 +2294,7 @@
       "traits": [],
       "names": {
         "de": "Brauner Grashüpfer",
+        "es": "Saltamontes de campo común",
         "pl": "Konik brunatny"
       }
     },
@@ -2197,7 +2309,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Wanderzünsler"
+        "de": "Wanderzünsler",
+        "pl": "Pielgrzymka jesienna"
       }
     },
     {
@@ -2211,7 +2324,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Olivenbrauner Zünsler"
+        "de": "Olivenbrauner Zünsler",
+        "pl": "Płomienka łąkowa"
       }
     },
     {
@@ -2243,6 +2357,7 @@
       ],
       "names": {
         "de": "Nashornkäfer",
+        "es": "Escarabajo rinoceronte europeo",
         "pl": "Rohatyniec nosorożec"
       }
     },
@@ -2276,6 +2391,7 @@
       ],
       "names": {
         "de": "Deutsche Wespe",
+        "es": "Avispa chaqueta amarilla germánica",
         "pl": "Osa dachowa"
       }
     },
@@ -2290,7 +2406,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Gelbspanner"
+        "de": "Gelbspanner",
+        "pl": "Mokosz cierniowiak"
       }
     },
     {
@@ -2352,7 +2469,8 @@
       "color": "#6aa040",
       "traits": [],
       "names": {
-        "de": "Vierpunktige Sichelschrecke"
+        "de": "Vierpunktige Sichelschrecke",
+        "pl": "Długoskrzydlak ciepłosz"
       }
     },
     {
@@ -2367,6 +2485,7 @@
       "traits": [],
       "names": {
         "de": "Große Königslibelle",
+        "es": "Emperador azul",
         "pl": "Husarz władca"
       }
     },
@@ -2402,6 +2521,7 @@
       ],
       "names": {
         "de": "Roter Scheckenfalter",
+        "es": "Doncella didima",
         "pl": "Przeplatka didyma"
       }
     },
@@ -2462,7 +2582,8 @@
         "beetle"
       ],
       "names": {
-        "de": "Rotköpfiger Feuerkäfer"
+        "de": "Rotköpfiger Feuerkäfer",
+        "pl": "Ogniczek piłkoczułki"
       }
     },
     {
@@ -2493,7 +2614,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Geflammter Kleinzünsler"
+        "de": "Geflammter Kleinzünsler",
+        "pl": "Mklik płomienisty"
       }
     },
     {
@@ -2510,6 +2632,7 @@
       ],
       "names": {
         "de": "Weidenjungfer",
+        "es": "Caballito del diablo verde esmeralda",
         "pl": "Pałątka zielona"
       }
     },
@@ -2528,6 +2651,7 @@
       ],
       "names": {
         "de": "Gemeine Wespe",
+        "es": "Avispa europea",
         "pl": "Osa pospolita"
       }
     },
@@ -2543,6 +2667,7 @@
       "traits": [],
       "names": {
         "de": "Kleiner Blaupfeil",
+        "es": "Libélula cobalto",
         "pl": "Lecicha mała"
       }
     },
@@ -2557,7 +2682,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Hellrandige Erdeule"
+        "de": "Hellrandige Erdeule",
+        "pl": "Rolnica boćwinówka"
       }
     },
     {
@@ -2572,6 +2698,7 @@
       "traits": [],
       "names": {
         "de": "Breitflügeliger Fleckleibbär",
+        "es": "Armiño blanco",
         "pl": "Szewnica miętówka"
       }
     },
@@ -2641,6 +2768,7 @@
       ],
       "names": {
         "de": "Kohlwanze",
+        "es": "Chinche de la col",
         "pl": "Warzywnica kapustna"
       }
     },
@@ -2656,6 +2784,7 @@
       "traits": [],
       "names": {
         "de": "Baumwoll-Kapseleule",
+        "es": "Oruga del tomate y de la mazorca",
         "pl": "Słonecznica orężówka"
       }
     },
@@ -2668,7 +2797,10 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Gebänderter Wickler"
+      }
     },
     {
       "id": "pyrausta-aurata",
@@ -2681,7 +2813,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Goldzünsler"
+        "de": "Goldzünsler",
+        "pl": "Płomienka złotowianka"
       }
     },
     {
@@ -2696,6 +2829,7 @@
       "traits": [],
       "names": {
         "de": "Achateule",
+        "es": "Polilla de las sombras angulares",
         "pl": "Krokiewka lękliwica"
       }
     },
@@ -2710,7 +2844,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Gothica-Kätzcheneule"
+        "de": "Gothica-Kätzcheneule",
+        "pl": "Piętnówka wiciokrzewka"
       }
     },
     {
@@ -2725,6 +2860,7 @@
       "traits": [],
       "names": {
         "de": "Rundflügel-Kätzcheneule",
+        "es": "Polilla común del almendro",
         "pl": "Przegibka stałka"
       }
     },
@@ -2737,7 +2873,12 @@
       "tier": "★★★",
       "emoji": "🕷️",
       "color": "#6b5a4a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Blumenkrabbenspinne",
+        "es": "Araña cangrejo europea",
+        "pl": "Ukośnik"
+      }
     },
     {
       "id": "campaea-margaritaria",
@@ -2750,7 +2891,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Perlglanzspanner"
+        "de": "Perlglanzspanner",
+        "pl": "Ostrolot muszlowiak"
       }
     },
     {
@@ -2777,7 +2919,11 @@
       "tier": "★★★",
       "emoji": "🦗",
       "color": "#6aa040",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Roesels Beißschrecke",
+        "pl": "Podłatczyn roesela"
+      }
     },
     {
       "id": "plutella-xylostella",
@@ -2809,6 +2955,7 @@
       ],
       "names": {
         "de": "Baum-Weißling",
+        "es": "Blanca del majuelo",
         "pl": "Niestrzęp głogowiec"
       }
     },
@@ -2871,7 +3018,8 @@
       "color": "#6b5a4a",
       "traits": [],
       "names": {
-        "de": "Edle Kugelspinne"
+        "de": "Edle Kugelspinne",
+        "es": "Falsa viuda negra mordedora"
       }
     },
     {
@@ -2916,7 +3064,9 @@
         "pollinator"
       ],
       "names": {
-        "de": "Kleine Mistbiene"
+        "de": "Kleine Mistbiene",
+        "es": "Mosca flotadora de patas anchas",
+        "pl": "Piszczeń"
       }
     },
     {
@@ -2932,7 +3082,8 @@
         "bug"
       ],
       "names": {
-        "de": "Wipfel-Stachelwanze"
+        "de": "Wipfel-Stachelwanze",
+        "pl": "Puklica rudnica"
       }
     },
     {
@@ -2946,6 +3097,7 @@
       "color": "#8a7a3a",
       "traits": [],
       "names": {
+        "de": "Gewöhnliche Waffenfliege",
         "pl": "Zielonucha kształtna"
       }
     },
@@ -2980,7 +3132,9 @@
         "pollinator"
       ],
       "names": {
-        "de": "Himmelblauer Bläuling"
+        "de": "Himmelblauer Bläuling",
+        "es": "Niña celeste",
+        "pl": "Modraszek adonis"
       }
     },
     {
@@ -2994,7 +3148,9 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Breitflügelige Bandeule"
+        "de": "Breitflügelige Bandeule",
+        "es": "Polilla de ala inferior amarilla menor",
+        "pl": "Rolnica komes"
       }
     },
     {
@@ -3027,6 +3183,7 @@
       ],
       "names": {
         "de": "Dukatenfalter",
+        "es": "Manto de oro",
         "pl": "Czerwończyk dukacik"
       }
     },
@@ -3074,6 +3231,7 @@
       "traits": [],
       "names": {
         "de": "Lindenschwärmer",
+        "es": "Esfinge del tilo",
         "pl": "Nastrosz lipowiec"
       }
     },
@@ -3091,6 +3249,7 @@
       ],
       "names": {
         "de": "Gartenlaubkäfer",
+        "es": "Filoperta de las huertas",
         "pl": "Ogrodnica niszczylistka"
       }
     },
@@ -3138,6 +3297,7 @@
       "traits": [],
       "names": {
         "de": "Gemeine Heidelibelle",
+        "es": "Alguacil norteño",
         "pl": "Szablak zwyczajny"
       }
     },
@@ -3183,7 +3343,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Gemeine Feldschwebfliege"
+        "de": "Gemeine Feldschwebfliege",
+        "pl": "Bzyg nadobny"
       }
     },
     {
@@ -3198,6 +3359,7 @@
       "traits": [],
       "names": {
         "de": "Spitzenfleck",
+        "es": "Libélula escasa",
         "pl": "Ważka żółta"
       }
     },
@@ -3212,7 +3374,9 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Ackerwinden-Bunteulchen"
+        "de": "Ackerwinden-Bunteulchen",
+        "es": "Sulfúrea manchada",
+        "pl": "Polnica szachowniczka"
       }
     },
     {
@@ -3224,7 +3388,11 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Rotgestreifter Wanderspanner",
+        "es": "La vestal"
+      }
     },
     {
       "id": "lomaspilis-marginata",
@@ -3270,6 +3438,7 @@
       "traits": [],
       "names": {
         "de": "Pappelschwärmer",
+        "es": "Esfinge del chopo",
         "pl": "Nastrosz topolowiec"
       }
     },
@@ -3321,7 +3490,9 @@
         "pollinator"
       ],
       "names": {
-        "de": "Silbergrüner Bläuling"
+        "de": "Silbergrüner Bläuling",
+        "es": "Niña corindón",
+        "pl": "Modraszek koridon"
       }
     },
     {
@@ -3335,7 +3506,9 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Ackerwinden-Trauereule"
+        "de": "Ackerwinden-Trauereule",
+        "es": "Polilla de la correhuela",
+        "pl": "Przewieżgnica żałobka"
       }
     },
     {
@@ -3350,6 +3523,7 @@
       "traits": [],
       "names": {
         "de": "Herbst-Mosaikjungfer",
+        "es": "Esna falso zafiro",
         "pl": "Żagnica jesienna"
       }
     },
@@ -3367,6 +3541,7 @@
       ],
       "names": {
         "de": "Feldmaikäfer",
+        "es": "Escarabajo sanjuanero",
         "pl": "Chrabąszcz majowy"
       }
     },
@@ -3395,7 +3570,11 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Kleiner Grauzünsler",
+        "pl": "Mietliczka znaczona"
+      }
     },
     {
       "id": "osmia-cornuta",
@@ -3410,7 +3589,9 @@
         "wasp"
       ],
       "names": {
-        "de": "Gehörnte Mauerbiene"
+        "de": "Gehörnte Mauerbiene",
+        "es": "Abeja europea de huerto",
+        "pl": "Murarka rogata"
       }
     },
     {
@@ -3422,7 +3603,11 @@
       "tier": "★★★",
       "emoji": "🕷️",
       "color": "#6b5a4a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Halbeingefasster Springer",
+        "es": "Araña atrapamoscas del mediterráneo"
+      }
     },
     {
       "id": "coenonympha-arcania",
@@ -3439,6 +3624,7 @@
       ],
       "names": {
         "de": "Weißbindiges Wiesenvögelchen",
+        "es": "Ninfa perlada",
         "pl": "Strzępotek perełkowiec"
       }
     },
@@ -3457,6 +3643,7 @@
       ],
       "names": {
         "de": "Geißklee-Bläuling",
+        "es": "Esmaltada espinosa",
         "pl": "Modraszek argus"
       }
     },
@@ -3490,6 +3677,7 @@
       ],
       "names": {
         "de": "Wegerich-Scheckenfalter",
+        "es": "Doncella punteada",
         "pl": "Przeplatka cinksia"
       }
     },
@@ -3504,7 +3692,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Südlicher Zwergspanner"
+        "de": "Südlicher Zwergspanner",
+        "pl": "Krocznik wieśniaczek"
       }
     },
     {
@@ -3551,7 +3740,11 @@
       "color": "#f0b020",
       "traits": [
         "wasp"
-      ]
+      ],
+      "names": {
+        "de": "Rote Mauerbiene",
+        "pl": "Murarka ogrodowa"
+      }
     },
     {
       "id": "agrotis-segetum",
@@ -3581,7 +3774,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Kleine Keilfleckschwebfliege"
+        "de": "Kleine Keilfleckschwebfliege",
+        "pl": "Gnojka bajorowa"
       }
     },
     {
@@ -3610,6 +3804,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
+        "de": "Windengeistchen",
+        "es": "Polilla pluma comun",
         "pl": "Piórolotek zwyczajny"
       }
     },
@@ -3628,6 +3824,7 @@
       ],
       "names": {
         "de": "Braunkolbiger Braun-Dickkopffalter",
+        "es": "Dorada línea larga",
         "pl": "Karłątek leśny"
       }
     },
@@ -3661,6 +3858,7 @@
       ],
       "names": {
         "de": "Kronwicken-Dickkopffalter",
+        "es": "Cervantes",
         "pl": "Powszelatek brunatek"
       }
     },
@@ -3710,6 +3908,7 @@
       ],
       "names": {
         "de": "Vierzehntropfiger Marienkäfer",
+        "es": "Mariquita de manchas blancas",
         "pl": "Gielas czternastoplamek"
       }
     },
@@ -3728,6 +3927,7 @@
       ],
       "names": {
         "de": "Kleiner Schillerfalter",
+        "es": "Tornasolada chica",
         "pl": "Mieniak strużnik"
       }
     },
@@ -3740,7 +3940,11 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Wander-Fettzünsler",
+        "es": "Doradilla"
+      }
     },
     {
       "id": "agriphila-tristella",
@@ -3751,7 +3955,11 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Gestreifter Graszünsler",
+        "pl": "Wachlarzyk zmienniczek"
+      }
     },
     {
       "id": "callimorpha-dominula",
@@ -3782,6 +3990,7 @@
       ],
       "names": {
         "de": "Scharlachroter Feuerkäfer",
+        "es": "Escarabajo cardenal",
         "pl": "Ogniczek większy"
       }
     },
@@ -3930,7 +4139,8 @@
       "traits": [],
       "names": {
         "de": "Pinien-Prozessionsspinner",
-        "es": "Procesionaria del pino"
+        "es": "Procesionaria del pino",
+        "pl": "Korowódka śródziemnomorska"
       }
     },
     {
@@ -3947,6 +4157,7 @@
       ],
       "names": {
         "de": "Gemeine Winterlibelle",
+        "es": "Caballito pardo",
         "pl": "Straszka pospolita"
       }
     },
@@ -3963,7 +4174,9 @@
         "bug"
       ],
       "names": {
-        "de": "Braune Randwanze"
+        "de": "Braune Randwanze",
+        "es": "Chinche del boj",
+        "pl": "Wtyk nakrzewny"
       }
     },
     {
@@ -3994,7 +4207,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Hummelnestmotte"
+        "de": "Hummelnestmotte",
+        "pl": "Żłobik gniazdoszek"
       }
     },
     {
@@ -4024,6 +4238,7 @@
       "traits": [],
       "names": {
         "de": "Windenschwärmer",
+        "es": "Esfinge de la correhuela",
         "pl": "Zawisak powojowiec"
       }
     },
@@ -4038,7 +4253,12 @@
       "color": "#5a3a22",
       "traits": [
         "beetle"
-      ]
+      ],
+      "names": {
+        "de": "Rosmarin-Blattkäfer",
+        "es": "Escarabajo del romero",
+        "pl": "Złotka rozmarynowa"
+      }
     },
     {
       "id": "protaetia-cuprea",
@@ -4071,6 +4291,7 @@
       ],
       "names": {
         "de": "Schwarzkolbiger Braun-Dickkopffalter",
+        "es": "Dorada de puntas oscuras",
         "pl": "Karłątek ryska"
       }
     },
@@ -4089,6 +4310,7 @@
       ],
       "names": {
         "de": "Braunauge",
+        "es": "Pedregosa",
         "pl": "Osadnik kostrzewiec"
       }
     },
@@ -4172,6 +4394,7 @@
       ],
       "names": {
         "de": "Skabiosen-Scheckenfalter",
+        "es": "Doncella de ondas rojas",
         "pl": "Przeplatka aurinia"
       }
     },
@@ -4187,6 +4410,7 @@
       "traits": [],
       "names": {
         "de": "Gelbe Dungfliege",
+        "es": "Mosca amarilla del estiércol",
         "pl": "Cuchna nawozowa"
       }
     },
@@ -4212,7 +4436,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Pantherspanner"
+        "de": "Pantherspanner",
+        "pl": "Osmaganek plamek"
       }
     },
     {
@@ -4229,6 +4454,7 @@
       ],
       "names": {
         "de": "Getreidewanze",
+        "es": "Chinche hedionda",
         "pl": "Lednica zbożowa"
       }
     },
@@ -4241,7 +4467,10 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Rhabarberzünsler"
+      }
     },
     {
       "id": "colocasia-coryli",
@@ -4283,7 +4512,11 @@
       "color": "#f0b020",
       "traits": [
         "wasp"
-      ]
+      ],
+      "names": {
+        "de": "Kippleib-Ameise",
+        "es": "Fraile"
+      }
     },
     {
       "id": "lampyris-noctiluca",
@@ -4317,6 +4550,7 @@
       ],
       "names": {
         "de": "Fledermaus-Azurjungfer",
+        "es": "Agrion variable",
         "pl": "Łątka wczesna"
       }
     },
@@ -4366,6 +4600,7 @@
       ],
       "names": {
         "de": "Kleiner Wanderbläuling",
+        "es": "Gris estriada",
         "pl": "Modrogończyk wędrowiec"
       }
     },
@@ -4381,6 +4616,7 @@
       "traits": [],
       "names": {
         "de": "Mehlzünsler",
+        "es": "Polilla parda de la harina",
         "pl": "Zadarlica śpiżarnianka"
       }
     },
@@ -4410,7 +4646,11 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Zweifarbiger Doppellinien-Zwergspanner",
+        "pl": "Krocznik wyrodnik"
+      }
     },
     {
       "id": "sphinx-pinastri",
@@ -4451,7 +4691,11 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Australischer Apfelwickler",
+        "es": "Palomilla marrón de la manzana"
+      }
     },
     {
       "id": "carabus-nemoralis",
@@ -4479,7 +4723,11 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Unscheinbarer Graszünsler",
+        "pl": "Wachlarzyk słomkowy"
+      }
     },
     {
       "id": "anthrenus-verbasci",
@@ -4494,7 +4742,9 @@
         "beetle"
       ],
       "names": {
-        "de": "Wollkrautblütenkäfer"
+        "de": "Wollkrautblütenkäfer",
+        "es": "Escarabajo común de las alfombras",
+        "pl": "Mrzyk dziewannowiec"
       }
     },
     {
@@ -4525,7 +4775,8 @@
       ],
       "names": {
         "de": "Schwammkugelgallwespe",
-        "es": "Gallarita"
+        "es": "Gallarita",
+        "pl": "Letyniec pędowiec"
       }
     },
     {
@@ -4557,6 +4808,7 @@
       ],
       "names": {
         "de": "Ockerbindiger Samtfalter",
+        "es": "Pardo-rubia",
         "pl": "Skalnik semele"
       }
     },
@@ -4586,7 +4838,8 @@
       "color": "#6b5a4a",
       "traits": [],
       "names": {
-        "de": "Körbchenspinne"
+        "de": "Körbchenspinne",
+        "pl": "Krzyżaczek ugorowy"
       }
     },
     {
@@ -4598,7 +4851,11 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Aschgrauer Baumspanner",
+        "pl": "Przylepek sęczak"
+      }
     },
     {
       "id": "carcharodus-alceae",
@@ -4615,6 +4872,7 @@
       ],
       "names": {
         "de": "Malven-Dickkopffalter",
+        "es": "Piquitos de las malvas",
         "pl": "Warcabnik ślazowiec"
       }
     },
@@ -4633,6 +4891,7 @@
       ],
       "names": {
         "de": "Großer Fuchs",
+        "es": "Olmera",
         "pl": "Rusałka wierzbowiec"
       }
     },
@@ -4665,6 +4924,7 @@
       ],
       "names": {
         "de": "Gebänderter Pinselkäfer",
+        "es": "Escarabajo abeja europeo",
         "pl": "Orszoł prążkowany"
       }
     },
@@ -4680,6 +4940,7 @@
       "traits": [],
       "names": {
         "de": "Kleine Zangenlibelle",
+        "es": "Alguacil-pinzas",
         "pl": "Smaglec mniejszy"
       }
     },
@@ -4698,6 +4959,7 @@
       ],
       "names": {
         "de": "Kleiner Eisvogel",
+        "es": "Mariposas patas de cepillo",
         "pl": "Pokłonnik kamilla"
       }
     },
@@ -4732,7 +4994,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Blauschwarzer Eisvogel"
+        "de": "Blauschwarzer Eisvogel",
+        "es": "Ninfa de los arroyos"
       }
     },
     {
@@ -4744,7 +5007,11 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Waldrasen-Grasmotteneulchen",
+        "pl": "Galonówka ostrężyca"
+      }
     },
     {
       "id": "nymphalis-antiopa",
@@ -4761,6 +5028,7 @@
       ],
       "names": {
         "de": "Trauermantel",
+        "es": "Antíope",
         "pl": "Rusałka żałobnik"
       }
     },
@@ -4773,7 +5041,10 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Dürrwiesen-Zünsler"
+      }
     },
     {
       "id": "philaenus-spumarius",
@@ -4863,7 +5134,8 @@
       ],
       "names": {
         "de": "Kartoffelkäfer",
-        "es": "Escarabajo de la patata"
+        "es": "Escarabajo de la patata",
+        "pl": "Stonka ziemniaczana"
       }
     },
     {
@@ -4912,6 +5184,7 @@
       "traits": [],
       "names": {
         "de": "Kleiner Frostspanner",
+        "es": "Oruga de la piel",
         "pl": "Piędzik przedzimek"
       }
     },
@@ -4957,7 +5230,12 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Hellbraune Staubeule",
+        "es": "Polilla rústica de la vid",
+        "pl": "Światłówka babczarka"
+      }
     },
     {
       "id": "panorpa-germanica",
@@ -4970,7 +5248,8 @@
       "color": "#b07030",
       "traits": [],
       "names": {
-        "de": "Deutsche Skorpionsfliege"
+        "de": "Deutsche Skorpionsfliege",
+        "pl": "Wojsiłka długodzioba"
       }
     },
     {
@@ -4986,7 +5265,8 @@
         "wasp"
       ],
       "names": {
-        "de": "Borstige Dolchwespe"
+        "de": "Borstige Dolchwespe",
+        "pl": "Smukwa kosmata"
       }
     },
     {
@@ -5000,7 +5280,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Variable Kätzcheneule"
+        "de": "Variable Kätzcheneule",
+        "pl": "Przegibka zmiennica"
       }
     },
     {
@@ -5012,7 +5293,12 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Samenmotte",
+        "es": "Polilla casera marrona",
+        "pl": "Mól nasienniczek"
+      }
     },
     {
       "id": "alcis-repandata",
@@ -5025,7 +5311,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Wellenlinien-Rindenspanner"
+        "de": "Wellenlinien-Rindenspanner",
+        "pl": "Przylepek nagrabek"
       }
     },
     {
@@ -5041,7 +5328,8 @@
         "bug"
       ],
       "names": {
-        "de": "Gepunktete Nesselwanze"
+        "de": "Gepunktete Nesselwanze",
+        "pl": "Lulek małoplamek"
       }
     },
     {
@@ -5074,6 +5362,7 @@
       ],
       "names": {
         "de": "Birkenwanze",
+        "es": "Chinche del abedul",
         "pl": "Dziobik brzozowiec"
       }
     },
@@ -5106,6 +5395,7 @@
       ],
       "names": {
         "de": "Rotpelzige Sandbiene",
+        "es": "Abeja minera dorada",
         "pl": "Pszczolinka ruda"
       }
     },
@@ -5122,7 +5412,8 @@
         "bug"
       ],
       "names": {
-        "de": "Binsenschmuckzikade"
+        "de": "Binsenschmuckzikade",
+        "pl": "Bezrąbek sadowiec"
       }
     },
     {
@@ -5139,7 +5430,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Pelargonien-Bläuling"
+        "de": "Pelargonien-Bläuling",
+        "es": "Taladro del geranio"
       }
     },
     {
@@ -5170,7 +5462,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Pfaffenhütchen-Harlekin"
+        "de": "Pfaffenhütchen-Harlekin",
+        "pl": "Plamiec trzmieliniak"
       }
     },
     {
@@ -5220,7 +5513,8 @@
         "beetle"
       ],
       "names": {
-        "de": "Sechzehnpunkt-Marienkäfer"
+        "de": "Sechzehnpunkt-Marienkäfer",
+        "es": "Catarina dorada"
       }
     },
     {
@@ -5234,7 +5528,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Braunbinden-Wellenstriemenspanner"
+        "de": "Braunbinden-Wellenstriemenspanner",
+        "pl": "Paśnik komosiak"
       }
     },
     {
@@ -5265,7 +5560,9 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Putris-Erdeule"
+        "de": "Putris-Erdeule",
+        "es": "La llama",
+        "pl": "Rolnica zbutewka"
       }
     },
     {
@@ -5279,7 +5576,11 @@
       "color": "#8a7a3a",
       "traits": [
         "pollinator"
-      ]
+      ],
+      "names": {
+        "de": "Gemeine Narzissenschwebfliege",
+        "pl": "Pobzyga cebularz"
+      }
     },
     {
       "id": "araneus-quadratus",
@@ -5309,7 +5610,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Späte Großstirnschwebfliege"
+        "de": "Späte Großstirnschwebfliege",
+        "pl": "Bzyg brzęk"
       }
     },
     {
@@ -5338,7 +5640,11 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Lehmfarbige Graswurzeleule",
+        "pl": "Paciepnica skorupianka"
+      }
     },
     {
       "id": "everes-argiades",
@@ -5380,7 +5686,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Dreilinieneule"
+        "de": "Dreilinieneule",
+        "pl": "Światłówka potrójnica"
       }
     },
     {
@@ -5411,7 +5718,8 @@
         "beetle"
       ],
       "names": {
-        "de": "Vierfleckiger Kugelmarienkäfer"
+        "de": "Vierfleckiger Kugelmarienkäfer",
+        "pl": "Gałecznik czteroplamek"
       }
     },
     {
@@ -5456,6 +5764,7 @@
       "traits": [],
       "names": {
         "de": "Wolfsmilchschwärmer",
+        "es": "Esfinge de la lechetrezna",
         "pl": "Zmrocznik wilczomleczek"
       }
     },
@@ -5471,6 +5780,7 @@
       "traits": [],
       "names": {
         "de": "Kleiner Weinschwärmer",
+        "es": "Esfinge morada pequeña",
         "pl": "Zmrocznik pazik"
       }
     },
@@ -5486,6 +5796,7 @@
       "traits": [],
       "names": {
         "de": "Schwarze Heidelibelle",
+        "es": "Alguacil oscuro",
         "pl": "Szablak szkocki"
       }
     },
@@ -5504,6 +5815,7 @@
       ],
       "names": {
         "de": "Flockenblumen-Scheckenfalter",
+        "es": "Doncella mayor",
         "pl": "Przeplatka febe"
       }
     },
@@ -5518,7 +5830,8 @@
       "color": "#6b5a4a",
       "traits": [],
       "names": {
-        "de": "Dreiecks-Fettspinne"
+        "de": "Dreiecks-Fettspinne",
+        "es": "Falsa viuda negra triangulada"
       }
     },
     {
@@ -5570,6 +5883,7 @@
       ],
       "names": {
         "de": "Kleopatra-Falter",
+        "es": "Cleopatra",
         "pl": "Latolistek kleopatra"
       }
     },
@@ -5649,7 +5963,8 @@
       "color": "#6aa040",
       "traits": [],
       "names": {
-        "de": "Kleine Knarrschrecke"
+        "de": "Kleine Knarrschrecke",
+        "pl": "Koniczuk udoplamek"
       }
     },
     {
@@ -5698,7 +6013,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Große Sumpfschwebfliege"
+        "de": "Große Sumpfschwebfliege",
+        "pl": "Gniłun okazały"
       }
     },
     {
@@ -5744,7 +6060,8 @@
       "color": "#6aa040",
       "traits": [],
       "names": {
-        "de": "Braune Strandschrecke"
+        "de": "Braune Strandschrecke",
+        "pl": "Sinica jesienna"
       }
     },
     {
@@ -5828,6 +6145,7 @@
       ],
       "names": {
         "de": "Großes Granatauge",
+        "es": "Azulado de ojos rojos norteño",
         "pl": "Oczobarwnica większa"
       }
     },
@@ -5845,7 +6163,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Iberischer Segelfalter"
+        "de": "Iberischer Segelfalter",
+        "es": "Mariposa chupaleche"
       }
     },
     {
@@ -5888,7 +6207,8 @@
       "color": "#2a8fb5",
       "traits": [],
       "names": {
-        "de": "Violetter Sonnenzeiger"
+        "de": "Violetter Sonnenzeiger",
+        "es": "Libélula violeta"
       }
     },
     {
@@ -5906,6 +6226,7 @@
       ],
       "names": {
         "de": "Magerrasen-Perlmutterfalter",
+        "es": "Perlada violeta",
         "pl": "Dostojka dia"
       }
     },
@@ -5922,7 +6243,8 @@
         "beetle"
       ],
       "names": {
-        "de": "Seidiger Glanzrüssler"
+        "de": "Seidiger Glanzrüssler",
+        "pl": "Kruszczak jedwabisty"
       }
     },
     {
@@ -5937,6 +6259,7 @@
       "traits": [],
       "names": {
         "de": "Zweigestreifte Quelljungfer",
+        "es": "Guardarroyo común",
         "pl": "Szklarnik leśny"
       }
     },
@@ -5949,7 +6272,11 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Brennnessel-Spreizflügelfalter",
+        "pl": "Wznosik fabrycjusza"
+      }
     },
     {
       "id": "trypocopris-vernalis",
@@ -6058,7 +6385,8 @@
         "wasp"
       ],
       "names": {
-        "de": "Graue Sandbiene"
+        "de": "Graue Sandbiene",
+        "pl": "Pszczolinka niebieskawa"
       }
     },
     {
@@ -6073,6 +6401,7 @@
       "traits": [],
       "names": {
         "de": "Südliche Heidelibelle",
+        "es": "Alguacil meridional",
         "pl": "Szablak południowy"
       }
     },
@@ -6105,7 +6434,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Rotklee-Bläuling"
+        "de": "Rotklee-Bläuling",
+        "es": "Semiargus"
       }
     },
     {
@@ -6120,6 +6450,7 @@
       "traits": [],
       "names": {
         "de": "Südlicher Blaupfeil",
+        "es": "Libélula bruña",
         "pl": "Lecicha południowa"
       }
     },
@@ -6134,6 +6465,7 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
+        "de": "Grüne Langfühlermotte",
         "pl": "Wąsik zielonaczek"
       }
     },
@@ -6150,7 +6482,8 @@
         "wasp"
       ],
       "names": {
-        "de": "Rotschopfige Sandbiene"
+        "de": "Rotschopfige Sandbiene",
+        "pl": "Pszczolinka wiosenna"
       }
     },
     {
@@ -6213,7 +6546,8 @@
         "wasp"
       ],
       "names": {
-        "de": "Haarige Holzameise"
+        "de": "Haarige Holzameise",
+        "pl": "Gmachówka belkowa"
       }
     },
     {
@@ -6227,7 +6561,11 @@
       "color": "#5a3a22",
       "traits": [
         "beetle"
-      ]
+      ],
+      "names": {
+        "es": "Crisomélido de bank",
+        "pl": "Złotka brązówka"
+      }
     },
     {
       "id": "aphrophora-alni",
@@ -6258,6 +6596,7 @@
       "traits": [],
       "names": {
         "de": "Falkenlibelle",
+        "es": "Esmeralda bronceada",
         "pl": "Szklarka zielona"
       }
     },
@@ -6292,6 +6631,7 @@
         "wasp"
       ],
       "names": {
+        "de": "Knopperngallwespe",
         "pl": "Letyniec żołędziowiec"
       }
     },
@@ -6324,6 +6664,7 @@
       "traits": [],
       "names": {
         "de": "Zwitscherschrecke",
+        "es": "Esperanza verde de arbustos",
         "pl": "Pasikonik śpiewający"
       }
     },
@@ -6336,7 +6677,11 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Schwan",
+        "pl": "Kuprówka złotnica"
+      }
     },
     {
       "id": "ocypus-olens",
@@ -6366,7 +6711,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Sicheleule"
+        "de": "Sicheleule",
+        "pl": "Lasperia zatokobrzeżka"
       }
     },
     {
@@ -6380,7 +6726,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Prachtgrüner Bindenspanner"
+        "de": "Prachtgrüner Bindenspanner",
+        "pl": "Paśnik zieleniak"
       }
     },
     {
@@ -6443,7 +6790,8 @@
       "color": "#6b5a4a",
       "traits": [],
       "names": {
-        "de": "Große Fettspinne"
+        "de": "Große Fettspinne",
+        "es": "Falsa viuda negra doméstica"
       }
     },
     {
@@ -6460,6 +6808,7 @@
       ],
       "names": {
         "de": "Kleines Granatauge",
+        "es": "Agrion de ojos rojos",
         "pl": "Oczobarwnica mniejsza"
       }
     },
@@ -6474,7 +6823,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Breitgesäumter Zwergspanner"
+        "de": "Breitgesäumter Zwergspanner",
+        "pl": "Krocznik ogrodowiak"
       }
     },
     {
@@ -6507,6 +6857,7 @@
       ],
       "names": {
         "de": "Kardinal",
+        "es": "Mariposa cardinal",
         "pl": "Dostojka pandora"
       }
     },
@@ -6582,7 +6933,10 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Trockenrasen-Halmeulchen"
+      }
     },
     {
       "id": "anarta-trifolii",
@@ -6642,7 +6996,8 @@
         "damselfly"
       ],
       "names": {
-        "de": "Bronzene Prachtlibelle"
+        "de": "Bronzene Prachtlibelle",
+        "es": "Damisela cobriza"
       }
     },
     {
@@ -6654,7 +7009,10 @@
       "tier": "★★★",
       "emoji": "🕷️",
       "color": "#6b5a4a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Grüne Blattkrabbenspinne"
+      }
     },
     {
       "id": "orthosia-cruda",
@@ -6667,7 +7025,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Kleine Kätzcheneule"
+        "de": "Kleine Kätzcheneule",
+        "pl": "Przegibka dębica"
       }
     },
     {
@@ -6702,6 +7061,7 @@
       ],
       "names": {
         "de": "Braunfleckiger Perlmutterfalter",
+        "es": "Perlada castaña",
         "pl": "Dostojka selene"
       }
     },
@@ -6734,6 +7094,7 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
+        "de": "Weißdornstammzünsler",
         "pl": "Mietliczka rokietnica"
       }
     },
@@ -6766,6 +7127,7 @@
       "traits": [],
       "names": {
         "de": "Dörrobstmotte",
+        "es": "Palomilla de alacena",
         "pl": "Omacnica spichrzanka"
       }
     },
@@ -6784,6 +7146,7 @@
       ],
       "names": {
         "de": "Großer Feuerfalter",
+        "es": "Manto grande",
         "pl": "Czerwończyk nieparek"
       }
     },
@@ -6813,6 +7176,7 @@
       "color": "#7ab648",
       "traits": [],
       "names": {
+        "de": "Haubenfangschrecke",
         "es": "Mantis palo",
         "pl": "Modliszka śródziemnomorska"
       }
@@ -6832,6 +7196,7 @@
       ],
       "names": {
         "de": "Großer Wanderbläuling",
+        "es": "Canela estriada",
         "pl": "Modrogończyk białopręgi"
       }
     },
@@ -6847,6 +7212,7 @@
       "traits": [],
       "names": {
         "de": "Gemeine Skorpionsfliege",
+        "es": "Escorpión volador",
         "pl": "Wojsiłka pospolita"
       }
     },
@@ -6874,7 +7240,11 @@
       "tier": "★★★",
       "emoji": "🕷️",
       "color": "#6b5a4a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Marmorzitterspinne",
+        "es": "Araña de bodega jaspeada"
+      }
     },
     {
       "id": "clogmia-albipunctata",
@@ -6885,7 +7255,11 @@
       "tier": "★★★",
       "emoji": "🪰",
       "color": "#8a7a3a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Weißpunktierte Schmetterlingsmücke",
+        "es": "Mosquita de la humedad"
+      }
     },
     {
       "id": "volucella-inanis",
@@ -6900,7 +7274,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Gebänderte Waldschwebfliege"
+        "de": "Gebänderte Waldschwebfliege",
+        "pl": "Trzmielówka dorodna"
       }
     },
     {
@@ -6912,7 +7287,12 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Brombeereule",
+        "es": "Pasajera",
+        "pl": "Rozdziałka algira"
+      }
     },
     {
       "id": "andricus-foecundatrix",
@@ -6954,7 +7334,11 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Olivenbaum-Zünsler",
+        "es": "Polilla del jazmín"
+      }
     },
     {
       "id": "eudonia-angustea",
@@ -6978,7 +7362,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Purpurroter Zünsler"
+        "de": "Purpurroter Zünsler",
+        "pl": "Płomienka purpurowa"
       }
     },
     {
@@ -6994,7 +7379,8 @@
         "wasp"
       ],
       "names": {
-        "de": "Pfennig-Gallwespe"
+        "de": "Pfennig-Gallwespe",
+        "pl": "Rewiś numizmatek"
       }
     },
     {
@@ -7009,6 +7395,7 @@
       "traits": [],
       "names": {
         "de": "Ypsiloneule",
+        "es": "Gusano trozador",
         "pl": "Rolnica gwoździówka"
       }
     },
@@ -7023,7 +7410,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Mondfleckiger Blütenspanner"
+        "de": "Mondfleckiger Blütenspanner",
+        "pl": "Grotnik chabrowiak"
       }
     },
     {
@@ -7040,6 +7428,7 @@
       ],
       "names": {
         "de": "Lilienhähnchen",
+        "es": "Escarabajo de las hojas",
         "pl": "Poskrzypka liliowa"
       }
     },
@@ -7052,7 +7441,10 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Distelwickler"
+      }
     },
     {
       "id": "eurygaster-testudinaria",
@@ -7068,6 +7460,7 @@
       ],
       "names": {
         "de": "Schildkrötenwanze",
+        "es": "Chinche tortuga",
         "pl": "Żółwinek żółwik"
       }
     },
@@ -7084,7 +7477,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Matte Schwarzkopfschwebfliege"
+        "de": "Matte Schwarzkopfschwebfliege",
+        "pl": "Czernich łąkowy"
       }
     },
     {
@@ -7098,7 +7492,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Schwarzbraunbinden-Blattspanner"
+        "de": "Schwarzbraunbinden-Blattspanner",
+        "pl": "Paśnik nagórek"
       }
     },
     {
@@ -7113,6 +7508,7 @@
       "traits": [],
       "names": {
         "de": "Ligusterschwärmer",
+        "es": "Esfinge del aligustre",
         "pl": "Zawisak tawulec"
       }
     },
@@ -7194,7 +7590,11 @@
       "color": "#8a7a3a",
       "traits": [
         "pollinator"
-      ]
+      ],
+      "names": {
+        "de": "Mittlere Keilfleckschwebfliege",
+        "pl": "Gnojka trójkątówka"
+      }
     },
     {
       "id": "cicindela-hybrida",
@@ -7242,6 +7642,7 @@
       "traits": [],
       "names": {
         "de": "Eichblatt-Radspinne",
+        "es": "Araña hoja de roble",
         "pl": "Kołosz wielobarwny"
       }
     },
@@ -7291,7 +7692,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Heidelbeer-Wintereule"
+        "de": "Heidelbeer-Wintereule",
+        "pl": "Porożnica jagodówka"
       }
     },
     {
@@ -7320,6 +7722,7 @@
       "traits": [],
       "names": {
         "de": "Apfelwickler",
+        "es": "Palomilla del manzano",
         "pl": "Owocówka jabłkóweczka"
       }
     },
@@ -7336,6 +7739,7 @@
         "pollinator"
       ],
       "names": {
+        "de": "Zickzack-Trauerschweber",
         "pl": "Drogosz żałobny"
       }
     },
@@ -7381,7 +7785,11 @@
       "color": "#8a7a3a",
       "traits": [
         "pollinator"
-      ]
+      ],
+      "names": {
+        "de": "Gemeine Langbauchschwebfliege",
+        "pl": "Imik zwyczajny"
+      }
     },
     {
       "id": "diacrisia-sannio",
@@ -7394,7 +7802,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Rotrandbär"
+        "de": "Rotrandbär",
+        "pl": "Marzymłódka pajacyk"
       }
     },
     {
@@ -7408,7 +7817,11 @@
       "color": "#8a7a3a",
       "traits": [
         "pollinator"
-      ]
+      ],
+      "names": {
+        "de": "Schwarze Bienenschwebfliege",
+        "pl": "Gnojka znamieniówka"
+      }
     },
     {
       "id": "lasiocampa-trifolii",
@@ -7453,7 +7866,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Zweiband-Wiesenschwebfliege"
+        "de": "Zweiband-Wiesenschwebfliege",
+        "pl": "Mszycznica wytworna"
       }
     },
     {
@@ -7471,6 +7885,7 @@
       ],
       "names": {
         "de": "Zwerg-Bläuling",
+        "es": "Duende menor",
         "pl": "Modraszek malczyk"
       }
     },
@@ -7485,7 +7900,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Kleiner Hopfen-Wurzelbohrer"
+        "de": "Kleiner Hopfen-Wurzelbohrer",
+        "pl": "Niesobka pniówka"
       }
     },
     {
@@ -7499,6 +7915,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
+        "de": "Knöterich-Seidenglanzeule",
+        "es": "Gardama asiática",
         "pl": "Światłówka naziemnica"
       }
     },
@@ -7530,7 +7948,8 @@
       "color": "#6aa040",
       "traits": [],
       "names": {
-        "de": "Große Schiefkopfschrecke"
+        "de": "Große Schiefkopfschrecke",
+        "pl": "Pasikonik stożkogłowy"
       }
     },
     {
@@ -7559,7 +7978,11 @@
       "traits": [
         "butterfly",
         "pollinator"
-      ]
+      ],
+      "names": {
+        "de": "Iberisches Schachbrett",
+        "es": "Medioluto ibérica"
+      }
     },
     {
       "id": "rilaena-triangularis",
@@ -7570,7 +7993,10 @@
       "tier": "★★★",
       "emoji": "🕷️",
       "color": "#8a6a4a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Schwarzauge"
+      }
     },
     {
       "id": "pontia-daplidice",
@@ -7603,6 +8029,7 @@
       "traits": [],
       "names": {
         "de": "Wiener Nachtpfauenauge",
+        "es": "Gran pavón",
         "pl": "Pawica gruszówka"
       }
     },
@@ -7633,6 +8060,7 @@
         "bug"
       ],
       "names": {
+        "de": "Sichelbein",
         "pl": "Smyczyk krzywonogi"
       }
     },
@@ -7698,7 +8126,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Pyramideneule"
+        "de": "Pyramideneule",
+        "pl": "Opłonka stogowica"
       }
     },
     {
@@ -7714,7 +8143,8 @@
         "wasp"
       ],
       "names": {
-        "de": "Schwammgallwespe"
+        "de": "Schwammgallwespe",
+        "pl": "Korzenica dębowa"
       }
     },
     {
@@ -7731,6 +8161,7 @@
       ],
       "names": {
         "de": "Wasserskorpion",
+        "es": "Escorpión de agua",
         "pl": "Płoszczyca szara"
       }
     },
@@ -7791,6 +8222,7 @@
       ],
       "names": {
         "de": "Silberfleck-Perlmutterfalter",
+        "es": "Perlada rojiza",
         "pl": "Dostojka eufrozyna"
       }
     },
@@ -7807,7 +8239,8 @@
         "wasp"
       ],
       "names": {
-        "de": "Rübsen-Blattwespe"
+        "de": "Rübsen-Blattwespe",
+        "pl": "Gnatarz rzepakowiec"
       }
     },
     {
@@ -7824,6 +8257,7 @@
       ],
       "names": {
         "de": "Hellgelbe Erdhummel",
+        "es": "Abejorro de cola blanca",
         "pl": "Trzmiel gajowy"
       }
     },
@@ -7838,7 +8272,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Olivgrüner Bindenspanner"
+        "de": "Olivgrüner Bindenspanner",
+        "pl": "Paśnik zaroślak"
       }
     },
     {
@@ -7854,7 +8289,8 @@
         "beetle"
       ],
       "names": {
-        "de": "Tatzenkäfer"
+        "de": "Tatzenkäfer",
+        "es": "Escarabajo de la nariz sangrante"
       }
     },
     {
@@ -7883,7 +8319,9 @@
       "color": "#6b5a4a",
       "traits": [],
       "names": {
-        "de": "Speispinne"
+        "de": "Speispinne",
+        "es": "Araña escupidora",
+        "pl": "Rozsnuwacz plujący"
       }
     },
     {
@@ -7895,7 +8333,10 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Hain-Graszünsler"
+      }
     },
     {
       "id": "zerynthia-rumina",
@@ -7912,6 +8353,7 @@
       ],
       "names": {
         "de": "Spanischer Osterluzeifalter",
+        "es": "Arlequin",
         "pl": "Zygzakowiec rubinowy"
       }
     },
@@ -7942,6 +8384,7 @@
       "traits": [],
       "names": {
         "de": "Kleines Nachtpfauenauge",
+        "es": "Pequeño pavón",
         "pl": "Pawica grabówka"
       }
     },
@@ -7957,7 +8400,11 @@
       "traits": [
         "butterfly",
         "pollinator"
-      ]
+      ],
+      "names": {
+        "de": "Südliches Ochsenauge",
+        "es": "Lobito jaspeado"
+      }
     },
     {
       "id": "smerinthus-ocellata",
@@ -7968,7 +8415,10 @@
       "tier": "★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Abendpfauenauge"
+      }
     },
     {
       "id": "scopula-immorata",
@@ -8014,6 +8464,7 @@
       ],
       "names": {
         "de": "Augenmarienkäfer",
+        "es": "Mariquita ocelada",
         "pl": "Biedronka oczatka"
       }
     },
@@ -8032,6 +8483,7 @@
       ],
       "names": {
         "de": "Rotbraunes Wiesenvögelchen",
+        "es": "Ocelada uniforme",
         "pl": "Strzępotek glicerion"
       }
     },
@@ -8080,6 +8532,7 @@
       ],
       "names": {
         "de": "Komma-Dickkopffalter",
+        "es": "Dorada de manchas blancas",
         "pl": "Karłątek klinek"
       }
     },
@@ -8098,6 +8551,7 @@
       ],
       "names": {
         "de": "Gelbwürfeliger Dickkopffalter",
+        "es": "Fronteriza",
         "pl": "Kosternik palemon"
       }
     },
@@ -8110,7 +8564,11 @@
       "tier": "★★★★",
       "emoji": "🕷️",
       "color": "#6b5a4a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Zweifarbflachstrecker",
+        "pl": "Ślizgun nieparek"
+      }
     },
     {
       "id": "cantharis-nigricans",
@@ -8125,6 +8583,7 @@
         "beetle"
       ],
       "names": {
+        "de": "Graugelber Weichkäfer",
         "pl": "Omomiłek szarowłosy"
       }
     },
@@ -8154,7 +8613,10 @@
       "color": "#f0b020",
       "traits": [
         "wasp"
-      ]
+      ],
+      "names": {
+        "es": "Hormiga maderera"
+      }
     },
     {
       "id": "regiscolia-maculata",
@@ -8200,7 +8662,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Hopfen-Zünslereule"
+        "de": "Hopfen-Zünslereule",
+        "pl": "Rozszczepka nosatka"
       }
     },
     {
@@ -8243,7 +8706,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Achat-Eulenspinner"
+        "de": "Achat-Eulenspinner",
+        "pl": "Pluszówka agatka"
       }
     },
     {
@@ -8261,6 +8725,7 @@
       ],
       "names": {
         "de": "Erdbeerbaumfalter",
+        "es": "Bajá",
         "pl": "Piękniś sułtanek"
       }
     },
@@ -8278,6 +8743,7 @@
       ],
       "names": {
         "de": "Violetter Ölkäfer",
+        "es": "Aceitera violácea",
         "pl": "Oleica fioletowa"
       }
     },
@@ -8292,7 +8758,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Weißstirn-Weißspanner"
+        "de": "Weißstirn-Weißspanner",
+        "pl": "Ciemnokres wierzbowiec"
       }
     },
     {
@@ -8310,6 +8777,7 @@
       ],
       "names": {
         "de": "Mädesüß-Perlmuttfalter",
+        "es": "Laurel menor",
         "pl": "Dostojka ino"
       }
     },
@@ -8339,7 +8807,9 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Malveneule"
+        "de": "Malveneule",
+        "es": "Polilla de hombros blancos",
+        "pl": "Polnica blaskówka"
       }
     },
     {
@@ -8386,6 +8856,7 @@
       "traits": [],
       "names": {
         "de": "Rotes Ordensband",
+        "es": "Polilla europea de alas cubiertas",
         "pl": "Wstęgówka pąsówka"
       }
     },
@@ -8404,6 +8875,7 @@
       ],
       "names": {
         "de": "Blauäugiger Waldportier",
+        "es": "Ojos azules",
         "pl": "Skalnik driada"
       }
     },
@@ -8418,7 +8890,10 @@
       "color": "#5a3a22",
       "traits": [
         "beetle"
-      ]
+      ],
+      "names": {
+        "es": "Toro de sol"
+      }
     },
     {
       "id": "syrphus-ribesii",
@@ -8433,7 +8908,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Große Schwebfliege"
+        "de": "Große Schwebfliege",
+        "pl": "Bzyg pospolity"
       }
     },
     {
@@ -8445,7 +8921,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Löwenzahn-Wurzelwickler"
+      }
     },
     {
       "id": "mythimna-pallens",
@@ -8458,7 +8937,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Bleiche Graseule"
+        "de": "Bleiche Graseule",
+        "pl": "Mokradlica blednica"
       }
     },
     {
@@ -8485,7 +8965,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Magerrasen-Graszünsler",
+        "pl": "Wachlarzyk śniadoszek"
+      }
     },
     {
       "id": "trachea-atriplicis",
@@ -8530,7 +9014,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Große Torf-Schwebfliege"
+        "de": "Große Torf-Schwebfliege",
+        "pl": "Szałaśnica jedwabista"
       }
     },
     {
@@ -8545,6 +9030,7 @@
       "traits": [],
       "names": {
         "de": "Maiszünsler",
+        "es": "Barrenador europeo del maíz",
         "pl": "Przezierka prosowianka"
       }
     },
@@ -8574,7 +9060,12 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Königskerzen-Mönch",
+        "es": "Polilla de la gordolobo",
+        "pl": "Kapturnica dziewannówka"
+      }
     },
     {
       "id": "dicranopalpus-ramosus",
@@ -8599,7 +9090,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Lederbrauner Rindenspanner"
+      }
     },
     {
       "id": "nicrophorus-vespilloides",
@@ -8647,6 +9141,7 @@
       "traits": [],
       "names": {
         "de": "Östlicher Blaupfeil",
+        "es": "Centinela puntiblanca",
         "pl": "Lecicha białoznaczna"
       }
     },
@@ -8661,7 +9156,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Eichen-Sichelflügler"
+        "de": "Eichen-Sichelflügler",
+        "pl": "Wycinka dwojaczka"
       }
     },
     {
@@ -8673,7 +9169,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Fels-Mooszünsler",
+        "pl": "Wachlarzyk dachowy"
+      }
     },
     {
       "id": "erebia-ligea",
@@ -8722,7 +9222,10 @@
       "traits": [
         "butterfly",
         "pollinator"
-      ]
+      ],
+      "names": {
+        "es": "Lobito de banda blanca"
+      }
     },
     {
       "id": "mesembrina-meridiana",
@@ -8748,7 +9251,10 @@
       "tier": "★★★★",
       "emoji": "🕷️",
       "color": "#6b5a4a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Maskenspinne"
+      }
     },
     {
       "id": "evarcha-arcuata",
@@ -8774,7 +9280,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Ellbogenstreifiger Graszünsler",
+        "pl": "Wachlarzyk kolankowy"
+      }
     },
     {
       "id": "oedemera-flavipes",
@@ -8789,6 +9299,7 @@
         "beetle"
       ],
       "names": {
+        "de": "Gelbbeiniger Scheinbockkäfer",
         "pl": "Zalęszczyca kózkowata"
       }
     },
@@ -8803,7 +9314,8 @@
       "color": "#6aa040",
       "traits": [],
       "names": {
-        "de": "Südlicher Warzenbeißer"
+        "de": "Südlicher Warzenbeißer",
+        "pl": "Łatczyn białoczelny"
       }
     },
     {
@@ -8846,7 +9358,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Mondfleck-Herbsteule"
+      }
     },
     {
       "id": "hipparchia-statilinus",
@@ -8863,7 +9378,8 @@
       ],
       "names": {
         "de": "Eisenfarbiger Samtfalter",
-        "es": "Satiro moreno"
+        "es": "Satiro moreno",
+        "pl": "Skalnik statilinus"
       }
     },
     {
@@ -8878,6 +9394,7 @@
       "traits": [],
       "names": {
         "de": "Kleine Königslibelle",
+        "es": "Emperador pardo",
         "pl": "Husarz mniejszy"
       }
     },
@@ -8893,6 +9410,7 @@
       "traits": [],
       "names": {
         "de": "Europäische Wanderheuschrecke",
+        "es": "Langosta migratoria",
         "pl": "Szarańcza wędrowna"
       }
     },
@@ -8910,6 +9428,7 @@
       ],
       "names": {
         "de": "Vierundzwanzigpunkt-Marienkäfer",
+        "es": "Catarina europea de la alfalfa",
         "pl": "Owełnica lucernianka"
       }
     },
@@ -8924,7 +9443,9 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Steppenhügel-Weißadereule"
+        "de": "Steppenhügel-Weißadereule",
+        "es": "Palomilla delcada",
+        "pl": "Mokradlica żółtawa"
       }
     },
     {
@@ -9001,6 +9522,7 @@
       ],
       "names": {
         "de": "Gemeiner Wollkäfer",
+        "es": "Escarabajo lanudo",
         "pl": "Omięk"
       }
     },
@@ -9033,6 +9555,7 @@
       ],
       "names": {
         "de": "Blauer Eichen-Zipfelfalter",
+        "es": "Nazarena",
         "pl": "Pazik dębowiec"
       }
     },
@@ -9091,6 +9614,7 @@
       "traits": [],
       "names": {
         "de": "Gemeine Keiljungfer",
+        "es": "Alguacil eurasiático",
         "pl": "Gadziogłówka pospolita"
       }
     },
@@ -9103,7 +9627,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Ödlandzünsler",
+        "pl": "Przezierka szybianka"
+      }
     },
     {
       "id": "brenthis-daphne",
@@ -9120,6 +9648,7 @@
       ],
       "names": {
         "de": "Brombeer-Perlmutterfalter",
+        "es": "Bipunteada dafne",
         "pl": "Dostojka dafne"
       }
     },
@@ -9134,7 +9663,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Gepunkteter Eichen-Gürtelpuppenspanner"
+        "de": "Gepunkteter Eichen-Gürtelpuppenspanner",
+        "pl": "Świerzbik nakropek"
       }
     },
     {
@@ -9152,6 +9682,7 @@
       ],
       "names": {
         "de": "Osterluzeifalter",
+        "es": "Mariposa de las aristoloquias",
         "pl": "Zygzakowiec kokornakowiec"
       }
     },
@@ -9169,6 +9700,7 @@
       ],
       "names": {
         "de": "Platanen-Netzwanze",
+        "es": "Chinche alas de encaje",
         "pl": "Prześwietlik platanowy"
       }
     },
@@ -9239,7 +9771,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Violettgrauer Eckflügelspanner"
+        "de": "Violettgrauer Eckflügelspanner",
+        "pl": "Witalnik borowiak"
       }
     },
     {
@@ -9255,7 +9788,8 @@
         "bug"
       ],
       "names": {
-        "de": "Echte Käferzikade"
+        "de": "Echte Käferzikade",
+        "pl": "Owoszcza brązowa"
       }
     },
     {
@@ -9269,7 +9803,10 @@
       "color": "#f0b020",
       "traits": [
         "wasp"
-      ]
+      ],
+      "names": {
+        "de": "Silber-Gallwespe"
+      }
     },
     {
       "id": "calvia-decemguttata",
@@ -9299,7 +9836,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Moorwald-Adlerfarnspanner"
+        "de": "Moorwald-Adlerfarnspanner",
+        "pl": "Skalniak orliczak"
       }
     },
     {
@@ -9313,7 +9851,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Grüner Blütenspanner"
+        "de": "Grüner Blütenspanner",
+        "pl": "Grotnik koroniec"
       }
     },
     {
@@ -9327,7 +9866,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Schwarzspanner"
+        "de": "Schwarzspanner",
+        "pl": "Biesek murzynek"
       }
     },
     {
@@ -9339,7 +9879,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Scheck-Tageule",
+        "pl": "Wygłoba szczawiówka"
+      }
     },
     {
       "id": "rhagium-inquisitor",
@@ -9367,7 +9911,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Heu-Staubeule"
+      }
     },
     {
       "id": "sympetrum-flaveolum",
@@ -9381,6 +9928,7 @@
       "traits": [],
       "names": {
         "de": "Gefleckte Heidelibelle",
+        "es": "Libélula montesana",
         "pl": "Szablak żółty"
       }
     },
@@ -9410,7 +9958,8 @@
       "color": "#6aa040",
       "traits": [],
       "names": {
-        "de": "Gewöhnliche Nasenschrecke"
+        "de": "Gewöhnliche Nasenschrecke",
+        "pl": "Nosal węgierski"
       }
     },
     {
@@ -9424,7 +9973,11 @@
       "color": "#3d8c30",
       "traits": [
         "bug"
-      ]
+      ],
+      "names": {
+        "de": "Nordamerikanische Zikaden-Raubwanze",
+        "es": "Chinche asesina norteamericana"
+      }
     },
     {
       "id": "carrhotus-xanthogramma",
@@ -9437,7 +9990,8 @@
       "color": "#6b5a4a",
       "traits": [],
       "names": {
-        "de": "Wipfelspringer"
+        "de": "Wipfelspringer",
+        "pl": "Kurhun"
       }
     },
     {
@@ -9453,6 +10007,8 @@
         "wasp"
       ],
       "names": {
+        "de": "Ernteameise",
+        "es": "Hormiga granera",
         "pl": "Mrówka żniwiarka"
       }
     },
@@ -9468,6 +10024,7 @@
       "traits": [],
       "names": {
         "de": "Eichenwickler",
+        "es": "Piral del roble y de la encina",
         "pl": "Zwójka zieloneczka"
       }
     },
@@ -9482,7 +10039,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Kapuzen-Graseule"
+        "de": "Kapuzen-Graseule",
+        "pl": "Mokradlica rdzawka"
       }
     },
     {
@@ -9540,7 +10098,10 @@
       "tier": "★★★★",
       "emoji": "🕷️",
       "color": "#6b5a4a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Seidenglänzende Radspinne"
+      }
     },
     {
       "id": "erythromma-lindenii",
@@ -9556,6 +10117,7 @@
       ],
       "names": {
         "de": "Pokaljungfer",
+        "es": "Agrion de ojos azules",
         "pl": "Łątka jeziorna"
       }
     },
@@ -9570,7 +10132,11 @@
       "color": "#8a7a3a",
       "traits": [
         "pollinator"
-      ]
+      ],
+      "names": {
+        "de": "Goldhalsschwebfliege",
+        "pl": "Bzygówka mszycznica"
+      }
     },
     {
       "id": "selenia-dentaria",
@@ -9583,7 +10149,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Dreistreifiger Mondfleckspanner"
+        "de": "Dreistreifiger Mondfleckspanner",
+        "pl": "Sykrzytek bezksiężyczak"
       }
     },
     {
@@ -9692,6 +10259,7 @@
       ],
       "names": {
         "de": "Kugeliger Marienkäfer",
+        "es": "Mariquita del álamo",
         "pl": "Wrzeciążeczka barwna"
       }
     },
@@ -9721,7 +10289,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Heller Sichelflügler"
+        "de": "Heller Sichelflügler",
+        "pl": "Wycinka sierpianka"
       }
     },
     {
@@ -9735,7 +10304,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Ockerfarbiger Steppenheiden-Zwergspanner"
+        "de": "Ockerfarbiger Steppenheiden-Zwergspanner",
+        "pl": "Krocznik ochrowiak"
       }
     },
     {
@@ -9749,7 +10319,10 @@
       "color": "#3d8c30",
       "traits": [
         "bug"
-      ]
+      ],
+      "names": {
+        "de": "Große Gemüsewanze"
+      }
     },
     {
       "id": "eilema-caniola",
@@ -9777,6 +10350,7 @@
       "traits": [],
       "names": {
         "de": "Gemeiner Ohrwurm",
+        "es": "Cortapichas",
         "pl": "Skorek pospolity"
       }
     },
@@ -9824,6 +10398,7 @@
       ],
       "names": {
         "de": "Schlüsselblumen-Würfelfalter",
+        "es": "Perico",
         "pl": "Wielena plamowstęg"
       }
     },
@@ -9838,7 +10413,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Randfleck-Kleinspanner"
+        "de": "Randfleck-Kleinspanner",
+        "pl": "Wątlak brzegokropek"
       }
     },
     {
@@ -9946,7 +10522,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Gelbband-Langhornmotte"
+        "de": "Gelbband-Langhornmotte",
+        "pl": "Wąsateczka zawilczaneczka"
       }
     },
     {
@@ -9962,7 +10539,8 @@
         "beetle"
       ],
       "names": {
-        "de": "Weißpunktiger Schwertlilienrüssler"
+        "de": "Weißpunktiger Schwertlilienrüssler",
+        "pl": "Jednorek kosaćcowy"
       }
     },
     {
@@ -10008,7 +10586,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Geißblattgeistchen",
+        "pl": "Rozstrzępiak wiciokrzewowiec"
+      }
     },
     {
       "id": "glaucopsyche-alexis",
@@ -10024,7 +10606,9 @@
         "pollinator"
       ],
       "names": {
-        "de": "Alexis-Bläuling"
+        "de": "Alexis-Bläuling",
+        "es": "Manchas verdes",
+        "pl": "Modraszek aleksis"
       }
     },
     {
@@ -10057,7 +10641,10 @@
       "color": "#3d8c30",
       "traits": [
         "bug"
-      ]
+      ],
+      "names": {
+        "de": "Flussläufer"
+      }
     },
     {
       "id": "cabera-exanthemata",
@@ -10070,7 +10657,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Braunstirn-Weißspanner"
+        "de": "Braunstirn-Weißspanner",
+        "pl": "Ciemnokres brzozowiec"
       }
     },
     {
@@ -10101,7 +10689,8 @@
         "wasp"
       ],
       "names": {
-        "de": "Amerikanische Mauerwespe"
+        "de": "Amerikanische Mauerwespe",
+        "es": "Avispa de barro de patas amarillas"
       }
     },
     {
@@ -10131,7 +10720,11 @@
       "color": "#3d8c30",
       "traits": [
         "bug"
-      ]
+      ],
+      "names": {
+        "de": "Braunschwarze Nesselweichwanze",
+        "pl": "Ulanik udopasek"
+      }
     },
     {
       "id": "judolia-cerambyciformis",
@@ -10157,7 +10750,11 @@
       "color": "#8a7a3a",
       "traits": [
         "pollinator"
-      ]
+      ],
+      "names": {
+        "de": "Hummel-Keilfleckschwebfliege",
+        "pl": "Gnojka trzmielowata"
+      }
     },
     {
       "id": "metcalfa-pruinosa",
@@ -10186,7 +10783,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Satellit-Wintereule"
+        "de": "Satellit-Wintereule",
+        "pl": "Zimsterla bukówka"
       }
     },
     {
@@ -10200,7 +10798,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Triangel-Bodeneule"
+        "de": "Triangel-Bodeneule",
+        "pl": "Rolnica trójkątówka"
       }
     },
     {
@@ -10292,7 +10891,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Natternkopf-Grasminiermotte"
+      }
     },
     {
       "id": "paracorymbia-maculicornis",
@@ -10355,7 +10957,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Braunleibiger Springkrautspanner"
+        "de": "Braunleibiger Springkrautspanner",
+        "pl": "Paśnik niecierpek"
       }
     },
     {
@@ -10383,7 +10986,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Janthe-Bandeule"
+        "de": "Janthe-Bandeule",
+        "pl": "Rolnica wąskopaska"
       }
     },
     {
@@ -10397,7 +11001,10 @@
       "color": "#8a7a3a",
       "traits": [
         "pollinator"
-      ]
+      ],
+      "names": {
+        "de": "Graue Breitfußschwebfliege"
+      }
     },
     {
       "id": "cyclophora-linearia",
@@ -10408,7 +11015,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Rotbuchen-Gürtelpuppenspanner",
+        "pl": "Świerzbik kreskowiak"
+      }
     },
     {
       "id": "lestes-virens",
@@ -10459,6 +11070,7 @@
       ],
       "names": {
         "de": "Kreuzdorn-Zipfelfalter",
+        "es": "Rabicorta de mancha azul",
         "pl": "Ogończyk tarninowiec"
       }
     },
@@ -10471,7 +11083,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Eichen-Faulholzmotte"
+      }
     },
     {
       "id": "agrotis-clavis",
@@ -10512,6 +11127,7 @@
       "traits": [],
       "names": {
         "de": "Torf-Mosaikjungfer",
+        "es": "Esna de turbera",
         "pl": "Żagnica torfowa"
       }
     },
@@ -10557,6 +11173,7 @@
       "traits": [],
       "names": {
         "de": "Gemeiner Holzbock",
+        "es": "La garrapata de las semillas del ricino",
         "pl": "Kleszcz pospolity"
       }
     },
@@ -10641,6 +11258,7 @@
       ],
       "names": {
         "de": "Nierenfleck-Zipfelfalter",
+        "es": "Topacio",
         "pl": "Pazik brzozowiec"
       }
     },
@@ -10685,7 +11303,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Wasseraloe-Zünsler",
+        "pl": "Nimfa osoczanka"
+      }
     },
     {
       "id": "alosterna-tabacicolor",
@@ -10713,7 +11335,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Dunkler Graszünsler",
+        "pl": "Wachlarzyk pastwiskowy"
+      }
     },
     {
       "id": "isoaeschna-isoceles",
@@ -10735,7 +11361,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Spitzwegerich-Zünsler"
+      }
     },
     {
       "id": "ectobius-sylvestris",
@@ -10780,7 +11409,11 @@
       "color": "#3d8c30",
       "traits": [
         "bug"
-      ]
+      ],
+      "names": {
+        "de": "Bunte Zwerg-Weichwanze",
+        "pl": "Cytryn dzieworodek"
+      }
     },
     {
       "id": "crambus-perlella",
@@ -10809,7 +11442,8 @@
         "beetle"
       ],
       "names": {
-        "de": "Würfelfleckiger Staubrüssler"
+        "de": "Würfelfleckiger Staubrüssler",
+        "pl": "Oskardzik korzeniowy"
       }
     },
     {
@@ -10826,6 +11460,7 @@
       ],
       "names": {
         "de": "Schwarzweiße Erdwanze",
+        "es": "Chinche mascarita",
         "pl": "Siedliszek dwubarwny"
       }
     },
@@ -10856,7 +11491,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Schwarzaugen-Bindenspanner"
+        "de": "Schwarzaugen-Bindenspanner",
+        "pl": "Paśnik dwuziernik"
       }
     },
     {
@@ -10887,7 +11523,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Schafgarben-Silbereule"
+        "de": "Schafgarben-Silbereule",
+        "pl": "Błyszczka kroplówka"
       }
     },
     {
@@ -10899,7 +11536,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Wasserlinsenzünsler",
+        "pl": "Nimfa rzęsianka"
+      }
     },
     {
       "id": "closterotomus-trivialis",
@@ -10927,7 +11568,8 @@
         "wasp"
       ],
       "names": {
-        "de": "Florentiner Wollbiene"
+        "de": "Florentiner Wollbiene",
+        "es": "Abeja cardadora de lana"
       }
     },
     {
@@ -10943,7 +11585,9 @@
         "beetle"
       ],
       "names": {
-        "de": "Ulmenblattkäfer"
+        "de": "Ulmenblattkäfer",
+        "es": "Escarabajo del olmo",
+        "pl": "Szarynka wiązówka"
       }
     },
     {
@@ -10984,7 +11628,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Grassteppen-Bodeneule",
+        "es": "Gusano saltarín"
+      }
     },
     {
       "id": "apoda-limacodes",
@@ -11028,7 +11676,11 @@
       "color": "#3d8c30",
       "traits": [
         "bug"
-      ]
+      ],
+      "names": {
+        "de": "Italienische Halsringweichwanze",
+        "pl": "Błyszczek prążkonogi"
+      }
     },
     {
       "id": "sceliphron-curvatum",
@@ -11043,7 +11695,8 @@
         "wasp"
       ],
       "names": {
-        "de": "Orientalische Mörtelwespe"
+        "de": "Orientalische Mörtelwespe",
+        "pl": "Gliniarz murowy"
       }
     },
     {
@@ -11074,7 +11727,8 @@
         "beetle"
       ],
       "names": {
-        "de": "Rüssel-Rotdeckenkäfer"
+        "de": "Rüssel-Rotdeckenkäfer",
+        "pl": "Karmazynek szkarłatny"
       }
     },
     {
@@ -11088,7 +11742,11 @@
       "color": "#3d8c30",
       "traits": [
         "bug"
-      ]
+      ],
+      "names": {
+        "de": "Rotknie-Blutzikade",
+        "pl": "Krasanka krasnonóżka"
+      }
     },
     {
       "id": "cerambyx-cerdo",
@@ -11104,6 +11762,7 @@
       ],
       "names": {
         "de": "Großer Eichenbock",
+        "es": "Gran capricornio de las encinas",
         "pl": "Kozioróg dębosz"
       }
     },
@@ -11169,6 +11828,7 @@
         "beetle"
       ],
       "names": {
+        "de": "Rotschwarzer Weichkäfer",
         "pl": "Omomiłek czerwonawy"
       }
     },
@@ -11184,7 +11844,10 @@
       "traits": [
         "butterfly",
         "pollinator"
-      ]
+      ],
+      "names": {
+        "es": "Morena"
+      }
     },
     {
       "id": "macaria-alternata",
@@ -11197,7 +11860,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Dunkelgrauer Eckflügelspanner"
+        "de": "Dunkelgrauer Eckflügelspanner",
+        "pl": "Witalnik zmiennik"
       }
     },
     {
@@ -11271,7 +11935,8 @@
       "color": "#6b5a4a",
       "traits": [],
       "names": {
-        "de": "Grüne Kräuselspinne"
+        "de": "Grüne Kräuselspinne",
+        "pl": "Liściak zielony"
       }
     },
     {
@@ -11390,6 +12055,7 @@
       ],
       "names": {
         "de": "Speer-Azurjungfer",
+        "es": "Agrion boreoalpino",
         "pl": "Łątka stawowa"
       }
     },
@@ -11408,6 +12074,7 @@
       ],
       "names": {
         "de": "Schwarzer Apollo",
+        "es": "Blanca de asso",
         "pl": "Niepylak mnemozyna"
       }
     },
@@ -11422,7 +12089,9 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Harlekinbär"
+        "de": "Harlekinbär",
+        "es": "Palomita arlequín",
+        "pl": "Pstrokówka nadobna"
       }
     },
     {
@@ -11453,7 +12122,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Schattenbinden-Weißspanner"
+        "de": "Schattenbinden-Weißspanner",
+        "pl": "Ciemnokres czeremszak"
       }
     },
     {
@@ -11465,7 +12135,11 @@
       "tier": "★★★★",
       "emoji": "🐛",
       "color": "#8a7a5a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Kreuztragende Rindenlaus",
+        "pl": "Rytnik plamisty"
+      }
     },
     {
       "id": "scopula-ornata",
@@ -11511,7 +12185,8 @@
         "bug"
       ],
       "names": {
-        "de": "Zweikeulen-Weichwanze"
+        "de": "Zweikeulen-Weichwanze",
+        "pl": "Ładzik byliniak"
       }
     },
     {
@@ -11542,7 +12217,10 @@
       "color": "#f0b020",
       "traits": [
         "wasp"
-      ]
+      ],
+      "names": {
+        "de": "Dunkelfransige Hosenbiene"
+      }
     },
     {
       "id": "ectobius-lapponicus",
@@ -11556,6 +12234,7 @@
       "traits": [],
       "names": {
         "de": "Gemeine Waldschabe",
+        "es": "Cucaracha pardusca",
         "pl": "Zadomka polna"
       }
     },
@@ -11604,7 +12283,7 @@
       "traits": [],
       "names": {
         "de": "Gefleckte Keulenschrecke",
-        "es": "Saltamontes Moteado",
+        "es": "Saltamontes moteado",
         "pl": "Pałkowiak plamisty"
       }
     },
@@ -11617,7 +12296,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Kleistermotte"
+      }
     },
     {
       "id": "eurygaster-maura",
@@ -11663,7 +12345,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Hohlzahn-Kapselspanner"
+        "de": "Hohlzahn-Kapselspanner",
+        "pl": "Peryzoma przywrotnica"
       }
     },
     {
@@ -11705,7 +12388,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Baja-Bodeneule"
+        "de": "Baja-Bodeneule",
+        "pl": "Rolnica niklica"
       }
     },
     {
@@ -11830,7 +12514,12 @@
       "color": "#5a3a22",
       "traits": [
         "beetle"
-      ]
+      ],
+      "names": {
+        "de": "Deutsche Fuchs",
+        "es": "Escarabajo conchudo",
+        "pl": "Kosmatek brudny"
+      }
     },
     {
       "id": "evarcha-jucunda",
@@ -11841,7 +12530,10 @@
       "tier": "★★★★",
       "emoji": "🕷️",
       "color": "#6b5a4a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Mittelmeer-Sichelspringer"
+      }
     },
     {
       "id": "abrostola-tripartita",
@@ -11854,7 +12546,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Silbergraue Nessel-Höckereule"
+        "de": "Silbergraue Nessel-Höckereule",
+        "pl": "Zgrzeblica trojaczka"
       }
     },
     {
@@ -11868,7 +12561,11 @@
       "color": "#3d8c30",
       "traits": [
         "bug"
-      ]
+      ],
+      "names": {
+        "de": "Glänzende Weichwanze",
+        "pl": "Błyszczek punktowany"
+      }
     },
     {
       "id": "ennomos-fuscantaria",
@@ -11881,7 +12578,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Eschen-Zackenrandspanner"
+        "de": "Eschen-Zackenrandspanner",
+        "pl": "Latalec najesioniak"
       }
     },
     {
@@ -11895,7 +12593,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Pappel-Dickleibspanner"
+        "de": "Pappel-Dickleibspanner",
+        "pl": "Włochacz dropiak"
       }
     },
     {
@@ -11909,7 +12608,11 @@
       "color": "#3d8c30",
       "traits": [
         "bug"
-      ]
+      ],
+      "names": {
+        "de": "Dunkler Dickwanst",
+        "pl": "Tłustosz zielonobrzuchy"
+      }
     },
     {
       "id": "idaea-fuscovenosa",
@@ -11922,7 +12625,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Graurandiger Zwergspanner"
+        "de": "Graurandiger Zwergspanner",
+        "pl": "Krocznik ciemnożyłek"
       }
     },
     {
@@ -11952,6 +12656,7 @@
       "traits": [],
       "names": {
         "de": "Große Eintagsfliege",
+        "es": "Mosca de mayo",
         "pl": "Jętka górska"
       }
     },
@@ -11982,7 +12687,8 @@
       "color": "#2a8fb5",
       "traits": [],
       "names": {
-        "de": "Große Zangenlibelle"
+        "de": "Große Zangenlibelle",
+        "es": "Alguacil-gancho"
       }
     },
     {
@@ -11996,7 +12702,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Südlicher Bär"
+        "de": "Südlicher Bär",
+        "es": "Pequeña gitana"
       }
     },
     {
@@ -12008,7 +12715,11 @@
       "tier": "★★★★",
       "emoji": "🪰",
       "color": "#8a7a3a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Schwarze Soldatenfliege",
+        "es": "Mosca soldado negra"
+      }
     },
     {
       "id": "lamoria-anella",
@@ -12036,6 +12747,7 @@
       ],
       "names": {
         "de": "Lilagold-Feuerfalter",
+        "es": "Mariposas alas de telaraña",
         "pl": "Czerwończyk płomieniec"
       }
     },
@@ -12063,7 +12775,10 @@
       "tier": "★★★★",
       "emoji": "🕷️",
       "color": "#6b5a4a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Haarbeinige Pfauenspinne"
+      }
     },
     {
       "id": "platycnemis-latipes",
@@ -12076,7 +12791,11 @@
       "color": "#2a8fb5",
       "traits": [
         "damselfly"
-      ]
+      ],
+      "names": {
+        "de": "Weiße Federlibelle",
+        "es": "Caballito claro"
+      }
     },
     {
       "id": "cilix-glaucata",
@@ -12089,7 +12808,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Weißer Sichelflügler"
+        "de": "Weißer Sichelflügler",
+        "pl": "Bodlica sinica"
       }
     },
     {
@@ -12133,7 +12853,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Graugrüner Apfel-Blütenspanner"
+        "de": "Graugrüner Apfel-Blütenspanner",
+        "pl": "Grotniczek owocowiec"
       }
     },
     {
@@ -12162,7 +12883,8 @@
       "color": "#6b5a4a",
       "traits": [],
       "names": {
-        "de": "Wollige Mauerspringspinne"
+        "de": "Wollige Mauerspringspinne",
+        "pl": "Drobnik wełnistowłosy"
       }
     },
     {
@@ -12193,7 +12915,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Markeule"
+        "de": "Markeule",
+        "pl": "Paciepnica ziemniaczana"
       }
     },
     {
@@ -12207,7 +12930,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Eschenzwieselwickler"
+        "de": "Eschenzwieselwickler",
+        "pl": "Zwójka rdzaweczka"
       }
     },
     {
@@ -12233,7 +12957,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Orangebrauner Graszünsler",
+        "pl": "Wachlarzyk trawnik"
+      }
     },
     {
       "id": "xanthorhoe-ferrugata",
@@ -12246,7 +12974,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Dunkler Rostfarben-Blattspanner"
+        "de": "Dunkler Rostfarben-Blattspanner",
+        "pl": "Paśnik mysiotrzewiak"
       }
     },
     {
@@ -12277,6 +13006,7 @@
       ],
       "names": {
         "de": "Baldrian-Scheckenfalter",
+        "es": "Doncella oscura",
         "pl": "Przeplatka diamina"
       }
     },
@@ -12305,7 +13035,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Schlehenhecken-Grauspanner"
+        "de": "Schlehenhecken-Grauspanner",
+        "pl": "Przylepek księżycowiak"
       }
     },
     {
@@ -12328,7 +13059,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Gelber Küstenspanner"
+      }
     },
     {
       "id": "capnodis-tenebrionis",
@@ -12389,7 +13123,9 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Später Kastanienwickler"
+        "de": "Später Kastanienwickler",
+        "es": "Oruga de la castaña",
+        "pl": "Pachówka żołędzióweczka"
       }
     },
     {
@@ -12449,7 +13185,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Wegerich-Erdeule"
+        "de": "Wegerich-Erdeule",
+        "pl": "Rolnica malinówka"
       }
     },
     {
@@ -12467,6 +13204,7 @@
       ],
       "names": {
         "de": "Ulmen-Zipfelfalter",
+        "es": "Rabicorta w-blanca",
         "pl": "Ogończyk wiązowiec"
       }
     },
@@ -12498,6 +13236,7 @@
         "bug"
       ],
       "names": {
+        "de": "Glatte Grasweichwanze",
         "pl": "Mściel natrawny"
       }
     },
@@ -12527,7 +13266,10 @@
       "tier": "★★★★",
       "emoji": "🕷️",
       "color": "#6b5a4a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Halmkrabbenspinne"
+      }
     },
     {
       "id": "cyclophora-puppillaria",
@@ -12538,7 +13280,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Wandernder Gürtelpuppenspanner"
+      }
     },
     {
       "id": "miramella-alpina",
@@ -12566,7 +13311,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Knöterich-Purpurspanner"
+        "de": "Knöterich-Purpurspanner",
+        "pl": "Sudamek purpurek"
       }
     },
     {
@@ -12582,7 +13328,8 @@
         "bug"
       ],
       "names": {
-        "de": "Eichennetzwanze"
+        "de": "Eichennetzwanze",
+        "pl": "Prześwietlik dębowy"
       }
     },
     {
@@ -12662,7 +13409,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Zweiband-Wespenschwebfliege"
+        "de": "Zweiband-Wespenschwebfliege",
+        "pl": "Prężec dwupaskowy"
       }
     },
     {
@@ -12679,6 +13427,7 @@
       ],
       "names": {
         "de": "Veränderliche Hummel",
+        "es": "Abejorro variable",
         "pl": "Trzmiel zmienny"
       }
     },
@@ -12740,6 +13489,7 @@
       ],
       "names": {
         "de": "Mattscheckiger Braun-Dickkopffalter",
+        "es": "Dorada oscura",
         "pl": "Karłątek akteon"
       }
     },
@@ -12767,7 +13517,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Hellgrüne Flechteneule",
+        "es": "La verde jaspeada"
+      }
     },
     {
       "id": "loxostege-sticticalis",
@@ -12826,7 +13580,9 @@
         "pollinator"
       ],
       "names": {
-        "de": "Karstweißling"
+        "de": "Karstweißling",
+        "es": "Blanca de mann",
+        "pl": "Bielinek bliźniak"
       }
     },
     {
@@ -12885,7 +13641,11 @@
       "tier": "★★★★",
       "emoji": "🪰",
       "color": "#8a7a3a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Frühlingsschnake",
+        "pl": "Koziułka moczarowa"
+      }
     },
     {
       "id": "cheilosia-illustrata",
@@ -12900,7 +13660,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Bunte Erzschwebfliege"
+        "de": "Bunte Erzschwebfliege",
+        "pl": "Wyrówka włochata"
       }
     },
     {
@@ -12926,7 +13687,11 @@
       "tier": "★★★★",
       "emoji": "🪰",
       "color": "#8a7a3a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Gemeine Habichtsfliege",
+        "pl": "Pędźka szklistoskrzydła"
+      }
     },
     {
       "id": "nyctophila-reichii",
@@ -12957,7 +13722,8 @@
         "beetle"
       ],
       "names": {
-        "de": "Ungarischer Prachtkäfer"
+        "de": "Ungarischer Prachtkäfer",
+        "es": "Carcoma metálica"
       }
     },
     {
@@ -12972,6 +13738,7 @@
       "traits": [],
       "names": {
         "de": "Opuntienspinne",
+        "es": "Araña de tela carpa tropical",
         "pl": "Namiotowiec opuncjowy"
       }
     },
@@ -13003,6 +13770,8 @@
         "pollinator"
       ],
       "names": {
+        "de": "Weissbindiger Bergwald-Mohrenfalter",
+        "es": "Erebia ajedrezada",
         "pl": "Górówka euriala"
       }
     },
@@ -13017,7 +13786,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Gemeine Staubeule"
+        "de": "Gemeine Staubeule",
+        "pl": "Światłówka mysiotrzewka"
       }
     },
     {
@@ -13045,7 +13815,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Bilsenkraut-Blüteneule"
+      }
     },
     {
       "id": "colletes-cunicularius",
@@ -13108,6 +13881,8 @@
         "bug"
       ],
       "names": {
+        "de": "Gemeine Erdwanze",
+        "es": "Chinche negra cavadora",
         "pl": "Ziemik tarczyca"
       }
     },
@@ -13123,6 +13898,7 @@
       "traits": [],
       "names": {
         "de": "Nagelfleck",
+        "es": "Polilla de montaña de cuatro ojos",
         "pl": "Lotnica zyska"
       }
     },
@@ -13156,7 +13932,8 @@
         "beetle"
       ],
       "names": {
-        "de": "Weberbock"
+        "de": "Weberbock",
+        "pl": "Zgrzypik twardokrywka"
       }
     },
     {
@@ -13170,7 +13947,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Hobelspanner"
+        "de": "Hobelspanner",
+        "pl": "Liczalnik dębowiec"
       }
     },
     {
@@ -13186,7 +13964,8 @@
         "damselfly"
       ],
       "names": {
-        "de": "Scharlachlibelle"
+        "de": "Scharlachlibelle",
+        "es": "Caballito delicado"
       }
     },
     {
@@ -13215,7 +13994,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Violettroter Kleinspanner"
+        "de": "Violettroter Kleinspanner",
+        "pl": "Wątlak rdzawiak"
       }
     },
     {
@@ -13277,7 +14057,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Ockergelbe Escheneule",
+        "pl": "Ozimica średnia"
+      }
     },
     {
       "id": "olethreutes-arcuella",
@@ -13305,7 +14089,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Weißgerippte Lolcheule"
+        "de": "Weißgerippte Lolcheule",
+        "pl": "Splotka perzanka"
       }
     },
     {
@@ -13320,6 +14105,7 @@
       "traits": [],
       "names": {
         "de": "Kleine Moosjungfer",
+        "es": "Libélula cariblanca menor",
         "pl": "Zalotka torfowcowa"
       }
     },
@@ -13332,7 +14118,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#8a7050",
-      "traits": []
+      "traits": [],
+      "names": {
+        "pl": "Orzęsica długoroga"
+      }
     },
     {
       "id": "ephippiger-diurnus",
@@ -13358,6 +14147,7 @@
         "bug"
       ],
       "names": {
+        "de": "Tappert",
         "pl": "Bodzik nadmorski"
       }
     },
@@ -13435,6 +14225,7 @@
       ],
       "names": {
         "de": "Roter Würfel-Dickkopffalter",
+        "es": "Sertorio",
         "pl": "Powszelatek sertor"
       }
     },
@@ -13449,7 +14240,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Dunkle Waldschatteneule"
+        "de": "Dunkle Waldschatteneule",
+        "pl": "Światłówka rdzawica"
       }
     },
     {
@@ -13463,7 +14255,11 @@
       "color": "#5a3a22",
       "traits": [
         "beetle"
-      ]
+      ],
+      "names": {
+        "de": "Schierlingsrüssler",
+        "pl": "Kulczanka kosaćcówka"
+      }
     },
     {
       "id": "agapeta-zoegana",
@@ -13474,7 +14270,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Flockenblumen-Wickler",
+        "pl": "Pańdrożyca strzemioneczka"
+      }
     },
     {
       "id": "sympetrum-pedemontanum",
@@ -13488,6 +14288,7 @@
       "traits": [],
       "names": {
         "de": "Gebänderte Heidelibelle",
+        "es": "Libélula piedemontesa",
         "pl": "Szablak przepasany"
       }
     },
@@ -13517,7 +14318,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#8a7050",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Blattköcherfliege"
+      }
     },
     {
       "id": "graphocephala-fennahi",
@@ -13532,7 +14336,8 @@
         "bug"
       ],
       "names": {
-        "de": "Rhododendronzikade"
+        "de": "Rhododendronzikade",
+        "pl": "Pisogłówka różanecznikowa"
       }
     },
     {
@@ -13546,7 +14351,10 @@
       "color": "#3d8c30",
       "traits": [
         "bug"
-      ]
+      ],
+      "names": {
+        "de": "Gödels Raubwanze"
+      }
     },
     {
       "id": "polyommatus-amandus",
@@ -13562,7 +14370,9 @@
         "pollinator"
       ],
       "names": {
-        "de": "Vogelwicken-Bläuling"
+        "de": "Vogelwicken-Bläuling",
+        "es": "Niña amanda",
+        "pl": "Modraszek amandus"
       }
     },
     {
@@ -13576,7 +14386,9 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Marmoriertes Gebüscheulchen"
+        "de": "Marmoriertes Gebüscheulchen",
+        "es": "Mariposa rosada marmoleada",
+        "pl": "Pominka powabna"
       }
     },
     {
@@ -13588,7 +14400,10 @@
       "tier": "★★★★",
       "emoji": "🐛",
       "color": "#a07060",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Walnuss-Filzgallmilbe"
+      }
     },
     {
       "id": "xysticus-ulmi",
@@ -13676,7 +14491,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Heidelbeer-Palpenspanner"
+        "de": "Heidelbeer-Palpenspanner",
+        "pl": "Paśnik widliczak"
       }
     },
     {
@@ -13730,7 +14546,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Schafgarben-Blütenspanner"
+        "de": "Schafgarben-Blütenspanner",
+        "pl": "Grotnik wrotyczak"
       }
     },
     {
@@ -13744,7 +14561,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Frühlings-Kreuzflügel"
+        "de": "Frühlings-Kreuzflügel",
+        "pl": "Nierównik kasztaniak"
       }
     },
     {
@@ -13791,7 +14609,8 @@
         "wasp"
       ],
       "names": {
-        "de": "Knautien-Sandbiene"
+        "de": "Knautien-Sandbiene",
+        "pl": "Pszczolinka świerzbnicówka"
       }
     },
     {
@@ -13818,7 +14637,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Brombeerzünsler"
+      }
     },
     {
       "id": "athous-haemorrhoidalis",
@@ -13833,7 +14655,8 @@
         "beetle"
       ],
       "names": {
-        "de": "Rotbauchiger Laubschnellkäfer"
+        "de": "Rotbauchiger Laubschnellkäfer",
+        "pl": "Nieskorek rudobrzuchy"
       }
     },
     {
@@ -13845,7 +14668,10 @@
       "tier": "★★★★",
       "emoji": "🦗",
       "color": "#6aa040",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Costas Schönschrecke"
+      }
     },
     {
       "id": "rhynchophorus-ferrugineus",
@@ -13858,7 +14684,12 @@
       "color": "#5a3a22",
       "traits": [
         "beetle"
-      ]
+      ],
+      "names": {
+        "de": "Indomalaiischer Palmen-Rüssler",
+        "es": "Picudo rojo de la palma",
+        "pl": "Zwijacz palmowy"
+      }
     },
     {
       "id": "clepsis-consimilana",
@@ -13869,7 +14700,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Ligusterwickler"
+      }
     },
     {
       "id": "blatta-orientalis",
@@ -13900,7 +14734,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Gestreifte Waldschwebfliege"
+        "de": "Gestreifte Waldschwebfliege",
+        "pl": "Mszycznik jodełkowany"
       }
     },
     {
@@ -13914,7 +14749,8 @@
       "color": "#8a7a3a",
       "traits": [],
       "names": {
-        "de": "Breitflügelige Raupenfliege"
+        "de": "Breitflügelige Raupenfliege",
+        "pl": "Paśnica tarczówkowa"
       }
     },
     {
@@ -13945,7 +14781,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Kreuzblütler-Blattspanner"
+        "de": "Kreuzblütler-Blattspanner",
+        "pl": "Paśnik znacznik"
       }
     },
     {
@@ -13959,7 +14796,8 @@
       "color": "#8a7a3a",
       "traits": [],
       "names": {
-        "de": "Gemeine Breitstirnblasenkopffliege"
+        "de": "Gemeine Breitstirnblasenkopffliege",
+        "pl": "Ślipień trzmielowiec"
       }
     },
     {
@@ -13973,7 +14811,9 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Gelbfleck-Waldschatteneule"
+        "de": "Gelbfleck-Waldschatteneule",
+        "es": "Sombras de ángulo pequeño",
+        "pl": "Włócznica ogorzałka"
       }
     },
     {
@@ -13989,7 +14829,8 @@
         "wasp"
       ],
       "names": {
-        "de": "Gestreifte Eichengallwespe"
+        "de": "Gestreifte Eichengallwespe",
+        "pl": "Galasówka długobrzuszka"
       }
     },
     {
@@ -14015,7 +14856,10 @@
       "traits": [
         "butterfly",
         "pollinator"
-      ]
+      ],
+      "names": {
+        "es": "Cuerquera"
+      }
     },
     {
       "id": "brachytron-pratense",
@@ -14029,6 +14873,7 @@
       "traits": [],
       "names": {
         "de": "Früher Schilfjäger",
+        "es": "Esna primaveral",
         "pl": "Żagniczka zwyczajna"
       }
     },
@@ -14072,7 +14917,11 @@
       "traits": [
         "butterfly",
         "pollinator"
-      ]
+      ],
+      "names": {
+        "de": "Kleiner Gebirgs-Würfel-Dickkopffalter",
+        "es": "Ajedrezada menor"
+      }
     },
     {
       "id": "gryllotalpa-gryllotalpa",
@@ -14103,7 +14952,8 @@
         "pollinator"
       ],
       "names": {
-        "de": "Zürgelbaumfalter"
+        "de": "Zürgelbaumfalter",
+        "es": "Repicoteada"
       }
     },
     {
@@ -14162,6 +15012,7 @@
       ],
       "names": {
         "de": "Gemeiner Teichläufer",
+        "es": "Chinche acuático",
         "pl": "Poślizg wysmukły"
       }
     },
@@ -14197,6 +15048,7 @@
       ],
       "names": {
         "de": "Kleine Pechlibelle",
+        "es": "Agrion menor",
         "pl": "Tężnica mała"
       }
     },
@@ -14226,7 +15078,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Dreipunkt-Glanzeule"
+        "de": "Dreipunkt-Glanzeule",
+        "pl": "Opłonka kozibródka"
       }
     },
     {
@@ -14255,7 +15108,8 @@
         "wasp"
       ],
       "names": {
-        "de": "Heuschreckensandwespe"
+        "de": "Heuschreckensandwespe",
+        "pl": "Nęk świerszczojad"
       }
     },
     {
@@ -14269,7 +15123,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Dunkle Knötericheule"
+        "de": "Dunkle Knötericheule",
+        "pl": "Napleczka szczawnica"
       }
     },
     {
@@ -14286,6 +15141,7 @@
       ],
       "names": {
         "de": "Efeu-Seidenbiene",
+        "es": "Abeja de la hiedra",
         "pl": "Lepiarka bluszczówka"
       }
     },
@@ -14298,7 +15154,11 @@
       "tier": "★★★★",
       "emoji": "🪰",
       "color": "#8a7a3a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Wanzenfliege",
+        "pl": "Paśnica okazała"
+      }
     },
     {
       "id": "thaumetopoea-processionea",
@@ -14364,6 +15224,7 @@
       ],
       "names": {
         "de": "Idas-Bläuling",
+        "es": "Esmaltada sencilla",
         "pl": "Modraszek idas"
       }
     },
@@ -14378,7 +15239,11 @@
       "color": "#d72638",
       "traits": [
         "beetle"
-      ]
+      ],
+      "names": {
+        "de": "Berg-Marienkäfer",
+        "pl": "Biedronka pokrzywianka"
+      }
     },
     {
       "id": "cassida-rubiginosa",
@@ -14393,6 +15258,7 @@
         "beetle"
       ],
       "names": {
+        "de": "Distel-Schildkäfer",
         "pl": "Tarczyk ostowy"
       }
     },
@@ -14409,7 +15275,8 @@
         "beetle"
       ],
       "names": {
-        "de": "Vierpunktiger Ölkäfer"
+        "de": "Vierpunktiger Ölkäfer",
+        "es": "Escarabajo de cuatro puntos"
       }
     },
     {
@@ -14471,7 +15338,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Brombeertriebwickler"
+      }
     },
     {
       "id": "melanchra-persicariae",
@@ -14484,7 +15354,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Flohkraut-Eule"
+        "de": "Flohkraut-Eule",
+        "pl": "Piętnówka rdestówka"
       }
     },
     {
@@ -14517,6 +15388,7 @@
       ],
       "names": {
         "de": "Fetthennen-Bläuling",
+        "es": "Abencerraje orión",
         "pl": "Modraszek orion"
       }
     },
@@ -14532,6 +15404,7 @@
       "traits": [],
       "names": {
         "de": "Wiesenschnake",
+        "es": "Zancudo gigante europeo",
         "pl": "Komarnica błotniarka"
       }
     },
@@ -14548,7 +15421,8 @@
         "beetle"
       ],
       "names": {
-        "de": "Strichfleckiger Marienkäfer"
+        "de": "Strichfleckiger Marienkäfer",
+        "pl": "Okrajka dwuplamka"
       }
     },
     {
@@ -14562,7 +15436,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Grauer Knospenwickler"
+        "de": "Grauer Knospenwickler",
+        "pl": "Płatkówka pstrocineczka"
       }
     },
     {
@@ -14576,7 +15451,10 @@
       "color": "#f0b020",
       "traits": [
         "wasp"
-      ]
+      ],
+      "names": {
+        "de": "Weidennieren-Blattwespe"
+      }
     },
     {
       "id": "rhagio-scolopaceus",
@@ -14589,7 +15467,8 @@
       "color": "#8a7a3a",
       "traits": [],
       "names": {
-        "de": "Gemeine Schnepfenfliege"
+        "de": "Gemeine Schnepfenfliege",
+        "pl": "Kobyliczka pniowa"
       }
     },
     {
@@ -14630,7 +15509,11 @@
       "tier": "★★★★",
       "emoji": "🦗",
       "color": "#6aa040",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Südliche Grille",
+        "pl": "Świerszcz południowy"
+      }
     },
     {
       "id": "anthrax-anthrax",
@@ -14690,7 +15573,11 @@
       "color": "#f0b020",
       "traits": [
         "wasp"
-      ]
+      ],
+      "names": {
+        "de": "Eichenaustern-Gallwespe",
+        "pl": "Letyniec łuskowiec"
+      }
     },
     {
       "id": "moma-alpium",
@@ -14703,7 +15590,8 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
-        "de": "Seladoneule"
+        "de": "Seladoneule",
+        "pl": "Pyszałek orion"
       }
     },
     {
@@ -14749,7 +15637,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Trockenwald-Mooszünsler",
+        "pl": "Wachlarzyk sosnowy"
+      }
     },
     {
       "id": "philodromus-margaritatus",
@@ -14760,7 +15652,10 @@
       "tier": "★★★★",
       "emoji": "🕷️",
       "color": "#6b5a4a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Großer Rindenflachstrecker"
+      }
     },
     {
       "id": "chorthippus-biguttulus",
@@ -14786,7 +15681,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Trübgelbe Spannereule",
+        "pl": "Szczękalica brodźczyca"
+      }
     },
     {
       "id": "platystomos-albinus",
@@ -14819,6 +15718,7 @@
       ],
       "names": {
         "de": "Walker",
+        "es": "Escarabajo batanero",
         "pl": "Wałkarz lipczyk"
       }
     },
@@ -14831,7 +15731,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Südwestliche Schnabeleule"
+      }
     },
     {
       "id": "metellina-merianae",
@@ -14844,6 +15747,7 @@
       "color": "#6b5a4a",
       "traits": [],
       "names": {
+        "de": "Kleine Höhlenspinne",
         "pl": "Czaik jaskiniowy"
       }
     },
@@ -14856,7 +15760,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Weißdorn-Gespinstzünsler"
+      }
     },
     {
       "id": "archips-xylosteana",
@@ -14867,7 +15774,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Aprikosenwickler",
+        "pl": "Zwójka dębówka"
+      }
     },
     {
       "id": "hipparchia-fidia",
@@ -14881,7 +15792,10 @@
       "traits": [
         "butterfly",
         "pollinator"
-      ]
+      ],
+      "names": {
+        "es": "Festón blanco"
+      }
     },
     {
       "id": "lestes-dryas",
@@ -14909,7 +15823,11 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Ahorn-Gürtelpuppenspanner",
+        "pl": "Świerzbik pierścieniak"
+      }
     },
     {
       "id": "arge-pagana",
@@ -14924,6 +15842,7 @@
         "wasp"
       ],
       "names": {
+        "de": "Blauschwarze Rosenbürstenhornblattwespe",
         "pl": "Obnażacz kopciuszek"
       }
     },
@@ -14954,7 +15873,11 @@
       "color": "#8a7a3a",
       "traits": [
         "pollinator"
-      ]
+      ],
+      "names": {
+        "de": "Mondfleck-Feldschwebfliege",
+        "pl": "Bzyg lustrzyk"
+      }
     },
     {
       "id": "neriene-montana",
@@ -14965,7 +15888,11 @@
       "tier": "★★★★",
       "emoji": "🕷️",
       "color": "#6b5a4a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Frühlingsgroßweber",
+        "pl": "Snówek okazały"
+      }
     },
     {
       "id": "andrena-vaga",
@@ -14995,6 +15922,7 @@
       "color": "#e8903a",
       "traits": [],
       "names": {
+        "de": "Morpheus-Staubeule",
         "pl": "Światłówka sennica"
       }
     },
@@ -15039,6 +15967,7 @@
       "traits": [],
       "names": {
         "de": "Südliche Mosaikjungfer",
+        "es": "Esna zafiro",
         "pl": "Żagnica południowa"
       }
     },
@@ -15065,7 +15994,10 @@
       "tier": "★★★★",
       "emoji": "🐛",
       "color": "#8a7a5a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Silberfischchen"
+      }
     },
     {
       "id": "dinoptera-collaris",
@@ -15096,6 +16028,7 @@
       "traits": [],
       "names": {
         "de": "Sumpfhornklee-Widderchen",
+        "es": "Gitanilla de cinco puntos",
         "pl": "Kraśnik pięcioplamek"
       }
     },
@@ -15112,7 +16045,8 @@
         "beetle"
       ],
       "names": {
-        "de": "Blutroter Halsbock"
+        "de": "Blutroter Halsbock",
+        "pl": "Zmorsznik sosnowy"
       }
     },
     {
@@ -15127,6 +16061,7 @@
       "traits": [],
       "names": {
         "de": "Großer Gabelschwanz",
+        "es": "Mariposa harpía",
         "pl": "Widłogonka siwica"
       }
     },
@@ -15139,7 +16074,10 @@
       "tier": "★★★★",
       "emoji": "🦋",
       "color": "#e8903a",
-      "traits": []
+      "traits": [],
+      "names": {
+        "de": "Heidelbeer Wickler"
+      }
     },
     {
       "id": "acronicta-leporina",

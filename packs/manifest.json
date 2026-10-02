@@ -2,7 +2,7 @@
   "manifest": 1,
   "packs": {
     "eu-ce": {
-      "version": 7,
+      "version": 8,
       "url": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/eu-ce.json"
     }
   }

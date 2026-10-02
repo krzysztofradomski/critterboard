@@ -7,7 +7,7 @@ names = json.load(open(ROOT / "tools/names/names.json"))
 pack = json.load(open(ROOT / "packs/eu-ce.json"))
 n = 0
 for b in pack["bugs"]:
-    got = {l: v[:1].upper() + v[1:] for l, v in names.get(b["latin"], {}).items() if v not in BAD}
+    got = {l: (v[:1].upper() + (v[1:].lower() if l != "de" else v[1:])) for l, v in names.get(b["latin"], {}).items() if v not in BAD}
     if got:
         b["names"] = got
         n += 1
