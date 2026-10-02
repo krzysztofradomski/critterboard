@@ -35,14 +35,14 @@
     },
     "onboarding": {
       "title": "Critterboard",
-      "tagline": "rozpoznaj każdego owada · offline · z humorem",
+      "tagline": "rozpoznaj każdego owada · działa offline · bez spiny",
       "snap": "📷 ZRÓB ZDJĘCIE",
-      "sassyId": "🤖 BEZCZELNE ID",
+      "sassyId": "🤖 ZAPYTAJ PRZEWODNIKA",
       "buildDex": "🏆 ZBIERAJ DEX",
       "pickGuide": "WYBIERZ PRZEWODNIKA",
       "startHunting": "Zaczynamy →",
-      "legal": "✓ bez konta · ✓ bez internetu · ✓ za darmo",
-      "legalOnline": "✓ bez konta · ✓ z internetem · ✓ za darmo",
+      "legal": "✓ bez konta · ✓ bez internetu · ✓ bez płacenia",
+      "legalOnline": "✓ bez konta · ✓ z internetem · ✓ bez płacenia",
       "namePrompt": "JAK MAMY CIĘ NAZYWAĆ?"
     },
     "home": {
@@ -651,7 +651,7 @@
       "regionDownloading": "Pobieranie · {pct}% · {mb} MB",
       "regionFoot": "Pakiety działają w pełni offline. Dotknij zainstalowany, by zobaczyć zawartość.",
       "languageBand": "Język",
-      "languageSub": "Dla UI, nazw gatunków i bezczelności {name}.",
+      "languageSub": "Dla interfejsu, nazw gatunków i tekstów: {name}.",
       "naturalistsTile": "Open source",
       "naturalistsSub": "Biblioteki i zależności",
       "helpTile": "Pomoc i informacje",
