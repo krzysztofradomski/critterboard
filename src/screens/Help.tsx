@@ -13,7 +13,7 @@ import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
-const FAQ_IDS = ['faq1', 'faq2', 'faq3', 'faq4', 'faq5', 'faq6'] as const;
+const FAQ_IDS = ['faq1', 'faq2', 'faq3', 'faq4', 'faq5', 'faq6', 'faq7', 'faq8'] as const;
 
 /** The localized support page; English lives at /support/, the rest at /support/<lang>/. */
 const helpUrl = (lang: string) =>

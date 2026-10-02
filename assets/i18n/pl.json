@@ -1072,7 +1072,7 @@
         },
         "faq2": {
           "q": "Dlaczego mam niską pewność ID?",
-          "a": "Zwykle jedno z trzech: rozmyte zdjęcie, owad zajmuje mniej niż 1/4 kadru lub jesteś poza zainstalowanym pakietem regionalnym. Spróbuj ciaśniejszego kadru, jaśniejszego światła i profilu z boku."
+          "a": "Zwykle jedno z trzech: rozmyte zdjęcie, owad zajmuje mniej niż 1/4 kadru lub jesteś poza zainstalowanym pakietem regionalnym. Skanów poniżej progu dopasowania (Mózg, domyślnie 33%) w ogóle nie można dodać. Spróbuj ciaśniejszego kadru, jaśniejszego światła i profilu z boku."
         },
         "faq3": {
           "q": "Jak działają zamrożenia passy?",
@@ -1088,7 +1088,15 @@
         },
         "faq6": {
           "q": "Jak usunąć moje dane?",
-          "a": "Przewiń do \"Wymaż wszystko.\" Usuwa twój dex, obserwacje, ustawienia i modele. Obserwujący i wpisy rankingu też znikają. Nie ma cofnięcia."
+          "a": "Wszystko na tym telefonie: przewiń do „Wymaż wszystko”. Usuwa dex, obserwacje, ustawienia i modele, a najpierw kasuje twoje dane online. Tylko online: w Mózgu jest „Usuń moje dane online”. Nie ma cofnięcia."
+        },
+        "faq7": {
+          "q": "Czy mogę przenieść dane na nowy telefon?",
+          "a": "Tak. Użyj tutaj „Kopia zapasowa (plik)”, trzymaj plik w Plikach lub iCloud Drive, a na nowym telefonie wybierz „Przywróć z kopii” (lub na pierwszym ekranie po reinstalacji). Dodaje dex, złapania, zadania i ustawienia; zdjęcia i historia czatu nie są zawarte."
+        },
+        "faq8": {
+          "q": "Skąd biorą się siedlisko, rozmiar, zasięg i pokarm?",
+          "a": "Siedlisko i pokarm są typowe dla rodziny gatunku. Rozmiar pochodzi z Wikipedii, a zasięg z rekordów GBIF, więc kilka gatunków pokazuje rodzinę zamiast rozmiaru. „Więcej na Wikipedii” otwiera pełny artykuł."
         }
       },
       "contactTitle": "Skontaktuj się",

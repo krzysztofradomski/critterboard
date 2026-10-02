@@ -1072,7 +1072,7 @@
         },
         "faq2": {
           "q": "Why is my ID confidence low?",
-          "a": "Usually one of three things: the photo is blurry, the bug fills less than 1/4 of the frame, or you're outside an installed regional pack. Try a closer crop, brighter light, and a side profile."
+          "a": "Usually one of three things: the photo is blurry, the bug fills less than 1/4 of the frame, or you're outside an installed regional pack. Scans under your match threshold (Brains, 33% by default) can't be added at all. Try a closer crop, brighter light, and a side profile."
         },
         "faq3": {
           "q": "How do streak freezes work?",
@@ -1088,7 +1088,15 @@
         },
         "faq6": {
           "q": "How do I delete my data?",
-          "a": "Scroll down to \"Wipe everything.\" It nukes your dex, sightings, settings, and on-device models. Followers and leaderboard entries go too. There is no undo."
+          "a": "Everything on this phone: scroll down to \"Wipe everything\". It removes your dex, sightings, settings and on-device models, and deletes your online data first. Online only: Brains has \"Delete my online data\". There is no undo."
+        },
+        "faq7": {
+          "q": "Can I move my data to a new phone?",
+          "a": "Yes. Use \"Back up my data (file)\" here, keep the file in Files or iCloud Drive, then \"Restore from a backup\" on the new phone (or on the first screen after a reinstall). It adds your dex, catches, quests and settings; photos and chat history aren't included."
+        },
+        "faq8": {
+          "q": "Where do habitat, size, range and diet come from?",
+          "a": "Habitat and diet are typical for the species' family. Size comes from Wikipedia and range from GBIF records, so a few species show the family instead of a size. \"Read more on Wikipedia\" opens the full article."
         }
       },
       "contactTitle": "Get in touch",

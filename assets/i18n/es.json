@@ -1072,7 +1072,7 @@
         },
         "faq2": {
           "q": "¿Por qué tengo poca confianza en la ID?",
-          "a": "Suele ser una de tres: foto borrosa, el bicho ocupa menos de 1/4 del encuadre, o estás fuera de un pack regional instalado. Prueba con un encuadre más cerrado, más luz y un perfil lateral."
+          "a": "Suele ser una de tres: foto borrosa, el bicho ocupa menos de 1/4 del encuadre, o estás fuera de un pack regional instalado. Los escaneos por debajo de tu umbral de coincidencia (Cerebro, 33 % por defecto) no se pueden añadir. Prueba con un encuadre más cerrado, más luz y un perfil lateral."
         },
         "faq3": {
           "q": "¿Cómo funcionan los congeladores de racha?",
@@ -1088,7 +1088,15 @@
         },
         "faq6": {
           "q": "¿Cómo borro mis datos?",
-          "a": "Baja hasta \"Borrar todo.\" Elimina tu dex, avistamientos, ajustes y modelos en el dispositivo. También seguidores y entradas de ranking. No hay deshacer."
+          "a": "Todo en este teléfono: baja hasta «Borrar todo». Elimina tu dex, avistamientos, ajustes y modelos, y antes borra tus datos en línea. Solo en línea: en Cerebro está «Borrar mis datos en línea». No hay deshacer."
+        },
+        "faq7": {
+          "q": "¿Puedo llevar mis datos a un teléfono nuevo?",
+          "a": "Sí. Usa aquí «Copia de seguridad (archivo)», guarda el archivo en Archivos o iCloud Drive y en el teléfono nuevo elige «Restaurar una copia» (o en la primera pantalla tras reinstalar). Añade tu dex, capturas, misiones y ajustes; las fotos y el historial de chat no se incluyen."
+        },
+        "faq8": {
+          "q": "¿De dónde salen el hábitat, el tamaño, la distribución y la dieta?",
+          "a": "El hábitat y la dieta son típicos de la familia de la especie. El tamaño viene de Wikipedia y la distribución de registros de GBIF, así que algunas especies muestran la familia en lugar del tamaño. «Más en Wikipedia» abre el artículo completo."
         }
       },
       "contactTitle": "Ponte en contacto",

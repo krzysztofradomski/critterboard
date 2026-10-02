@@ -1072,7 +1072,7 @@
         },
         "faq2": {
           "q": "Warum ist meine ID-Sicherheit niedrig?",
-          "a": "Meist eines von dreien: Das Foto ist unscharf, das Insekt füllt weniger als 1/4 des Bildes oder du bist außerhalb eines installierten Regionalpakets. Versuch einen engeren Ausschnitt, mehr Licht und ein Seitenprofil."
+          "a": "Meist eines von dreien: Das Foto ist unscharf, das Insekt füllt weniger als 1/4 des Bildes oder du bist außerhalb eines installierten Regionalpakets. Scans unter deiner Trefferschwelle (Hirn, standardmäßig 33 %) können gar nicht hinzugefügt werden. Versuch einen engeren Ausschnitt, mehr Licht und ein Seitenprofil."
         },
         "faq3": {
           "q": "Wie funktionieren Serien-Frostschilde?",
@@ -1088,7 +1088,15 @@
         },
         "faq6": {
           "q": "Wie lösche ich meine Daten?",
-          "a": "Scroll runter zu \"Alles löschen.\" Das vernichtet deinen Dex, Sichtungen, Einstellungen und Modelle auf dem Gerät. Follower und Ranglisteneinträge auch. Kein Zurück."
+          "a": "Alles auf diesem Telefon: scroll runter zu „Alles löschen“. Das entfernt Dex, Sichtungen, Einstellungen und Modelle und löscht vorher deine Online-Daten. Nur online: im Hirn gibt es „Meine Online-Daten löschen“. Kein Zurück."
+        },
+        "faq7": {
+          "q": "Kann ich meine Daten auf ein neues Telefon mitnehmen?",
+          "a": "Ja. Nutze hier „Meine Daten sichern (Datei)“, bewahre die Datei in Dateien oder iCloud Drive auf und wähle auf dem neuen Telefon „Aus Sicherung wiederherstellen“ (oder auf dem ersten Bildschirm nach einer Neuinstallation). Das fügt Dex, Fänge, Quests und Einstellungen hinzu; Fotos und Chatverlauf sind nicht enthalten."
+        },
+        "faq8": {
+          "q": "Woher stammen Lebensraum, Größe, Verbreitung und Nahrung?",
+          "a": "Lebensraum und Nahrung sind typisch für die Familie der Art. Die Größe stammt aus Wikipedia, die Verbreitung aus GBIF-Meldungen, daher zeigen einige Arten statt der Größe die Familie. „Mehr auf Wikipedia“ öffnet den ganzen Artikel."
         }
       },
       "contactTitle": "Kontaktiere uns",
