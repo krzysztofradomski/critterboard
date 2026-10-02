@@ -25,7 +25,7 @@ import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { allBugs, findBug } from '@/data/bugs';
-import { useT } from '@/i18n/helpers';
+import { bugName, useT } from '@/i18n/helpers';
 import { xpFromClaimedQuests, xpFromDex } from '@/lib/level';
 import { currentStreak } from '@/lib/streak';
 import { haptics } from '@/lib/haptics';
@@ -142,7 +142,7 @@ export function Chat() {
       .slice(0, 8)
       .map((e) => ({
         bugId: e.id,
-        bugName: findBug(e.id)?.name ?? e.id,
+        bugName: bugName(language, e.id),
         at: e.at,
       }));
     const memorySnippets = searchConversationMemories(conversationMemory, text, 6).map((hit) => ({

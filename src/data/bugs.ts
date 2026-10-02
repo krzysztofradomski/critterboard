@@ -17,6 +17,8 @@ export type Bug = {
   emoji: string;
   color: string;
   traits: BugTrait[];
+  /** Vernacular names per UI language, for pack species without bundled strings (tools/names/). */
+  names?: Partial<Record<"pl" | "de" | "es", string>>;
 };
 
 /** 20 Central European species. IDs mirror src/ai/classMap.ts. */

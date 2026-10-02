@@ -25,8 +25,10 @@ export function useT(): (key: string, vars?: Record<string, string | number>) =>
 export function bugName(lang: LangId, bugId: string): string {
   const key = `bugs.${bugId}.name`;
   const name = t(lang, key);
-  // Region-pack species may not have translations yet: use the pack's name.
-  return name === key ? (findBug(bugId)?.name ?? bugId) : name;
+  if (name !== key) return name;
+  // Region-pack species: the pack's per-language name, else its English name.
+  const bug = findBug(bugId);
+  return (lang !== 'en' && bug?.names?.[lang]) || bug?.name || bugId;
 }
 
 /**
