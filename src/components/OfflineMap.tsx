@@ -1,5 +1,5 @@
 import React, { useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import {
   Camera,
   Images,
@@ -12,7 +12,7 @@ import {
 import { PixelBug } from "@/components/PixelBug";
 import { readPmtilesInfo, type PackInfo } from "@/map/mapPack";
 import { buildStickerStyle, toPmtilesUrl, NODATA_PATTERN, POI_ICONS, WATER_PATTERN } from "@/map/stickerStyle";
-import { altitudeToZoom, type MapInitialView, type Marker } from "@/screens/mapGeo";
+import { altitudeToZoom, minZoomForBounds, type MapInitialView, type Marker } from "@/screens/mapGeo";
 import { PB } from "@/tokens/pb";
 
 // Module-level so `<Images>` gets a stable object across renders.
@@ -66,6 +66,16 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
 
     const mapStyle = useMemo(() => buildStickerStyle(tilesUrl, info), [tilesUrl, info]);
     const maxZoom = info ? info.maxZoom + OVERZOOM_LEVELS : FALLBACK_MAX_ZOOM;
+    // The map can't leave the pack's coverage: no panning past it, no zooming out to the empty margin.
+    const maxBounds = useMemo<[number, number, number, number] | undefined>(
+      () => (info ? [info.minLng, info.minLat, info.maxLng, info.maxLat] : undefined),
+      [info],
+    );
+    const minZoom = useMemo(() => {
+      if (!info) return MIN_ZOOM;
+      const { width, height } = Dimensions.get("window");
+      return Math.max(MIN_ZOOM, minZoomForBounds(info, width, height));
+    }, [info]);
 
     // Only the first view seeds the camera; later changes go through flyTo.
     const [initialViewState] = useState(() => ({
@@ -84,7 +94,7 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
       async zoomBy(delta) {
         const current = await mapRef.current?.getZoom();
         if (current === undefined) return;
-        const zoom = Math.min(maxZoom, Math.max(MIN_ZOOM, Math.round(current + delta)));
+        const zoom = Math.min(maxZoom, Math.max(minZoom, Math.round(current + delta)));
         cameraRef.current?.zoomTo(zoom, { duration: 300 });
       },
     }));
@@ -104,8 +114,9 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
           <Camera
             ref={cameraRef}
             initialViewState={initialViewState}
-            minZoom={MIN_ZOOM}
+            minZoom={minZoom}
             maxZoom={maxZoom}
+            maxBounds={maxBounds}
           />
           {markers.map((m) => (
             <MapMarker

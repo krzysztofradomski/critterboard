@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { CatchEvent } from "@/lib/streak";
-import { altitudeToZoom, buildGlobeMarkers, buildUserPins } from "@/screens/mapGeo";
+import { altitudeToZoom, buildGlobeMarkers, buildUserPins, minZoomForBounds } from "@/screens/mapGeo";
 
 describe("buildGlobeMarkers", () => {
   it("starts empty: no invented sightings, only the user's own pins", () => {
@@ -43,5 +43,23 @@ describe("altitudeToZoom", () => {
     expect(altitudeToZoom(1_000, 50)).toBeGreaterThan(altitudeToZoom(10_000, 50));
     expect(altitudeToZoom(1e12, 0)).toBe(1);
     expect(altitudeToZoom(0.001, 0)).toBe(20);
+  });
+});
+
+describe('minZoomForBounds', () => {
+  const europe = { minLng: -25, minLat: 34, maxLng: 45, maxLat: 72 };
+
+  it('is the zoom at which the pack fills the viewport', () => {
+    const z = minZoomForBounds(europe, 402, 874);
+    // A 402 x 874 pt screen is taller than wide, so the 38° of latitude decides it.
+    expect(z).toBeGreaterThan(2.5);
+    expect(z).toBeLessThan(4);
+    // One step wider than that zoom would show the empty margin; at z the world strip is >= the screen.
+    const worldPx = 512 * 2 ** z;
+    expect(worldPx * ((europe.maxLng - europe.minLng) / 360)).toBeGreaterThanOrEqual(402);
+  });
+
+  it('needs less zoom on a smaller viewport', () => {
+    expect(minZoomForBounds(europe, 200, 300)).toBeLessThan(minZoomForBounds(europe, 402, 874));
   });
 });

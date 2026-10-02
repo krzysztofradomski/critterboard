@@ -114,6 +114,25 @@ export function altitudeToZoom(altM: number, lat: number): number {
   return Math.min(20, Math.max(1, zoom));
 }
 
+/**
+ * Lowest zoom at which a viewport of `widthPt` x `heightPt` is still entirely inside `bounds`
+ * (MapLibre's world is 512 px wide at zoom 0). Zooming out further would show the empty margin.
+ */
+export function minZoomForBounds(
+  bounds: { minLng: number; minLat: number; maxLng: number; maxLat: number },
+  widthPt: number,
+  heightPt: number,
+): number {
+  const mercY = (lat: number) => {
+    const clamped = Math.max(-85, Math.min(85, lat));
+    return 0.5 - Math.log(Math.tan(Math.PI / 4 + (clamped * Math.PI) / 360)) / (2 * Math.PI);
+  };
+  const lngFrac = Math.max(1e-6, (bounds.maxLng - bounds.minLng) / 360);
+  const latFrac = Math.max(1e-6, Math.abs(mercY(bounds.minLat) - mercY(bounds.maxLat)));
+  const z = Math.max(Math.log2(widthPt / (512 * lngFrac)), Math.log2(heightPt / (512 * latFrac)));
+  return Math.ceil(z * 10) / 10;
+}
+
 export function resolveMapCenter(
   mapLocation: { lat: number; lng: number } | null,
   userCatches: CatchEvent[],
