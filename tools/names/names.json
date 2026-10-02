@@ -20,6 +20,7 @@
  },
  "Acherontia atropos": {
   "de": "Totenkopfschwärmer",
+  "es": "Esfinge de la Calavera",
   "pl": "zmierzchnica trupia główka"
  },
  "Acleris variegana": {
@@ -55,6 +56,7 @@
  },
  "Acronicta rumicis": {
   "de": "Ampfer-Rindeneule",
+  "es": "Polilla de la Acedera",
   "pl": "Wieczernica szczawiówka"
  },
  "Aculepeira ceropegia": {
@@ -77,14 +79,19 @@
  },
  "Adelphocoris lineolatus": {
   "de": "Gemeine Zierwanze",
+  "es": "Chinche de la Alfalfa",
   "pl": "Ozdobnik lucernowiec"
  },
  "Adscita statices": {
   "de": "Ampfer-Grünwidderchen",
   "pl": "lśniak szmaragdek"
  },
+ "Aedia leucomelas": {
+  "de": "Südliche Zaunwinden-Trauereule"
+ },
  "Aegosoma scabricorne": {
-  "de": "Körnerbock"
+  "de": "Körnerbock",
+  "pl": "Znakownik"
  },
  "Aelia acuminata": {
   "de": "Getreidewanze",
@@ -189,7 +196,9 @@
   "de": "Veränderliche Herbsteule"
  },
  "Agrotis clavis": {
-  "de": "Magerwiesen-Bodeneule"
+  "de": "Magerwiesen-Bodeneule",
+  "es": "Polilla Corazón y Maza",
+  "pl": "rolnica łubówka"
  },
  "Agrotis exclamationis": {
   "de": "Ausrufungszeichen",
@@ -201,10 +210,12 @@
   "pl": "rolnica gwoździówka"
  },
  "Agrotis puta": {
-  "de": "Schmalflügelige Erdeule"
+  "de": "Schmalflügelige Erdeule",
+  "pl": "Rolnica południówka"
  },
  "Agrotis segetum": {
   "de": "Saateule",
+  "es": "Palomilla del nabo",
   "pl": "rolnica zbożówka"
  },
  "Agrypnus murinus": {
@@ -264,7 +275,9 @@
   "pl": "Przezierka pokrzywianka"
  },
  "Anarta trifolii": {
-  "de": "Meldenflureule"
+  "de": "Meldenflureule",
+  "es": "Polilla del Trébol",
+  "pl": "okrzętnica chwastówka"
  },
  "Anastrangalia sanguinolenta": {
   "de": "Blutroter Halsbock",
@@ -307,7 +320,8 @@
   "pl": "Pszczolinka napiaskowa"
  },
  "Andricus foecundatrix": {
-  "de": "Eichenrosengallwespe"
+  "de": "Eichenrosengallwespe",
+  "pl": "Letyniec szysznica"
  },
  "Andricus kollari": {
   "de": "Schwammkugelgallwespe",
@@ -429,6 +443,7 @@
  },
  "Araneus diadematus": {
   "de": "Gartenkreuzspinne",
+  "es": "Araña Europea de Jardín",
   "pl": "Krzyżak ogrodowy"
  },
  "Araneus quadratus": {
@@ -450,10 +465,12 @@
  },
  "Arctia caja": {
   "de": "Brauner Bär",
+  "es": "Gitana",
   "pl": "niedźwiedziówka kaja"
  },
  "Arctia villica": {
   "de": "Schwarzer Bär",
+  "es": "Polilla Tigre con Manchas de Crema",
   "pl": "niedźwiedziówka włodarka"
  },
  "Arge pagana": {
@@ -470,14 +487,17 @@
  },
  "Argynnis adippe": {
   "de": "Feuriger Perlmuttfalter",
+  "es": "Puntos azules",
   "pl": "Dostojka adype"
  },
  "Argynnis aglaja": {
   "de": "Großer Perlmuttfalter",
+  "es": "Nacarada Aglaja",
   "pl": "Dostojka aglaja"
  },
  "Argynnis niobe": {
   "de": "Mittlerer Perlmuttfalter",
+  "es": "Nacarada Niobe",
   "pl": "Dostojka niobe"
  },
  "Argynnis pandora": {
@@ -536,7 +556,8 @@
   "pl": "Rolnica zbutewka"
  },
  "Barbitistes serricauda": {
-  "de": "Laubholz-Säbelschrecke"
+  "de": "Laubholz-Säbelschrecke",
+  "pl": "Opaślik nadrzewny"
  },
  "Beosus maritimus": {
   "de": "Tappert",
@@ -552,6 +573,7 @@
  },
  "Biston betularia": {
   "de": "Birkenspanner",
+  "es": "Polilla del abedul",
   "pl": "Krępak nabrzozak"
  },
  "Biston strataria": {
@@ -620,6 +642,7 @@
  },
  "Bombus sylvarum": {
   "de": "Waldhummel",
+  "es": "abejorro de bosque",
   "pl": "Trzmiel leśny"
  },
  "Bombus terrestris": {
@@ -684,6 +707,7 @@
  },
  "Calliptamus italicus": {
   "de": "Italienische Schönschrecke",
+  "es": "Langosta italiana",
   "pl": "Nadobnik włoski"
  },
  "Callistege mi": {
@@ -777,7 +801,9 @@
   "pl": "Omomiłek wiejski"
  },
  "Capnodis tenebrionis": {
-  "de": "Pfirsichprachtkäfer"
+  "de": "Pfirsichprachtkäfer",
+  "es": "gusano cabezudo",
+  "pl": "Czerniec ciemny"
  },
  "Carabus auronitens": {
   "de": "Goldglänzender Laufkäfer",
@@ -804,7 +830,9 @@
   "pl": "Biegacz fioletowy"
  },
  "Caradrina clavipalpis": {
-  "de": "Heu-Staubeule"
+  "de": "Heu-Staubeule",
+  "es": "Polilla del sauce pálido moteado",
+  "pl": "światłówka izdebnica"
  },
  "Caradrina morpheus": {
   "de": "Morpheus-Staubeule",
@@ -823,6 +851,8 @@
   "pl": "Borczyniec owocowy"
  },
  "Carpocoris mediterraneus": {
+  "de": "Mediterrane Purpur-Fruchtwanze",
+  "es": "Chinche Mediterránea",
   "pl": "Borczyniec śródziemnomorski"
  },
  "Carpocoris purpureipennis": {
@@ -895,6 +925,7 @@
  },
  "Cercopis vulnerata": {
   "de": "Blutzikade",
+  "es": "Saltador rojo y negro",
   "pl": "Krasanka natrawka"
  },
  "Ceriagrion tenellum": {
@@ -941,7 +972,8 @@
   "pl": "Okrajka Dwuplamka"
  },
  "Chilocorus renipustulatus": {
-  "de": "Nierenfleckiger Kugelmarienkäfer"
+  "de": "Nierenfleckiger Kugelmarienkäfer",
+  "pl": "Okrajka okrągłoplamka"
  },
  "Chloroclysta siterata": {
   "de": "Olivgrüner Bindenspanner",
@@ -956,10 +988,12 @@
   "pl": "Zielonucha kształtna"
  },
  "Chlorophorus varius": {
-  "de": "Variabler Widderbock"
+  "de": "Variabler Widderbock",
+  "pl": "Tryk klonowiec"
  },
  "Chorthippus albomarginatus": {
   "de": "Weißrandiger Grashüpfer",
+  "es": "Saltamontes menor de los pantanos",
   "pl": "Konik wszędobylski"
  },
  "Chorthippus biguttulus": {
@@ -996,6 +1030,10 @@
   "de": "Pappelblattkäfer",
   "pl": "Rynnica topolowa"
  },
+ "Chrysopa perla": {
+  "de": "Grünes Perlenauge",
+  "pl": "złotook większy"
+ },
  "Chrysoteuchia culmella": {
   "de": "Rispengraszünsler",
   "pl": "Wachlarzyk ździeblaczek"
@@ -1005,7 +1043,9 @@
   "pl": "Prężec dwupaskowy"
  },
  "Cicada orni": {
-  "de": "Mannasingzikade"
+  "de": "Mannasingzikade",
+  "es": "Cigarra Común",
+  "pl": "Piewik mannik"
  },
  "Cicadella viridis": {
   "de": "Binsenschmuckzikade",
@@ -1028,14 +1068,17 @@
  },
  "Clogmia albipunctata": {
   "de": "Weißpunktierte Schmetterlingsmücke",
-  "es": "Mosquita de la humedad"
+  "es": "Mosquita de la humedad",
+  "pl": "ćmianka łazienkowa"
  },
  "Closterotomus biclavatus": {
   "de": "Zweikeulen-Weichwanze",
   "pl": "Ładzik byliniak"
  },
  "Closterotomus norwegicus": {
-  "de": "Zweipunktige Wiesenwanze"
+  "de": "Zweipunktige Wiesenwanze",
+  "es": "Chinche de la papa",
+  "pl": "Ładzik norweski"
  },
  "Clytra laeviuscula": {
   "de": "Ameisensackkäfer",
@@ -1043,6 +1086,7 @@
  },
  "Clytus arietis": {
   "de": "Echter Widderbock",
+  "es": "Escarabajo avispa",
   "pl": "Biegowiec osowaty"
  },
  "Coccinella septempunctata": {
@@ -1104,7 +1148,8 @@
   "pl": "Lepiarka bluszczówka"
  },
  "Colocasia coryli": {
-  "de": "Haseleule"
+  "de": "Haseleule",
+  "pl": "Połacica leszczynówka"
  },
  "Colostygia pectinataria": {
   "de": "Prachtgrüner Bindenspanner",
@@ -1150,7 +1195,8 @@
   "pl": "Prześwietlik platanowy"
  },
  "Cosmia trapezina": {
-  "de": "Trapezeule"
+  "de": "Trapezeule",
+  "pl": "Kresówka leszczynówka"
  },
  "Cosmorhoe ocellata": {
   "de": "Schwarzaugen-Bindenspanner",
@@ -1158,17 +1204,20 @@
  },
  "Cossus cossus": {
   "de": "Weidenbohrer",
+  "es": "Polilla taladro rojo",
   "pl": "trociniarka czerwica"
  },
  "Crambus lathoniellus": {
-  "de": "Hain-Graszünsler"
+  "de": "Hain-Graszünsler",
+  "pl": "Wachlarzyk natrawny"
  },
  "Crambus pascuella": {
   "de": "Dunkler Graszünsler",
   "pl": "Wachlarzyk pastwiskowy"
  },
  "Crambus perlella": {
-  "de": "Weißer Graszünsler"
+  "de": "Weißer Graszünsler",
+  "pl": "Wachlarzyk perłowy"
  },
  "Craniophora ligustri": {
   "de": "Liguster-Rindeneule",
@@ -1211,7 +1260,8 @@
  },
  "Cyaniris semiargus": {
   "de": "Rotklee-Bläuling",
-  "es": "Semiargus"
+  "es": "Semiargus",
+  "pl": "Modraszek semiargus"
  },
  "Cyclophora annularia": {
   "de": "Ahorn-Gürtelpuppenspanner",
@@ -1266,7 +1316,8 @@
   "pl": "Namiotowiec opuncjowy"
  },
  "Dasypoda hirtipes": {
-  "de": "Dunkelfransige Hosenbiene"
+  "de": "Dunkelfransige Hosenbiene",
+  "pl": "obrostka letnia"
  },
  "Dasysyrphus albostriatus": {
   "de": "Gestreifte Waldschwebfliege",
@@ -1282,6 +1333,7 @@
  },
  "Deilephila elpenor": {
   "de": "Mittlerer Weinschwärmer",
+  "es": "Polilla Esfinge Morada",
   "pl": "zmrocznik gładysz"
  },
  "Deilephila porcellus": {
@@ -1322,7 +1374,8 @@
   "pl": "Marzymłódka pajacyk"
  },
  "Diaea dorsata": {
-  "de": "Grüne Krabbenspinne"
+  "de": "Grüne Krabbenspinne",
+  "pl": "Cofnik"
  },
  "Diaperis boleti": {
   "de": "Gelbbindiger Schwarzkäfer",
@@ -1337,7 +1390,8 @@
   "pl": "Rolnica malinówka"
  },
  "Dicranopalpus ramosus": {
-  "de": "Streckfuß"
+  "de": "Streckfuß",
+  "pl": "Gałęziak"
  },
  "Dinoptera collaris": {
   "de": "Blauschwarzer Kugelhalsbock",
@@ -1349,7 +1403,11 @@
  },
  "Diplolepis rosae": {
   "de": "Gemeine Rosengallwespe",
+  "es": "gallarita del rosal",
   "pl": "szypszyniec różany"
+ },
+ "Distoleon tetragrammicus": {
+  "de": "Vierfleckige Ameisenjungfer"
  },
  "Diurnea fagella": {
   "de": "Buchenmotte",
@@ -1377,6 +1435,10 @@
   "de": "Heller Sichelflügler",
   "pl": "Wycinka sierpianka"
  },
+ "Dryophilocoris flavoquadrimaculatus": {
+  "de": "Vierfleck-Weichwanze",
+  "pl": "Raptun mszycołów"
+ },
  "Dypterygia scabriuscula": {
   "de": "Dunkle Knötericheule",
   "pl": "Napleczka szczawnica"
@@ -1391,7 +1453,8 @@
   "pl": "Paśnik obcinek"
  },
  "Ebrechtella tricuspidata": {
-  "de": "Grüne Blattkrabbenspinne"
+  "de": "Grüne Blattkrabbenspinne",
+  "pl": "Krabek"
  },
  "Ecliptopera silaceata": {
   "de": "Braunleibiger Springkrautspanner",
@@ -1414,7 +1477,8 @@
   "pl": "Paśnica tarczówkowa"
  },
  "Ectropis crepuscularia": {
-  "de": "Zackenbindiger Rindenspanner"
+  "de": "Zackenbindiger Rindenspanner",
+  "pl": "przylepek pomrocznik"
  },
  "Eilema caniola": {
   "de": "Weißgraues Flechtenbärchen"
@@ -1424,13 +1488,16 @@
   "pl": "Fałdówka porostówka"
  },
  "Eilema depressa": {
-  "de": "Nadelwald-Flechtenbärchen"
+  "de": "Nadelwald-Flechtenbärchen",
+  "pl": "Fałdówka płaszczynka"
  },
  "Eilema griseola": {
-  "de": "Bleigraues Flechtenbärchen"
+  "de": "Bleigraues Flechtenbärchen",
+  "pl": "Fałdówka szarynka"
  },
  "Eilema lurideola": {
-  "de": "Grauleib-Flechtenbärchen"
+  "de": "Grauleib-Flechtenbärchen",
+  "pl": "Fałdówka zwężynka"
  },
  "Eilema sororcula": {
   "de": "Dottergelbes Flechtenbärchen",
@@ -1468,7 +1535,8 @@
   "pl": "piórolotek zwyczajny"
  },
  "Empis tessellata": {
-  "de": "Gewürfelte Tanzfliege"
+  "de": "Gewürfelte Tanzfliege",
+  "pl": "Wójek okazały"
  },
  "Empusa pennata": {
   "de": "Haubenfangschrecke",
@@ -1492,7 +1560,8 @@
   "de": "Kleistermotte"
  },
  "Ennomos alniaria": {
-  "de": "Erlen-Zackenrandspanner"
+  "de": "Erlen-Zackenrandspanner",
+  "pl": "Latalec olszyniak"
  },
  "Ennomos fuscantaria": {
   "de": "Eschen-Zackenrandspanner",
@@ -1502,6 +1571,10 @@
   "de": "Große Eintagsfliege",
   "es": "Mosca de Mayo",
   "pl": "Jętka górska"
+ },
+ "Ephippiger diurnus": {
+  "de": "Westliche Sattelschrecke",
+  "es": "Chicharra alicorta"
  },
  "Epiphyas postvittana": {
   "de": "Australischer Apfelwickler",
@@ -1548,6 +1621,10 @@
  "Eriophyes tiliae": {
   "de": "Lindengallmilbe",
   "pl": "Różkowiec lipowy"
+ },
+ "Eriothrix rufomaculata": {
+  "de": "Rotgefleckte Raupenfliege",
+  "pl": "kraśnica wachlarzykowata"
  },
  "Eristalis arbustorum": {
   "de": "Kleine Keilfleckschwebfliege",
@@ -1662,6 +1739,7 @@
  },
  "Eurydema ornata": {
   "de": "Schwarzrückige Gemüsewanze",
+  "es": "Chinche de las Crucíferas",
   "pl": "Warzywnica ozdobna"
  },
  "Eurydema ventralis": {
@@ -1685,7 +1763,8 @@
   "pl": "Złotawiec krótkoskrzydły"
  },
  "Euura proxima": {
-  "de": "Weidennieren-Blattwespe"
+  "de": "Weidennieren-Blattwespe",
+  "pl": "listnica wierzbowa"
  },
  "Evarcha arcuata": {
   "de": "Dunkler Sichelspringer",
@@ -1693,6 +1772,11 @@
  },
  "Evarcha jucunda": {
   "de": "Mittelmeer-Sichelspringer"
+ },
+ "Everes argiades": {
+  "de": "Kurzschwänziger Bläuling",
+  "es": "Naranjitas Rabicorta",
+  "pl": "Modraszek argiades"
  },
  "Exochomus quadripustulatus": {
   "de": "Vierfleckiger Kugelmarienkäfer",
@@ -1723,7 +1807,8 @@
  },
  "Gaurotes virginea": {
   "de": "Blaubock",
-  "es": "Carilia virginea"
+  "es": "Carilia virginea",
+  "pl": "Sichrawa górska"
  },
  "Geometra papilionaria": {
   "de": "Grünes Blatt",
@@ -1804,7 +1889,8 @@
   "pl": "Pluszówka agatka"
  },
  "Hada plebeja": {
-  "de": "Zahneule"
+  "de": "Zahneule",
+  "pl": "Piętnówka brodawnica"
  },
  "Halictus scabiosae": {
   "de": "Gelbbindige Furchenbiene",
@@ -1826,6 +1912,7 @@
  },
  "Harmonia axyridis": {
   "de": "Asiatischer Marienkäfer",
+  "es": "Catarina asiática",
   "pl": "Biedronka azjatycka"
  },
  "Harmonia quadripunctata": {
@@ -1849,13 +1936,16 @@
   "pl": "Słonecznica orężówka"
  },
  "Heliophanus cupreus": {
-  "de": "Kupfrige Sonnenspringspinne"
+  "de": "Kupfrige Sonnenspringspinne",
+  "pl": "Lśniś skocznik"
  },
  "Heliotaurus ruficollis": {
   "es": "Toro de Sol"
  },
  "Heliothis peltigera": {
-  "de": "Bilsenkraut-Blüteneule"
+  "de": "Bilsenkraut-Blüteneule",
+  "es": "Polilla de la paja bordeada",
+  "pl": "słonecznica tarczówka"
  },
  "Helophilus pendulus": {
   "de": "Gemeine Sumpfschwebfliege",
@@ -1867,6 +1957,7 @@
  },
  "Hemaris fuciformis": {
   "de": "Hummelschwärmer",
+  "es": "Esfinge abejorro de orla ancha",
   "pl": "Fruczak bujankowiec"
  },
  "Hemipenthes morio": {
@@ -1908,7 +1999,9 @@
   "pl": "Skalnik statilinus"
  },
  "Hippodamia variegata": {
-  "de": "Variabler Flach-Marienkäfer"
+  "de": "Variabler Flach-Marienkäfer",
+  "es": "mariquita de Adonis",
+  "pl": "Czerwonka baldaszkówka"
  },
  "Hofmannophila pseudospretella": {
   "de": "Samenmotte",
@@ -1916,7 +2009,8 @@
   "pl": "Mól nasienniczek"
  },
  "Hogna radiata": {
-  "de": "Schwarzbäuchige Tarantel"
+  "de": "Schwarzbäuchige Tarantel",
+  "es": "Araña Lobo Europea"
  },
  "Holocnemus pluchei": {
   "de": "Marmorzitterspinne",
@@ -2026,6 +2120,10 @@
   "es": "Podalirio",
   "pl": "paź żeglarz"
  },
+ "Iris oratoria": {
+  "de": "Mittelmeer-Gottesanbeterin",
+  "pl": "Modliszka wspaniała"
+ },
  "Ischnura elegans": {
   "de": "Große Pechlibelle",
   "es": "Agrion elegante",
@@ -2035,6 +2133,11 @@
   "de": "Kleine Pechlibelle",
   "es": "Agrion menor",
   "pl": "Tężnica mała"
+ },
+ "Isoaeschna isoceles": {
+  "de": "Keilflecklibelle",
+  "es": "Esna ámbar",
+  "pl": "Żagnica ruda"
  },
  "Isodontia mexicana": {
   "de": "Stahlblauer Grillenjäger"
@@ -2053,6 +2156,10 @@
   "es": "La garrapata de las semillas del ricino",
   "pl": "kleszcz pospolity"
  },
+ "Judolia cerambyciformis": {
+  "de": "Gefleckter Blütenhalsbock",
+  "pl": "Krępień górski"
+ },
  "Kleidocerys resedae": {
   "de": "Birkenwanze",
   "es": "Chinche del abedul",
@@ -2067,7 +2174,8 @@
   "pl": "piętnówka brukiewka"
  },
  "Lacanobia w-latinum": {
-  "de": "Graufeld-Kräutereule"
+  "de": "Graufeld-Kräutereule",
+  "pl": "Piętnówka szaropaska"
  },
  "Lagria hirta": {
   "de": "Gemeiner Wollkäfer",
@@ -2095,6 +2203,7 @@
  },
  "Larinioides sclopetarius": {
   "de": "Brückenkreuzspinne",
+  "es": "Araña de Puente",
   "pl": "krzyżak gromadny"
  },
  "Larinus turbinatus": {
@@ -2132,10 +2241,13 @@
   "pl": "Lasperia zatokobrzeżka"
  },
  "Leiobunum rotundum": {
-  "de": "Braunrückenkanker"
+  "de": "Braunrückenkanker",
+  "pl": "Łabuń czerwonawy"
  },
  "Lepisma saccharinum": {
-  "de": "Silberfischchen"
+  "de": "Silberfischchen",
+  "es": "Pececillo de plata",
+  "pl": "Rybik cukrowy"
  },
  "Leptinotarsa decemlineata": {
   "de": "Kartoffelkäfer",
@@ -2157,6 +2269,7 @@
   "pl": "Wątlik charłaj"
  },
  "Leptopterna dolabrata": {
+  "de": "Graswanze",
   "pl": "Ścięga łąkowa"
  },
  "Leptotes pirithous": {
@@ -2247,7 +2360,9 @@
   "pl": "Kulczanka kosaćcówka"
  },
  "Lixus pulverulentus": {
-  "de": "Welliger Stängelrüssler"
+  "de": "Welliger Stängelrüssler",
+  "es": "Picudo de las Malvas",
+  "pl": "Kulczanka ślazówka"
  },
  "Locusta migratoria": {
   "de": "Europäische Wanderheuschrecke",
@@ -2327,7 +2442,9 @@
   "pl": "brudnica mniszka"
  },
  "Lyristes plebejus": {
-  "de": "Gemeine Singzikade"
+  "de": "Gemeine Singzikade",
+  "es": "Mayor cigarra común",
+  "pl": "Piewik wielkogłowy"
  },
  "Lythria purpuraria": {
   "de": "Knöterich-Purpurspanner",
@@ -2347,6 +2464,7 @@
  },
  "Macroglossum stellatarum": {
   "de": "Taubenschwänzchen",
+  "es": "Polilla esfinge colibrí",
   "pl": "fruczak gołąbek"
  },
  "Macrophya montana": {
@@ -2424,6 +2542,7 @@
  },
  "Melitaea athalia": {
   "de": "Wachtelweizen-Scheckenfalter",
+  "es": "Doncella Atalía",
   "pl": "Przeplatka atalia"
  },
  "Melitaea cinxia": {
@@ -2476,7 +2595,8 @@
   "pl": "Odchodnica pastwiskowa"
  },
  "Mesoligia furuncula": {
-  "de": "Trockenrasen-Halmeulchen"
+  "de": "Trockenrasen-Halmeulchen",
+  "pl": "Sówka dwubarwka"
  },
  "Messor barbarus": {
   "de": "Ernteameise",
@@ -2491,7 +2611,8 @@
   "pl": "Czaik jaskiniowy"
  },
  "Micrommata ligurina": {
-  "de": "Ligurische Huschspinne"
+  "de": "Ligurische Huschspinne",
+  "es": "Araña Cazadora Verde"
  },
  "Micrommata virescens": {
   "de": "Grüne Huschspinne",
@@ -2529,7 +2650,8 @@
   "pl": "kwietnik"
  },
  "Mitopus morio": {
-  "de": "Gemeiner Gebirgsweberknecht"
+  "de": "Gemeiner Gebirgsweberknecht",
+  "pl": "Mitek pstry"
  },
  "Moma alpium": {
   "de": "Seladoneule",
@@ -2567,7 +2689,8 @@
   "pl": "Orzęsica długoroga"
  },
  "Mythimna albipuncta": {
-  "de": "Weißpunkt-Graseule"
+  "de": "Weißpunkt-Graseule",
+  "pl": "piętnówka białokropka"
  },
  "Mythimna ferrago": {
   "de": "Kapuzen-Graseule",
@@ -2587,6 +2710,7 @@
  },
  "Nemobius sylvestris": {
   "de": "Waldgrille",
+  "es": "grillo de la madera",
   "pl": "Piechotek leśny"
  },
  "Nemophora degeerella": {
@@ -2594,7 +2718,8 @@
   "pl": "Wąsateczka zawilczaneczka"
  },
  "Neoscona adianta": {
-  "de": "Heideradspinne"
+  "de": "Heideradspinne",
+  "pl": "Potul kłosowiec"
  },
  "Nepa cinerea": {
   "de": "Wasserskorpion",
@@ -2627,6 +2752,7 @@
  },
  "Nicrophorus vespilloides": {
   "de": "Schwarzhörniger Totengräber",
+  "es": "Escarabajo sacristán común",
   "pl": "Grabarz żółto-czarny"
  },
  "Nigma walckenaeri": {
@@ -2656,7 +2782,8 @@
   "pl": "Pielgrzymka jesienna"
  },
  "Notocelia uddmanniana": {
-  "de": "Brombeertriebwickler"
+  "de": "Brombeertriebwickler",
+  "pl": "Zwójka malineczka"
  },
  "Notodonta dromedarius": {
   "de": "Dromedar-Zahnspinner",
@@ -2737,6 +2864,7 @@
  },
  "Oiceoptoma thoracicum": {
   "de": "Rothalsige Silphe",
+  "es": "Escarabajo carroñero de pecho rojo",
   "pl": "Ścierwiec"
  },
  "Olethreutes arcuella": {
@@ -2748,10 +2876,12 @@
  },
  "Omocestus rufipes": {
   "de": "Buntbäuchiger Grashüpfer",
+  "es": "Saltamontes de los bosques",
   "pl": "Skoczek zmienny"
  },
  "Omocestus viridulus": {
   "de": "Bunter Grashüpfer",
+  "es": "Saltamontes Verde Común",
   "pl": "Skoczek zielony"
  },
  "Oncocera semirubella": {
@@ -2772,7 +2902,9 @@
   "pl": "piędzik przedzimek"
  },
  "Opilio canestrinii": {
-  "de": "Apenninenkanker"
+  "de": "Apenninenkanker",
+  "es": "Araña patona",
+  "pl": "Kosarz brązowawy"
  },
  "Opisthograptis luteolata": {
   "de": "Gelbspanner",
@@ -2780,6 +2912,7 @@
  },
  "Orgyia antiqua": {
   "de": "Schlehen-Bürstenspinner",
+  "es": "Gusano de los penachos",
   "pl": "znamionówka starka"
  },
  "Orthetrum albistylum": {
@@ -2853,6 +2986,7 @@
  },
  "Oxycarenus lavaterae": {
   "de": "Lindenwanze",
+  "es": "Chinche Roja del Melocotonero",
   "pl": "skupieniec lipowy"
  },
  "Oxythyrea funesta": {
@@ -2964,10 +3098,12 @@
  },
  "Phalangium opilio": {
   "de": "Hornweberknecht",
+  "es": "Araña patona",
   "pl": "kosarz pospolity"
  },
  "Phalera bucephala": {
   "de": "Mondvogel",
+  "es": "Polilla de puntas pálidas",
   "pl": "Narożnica zbrojówka"
  },
  "Phaneroptera falcata": {
@@ -3004,6 +3140,7 @@
  },
  "Philanthus triangulum": {
   "de": "Bienenwolf",
+  "es": "Avispa lobo",
   "pl": "taszczyn pszczeli"
  },
  "Philodromus dispar": {
@@ -3011,7 +3148,8 @@
   "pl": "Ślizgun nieparek"
  },
  "Philodromus margaritatus": {
-  "de": "Großer Rindenflachstrecker"
+  "de": "Großer Rindenflachstrecker",
+  "pl": "Ślizgun borowy"
  },
  "Phlogophora meticulosa": {
   "de": "Achateule",
@@ -3020,6 +3158,7 @@
  },
  "Pholcus phalangioides": {
   "de": "Große Zitterspinne",
+  "es": "Araña patona",
   "pl": "Nasosznik trzęś"
  },
  "Pholidoptera aptera": {
@@ -3043,7 +3182,8 @@
   "pl": "Naliściak pokrzywowiec"
  },
  "Phyllobius pyri": {
-  "de": "Birnen-Grünrüssler"
+  "de": "Birnen-Grünrüssler",
+  "pl": "Naliściak gruszkowy"
  },
  "Phyllopertha horticola": {
   "de": "Gartenlaubkäfer",
@@ -3051,7 +3191,11 @@
   "pl": "Ogrodnica niszczylistka"
  },
  "Phymatodes testaceus": {
-  "de": "Variabler Schönbock"
+  "de": "Variabler Schönbock",
+  "pl": "Płaskowiak zmienny"
+ },
+ "Phytomyza ilicis": {
+  "de": "Ilexminierfliege"
  },
  "Picromerus bidens": {
   "de": "Zweizähnige Dornwanze",
@@ -3134,10 +3278,12 @@
  },
  "Plutella xylostella": {
   "de": "Kohlschabe",
+  "es": "Palomilla dorso de diamante",
   "pl": "tantniś krzyżowiaczek"
  },
  "Polistes dominula": {
   "de": "Haus-Feldwespe",
+  "es": "Avispa papelera europea",
   "pl": "Klecanka rdzaworożna"
  },
  "Polydrusus formosus": {
@@ -3195,7 +3341,13 @@
   "pl": "Wrzeciążka"
  },
  "Protaetia cuprea": {
-  "de": "Kupfer-Rosenkäfer"
+  "de": "Kupfer-Rosenkäfer",
+  "pl": "Kwietnica różówka"
+ },
+ "Pseudaletia unipuncta": {
+  "de": "Einpunkt-Graseule",
+  "es": "Polilla soldado de puntos blancos",
+  "pl": "Mokradlica wędrowniczka"
  },
  "Pseudeuophrys lanigera": {
   "de": "Wollige Mauerspringspinne",
@@ -3207,7 +3359,8 @@
   "pl": "Konik wąsacz"
  },
  "Pseudoips prasinana": {
-  "de": "Buchen-Kahneule"
+  "de": "Buchen-Kahneule",
+  "pl": "Zielonka ukośnica"
  },
  "Pseudopanthera macularia": {
   "de": "Pantherspanner",
@@ -3269,6 +3422,7 @@
   "pl": "Ogniczek piłkoczułki"
  },
  "Pyronia bathseba": {
+  "de": "Spanisches Ochsenauge",
   "es": "Lobito de banda blanca"
  },
  "Pyronia cecilia": {
@@ -3295,7 +3449,8 @@
   "pl": "Zajadek domowy"
  },
  "Regiscolia maculata": {
-  "de": "Gelbköpfige Dolchwespe"
+  "de": "Gelbköpfige Dolchwespe",
+  "es": "avispa puñal"
  },
  "Rhabdomiris striatellus": {
   "de": "Eichen-Schmuckwanze",
@@ -3328,7 +3483,8 @@
   "pl": "Dzidosz mglisty"
  },
  "Rhingia campestris": {
-  "de": "Gemeine Schnauzenschwebfliege"
+  "de": "Gemeine Schnauzenschwebfliege",
+  "pl": "Toryjka łąkowa"
  },
  "Rhodometra sacraria": {
   "de": "Rotgestreifter Wanderspanner",
@@ -3344,10 +3500,12 @@
   "pl": "Zwijacz palmowy"
  },
  "Rhyparochromus vulgaris": {
+  "de": "Gemeine Bodenwanze",
   "pl": "Brudziec zwyczajny"
  },
  "Rilaena triangularis": {
-  "de": "Schwarzauge"
+  "de": "Schwarzauge",
+  "pl": "kosarz wiosenny"
  },
  "Rivula sericealis": {
   "de": "Seideneulchen",
@@ -3381,6 +3539,7 @@
  },
  "Salticus scenicus": {
   "de": "Mauer-Zebraspringspinne",
+  "es": "Araña Cebra",
   "pl": "skakun arlekinowy"
  },
  "Saturnia pavonia": {
@@ -3485,7 +3644,11 @@
   "pl": "Ślipień trzmielowiec"
  },
  "Silpha obscura": {
-  "de": "Flachstreifiger Aaskäfer"
+  "de": "Flachstreifiger Aaskäfer",
+  "pl": "Omarlica ciemna"
+ },
+ "Silpha tristis": {
+  "pl": "Omarlica smutna"
  },
  "Siona lineata": {
   "de": "Hartheu-Spanner",
@@ -3500,7 +3663,8 @@
   "pl": "Oprzędzik pręgowany"
  },
  "Smerinthus ocellata": {
-  "de": "Abendpfauenauge"
+  "de": "Abendpfauenauge",
+  "pl": "Nastrosz półpawik"
  },
  "Sphaerophoria scripta": {
   "de": "Gewöhnliche Langbauchschwebfliege",
@@ -3535,9 +3699,11 @@
   "pl": "Szewnica miętówka"
  },
  "Spilosoma lutea": {
-  "de": "Gelber Fleckleibbär"
+  "de": "Gelber Fleckleibbär",
+  "pl": "Bieżnica żółtnica"
  },
  "Spilostethus pandurus": {
+  "de": "Pandur",
   "pl": "Spodziec krasnoplamek"
  },
  "Spilostethus saxatilis": {
@@ -3582,6 +3748,7 @@
  },
  "Stenobothrus lineatus": {
   "de": "Heidegrashüpfer",
+  "es": "Saltamontes de ala Listada",
   "pl": "Dołczan wysmukły"
  },
  "Stenodema laevigata": {
@@ -3596,7 +3763,8 @@
   "pl": "Długoryjek żółtoczarny"
  },
  "Stenurella bifasciata": {
-  "de": "Zweibindiger Schmalbock"
+  "de": "Zweibindiger Schmalbock",
+  "pl": "Strangalia przepasana"
  },
  "Stenurella melanura": {
   "de": "Kleiner Schmalbock",
@@ -3608,6 +3776,7 @@
  },
  "Stethophyma grossum": {
   "de": "Sumpfschrecke",
+  "es": "Saltamontes grande de los pantanos",
   "pl": "Napierśnik torfowiskowy"
  },
  "Stictocephala bisonia": {
@@ -3620,6 +3789,9 @@
  "Stictoleptura rubra": {
   "de": "Rothalsbock",
   "pl": "Zmorsznik czerwony"
+ },
+ "Stomorhina lunata": {
+  "de": "Augenstreifen-Schmeißfliege"
  },
  "Subcoccinella vigintiquatuorpunctata": {
   "de": "Vierundzwanzigpunkt-Marienkäfer",
@@ -3675,7 +3847,8 @@
   "de": "Dürrwiesen-Zünsler"
  },
  "Synema globosum": {
-  "de": "Südliche Glanz-Krabbenspinne"
+  "de": "Südliche Glanz-Krabbenspinne",
+  "es": "Araña Napoleón"
  },
  "Syricoris lacunana": {
   "de": "Gebänderter Wickler"
@@ -3712,7 +3885,8 @@
   "pl": "Pasikonik zielony"
  },
  "Thalpophila matura": {
-  "de": "Gelbflügel-Raseneule"
+  "de": "Gelbflügel-Raseneule",
+  "pl": "Smętnica mocanka"
  },
  "Thanasimus formicarius": {
   "de": "Ameisenbuntkäfer",
@@ -3861,6 +4035,9 @@
  "Udea lutealis": {
   "de": "Brombeerzünsler"
  },
+ "Uresiphita gilvata": {
+  "pl": "Przezierka wielokątka"
+ },
  "Utetheisa pulchella": {
   "de": "Harlekinbär",
   "es": "Palomita arlequín",
@@ -3967,6 +4144,7 @@
  },
  "Xylocopa violacea": {
   "de": "Große Holzbiene",
+  "es": "Abejorro Carpintero Europeo",
   "pl": "zadrzechnia fioletowa"
  },
  "Xylota segnis": {
@@ -3997,6 +4175,7 @@
  },
  "Zeuzera pyrina": {
   "de": "Blausieb",
+  "es": "taladro amarillo",
   "pl": "torzyśniad kasztanówka"
  },
  "Zilla diodia": {
@@ -4011,7 +4190,8 @@
   "pl": "Kraśnik rzęsinowiec"
  },
  "Zygaena fausta": {
-  "de": "Bergkronwicken-Widderchen"
+  "de": "Bergkronwicken-Widderchen",
+  "es": "Cigena"
  },
  "Zygaena filipendulae": {
   "de": "Sechsfleck-Widderchen",
@@ -4026,7 +4206,8 @@
   "pl": "kraśnik rogalik"
  },
  "Zygaena transalpina": {
-  "de": "Hufeisenklee-Widderchen"
+  "de": "Hufeisenklee-Widderchen",
+  "pl": "Kraśnik transalpejski"
  },
  "Zygaena trifolii": {
   "de": "Sumpfhornklee-Widderchen",
@@ -4035,6 +4216,7 @@
  },
  "Zygiella x-notata": {
   "de": "Sektorspinne",
+  "es": "Araña de flancos plateados",
   "pl": "Liścianek sektornik"
  }
 }
