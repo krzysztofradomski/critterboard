@@ -254,12 +254,12 @@
         font-size: 0.75rem;
         opacity: 0.35;
       }
-.w{max-width:720px;margin:0 auto;padding:0 20px}
 .eyebrow{font-weight:700;letter-spacing:.14em;font-size:.78rem;margin-top:34px}
 h1{font-family:Fredoka,sans-serif;font-size:clamp(2.2rem,7vw,3.2rem);line-height:1.1;margin:6px 0 10px}
 .lead{font-size:1.1rem;max-width:560px}.upd{font-size:.9rem;opacity:.75;margin-top:6px}
-.card{background:var(--cr);border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0}
-.card section+section{margin-top:22px;padding-top:20px;border-top:1.5px solid #ecdcae}
+.card{background:var(--cr);border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:26px 30px 8px;margin:26px 0;column-width:380px;column-gap:56px}
+/* two columns on desktop keep the lines readable at the landing page's width */
+.card section{break-inside:avoid;margin-bottom:24px}
 h2{font-family:Fredoka,sans-serif;font-size:1.3rem;margin-bottom:8px}
 main p{line-height:1.65;margin-bottom:10px}main ul{padding-left:20px;margin-bottom:10px}main li{margin-bottom:6px;line-height:1.6}
 main a{color:var(--bl)}
@@ -271,7 +271,7 @@ summary{cursor:pointer;font-weight:700}details p{margin:8px 0 2px}
 .lang-menu a{display:block;width:100%;text-align:left;border-radius:8px;padding:8px 12px;font-family:"DM Sans",sans-serif;font-size:.9rem;color:var(--bk);text-decoration:none}
 .lang-menu a:hover,.lang-menu a[aria-current="true"]{background:var(--y)}
 .ft-links{flex-wrap:wrap}
-@media (max-width:768px){nav .container{max-width:none}.mit{display:none}footer .container{flex-direction:column;align-items:flex-start;gap:10px}}
+@media (max-width:768px){nav .container{max-width:none}.card{padding:22px 20px 4px}.mit{display:none}footer .container{flex-direction:column;align-items:flex-start;gap:10px}}
 </style></head><body>
 <nav><div class="container">
 <a href="/" class="logo"><div class="logo-icon">🪲</div>Critterboard</a>
@@ -280,7 +280,7 @@ summary{cursor:pointer;font-weight:700}details p{margin:8px 0 2px}
 <ul class="lang-menu" id="lang-menu" role="listbox" hidden><li><a href="/terms/" hreflang="en" data-lang="en">🇬🇧 English</a></li><li><a href="/terms/pl/" hreflang="pl" data-lang="pl" aria-current=true>🇵🇱 Polski</a></li><li><a href="/terms/es/" hreflang="es" data-lang="es">🇪🇸 Español</a></li><li><a href="/terms/de/" hreflang="de" data-lang="de">🇩🇪 Deutsch</a></li></ul></div>
 <a href="https://github.com/krzysztofradomski/critterboard" target="_blank" rel="noopener" class="mit">Open source (MIT)</a></div>
 </div></nav>
-<main class="w"><p class="eyebrow">TROCHĘ MIEJSCA NA ŁOWY</p><h1>Warunki korzystania.</h1><p class="lead">Te warunki dotyczą aplikacji Critterboard i jej strony internetowej. Korzystając z nich, zgadzasz się używać ich odpowiedzialnie i zgodnie z prawem.</p><p class="upd">Ostatnia aktualizacja: 2 października 2026</p>
+<main class="container"><p class="eyebrow">TROCHĘ MIEJSCA NA ŁOWY</p><h1>Warunki korzystania.</h1><p class="lead">Te warunki dotyczą aplikacji Critterboard i jej strony internetowej. Korzystając z nich, zgadzasz się używać ich odpowiedzialnie i zgodnie z prawem.</p><p class="upd">Ostatnia aktualizacja: 2 października 2026</p>
 <div class="card"><section><h2>Korzystanie z Critterboard</h2><p>Critterboard jest darmowy do użytku osobistego i niekomercyjnego. Nie próbuj zakłócać działania aplikacji, jej serwerów ani hostingu, oszukiwać w rankingu ani używać jej do krzywdzenia lub nękania innych.</p></section><section><h2>Rozpoznanie to najlepsze przypuszczenie</h2><p>Aplikacja rozpoznaje owady modelem działającym na telefonie. Wyniki mogą być błędne. Nie polegaj na nich w sprawach, które mają znaczenie, np. przy ocenie, czy owada można bezpiecznie dotykać, czy zagraża roślinom lub domowi. Zachowuj bezpieczną odległość od owadów żądlących lub gryzących oraz szanuj teren prywatny i obszary chronione podczas poszukiwań.</p></section><section><h2>Twoje treści i nazwa</h2><p>Wybrana przez ciebie nazwa i publikowane złapania są widoczne dla innych graczy, gdy korzystasz z funkcji online. Wybierz nazwę, która nie jest obraźliwa ani wprowadzająca w błąd. Możemy usuwać nazwy lub ograniczać dostęp online w razie nadużyć. Odpowiadasz za każdy plik, który eksportujesz lub udostępniasz.</p></section><section><h2>Twoje dane</h2><p>Twoja kolekcja jest przechowywana na telefonie. Rób kopie tego, co ważne; dane lokalne mogą zniknąć po wymazaniu lub usunięciu aplikacji. Szczegóły na stronie Prywatność.</p></section><section><h2>Otwarte oprogramowanie i źródła danych</h2><p>Kod aplikacji jest otwarty na licencji MIT. Modele na urządzeniu, dane o gatunkach i zdjęcia pochodzą od podmiotów trzecich na ich licencjach, wymienionych w aplikacji w Ja → Mózg (twórcy i biblioteki open source).</p></section><section><h2>Wersja z App Store</h2><p>O ile oferta w App Store nie przewiduje odrębnej umowy, aplikacja na iOS jest licencjonowana na standardowej umowie licencyjnej użytkownika końcowego Apple.</p></section><section><h2>Dostępność i zmiany</h2><p>Możemy aktualizować, wstrzymywać lub wycofywać funkcje, pakiety, usługę online albo te warunki wraz z rozwojem projektu. Dalsze korzystanie z aplikacji po aktualizacji oznacza akceptację zmienionych warunków.</p></section><section><h2>Brak gwarancji</h2><p>Aplikacja jest udostępniana w stanie, w jakim jest. W najszerszym zakresie dozwolonym przez prawo nie gwarantujemy, że będzie zawsze dostępna, wolna od błędów ani odpowiednia do konkretnego celu, i nie odpowiadamy za straty wynikające z jej używania, w tym z błędnego rozpoznania.</p></section><section><h2>Pytania</h2><p>Pytania o te warunki lub aplikację wysyłaj na hello@critterboard.app.</p></section></div></main>
 <footer><div class="container">
 <div class="ft-logo">🪲 Critterboard</div>

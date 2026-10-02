@@ -233,12 +233,12 @@ HEADLINE = {"en": "Happy hunting.", "pl": "Udanych łowów.", "de": "Viel Spaß 
 # Page-specific styles. The base, header (nav + language menu) and footer styles are lifted
 # from the landing page itself (website/public/index.html), so every page stays in sync with it.
 PAGE_CSS = """
-.w{max-width:720px;margin:0 auto;padding:0 20px}
 .eyebrow{font-weight:700;letter-spacing:.14em;font-size:.78rem;margin-top:34px}
 h1{font-family:Fredoka,sans-serif;font-size:clamp(2.2rem,7vw,3.2rem);line-height:1.1;margin:6px 0 10px}
 .lead{font-size:1.1rem;max-width:560px}.upd{font-size:.9rem;opacity:.75;margin-top:6px}
-.card{background:var(--cr);border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0}
-.card section+section{margin-top:22px;padding-top:20px;border-top:1.5px solid #ecdcae}
+.card{background:var(--cr);border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:26px 30px 8px;margin:26px 0;column-width:380px;column-gap:56px}
+/* two columns on desktop keep the lines readable at the landing page's width */
+.card section{break-inside:avoid;margin-bottom:24px}
 h2{font-family:Fredoka,sans-serif;font-size:1.3rem;margin-bottom:8px}
 main p{line-height:1.65;margin-bottom:10px}main ul{padding-left:20px;margin-bottom:10px}main li{margin-bottom:6px;line-height:1.6}
 main a{color:var(--bl)}
@@ -250,7 +250,7 @@ summary{cursor:pointer;font-weight:700}details p{margin:8px 0 2px}
 .lang-menu a{display:block;width:100%;text-align:left;border-radius:8px;padding:8px 12px;font-family:"DM Sans",sans-serif;font-size:.9rem;color:var(--bk);text-decoration:none}
 .lang-menu a:hover,.lang-menu a[aria-current="true"]{background:var(--y)}
 .ft-links{flex-wrap:wrap}
-@media (max-width:768px){nav .container{max-width:none}.mit{display:none}footer .container{flex-direction:column;align-items:flex-start;gap:10px}}
+@media (max-width:768px){nav .container{max-width:none}.card{padding:22px 20px 4px}.mit{display:none}footer .container{flex-direction:column;align-items:flex-start;gap:10px}}
 """
 
 INDEX = (ROOT / "website/public/index.html").read_text()
@@ -347,7 +347,7 @@ def render(page, lang):
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>{SHARED_CSS}{PAGE_CSS}</style></head><body>
 {shared_nav(page, lang)}
-<main class="w"><p class="eyebrow">{e(eyebrow)}</p><h1>{e(headline)}</h1><p class="lead">{e(lead)}</p>{f'<p class="upd">{e(upd)}</p>' if upd else ''}
+<main class="container"><p class="eyebrow">{e(eyebrow)}</p><h1>{e(headline)}</h1><p class="lead">{e(lead)}</p>{f'<p class="upd">{e(upd)}</p>' if upd else ''}
 <div class="card">{cards}</div>{helpbox if page == "support" else ""}</main>
 {shared_footer(lang)}
 {MENU_JS}</body></html>"""
