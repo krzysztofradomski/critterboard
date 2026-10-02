@@ -193,3 +193,7 @@ npx wrangler kv key list --binding WAITLIST --remote   # read the waitlist
 Cloudflare manages the apex DNS record for the custom domain; don't add A/CNAME
 records for `critterboard.app` by hand, or the next deploy fails with
 "already has externally managed DNS records".
+
+### Landing page screenshots
+
+`website/public/img/screens/<lang>-<home|map|quests|brains>.webp` (4 screens x 4 languages) are real simulator captures. Retake them from a **Release** build (no Expo dev button): `npx expo run:ios --configuration Release --no-bundler`, set the status bar with `xcrun simctl status_bar <udid> override --time 9:41 --batteryState charged --batteryLevel 100`, capture with `xcrun simctl io <udid> screenshot`, then `cwebp -q 80 -resize 540 0`. The landing page swaps them with the language switcher (`data-shot` attributes).

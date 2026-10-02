@@ -142,7 +142,7 @@ CONTENT = {
    "Critterboard funktioniert komplett offline, und der Netzwerkschalter ist <b>standardmäßig aus</b>. Schalte ihn in <b>Ich → Hirn</b> nur ein, wenn du die Online-Funktionen willst.",
    ("ul", [
      "<b>Rangliste:</b> freiwillig. Dein Name und deine XP erscheinen nur, wenn du sie einschaltest.",
-     "<b>Freunde:</b> folge anderen Trainern im Tab Rangliste. Freunde sehen nur dein öffentliches Profil.",
+     "<b>Freunde:</b> folge anderen Trainern im Tab Ränge. Freunde sehen nur dein öffentliches Profil.",
      "<b>Sichtungsorte teilen:</b> optional. Öffentliche Pins werden um etwa 500 m verwischt.",
      "<b>Absturzberichte:</b> optional und anonym.",
    ]),
@@ -191,7 +191,7 @@ CONTENT = {
    "Critterboard funciona totalmente sin conexión y el interruptor de red está <b>apagado por defecto</b>. Actívalo en <b>Yo → Cerebro</b> solo si quieres las funciones en línea.",
    ("ul", [
      "<b>Ranking:</b> opcional. Tu nombre y XP aparecen solo si lo activas.",
-     "<b>Amigos:</b> sigue a otros entrenadores desde la pestaña Ranking. Los amigos solo ven tu perfil público.",
+     "<b>Amigos:</b> sigue a otros entrenadores desde la pestaña Rangos. Los amigos solo ven tu perfil público.",
      "<b>Compartir ubicaciones:</b> opcional. Las chinchetas públicas se difuminan unos 500 m.",
      "<b>Informes de fallos:</b> opcionales y anónimos.",
    ]),
