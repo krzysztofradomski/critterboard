@@ -438,7 +438,7 @@
         "location": {
           "title": "Standort",
           "desc": "Bessere Verbreitungsfilter — das Modell weiß, was in der Nähe lebt.",
-          "b1": "Stadt-Genauigkeit (~5 km)",
+          "b1": "Um bis zu ~500 m verwischt",
           "b2": "Bleibt auf dem Gerät, wenn du nichts teilst",
           "b3": "Jederzeit deaktivierbar"
         },

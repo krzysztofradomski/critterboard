@@ -438,7 +438,7 @@
         "location": {
           "title": "Ubicación",
           "desc": "Mejor filtrado por rango — el modelo sabe qué vive cerca.",
-          "b1": "Difuminado a nivel ciudad (~5 km)",
+          "b1": "Difuminado hasta ~500 m",
           "b2": "Permanece en el dispositivo si no compartes",
           "b3": "Desactivable en cualquier momento"
         },

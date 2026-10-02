@@ -438,7 +438,7 @@
         "location": {
           "title": "Location",
           "desc": "Better range filtering — the model knows what lives near you.",
-          "b1": "City-level fuzz (~5 km)",
+          "b1": "Blurred by up to ~500 m",
           "b2": "Stays on device unless you share",
           "b3": "Toggle off any time"
         },

@@ -438,7 +438,7 @@
         "location": {
           "title": "Lokalizacja",
           "desc": "Lepsze filtrowanie zasięgu — model wie, co żyje obok.",
-          "b1": "Rozmycie na poziomie miasta (~5 km)",
+          "b1": "Rozmyte o maks. ~500 m",
           "b2": "Zostaje na urządzeniu, chyba że udostępnisz",
           "b3": "Wyłącz w każdej chwili"
         },
