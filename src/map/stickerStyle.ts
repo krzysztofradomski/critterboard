@@ -3,7 +3,7 @@ import type {
   StyleSpecification,
 } from "@maplibre/maplibre-react-native";
 
-import type { PackBounds } from "@/map/mapPack";
+import type { PackBounds, PackInfo } from "@/map/mapPack";
 import { PB } from "@/tokens/pb";
 
 /**
@@ -90,7 +90,7 @@ function road(
 }
 
 /** Layers that read the vector tiles (everything except the background). */
-function tileLayers(): LayerSpecification[] {
+function baseTileLayers(): LayerSpecification[] {
   return [
     // Hard offset "sticker" shadow under all land.
     {
@@ -248,6 +248,9 @@ function tileLayers(): LayerSpecification[] {
           POI_ICONS.tree,
         ],
         "icon-size": 1,
+        // No text labels compete for space, so never hide an icon on collision.
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true,
       },
     },
     {
@@ -270,7 +273,33 @@ export function toPmtilesUrl(fileUri: string): string {
   return `pmtiles://${fileUri}`;
 }
 
+/**
+ * The same layers, reading another tile source: ids are prefixed so several
+ * sources can coexist, and `minzoom` keeps a detail source from drawing over
+ * the base map before it has anything to add.
+ */
+function tileLayers(sourceId = MAP_SOURCE_ID, idPrefix = "", minzoom = 0): LayerSpecification[] {
+  return baseTileLayers().map(
+    (l) =>
+      ({
+        ...l,
+        id: `${idPrefix}${l.id}`,
+        source: sourceId,
+        ...(minzoom > 0 || l.minzoom ? { minzoom: Math.max(l.minzoom ?? 0, minzoom) } : {}),
+      }) as LayerSpecification,
+  );
+}
+
+/** A street-detail area pack drawn over the Europe base map. */
+export type DetailPack = { id: string; tilesUrl: string; info: PackInfo | null };
+
+/** Detail layers take over from the base map here (the base pack's own tiles stop at zoom 7). */
+export const DETAIL_MINZOOM = 8;
+
 export const COVERAGE_SOURCE_ID = "coverage";
+
+/** Never fetched (no text layers); exists only so symbol layers render on native. */
+export const GLYPHS_PLACEHOLDER = "file:///critterboard-unused-glyphs/{fontstack}/{range}.pbf";
 
 /** The pack's bounding box as a GeoJSON polygon: sea is drawn inside it, "no data" outside. */
 function coverageGeoJson(b: PackBounds) {
@@ -299,26 +328,39 @@ function coverageGeoJson(b: PackBounds) {
 export function buildStickerStyle(
   tilesUrl: string | null,
   bounds: PackBounds | null = null,
+  details: DetailPack[] = [],
 ): StyleSpecification {
-  const coverage: LayerSpecification[] = bounds
-    ? ([
-        {
-          id: "coverage_sea",
-          type: "fill",
-          source: COVERAGE_SOURCE_ID,
-          paint: { "fill-color": MAP_COLORS.sea, "fill-antialias": false },
-        },
-        {
-          id: "coverage_waves",
-          type: "fill",
-          source: COVERAGE_SOURCE_ID,
-          paint: { "fill-pattern": WATER_PATTERN, "fill-antialias": false },
-        },
-      ] as LayerSpecification[])
-    : [];
+  const seaFill = (id: string, source: string, minzoom = 0): LayerSpecification[] =>
+    [
+      {
+        id: `${id}_sea`,
+        type: "fill",
+        source,
+        ...(minzoom ? { minzoom } : {}),
+        paint: { "fill-color": MAP_COLORS.sea, "fill-antialias": false },
+      },
+      {
+        id: `${id}_waves`,
+        type: "fill",
+        source,
+        ...(minzoom ? { minzoom } : {}),
+        paint: { "fill-pattern": WATER_PATTERN, "fill-antialias": false },
+      },
+    ] as LayerSpecification[];
+
+  const detailSources = details.flatMap((d) => [
+    [`detail_${d.id}`, { type: "vector" as const, url: d.tilesUrl, attribution: OSM_ATTRIBUTION }] as const,
+    ...(d.info
+      ? [[`coverage_detail_${d.id}`, { type: "geojson" as const, data: coverageGeoJson(d.info) }] as const]
+      : []),
+  ]);
+
   return {
     version: 8,
     name: "critterboard-sticker",
+    // MapLibre Native won't draw symbol layers (our icon-only POIs) without a glyphs entry.
+    // We draw no text, so this local placeholder is never requested: still fully offline.
+    glyphs: GLYPHS_PLACEHOLDER,
     sources: {
       ...(tilesUrl
         ? {
@@ -337,6 +379,7 @@ export function buildStickerStyle(
             },
           }
         : {}),
+      ...Object.fromEntries(detailSources),
     },
     layers: [
       {
@@ -350,8 +393,13 @@ export function buildStickerStyle(
         type: "background",
         paint: { "background-pattern": NODATA_PATTERN },
       },
-      ...coverage,
+      ...(bounds ? seaFill("coverage", COVERAGE_SOURCE_ID) : []),
       ...(tilesUrl ? tileLayers() : []),
+      // Street detail on top, one block per installed area pack.
+      ...details.flatMap((d) => [
+        ...(d.info ? seaFill(`coverage_detail_${d.id}`, `coverage_detail_${d.id}`, DETAIL_MINZOOM) : []),
+        ...tileLayers(`detail_${d.id}`, `d_${d.id}_`, DETAIL_MINZOOM),
+      ]),
     ],
   };
 }

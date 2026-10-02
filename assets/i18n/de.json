@@ -348,7 +348,12 @@
       "downloadCta": "↓ Karte laden · {mb} MB",
       "downloadingSub": "Karte wird geladen… {pct}%",
       "errorSub": "Karte konnte nicht geladen werden. Prüfe die Verbindung und versuche es erneut.",
-      "retryCta": "Erneut versuchen"
+      "retryCta": "Erneut versuchen",
+      "areaOffer": "Straßendetails für {name}",
+      "areaOfferSub": "{km} km um dich · {mb} MB · funktioniert offline",
+      "areaGet": "↓ Laden",
+      "areaDownloading": "{name} wird geladen… {pct}%",
+      "areaError": "Straßendetails konnten nicht geladen werden."
     },
     "permissions": {
       "title": "Drei kurze Fragen.",

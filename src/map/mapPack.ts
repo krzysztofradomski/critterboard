@@ -129,3 +129,27 @@ export async function readPmtilesInfo(fileUri: string): Promise<PackInfo | null>
     return null;
   }
 }
+
+/** Area packs live beside the base maps as `area-<id>.pmtiles`. */
+export const areaPackId = (areaId: string): string => `area-${areaId}`;
+
+export type InstalledAreaPack = { id: string; fileUri: string };
+
+/** Valid street-detail packs on the device (corrupt ones are deleted on the way). */
+export async function installedAreaPacks(): Promise<InstalledAreaPack[]> {
+  const dir = FileSystem.documentDirectory;
+  if (!dir) return [];
+  try {
+    const names = await FileSystem.readDirectoryAsync(`${dir}maps/`);
+    const out: InstalledAreaPack[] = [];
+    for (const name of names) {
+      const m = /^area-(.+)\.pmtiles$/.exec(name);
+      if (!m) continue;
+      const fileUri = await installedMapPack(areaPackId(m[1]!));
+      if (fileUri) out.push({ id: m[1]!, fileUri });
+    }
+    return out;
+  } catch {
+    return [];
+  }
+}

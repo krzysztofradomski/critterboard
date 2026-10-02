@@ -349,7 +349,12 @@
       "downloadCta": "↓ Pobierz mapę · {mb} MB",
       "downloadingSub": "Pobieranie mapy… {pct}%",
       "errorSub": "Nie udało się pobrać mapy. Sprawdź połączenie i spróbuj ponownie.",
-      "retryCta": "Spróbuj ponownie"
+      "retryCta": "Spróbuj ponownie",
+      "areaOffer": "Szczegóły ulic: {name}",
+      "areaOfferSub": "{km} km wokół Ciebie · {mb} MB · działa offline",
+      "areaGet": "↓ Pobierz",
+      "areaDownloading": "Pobieranie: {name}… {pct}%",
+      "areaError": "Nie udało się pobrać szczegółów."
     },
     "permissions": {
       "title": "Trzy szybkie prośby.",

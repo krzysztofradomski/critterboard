@@ -42,3 +42,12 @@ stop the server, turn on airplane mode, and the map should still render.
 
 To force a re-download in the simulator, delete the app (or its data).
 Production packs will be served over HTTPS from Cloudflare R2 with the region packs.
+
+## Street-detail area packs
+
+```bash
+# 25 km square around a point, down to zoom 13 (~21 MB for a city like Kraków)
+tools/map/extract-area.sh krakow 50.0614 19.9366 25 13
+```
+
+Prints a `packs/areas.json` entry. Host the file, add its `url`, and the app starts offering it to people inside that area. For local testing, serve `tools/map/out/` (see above), write `tools/map/out/areas.json` with `"url": "http://localhost:8787/area-krakow.pmtiles"` and set `EXPO_PUBLIC_AREAS_URL=http://localhost:8787/areas.json`.

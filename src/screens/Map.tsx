@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
+import { Btn } from "@/components/Btn";
+
 import { IconBtn } from "@/components/IconBtn";
 import { MapLocked } from "@/components/MapLocked";
 import { OfflineMap, type OfflineMapHandle } from "@/components/OfflineMap";
@@ -10,6 +12,7 @@ import { bugName, useT } from "@/i18n/helpers";
 import { refreshMapLocation } from "@/lib/geocode";
 import { useGeotaggedCatches } from "@/lib/useStreak";
 import { REGIONS } from "@/data/regions";
+import { useAreaPacks } from "@/map/useAreaPacks";
 import { useRegionMap } from "@/map/useRegionMap";
 import { PB } from "@/tokens/pb";
 import { useAppStore } from "@/store/useAppStore";
@@ -38,6 +41,7 @@ export function MapScreen() {
   const activeRegion = useAppStore((state) => state.activeRegion);
   const { state: mapState, download: downloadMap } = useRegionMap(activeRegion);
   const region = REGIONS.find((r) => r.id === activeRegion);
+  const areas = useAreaPacks(mapLocation, mapState.kind === "ready");
 
   useEffect(() => {
     void refreshMapLocation();
@@ -98,6 +102,7 @@ export function MapScreen() {
       <OfflineMap
         ref={globeRef}
         packUri={mapState.fileUri}
+        detailPacks={areas.installed}
         markers={markers}
         initialView={initialView}
         onMarkerClick={(marker) => {
@@ -133,6 +138,32 @@ export function MapScreen() {
           −
         </IconBtn>
       </View>
+      )}
+
+      {mapState.kind === "ready" && areas.offer.kind !== "none" && (
+        <View style={styles.areaOffer}>
+          <Sticker bg={PB.yellow} style={{ paddingVertical: 8, paddingHorizontal: 12 }}>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.areaTitle}>
+                  {areas.offer.kind === "downloading"
+                    ? t("map.areaDownloading", { name: areas.offer.area.name, pct: areas.offer.pct })
+                    : t("map.areaOffer", { name: areas.offer.area.name })}
+                </Text>
+                <Text style={styles.areaSub}>
+                  {areas.offer.kind === "error"
+                    ? t("map.areaError")
+                    : t("map.areaOfferSub", { km: areas.offer.area.radiusKm, mb: areas.offer.area.mb })}
+                </Text>
+              </View>
+              {areas.offer.kind !== "downloading" && (
+                <Btn bg={PB.ink} color={PB.yellow} onPress={areas.download}>
+                  {areas.offer.kind === "error" ? t("map.retryCta") : t("map.areaGet")}
+                </Btn>
+              )}
+            </View>
+          </Sticker>
+        </View>
       )}
 
       <View style={styles.topbar}>
@@ -218,6 +249,9 @@ export function MapScreen() {
 
 const styles = StyleSheet.create({
   root: { ...StyleSheet.absoluteFill, backgroundColor: PB.blue },
+  areaOffer: { position: "absolute", top: 132, left: 12, right: 12, zIndex: 2 },
+  areaTitle: { fontSize: 13, fontWeight: "800", color: PB.ink },
+  areaSub: { fontSize: 11, color: PB.ink, opacity: 0.7, marginTop: 1 },
   zoomCol: { position: "absolute", right: 12, bottom: 250, gap: 8, zIndex: 2 },
   topbar: { position: "absolute", top: 50, left: 12, right: 12, zIndex: 2 },
   locName: { fontSize: 18, fontWeight: "800", color: PB.ink, lineHeight: 18 },

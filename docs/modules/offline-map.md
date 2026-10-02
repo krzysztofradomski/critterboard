@@ -47,7 +47,18 @@ The app ships one pack for the whole supported area: **Europe, zoom ≤ 7** (`to
 - The pack id is `europe`; a legacy spike pack (`dev`) is deleted on sight.
 - Landmark icons (trees, peaks) only show at zoom 13+, so they need a street-detail pack and won't appear with the Europe pack.
 
+**Icons need a `glyphs` entry.** MapLibre Native draws no symbol layers (our pixel POI icons) unless the style has a `glyphs` URL, even though we draw no text. The style sets `GLYPHS_PLACEHOLDER` (a local `file:` URL that is never requested), so it stays offline. Found by experiment: with the entry the trees and peaks appear, without it nothing does.
+
 MapLibre Native briefly requests its built-in demo style at startup and cancels it as soon as our style is applied; that is inside the native library and can't be turned off from JS.
+
+## Street-detail area packs
+
+Europe at zoom 7 can't show streets, and Europe at zoom 13 would be tens of GB. So detail is a second, small layer: an **area pack** is a square of `radiusKm` (default 25 km from the centre to each side, ~21 MB for Kraków at zoom 13) cut with `tools/map/extract-area.sh <id> <lat> <lng>`.
+
+- `packs/areas.json` lists the packs (`center`, `radiusKm`, `bbox`, `mb`, `url`). An entry without `url` isn't hosted yet and is never offered. The app reads the catalog (a tiny fetch; `EXPO_PUBLIC_AREAS_URL` overrides it) only to decide what to offer; installed area packs need no network.
+- On the Map, if the user's location is inside a hosted area that isn't installed, a card offers the download (`useAreaPacks`). Files live next to the base map as `maps/area-<id>.pmtiles`.
+- The style (`buildStickerStyle(tilesUrl, bounds, details)`) adds one source and one copy of the tile layers per installed area (`d_<id>_*`, `minzoom` 8) plus a sea mask for its box, drawn over the Europe base. The landmark icons (zoom 13+) therefore appear inside installed areas.
+- Cutting a pack for an arbitrary spot needs the Protomaps planet build and the `pmtiles` CLI, so on-demand cutting for any location would need a small backend; until then areas are a hosted catalog.
 
 ## Location and pins
 

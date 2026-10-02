@@ -349,7 +349,12 @@
       "downloadCta": "↓ Download map · {mb} MB",
       "downloadingSub": "Downloading the map… {pct}%",
       "errorSub": "Couldn't download the map. Check your connection and try again.",
-      "retryCta": "Try again"
+      "retryCta": "Try again",
+      "areaOffer": "Street detail for {name}",
+      "areaOfferSub": "{km} km around you · {mb} MB · works offline",
+      "areaGet": "↓ Get",
+      "areaDownloading": "Downloading {name}… {pct}%",
+      "areaError": "Couldn't download street detail."
     },
     "permissions": {
       "title": "Three quick asks.",

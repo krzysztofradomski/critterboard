@@ -348,7 +348,12 @@
       "downloadCta": "↓ Descargar mapa · {mb} MB",
       "downloadingSub": "Descargando el mapa… {pct}%",
       "errorSub": "No se pudo descargar el mapa. Revisa tu conexión e inténtalo de nuevo.",
-      "retryCta": "Reintentar"
+      "retryCta": "Reintentar",
+      "areaOffer": "Detalle de calles de {name}",
+      "areaOfferSub": "{km} km a tu alrededor · {mb} MB · funciona sin conexión",
+      "areaGet": "↓ Obtener",
+      "areaDownloading": "Descargando {name}… {pct}%",
+      "areaError": "No se pudo descargar el detalle."
     },
     "permissions": {
       "title": "Tres preguntas rápidas.",
