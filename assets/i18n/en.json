@@ -786,6 +786,11 @@
         "locOffTitle": "Stop sharing locations?",
         "locOffBody": "This also deletes the catch locations already stored on our server. Your own map on this phone is not affected.",
         "locOffYes": "Stop and delete"
+      },
+      "haptics": {
+        "label": "Vibration",
+        "on": "Taps, toggles and tabs give a small buzz.",
+        "off": "No vibration."
       }
     },
     "regions": {

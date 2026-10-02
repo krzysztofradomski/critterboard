@@ -11,6 +11,7 @@ import { useXp } from '@/lib/level';
 import { PB } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
+import { haptics } from '@/lib/haptics';
 
 const TABS: LeaderboardScope[] = ['global', 'weekly', 'friends'];
 type TabName = LeaderboardScope;
@@ -83,7 +84,10 @@ export function Leaderboard() {
           {TABS.map((tabId) => (
             <Pressable
               key={tabId}
-              onPress={() => setTab(tabId)}
+              onPress={() => {
+                haptics.select();
+                setTab(tabId);
+              }}
               style={[
                 styles.tab,
                 {

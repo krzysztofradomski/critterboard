@@ -9,6 +9,7 @@ import { bugName, countryName, useT } from '@/i18n/helpers';
 import { timeAgo } from '@/lib/timeAgo';
 import { useAppStore } from '@/store/useAppStore';
 import { PB } from '@/tokens/pb';
+import { haptics } from '@/lib/haptics';
 
 const SCOPES: FriendScope[] = ['following', 'followers', 'suggested'];
 
@@ -41,7 +42,10 @@ export function FriendsPanel() {
         {SCOPES.map((id) => (
           <Pressable
             key={id}
-            onPress={() => setScope(id)}
+            onPress={() => {
+              haptics.select();
+              setScope(id);
+            }}
             style={[styles.chip, { backgroundColor: scope === id ? PB.ink : PB.cream2 }]}
           >
             <Text style={[styles.chipText, { color: scope === id ? PB.yellow : PB.ink }]}>

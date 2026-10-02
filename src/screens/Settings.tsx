@@ -35,6 +35,7 @@ import { PB } from "@/tokens/pb";
 import { isOffensiveName } from "@/lib/moderation";
 import { useAppStore } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
+import { haptics } from '@/lib/haptics';
 
 const NAME_MAX = 18;
 
@@ -626,6 +627,20 @@ export function Settings() {
           </View>
         </Sticker>
 
+        <Sticker bg={PB.paper} style={{ padding: 10 }}>
+          <SettingToggle
+            icon="📳"
+            color={PB.yellow}
+            label={t("settings.haptics.label")}
+            desc={profile.hapticsOn ? t("settings.haptics.on") : t("settings.haptics.off")}
+            value={profile.hapticsOn}
+            onChange={(v) => {
+              setProfile({ hapticsOn: v });
+              if (v) haptics.success(); // a taste of what you just switched on
+            }}
+          />
+        </Sticker>
+
         <Sticker bg={PB.paper} style={{ padding: 0 }}>
           <View style={[styles.bandHeader, { backgroundColor: PB.orange }]}>
             <Text style={{ fontSize: 26 }}>🎯</Text>
@@ -640,7 +655,10 @@ export function Settings() {
               return (
                 <Pressable
                   key={pct}
-                  onPress={() => setProfile({ minConfidence: pct })}
+                  onPress={() => {
+                    haptics.select();
+                    setProfile({ minConfidence: pct });
+                  }}
                   accessibilityRole="radio"
                   accessibilityState={{ selected: active }}
                   style={[
@@ -689,7 +707,10 @@ export function Settings() {
               return (
                 <Pressable
                   key={L.id}
-                  onPress={() => setLanguage(L.id as LangId)}
+                  onPress={() => {
+                    haptics.select();
+                    setLanguage(L.id as LangId);
+                  }}
                   style={[
                     styles.langCell,
                     {

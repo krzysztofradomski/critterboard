@@ -786,6 +786,11 @@
         "locOffTitle": "¿Dejar de compartir ubicaciones?",
         "locOffBody": "Esto también borra las ubicaciones de capturas ya guardadas en nuestro servidor. Tu propio mapa en este teléfono no cambia.",
         "locOffYes": "Dejar y borrar"
+      },
+      "haptics": {
+        "label": "Vibración",
+        "on": "Toques, interruptores y pestañas dan una pequeña vibración.",
+        "off": "Sin vibración."
       }
     },
     "regions": {

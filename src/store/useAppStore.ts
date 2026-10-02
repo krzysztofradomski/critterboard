@@ -38,6 +38,8 @@ export type Profile = {
    * offered for the Dex. Adjustable in Brains.
    */
   minConfidence: number;
+  /** Vibration feedback on toggles, tabs and key actions. */
+  hapticsOn: boolean;
 };
 
 export const DEFAULT_MIN_CONFIDENCE = 33;
@@ -366,9 +368,10 @@ type PersistedWire = {
   // `crashReportingOn` was added after the first ship, so legacy blobs
   // won't have it. `localLlmOn` existed until chat became Gemma-only (the
   // model file on disk now decides); older blobs may still carry it.
-  profile: Omit<Profile, 'crashReportingOn' | 'minConfidence'> & {
+  profile: Omit<Profile, 'crashReportingOn' | 'minConfidence' | 'hapticsOn'> & {
     crashReportingOn?: boolean;
     minConfidence?: number;
+    hapticsOn?: boolean;
     localLlmOn?: boolean;
   };
   hasOnboarded?: boolean;
@@ -406,7 +409,7 @@ const wireStorage: PersistStorage<Persisted> = {
         // flag existed. Defaulting to false keeps the opt-in invariant
         // intact — upgrading the app should never start sending crash
         // reports without an explicit user action.
-        profile: (({ localLlmOn: _retired, ...p }) => ({ crashReportingOn: false, minConfidence: DEFAULT_MIN_CONFIDENCE, ...p }))(
+        profile: (({ localLlmOn: _retired, ...p }) => ({ crashReportingOn: false, minConfidence: DEFAULT_MIN_CONFIDENCE, hapticsOn: true, ...p }))(
           wrapped.state.profile,
         ),
         hasOnboarded: Boolean(wrapped.state.hasOnboarded),
@@ -482,6 +485,7 @@ export const useAppStore = create<AppStore>()(
         locationShareOn: false,
         crashReportingOn: false,
         minConfidence: DEFAULT_MIN_CONFIDENCE,
+        hapticsOn: true,
       },
       hasOnboarded: false,
       toast: null,
@@ -896,6 +900,7 @@ export const useAppStore = create<AppStore>()(
             locationShareOn: false,
             crashReportingOn: false,
             minConfidence: DEFAULT_MIN_CONFIDENCE,
+            hapticsOn: true,
           },
           hasOnboarded: false,
           toast: null,

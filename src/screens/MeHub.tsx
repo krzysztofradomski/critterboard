@@ -6,6 +6,7 @@ import { Quests } from '@/screens/Quests';
 import { Settings } from '@/screens/Settings';
 import { TabBar } from '@/components/TabBar';
 import { useT } from '@/i18n/helpers';
+import { haptics } from '@/lib/haptics';
 import { PB } from '@/tokens/pb';
 import type { MeSub } from '@/navigation/routes';
 import { useCurrentRoute } from '@/store/useAppStore';
@@ -29,7 +30,10 @@ export function MeHub() {
         {SUBTABS.map((id) => (
           <Pressable
             key={id}
-            onPress={() => go('me', { sub: id })}
+            onPress={() => {
+              haptics.select();
+              go('me', { sub: id });
+            }}
             style={[
               styles.subtab,
               { backgroundColor: sub === id ? PB.yellow : 'transparent' },

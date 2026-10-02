@@ -786,6 +786,11 @@
         "locOffTitle": "Orte nicht mehr teilen?",
         "locOffBody": "Das löscht auch die bereits auf unserem Server gespeicherten Fangorte. Deine eigene Karte auf diesem Telefon bleibt unverändert.",
         "locOffYes": "Beenden und löschen"
+      },
+      "haptics": {
+        "label": "Vibration",
+        "on": "Taps, Schalter und Tabs geben ein kleines Brummen.",
+        "off": "Keine Vibration."
       }
     },
     "regions": {

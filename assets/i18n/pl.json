@@ -786,6 +786,11 @@
         "locOffTitle": "Przestać udostępniać lokalizacje?",
         "locOffBody": "To usunie też lokalizacje złapań zapisane już na naszym serwerze. Twoja mapa na tym telefonie się nie zmieni.",
         "locOffYes": "Przestań i usuń"
+      },
+      "haptics": {
+        "label": "Wibracje",
+        "on": "Dotknięcia, przełączniki i zakładki delikatnie wibrują.",
+        "off": "Bez wibracji."
       }
     },
     "regions": {

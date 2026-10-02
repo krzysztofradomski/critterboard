@@ -11,6 +11,7 @@ import { useBugs } from '@/lib/useBugs';
 import { PB, RARITY_COLOR } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
+import { haptics } from '@/lib/haptics';
 
 const FILTER_KEYS = ['all', 'common', 'uncommon', 'rare', 'epic', 'legendary'] as const;
 type FilterKey = (typeof FILTER_KEYS)[number];
@@ -140,7 +141,10 @@ export function Dex() {
           {FILTER_KEYS.map((c) => (
             <Pressable
               key={c}
-              onPress={() => setFilter(c)}
+              onPress={() => {
+                haptics.select();
+                setFilter(c);
+              }}
               style={[
                 styles.filterChip,
                 {

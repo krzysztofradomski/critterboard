@@ -12,6 +12,7 @@ import { PERSONA_IDS } from '@/personas';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
+import { haptics } from '@/lib/haptics';
 
 export function Onboarding() {
   const { go } = useNav();
@@ -65,7 +66,10 @@ export function Onboarding() {
             return (
               <Pressable
                 key={l.id}
-                onPress={() => setLanguage(l.id)}
+                onPress={() => {
+                  haptics.select();
+                  setLanguage(l.id);
+                }}
                 accessibilityRole="radio"
                 accessibilityState={{ selected: on }}
                 accessibilityLabel={l.native}

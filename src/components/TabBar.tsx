@@ -2,6 +2,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { useT } from '@/i18n/helpers';
+import { haptics } from '@/lib/haptics';
 import { PB } from '@/tokens/pb';
 import { useNav } from '@/store/useNav';
 import type { MainTab } from '@/navigation/routes';
@@ -22,7 +23,10 @@ export function TabBar({ active }: { active: MainTab }) {
       {TABS.map((tabDef) => {
         const isActive = active === tabDef.id;
         return (
-          <Pressable key={tabDef.id} onPress={() => go(tabDef.id)} style={styles.cell}>
+          <Pressable key={tabDef.id} onPress={() => {
+              haptics.select();
+              go(tabDef.id);
+            }} style={styles.cell}>
             <View
               style={[
                 styles.iconWrap,
