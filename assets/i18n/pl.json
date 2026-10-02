@@ -76,7 +76,10 @@
       "needPackCta": "Otwórz paczki gatunków",
       "modelNotReady": "Model gatunków wciąż się wczytuje. Spróbuj za chwilę.",
       "modelFetching": "Pobieranie modelu… {pct}%",
-      "modelLoading": "Ładowanie modelu…"
+      "modelLoading": "Ładowanie modelu…",
+      "tipsTitle": "Wskazówki do zdjęcia",
+      "tipsSub": "Lepsze zdjęcia, trafniejsze wyniki.",
+      "tipsGotIt": "Jasne"
     },
     "result": {
       "headTitle": "ROZPOZNANO!",

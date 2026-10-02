@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
+import { PHOTO_TIPS } from '@/data/photoTips';
 import { VISION_MODEL } from '@/data/visionModel';
 import { useT } from '@/i18n/helpers';
 import { usePersona } from '@/personas/hooks';
@@ -16,13 +17,6 @@ export function NoMatch() {
   const persona = useAppStore((s) => s.persona);
   const P = usePersona(persona);
   const t = useT();
-
-  const TIPS = [
-    { emoji: '🔆', titleKey: 'noMatch.tip.lightTitle',    descKey: 'noMatch.tip.lightDesc',    color: PB.yellow },
-    { emoji: '🔍', titleKey: 'noMatch.tip.frameTitle',    descKey: 'noMatch.tip.frameDesc',    color: PB.green  },
-    { emoji: '🌿', titleKey: 'noMatch.tip.backdropTitle', descKey: 'noMatch.tip.backdropDesc', color: PB.blue   },
-    { emoji: '📐', titleKey: 'noMatch.tip.profileTitle',  descKey: 'noMatch.tip.profileDesc',  color: PB.purple },
-  ];
 
   return (
     <View style={styles.root}>
@@ -50,7 +44,7 @@ export function NoMatch() {
 
         <Text style={styles.section}>{t('noMatch.tryThis')}</Text>
         <View style={styles.tipGrid}>
-          {TIPS.map((tip) => (
+          {PHOTO_TIPS.map((tip) => (
             <View key={tip.titleKey} style={styles.tipCard}>
               <View style={[styles.tipIcon, { backgroundColor: tip.color }]}>
                 <Text style={{ fontSize: 18 }}>{tip.emoji}</Text>

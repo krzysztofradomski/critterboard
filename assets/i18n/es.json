@@ -76,7 +76,10 @@
       "needPackCta": "Abrir paquetes de especies",
       "modelNotReady": "El modelo de especies aún se está cargando. Inténtalo de nuevo en un momento.",
       "modelFetching": "Descargando modelo… {pct}%",
-      "modelLoading": "Cargando modelo…"
+      "modelLoading": "Cargando modelo…",
+      "tipsTitle": "Consejos para la foto",
+      "tipsSub": "Mejores fotos, mejores resultados.",
+      "tipsGotIt": "Entendido"
     },
     "result": {
       "headTitle": "¡IDENTIFICADO!",

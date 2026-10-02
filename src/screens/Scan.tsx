@@ -10,6 +10,7 @@ import { selectScanClassifier } from '@/ai/scanClassifier';
 import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
+import { PhotoTipsDialog } from '@/components/PhotoTipsDialog';
 import { Sticker } from '@/components/Sticker';
 import { TabBar } from '@/components/TabBar';
 import { useT } from '@/i18n/helpers';
@@ -58,6 +59,7 @@ export function Scan() {
   const cameraRef = useRef<CameraView | null>(null);
 
   const [phase, setPhase] = useState<Phase>('aim');
+  const [tipsOpen, setTipsOpen] = useState(false);
   const [flash, setFlash] = useState(false);
   const pulse = useRef(new Animated.Value(1)).current;
   const reticleRotate = useRef(new Animated.Value(0)).current;
@@ -313,9 +315,10 @@ export function Scan() {
         <Pressable onPress={shutter} style={[styles.shutter, phase !== 'aim' && styles.shutterPressed]}>
           <View style={styles.shutterInner} />
         </Pressable>
-        {/* Spacer: keeps the shutter centred. "No match" is only reached after a scan that found nothing. */}
-        <View style={{ width: 48 }} />
+        <IconBtn size={48} fs={22} onPress={() => setTipsOpen(true)} accessibilityLabel={t('scan.tipsTitle')}>💡</IconBtn>
       </View>
+
+      <PhotoTipsDialog visible={tipsOpen} onClose={() => setTipsOpen(false)} />
 
       <TabBar active="scan" />
     </View>

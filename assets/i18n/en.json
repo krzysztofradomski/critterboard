@@ -76,7 +76,10 @@
       "needPackCta": "Open species packs",
       "modelNotReady": "The species model is still loading. Try again in a moment.",
       "modelFetching": "Fetching model… {pct}%",
-      "modelLoading": "Loading model…"
+      "modelLoading": "Loading model…",
+      "tipsTitle": "Photo tips",
+      "tipsSub": "Better photos, better matches.",
+      "tipsGotIt": "Got it"
     },
     "result": {
       "headTitle": "IDENTIFIED!",

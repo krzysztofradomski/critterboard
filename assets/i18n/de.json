@@ -76,7 +76,10 @@
       "needPackCta": "Artenpakete öffnen",
       "modelNotReady": "Das Artenmodell lädt noch. Versuch es gleich noch einmal.",
       "modelFetching": "Modell wird geladen… {pct}%",
-      "modelLoading": "Modell wird geladen…"
+      "modelLoading": "Modell wird geladen…",
+      "tipsTitle": "Foto-Tipps",
+      "tipsSub": "Bessere Fotos, bessere Treffer.",
+      "tipsGotIt": "Verstanden"
     },
     "result": {
       "headTitle": "IDENTIFIZIERT!",
