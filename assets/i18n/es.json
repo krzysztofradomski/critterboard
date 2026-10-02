@@ -43,7 +43,8 @@
       "startHunting": "A cazar →",
       "legal": "✓ sin cuenta · ✓ sin internet · ✓ sin $$",
       "legalOnline": "✓ sin cuenta · ✓ con internet · ✓ sin $$",
-      "namePrompt": "¿CÓMO TE LLAMAMOS?"
+      "namePrompt": "¿CÓMO TE LLAMAMOS?",
+      "haveBackup": "¿Tienes una copia? Restáurala"
     },
     "home": {
       "streakPill": "racha de {days} días",
@@ -1120,12 +1121,32 @@
         "wipeCta": "Borrar",
         "wipeConfirmCta": "Pulsa otra vez para confirmar",
         "wipeToast": "Borrado en cola — reinicia la app.",
-        "wipeOnlineFailed": "No se pudieron borrar tus datos en línea, así que no se borró nada. Conéctate e inténtalo de nuevo."
+        "wipeOnlineFailed": "No se pudieron borrar tus datos en línea, así que no se borró nada. Conéctate e inténtalo de nuevo.",
+        "backupTitle": "Copia de seguridad (archivo)",
+        "backupDesc": "Dex, capturas, misiones y ajustes en un archivo. Guárdalo en Archivos o iCloud Drive.",
+        "backupCta": "Guardar",
+        "restoreTitle": "Restaurar una copia",
+        "restoreDesc": "Añade un archivo de copia a este teléfono. No se borra nada.",
+        "restoreCta": "Restaurar"
       },
       "appName": "Critterboard",
       "appBuild": "v{version} · licencia MIT",
       "appSpecOn": "iOS 17+ · red ACTIVADA",
-      "appSpecOff": "iOS 17+ · totalmente offline"
+      "appSpecOff": "iOS 17+ · totalmente offline",
+      "backup": {
+        "keyTitle": "¿Incluir tu clave en línea?",
+        "keyBody": "La clave conserva tu ranking y tus amigos si reinstalas. Cualquiera con el archivo podría actuar como tú en línea, así que inclúyela solo si mantendrás el archivo privado.",
+        "keyWith": "Incluir clave",
+        "keyWithout": "Omitir",
+        "readFailed": "No se pudo leer ese archivo.",
+        "invalid": "Eso no es una copia de Critterboard.",
+        "restoreTitle": "¿Restaurar esta copia?",
+        "restoreBody": "{species} especies y {catches} capturas (copia del {date}) se añadirán a este teléfono. No se borra nada.",
+        "restoreYes": "Restaurar",
+        "restored": "Restaurado · {n} capturas",
+        "regionHint": "Vuelve a descargar tu pack regional en Cerebro.",
+        "identityHint": "Tu perfil en línea ha vuelto. Activa la red en Cerebro para usarlo."
+      }
     },
     "credits": {
       "build": "v{version}",

@@ -43,7 +43,8 @@
       "startHunting": "Auf die Jagd →",
       "legal": "✓ kein Konto · ✓ kein Internet · ✓ kein Geld",
       "legalOnline": "✓ kein Konto · ✓ mit Internet · ✓ kein Geld",
-      "namePrompt": "WIE SOLLEN WIR DICH NENNEN?"
+      "namePrompt": "WIE SOLLEN WIR DICH NENNEN?",
+      "haveBackup": "Eine Sicherung? Wiederherstellen"
     },
     "home": {
       "streakPill": "{days}-Tage-Serie",
@@ -1120,12 +1121,32 @@
         "wipeCta": "Löschen",
         "wipeConfirmCta": "Nochmal tippen zum Bestätigen",
         "wipeToast": "Löschung in Warteschlange — App neu starten.",
-        "wipeOnlineFailed": "Deine Online-Daten konnten nicht gelöscht werden, daher wurde nichts gelöscht. Verbinde dich und versuch es erneut."
+        "wipeOnlineFailed": "Deine Online-Daten konnten nicht gelöscht werden, daher wurde nichts gelöscht. Verbinde dich und versuch es erneut.",
+        "backupTitle": "Meine Daten sichern (Datei)",
+        "backupDesc": "Dex, Fänge, Quests und Einstellungen in einer Datei. Bewahre sie in Dateien oder iCloud Drive auf.",
+        "backupCta": "Sichern",
+        "restoreTitle": "Aus Sicherung wiederherstellen",
+        "restoreDesc": "Fügt eine Sicherungsdatei diesem Telefon hinzu. Nichts wird gelöscht.",
+        "restoreCta": "Wiederherstellen"
       },
       "appName": "Critterboard",
       "appBuild": "v{version} · MIT-Lizenz",
       "appSpecOn": "iOS 17+ · Netzwerk AN",
-      "appSpecOff": "iOS 17+ · komplett offline"
+      "appSpecOff": "iOS 17+ · komplett offline",
+      "backup": {
+        "keyTitle": "Online-Schlüssel einschließen?",
+        "keyBody": "Der Schlüssel erhält deine Rangliste und Freunde nach einer Neuinstallation. Jeder mit der Datei könnte online als du auftreten, also nimm ihn nur auf, wenn du die Datei privat hältst.",
+        "keyWith": "Schlüssel einschließen",
+        "keyWithout": "Weglassen",
+        "readFailed": "Die Datei konnte nicht gelesen werden.",
+        "invalid": "Das ist keine Critterboard-Sicherung.",
+        "restoreTitle": "Diese Sicherung wiederherstellen?",
+        "restoreBody": "{species} Arten und {catches} Fänge (Sicherung vom {date}) werden diesem Telefon hinzugefügt. Nichts wird gelöscht.",
+        "restoreYes": "Wiederherstellen",
+        "restored": "Wiederhergestellt · {n} Fänge",
+        "regionHint": "Lade dein Regionalpaket im Hirn erneut herunter.",
+        "identityHint": "Dein Online-Profil ist zurück. Schalte im Hirn das Netzwerk ein, um es zu nutzen."
+      }
     },
     "credits": {
       "build": "v{version}",

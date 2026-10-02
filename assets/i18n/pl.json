@@ -43,7 +43,8 @@
       "startHunting": "Zaczynamy →",
       "legal": "✓ bez konta · ✓ bez internetu · ✓ bez płacenia",
       "legalOnline": "✓ bez konta · ✓ z internetem · ✓ bez płacenia",
-      "namePrompt": "JAK MAMY CIĘ NAZYWAĆ?"
+      "namePrompt": "JAK MAMY CIĘ NAZYWAĆ?",
+      "haveBackup": "Masz kopię? Przywróć ją"
     },
     "home": {
       "streakPill": "passa {days} dni",
@@ -1120,12 +1121,32 @@
         "wipeCta": "Wymaż",
         "wipeConfirmCta": "Dotknij ponownie, by potwierdzić",
         "wipeToast": "Wymazywanie w kolejce — uruchom aplikację ponownie.",
-        "wipeOnlineFailed": "Nie udało się usunąć danych online, więc nic nie wymazano. Połącz się i spróbuj ponownie."
+        "wipeOnlineFailed": "Nie udało się usunąć danych online, więc nic nie wymazano. Połącz się i spróbuj ponownie.",
+        "backupTitle": "Kopia zapasowa (plik)",
+        "backupDesc": "Dex, złapania, zadania i ustawienia w jednym pliku. Trzymaj go w Plikach lub iCloud Drive.",
+        "backupCta": "Zapisz",
+        "restoreTitle": "Przywróć z kopii",
+        "restoreDesc": "Dodaje plik kopii do tego telefonu. Nic nie jest usuwane.",
+        "restoreCta": "Przywróć"
       },
       "appName": "Critterboard",
       "appBuild": "v{version} · licencja MIT",
       "appSpecOn": "iOS 17+ · sieć WŁ.",
-      "appSpecOff": "iOS 17+ · w pełni offline"
+      "appSpecOff": "iOS 17+ · w pełni offline",
+      "backup": {
+        "keyTitle": "Dołączyć klucz online?",
+        "keyBody": "Klucz zachowa twój ranking i znajomych po ponownej instalacji. Każdy z tym plikiem mógłby działać online jako ty, więc dołącz go tylko, jeśli plik pozostanie prywatny.",
+        "keyWith": "Dołącz klucz",
+        "keyWithout": "Pomiń",
+        "readFailed": "Nie udało się odczytać pliku.",
+        "invalid": "To nie jest kopia Critterboard.",
+        "restoreTitle": "Przywrócić tę kopię?",
+        "restoreBody": "{species} gatunków i {catches} złapań (kopia z {date}) zostanie dodanych do tego telefonu. Nic nie jest usuwane.",
+        "restoreYes": "Przywróć",
+        "restored": "Przywrócono · {n} złapań",
+        "regionHint": "Pobierz ponownie pakiet regionalny w Mózgu.",
+        "identityHint": "Twój profil online wrócił. Włącz sieć w Mózgu, by z niego korzystać."
+      }
     },
     "credits": {
       "build": "v{version}",

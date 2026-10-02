@@ -8,6 +8,7 @@ import { Sticker } from '@/components/Sticker';
 import { LANG_META } from '@/i18n';
 import { useT } from '@/i18n/helpers';
 import { isOffensiveName } from '@/lib/moderation';
+import { useBackupActions } from '@/lib/useBackupActions';
 import { PERSONA_IDS } from '@/personas';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
@@ -20,6 +21,7 @@ export function Onboarding() {
   const setProfile = useAppStore((s) => s.setProfile);
   const language = useAppStore((s) => s.language);
   const setLanguage = useAppStore((s) => s.setLanguage);
+  const { importBackup } = useBackupActions();
   const t = useT();
   const [name, setName] = useState('');
   const [nameError, setNameError] = useState(false);
@@ -122,6 +124,9 @@ export function Onboarding() {
           <Btn full bg={PB.ink} color={PB.yellow} size="lg" onPress={start}>
             {t('onboarding.startHunting')}
           </Btn>
+          <Pressable onPress={() => void importBackup()} accessibilityRole="button" style={styles.restoreLink}>
+            <Text style={styles.restoreText}>{t('onboarding.haveBackup')}</Text>
+          </Pressable>
           <Text style={styles.legal}>
             {t(networkOn ? 'onboarding.legalOnline' : 'onboarding.legal')}
           </Text>
@@ -195,5 +200,7 @@ const styles = StyleSheet.create({
   },
   nameError: { marginTop: 4, fontSize: 11, fontWeight: '700', color: PB.red },
   footer: { marginTop: 'auto', gap: 10 },
+  restoreLink: { alignSelf: 'center', paddingVertical: 4 },
+  restoreText: { fontSize: 13, fontWeight: '800', color: PB.ink, textDecorationLine: 'underline' },
   legal: { textAlign: 'center', fontSize: 12, color: PB.ink, fontWeight: '600' },
 });

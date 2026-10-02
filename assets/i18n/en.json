@@ -43,7 +43,8 @@
       "startHunting": "Start hunting →",
       "legal": "✓ no account · ✓ no internet · ✓ no $$",
       "legalOnline": "✓ no account · ✓ with internet · ✓ no $$",
-      "namePrompt": "WHAT SHOULD WE CALL YOU?"
+      "namePrompt": "WHAT SHOULD WE CALL YOU?",
+      "haveBackup": "Have a backup? Restore it"
     },
     "home": {
       "streakPill": "{days}-day streak",
@@ -1120,12 +1121,32 @@
         "wipeCta": "Wipe",
         "wipeConfirmCta": "Tap again to confirm",
         "wipeToast": "Wipe queued — restart the app.",
-        "wipeOnlineFailed": "Couldn't delete your online data, so nothing was wiped. Connect and try again."
+        "wipeOnlineFailed": "Couldn't delete your online data, so nothing was wiped. Connect and try again.",
+        "backupTitle": "Back up my data (file)",
+        "backupDesc": "Dex, catches, quests and settings in one file. Keep it in Files or iCloud Drive.",
+        "backupCta": "Back up",
+        "restoreTitle": "Restore from a backup",
+        "restoreDesc": "Adds a backup file to this phone. Nothing is deleted.",
+        "restoreCta": "Restore"
       },
       "appName": "Critterboard",
       "appBuild": "v{version} · MIT-licensed",
       "appSpecOn": "iOS 17+ · network ON",
-      "appSpecOff": "iOS 17+ · fully offline"
+      "appSpecOff": "iOS 17+ · fully offline",
+      "backup": {
+        "keyTitle": "Include your online key?",
+        "keyBody": "The key keeps your ranking and friends if you reinstall. Anyone with the file could act as you online, so only include it if you will keep the file private.",
+        "keyWith": "Include key",
+        "keyWithout": "Leave it out",
+        "readFailed": "Couldn't read that file.",
+        "invalid": "That isn't a Critterboard backup.",
+        "restoreTitle": "Restore this backup?",
+        "restoreBody": "{species} species and {catches} catches (backup from {date}) will be added to this phone. Nothing is deleted.",
+        "restoreYes": "Restore",
+        "restored": "Restored · {n} catches",
+        "regionHint": "Download your region pack again in Brains.",
+        "identityHint": "Your online profile is back. Turn Network on in Brains to use it."
+      }
     },
     "credits": {
       "build": "v{version}",

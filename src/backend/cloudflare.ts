@@ -58,6 +58,12 @@ function getBaseUrl(): string {
 let cachedToken: string | null = null;
 let adapterReady = false;
 
+/** Forget the cached login (after the device's identity changed). */
+export function resetBackendSession(): void {
+  cachedToken = null;
+  adapterReady = false;
+}
+
 async function fetchToken(userId: string, secret: string): Promise<string> {
   const base = getBaseUrl();
   let resp: Response;

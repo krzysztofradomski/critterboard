@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { deleteOnlineData } from '@/backend/sync';
+import { useBackupActions } from '@/lib/useBackupActions';
 import { DataRow } from '@/components/DataRow';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
@@ -25,6 +26,7 @@ export function Help() {
   const catchLog = useAppStore((s) => s.catchLog);
   const language = useAppStore((s) => s.language);
   const showToast = useAppStore((s) => s.showToast);
+  const { exportBackup, importBackup } = useBackupActions();
   const wipeAll = useAppStore((s) => s.wipeAll);
   const clearScanCache = useAppStore((s) => s.clearScanCache);
   const backendUserId = useAppStore((s) => s.backendUserId);
@@ -150,6 +152,22 @@ export function Help() {
             </View>
           </View>
           <View style={{ padding: 12, gap: 8 }}>
+            <DataRow
+              icon="💾"
+              color={PB.cream2}
+              title={t('help.data.backupTitle')}
+              desc={t('help.data.backupDesc')}
+              cta={t('help.data.backupCta')}
+              onPress={exportBackup}
+            />
+            <DataRow
+              icon="📥"
+              color={PB.cream2}
+              title={t('help.data.restoreTitle')}
+              desc={t('help.data.restoreDesc')}
+              cta={t('help.data.restoreCta')}
+              onPress={() => { void importBackup(); }}
+            />
             <DataRow
               icon="⬇️"
               color={PB.cream2}

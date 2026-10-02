@@ -67,6 +67,7 @@ CONTENT = {
    ("ul", [
      "<b>Export:</b> <b>Me → Help</b> lets you export your Dex (JSON), sightings (CSV), a GBIF-ready occurrence file (Darwin Core) or everything at once.",
      "<b>Wipe:</b> “Wipe everything” in the same screen removes your Dex, sightings, settings and downloaded models. Followers and leaderboard entries go too. There is no undo.",
+     "<b>Back up and restore:</b> <b>Me → Help</b> can save your Dex, catches, quests and settings to one file (keep it in Files or iCloud Drive) and restore it after a reinstall, or on another phone. Restoring only adds to what is there. Photos, chat history and the downloaded models are not included, and neither are your sharing choices: everything online starts off again.",
      "<b>Photos and models:</b> reference photos come from iNaturalist and GBIF ranges. We never train on your photos.",
    ]),
  ]),
@@ -116,6 +117,7 @@ CONTENT = {
    ("ul", [
      "<b>Eksport:</b> w <b>Ja → Pomoc</b> wyeksportujesz dex (JSON), obserwacje (CSV), plik wystąpień gotowy dla GBIF (Darwin Core) albo wszystko naraz.",
      "<b>Wymazanie:</b> „Wymaż wszystko” na tym samym ekranie usuwa dex, obserwacje, ustawienia i pobrane modele. Obserwujący i wpisy rankingu też znikają. Nie ma cofnięcia.",
+     "<b>Kopia i przywracanie:</b> w <b>Ja → Pomoc</b> zapiszesz dex, złapania, zadania i ustawienia w jednym pliku (trzymaj go w Plikach lub iCloud Drive) i przywrócisz go po ponownej instalacji lub na innym telefonie. Przywracanie tylko dodaje do tego, co już jest. Zdjęcia, historia czatu i pobrane modele nie są w niej zawarte, podobnie jak twoje wybory dotyczące udostępniania: wszystko online znów jest wyłączone.",
      "<b>Zdjęcia i modele:</b> zdjęcia referencyjne pochodzą z iNaturalist, a zasięgi z GBIF. Nigdy nie trenujemy na twoich zdjęciach.",
    ]),
  ]),
@@ -165,6 +167,7 @@ CONTENT = {
    ("ul", [
      "<b>Export:</b> unter <b>Ich → Hilfe</b> exportierst du deinen Dex (JSON), Sichtungen (CSV), eine GBIF-taugliche Fundmeldedatei (Darwin Core) oder alles auf einmal.",
      "<b>Löschen:</b> „Alles löschen“ im selben Bildschirm entfernt Dex, Sichtungen, Einstellungen und geladene Modelle. Follower und Ranglisteneinträge verschwinden ebenfalls. Es gibt kein Zurück.",
+     "<b>Sichern und wiederherstellen:</b> unter <b>Ich → Hilfe</b> kannst du Dex, Fänge, Quests und Einstellungen in einer Datei sichern (bewahre sie in Dateien oder iCloud Drive auf) und nach einer Neuinstallation oder auf einem anderen Telefon wiederherstellen. Wiederherstellen fügt nur hinzu. Fotos, Chatverlauf und geladene Modelle sind nicht enthalten, ebenso wenig deine Freigabe-Einstellungen: alles Online beginnt wieder ausgeschaltet.",
      "<b>Fotos und Modelle:</b> Referenzfotos stammen von iNaturalist, Verbreitungsgebiete von GBIF. Wir trainieren nie mit deinen Fotos.",
    ]),
  ]),
@@ -214,6 +217,7 @@ CONTENT = {
    ("ul", [
      "<b>Exportar:</b> en <b>Yo → Ayuda</b> puedes exportar tu Dex (JSON), avistamientos (CSV), un archivo de registros listo para GBIF (Darwin Core) o todo a la vez.",
      "<b>Borrar:</b> «Borrar todo» en la misma pantalla elimina tu Dex, avistamientos, ajustes y modelos descargados. También seguidores y entradas de ranking. No hay deshacer.",
+     "<b>Copia y restauración:</b> en <b>Yo → Ayuda</b> puedes guardar tu Dex, capturas, misiones y ajustes en un archivo (guárdalo en Archivos o iCloud Drive) y restaurarlo tras reinstalar o en otro teléfono. Restaurar solo añade a lo que ya hay. Las fotos, el historial de chat y los modelos descargados no se incluyen, ni tampoco tus ajustes de compartir: todo lo que es en línea vuelve a empezar desactivado.",
      "<b>Fotos y modelos:</b> las fotos de referencia vienen de iNaturalist y las distribuciones de GBIF. Nunca entrenamos con tus fotos.",
    ]),
  ]),
