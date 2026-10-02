@@ -928,7 +928,7 @@
         ]
       },
       "maywind": {
-        "name": "R.A. Maywind",
+        "name": "Asistente Mayo",
         "title": "gemma-4 · curiosa",
         "blurb": "Ingeniosa. Alegre. Adora cada bicho.",
         "lines": {
@@ -1038,7 +1038,7 @@
           "role": "Chat · 3,1 GB · Q4_K_M · Apache 2.0"
         },
         "variants": {
-          "name": "Maywind / Snail",
+          "name": "Mayo / Caracol",
           "role": "Personajes: prompts de sistema sobre Gemma 4"
         }
       },

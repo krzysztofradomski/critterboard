@@ -928,7 +928,7 @@
         ]
       },
       "maywind": {
-        "name": "R.A. Maywind",
+        "name": "Asystent Maj",
         "title": "gemma-4 · ciekawska",
         "blurb": "Dowcipna. Wesoła. Kocha każdego owada.",
         "lines": {
@@ -1038,7 +1038,7 @@
           "role": "Czat · 3,1 GB · Q4_K_M · Apache 2.0"
         },
         "variants": {
-          "name": "Maywind / Snail",
+          "name": "Maj / Ślimak",
           "role": "Persony: prompty systemowe na Gemma 4"
         }
       },

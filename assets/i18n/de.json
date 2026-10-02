@@ -928,7 +928,7 @@
         ]
       },
       "maywind": {
-        "name": "R.A. Maywind",
+        "name": "Assistent Mai",
         "title": "gemma-4 · neugierig",
         "blurb": "Witzig. Fröhlich. Liebt jedes Insekt.",
         "lines": {
@@ -1038,7 +1038,7 @@
           "role": "Chat · 3,1 GB · Q4_K_M · Apache 2.0"
         },
         "variants": {
-          "name": "Maywind / Snail",
+          "name": "Mai / Schnecke",
           "role": "Personas: System-Prompts auf Gemma 4"
         }
       },
