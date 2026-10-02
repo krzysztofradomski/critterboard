@@ -5,7 +5,6 @@ import { Activity } from '@/screens/Activity';
 import { Chat } from '@/screens/Chat';
 import { Dex } from '@/screens/Dex';
 import { Disambiguate } from '@/screens/Disambiguate';
-import { Friends } from '@/screens/Friends';
 import { Help } from '@/screens/Help';
 import { Home } from '@/screens/Home';
 import { Leaderboard } from '@/screens/Leaderboard';
@@ -41,7 +40,6 @@ const REGISTRY: Record<RouteName, React.ComponentType> = {
   activity: Activity,
   region: RegionDetail,
   streak: Streak,
-  friends: Friends,
   openSourceLibraries: OpenSourceLibraries,
   help: Help,
 };

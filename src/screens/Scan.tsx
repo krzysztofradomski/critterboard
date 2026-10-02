@@ -313,7 +313,8 @@ export function Scan() {
         <Pressable onPress={shutter} style={[styles.shutter, phase !== 'aim' && styles.shutterPressed]}>
           <View style={styles.shutterInner} />
         </Pressable>
-        <IconBtn size={48} fs={22} onPress={() => phase === 'aim' && go('nomatch')}>🤷</IconBtn>
+        {/* Spacer: keeps the shutter centred. "No match" is only reached after a scan that found nothing. */}
+        <View style={{ width: 48 }} />
       </View>
 
       <TabBar active="scan" />

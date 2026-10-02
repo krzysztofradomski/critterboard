@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { getPackData } from "@/data/regionPacks";
+import { useAppStore } from "@/store/useAppStore";
 import { downloadMapPack, installedMapPack, resolveMapUrl } from "@/map/mapPack";
 
 export type RegionMapState =
@@ -23,6 +24,8 @@ export function useRegionMap(regionId: string | null): {
   download: () => void;
 } {
   const [state, setState] = useState<RegionMapState>({ kind: "checking" });
+  // A pack refresh at boot (new version, new mapUrl) must re-run the check.
+  const packVersion = useAppStore((st) => (regionId ? st.installedPackVersions[regionId] : undefined));
   // Bumped by download() so a retry re-runs the check.
   const [attempt, setAttempt] = useState(0);
 
@@ -41,7 +44,7 @@ export function useRegionMap(regionId: string | null): {
     return () => {
       cancelled = true;
     };
-  }, [regionId, attempt]);
+  }, [regionId, attempt, packVersion]);
 
   const download = useCallback(() => {
     if (!regionId) return;

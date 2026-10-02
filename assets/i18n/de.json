@@ -249,8 +249,6 @@
       }
     },
     "friends": {
-      "title": "Naturkundige",
-      "sub": "Wem du folgst · deren Insekten",
       "tab": {
         "following": "Folge ich",
         "followers": "Folgen mir",
@@ -260,7 +258,7 @@
       "following": "✓ Folge ich",
       "ago": "vor {when}",
       "emptyTitle": "Noch niemand hier.",
-      "emptySub": "Schau im Reiter Vorgeschlagen nach Naturkundigen wie dir."
+      "emptySub": "Freunde und Vorschläge erscheinen, sobald andere Naturforscher dabei sind."
     },
     "person": {
       "rank": "RANG #{rank}",

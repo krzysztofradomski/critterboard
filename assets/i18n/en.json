@@ -249,8 +249,6 @@
       }
     },
     "friends": {
-      "title": "Naturalists",
-      "sub": "People you follow · their bugs",
       "tab": {
         "following": "Following",
         "followers": "Followers",
@@ -259,8 +257,8 @@
       "follow": "+ Follow",
       "following": "✓ Following",
       "ago": "{when} ago",
-      "emptyTitle": "No one here yet.",
-      "emptySub": "Check the Suggested tab to find naturalists like you."
+      "emptyTitle": "Nobody here yet.",
+      "emptySub": "Friends and suggestions show up once other naturalists join."
     },
     "person": {
       "rank": "RANK #{rank}",

@@ -3,12 +3,13 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useLeaderboard } from '@/backend/hooks';
 import type { LeaderboardEntry, LeaderboardScope } from '@/backend';
+import { FriendsPanel } from '@/components/FriendsPanel';
 import { PersonModal } from '@/components/PersonModal';
 import { LEADERS, type LeaderRow } from '@/data/leaderboard';
 import { countryName, useT } from '@/i18n/helpers';
 import { useXp } from '@/lib/level';
 import { PB } from '@/tokens/pb';
-import { useAppStore } from '@/store/useAppStore';
+import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
 const TABS: LeaderboardScope[] = ['global', 'weekly', 'friends'];
@@ -26,7 +27,9 @@ export function Leaderboard() {
   const language = useAppStore((s) => s.language);
   const userXp = useXp();
   const t = useT();
-  const [tab, setTab] = useState<TabName>('global');
+  const route = useCurrentRoute();
+  const startTab = (route.params as { tab?: TabName } | undefined)?.tab;
+  const [tab, setTab] = useState<TabName>(startTab ?? 'global');
   const [openName, setOpenName] = useState<string | null>(null);
 
   const userVisible = profile.networkOn && profile.leaderboardOn;
@@ -39,7 +42,7 @@ export function Leaderboard() {
   // synthesis we used before the seam was introduced so the screen
   // still has something to render. When online the data comes from the
   // mock adapter today, swappable to Cloudflare with one flag flip.
-  const { data: page } = useLeaderboard(tab);
+  const { data: page } = useLeaderboard(tab === 'friends' ? 'global' : tab);
 
   const sorted = useMemo<LeaderboardEntry[]>(() => {
     if (page) return page.entries;
@@ -79,7 +82,7 @@ export function Leaderboard() {
           {TABS.map((tabId) => (
             <Pressable
               key={tabId}
-              onPress={() => (tabId === 'friends' ? go('friends') : setTab(tabId))}
+              onPress={() => setTab(tabId)}
               style={[
                 styles.tab,
                 {
@@ -98,7 +101,7 @@ export function Leaderboard() {
         </View>
       </View>
 
-      {hasPeers && (
+      {hasPeers && tab !== 'friends' && (
       <View style={styles.podium}>
         {podium.map((p) => {
           if (!p.row) return null;
@@ -130,6 +133,9 @@ export function Leaderboard() {
       )}
 
       <View style={styles.list}>
+        {tab === 'friends' ? (
+          <FriendsPanel />
+        ) : (
         <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
           {!hasPeers && (
             <View style={styles.hiddenRow}>
@@ -184,6 +190,7 @@ export function Leaderboard() {
             </Pressable>
           )}
         </ScrollView>
+        )}
       </View>
 
       <PersonModal

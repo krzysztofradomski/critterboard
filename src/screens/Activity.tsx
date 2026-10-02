@@ -63,7 +63,7 @@ function resolveFeedEvent(
   const when = timeAgo(ev.at, language);
   const baseEmoji = ev.actor.avatarEmoji ?? '🐛';
   const baseColor = PB.cream2;
-  const profileGo = () => go('friends');
+  const profileGo = () => go('me', { sub: 'leaderboard', tab: 'friends' });
 
   if (ev.kind === 'catch') {
     const bug = findBug(ev.bugId);

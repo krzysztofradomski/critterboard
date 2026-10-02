@@ -249,8 +249,6 @@
       }
     },
     "friends": {
-      "title": "Naturalistas",
-      "sub": "A quién sigues · sus bichos",
       "tab": {
         "following": "Siguiendo",
         "followers": "Seguidores",
@@ -260,7 +258,7 @@
       "following": "✓ Siguiendo",
       "ago": "hace {when}",
       "emptyTitle": "Aún no hay nadie.",
-      "emptySub": "Mira la pestaña Sugeridos para encontrar naturalistas como tú."
+      "emptySub": "Los amigos y las sugerencias aparecerán cuando se unan otros naturalistas."
     },
     "person": {
       "rank": "PUESTO #{rank}",
