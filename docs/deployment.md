@@ -178,6 +178,8 @@ Or add a non-secret `env` block per profile in `eas.json`. Keep real keys out of
 Worker `critterboard-site` (`website/wrangler.jsonc`) serves it as a static
 asset on the `critterboard.app` custom domain. No build step.
 
+The help pages (`/help/`, `/help/pl/`, `/help/de/`, `/help/es/`) are generated, not hand-edited: edit `tools/website/gen_help.py` and run `python3 tools/website/gen_help.py`. Photo tips, FAQ and contact text are read from `assets/i18n/*.json`, so the site matches the app. The app's ↗ button on the Help screen opens the page in the UI language.
+
 `website/worker.js` only handles `POST /api/waitlist`, the email form. It stores
 `email -> ISO date` in the `WAITLIST` KV namespace (nothing else, per the page's
 privacy note). Bots filling the hidden `bot-field` get a 204 and are dropped.

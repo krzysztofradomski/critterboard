@@ -956,6 +956,7 @@
       }
     },
     "help": {
+      "webLabel": "Abrir la página de ayuda completa en critterboard.app",
       "title": "Ayuda y acerca de",
       "sub": "FAQ, contacto, tus datos.",
       "section": "FAQ",

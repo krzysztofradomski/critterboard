@@ -1,6 +1,6 @@
 import appJson from '../../app.json';
 import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { DataRow } from '@/components/DataRow';
 import { IconBtn } from '@/components/IconBtn';
@@ -12,6 +12,10 @@ import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
 const FAQ_IDS = ['faq1', 'faq2', 'faq3', 'faq4', 'faq5', 'faq6'] as const;
+
+/** The full, localized help site; English lives at /help/, the rest at /help/<lang>/. */
+const helpUrl = (lang: string) =>
+  `https://critterboard.app/help/${lang === 'en' ? '' : `${lang}/`}`;
 
 export function Help() {
   const { back } = useNav();
@@ -83,7 +87,9 @@ export function Help() {
           <Text style={styles.title}>{t('help.title')}</Text>
           <Text style={styles.sub}>{t('help.sub')}</Text>
         </View>
-        <IconBtn fs={14}>↗</IconBtn>
+        <IconBtn fs={14} accessibilityLabel={t('help.webLabel')} onPress={() => void Linking.openURL(helpUrl(language))}>
+          ↗
+        </IconBtn>
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll}>
