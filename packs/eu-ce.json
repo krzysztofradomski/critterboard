@@ -1,6 +1,8 @@
 {
   "id": "eu-ce",
-  "version": 5,
+  "version": 6,
+  "mapUrl": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/maps/europe.pmtiles",
+  "mapVersion": 1,
   "modelUrl": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/models/eu-1k-commercial-v1.pte",
   "modelVersion": 4,
   "bugs": [

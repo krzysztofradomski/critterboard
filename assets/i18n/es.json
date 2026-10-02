@@ -48,7 +48,7 @@
       "streakPill": "racha de {days} días",
       "bugOfDay": "BICHO DEL DÍA",
       "hunt": "CAZAR →",
-      "bugOfDayDesc": "Captura uno hoy por",
+      "bugOfDayDesc": "Captura uno hoy por ",
       "bugOfDayDescTail": " y una insignia brillante.",
       "yourWeek": "Tu semana",
       "daysToBadge": "{n} días para la insignia",
@@ -58,7 +58,7 @@
         "xp": "XP",
         "rank": "PUESTO"
       },
-      "bugOfDayXpAmount": " +{xp} XP ",
+      "bugOfDayXpAmount": " +{xp} XP ",
       "recentFinds": "Capturas recientes"
     },
     "scan": {
@@ -348,12 +348,7 @@
       "downloadCta": "↓ Descargar mapa · {mb} MB",
       "downloadingSub": "Descargando el mapa… {pct}%",
       "errorSub": "No se pudo descargar el mapa. Revisa tu conexión e inténtalo de nuevo.",
-      "retryCta": "Reintentar",
-      "areaOffer": "Detalle de calles de {name}",
-      "areaOfferSub": "{km} km a tu alrededor · {mb} MB · funciona sin conexión",
-      "areaGet": "↓ Obtener",
-      "areaDownloading": "Descargando {name}… {pct}%",
-      "areaError": "No se pudo descargar el detalle."
+      "retryCta": "Reintentar"
     },
     "permissions": {
       "title": "Tres preguntas rápidas.",

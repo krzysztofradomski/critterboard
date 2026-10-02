@@ -48,7 +48,7 @@
       "streakPill": "{days}-day streak",
       "bugOfDay": "BUG OF THE DAY",
       "hunt": "HUNT →",
-      "bugOfDayDesc": "Catch one today for",
+      "bugOfDayDesc": "Catch one today for ",
       "bugOfDayDescTail": " and a shiny badge.",
       "yourWeek": "Your week",
       "daysToBadge": "{n} days till badge",
@@ -58,7 +58,7 @@
         "xp": "XP",
         "rank": "RANK"
       },
-      "bugOfDayXpAmount": " +{xp} XP ",
+      "bugOfDayXpAmount": " +{xp} XP ",
       "recentFinds": "Recent finds"
     },
     "scan": {
@@ -349,12 +349,7 @@
       "downloadCta": "↓ Download map · {mb} MB",
       "downloadingSub": "Downloading the map… {pct}%",
       "errorSub": "Couldn't download the map. Check your connection and try again.",
-      "retryCta": "Try again",
-      "areaOffer": "Street detail for {name}",
-      "areaOfferSub": "{km} km around you · {mb} MB · works offline",
-      "areaGet": "↓ Get",
-      "areaDownloading": "Downloading {name}… {pct}%",
-      "areaError": "Couldn't download street detail."
+      "retryCta": "Try again"
     },
     "permissions": {
       "title": "Three quick asks.",

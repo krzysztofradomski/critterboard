@@ -88,6 +88,9 @@ export function Home() {
         >
           <View style={styles.heroImage}>
             <CameraScene />
+            <View style={styles.heroBug} pointerEvents="none">
+              <BugIcon bug={todayBug} size={150} />
+            </View>
             <View style={styles.legendaryBadge}>
               <Text style={styles.legendaryText}>{`${todayBug.tier} ${t(`dex.filter.${todayBug.rarity}`).toUpperCase()}`}</Text>
             </View>
@@ -303,6 +306,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     color: PB.cream,
   },
+  heroBug: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center" },
   xpInline: { backgroundColor: PB.yellow, color: PB.ink, fontWeight: "800" },
   weekHead: {
     flexDirection: "row",

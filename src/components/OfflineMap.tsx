@@ -11,7 +11,7 @@ import {
 
 import { PixelBug } from "@/components/PixelBug";
 import { readPmtilesInfo, type PackInfo } from "@/map/mapPack";
-import { buildStickerStyle, toPmtilesUrl, NODATA_PATTERN, POI_ICONS, WATER_PATTERN, type DetailPack } from "@/map/stickerStyle";
+import { buildStickerStyle, toPmtilesUrl, NODATA_PATTERN, POI_ICONS, WATER_PATTERN } from "@/map/stickerStyle";
 import { altitudeToZoom, type MapInitialView, type Marker } from "@/screens/mapGeo";
 import { PB } from "@/tokens/pb";
 
@@ -38,8 +38,6 @@ const FALLBACK_MAX_ZOOM = 10;
 type Props = {
   /** Local file URI of the region's PMTiles map (it is already on the device). */
   packUri: string;
-  /** Street-detail area packs on the device, drawn over the base map. */
-  detailPacks?: { id: string; fileUri: string }[];
   markers: Marker[];
   initialView: MapInitialView;
   onMarkerClick?: (marker: Marker) => boolean | void;
@@ -50,7 +48,7 @@ type Props = {
  * sticker style.
  */
 export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
-  function OfflineMap({ packUri, detailPacks, markers, initialView, onMarkerClick }, ref) {
+  function OfflineMap({ packUri, markers, initialView, onMarkerClick }, ref) {
     const cameraRef = useRef<CameraRef>(null);
     const tilesUrl = useMemo(() => toPmtilesUrl(packUri), [packUri]);
     const mapRef = useRef<MapRef>(null);
@@ -66,26 +64,8 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
     }, [tilesUrl]);
 
 
-    // Headers of the street-detail packs (coverage + depth), read once per set of files.
-    const detailKey = (detailPacks ?? []).map((d) => d.fileUri).join("|");
-    const [details, setDetails] = useState<DetailPack[]>([]);
-    useEffect(() => {
-      let cancelled = false;
-      void Promise.all(
-        (detailPacks ?? []).map(async (d) => ({
-          id: d.id,
-          tilesUrl: toPmtilesUrl(d.fileUri),
-          info: await readPmtilesInfo(d.fileUri),
-        })),
-      ).then((r) => !cancelled && setDetails(r));
-      return () => { cancelled = true; };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [detailKey]);
-
-    const mapStyle = useMemo(() => buildStickerStyle(tilesUrl, info, details), [tilesUrl, info, details]);
-    // Deepest tiles we hold, plus a little over-zoom.
-    const deepest = Math.max(info?.maxZoom ?? 0, ...details.map((d) => d.info?.maxZoom ?? 0));
-    const maxZoom = deepest > 0 ? deepest + OVERZOOM_LEVELS : FALLBACK_MAX_ZOOM;
+    const mapStyle = useMemo(() => buildStickerStyle(tilesUrl, info), [tilesUrl, info]);
+    const maxZoom = info ? info.maxZoom + OVERZOOM_LEVELS : FALLBACK_MAX_ZOOM;
 
     // Only the first view seeds the camera; later changes go through flyTo.
     const [initialViewState] = useState(() => ({

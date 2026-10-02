@@ -48,7 +48,7 @@
       "streakPill": "passa {days} dni",
       "bugOfDay": "OWAD DNIA",
       "hunt": "ŁOWY →",
-      "bugOfDayDesc": "Złap dziś jednego dla",
+      "bugOfDayDesc": "Złap dziś jednego dla ",
       "bugOfDayDescTail": " i błyszczącej odznaki.",
       "yourWeek": "Twój tydzień",
       "daysToBadge": "{n} dni do odznaki",
@@ -58,7 +58,7 @@
         "xp": "XP",
         "rank": "RANG"
       },
-      "bugOfDayXpAmount": " +{xp} XP ",
+      "bugOfDayXpAmount": " +{xp} XP ",
       "recentFinds": "Ostatnie zdobycze"
     },
     "scan": {
@@ -349,12 +349,7 @@
       "downloadCta": "↓ Pobierz mapę · {mb} MB",
       "downloadingSub": "Pobieranie mapy… {pct}%",
       "errorSub": "Nie udało się pobrać mapy. Sprawdź połączenie i spróbuj ponownie.",
-      "retryCta": "Spróbuj ponownie",
-      "areaOffer": "Szczegóły ulic: {name}",
-      "areaOfferSub": "{km} km wokół Ciebie · {mb} MB · działa offline",
-      "areaGet": "↓ Pobierz",
-      "areaDownloading": "Pobieranie: {name}… {pct}%",
-      "areaError": "Nie udało się pobrać szczegółów."
+      "retryCta": "Spróbuj ponownie"
     },
     "permissions": {
       "title": "Trzy szybkie prośby.",

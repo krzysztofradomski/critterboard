@@ -48,7 +48,7 @@
       "streakPill": "{days}-Tage-Serie",
       "bugOfDay": "INSEKT DES TAGES",
       "hunt": "JAGD →",
-      "bugOfDayDesc": "Fang heute einen für",
+      "bugOfDayDesc": "Fang heute einen für ",
       "bugOfDayDescTail": " und ein glänzendes Abzeichen.",
       "yourWeek": "Deine Woche",
       "daysToBadge": "Noch {n} Tage bis zum Abzeichen",
@@ -58,7 +58,7 @@
         "xp": "XP",
         "rank": "RANG"
       },
-      "bugOfDayXpAmount": " +{xp} XP ",
+      "bugOfDayXpAmount": " +{xp} XP ",
       "recentFinds": "Zuletzt gefangen"
     },
     "scan": {
@@ -348,12 +348,7 @@
       "downloadCta": "↓ Karte laden · {mb} MB",
       "downloadingSub": "Karte wird geladen… {pct}%",
       "errorSub": "Karte konnte nicht geladen werden. Prüfe die Verbindung und versuche es erneut.",
-      "retryCta": "Erneut versuchen",
-      "areaOffer": "Straßendetails für {name}",
-      "areaOfferSub": "{km} km um dich · {mb} MB · funktioniert offline",
-      "areaGet": "↓ Laden",
-      "areaDownloading": "{name} wird geladen… {pct}%",
-      "areaError": "Straßendetails konnten nicht geladen werden."
+      "retryCta": "Erneut versuchen"
     },
     "permissions": {
       "title": "Drei kurze Fragen.",

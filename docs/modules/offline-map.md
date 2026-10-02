@@ -51,15 +51,6 @@ The app ships one pack for the whole supported area: **Europe, zoom ≤ 7** (`to
 
 MapLibre Native briefly requests its built-in demo style at startup and cancels it as soon as our style is applied; that is inside the native library and can't be turned off from JS.
 
-## Street-detail area packs
-
-Europe at zoom 7 can't show streets, and Europe at zoom 13 would be tens of GB. So detail is a second, small layer: an **area pack** is a square of `radiusKm` (default 25 km from the centre to each side, ~21 MB for Kraków at zoom 13) cut with `tools/map/extract-area.sh <id> <lat> <lng>`.
-
-- `packs/areas.json` lists the packs (`center`, `radiusKm`, `bbox`, `mb`, `url`). An entry without `url` isn't hosted yet and is never offered. The app reads the catalog (a tiny fetch; `EXPO_PUBLIC_AREAS_URL` overrides it) only to decide what to offer; installed area packs need no network.
-- On the Map, if the user's location is inside a hosted area that isn't installed, a card offers the download (`useAreaPacks`). Files live next to the base map as `maps/area-<id>.pmtiles`.
-- The style (`buildStickerStyle(tilesUrl, bounds, details)`) adds one source and one copy of the tile layers per installed area (`d_<id>_*`, `minzoom` 8) plus a sea mask for its box, drawn over the Europe base. The landmark icons (zoom 13+) therefore appear inside installed areas.
-- Cutting a pack for an arbitrary spot needs the Protomaps planet build and the `pmtiles` CLI, so on-demand cutting for any location would need a small backend; until then areas are a hosted catalog.
-
 ## Location and pins
 
 The map centres on the device location whenever the OS permission is granted (the Map asks once if it never was). The user's own catches become pins when they have coordinates. Public sharing (`profile.locationShareOn`) is separate: it only decides whether coordinates are published to the backend. There are no demo sightings; an empty map shows a hint card.
