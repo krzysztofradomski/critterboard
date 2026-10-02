@@ -102,8 +102,8 @@ export function Dex() {
     [dex, catchLog, go, language, t, numberOf],
   );
 
-  return (
-    <View style={styles.root}>
+  const header = (
+    <View>
       <View style={styles.header}>
         <View style={styles.headTop}>
           <View>
@@ -155,7 +155,6 @@ export function Dex() {
         </ScrollView>
       </View>
 
-      <View style={styles.list}>
         {ribbon && (
           <Sticker
             bg={ribbon.bg}
@@ -175,28 +174,35 @@ export function Dex() {
             </View>
           </Sticker>
         )}
-        {filtered.length === 0 ? (
+    </View>
+  );
+
+  const emptyEl = (
           <View style={styles.empty}>
             <Text style={{ fontSize: 56 }}>🪰</Text>
             <Text style={styles.emptyTitle}>{t('dex.emptyTitle', { query })}</Text>
             <Text style={styles.emptyDesc}>{t('dex.emptyDesc', { rarities })}</Text>
             <Text style={styles.emptyHint}>{t('dex.emptyHint')}</Text>
           </View>
-        ) : (
-          <FlatList
-            data={filtered}
-            keyExtractor={(b) => b.id}
-            numColumns={2}
-            renderItem={renderCell}
-            columnWrapperStyle={styles.gridRow}
-            contentContainerStyle={styles.grid}
-            initialNumToRender={12}
-            maxToRenderPerBatch={16}
-            windowSize={7}
-            removeClippedSubviews
-          />
-        )}
-      </View>
+  );
+
+  return (
+    <View style={styles.root}>
+      <FlatList
+        data={filtered}
+        keyExtractor={(b) => b.id}
+        numColumns={2}
+        renderItem={renderCell}
+        ListHeaderComponent={header}
+        ListEmptyComponent={emptyEl}
+        columnWrapperStyle={styles.gridRow}
+        contentContainerStyle={styles.grid}
+        keyboardShouldPersistTaps="handled"
+        initialNumToRender={12}
+        maxToRenderPerBatch={16}
+        windowSize={7}
+        removeClippedSubviews
+      />
 
       <TabBar active="dex" />
     </View>
@@ -204,8 +210,19 @@ export function Dex() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.green, paddingTop: 50 },
-  header: { padding: 16, paddingTop: 12, paddingBottom: 14 },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.cream },
+  header: {
+    padding: 16,
+    marginBottom: 14,
+    backgroundColor: PB.green,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    borderRadius: 20,
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 3, height: 3 },
+  },
   headTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   title: { fontSize: 30, fontWeight: '800', color: PB.cream, lineHeight: 30 },
   sub: { fontSize: 13, color: PB.cream, opacity: 0.85, fontWeight: '600', marginTop: 4 },
@@ -277,19 +294,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
   },
   filterText: { fontSize: 12, fontWeight: '700', color: PB.ink },
-  list: {
-    flex: 1,
-    backgroundColor: PB.cream,
-    borderTopLeftRadius: 26,
-    borderTopRightRadius: 26,
-    borderColor: PB.ink,
-    borderWidth: 2.5,
-    borderBottomWidth: 0,
-    padding: 14,
-    marginBottom: 100,
-  },
   // paddingTop leaves room for the first row's tier pills (top: -8).
-  grid: { paddingTop: 10, paddingBottom: 12, gap: 14 },
+  // Whole page scrolls beneath the status bar and the floating tab bar.
+  grid: { paddingTop: 56, paddingHorizontal: 14, paddingBottom: 130, gap: 14 },
   gridRow: { justifyContent: 'space-between' },
   cell: {
     width: '47%',

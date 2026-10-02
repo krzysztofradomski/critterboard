@@ -110,6 +110,7 @@ export function Result() {
   const showToast = useAppStore((s) => s.showToast);
   const dex = useAppStore((s) => s.dex);
   const locationShareOn = useAppStore((s) => s.profile.locationShareOn);
+  const minConfidence = useAppStore((s) => s.profile.minConfidence);
   const route = useCurrentRoute();
   const params = route.params as { id?: string; photoUri?: string; conf?: number } | undefined;
   const id = params?.id ?? 'mona';
@@ -137,6 +138,12 @@ export function Result() {
   const onAdd = () => {
     if (alreadyCaught) {
       go('dex');
+      return;
+    }
+    // Defence in depth: the scanner already filters these out.
+    if (conf !== undefined && conf < minConfidence) {
+      haptics.warning();
+      showToast({ text: t('result.tooUnsure', { min: minConfidence }), icon: '🤔', bg: PB.yellow });
       return;
     }
     haptics.success();
@@ -203,7 +210,7 @@ export function Result() {
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
         <Text style={[styles.headTitle, { color: titleColor }]}>{t('result.headTitle')}</Text>
-        <IconBtn fs={14}>↗</IconBtn>
+        <View style={{ width: 38 }} />
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll}>

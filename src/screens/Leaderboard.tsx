@@ -75,6 +75,7 @@ export function Leaderboard() {
 
   return (
     <View style={styles.root}>
+      <ScrollView contentContainerStyle={styles.scroll}>
       <View style={styles.header}>
         <Text style={styles.title}>{t('leaderboard.title')}</Text>
         <Text style={styles.sub}>{t('leaderboard.sub')}</Text>
@@ -99,7 +100,6 @@ export function Leaderboard() {
             </Pressable>
           ))}
         </View>
-      </View>
 
       {hasPeers && tab !== 'friends' && (
       <View style={styles.podium}>
@@ -131,12 +131,13 @@ export function Leaderboard() {
         })}
       </View>
       )}
+      </View>
 
       <View style={styles.list}>
         {tab === 'friends' ? (
           <FriendsPanel />
         ) : (
-        <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
+        <View>
           {!hasPeers && (
             <View style={styles.hiddenRow}>
               <Text style={{ fontSize: 22 }}>🐜</Text>
@@ -189,9 +190,10 @@ export function Leaderboard() {
               </View>
             </Pressable>
           )}
-        </ScrollView>
+        </View>
         )}
       </View>
+      </ScrollView>
 
       <PersonModal
         name={openName}
@@ -204,8 +206,20 @@ export function Leaderboard() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.purple },
-  header: { paddingTop: 112, paddingHorizontal: 16, paddingBottom: 14 },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.cream },
+  // Everything scrolls beneath the floating sub-tabs (top) and tab bar (bottom).
+  scroll: { paddingTop: 112, paddingHorizontal: 14, paddingBottom: 130 },
+  header: {
+    padding: 16,
+    backgroundColor: PB.purple,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    borderRadius: 20,
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 3, height: 3 },
+  },
   title: { fontSize: 30, fontWeight: '800', color: PB.cream, lineHeight: 30 },
   sub: { fontSize: 13, color: PB.cream, opacity: 0.85, fontWeight: '600', marginTop: 4 },
   tabs: {
@@ -220,7 +234,7 @@ const styles = StyleSheet.create({
   },
   tab: { flex: 1, minWidth: 0, paddingVertical: 8, paddingHorizontal: 4, borderRadius: 10, alignItems: 'center' },
   tabText: { fontSize: 13, fontWeight: '800', flexShrink: 1 },
-  podium: { paddingHorizontal: 16, paddingBottom: 14, flexDirection: 'row', alignItems: 'flex-end', gap: 8 },
+  podium: { marginTop: 14, flexDirection: 'row', alignItems: 'flex-end', gap: 8 },
   medal: {
     width: 48,
     height: 48,
@@ -252,17 +266,7 @@ const styles = StyleSheet.create({
   },
   podiumPlace: { fontSize: 22, fontWeight: '800', color: PB.ink },
   podiumXp: { fontSize: 10, fontWeight: '700', color: PB.ink, opacity: 0.7 },
-  list: {
-    flex: 1,
-    backgroundColor: PB.cream,
-    borderTopLeftRadius: 26,
-    borderTopRightRadius: 26,
-    borderColor: PB.ink,
-    borderWidth: 2.5,
-    borderBottomWidth: 0,
-    padding: 12,
-    marginBottom: 120,
-  },
+  list: { marginTop: 18 },
   row: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -63,6 +63,7 @@
       "recentFinds": "Capturas recientes"
     },
     "scan": {
+      "galleryFailed": "No se pudieron abrir tus fotos. Inténtalo de nuevo.",
       "analyzing": "ANALIZANDO…",
       "scanning": "SIN RED · ESCANEANDO",
       "permissionTitle": "Acceso a la cámara",
@@ -87,7 +88,8 @@
       "alreadyInDex": "Ya en tu Dex ✓",
       "addToDex": "Añadir al Dex 📔",
       "askCta": "PREGUNTA A {name} →",
-      "caughtToast": "¡Capturado! +{xp} XP · {tier}"
+      "caughtToast": "¡Capturado! +{xp} XP · {tier}",
+      "tooUnsure": "Demasiado dudoso para añadir (mínimo {min}%). Prueba otra foto."
     },
     "facts": {
       "habitat": "Hábitat",
@@ -687,7 +689,16 @@
       "memoryClearCta": "Borrar conversaciones guardadas",
       "memoryClearConfirmCta": "Pulsa de nuevo para confirmar",
       "memoryClearToast": "Memoria de conversaciones borrada",
-      "packDownloadFailed": "No se pudo descargar {name}"
+      "packDownloadFailed": "No se pudo descargar {name}",
+      "minConf": {
+        "title": "Umbral de coincidencia",
+        "sub": "Los escaneos por debajo de esta confianza no se pueden añadir al Dex.",
+        "l20": "Flexible",
+        "l33": "Equilibrado",
+        "l50": "Estricto",
+        "l70": "Muy estricto",
+        "foot": "Más alto significa menos errores, pero más «sin coincidencia»."
+      }
     },
     "regions": {
       "list": {

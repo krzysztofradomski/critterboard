@@ -63,6 +63,7 @@
       "recentFinds": "Zuletzt gefangen"
     },
     "scan": {
+      "galleryFailed": "Fotos konnten nicht geöffnet werden. Versuch es nochmal.",
       "analyzing": "ANALYSIERE…",
       "scanning": "OFFLINE · SCANNE",
       "permissionTitle": "Kamerazugriff",
@@ -87,7 +88,8 @@
       "alreadyInDex": "Schon im Dex ✓",
       "addToDex": "Zum Dex hinzufügen 📔",
       "askCta": "FRAG {name} →",
-      "caughtToast": "Gefangen! +{xp} XP · {tier}"
+      "caughtToast": "Gefangen! +{xp} XP · {tier}",
+      "tooUnsure": "Zu unsicher zum Hinzufügen (ab {min}%). Versuch ein anderes Foto."
     },
     "facts": {
       "habitat": "Lebensraum",
@@ -687,7 +689,16 @@
       "memoryClearCta": "Gespeicherte Gespräche löschen",
       "memoryClearConfirmCta": "Zum Bestätigen erneut tippen",
       "memoryClearToast": "Gesprächsspeicher gelöscht",
-      "packDownloadFailed": "{name} konnte nicht geladen werden"
+      "packDownloadFailed": "{name} konnte nicht geladen werden",
+      "minConf": {
+        "title": "Trefferschwelle",
+        "sub": "Scans unter dieser Sicherheit können nicht in den Dex aufgenommen werden.",
+        "l20": "Locker",
+        "l33": "Ausgewogen",
+        "l50": "Streng",
+        "l70": "Sehr streng",
+        "foot": "Höher heißt weniger falsche Treffer, aber öfter „kein Treffer“."
+      }
     },
     "regions": {
       "list": {

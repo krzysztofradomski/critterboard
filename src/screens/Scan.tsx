@@ -26,6 +26,7 @@ export function Scan() {
   const { go, back } = useNav();
   const persona = useAppStore((s) => s.persona);
   const setLastPhotoUri = useAppStore((s) => s.setLastPhotoUri);
+  const minConfidence = useAppStore((s) => s.profile.minConfidence);
   const P = usePersona(persona);
   const t = useT();
   const route = useCurrentRoute();
@@ -60,6 +61,12 @@ export function Scan() {
 
   const [phase, setPhase] = useState<Phase>('aim');
   const [tipsOpen, setTipsOpen] = useState(false);
+  // The guide's hint is a greeting, not a status: show it on arrival, then get out of the way.
+  const [tipVisible, setTipVisible] = useState(true);
+  useEffect(() => {
+    const id = setTimeout(() => setTipVisible(false), 6000);
+    return () => clearTimeout(id);
+  }, []);
   const [flash, setFlash] = useState(false);
   const pulse = useRef(new Animated.Value(1)).current;
   const reticleRotate = useRef(new Animated.Value(0)).current;
@@ -115,11 +122,14 @@ export function Scan() {
       }
       const minHold = 2200 - (Date.now() - startedAt);
       setTimeout(() => {
-        const top = candidates[0];
-        const second = candidates[1];
+        // Anything under the user's floor can't be added to the Dex at all.
+        const floor = minConfidence / 100;
+        const viable = candidates.filter((c) => c.confidence >= floor);
+        const top = viable[0];
+        const second = viable[1];
         const confident =
           top &&
-          top.confidence >= 0.7 &&
+          top.confidence >= Math.max(0.7, floor) &&
           (!second || top.confidence - second.confidence >= 0.15);
 
         if (confident && top) {
@@ -129,11 +139,19 @@ export function Scan() {
             conf: Math.round(top.confidence * 100),
             ...(photoUri ? { photoUri } : {}),
           });
-        } else if (candidates.length >= 2) {
+        } else if (viable.length >= 2) {
           haptics.select();
           go('disambiguate', {
-            candidates: candidates.map((c) => c.bugId),
-            confs: candidates.map((c) => Math.round(c.confidence * 100)),
+            candidates: viable.map((c) => c.bugId),
+            confs: viable.map((c) => Math.round(c.confidence * 100)),
+            ...(photoUri ? { photoUri } : {}),
+          });
+        } else if (top) {
+          // One plausible species above the floor, just not a sure one: show it with its confidence.
+          haptics.select();
+          go('result', {
+            id: top.bugId,
+            conf: Math.round(top.confidence * 100),
             ...(photoUri ? { photoUri } : {}),
           });
         } else {
@@ -177,21 +195,23 @@ export function Scan() {
       haptics.warning();
       return;
     }
-    const status = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!status.granted) {
+    // The system photo picker needs no library permission (iOS PHPicker, Android photo
+    // picker); asking first made a once-denied prompt silently kill this button.
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ['images'],
+        quality: 0.85,
+        allowsEditing: false,
+      });
+      if (result.canceled || !result.assets?.length) return;
+      const photoUri = result.assets[0]?.uri ?? null;
+      haptics.tap();
+      setPhase('analyzing');
+      classifyAndRoute(photoUri);
+    } catch {
       haptics.warning();
-      return;
+      showToast({ text: t('scan.galleryFailed'), icon: '⚠️', bg: PB.red });
     }
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 0.85,
-      allowsEditing: false,
-    });
-    if (result.canceled || !result.assets?.length) return;
-    const photoUri = result.assets[0]?.uri ?? null;
-    haptics.tap();
-    setPhase('analyzing');
-    classifyAndRoute(photoUri);
   };
 
   /**
@@ -297,6 +317,7 @@ export function Scan() {
         </View>
       </Animated.View>
 
+      {(tipVisible || phase === 'analyzing') && (
       <View style={styles.tipWrap}>
         <Sticker bg={PB.cream} rotate={-1.5} style={{ paddingVertical: 10, paddingHorizontal: 12 }}>
           <View style={styles.tipRow}>
@@ -309,6 +330,7 @@ export function Scan() {
           </View>
         </Sticker>
       </View>
+      )}
 
       <View style={styles.bottomRow}>
         <IconBtn size={48} fs={22} onPress={pickFromGallery}>🖼️</IconBtn>

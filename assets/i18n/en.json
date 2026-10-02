@@ -63,6 +63,7 @@
       "recentFinds": "Recent finds"
     },
     "scan": {
+      "galleryFailed": "Couldn't open your photos. Try again.",
       "analyzing": "ANALYZING…",
       "scanning": "OFFLINE · SCANNING",
       "permissionTitle": "Camera access",
@@ -87,7 +88,8 @@
       "alreadyInDex": "Already in your Dex ✓",
       "addToDex": "Add to Dex 📔",
       "askCta": "ASK {name} →",
-      "caughtToast": "Caught! +{xp} XP · {tier}"
+      "caughtToast": "Caught! +{xp} XP · {tier}",
+      "tooUnsure": "Too unsure to add (needs {min}%+). Try another photo."
     },
     "facts": {
       "habitat": "Habitat",
@@ -687,7 +689,16 @@
       "packCta": "↓ Download {name} · {mb} MB",
       "packHint": "BugNet needs a region pack to identify bugs. The model, species list and offline map download together.",
       "mapDownloadFailed": "The pack is installed, but its map didn't download. Retry from the Map tab.",
-      "packDownloadFailed": "Failed to download {name}"
+      "packDownloadFailed": "Failed to download {name}",
+      "minConf": {
+        "title": "Match threshold",
+        "sub": "Scans below this confidence can't be added to your Dex.",
+        "l20": "Lenient",
+        "l33": "Balanced",
+        "l50": "Strict",
+        "l70": "Very strict",
+        "foot": "Higher means fewer wrong IDs, but more \"no match\"."
+      }
     },
     "regions": {
       "list": {

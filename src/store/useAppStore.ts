@@ -33,7 +33,14 @@ export type Profile = {
    * reports can't leave a fully-offline device.
    */
   crashReportingOn: boolean;
+  /**
+   * Lowest model confidence (percent) a scan result may have and still be
+   * offered for the Dex. Adjustable in Brains.
+   */
+  minConfidence: number;
 };
+
+export const DEFAULT_MIN_CONFIDENCE = 33;
 
 /**
  * Generate a device-local pseudonymous user id. The backend treats
@@ -327,8 +334,9 @@ type PersistedWire = {
   // `crashReportingOn` was added after the first ship, so legacy blobs
   // won't have it. `localLlmOn` existed until chat became Gemma-only (the
   // model file on disk now decides); older blobs may still carry it.
-  profile: Omit<Profile, 'crashReportingOn'> & {
+  profile: Omit<Profile, 'crashReportingOn' | 'minConfidence'> & {
     crashReportingOn?: boolean;
+    minConfidence?: number;
     localLlmOn?: boolean;
   };
   hasOnboarded?: boolean;
@@ -365,7 +373,7 @@ const wireStorage: PersistStorage<Persisted> = {
         // flag existed. Defaulting to false keeps the opt-in invariant
         // intact — upgrading the app should never start sending crash
         // reports without an explicit user action.
-        profile: (({ localLlmOn: _retired, ...p }) => ({ crashReportingOn: false, ...p }))(
+        profile: (({ localLlmOn: _retired, ...p }) => ({ crashReportingOn: false, minConfidence: DEFAULT_MIN_CONFIDENCE, ...p }))(
           wrapped.state.profile,
         ),
         hasOnboarded: Boolean(wrapped.state.hasOnboarded),
@@ -438,6 +446,7 @@ export const useAppStore = create<AppStore>()(
         leaderboardOn: true,
         locationShareOn: false,
         crashReportingOn: false,
+        minConfidence: DEFAULT_MIN_CONFIDENCE,
       },
       hasOnboarded: false,
       toast: null,
@@ -840,6 +849,7 @@ export const useAppStore = create<AppStore>()(
             leaderboardOn: true,
             locationShareOn: false,
             crashReportingOn: false,
+            minConfidence: DEFAULT_MIN_CONFIDENCE,
           },
           hasOnboarded: false,
           toast: null,

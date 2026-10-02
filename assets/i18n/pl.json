@@ -63,6 +63,7 @@
       "recentFinds": "Ostatnie zdobycze"
     },
     "scan": {
+      "galleryFailed": "Nie udało się otworzyć zdjęć. Spróbuj ponownie.",
       "analyzing": "ANALIZUJĘ…",
       "scanning": "OFFLINE · SKANOWANIE",
       "permissionTitle": "Dostęp do aparatu",
@@ -87,7 +88,8 @@
       "alreadyInDex": "Już w twoim Dexie ✓",
       "addToDex": "Dodaj do Dexa 📔",
       "askCta": "ZAPYTAJ {name} →",
-      "caughtToast": "Złapany! +{xp} XP · {tier}"
+      "caughtToast": "Złapany! +{xp} XP · {tier}",
+      "tooUnsure": "Za mało pewne, by dodać (wymaga {min}%+). Zrób inne zdjęcie."
     },
     "facts": {
       "habitat": "Siedlisko",
@@ -687,7 +689,16 @@
       "memoryClearCta": "Usuń zapisane rozmowy",
       "memoryClearConfirmCta": "Dotknij ponownie, by potwierdzić",
       "memoryClearToast": "Pamięć rozmów wyczyszczona",
-      "packDownloadFailed": "Nie udało się pobrać: {name}"
+      "packDownloadFailed": "Nie udało się pobrać: {name}",
+      "minConf": {
+        "title": "Próg dopasowania",
+        "sub": "Skanów poniżej tej pewności nie można dodać do Dexa.",
+        "l20": "Luźny",
+        "l33": "Wyważony",
+        "l50": "Ścisły",
+        "l70": "Bardzo ścisły",
+        "foot": "Wyższy próg to mniej błędnych rozpoznań, ale więcej „brak dopasowania”."
+      }
     },
     "regions": {
       "list": {

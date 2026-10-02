@@ -634,6 +634,53 @@ export function Settings() {
         </Sticker>
 
         <Sticker bg={PB.paper} style={{ padding: 0 }}>
+          <View style={[styles.bandHeader, { backgroundColor: PB.orange }]}>
+            <Text style={{ fontSize: 26 }}>🎯</Text>
+            <View style={{ flex: 1, minWidth: 0 }}>
+              <Text style={styles.bandTitle}>{t("settings.minConf.title")}</Text>
+              <Text style={styles.bandSub}>{t("settings.minConf.sub")}</Text>
+            </View>
+          </View>
+          <View style={styles.langGrid}>
+            {([20, 33, 50, 70] as const).map((pct) => {
+              const active = profile.minConfidence === pct;
+              return (
+                <Pressable
+                  key={pct}
+                  onPress={() => setProfile({ minConfidence: pct })}
+                  accessibilityRole="radio"
+                  accessibilityState={{ selected: active }}
+                  style={[
+                    styles.langCell,
+                    {
+                      backgroundColor: active ? PB.green : PB.cream,
+                      shadowOffset: active ? { width: 2, height: 2 } : { width: 1.5, height: 1.5 },
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 1, minWidth: 0 }}>
+                    <Text style={[styles.langNative, { color: active ? PB.cream : PB.ink }]}>
+                      {pct}%
+                    </Text>
+                    <Text
+                      style={[
+                        styles.langLabel,
+                        { color: active ? PB.cream : PB.ink, opacity: active ? 0.85 : 0.55 },
+                      ]}
+                    >
+                      {t(`settings.minConf.l${pct}`)}
+                    </Text>
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
+          <Text style={[styles.regionFoot, { paddingHorizontal: 14, paddingBottom: 12 }]}>
+            {t("settings.minConf.foot")}
+          </Text>
+        </Sticker>
+
+        <Sticker bg={PB.paper} style={{ padding: 0 }}>
           <View style={[styles.bandHeader, { backgroundColor: PB.purple }]}>
             <Text style={{ fontSize: 26 }}>💬</Text>
             <View style={{ flex: 1, minWidth: 0 }}>

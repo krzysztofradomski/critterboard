@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { useFriends, useToggleFollow } from '@/backend/hooks';
 import type { FriendScope } from '@/backend';
@@ -36,7 +36,7 @@ export function FriendsPanel() {
   const list = page?.entries ?? [];
 
   return (
-    <View style={{ flex: 1 }}>
+    <View>
       <View style={styles.chips}>
         {SCOPES.map((id) => (
           <Pressable
@@ -51,7 +51,7 @@ export function FriendsPanel() {
         ))}
       </View>
 
-      <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
+      <View>
         {list.map((u) => {
           const isFollowed = followed.has(u.userId);
           const whyKey = u.reason ? REASON_TO_WHY_KEY[u.reason.kind] : undefined;
@@ -95,7 +95,7 @@ export function FriendsPanel() {
             </View>
           </View>
         )}
-      </ScrollView>
+      </View>
 
       <PersonModal
         name={openName}
