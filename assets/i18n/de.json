@@ -772,6 +772,20 @@
         "olderPromptBody": "Freunde und Ranglisten kennen nur Fänge, die bei eingeschaltetem Netzwerk entstanden. Orte werden verwischt und nur gesendet, wenn du sie teilst.",
         "locationsCleared": "Gespeicherte Orte entfernt",
         "locationsClearFailed": "Gespeicherte Orte konnten nicht entfernt werden. Versuch es, wenn du online bist."
+      },
+      "confirm": {
+        "networkTitle": "Online gehen?",
+        "networkBody": "Critterboard funktioniert komplett offline. Mit eingeschaltetem Netzwerk sendet es deinen Anzeigenamen, deine gefangenen Arten mit Zeiten und (nur wenn du es einschaltest) verwischte Orte an unseren Server, für Ranglisten und Freunde. Du kannst alles jederzeit wieder löschen.",
+        "networkYes": "Online gehen",
+        "boardTitle": "In der Rangliste zeigen?",
+        "boardBody": "Dein Anzeigename und deine XP sind für alle Spieler in der globalen und wöchentlichen Rangliste sichtbar. Du kannst dich jederzeit wieder verstecken.",
+        "boardYes": "Zeig mich",
+        "locTitle": "Fangorte teilen?",
+        "locBody": "Jeder neue Fang wird mit seinem Ort hochgeladen, um bis zu etwa 500 m verwischt. Wenn du das ausschaltest, werden die gespeicherten Orte entfernt.",
+        "locYes": "Teilen",
+        "locOffTitle": "Orte nicht mehr teilen?",
+        "locOffBody": "Das löscht auch die bereits auf unserem Server gespeicherten Fangorte. Deine eigene Karte auf diesem Telefon bleibt unverändert.",
+        "locOffYes": "Beenden und löschen"
       }
     },
     "regions": {

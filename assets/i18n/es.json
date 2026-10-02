@@ -772,6 +772,20 @@
         "olderPromptBody": "Los amigos y los rankings solo conocen las capturas hechas con la red activada. Las ubicaciones se difuminan y solo se envían si las compartes.",
         "locationsCleared": "Ubicaciones guardadas eliminadas",
         "locationsClearFailed": "No se pudieron eliminar las ubicaciones guardadas. Inténtalo cuando tengas conexión."
+      },
+      "confirm": {
+        "networkTitle": "¿Conectarte?",
+        "networkBody": "Critterboard funciona totalmente sin conexión. Al activar la red enviará a nuestro servidor tu nombre visible, las especies capturadas con su hora y (solo si lo activas) ubicaciones difuminadas, para rankings y amigos. Puedes borrarlo todo cuando quieras.",
+        "networkYes": "Conectar",
+        "boardTitle": "¿Mostrarte en el ranking?",
+        "boardBody": "Tu nombre visible y tu XP serán visibles para todos los jugadores en los rankings global y semanal. Puedes volver a ocultarte cuando quieras.",
+        "boardYes": "Mostrarme",
+        "locTitle": "¿Compartir ubicaciones de capturas?",
+        "locBody": "Cada captura nueva se subirá con su ubicación, difuminada hasta unos 500 m. Al desactivarlo se eliminan las ubicaciones guardadas.",
+        "locYes": "Compartir",
+        "locOffTitle": "¿Dejar de compartir ubicaciones?",
+        "locOffBody": "Esto también borra las ubicaciones de capturas ya guardadas en nuestro servidor. Tu propio mapa en este teléfono no cambia.",
+        "locOffYes": "Dejar y borrar"
       }
     },
     "regions": {

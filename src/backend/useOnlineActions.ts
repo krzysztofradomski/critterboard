@@ -42,30 +42,46 @@ export function useOnlineActions() {
     });
   }, []);
 
+  /** A yes/no dialog whose confirm button names what will happen. */
+  const confirm = useCallback(
+    (title: string, body: string, yes: string, onYes: () => void, destructive = false) =>
+      Alert.alert(title, body, [
+        { text: t('settings.sync.cancel'), style: 'cancel' },
+        { text: yes, style: destructive ? 'destructive' : 'default', onPress: onYes },
+      ]),
+    [t],
+  );
+
+  const enableNetwork = useCallback(() => {
+    const store = useAppStore.getState();
+    store.setProfile({ networkOn: true });
+    if (store.online.since === null) store.setOnline({ since: Date.now() });
+    const { older } = pendingCatches(useAppStore.getState());
+    if (older.length > 0) {
+      Alert.alert(t('settings.sync.olderPromptTitle', { n: older.length }), t('settings.sync.olderPromptBody'), [
+        { text: t('settings.sync.notNow'), style: 'cancel' },
+        {
+          text: t('settings.sync.upload'),
+          onPress: () => {
+            useAppStore.getState().setOnline({ backfill: true });
+            void syncCatches();
+          },
+        },
+      ]);
+    }
+    void syncCatches();
+  }, [t]);
+
   const setNetwork = useCallback(
     (on: boolean) => {
       const store = useAppStore.getState();
       if (on) {
-        store.setProfile({ networkOn: true });
-        if (store.online.since === null) store.setOnline({ since: Date.now() });
-        const { older } = pendingCatches(useAppStore.getState());
-        if (older.length > 0) {
-          Alert.alert(
-            t('settings.sync.olderPromptTitle', { n: older.length }),
-            t('settings.sync.olderPromptBody'),
-            [
-              { text: t('settings.sync.notNow'), style: 'cancel' },
-              {
-                text: t('settings.sync.upload'),
-                onPress: () => {
-                  useAppStore.getState().setOnline({ backfill: true });
-                  void syncCatches();
-                },
-              },
-            ],
-          );
+        // The first time (or the first time after deleting everything) say what going online means.
+        if (store.online.since === null) {
+          confirm(t('settings.confirm.networkTitle'), t('settings.confirm.networkBody'), t('settings.confirm.networkYes'), enableNetwork);
+        } else {
+          enableNetwork();
         }
-        void syncCatches();
         return;
       }
       if (!store.online.hasData) {
@@ -90,24 +106,47 @@ export function useOnlineActions() {
         },
       ]);
     },
-    [deleteAll, showToast, t, turnOff],
+    [confirm, deleteAll, enableNetwork, showToast, t, turnOff],
+  );
+
+  const setLeaderboard = useCallback(
+    (on: boolean) => {
+      const apply = () => useAppStore.getState().setProfile({ leaderboardOn: on });
+      if (on) confirm(t('settings.confirm.boardTitle'), t('settings.confirm.boardBody'), t('settings.confirm.boardYes'), apply);
+      else apply();
+    },
+    [confirm, t],
   );
 
   const setLocationShare = useCallback(
     (on: boolean) => {
-      useAppStore.getState().setProfile({ locationShareOn: on });
-      if (!on && useAppStore.getState().online.hasData) {
-        void clearOnlineLocations().then((ok) =>
-          showToast(
-            ok
-              ? { text: t('settings.sync.locationsCleared'), icon: '📍', bg: PB.green }
-              : { text: t('settings.sync.locationsClearFailed'), icon: '⚠️', bg: PB.red },
-          ),
+      if (on) {
+        confirm(t('settings.confirm.locTitle'), t('settings.confirm.locBody'), t('settings.confirm.locYes'), () =>
+          useAppStore.getState().setProfile({ locationShareOn: true }),
         );
+        return;
+      }
+      const off = () => {
+        useAppStore.getState().setProfile({ locationShareOn: false });
+        if (useAppStore.getState().online.hasData) {
+          void clearOnlineLocations().then((ok) =>
+            showToast(
+              ok
+                ? { text: t('settings.sync.locationsCleared'), icon: '📍', bg: PB.green }
+                : { text: t('settings.sync.locationsClearFailed'), icon: '⚠️', bg: PB.red },
+            ),
+          );
+        }
+      };
+      // Switching off deletes what is stored online, so ask first (nothing to ask about if nothing is online).
+      if (useAppStore.getState().online.hasData) {
+        confirm(t('settings.confirm.locOffTitle'), t('settings.confirm.locOffBody'), t('settings.confirm.locOffYes'), off, true);
+      } else {
+        off();
       }
     },
-    [showToast, t],
+    [confirm, showToast, t],
   );
 
-  return { setNetwork, setLocationShare, confirmDelete };
+  return { setNetwork, setLeaderboard, setLocationShare, confirmDelete };
 }

@@ -772,6 +772,20 @@
         "olderPromptBody": "Friends and rankings only know about catches made while Network is on. Locations are blurred, and only sent if you share them.",
         "locationsCleared": "Stored locations removed",
         "locationsClearFailed": "Couldn't remove stored locations. Try again when you're online."
+      },
+      "confirm": {
+        "networkTitle": "Go online?",
+        "networkBody": "Critterboard works fully offline. Turning Network on lets it send your display name, your caught species with times, and (only if you switch it on) blurred locations to our server, for rankings and friends. You can delete all of it again at any time.",
+        "networkYes": "Go online",
+        "boardTitle": "Show you on the leaderboard?",
+        "boardBody": "Your display name and XP become visible to every player in the global and weekly rankings. You can hide yourself again at any time.",
+        "boardYes": "Show me",
+        "locTitle": "Share catch locations?",
+        "locBody": "Each new catch is uploaded with its location, blurred by up to about 500 m. You can switch this off to remove the stored locations.",
+        "locYes": "Share",
+        "locOffTitle": "Stop sharing locations?",
+        "locOffBody": "This also deletes the catch locations already stored on our server. Your own map on this phone is not affected.",
+        "locOffYes": "Stop and delete"
       }
     },
     "regions": {

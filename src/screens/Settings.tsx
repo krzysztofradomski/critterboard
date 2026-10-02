@@ -348,7 +348,7 @@ export function Settings() {
                     : t("settings.boardNeeds")
                 }
                 value={profile.leaderboardOn && profile.networkOn}
-                onChange={(v) => setProfile({ leaderboardOn: v })}
+                onChange={online.setLeaderboard}
                 disabled={!profile.networkOn}
               />
               <SettingToggle
