@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 
 import { Btn } from '@/components/Btn';
 import { PersonaPick } from '@/components/PersonaPick';
 import { Sticker } from '@/components/Sticker';
+import { LANG_META } from '@/i18n';
 import { useT } from '@/i18n/helpers';
 import { isOffensiveName } from '@/lib/moderation';
 import { PERSONA_IDS } from '@/personas';
@@ -16,6 +17,8 @@ export function Onboarding() {
   const { go } = useNav();
   const networkOn = useAppStore((s) => s.profile.networkOn);
   const setProfile = useAppStore((s) => s.setProfile);
+  const language = useAppStore((s) => s.language);
+  const setLanguage = useAppStore((s) => s.setLanguage);
   const t = useT();
   const [name, setName] = useState('');
   const [nameError, setNameError] = useState(false);
@@ -54,6 +57,25 @@ export function Onboarding() {
             <Text style={styles.title}>{t('onboarding.title')}</Text>
             <Text style={styles.tagline}>{t('onboarding.tagline')}</Text>
           </View>
+        </View>
+
+        <View style={styles.langRow} accessibilityRole="radiogroup">
+          {LANG_META.map((l) => {
+            const on = l.id === language;
+            return (
+              <Pressable
+                key={l.id}
+                onPress={() => setLanguage(l.id)}
+                accessibilityRole="radio"
+                accessibilityState={{ selected: on }}
+                accessibilityLabel={l.native}
+                style={[styles.langChip, on && styles.langChipOn]}
+              >
+                <Text style={styles.langFlag}>{l.flag}</Text>
+                <Text style={[styles.langText, on && styles.langTextOn]}>{l.native}</Text>
+              </Pressable>
+            );
+          })}
         </View>
 
         <View style={styles.choices}>
@@ -126,7 +148,28 @@ const styles = StyleSheet.create({
   logoEmoji: { fontSize: 28 },
   title: { fontSize: 36, fontWeight: '800', color: PB.ink, lineHeight: 36 },
   tagline: { fontSize: 12, color: PB.ink, marginTop: 4, fontWeight: '600' },
-  choices: { marginTop: 36, gap: 16, alignItems: 'center' },
+  langRow: { marginTop: 16, flexDirection: 'row', gap: 6 },
+  langChip: {
+    flex: 1,
+    paddingVertical: 7,
+    alignItems: 'center',
+    gap: 2,
+    backgroundColor: PB.cream,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    borderRadius: 12,
+  },
+  langChipOn: {
+    backgroundColor: PB.ink,
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 2, height: 2 },
+  },
+  langFlag: { fontSize: 16 },
+  langText: { fontSize: 11, fontWeight: '800', color: PB.ink },
+  langTextOn: { color: PB.yellow },
+  choices: { marginTop: 24, gap: 16, alignItems: 'center' },
   choice: { paddingVertical: 14, paddingHorizontal: 18, alignSelf: 'stretch' },
   choiceText: { fontSize: 18, color: PB.cream, fontWeight: '800', textAlign: 'center' },
   personaBlock: { marginTop: 26 },
