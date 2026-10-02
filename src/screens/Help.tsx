@@ -13,9 +13,9 @@ import { useNav } from '@/store/useNav';
 
 const FAQ_IDS = ['faq1', 'faq2', 'faq3', 'faq4', 'faq5', 'faq6'] as const;
 
-/** The full, localized help site; English lives at /help/, the rest at /help/<lang>/. */
+/** The localized support page; English lives at /support/, the rest at /support/<lang>/. */
 const helpUrl = (lang: string) =>
-  `https://critterboard.app/help/${lang === 'en' ? '' : `${lang}/`}`;
+  `https://critterboard.app/support/${lang === 'en' ? '' : `${lang}/`}`;
 
 export function Help() {
   const { back } = useNav();

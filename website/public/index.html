@@ -1096,6 +1096,9 @@
         <a href="mailto:hello@critterboard.app" data-i18n="ft_contact"
           >Contact</a
         >
+        <a href="/support/" data-page="support" data-i18n="ft_support">Support</a>
+        <a href="/privacy/" data-page="privacy" data-i18n="ft_privacy">Privacy</a>
+        <a href="/terms/" data-page="terms" data-i18n="ft_terms">Terms</a>
       </div>
       </div>
     </footer>
@@ -1138,6 +1141,9 @@
           z5_d: "XP, streaks, quests, and a 3D globe with everything you've found.",
           ft_tag: "Free · Open source (MIT) · Coming soon",
           ft_contact: "Contact",
+          ft_support: "Support",
+          ft_privacy: "Privacy",
+          ft_terms: "Terms",
           gh_star: "★ Star on GitHub",
           tech_label: "How it works",
           tech_h2: "A field guide in your pocket.",
@@ -1200,6 +1206,9 @@
           z5_d: "Zbierasz XP, pilnujesz passy, robisz zadania, a każde znalezisko ląduje na globusie 3D.",
           ft_tag: "Za darmo · Open source (MIT) · Wkrótce",
           ft_contact: "Kontakt",
+          ft_support: "Pomoc",
+          ft_privacy: "Prywatność",
+          ft_terms: "Warunki",
           gh_star: "★ Daj gwiazdkę na GitHubie",
           tech_label: "Jak to działa",
           tech_h2: "Atlas owadów w kieszeni.",
@@ -1262,6 +1271,9 @@
           z5_d: "Gana XP, mantén tu racha, completa misiones y mira todo lo que has encontrado en un globo 3D.",
           ft_tag: "Gratis · Código abierto (MIT) · Muy pronto",
           ft_contact: "Contacto",
+          ft_support: "Soporte",
+          ft_privacy: "Privacidad",
+          ft_terms: "Términos",
           gh_star: "★ Danos una estrella en GitHub",
           tech_label: "Cómo funciona",
           tech_h2: "Una guía de campo de bolsillo.",
@@ -1324,6 +1336,9 @@
           z5_d: "XP sammeln, Serie halten, Quests erledigen und alle Funde auf dem 3D-Globus sehen.",
           ft_tag: "Kostenlos · Open Source (MIT) · Bald verfügbar",
           ft_contact: "Kontakt",
+          ft_support: "Support",
+          ft_privacy: "Datenschutz",
+          ft_terms: "Bedingungen",
           gh_star: "★ Gib uns einen Stern auf GitHub",
           tech_label: "So funktioniert's",
           tech_h2: "Ein Bestimmungsbuch für die Hosentasche.",
@@ -1367,6 +1382,9 @@
         const dict = I18N[lang] || I18N.en;
         document.documentElement.lang = lang;
         document.title = dict.title;
+        document.querySelectorAll("a[data-page]").forEach((el) => {
+          el.href = `/${el.dataset.page}/${lang === "en" ? "" : lang + "/"}`;
+        });
         const md = document.querySelector('meta[name="description"]');
         if (md) md.setAttribute("content", dict.meta_desc);
         const ogT = document.querySelector('meta[property="og:title"]');

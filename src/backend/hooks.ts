@@ -19,6 +19,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { backend, bindMockIdentity, BackendError } from '@/backend';
+import { blurCoords } from '@/lib/blurCoords';
 import type {
   FeedPage,
   FriendScope,
@@ -253,7 +254,8 @@ export function usePublishCatch(): (bugId: string, at: number, lat?: number, lng
   return useCallback(
     (bugId, at, lat, lng) => {
       if (!networkOn) return;
-      const input = lat != null && lng != null ? { bugId, at, lat, lng } : { bugId, at };
+      const input =
+        lat != null && lng != null ? { bugId, at, ...blurCoords(lat, lng) } : { bugId, at };
       void backend.publishCatch(input).catch(() => undefined);
     },
     [networkOn],

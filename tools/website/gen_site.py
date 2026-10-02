@@ -1,14 +1,17 @@
-"""Generate the localized help pages: website/public/help/{,pl/,de/,es/}index.html.
+"""Generate the localized support, privacy and terms pages: website/public/{support,privacy,terms}/{,pl/,de/,es/}index.html.
 
 Photo tips, FAQ and contact text are read from assets/i18n so the site and the app never disagree;
-the rest lives in CONTENT below. Run: python3 tools/website/gen_help.py
+support copy lives in CONTENT below, legal copy in legal_content.py. Run: python3 tools/website/gen_site.py
 """
 import html, json, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-OUT = ROOT / "website/public/help"
+PUB = ROOT / "website/public"
+import sys
+sys.path.insert(0, str(pathlib.Path(__file__).parent))
+from legal_content import PRIVACY, TERMS
 LANGS = {"en": "English", "pl": "Polski", "de": "Deutsch", "es": "Español"}
-path = lambda l: "/help/" if l == "en" else f"/help/{l}/"
+path = lambda page, l: f"/{page}/" if l == "en" else f"/{page}/{l}/"
 
 UI = {
     "en": dict(title="Help & About", sub="Everything about finding, scanning and collecting bugs.", home="← Back to critterboard.app", toc="On this page", faq="FAQ", photo="Taking a good photo", contact="Contact", contactText="A real human reads every message. Reply usually within 48 hours.", footer="All processing happens on your device. © 2026 Critterboard · open source"),
@@ -217,60 +220,94 @@ CONTENT = {
 ],
 }
 
+
+NAV = {  # footer links + page labels
+    "en": dict(support="Support", privacy="Privacy", terms="Terms", more="Still need a hand?", moreText="Tell us your device, operating system and app version, and what happened. Screenshots help. Never send passwords or personal files.", seo="Critterboard"),
+    "pl": dict(support="Pomoc", privacy="Prywatność", terms="Warunki", more="Potrzebujesz pomocy?", moreText="Napisz, jakiego urządzenia, systemu i wersji aplikacji używasz oraz co się stało. Zrzuty ekranu pomagają. Nigdy nie wysyłaj haseł ani osobistych plików.", seo="Critterboard"),
+    "de": dict(support="Support", privacy="Datenschutz", terms="Bedingungen", more="Noch Hilfe nötig?", moreText="Nenne uns dein Gerät, dein Betriebssystem, die App-Version und was passiert ist. Screenshots helfen. Sende nie Passwörter oder persönliche Dateien.", seo="Critterboard"),
+    "es": dict(support="Soporte", privacy="Privacidad", terms="Términos", more="¿Necesitas ayuda?", moreText="Cuéntanos tu dispositivo, sistema operativo, versión de la app y qué pasó. Las capturas ayudan. Nunca envíes contraseñas ni archivos personales.", seo="Critterboard"),
+}
+EYEBROW = {"en": "A LITTLE HELP TO HUNT", "pl": "TROCHĘ POMOCY NA ŁOWACH", "de": "EIN BISSCHEN HILFE BEIM JAGEN", "es": "UN POCO DE AYUDA PARA CAZAR"}
+HEADLINE = {"en": "Happy hunting.", "pl": "Udanych łowów.", "de": "Viel Spaß bei der Jagd.", "es": "Feliz caza."}
+
 CSS = """:root{--y:#f5c840;--cr:#fdf6e3;--bk:#1a1209;--bl:#3b6fd4;--gn:#3d9a4f;--bd:2.5px solid var(--bk);--sh:4px 4px 0 var(--bk)}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
-body{font-family:"DM Sans",sans-serif;background:var(--y);color:var(--bk);line-height:1.6}
-header{background:var(--bl);color:#fff;border-bottom:var(--bd);padding:28px 20px}
-.w{max-width:760px;margin:0 auto}
-h1{font-family:Fredoka,sans-serif;font-size:2.2rem;line-height:1.15}header p{opacity:.9;margin-top:6px}
-header a{color:#fff;font-weight:600;display:inline-block;margin-bottom:14px}
-.langs{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
-.langs a{margin:0;padding:4px 12px;border:var(--bd);border-radius:99px;background:var(--cr);color:var(--bk);text-decoration:none;font-size:.9rem}
-.langs a[aria-current]{background:var(--y)}
-main{padding:24px 20px 48px}
-nav.toc,section,.contact{background:var(--cr);border:var(--bd);border-radius:16px;box-shadow:var(--sh);padding:18px 20px;margin-bottom:22px}
-nav.toc b{font-family:Fredoka,sans-serif}nav.toc ul{list-style:none;display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:6px}
-nav.toc a{color:var(--bl);font-weight:600}
-h2{font-family:Fredoka,sans-serif;font-size:1.4rem;margin-bottom:8px}
-p{margin-bottom:10px}ul{padding-left:20px}li{margin-bottom:6px}
-details{border-top:1.5px solid #f0e2b6;padding:8px 0}details:first-of-type{border-top:0}
+body{font-family:"DM Sans",sans-serif;background:var(--y);color:var(--bk);line-height:1.65;min-height:100vh}
+.w{max-width:720px;margin:0 auto;padding:0 20px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:22px 0}
+.brand{font-family:Fredoka,sans-serif;font-weight:700;font-size:1.15rem;color:var(--bk);text-decoration:none}
+.top a.back{color:var(--bk);font-weight:600}
+.langs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.langs a{padding:3px 11px;border:var(--bd);border-radius:99px;background:var(--cr);color:var(--bk);text-decoration:none;font-size:.85rem}
+.langs a[aria-current]{background:var(--bk);color:var(--cr)}
+.eyebrow{font-weight:700;letter-spacing:.14em;font-size:.78rem;margin-top:22px}
+h1{font-family:Fredoka,sans-serif;font-size:clamp(2.2rem,7vw,3.2rem);line-height:1.1;margin:6px 0 10px}
+.lead{font-size:1.1rem;max-width:560px}.upd{font-size:.9rem;opacity:.75;margin-top:6px}
+.card{background:var(--cr);border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0}
+.card section+section{margin-top:22px;padding-top:20px;border-top:1.5px solid #ecdcae}
+h2{font-family:Fredoka,sans-serif;font-size:1.3rem;margin-bottom:8px}
+p{margin-bottom:10px}ul{padding-left:20px;margin-bottom:10px}li{margin-bottom:6px}
+a{color:var(--bl)}
+details{border-top:1.5px solid #ecdcae;padding:8px 0}details:first-of-type{border-top:0}
 summary{cursor:pointer;font-weight:700}details p{margin:8px 0 2px}
 .tip{display:flex;gap:12px;margin-bottom:10px}.tip i{font-style:normal;font-size:1.4rem}
-.contact{background:var(--gn);color:#fff}.contact a{color:#fff;font-weight:700}
-footer{text-align:center;padding:0 20px 36px;font-size:.85rem}"""
+.help{background:var(--gn);color:#fff;border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0}
+.help a{color:#fff;font-weight:700}.help h2{color:#fff}
+footer{display:flex;gap:10px 20px;flex-wrap:wrap;justify-content:center;padding:6px 20px 40px;font-weight:600}
+footer a{color:var(--bk)}footer small{width:100%;text-align:center;font-weight:400;opacity:.75}"""
 
-def render(lang):
-    ui, e = UI[lang], html.escape
+
+def block(x):
+    return f"<ul>{''.join(f'<li>{i}</li>' for i in x[1])}</ul>" if isinstance(x, tuple) else f"<p>{x}</p>"
+
+
+def support_sections(lang):
+    e = html.escape
     app = json.load(open(ROOT / f"assets/i18n/{lang}.json"))["strings"]
     tips = app["noMatch"]["tip"]
-    secs = []
-    for sid, title, body in CONTENT[lang]:
-        inner = "".join(f"<ul>{''.join(f'<li>{x}</li>' for x in b[1])}</ul>" if isinstance(b, tuple) else f"<p>{b}</p>" for b in body)
-        secs.append((sid, title, inner))
+    secs = [(sid, t, "".join(block(b) for b in body)) for sid, t, body in CONTENT[lang]]
     tip_html = "".join(f'<div class="tip"><i>{em}</i><div><b>{e(tips[k + "Title"])}</b><br>{e(tips[k + "Desc"])}</div></div>'
                        for em, k in [("🔆", "light"), ("🔍", "frame"), ("🌿", "backdrop"), ("📐", "profile")])
     faq_html = "".join(f"<details><summary>{e(f['q'])}</summary><p>{e(f['a'])}</p></details>" for f in app["help"]["faq"].values())
-    secs.insert(len(secs) - 1, ("photo", ui["photo"], tip_html))  # before "Your data"
-    secs.insert(len(secs) - 1, ("faq", ui["faq"], faq_html))
-    toc = "".join(f'<li><a href="#{s}">{e(t)}</a></li>' for s, t, _ in secs)
-    body = "".join(f'<section id="{s}"><h2>{t}</h2>{b}</section>' for s, t, b in secs)
-    langs = "".join(f'<a href="{path(l)}" hreflang="{l}"{" aria-current=page" if l == lang else ""}>{n}</a>' for l, n in LANGS.items())
-    alts = "".join(f'<link rel="alternate" hreflang="{l}" href="https://critterboard.app{path(l)}">' for l in LANGS)
-    desc = e(ui["sub"])
+    secs.insert(len(secs) - 1, ("photo", UI[lang]["photo"], tip_html))
+    secs.insert(len(secs) - 1, ("faq", UI[lang]["faq"], faq_html))
+    return secs
+
+
+def render(page, lang):
+    e, n = html.escape, NAV[lang]
+    if page == "support":
+        eyebrow, headline, lead, upd = EYEBROW[lang], HEADLINE[lang], UI[lang]["sub"], ""
+        secs = support_sections(lang)
+    else:
+        eyebrow, headline, upd, lead, body = (PRIVACY if page == "privacy" else TERMS)[lang]
+        secs = [(None, t, "".join(block(b) for b in bs)) for t, bs in body]
+    cards = "".join(f'<section{f" id={s!r}".replace(chr(39), chr(34)) if s else ""}><h2>{e(t)}</h2>{b}</section>' for s, t, b in secs)
+    langs = "".join(f'<a href="{path(page, l)}" hreflang="{l}"{" aria-current=page" if l == lang else ""}>{nm}</a>' for l, nm in LANGS.items())
+    alts = "".join(f'<link rel="alternate" hreflang="{l}" href="https://critterboard.app{path(page, l)}">' for l in LANGS)
+    foot = "".join(f'<a href="{path(pg, lang)}">{n[pg]}</a>' for pg in ("support", "privacy", "terms"))
+    helpbox = f'<div class="help"><h2>{e(n["more"])}</h2><p>{e(n["moreText"])}</p><p><a href="mailto:hello@critterboard.app">hello@critterboard.app</a></p></div>'
+    title = {"support": n["support"], "privacy": n["privacy"], "terms": n["terms"]}[page]
     return f"""<!doctype html>
 <html lang="{lang}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{e(ui['title'])} — Critterboard</title><meta name="description" content="{desc}">
-<link rel="canonical" href="https://critterboard.app{path(lang)}">{alts}
+<title>{e(title)} — Critterboard</title><meta name="description" content="{e(lead)}">
+<link rel="canonical" href="https://critterboard.app{path(page, lang)}">{alts}
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-<style>{CSS}</style></head><body>
-<header><div class="w"><a href="/">{e(ui['home'])}</a><h1>{e(ui['title'])}</h1><p>{desc}</p><div class="langs">{langs}</div></div></header>
-<main class="w"><nav class="toc"><b>{e(ui['toc'])}</b><ul>{toc}</ul></nav>{body}
-<div class="contact"><h2>{e(ui['contact'])}</h2><p>{e(ui['contactText'])}</p><p><a href="mailto:hello@critterboard.app">hello@critterboard.app</a></p></div></main>
-<footer>{e(ui['footer'])}</footer></body></html>"""
+<style>{CSS}</style></head><body><div class="w">
+<div class="top"><a class="brand" href="/">critterboard</a><a class="back" href="/">{e(UI[lang]["home"])}</a></div>
+<div class="langs">{langs}</div>
+<p class="eyebrow">{e(eyebrow)}</p><h1>{e(headline)}</h1><p class="lead">{e(lead)}</p>{f'<p class="upd">{e(upd)}</p>' if upd else ''}
+<div class="card">{cards}</div>{helpbox if page == "support" else ""}
+</div><footer>{foot}<small>{e(UI[lang]["footer"])}</small></footer></body></html>"""
 
-for lang in LANGS:
-    d = OUT if lang == "en" else OUT / lang
-    d.mkdir(parents=True, exist_ok=True)
-    (d / "index.html").write_text(render(lang), encoding="utf-8")
-print("wrote", [str(OUT.relative_to(ROOT)) + ("" if l == "en" else "/" + l) for l in LANGS])
+
+import shutil
+shutil.rmtree(PUB / "help", ignore_errors=True)  # superseded by /support/ (see _redirects)
+for page in ("support", "privacy", "terms"):
+    for lang in LANGS:
+        d = PUB / page / ("" if lang == "en" else lang)
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "index.html").write_text(render(page, lang), encoding="utf-8")
+(PUB / "_redirects").write_text("/help /support 301\n/help/* /support/:splat 301\n")
+print("wrote support, privacy, terms x", list(LANGS))
