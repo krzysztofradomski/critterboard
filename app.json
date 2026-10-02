@@ -13,13 +13,18 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
+    "locales": {
+      "de": "./locales/de.json",
+      "es": "./locales/es.json",
+      "pl": "./locales/pl.json"
+    },
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "app.critterboard.ios",
       "infoPlist": {
         "NSCameraUsageDescription": "Critterboard uses the camera to identify bugs on-device. Photos never leave your phone.",
         "NSPhotoLibraryUsageDescription": "Pick an existing photo of a bug to identify it on-device. We never upload your library.",
-        "NSLocationWhenInUseUsageDescription": "Optional. Lets Critterboard prefer species that live near you. City-level fuzz, never shared unless you opt in.",
+        "NSLocationWhenInUseUsageDescription": "Optional. Centres your map on you and prefers species that live near you. Stays on your phone unless you opt in to share.",
         "ITSAppUsesNonExemptEncryption": false
       }
     },

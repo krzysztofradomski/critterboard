@@ -1,0 +1,7 @@
+{
+  "NSCameraUsageDescription": "Critterboard usa la cámara para identificar bichos en tu dispositivo. Las fotos nunca salen de tu teléfono.",
+  "NSPhotoLibraryUsageDescription": "Elige una foto existente de un bicho para identificarlo en tu dispositivo. Nunca subimos tu biblioteca.",
+  "NSLocationWhenInUseUsageDescription": "Opcional. Centra tu mapa en ti y prioriza especies cercanas. Se queda en tu teléfono mientras no decidas compartirla.",
+  "NSLocationAlwaysAndWhenInUseUsageDescription": "Opcional. Centra tu mapa en ti y prioriza especies cercanas. Se queda en tu teléfono mientras no decidas compartirla.",
+  "NSLocationAlwaysUsageDescription": "Opcional. Centra tu mapa en ti y prioriza especies cercanas. Se queda en tu teléfono mientras no decidas compartirla."
+}

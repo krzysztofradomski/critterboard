@@ -267,8 +267,8 @@ export function Scan() {
         <View style={styles.modelBanner}>
           <Text style={styles.modelBannerText}>
             {executorch.downloadProgress > 0
-              ? `Fetching model… ${Math.round(executorch.downloadProgress * 100)}%`
-              : 'Loading model…'}
+              ? t('scan.modelFetching', { pct: Math.round(executorch.downloadProgress * 100) })
+              : t('scan.modelLoading')}
           </Text>
         </View>
       )}

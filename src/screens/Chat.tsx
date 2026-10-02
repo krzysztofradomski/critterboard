@@ -270,12 +270,12 @@ export function Chat() {
             onDelete={() => {
               haptics.select();
               Alert.alert(
-                'Delete message',
-                'Remove this message from the conversation?',
+                t('chat.deleteTitle'),
+                t('chat.deleteBody'),
                 [
-                  { text: 'Cancel', style: 'cancel' },
+                  { text: t('common.cancel'), style: 'cancel' },
                   {
-                    text: 'Delete',
+                    text: t('common.delete'),
                     style: 'destructive',
                     onPress: () => {
                       // Remove from UI first for instant feedback.

@@ -18,7 +18,8 @@
       "retry": "Reintentar",
       "ok": "OK",
       "open": "Abrir",
-      "level": "nivel"
+      "level": "nivel",
+      "delete": "Eliminar"
     },
     "tabs": {
       "home": "Inicio",
@@ -73,7 +74,9 @@
       "needPackTitle": "Descarga el paquete de especies",
       "needPackBody": "La identificación funciona en tu teléfono. Instala una vez el paquete Europa Central (1.000 especies y el mapa sin conexión, unos 145 MB) para empezar a escanear.",
       "needPackCta": "Abrir paquetes de especies",
-      "modelNotReady": "El modelo de especies aún se está cargando. Inténtalo de nuevo en un momento."
+      "modelNotReady": "El modelo de especies aún se está cargando. Inténtalo de nuevo en un momento.",
+      "modelFetching": "Descargando modelo… {pct}%",
+      "modelLoading": "Cargando modelo…"
     },
     "result": {
       "headTitle": "¡IDENTIFICADO!",
@@ -197,7 +200,9 @@
         "cta": "Abrir Ajustes",
         "ramTitle": "El chat no está disponible en este teléfono",
         "ramBody": "Los guías funcionan con {model}, que necesita un teléfono con al menos 4 GB de memoria. El resto de Critterboard funciona con normalidad."
-      }
+      },
+      "deleteTitle": "Eliminar mensaje",
+      "deleteBody": "¿Quitar este mensaje de la conversación?"
     },
     "activity": {
       "title": "Zumbido",
@@ -348,7 +353,8 @@
       "downloadCta": "↓ Descargar mapa · {mb} MB",
       "downloadingSub": "Descargando el mapa… {pct}%",
       "errorSub": "No se pudo descargar el mapa. Revisa tu conexión e inténtalo de nuevo.",
-      "retryCta": "Reintentar"
+      "retryCta": "Reintentar",
+      "viewInsect": "Ver insecto →"
     },
     "permissions": {
       "title": "Tres preguntas rápidas.",
@@ -672,7 +678,15 @@
       "regionSwitched": "BugNet ahora usa {name}",
       "packCta": "↓ Descargar {name} · {mb} MB",
       "packHint": "BugNet necesita un pack regional para identificar bichos. El modelo, la lista de especies y el mapa sin conexión se descargan juntos.",
-      "mapDownloadFailed": "El pack está instalado, pero el mapa no se descargó. Reinténtalo desde la pestaña Mapa."
+      "mapDownloadFailed": "El pack está instalado, pero el mapa no se descargó. Reinténtalo desde la pestaña Mapa.",
+      "memoryBand": "Memoria de conversaciones",
+      "memorySub": "Guardada en el dispositivo para respuestas con contexto.",
+      "memoryThreadsMeta": "{n} conversaciones guardadas",
+      "memoryEntriesMeta": "{n} entradas en la memoria",
+      "memoryClearCta": "Borrar conversaciones guardadas",
+      "memoryClearConfirmCta": "Pulsa de nuevo para confirmar",
+      "memoryClearToast": "Memoria de conversaciones borrada",
+      "packDownloadFailed": "No se pudo descargar {name}"
     },
     "regions": {
       "list": {
@@ -733,12 +747,12 @@
             "oth": "Otros"
           },
           "why": {
-            "mona": "migrante icónico",
-            "lhoc": "emergencia de pleno verano",
-            "drag": "habitual de lagunas de castor",
-            "fire": "junio–julio al atardecer",
             "lady": "muy extendido",
-            "walk": "roble / nogal"
+            "peac": "visitante de jardines",
+            "swal": "especie de prados abiertos",
+            "stag": "indicador de bosque antiguo",
+            "hcat": "polinizador común",
+            "bdam": "orilla de agua dulce"
           },
           "notes": [
             "Especies de marisma con mayor peso que la media interior.",
@@ -757,56 +771,104 @@
             "oth": "Otros"
           },
           "why": {
-            "rhin": "vuelos del monzón",
-            "mant": "frecuente al borde de la carretera",
             "lady": "muy extendida",
-            "cica": "coro del desierto",
-            "walk": "arbusto de mesquite",
-            "mona": "corredor de primavera"
+            "buff": "abejorro muy extendido",
+            "rchf": "visitante iridiscente de flores",
+            "tort": "ortigas y especie de jardín",
+            "brim": "volador de principios de primavera",
+            "harl": "invasora pero inconfundible"
           },
           "notes": [
             "Fauna de abejas nativas sobremuestreada frente a abejas melíferas.",
             "Taxonomía de hormigas del desierto en flujo — confianza limitada al 92%."
           ]
+        },
+        "eu-ce": {
+          "tagline": "Jardines, prados y bordes de bosque.",
+          "fam": {
+            "lep": "Lepidópteros (mariposas y polillas)",
+            "hym": "Himenópteros (abejas y avispas)",
+            "col": "Coleópteros (escarabajos)",
+            "hem": "Hemípteros (chinches)",
+            "odo": "Odonatos (libélulas y caballitos del diablo)",
+            "oth": "Otros"
+          },
+          "why": {
+            "peac": "alas con ocelos inconfundibles",
+            "swal": "la mariposa más grande de Europa",
+            "stag": "especie protegida en la UE y el Reino Unido",
+            "lady": "el escarabajo más conocido",
+            "hcat": "polinizador esencial",
+            "bdam": "caballito del diablo común junto al agua"
+          },
+          "notes": [
+            "1.000 especies de jardines, prados y bosques de Europa central y occidental.",
+            "BugNet: un modelo de visión entrenado con fotos de iNaturalist (CC BY / CC0).",
+            "Funciona sin conexión una vez descargado: modelo, lista de especies, iconos y mapa."
+          ]
         }
       }
     },
     "bugs": {
-      "mona": {
-        "name": "Mariposa Monarca"
-      },
-      "rhin": {
-        "name": "Escarabajo Rinoceronte"
-      },
       "hcat": {
         "name": "Abeja Melífera"
-      },
-      "mant": {
-        "name": "Mantis Religiosa"
       },
       "lady": {
         "name": "Mariquita de Siete Puntos"
       },
-      "drag": {
-        "name": "Libélula Emperador"
+      "buff": {
+        "name": "Abejorro común"
       },
-      "lhoc": {
-        "name": "Polilla Luna"
+      "gbee": {
+        "name": "Abejorro de jardín"
       },
-      "fire": {
-        "name": "Luciérnaga Común"
+      "wasp": {
+        "name": "Avispa común"
       },
-      "cica": {
-        "name": "Cigarra Periódica"
+      "horn": {
+        "name": "Avispón europeo"
       },
-      "hwsp": {
-        "name": "Avispa Papelera"
+      "harl": {
+        "name": "Mariquita arlequín"
       },
-      "walk": {
-        "name": "Insecto Palo"
+      "stag": {
+        "name": "Ciervo volante"
       },
-      "atla": {
-        "name": "Polilla Atlas"
+      "rchf": {
+        "name": "Cetonia dorada"
+      },
+      "gshb": {
+        "name": "Chinche verde"
+      },
+      "bdam": {
+        "name": "Caballito del diablo azul"
+      },
+      "brim": {
+        "name": "Limonera"
+      },
+      "peac": {
+        "name": "Mariposa pavo real"
+      },
+      "lwhi": {
+        "name": "Blanca de la col"
+      },
+      "swhi": {
+        "name": "Blanquita de la col"
+      },
+      "orng": {
+        "name": "Aurora"
+      },
+      "radm": {
+        "name": "Vanesa atalanta"
+      },
+      "tort": {
+        "name": "Ortiguera"
+      },
+      "pntl": {
+        "name": "Vanesa de los cardos"
+      },
+      "swal": {
+        "name": "Macaón"
       }
     },
     "personas": {
@@ -996,6 +1058,17 @@
       "contactTitle": "¿Encontraste un bicho de software?",
       "contactEmail": "hello@critterboard.app",
       "footer": "Todo el procesamiento ocurre en tu dispositivo.\nNingún dato sale de este teléfono. Lo prometemos.\n© 2026 Critterboard · código abierto MIT"
+    },
+    "openSource": {
+      "title": "Bibliotecas de código abierto",
+      "sub": "Dependencias de terceros que usa Critterboard",
+      "models": "Modelos en el dispositivo",
+      "modelsSub": "Identificación y chat: fuentes y licencias",
+      "runtime": "Dependencias de ejecución",
+      "runtimeSub": "{n} paquetes incluidos en la app",
+      "dev": "Dependencias de desarrollo",
+      "devSub": "{n} paquetes usados en herramientas y compilación",
+      "footer": "Pulsa un paquete para abrir una búsqueda en Google."
     }
   }
 }

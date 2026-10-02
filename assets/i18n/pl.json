@@ -18,7 +18,8 @@
       "retry": "Ponów",
       "ok": "OK",
       "open": "Otwórz",
-      "level": "poziom"
+      "level": "poziom",
+      "delete": "Usuń"
     },
     "tabs": {
       "home": "Start",
@@ -73,7 +74,9 @@
       "needPackTitle": "Pobierz paczkę gatunków",
       "needPackBody": "Rozpoznawanie działa na Twoim telefonie. Zainstaluj raz paczkę Europa Środkowa (1000 gatunków i mapa offline, ok. 145 MB), aby zacząć skanować.",
       "needPackCta": "Otwórz paczki gatunków",
-      "modelNotReady": "Model gatunków wciąż się wczytuje. Spróbuj za chwilę."
+      "modelNotReady": "Model gatunków wciąż się wczytuje. Spróbuj za chwilę.",
+      "modelFetching": "Pobieranie modelu… {pct}%",
+      "modelLoading": "Ładowanie modelu…"
     },
     "result": {
       "headTitle": "ROZPOZNANO!",
@@ -197,7 +200,9 @@
         "cta": "Otwórz Ustawienia",
         "ramTitle": "Czat nie jest dostępny na tym telefonie",
         "ramBody": "Przewodnicy działają na modelu {model}, który wymaga telefonu z co najmniej 4 GB pamięci. Reszta Critterboard działa normalnie."
-      }
+      },
+      "deleteTitle": "Usuń wiadomość",
+      "deleteBody": "Usunąć tę wiadomość z rozmowy?"
     },
     "activity": {
       "title": "Brzęczenie",
@@ -673,7 +678,15 @@
       "regionSwitched": "BugNet używa teraz: {name}",
       "packCta": "↓ Pobierz {name} · {mb} MB",
       "packHint": "BugNet potrzebuje pakietu regionalnego, by rozpoznawać owady. Model, lista gatunków i mapa offline pobierają się razem.",
-      "mapDownloadFailed": "Pakiet zainstalowany, ale mapa się nie pobrała. Spróbuj ponownie w zakładce Mapa."
+      "mapDownloadFailed": "Pakiet zainstalowany, ale mapa się nie pobrała. Spróbuj ponownie w zakładce Mapa.",
+      "memoryBand": "Pamięć rozmów",
+      "memorySub": "Zapisana lokalnie, by odpowiedzi miały kontekst.",
+      "memoryThreadsMeta": "Zapisane rozmowy: {n}",
+      "memoryEntriesMeta": "Wpisów w pamięci: {n}",
+      "memoryClearCta": "Usuń zapisane rozmowy",
+      "memoryClearConfirmCta": "Dotknij ponownie, by potwierdzić",
+      "memoryClearToast": "Pamięć rozmów wyczyszczona",
+      "packDownloadFailed": "Nie udało się pobrać: {name}"
     },
     "regions": {
       "list": {
@@ -734,12 +747,12 @@
             "oth": "Inne"
           },
           "why": {
-            "mona": "ikoniczny migrant",
-            "lhoc": "wylot środka lata",
-            "drag": "stały bywalec stawów bobrowych",
-            "fire": "czerwiec–lipiec o zmierzchu",
             "lady": "powszechny",
-            "walk": "dąb / hikoria"
+            "peac": "gość ogrodów",
+            "swal": "gatunek otwartych łąk",
+            "stag": "wskaźnik starego lasu",
+            "hcat": "pospolity zapylacz",
+            "bdam": "brzeg wód słodkich"
           },
           "notes": [
             "Gatunki słonych moczarów ważone wyżej niż średnio w głębi lądu.",
@@ -758,56 +771,104 @@
             "oth": "Inne"
           },
           "why": {
-            "rhin": "loty monsunowe",
-            "mant": "częsta przy drodze",
             "lady": "powszechna",
-            "cica": "pustynny chór",
-            "walk": "krzew mesquite",
-            "mona": "wiosenny korytarz"
+            "buff": "szeroko rozpowszechniony trzmiel",
+            "rchf": "opalizujący gość kwiatów",
+            "tort": "pokrzywy i gatunek ogrodowy",
+            "brim": "wczesny motyl wiosenny",
+            "harl": "inwazyjna, ale charakterystyczna"
           },
           "notes": [
             "Fauna rodzimych pszczół nadpróbkowana w porównaniu do miodnych.",
             "Taksonomia pustynnych mrówek wciąż się zmienia — pewność ograniczona do 92%."
           ]
+        },
+        "eu-ce": {
+          "tagline": "Ogrody, łąki i skraje lasów.",
+          "fam": {
+            "lep": "Motyle (Lepidoptera)",
+            "hym": "Błonkówki (pszczoły i osy)",
+            "col": "Chrząszcze (Coleoptera)",
+            "hem": "Pluskwiaki (Hemiptera)",
+            "odo": "Ważki (Odonata)",
+            "oth": "Inne"
+          },
+          "why": {
+            "peac": "niepowtarzalne oczka na skrzydłach",
+            "swal": "największy motyl Europy",
+            "stag": "gatunek chroniony w UE i Wielkiej Brytanii",
+            "lady": "najbardziej znany chrząszcz",
+            "hcat": "ważny zapylacz",
+            "bdam": "pospolita ważka nad wodą"
+          },
+          "notes": [
+            "1000 gatunków z ogrodów, łąk i lasów Europy Środkowej i Zachodniej.",
+            "BugNet: model wizyjny wytrenowany na zdjęciach z iNaturalist (CC BY / CC0).",
+            "Po pobraniu działa w pełni offline: model, lista gatunków, ikony i mapa."
+          ]
         }
       }
     },
     "bugs": {
-      "mona": {
-        "name": "Monarch (Danaid wędrowny)"
-      },
-      "rhin": {
-        "name": "Chrząszcz Nosorożec"
-      },
       "hcat": {
         "name": "Pszczoła Miodna"
-      },
-      "mant": {
-        "name": "Modliszka Zwyczajna"
       },
       "lady": {
         "name": "Biedronka Siedmiokropka"
       },
-      "drag": {
-        "name": "Husarz Władca"
+      "buff": {
+        "name": "Trzmiel ziemny"
       },
-      "lhoc": {
-        "name": "Ćma Luna"
+      "gbee": {
+        "name": "Trzmiel ogrodowy"
       },
-      "fire": {
-        "name": "Świetlik Pospolity"
+      "wasp": {
+        "name": "Osa pospolita"
       },
-      "cica": {
-        "name": "Cykada Okresowa"
+      "horn": {
+        "name": "Szerszeń europejski"
       },
-      "hwsp": {
-        "name": "Klecanka Polna"
+      "harl": {
+        "name": "Biedronka azjatycka"
       },
-      "walk": {
-        "name": "Patyczak"
+      "stag": {
+        "name": "Jelonek rogacz"
       },
-      "atla": {
-        "name": "Ćma Atlas"
+      "rchf": {
+        "name": "Kruszczyca złotawka"
+      },
+      "gshb": {
+        "name": "Tarczówka zielona"
+      },
+      "bdam": {
+        "name": "Łątka pospolita"
+      },
+      "brim": {
+        "name": "Latolistek cytrynek"
+      },
+      "peac": {
+        "name": "Rusałka pawik"
+      },
+      "lwhi": {
+        "name": "Bielinek kapustnik"
+      },
+      "swhi": {
+        "name": "Bielinek rzepnik"
+      },
+      "orng": {
+        "name": "Zorzyk rzeżuchowiec"
+      },
+      "radm": {
+        "name": "Rusałka admirał"
+      },
+      "tort": {
+        "name": "Rusałka pokrzywnik"
+      },
+      "pntl": {
+        "name": "Rusałka osetnik"
+      },
+      "swal": {
+        "name": "Paź królowej"
       }
     },
     "personas": {
@@ -997,6 +1058,17 @@
       "contactTitle": "Znalazłeś bug bug?",
       "contactEmail": "hello@critterboard.app",
       "footer": "Całe przetwarzanie dzieje się na twoim urządzeniu.\nŻadne dane nie opuszczają telefonu. Obiecujemy.\n© 2026 Critterboard · open source na licencji MIT"
+    },
+    "openSource": {
+      "title": "Biblioteki open source",
+      "sub": "Zewnętrzne zależności używane przez Critterboard",
+      "models": "Modele na urządzeniu",
+      "modelsSub": "Rozpoznawanie i czat: źródła i licencje",
+      "runtime": "Zależności uruchomieniowe",
+      "runtimeSub": "{n} pakietów w aplikacji",
+      "dev": "Zależności deweloperskie",
+      "devSub": "{n} pakietów używanych w narzędziach i buildzie",
+      "footer": "Dotknij pakietu, by otworzyć wyszukiwanie w Google."
     }
   }
 }

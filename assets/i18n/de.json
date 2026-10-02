@@ -18,7 +18,8 @@
       "retry": "Erneut",
       "ok": "OK",
       "open": "Öffnen",
-      "level": "Stufe"
+      "level": "Stufe",
+      "delete": "Löschen"
     },
     "tabs": {
       "home": "Start",
@@ -73,7 +74,9 @@
       "needPackTitle": "Artenpaket holen",
       "needPackBody": "Die Bestimmung läuft auf deinem Handy. Installiere einmal das Paket Mitteleuropa (1.000 Arten und die Offline-Karte, ca. 145 MB), um loszulegen.",
       "needPackCta": "Artenpakete öffnen",
-      "modelNotReady": "Das Artenmodell lädt noch. Versuch es gleich noch einmal."
+      "modelNotReady": "Das Artenmodell lädt noch. Versuch es gleich noch einmal.",
+      "modelFetching": "Modell wird geladen… {pct}%",
+      "modelLoading": "Modell wird geladen…"
     },
     "result": {
       "headTitle": "IDENTIFIZIERT!",
@@ -197,7 +200,9 @@
         "cta": "Einstellungen öffnen",
         "ramTitle": "Chat ist auf diesem Handy nicht verfügbar",
         "ramBody": "Die Guides laufen auf {model}, das ein Handy mit mindestens 4 GB Arbeitsspeicher braucht. Alles andere in Critterboard funktioniert wie gewohnt."
-      }
+      },
+      "deleteTitle": "Nachricht löschen",
+      "deleteBody": "Diese Nachricht aus dem Gespräch entfernen?"
     },
     "activity": {
       "title": "Summen",
@@ -348,7 +353,8 @@
       "downloadCta": "↓ Karte laden · {mb} MB",
       "downloadingSub": "Karte wird geladen… {pct}%",
       "errorSub": "Karte konnte nicht geladen werden. Prüfe die Verbindung und versuche es erneut.",
-      "retryCta": "Erneut versuchen"
+      "retryCta": "Erneut versuchen",
+      "viewInsect": "Insekt ansehen →"
     },
     "permissions": {
       "title": "Drei kurze Fragen.",
@@ -672,7 +678,15 @@
       "regionSwitched": "BugNet nutzt jetzt {name}",
       "packCta": "↓ {name} laden · {mb} MB",
       "packHint": "BugNet braucht ein Regionalpaket, um Insekten zu erkennen. Modell, Artenliste und Offline-Karte werden zusammen geladen.",
-      "mapDownloadFailed": "Das Paket ist installiert, aber die Karte wurde nicht geladen. Versuche es erneut im Karten-Tab."
+      "mapDownloadFailed": "Das Paket ist installiert, aber die Karte wurde nicht geladen. Versuche es erneut im Karten-Tab.",
+      "memoryBand": "Gesprächsspeicher",
+      "memorySub": "Lokal gespeichert für kontextbezogene Antworten.",
+      "memoryThreadsMeta": "{n} Gespräche gespeichert",
+      "memoryEntriesMeta": "{n} Einträge im Speicher",
+      "memoryClearCta": "Gespeicherte Gespräche löschen",
+      "memoryClearConfirmCta": "Zum Bestätigen erneut tippen",
+      "memoryClearToast": "Gesprächsspeicher gelöscht",
+      "packDownloadFailed": "{name} konnte nicht geladen werden"
     },
     "regions": {
       "list": {
@@ -733,12 +747,12 @@
             "oth": "Andere"
           },
           "why": {
-            "mona": "ikonischer Wanderer",
-            "lhoc": "Hochsommer-Schlupf",
-            "drag": "Stammgast am Biberteich",
-            "fire": "Juni–Juli in der Dämmerung",
             "lady": "weit verbreitet",
-            "walk": "Eiche / Hickory"
+            "peac": "Gartenbesucher",
+            "swal": "Art offener Wiesen",
+            "stag": "Zeiger für alte Wälder",
+            "hcat": "häufiger Bestäuber",
+            "bdam": "Süßwasser-Uferzone"
           },
           "notes": [
             "Salzmarschen-Arten höher gewichtet als der Binnen-Durchschnitt.",
@@ -757,56 +771,104 @@
             "oth": "Andere"
           },
           "why": {
-            "rhin": "Monsun-Flüge",
-            "mant": "häufig am Straßenrand",
             "lady": "weit verbreitet",
-            "cica": "Wüstenchor",
-            "walk": "Mesquite-Strauch",
-            "mona": "Frühlingskorridor"
+            "buff": "weit verbreitete Hummel",
+            "rchf": "schillernder Blütenbesucher",
+            "tort": "Brennnessel- & Gartenart",
+            "brim": "früher Frühlingsflieger",
+            "harl": "invasiv, aber unverwechselbar"
           },
           "notes": [
             "Heimische Bienenfauna im Vergleich zu Honigbienen überrepräsentiert.",
             "Wüstenameisen-Taxonomie im Fluss — Sicherheit bei 92% gedeckelt."
           ]
+        },
+        "eu-ce": {
+          "tagline": "Gärten, Wiesen, Waldränder.",
+          "fam": {
+            "lep": "Schmetterlinge (Lepidoptera)",
+            "hym": "Hautflügler (Bienen & Wespen)",
+            "col": "Käfer (Coleoptera)",
+            "hem": "Wanzen (Hemiptera)",
+            "odo": "Libellen (Odonata)",
+            "oth": "Andere"
+          },
+          "why": {
+            "peac": "unverwechselbare Augenflecken",
+            "swal": "größter europäischer Tagfalter",
+            "stag": "in der EU & UK geschützt",
+            "lady": "bekanntester Käfer",
+            "hcat": "wichtiger Bestäuber",
+            "bdam": "häufige Libelle am Wasser"
+          },
+          "notes": [
+            "1.000 Arten aus Gärten, Wiesen und Wäldern in Mittel- und Westeuropa.",
+            "BugNet: ein Bildmodell, trainiert mit iNaturalist-Fotos (CC BY / CC0).",
+            "Funktioniert nach dem Download komplett offline: Modell, Artenliste, Icons und Karte."
+          ]
         }
       }
     },
     "bugs": {
-      "mona": {
-        "name": "Monarchfalter"
-      },
-      "rhin": {
-        "name": "Nashornkäfer"
-      },
       "hcat": {
         "name": "Honigbiene"
-      },
-      "mant": {
-        "name": "Gottesanbeterin"
       },
       "lady": {
         "name": "Siebenpunkt-Marienkäfer"
       },
-      "drag": {
-        "name": "Große Königslibelle"
+      "buff": {
+        "name": "Dunkle Erdhummel"
       },
-      "lhoc": {
-        "name": "Mondspinner"
+      "gbee": {
+        "name": "Gartenhummel"
       },
-      "fire": {
-        "name": "Gemeines Leuchtkäferchen"
+      "wasp": {
+        "name": "Gemeine Wespe"
       },
-      "cica": {
-        "name": "Periodische Zikade"
+      "horn": {
+        "name": "Europäische Hornisse"
       },
-      "hwsp": {
-        "name": "Haus-Feldwespe"
+      "harl": {
+        "name": "Asiatischer Marienkäfer"
       },
-      "walk": {
-        "name": "Stabschrecke"
+      "stag": {
+        "name": "Hirschkäfer"
       },
-      "atla": {
-        "name": "Atlasspinner"
+      "rchf": {
+        "name": "Goldglänzender Rosenkäfer"
+      },
+      "gshb": {
+        "name": "Grüne Stinkwanze"
+      },
+      "bdam": {
+        "name": "Hufeisen-Azurjungfer"
+      },
+      "brim": {
+        "name": "Zitronenfalter"
+      },
+      "peac": {
+        "name": "Tagpfauenauge"
+      },
+      "lwhi": {
+        "name": "Großer Kohlweißling"
+      },
+      "swhi": {
+        "name": "Kleiner Kohlweißling"
+      },
+      "orng": {
+        "name": "Aurorafalter"
+      },
+      "radm": {
+        "name": "Admiral"
+      },
+      "tort": {
+        "name": "Kleiner Fuchs"
+      },
+      "pntl": {
+        "name": "Distelfalter"
+      },
+      "swal": {
+        "name": "Schwalbenschwanz"
       }
     },
     "personas": {
@@ -996,6 +1058,17 @@
       "contactTitle": "Einen Bug-Bug gefunden?",
       "contactEmail": "hello@critterboard.app",
       "footer": "Alle Verarbeitung läuft auf deinem Gerät.\nKeine Daten verlassen dieses Telefon. Versprochen.\n© 2026 Critterboard · Open Source unter MIT-Lizenz"
+    },
+    "openSource": {
+      "title": "Open-Source-Bibliotheken",
+      "sub": "Von Critterboard verwendete Fremdbibliotheken",
+      "models": "Modelle auf dem Gerät",
+      "modelsSub": "Artbestimmung und Chat: Quellen und Lizenzen",
+      "runtime": "Laufzeit-Abhängigkeiten",
+      "runtimeSub": "{n} Pakete in der App enthalten",
+      "dev": "Entwicklungs-Abhängigkeiten",
+      "devSub": "{n} Pakete für Tooling und Build",
+      "footer": "Tippe auf ein Paket, um eine Google-Suche zu öffnen."
     }
   }
 }

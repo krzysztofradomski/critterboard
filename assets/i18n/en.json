@@ -18,7 +18,8 @@
       "retry": "Retry",
       "ok": "OK",
       "open": "Open",
-      "level": "level"
+      "level": "level",
+      "delete": "Delete"
     },
     "tabs": {
       "home": "Home",
@@ -73,7 +74,9 @@
       "needPackTitle": "Get the species pack",
       "needPackBody": "Bug ID runs on your phone. Install the Central Europe pack (1,000 species and the offline map, ~145 MB) once to start scanning.",
       "needPackCta": "Open species packs",
-      "modelNotReady": "The species model is still loading. Try again in a moment."
+      "modelNotReady": "The species model is still loading. Try again in a moment.",
+      "modelFetching": "Fetching model… {pct}%",
+      "modelLoading": "Loading model…"
     },
     "result": {
       "headTitle": "IDENTIFIED!",
@@ -197,7 +200,9 @@
         "cta": "Open Settings",
         "ramTitle": "Chat isn't available on this phone",
         "ramBody": "The guides run on {model}, which needs a phone with at least 4 GB of memory. Everything else in Critterboard works as usual."
-      }
+      },
+      "deleteTitle": "Delete message",
+      "deleteBody": "Remove this message from the conversation?"
     },
     "activity": {
       "title": "Buzz",
@@ -680,7 +685,8 @@
       "regionSwitched": "BugNet now uses {name}",
       "packCta": "↓ Download {name} · {mb} MB",
       "packHint": "BugNet needs a region pack to identify bugs. The model, species list and offline map download together.",
-      "mapDownloadFailed": "The pack is installed, but its map didn't download. Retry from the Map tab."
+      "mapDownloadFailed": "The pack is installed, but its map didn't download. Retry from the Map tab.",
+      "packDownloadFailed": "Failed to download {name}"
     },
     "regions": {
       "list": {
@@ -743,15 +749,15 @@
           "why": {
             "peac": "unmistakeable eyespot wings",
             "swal": "largest European butterfly",
-            "stag": "UK & EU protected species",
+            "stag": "protected species in the EU & UK",
             "lady": "most recognised beetle",
             "hcat": "essential pollinator",
             "bdam": "common waterside damselfly"
           },
           "notes": [
-            "Demo pack — 20 Central European species.",
-            "MobileNetV3-Small, trained on iNaturalist photos.",
-            "Activate native model: set USE_NATIVE_VISION=true in src/ai/index.ts."
+            "1,000 species from gardens, meadows and woodland across Central and Western Europe.",
+            "BugNet: a vision model fine-tuned on iNaturalist photos (CC BY / CC0).",
+            "Works fully offline once downloaded: model, species list, icons and map."
           ]
         },
         "na-ne": {
@@ -1052,6 +1058,17 @@
       "contactTitle": "Found a bug bug?",
       "contactEmail": "hello@critterboard.app",
       "footer": "All processing happens on your device.\nNo data leaves this phone. We promise.\n© 2026 Critterboard · MIT-licensed open source"
+    },
+    "openSource": {
+      "title": "Open source libraries",
+      "sub": "Third-party dependencies used by Critterboard",
+      "models": "On-device models",
+      "modelsSub": "Species ID and chat: sources and licences",
+      "runtime": "Runtime dependencies",
+      "runtimeSub": "{n} packages bundled with the app",
+      "dev": "Development dependencies",
+      "devSub": "{n} packages used in tooling/build",
+      "footer": "Tap any package row to open a Google search."
     }
   }
 }

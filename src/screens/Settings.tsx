@@ -207,7 +207,10 @@ export function Settings() {
       setRegions((r) => ({ ...r, [region.id]: "installed" }));
     } catch {
       setRegions((r) => ({ ...r, [region.id]: "available" }));
-      showToast({ text: `Failed to download ${region.id}`, bg: '#e53935' });
+      showToast({
+        text: t('settings.packDownloadFailed', { name: t(`regions.list.${region.id}.name`) }),
+        bg: '#e53935',
+      });
     }
   };
 
