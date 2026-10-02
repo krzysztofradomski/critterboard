@@ -55,5 +55,7 @@ venv/
 
 # Offline map packs (tools/map/extract.sh output)
 *.pmtiles
+# Hosted map packs (served via raw.githubusercontent.com until they move elsewhere)
+!packs/maps/*.pmtiles
 tools/map/out/
 .wrangler/
