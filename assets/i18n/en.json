@@ -670,7 +670,7 @@
       "boardOn": "Your XP & name appear globally.",
       "boardNeeds": "Requires network access.",
       "locShareLabel": "Share spotting locations",
-      "locShareOn": "Pins added to the public map (±500m fuzz).",
+      "locShareOn": "Catch locations are stored online, blurred by up to ~500 m.",
       "locShareOff": "Your map stays private to this device.",
       "crashLabel": "Send crash reports",
       "crashOn": "Anonymous diagnostics help us fix bugs.",
@@ -747,6 +747,31 @@
         "l50": "Strict",
         "l70": "Very strict",
         "foot": "Higher means fewer wrong IDs, but more \"no match\"."
+      },
+      "sync": {
+        "upToDate": "All {n} catches are online",
+        "nothingYet": "Nothing uploaded yet",
+        "uploading": "Uploading {done} / {total}…",
+        "failed": "Couldn't upload {n} catches. They're safe on your phone.",
+        "retry": "Retry",
+        "older": "{n} earlier catches aren't online yet.",
+        "upload": "Upload",
+        "notNow": "Not now",
+        "cancel": "Cancel",
+        "delete": "Delete my online data",
+        "deleted": "Online data deleted",
+        "deleteFailed": "Couldn't reach the server. Try again when you're online.",
+        "deleteConfirmTitle": "Delete your online data?",
+        "deleteConfirmBody": "Removes your profile, uploaded catches, follows and ranking entry from our server. Your Dex on this phone stays.",
+        "offTitle": "Turn off Network?",
+        "offBody": "Your profile and catches are still on our server. Keep them (hidden from rankings) or delete them?",
+        "offKeep": "Keep, hidden",
+        "offDelete": "Delete online data",
+        "hideFailed": "Couldn't hide your profile online. Try again when you're connected.",
+        "olderPromptTitle": "Upload your {n} earlier catches?",
+        "olderPromptBody": "Friends and rankings only know about catches made while Network is on. Locations are blurred, and only sent if you share them.",
+        "locationsCleared": "Stored locations removed",
+        "locationsClearFailed": "Couldn't remove stored locations. Try again when you're online."
       }
     },
     "regions": {
@@ -1075,7 +1100,8 @@
         "wipeDesc": "Dex, sightings, models, settings. No undo.",
         "wipeCta": "Wipe",
         "wipeConfirmCta": "Tap again to confirm",
-        "wipeToast": "Wipe queued — restart the app."
+        "wipeToast": "Wipe queued — restart the app.",
+        "wipeOnlineFailed": "Couldn't delete your online data, so nothing was wiped. Connect and try again."
       },
       "appName": "Critterboard",
       "appBuild": "v{version} · MIT-licensed",

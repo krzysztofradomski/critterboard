@@ -5,6 +5,7 @@ import "@/lib/initExecutorch";
 import { StyleSheet, View } from "react-native";
 
 import { useBackendIdentityBridge, useSyncProfile } from "@/backend/hooks";
+import { syncCatches } from "@/backend/sync";
 import { Toast } from "@/components/Toast";
 import { hydrateCachedPacks, syncRemotePacks, isKnownLang } from "@/i18n";
 import * as FileSystem from "expo-file-system/legacy";
@@ -35,6 +36,12 @@ export default function App() {
   // Push profile changes (name, leaderboard visibility, location share)
   // to the Cloudflare Worker whenever they change. Gated on networkOn.
   useSyncProfile();
+
+  // Catches that missed the server (offline, killed app) go up as soon as Network is on.
+  const networkOn = useAppStore((s) => s.profile.networkOn);
+  useEffect(() => {
+    if (networkOn) void syncCatches();
+  }, [networkOn]);
 
   // On first launch, seed the language from the device locale so users
   // with a supported language don't have to visit Settings manually.

@@ -146,6 +146,23 @@ export const cloudflareAdapter: BackendAdapter = {
     });
   },
 
+  async publishCatches(catches: PublishCatchInput[]): Promise<void> {
+    await authedFetch('/v1/catches/batch', {
+      method: 'POST',
+      body: JSON.stringify({ catches }),
+    });
+  },
+
+  async clearLocations(): Promise<void> {
+    await authedFetch('/v1/catches/locations', { method: 'DELETE' });
+  },
+
+  async deleteAccount(): Promise<void> {
+    await authedFetch('/v1/account', { method: 'DELETE' });
+    cachedToken = null; // the account is gone; the next call would register a fresh one
+    adapterReady = false;
+  },
+
   async fetchLeaderboard(scope: LeaderboardScope, opts?: PageOpts): Promise<LeaderboardPage> {
     const params = new URLSearchParams({ scope });
     if (opts?.cursor) params.set('cursor', opts.cursor);

@@ -670,7 +670,7 @@
       "boardOn": "Twoje XP i nazwa pojawią się globalnie.",
       "boardNeeds": "Wymaga dostępu do sieci.",
       "locShareLabel": "Udostępniaj lokalizacje obserwacji",
-      "locShareOn": "Piny dodawane do publicznej mapy (±500m rozmycia).",
+      "locShareOn": "Lokalizacje złapań są zapisywane online, rozmyte o maks. ~500 m.",
       "locShareOff": "Twoja mapa pozostaje prywatna.",
       "crashLabel": "Wysyłaj raporty o awariach",
       "crashOn": "Anonimowe dane pomagają nam łapać błędy.",
@@ -747,6 +747,31 @@
         "l50": "Ścisły",
         "l70": "Bardzo ścisły",
         "foot": "Wyższy próg to mniej błędnych rozpoznań, ale więcej „brak dopasowania”."
+      },
+      "sync": {
+        "upToDate": "Wszystkie złapania ({n}) są online",
+        "nothingYet": "Nic jeszcze nie wysłano",
+        "uploading": "Wysyłanie {done} / {total}…",
+        "failed": "Nie udało się wysłać {n} złapań. Są bezpieczne na telefonie.",
+        "retry": "Ponów",
+        "older": "{n} wcześniejszych złapań nie ma online.",
+        "upload": "Wyślij",
+        "notNow": "Nie teraz",
+        "cancel": "Anuluj",
+        "delete": "Usuń moje dane online",
+        "deleted": "Dane online usunięte",
+        "deleteFailed": "Brak połączenia z serwerem. Spróbuj, gdy będziesz online.",
+        "deleteConfirmTitle": "Usunąć dane online?",
+        "deleteConfirmBody": "Usuwa z naszego serwera twój profil, wysłane złapania, obserwowanych i wpis w rankingu. Twój Dex na tym telefonie zostaje.",
+        "offTitle": "Wyłączyć sieć?",
+        "offBody": "Twój profil i złapania nadal są na naszym serwerze. Zachować je (ukryte w rankingach) czy usunąć?",
+        "offKeep": "Zachowaj, ukryte",
+        "offDelete": "Usuń dane online",
+        "hideFailed": "Nie udało się ukryć profilu online. Spróbuj, gdy będziesz połączony.",
+        "olderPromptTitle": "Wysłać {n} wcześniejszych złapań?",
+        "olderPromptBody": "Znajomi i rankingi znają tylko złapania z czasu, gdy sieć jest włączona. Lokalizacje są rozmywane i wysyłane tylko, jeśli je udostępniasz.",
+        "locationsCleared": "Zapisane lokalizacje usunięte",
+        "locationsClearFailed": "Nie udało się usunąć zapisanych lokalizacji. Spróbuj, gdy będziesz online."
       }
     },
     "regions": {
@@ -1075,7 +1100,8 @@
         "wipeDesc": "Dex, obserwacje, modele, ustawienia. Bez cofnięcia.",
         "wipeCta": "Wymaż",
         "wipeConfirmCta": "Dotknij ponownie, by potwierdzić",
-        "wipeToast": "Wymazywanie w kolejce — uruchom aplikację ponownie."
+        "wipeToast": "Wymazywanie w kolejce — uruchom aplikację ponownie.",
+        "wipeOnlineFailed": "Nie udało się usunąć danych online, więc nic nie wymazano. Połącz się i spróbuj ponownie."
       },
       "appName": "Critterboard",
       "appBuild": "v{version} · licencja MIT",

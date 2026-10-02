@@ -670,7 +670,7 @@
       "boardOn": "Tu XP y nombre aparecen globalmente.",
       "boardNeeds": "Requiere acceso a la red.",
       "locShareLabel": "Compartir ubicaciones de avistamientos",
-      "locShareOn": "Pines añadidos al mapa público (±500m de difuminado).",
+      "locShareOn": "Las ubicaciones de las capturas se guardan en línea, difuminadas hasta ~500 m.",
       "locShareOff": "Tu mapa permanece privado en este dispositivo.",
       "crashLabel": "Enviar informes de errores",
       "crashOn": "Los diagnósticos anónimos nos ayudan a arreglar bugs.",
@@ -747,6 +747,31 @@
         "l50": "Estricto",
         "l70": "Muy estricto",
         "foot": "Más alto significa menos errores, pero más «sin coincidencia»."
+      },
+      "sync": {
+        "upToDate": "Las {n} capturas están en línea",
+        "nothingYet": "Aún no se ha subido nada",
+        "uploading": "Subiendo {done} / {total}…",
+        "failed": "No se pudieron subir {n} capturas. Están a salvo en tu teléfono.",
+        "retry": "Reintentar",
+        "older": "{n} capturas anteriores no están en línea.",
+        "upload": "Subir",
+        "notNow": "Ahora no",
+        "cancel": "Cancelar",
+        "delete": "Borrar mis datos en línea",
+        "deleted": "Datos en línea borrados",
+        "deleteFailed": "No se pudo contactar con el servidor. Inténtalo cuando tengas conexión.",
+        "deleteConfirmTitle": "¿Borrar tus datos en línea?",
+        "deleteConfirmBody": "Elimina de nuestro servidor tu perfil, las capturas subidas, a quién sigues y tu entrada en el ranking. Tu Dex en este teléfono se queda.",
+        "offTitle": "¿Desactivar la red?",
+        "offBody": "Tu perfil y tus capturas siguen en nuestro servidor. ¿Conservarlos (ocultos en los rankings) o borrarlos?",
+        "offKeep": "Conservar, oculto",
+        "offDelete": "Borrar datos en línea",
+        "hideFailed": "No se pudo ocultar tu perfil en línea. Inténtalo cuando estés conectado.",
+        "olderPromptTitle": "¿Subir tus {n} capturas anteriores?",
+        "olderPromptBody": "Los amigos y los rankings solo conocen las capturas hechas con la red activada. Las ubicaciones se difuminan y solo se envían si las compartes.",
+        "locationsCleared": "Ubicaciones guardadas eliminadas",
+        "locationsClearFailed": "No se pudieron eliminar las ubicaciones guardadas. Inténtalo cuando tengas conexión."
       }
     },
     "regions": {
@@ -1075,7 +1100,8 @@
         "wipeDesc": "Dex, avistamientos, modelos, ajustes. Sin deshacer.",
         "wipeCta": "Borrar",
         "wipeConfirmCta": "Pulsa otra vez para confirmar",
-        "wipeToast": "Borrado en cola — reinicia la app."
+        "wipeToast": "Borrado en cola — reinicia la app.",
+        "wipeOnlineFailed": "No se pudieron borrar tus datos en línea, así que no se borró nada. Conéctate e inténtalo de nuevo."
       },
       "appName": "Critterboard",
       "appBuild": "v{version} · licencia MIT",

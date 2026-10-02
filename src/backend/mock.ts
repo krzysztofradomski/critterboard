@@ -297,6 +297,18 @@ export const mockAdapter: BackendAdapter = {
     lastProfile = snapshot;
   },
 
+  async publishCatches(_catches: PublishCatchInput[]) {
+    /* the mock keeps nothing */
+  },
+
+  async clearLocations() {
+    /* the mock keeps nothing */
+  },
+
+  async deleteAccount() {
+    /* the mock keeps nothing */
+  },
+
   async publishCatch(_input: PublishCatchInput) {
     await delay(40);
     // The mock has nothing durable to write — the local store already

@@ -43,6 +43,29 @@ export type Profile = {
 export const DEFAULT_MIN_CONFIDENCE = 33;
 
 /**
+ * What this device has put on the server. Nothing leaves the phone until Network is on; this
+ * tracks what did, so the app can show sync progress and delete it all again.
+ */
+export type OnlineState = {
+  /** When Network was first switched on (ms); catches from before it need an explicit upload. */
+  since: number | null;
+  /** True once a profile or catch reached the server and not yet deleted. */
+  hasData: boolean;
+  /** The user agreed to upload catches made before `since`. */
+  backfill: boolean;
+  /** `bugId:at` of every catch known to be on the server. */
+  uploaded: string[];
+};
+
+export const EMPTY_ONLINE: OnlineState = { since: null, hasData: false, backfill: false, uploaded: [] };
+
+export type SyncStatus = {
+  phase: 'idle' | 'syncing' | 'error';
+  done: number;
+  total: number;
+};
+
+/**
  * Generate a device-local pseudonymous user id. The backend treats
  * this as the caller's identity; there is no email / phone / OAuth
  * handshake. Reset by `wipeAll` so a fresh install is genuinely
@@ -107,6 +130,8 @@ const STREAK_MILESTONES: ReadonlySet<number> = new Set([3, 7, 14, 30]);
  * camera failure stamps coords-only, and vice versa.
  */
 export type CatchBugOptions = {
+  /** Capture time; pass the one you also publish so the local and online copies share a key. */
+  at?: number;
   photoUri?: string;
   lat?: number;
   lng?: number;
@@ -182,6 +207,9 @@ type State = {
   backendUserId: string;
   /** Proof of ownership of `backendUserId` (see `newBackendSecret`); rotated with it on wipe. */
   backendSecret: string;
+  online: OnlineState;
+  /** Live upload progress (not persisted). */
+  syncStatus: SyncStatus;
   /** Persisted chat transcripts keyed by `persona::topic`. */
   chatThreads: Record<string, ChatThread>;
   /** Searchable conversation index for cross-thread memory retrieval. */
@@ -221,6 +249,9 @@ type Actions = {
   setPersona: (id: PersonaId) => void;
   setLanguage: (lang: LangId) => void;
   setProfile: (patch: Partial<Profile>) => void;
+  setOnline: (patch: Partial<OnlineState>) => void;
+  markUploaded: (keys: string[]) => void;
+  setSyncStatus: (status: SyncStatus) => void;
   setLastPhotoUri: (uri: string | null) => void;
   setMapLocation: (loc: MapLocationCache | null) => void;
   setOnboarded: (value: boolean) => void;
@@ -318,6 +349,7 @@ type Persisted = Pick<
   | 'questClaimedAt'
   | 'backendUserId'
   | 'backendSecret'
+  | 'online'
   | 'chatThreads'
   | 'conversationMemory'
   | 'installedRegions'
@@ -350,6 +382,7 @@ type PersistedWire = {
   backendUserId?: string;
   /** Backfilled for users persisted before login required a secret. */
   backendSecret?: string;
+  online?: OnlineState;
   chatThreads?: Record<string, ChatThread>;
   conversationMemory?: ConversationMemoryEntry[];
   installedRegions?: string[];
@@ -385,6 +418,7 @@ const wireStorage: PersistStorage<Persisted> = {
         questClaimedAt: wrapped.state.questClaimedAt ?? {},
         backendUserId: wrapped.state.backendUserId ?? newBackendUserId(),
         backendSecret: wrapped.state.backendSecret ?? newBackendSecret(),
+        online: { ...EMPTY_ONLINE, ...(wrapped.state.online ?? {}) },
         chatThreads: wrapped.state.chatThreads ?? {},
         conversationMemory: wrapped.state.conversationMemory ?? [],
         installedRegions: wrapped.state.installedRegions ?? [],
@@ -414,6 +448,7 @@ const wireStorage: PersistStorage<Persisted> = {
       questClaimedAt: value.state.questClaimedAt,
       backendUserId: value.state.backendUserId,
       backendSecret: value.state.backendSecret,
+      online: value.state.online,
       chatThreads: value.state.chatThreads,
       conversationMemory: value.state.conversationMemory,
       installedRegions: value.state.installedRegions,
@@ -460,6 +495,8 @@ export const useAppStore = create<AppStore>()(
       questClaimedAt: {},
       backendUserId: newBackendUserId(),
       backendSecret: newBackendSecret(),
+      online: EMPTY_ONLINE,
+      syncStatus: { phase: 'idle', done: 0, total: 0 },
       chatThreads: {},
       conversationMemory: [],
       installedRegions: [],
@@ -508,7 +545,7 @@ export const useAppStore = create<AppStore>()(
        */
       catchBug: (id, opts) =>
         set((s) => {
-          const at = Date.now();
+          const at = opts?.at ?? Date.now();
           const photoUri = opts?.photoUri;
           const event: CatchEvent = { id, at };
           if (photoUri) event.photoUri = photoUri;
@@ -644,6 +681,15 @@ export const useAppStore = create<AppStore>()(
 
       setProfile: (patch) =>
         set((s) => ({ profile: { ...s.profile, ...patch } })),
+
+      setOnline: (patch) => set((s) => ({ online: { ...s.online, ...patch } })),
+
+      markUploaded: (keys) =>
+        set((s) => ({
+          online: { ...s.online, hasData: true, uploaded: Array.from(new Set([...s.online.uploaded, ...keys])) },
+        })),
+
+      setSyncStatus: (status) => set({ syncStatus: status }),
 
       setLastPhotoUri: (uri) => set({ lastPhotoUri: uri }),
 
@@ -870,6 +916,8 @@ export const useAppStore = create<AppStore>()(
           // and a wiped install look identical to the server.
           backendUserId: newBackendUserId(),
           backendSecret: newBackendSecret(),
+          online: EMPTY_ONLINE,
+          syncStatus: { phase: 'idle', done: 0, total: 0 },
         });
       },
     }),
@@ -891,6 +939,7 @@ export const useAppStore = create<AppStore>()(
         questClaimedAt: s.questClaimedAt,
         backendUserId: s.backendUserId,
         backendSecret: s.backendSecret,
+        online: s.online,
         chatThreads: s.chatThreads,
         conversationMemory: s.conversationMemory,
         installedRegions: s.installedRegions,

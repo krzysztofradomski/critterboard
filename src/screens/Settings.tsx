@@ -14,6 +14,8 @@ import {
 import { CreditsDialog } from "@/components/CreditsDialog";
 import { PersonaPick } from "@/components/PersonaPick";
 import { SettingToggle } from "@/components/SettingToggle";
+import { SyncPanel } from "@/components/SyncPanel";
+import { useOnlineActions } from "@/backend/useOnlineActions";
 import { Sticker } from "@/components/Sticker";
 import { ensurePackIcons, removePackIcons } from "@/data/bugIcons";
 import { AVAILABLE_REGION_IDS, REGIONS, type Region, type RegionStatus } from "@/data/regions";
@@ -52,6 +54,7 @@ export function Settings() {
   const { go } = useNav();
   const persona = useAppStore((s) => s.persona);
   const profile = useAppStore((s) => s.profile);
+  const online = useOnlineActions();
   const language = useAppStore((s) => s.language);
   const setProfile = useAppStore((s) => s.setProfile);
   const setLanguage = useAppStore((s) => s.setLanguage);
@@ -333,18 +336,7 @@ export function Settings() {
                     : t("settings.networkOff")
                 }
                 value={profile.networkOn}
-                onChange={(v) =>
-                  setProfile({
-                    networkOn: v,
-                    ...(v
-                      ? {}
-                      : {
-                          leaderboardOn: false,
-                          locationShareOn: false,
-                          crashReportingOn: false,
-                        }),
-                  })
-                }
+                onChange={online.setNetwork}
               />
               <SettingToggle
                 icon="🏆"
@@ -369,7 +361,7 @@ export function Settings() {
                     : t("settings.locShareOff")
                 }
                 value={profile.locationShareOn && profile.networkOn}
-                onChange={(v) => setProfile({ locationShareOn: v })}
+                onChange={online.setLocationShare}
                 disabled={!profile.networkOn}
               />
               <SettingToggle
@@ -387,6 +379,7 @@ export function Settings() {
                 onChange={(v) => setProfile({ crashReportingOn: v })}
                 disabled={!profile.networkOn}
               />
+              <SyncPanel />
             </View>
           </View>
         </Sticker>

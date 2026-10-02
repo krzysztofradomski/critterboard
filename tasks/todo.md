@@ -650,3 +650,12 @@ Reported: seeded user data on a new install, fake people/leaderboard/credits, pa
 - [x] Dex / Quests / Ranks: whole page scrolls under the floating menus, header as a card
 - [x] Level curve 300·(L−1)^1.7 (L2 ≈ three catches)
 - [ ] Verify on device: scan gallery on a real phone, layouts, pack v10 sync
+
+## Online data controls (Oct 2026)
+- [x] Network-off no longer leaves a visible profile: prompt keep-hidden / delete
+- [x] `DELETE /v1/account`, `DELETE /v1/catches/locations`, "Delete my online data" button; wipe deletes online data first
+- [x] Location sharing off clears stored coordinates; false "public map" text removed
+- [x] Existing-catch upload (opt-in) with progress, retry outbox (`src/backend/sync.ts`), `SyncPanel`
+- [x] Server-computed XP from the species table; idempotent catch ids
+- [x] Privacy page updated (in-app deletion)
+- [ ] Verify the Brains UI + prompts on a device with Network on

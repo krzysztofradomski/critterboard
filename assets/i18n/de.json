@@ -670,7 +670,7 @@
       "boardOn": "XP und Name erscheinen global.",
       "boardNeeds": "Erfordert Netzwerkzugriff.",
       "locShareLabel": "Sichtungsorte teilen",
-      "locShareOn": "Pins erscheinen auf der öffentlichen Karte (±500m Unschärfe).",
+      "locShareOn": "Fangorte werden online gespeichert, um bis zu ~500 m verwischt.",
       "locShareOff": "Deine Karte bleibt auf diesem Gerät.",
       "crashLabel": "Absturzberichte senden",
       "crashOn": "Anonyme Diagnosen helfen uns, Bugs zu beheben.",
@@ -747,6 +747,31 @@
         "l50": "Streng",
         "l70": "Sehr streng",
         "foot": "Höher heißt weniger falsche Treffer, aber öfter „kein Treffer“."
+      },
+      "sync": {
+        "upToDate": "Alle {n} Fänge sind online",
+        "nothingYet": "Noch nichts hochgeladen",
+        "uploading": "Lade hoch {done} / {total}…",
+        "failed": "{n} Fänge konnten nicht hochgeladen werden. Sie sind sicher auf deinem Telefon.",
+        "retry": "Erneut",
+        "older": "{n} frühere Fänge sind noch nicht online.",
+        "upload": "Hochladen",
+        "notNow": "Nicht jetzt",
+        "cancel": "Abbrechen",
+        "delete": "Meine Online-Daten löschen",
+        "deleted": "Online-Daten gelöscht",
+        "deleteFailed": "Server nicht erreichbar. Versuch es, wenn du online bist.",
+        "deleteConfirmTitle": "Online-Daten löschen?",
+        "deleteConfirmBody": "Entfernt dein Profil, hochgeladene Fänge, Follows und Ranglisteneintrag von unserem Server. Dein Dex auf diesem Telefon bleibt.",
+        "offTitle": "Netzwerk ausschalten?",
+        "offBody": "Dein Profil und deine Fänge liegen noch auf unserem Server. Behalten (in Ranglisten versteckt) oder löschen?",
+        "offKeep": "Behalten, versteckt",
+        "offDelete": "Online-Daten löschen",
+        "hideFailed": "Dein Profil konnte online nicht versteckt werden. Versuch es, wenn du verbunden bist.",
+        "olderPromptTitle": "{n} frühere Fänge hochladen?",
+        "olderPromptBody": "Freunde und Ranglisten kennen nur Fänge, die bei eingeschaltetem Netzwerk entstanden. Orte werden verwischt und nur gesendet, wenn du sie teilst.",
+        "locationsCleared": "Gespeicherte Orte entfernt",
+        "locationsClearFailed": "Gespeicherte Orte konnten nicht entfernt werden. Versuch es, wenn du online bist."
       }
     },
     "regions": {
@@ -1075,7 +1100,8 @@
         "wipeDesc": "Dex, Sichtungen, Modelle, Einstellungen. Kein Zurück.",
         "wipeCta": "Löschen",
         "wipeConfirmCta": "Nochmal tippen zum Bestätigen",
-        "wipeToast": "Löschung in Warteschlange — App neu starten."
+        "wipeToast": "Löschung in Warteschlange — App neu starten.",
+        "wipeOnlineFailed": "Deine Online-Daten konnten nicht gelöscht werden, daher wurde nichts gelöscht. Verbinde dich und versuch es erneut."
       },
       "appName": "Critterboard",
       "appBuild": "v{version} · MIT-Lizenz",

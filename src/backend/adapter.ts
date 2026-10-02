@@ -67,6 +67,18 @@ export interface BackendAdapter {
   publishCatch(input: PublishCatchInput): Promise<void>;
 
   /**
+   * Upload up to 100 earlier catches. Idempotent (a catch is keyed by species + time) and
+   * silent: followers are not notified about old catches.
+   */
+  publishCatches(catches: PublishCatchInput[]): Promise<void>;
+
+  /** Remove the stored coordinates of every catch this user uploaded. */
+  clearLocations(): Promise<void>;
+
+  /** Delete this user and everything stored for them (profile, catches, follows, feed). */
+  deleteAccount(): Promise<void>;
+
+  /**
    * Fetch one page of a leaderboard scope. `'friends'` is computed
    * server-side against the caller's follow set.
    */

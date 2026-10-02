@@ -2,6 +2,7 @@ import appJson from '../../app.json';
 import React, { useState } from 'react';
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { deleteOnlineData } from '@/backend/sync';
 import { DataRow } from '@/components/DataRow';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
@@ -201,9 +202,16 @@ export function Help() {
                   // The two-tap pattern from the prototype stays — wipe
                   // is irreversible and the user must confirm. After
                   // this call the next render starts at onboarding.
-                  void wipeAll();
-                  showToast({ text: t('help.data.wipeToast'), icon: '🔥', bg: PB.red });
                   setConfirmWipe(false);
+                  void (async () => {
+                    // Online data first: once the identity is rotated there is no way to reach it again.
+                    if (useAppStore.getState().online.hasData && !(await deleteOnlineData())) {
+                      showToast({ text: t('help.data.wipeOnlineFailed'), icon: '⚠️', bg: PB.red });
+                      return;
+                    }
+                    void wipeAll();
+                    showToast({ text: t('help.data.wipeToast'), icon: '🔥', bg: PB.red });
+                  })();
                 } else {
                   setConfirmWipe(true);
                   setTimeout(() => setConfirmWipe(false), 3500);

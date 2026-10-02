@@ -169,6 +169,7 @@ export function Result() {
     const finalize = (coords?: { lat: number; lng: number }) => {
       const at = Date.now();
       catchBug(bug.id, {
+        at,
         ...(photoUri ? { photoUri } : {}),
         ...(coords ? { lat: coords.lat, lng: coords.lng } : {}),
       });

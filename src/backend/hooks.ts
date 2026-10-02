@@ -19,6 +19,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { backend, bindMockIdentity, BackendError } from '@/backend';
+import { syncCatches } from '@/backend/sync';
 import { blurCoords } from '@/lib/blurCoords';
 import type {
   FeedPage,
@@ -240,7 +241,15 @@ export function useSyncProfile(): void {
       leaderboardVisible: leaderboardOn,
       country: locationShareOn ? (region ?? undefined) : 'private',
     };
-    void backend.syncProfile(snapshot).catch(() => undefined);
+    const store = useAppStore.getState();
+    // First time online: remember when, so older catches wait for an explicit upload.
+    if (store.online.since === null) store.setOnline({ since: Date.now() });
+    void backend
+      .syncProfile(snapshot)
+      .then(() => {
+        if (!useAppStore.getState().online.hasData) useAppStore.getState().setOnline({ hasData: true });
+      })
+      .catch(() => undefined);
   }, [name, leaderboardOn, locationShareOn, networkOn, region]);
 }
 
@@ -256,7 +265,11 @@ export function usePublishCatch(): (bugId: string, at: number, lat?: number, lng
       if (!networkOn) return;
       const input =
         lat != null && lng != null ? { bugId, at, ...blurCoords(lat, lng) } : { bugId, at };
-      void backend.publishCatch(input).catch(() => undefined);
+      void backend
+        .publishCatch(input)
+        .then(() => useAppStore.getState().markUploaded([`${bugId}:${at}`]))
+        // Not lost: it stays pending in the catch log and the batch upload picks it up.
+        .catch(() => void syncCatches());
     },
     [networkOn],
   );
