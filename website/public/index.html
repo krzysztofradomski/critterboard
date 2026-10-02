@@ -703,6 +703,10 @@
         max-width: 700px;
       }
 
+      .model-dl + .model-dl {
+        border-top: 0;
+      }
+
       /* ── CITIZEN SCIENCE BANNER ── */
       .science {
         background: var(--bk);
@@ -1012,7 +1016,7 @@
       <div class="zero-card zero-card--full">
         <strong class="zero-title" data-i18n="z5_t">Addictive</strong>
         <span class="zero-desc" data-i18n="z5_d"
-          >XP, streaks, quests, and an offline map of everything you've found.</span
+          >XP, streaks, quests, an offline map of everything you've found, and optional rankings.</span
         >
       </div>
     </div>
@@ -1065,6 +1069,20 @@
           <span class="model-dl-badge">145 MB</span>
         </p>
         <p class="model-dl-body" data-i18n="dl_body">Download the Central Europe pack once, ideally at home on Wi-Fi: 88 MB for the species-recognition model and 56 MB for the offline map of Europe. After that, Critterboard works without a connection: in the woods, in a meadow, or anywhere with no signal.</p>
+      </div>
+      </div>
+    </div>
+
+    <!-- ── OPTIONAL COMPETITION CALLOUT ── -->
+    <div class="model-dl">
+      <div class="container">
+      <span class="model-dl-icon">🏆</span>
+      <div>
+        <p class="model-dl-title">
+          <span data-i18n="cp_title">Want a little competition? It's optional</span>
+          <span class="model-dl-badge" data-i18n="cp_badge">OFF BY DEFAULT</span>
+        </p>
+        <p class="model-dl-body" data-i18n="cp_body">Switch on the network and you can join the global and weekly rankings, follow friends and see what they find. There's still no account, and you can hide yourself or delete everything you've put online whenever you like. Play fully offline and nothing ever leaves your phone.</p>
       </div>
       </div>
     </div>
@@ -1145,7 +1163,7 @@
           z4_t: "Free",
           z4_d: "Open source, under the MIT license.",
           z5_t: "Addictive",
-          z5_d: "XP, streaks, quests, and an offline map of everything you've found.",
+          z5_d: "XP, streaks, quests, an offline map of everything you've found, and optional rankings.",
           ft_tag: "Free · Open source (MIT) · Coming soon",
           ft_contact: "Contact",
           ft_support: "Support",
@@ -1167,6 +1185,10 @@
           dl_title: "Download once, before you go",
           dl_body:
             "Download the AI pack for your region once, ideally at home on Wi-Fi. After that, Critterboard works without a connection: in the woods, in a meadow, or anywhere with no signal.",
+          cp_title: "Want a little competition? It's optional",
+          cp_badge: "OFF BY DEFAULT",
+          cp_body:
+            "Switch on the network and you can join the global and weekly rankings, follow friends and see what they find. There's still no account, and you can hide yourself or delete everything you've put online whenever you like. Play fully offline and nothing ever leaves your phone.",
           sci_title: "Your finds can help science",
           sci_body:
             "Export your sightings in Darwin Core, the format used by GBIF and research institutions around the world.",
@@ -1211,7 +1233,7 @@
           z4_t: "Za darmo",
           z4_d: "Otwarty kod na licencji MIT.",
           z5_t: "Wciąga",
-          z5_d: "Zbierasz XP, pilnujesz passy, robisz zadania, a każde znalezisko ląduje na mapie offline.",
+          z5_d: "Zbierasz XP, pilnujesz passy, robisz zadania, każde znalezisko ląduje na mapie offline, a jeśli chcesz, możesz się ścigać w rankingach.",
           ft_tag: "Za darmo · Open source (MIT) · Wkrótce",
           ft_contact: "Kontakt",
           ft_support: "Pomoc",
@@ -1233,6 +1255,10 @@
           dl_title: "Pobierz raz, przed wyjściem w teren",
           dl_body:
             "Pakiet Europy Środkowej pobierasz tylko raz – najlepiej w domu, przez Wi-Fi: 88 MB to model rozpoznawania gatunków, 56 MB to mapa Europy offline. Potem Critterboard działa bez internetu: w lesie, na łące i wszędzie tam, gdzie nie ma zasięgu.",
+          cp_title: "Masz ochotę na rywalizację? To opcjonalne",
+          cp_badge: "DOMYŚLNIE WYŁĄCZONE",
+          cp_body:
+            "Włącz sieć, a dołączysz do rankingu globalnego i tygodniowego, zaobserwujesz znajomych i zobaczysz, co znajdują. Nadal bez konta, a w każdej chwili możesz się ukryć albo usunąć wszystko, co trafiło online. Graj w pełni offline, a nic nie opuści twojego telefonu.",
           sci_title: "Twoje obserwacje przydadzą się naukowcom",
           sci_body:
             "Wyeksportujesz je w formacie Darwin Core – tym samym, którego używają GBIF i instytucje naukowe na całym świecie.",
@@ -1277,7 +1303,7 @@
           z4_t: "Gratis",
           z4_d: "Y de código abierto, con licencia MIT.",
           z5_t: "Engancha",
-          z5_d: "Gana XP, mantén tu racha, completa misiones y mira todo lo que has encontrado en un mapa sin conexión.",
+          z5_d: "Gana XP, mantén tu racha, completa misiones y mira todo lo que has encontrado en un mapa sin conexión y, si quieres, compite en rankings.",
           ft_tag: "Gratis · Código abierto (MIT) · Muy pronto",
           ft_contact: "Contacto",
           ft_support: "Soporte",
@@ -1299,6 +1325,10 @@
           dl_title: "Descarga el paquete antes de salir",
           dl_body:
             "Descarga el paquete de Europa Central una sola vez, mejor en casa y con wifi: 88 MB del modelo de reconocimiento de especies y 56 MB del mapa de Europa sin conexión. A partir de ahí, Critterboard funciona sin conexión: en el bosque, en el campo o donde no haya cobertura.",
+          cp_title: "¿Te apetece algo de competición? Es opcional",
+          cp_badge: "DESACTIVADO POR DEFECTO",
+          cp_body:
+            "Activa la red y podrás entrar en los rankings global y semanal, seguir a amigos y ver lo que encuentran. Sigue sin haber cuenta, y puedes ocultarte o borrar todo lo que hayas subido cuando quieras. Juega totalmente sin conexión y nada saldrá de tu teléfono.",
           sci_title: "Tus hallazgos sirven a la ciencia",
           sci_body:
             "Exporta tus observaciones en Darwin Core, el formato que usan GBIF y centros de investigación de todo el mundo.",
@@ -1343,7 +1373,7 @@
           z4_t: "Kostenlos",
           z4_d: "Und Open Source unter MIT-Lizenz.",
           z5_t: "Macht süchtig",
-          z5_d: "XP sammeln, Serie halten, Quests erledigen und alle Funde auf einer Offline-Karte sehen.",
+          z5_d: "XP sammeln, Serie halten, Quests erledigen, alle Funde auf einer Offline-Karte sehen und, wenn du magst, in Ranglisten antreten.",
           ft_tag: "Kostenlos · Open Source (MIT) · Bald verfügbar",
           ft_contact: "Kontakt",
           ft_support: "Support",
@@ -1365,6 +1395,10 @@
           dl_title: "Einmal laden, bevor du losziehst",
           dl_body:
             "Lade das Mitteleuropa-Paket einmal herunter, am besten zu Hause im WLAN: 88 MB für das Modell zur Artenerkennung und 56 MB für die Offline-Karte von Europa. Danach funktioniert Critterboard ohne Verbindung – im Wald, auf der Wiese und überall, wo es keinen Empfang gibt.",
+          cp_title: "Lust auf ein bisschen Wettbewerb? Optional",
+          cp_badge: "STANDARDMÄSSIG AUS",
+          cp_body:
+            "Schalte das Netzwerk ein, dann kannst du bei den globalen und wöchentlichen Ranglisten mitmachen, Freunden folgen und sehen, was sie finden. Es gibt weiterhin kein Konto, und du kannst dich jederzeit verstecken oder alles löschen, was du online gestellt hast. Spiel komplett offline, und nichts verlässt dein Telefon.",
           sci_title: "Deine Funde helfen der Forschung",
           sci_body:
             "Exportiere deine Beobachtungen im Darwin-Core-Format, das auch GBIF und Forschungseinrichtungen weltweit nutzen.",
