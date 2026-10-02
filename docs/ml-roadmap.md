@@ -144,7 +144,7 @@ type LlmRuntime = {
 
 > **Current state (Sep 2026):** chat runs only on **Gemma 4 E2B** (Apache 2.0) via `llama.rn`; there is no mock/scripted fallback and no web chat. See [[decisions/005-gemma-4-only-chat]]. The original plan below is kept for history where noted.
 
-Implementation: `llamaRnRuntime` in `src/ai/llm.ts` wraps [`llama.rn`](https://github.com/mybigday/llama.rn). It streams `complete(messages)` through the chat template embedded in the GGUF (`jinja: true`, thinking off). `buildMessages()` builds the prompt: the persona `systemPrompt` plus "reply in the app language" and the topic, then the last 8 turns (normalised to alternate user/assistant) and the new message. `src/ai/chatModel.ts` owns the download, load and delete.
+Implementation: `llamaRnRuntime` in `src/ai/llm.ts` wraps [`llama.rn`](https://github.com/mybigday/llama.rn). It streams `complete(messages)` through the chat template embedded in the GGUF (`jinja: true`, thinking off). `buildMessages()` builds the prompt: the persona `systemPrompt` plus "reply in the app language" and the topic, then the last 8 turns (normalised to alternate user/assistant) and the new message. `src/ai/chatModel.ts` owns the download, load, delete and eject (unload from RAM, keep the file; Chat and Settings offer "Load model" to bring it back, and the boot check does not auto-reload an ejected model).
 
 Model: `gemma-4-E2B-it-Q4_K_M.gguf` (3.1 GB download, about 3 GB RAM), from `https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF`.
 

@@ -18,6 +18,7 @@ import {
   CHAT_MODEL,
   guardedLocalLlmChatAdapter,
   initChatModel,
+  loadChatModel,
   type ChatHistoryTurn,
   type ChatModelState,
 } from '@/ai';
@@ -327,12 +328,14 @@ function ChatGate({ state, onOpenSettings }: { state: ChatModelState; onOpenSett
     state.status === 'unsupported' ? t('chat.gate.webTitle')
     : state.status === 'tooLittleRam' ? t('chat.gate.ramTitle')
     : state.status === 'downloading' ? t('chat.gate.downloadingTitle', vars)
+    : state.status === 'ejected' ? t('chat.gate.ejectedTitle', vars)
     : busy ? t('chat.gate.loadingTitle', vars)
     : t('chat.gate.title', vars);
   const body =
     state.status === 'unsupported' ? t('chat.gate.webBody', vars)
     : state.status === 'tooLittleRam' ? t('chat.gate.ramBody', vars)
     : state.status === 'error' ? t('chat.gate.errorBody', vars)
+    : state.status === 'ejected' ? t('chat.gate.ejectedBody', vars)
     : busy ? t('chat.gate.busyBody', vars)
     : t('chat.gate.body', vars);
   return (
@@ -340,6 +343,11 @@ function ChatGate({ state, onOpenSettings }: { state: ChatModelState; onOpenSett
       <Sticker bg={PB.cream} rotate={-1} style={{ padding: 16 }}>
         <Text style={styles.gateTitle}>{title}</Text>
         <Text style={styles.gateBody}>{body}</Text>
+        {state.status === 'ejected' ? (
+          <Btn full bg={PB.ink} color={PB.yellow} onPress={() => void loadChatModel()} style={{ marginTop: 12 }}>
+            {t('chat.gate.loadCta')}
+          </Btn>
+        ) : null}
         {state.status === 'absent' || state.status === 'error' ? (
           <Btn full bg={PB.ink} color={PB.yellow} onPress={onOpenSettings} style={{ marginTop: 12 }}>
             {t('chat.gate.cta')}

@@ -25,7 +25,8 @@ import {
   cachePackData, getModelPath, PACK_MANIFEST_URL, removeCachedPack,
   type PackManifest, type RegionPack,
 } from "@/data/regionPacks";
-import { CHAT_MODEL, deleteChatModel, downloadChatModel, initChatModel, type ChatModelStatus } from "@/ai";
+import { Btn } from "@/components/Btn";
+import { CHAT_MODEL, deleteChatModel, downloadChatModel, ejectChatModel, initChatModel, loadChatModel, type ChatModelStatus } from "@/ai";
 import { useChatModel } from "@/lib/useChatModel";
 import { LANG_META, type LangId } from "@/i18n";
 import { useT } from "@/i18n/helpers";
@@ -47,6 +48,7 @@ function localLlmDesc(
   if (status === 'unsupported') return t('settings.localLlmNoWeb', vars);
   if (status === 'tooLittleRam') return t('settings.localLlmTooLittleRam', vars);
   if (status === 'error') return t('settings.localLlmError', vars);
+  if (status === 'ejected') return t('settings.localLlmEjected', vars);
   if (status === 'absent' || status === 'checking') return t('settings.localLlmOff', vars);
   return t('settings.localLlmOn', vars);
 }
@@ -443,7 +445,7 @@ export function Settings() {
             label={t("settings.localLlmLabel", { model: CHAT_MODEL.name })}
             desc={localLlmDesc(modelState, t)}
             value={
-              modelState === 'downloading' || modelState === 'loading' || modelState === 'ready'
+              modelState === 'downloading' || modelState === 'loading' || modelState === 'ready' || modelState === 'ejected'
             }
             onChange={(v) => {
               if (v) {
@@ -480,6 +482,16 @@ export function Settings() {
               modelState === "unsupported" || modelState === "tooLittleRam" || modelState === "checking"
             }
           />
+          {modelState === 'ready' || modelState === 'ejected' ? (
+            <Btn
+              full
+              bg={PB.cream}
+              onPress={() => void (modelState === 'ready' ? ejectChatModel() : loadChatModel())}
+              style={{ marginTop: 10 }}
+            >
+              {t(modelState === 'ready' ? "settings.localLlmEject" : "settings.localLlmLoad")}
+            </Btn>
+          ) : null}
         </Sticker>
 
         <Sticker bg={PB.paper} style={{ padding: 0 }}>

@@ -148,4 +148,18 @@ describe('chatModel', () => {
     expect(env.files.has(PATH)).toBe(false);
     expect(m.chatModelState().status).toBe('absent');
   });
+
+  it('eject frees memory but keeps the file, init does not reload it, load brings it back', async () => {
+    env.files.add(PATH);
+    const m = await fresh();
+    await m.initChatModel();
+    await m.ejectChatModel();
+    expect(env.loaded).toBeNull();
+    expect(env.files.has(PATH)).toBe(true);
+    expect(m.chatModelState().status).toBe('ejected');
+    await m.initChatModel();
+    expect(m.chatModelState().status).toBe('ejected');
+    await m.loadChatModel();
+    expect(m.chatModelState().status).toBe('ready');
+  });
 });

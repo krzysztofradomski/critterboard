@@ -47,6 +47,7 @@ export type ChatModelStatus =
   | 'downloading'
   | 'loading'
   | 'ready'
+  | 'ejected' // file on disk, unloaded from memory by the user
   | 'error';
 
 export type ChatModelState = { status: ChatModelStatus; pct: number; fit: MemoryFit };
@@ -109,7 +110,12 @@ export async function initChatModel(): Promise<void> {
   const dir = modelsDir();
   const path = chatModelPath();
   if (!dir || !path) return;
-  if (_state.status === 'ready' || _state.status === 'loading' || _state.status === 'downloading') {
+  if (
+    _state.status === 'ready' ||
+    _state.status === 'loading' ||
+    _state.status === 'downloading' ||
+    _state.status === 'ejected' // stays out of memory until the user loads it
+  ) {
     return;
   }
   if (FIT === 'tooLittle') {
@@ -174,4 +180,18 @@ export async function deleteChatModel(): Promise<void> {
   await llamaRnRuntime.unload().catch(() => undefined);
   if (path) await FileSystem.deleteAsync(path, { idempotent: true }).catch(() => undefined);
   set({ status: idleStatus(), pct: 0 });
+}
+
+/** Free the model's ~3 GB of RAM but keep the file; `loadChatModel` brings it back. */
+export async function ejectChatModel(): Promise<void> {
+  if (_state.status !== 'ready') return;
+  await llamaRnRuntime.unload().catch(() => undefined);
+  set({ status: 'ejected', pct: 0 });
+}
+
+/** Load a downloaded model that was ejected (or failed to load). */
+export async function loadChatModel(): Promise<void> {
+  const path = chatModelPath();
+  if (!path || (_state.status !== 'ejected' && _state.status !== 'error')) return;
+  await load(path);
 }

@@ -41,6 +41,8 @@ export {
   initChatModel,
   downloadChatModel,
   deleteChatModel,
+  ejectChatModel,
+  loadChatModel,
   memoryFit,
 } from '@/ai/chatModel';
 export { withGuardrails, checkInput, redactPii } from '@/ai/guardrails';
