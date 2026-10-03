@@ -34,6 +34,7 @@ import type {
   LeaderboardScope,
   ProfileSnapshot,
   PublishCatchInput,
+  Sighting,
   UserId,
 } from '@/backend/types';
 
@@ -77,6 +78,12 @@ export interface BackendAdapter {
 
   /** Delete this user and everything stored for them (profile, catches, follows, feed). */
   deleteAccount(): Promise<void>;
+
+  /**
+   * Up to ~100 other players' shared catches nearest to a point, from the last 12 months
+   * (anonymous: species, spot, date). The point is rounded to ~1 km before it is sent.
+   */
+  fetchNearbySightings(lat: number, lng: number): Promise<Sighting[]>;
 
   /**
    * Fetch one page of a leaderboard scope. `'friends'` is computed

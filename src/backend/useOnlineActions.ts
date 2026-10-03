@@ -39,6 +39,7 @@ export function useOnlineActions() {
       leaderboardOn: false,
       locationShareOn: false,
       crashReportingOn: false,
+      sightingsOn: false,
     });
   }, []);
 
@@ -93,8 +94,10 @@ export function useOnlineActions() {
         { text: t('settings.sync.cancel'), style: 'cancel' },
         {
           text: t('settings.sync.offKeep'),
+          // Hidden means hidden: this switches location sharing off, so the stored locations go
+          // too (else the catches would stay on other players' maps). A failed clear is retried.
           onPress: () =>
-            void hideOnlineProfile().then((ok) => {
+            void Promise.all([hideOnlineProfile(), clearOnlineLocations()]).then(([ok]) => {
               if (!ok) showToast({ text: t('settings.sync.hideFailed'), icon: '⚠️', bg: PB.red });
               turnOff();
             }),
@@ -148,5 +151,24 @@ export function useOnlineActions() {
     [confirm, showToast, t],
   );
 
-  return { setNetwork, setLeaderboard, setLocationShare, confirmDelete };
+  // Both send something new when switched on, so they ask first; switching off loses nothing.
+  const setSightings = useCallback(
+    (on: boolean) => {
+      const apply = () => useAppStore.getState().setProfile({ sightingsOn: on });
+      if (on) confirm(t('settings.confirm.sightingsTitle'), t('settings.confirm.sightingsBody'), t('settings.confirm.sightingsYes'), apply);
+      else apply();
+    },
+    [confirm, t],
+  );
+
+  const setCrashReporting = useCallback(
+    (on: boolean) => {
+      const apply = () => useAppStore.getState().setProfile({ crashReportingOn: on });
+      if (on) confirm(t('settings.confirm.crashTitle'), t('settings.confirm.crashBody'), t('settings.confirm.crashYes'), apply);
+      else apply();
+    },
+    [confirm, t],
+  );
+
+  return { setNetwork, setLeaderboard, setLocationShare, setSightings, setCrashReporting, confirmDelete };
 }

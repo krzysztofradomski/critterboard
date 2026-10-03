@@ -26,6 +26,7 @@ import {
   type LeaderboardScope,
   type ProfileSnapshot,
   type PublishCatchInput,
+  type Sighting,
   type UserId,
 } from '@/backend/types';
 
@@ -193,6 +194,13 @@ export const cloudflareAdapter: BackendAdapter = {
     await authedFetch('/v1/account', { method: 'DELETE' });
     cachedToken = null; // the account is gone; the next call would register a fresh one
     adapterReady = false;
+  },
+
+  async fetchNearbySightings(lat: number, lng: number): Promise<Sighting[]> {
+    // "Nearest 100" doesn't need the exact spot: the server only ever sees it to ~1 km.
+    const params = new URLSearchParams({ lat: lat.toFixed(2), lng: lng.toFixed(2) });
+    const resp = await authedFetch(`/v1/sightings/nearby?${params}`);
+    return ((await resp.json()) as { sightings: Sighting[] }).sightings;
   },
 
   async fetchLeaderboard(scope: LeaderboardScope, opts?: PageOpts): Promise<LeaderboardPage> {

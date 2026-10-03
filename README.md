@@ -29,7 +29,7 @@ Point the camera at an insect (or pick a photo) and the phone names it. Nothing 
 - **Scan & ID:** 1,000 Central European insects and spiders, recognised on-device. Unsure results show the top candidates; anything under your confidence floor (default 33%) can't enter the Dex.
 - **Dex:** every species as a sticker icon drawn from a real photo, with habitat, size, range and diet. Uncaught species show as silhouettes.
 - **Hunt & level up:** XP per species by rarity, daily and weekly quests, badges, levels and day streaks (with freezes that cover a missed day).
-- **Offline map:** a map of Europe that works with no signal, with your catches as pins.
+- **Offline map:** a map of Europe that works with no signal, with your catches as pins, and (if you turn it on) other players' nearby sightings.
 - **Guides:** three personas (snarky Prof. Larva, calm Dr. Snail, cheerful R.A. Maywind) to chat with about what you found, run entirely on the phone by Google's Gemma 4 E2B.
 - **4 languages:** English, Polski, Deutsch, Español.
 - **Your data stays yours:** backup and restore to a file, clear scan photos, wipe everything.
@@ -48,7 +48,7 @@ The app itself is small. Species and the map come as a **region pack**, download
 
 ### Optional social (opt-in)
 
-Bug ID and chat always stay on-device. If you turn **Network** on in Brains, the app syncs **pseudonymous** activity (catches, XP, friends, leaderboard rank) to a [Cloudflare Workers](https://workers.cloudflare.com/) backend so rankings and friends work. No account, no email, no ads. Shared catch locations are exact, and turning sharing off deletes them from the server. Everything uploaded can be deleted again from the app, and with Network off nothing leaves the phone. Crash reports are a separate opt-in.
+Bug ID and chat always stay on-device. If you turn **Network** on in Brains, the app syncs **pseudonymous** activity (catches, XP, friends, leaderboard rank) to a [Cloudflare Workers](https://workers.cloudflare.com/) backend so rankings and friends work. No account, no email, no ads. Shared catches appear with their exact spot, species and date (never your name) on nearby players' maps, and turning sharing off deletes the locations from the server. Everything uploaded can be deleted again from the app, and with Network off nothing leaves the phone. Crash reports are a separate opt-in.
 
 ## Where things stand
 

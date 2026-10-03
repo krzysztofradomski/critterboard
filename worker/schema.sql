@@ -33,5 +33,7 @@ CREATE TABLE IF NOT EXISTS catches (
 );
 
 CREATE INDEX IF NOT EXISTS idx_catches_user    ON catches(user_id, at DESC);
+-- Shared sightings: nearest catches with coordinates (GET /v1/sightings/nearby).
+CREATE INDEX IF NOT EXISTS idx_catches_lat     ON catches(lat, lng) WHERE lat IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_follows_follower ON follows(follower_id);
 CREATE INDEX IF NOT EXISTS idx_follows_followee ON follows(followee_id);

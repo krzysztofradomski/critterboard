@@ -22,6 +22,7 @@ const BASE_STATE = {
     crashReportingOn: false,
     minConfidence: 33,
     hapticsOn: true,
+    sightingsOn: false,
   },
   hasOnboarded: false,
   toast: null,

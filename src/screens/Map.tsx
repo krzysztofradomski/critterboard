@@ -7,7 +7,11 @@ import { MapLocked } from "@/components/MapLocked";
 import { OfflineMap, type OfflineMapHandle } from "@/components/OfflineMap";
 import { Sticker } from "@/components/Sticker";
 import { TabBar } from "@/components/TabBar";
+import { useNearbySightings } from "@/backend/hooks";
+import type { Sighting } from "@/backend";
+import { findBug } from "@/data/bugs";
 import { bugName, useT } from "@/i18n/helpers";
+import { timeAgo } from "@/lib/timeAgo";
 import { refreshMapLocation } from "@/lib/geocode";
 import { useGeotaggedCatches } from "@/lib/useStreak";
 import { REGIONS } from "@/data/regions";
@@ -33,6 +37,9 @@ export function MapScreen() {
   const language = useAppStore((state) => state.language);
   const removeMapPin = useAppStore((state) => state.removeMapPin);
   const [selectedPin, setSelectedPin] = useState<UserPinData | null>(null);
+  const [selectedSighting, setSelectedSighting] = useState<Sighting | null>(null);
+  // Other players' shared catches near you (Brains → "Show others' sightings").
+  const sightings = useNearbySightings();
   const globeRef = useRef<OfflineMapHandle>(null);
 
   // The map belongs to the active regional pack and is off until its file is on the device.
@@ -100,6 +107,11 @@ export function MapScreen() {
         ref={globeRef}
         packUri={mapState.fileUri}
         markers={markers}
+        sightings={sightings}
+        onSightingClick={(x) => {
+          setSelectedPin(null);
+          setSelectedSighting(x);
+        }}
         initialView={initialView}
         onMarkerClick={(marker) => {
           if (marker.id === "you") {
@@ -107,7 +119,10 @@ export function MapScreen() {
             return false;
           }
           const info = meta.get(marker.id);
-          if (info) setSelectedPin(info.pin);
+          if (info) {
+            setSelectedSighting(null);
+            setSelectedPin(info.pin);
+          }
           return false;
         }}
       />
@@ -196,7 +211,33 @@ export function MapScreen() {
               </View>
             </View>
           </Sticker>
-        ) : userPins.length === 0 ? (
+        ) : selectedSighting ? (
+          // Someone else's catch: what and when, never who.
+          <Sticker bg={PB.cream} style={{ padding: 12 }}>
+            <View style={styles.cardRow}>
+              <View style={styles.cardArt}>
+                <BugIcon bug={{ id: selectedSighting.bugId, emoji: findBug(selectedSighting.bugId)?.emoji ?? "🐛" }} size={44} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.cardTitle}>{bugName(language, selectedSighting.bugId)}</Text>
+                <Text style={styles.cardWhere}>
+                  {t("map.sightingSub", { when: timeAgo(selectedSighting.at, language) })}
+                </Text>
+              </View>
+              <View style={{ gap: 6 }}>
+                <Pressable
+                  onPress={() => go("result", { id: selectedSighting.bugId })}
+                  style={styles.huntPill}
+                >
+                  <Text style={styles.huntPillText}>{t("map.viewInsect")}</Text>
+                </Pressable>
+                <Pressable onPress={() => setSelectedSighting(null)} style={styles.closePill}>
+                  <Text style={styles.closePillText}>✕</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Sticker>
+        ) : userPins.length === 0 && sightings.length === 0 ? (
           // Only when there are no pins: with pins, nothing is shown until one is tapped.
           <Sticker bg={PB.cream} style={{ padding: 12 }}>
             <View style={styles.cardRow}>

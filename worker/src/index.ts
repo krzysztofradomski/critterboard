@@ -12,6 +12,7 @@
  *   GET    /v1/leaderboard       Fetch leaderboard page (global/weekly/friends)
  *   GET    /v1/friends           Fetch friend graph page (following/followers/suggested)
  *   GET    /v1/feed              Fetch social feed from per-user Durable Object inbox
+ *   GET    /v1/sightings/nearby  Other players' shared catches nearest to ?lat&lng (anonymous)
  *   POST   /v1/follows/:userId   Follow
  *   DELETE /v1/follows/:userId   Unfollow
  *
@@ -543,6 +544,42 @@ async function handleClearLocations(userId: string, env: Env): Promise<Response>
   return noContent();
 }
 
+/**
+ * Shared sightings for the map overlay: other players' catches that still have coordinates (only
+ * people who share locations), nearest first. Species, exact spot and date only, never who: a name
+ * on a trail of exact spots would show where someone lives and walks.
+ */
+const SIGHTINGS_LIMIT = 100;
+const SIGHTINGS_MAX_AGE_MS = 365 * 24 * 3600 * 1000;
+// ponytail: a ±1° box (~110 km) around the player, no antimeridian wrap; fine for Europe, widen
+// or tile it if packs ever cover the Pacific.
+const SIGHTINGS_BOX_DEG = 1;
+
+async function handleNearbySightings(userId: string, url: URL, env: Env): Promise<Response> {
+  const lat = Number(url.searchParams.get('lat'));
+  const lng = Number(url.searchParams.get('lng'));
+  if (!url.searchParams.has('lat') || !url.searchParams.has('lng') || !Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) {
+    return json({ error: 'bad location' }, 400);
+  }
+  // A degree of longitude shrinks towards the poles: scale it so "nearest" means real distance.
+  const k = Math.max(Math.cos((lat * Math.PI) / 180), 0.01);
+  const boxLng = Math.min(180, SIGHTINGS_BOX_DEG / k);
+  const rows = await env.DB.prepare(
+    `SELECT bug_id, lat, lng, at FROM catches
+     WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? AND at >= ? AND user_id != ?
+     ORDER BY (lat - ?) * (lat - ?) + (lng - ?) * (lng - ?) * ? LIMIT ?`,
+  )
+    .bind(
+      lat - SIGHTINGS_BOX_DEG, lat + SIGHTINGS_BOX_DEG, lng - boxLng, lng + boxLng,
+      Date.now() - SIGHTINGS_MAX_AGE_MS, userId,
+      lat, lat, lng, lng, k * k, SIGHTINGS_LIMIT,
+    )
+    .all<{ bug_id: string; lat: number; lng: number; at: number }>();
+  return json({
+    sightings: rows.results.map((r) => ({ bugId: r.bug_id, lat: r.lat, lng: r.lng, at: r.at })),
+  });
+}
+
 async function handleDeleteAccount(userId: string, env: Env): Promise<Response> {
   // Feed events naming this user sit in their followers' inboxes (catches) and in the inboxes of
   // the people they followed ("followed you"): scrub both first, while we still know who they are.
@@ -872,6 +909,7 @@ async function routeRequest(request: Request, env: Env): Promise<Response> {
   if (method === 'GET'  && path === '/v1/leaderboard') return handleLeaderboard(userId, url, env);
   if (method === 'GET'  && path === '/v1/friends')    return handleFriends(userId, url, env);
   if (method === 'GET'  && path === '/v1/feed')       return handleFeed(userId, url, env);
+  if (method === 'GET'  && path === '/v1/sightings/nearby') return handleNearbySightings(userId, url, env);
 
   const followMatch = /^\/v1\/follows\/([a-zA-Z0-9_-]{1,128})$/.exec(path);
   if (followMatch) {

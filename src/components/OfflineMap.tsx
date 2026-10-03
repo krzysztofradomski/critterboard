@@ -13,14 +13,17 @@ import {
 import { cachedPmtilesInfo, readPmtilesInfo, type PackInfo } from "@/map/mapPack";
 import { buildStickerStyle, toPmtilesUrl, NODATA_PATTERN, POI_ICONS, WATER_PATTERN } from "@/map/stickerStyle";
 import { altitudeToZoom, minZoomForBounds, type MapInitialView, type Marker } from "@/screens/mapGeo";
+import type { Sighting } from "@/backend";
 import { PB } from "@/tokens/pb";
 
 const CATCH_PIN = "catch-pin";
+const SIGHTING_PIN = "sighting-pin";
 
 // Module-level so `<Images>` gets a stable object across renders.
 const MAP_IMAGES = {
   // Drawn by tools/map/gen_pixel_icons.py: a pixel bug on a sticker disc.
   [CATCH_PIN]: require("../../assets/map/pin-catch.png"),
+  [SIGHTING_PIN]: require("../../assets/map/pin-sighting.png"),
   [WATER_PATTERN]: require("../../assets/map/water-wave.png"),
   [NODATA_PATTERN]: require("../../assets/map/nodata.png"),
   [POI_ICONS.tree]: require("../../assets/map/poi-tree.png"),
@@ -45,14 +48,22 @@ type Props = {
   markers: Marker[];
   initialView: MapInitialView;
   onMarkerClick?: (marker: Marker) => boolean | void;
+  /** Other players' shared catches (anonymous), drawn under your own pins. */
+  sightings?: Sighting[];
+  onSightingClick?: (sighting: Sighting) => void;
 };
+
+type PinKind = "you" | "pin" | "sighting";
+// A tap hits everything within ~22 pt, so it opens the pin closest to the finger; this order only
+// breaks exact ties (your catch drawn right on the "you" dot): your catch, a sighting, then "you".
+const TAP_ORDER: PinKind[] = ["pin", "sighting", "you"];
 
 /**
  * Offline 2D map: MapLibre Native rendering a local PMTiles pack with the
  * sticker style.
  */
 export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
-  function OfflineMap({ packUri, markers, initialView, onMarkerClick }, ref) {
+  function OfflineMap({ packUri, markers, initialView, onMarkerClick, sightings = [], onSightingClick }, ref) {
     const cameraRef = useRef<CameraRef>(null);
     const tilesUrl = useMemo(() => toPmtilesUrl(packUri), [packUri]);
     const mapRef = useRef<MapRef>(null);
@@ -75,14 +86,20 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
     const markerData = useMemo<GeoJSON.FeatureCollection>(
       () => ({
         type: "FeatureCollection",
-        features: markers.map((m) => ({
-          type: "Feature",
-          id: m.id,
-          properties: { id: m.id, you: m.id === "you" },
-          geometry: { type: "Point", coordinates: [m.lng, m.lat] },
-        })),
+        features: [
+          ...markers.map((m) => ({
+            type: "Feature" as const,
+            properties: { id: m.id, kind: (m.id === "you" ? "you" : "pin") as PinKind },
+            geometry: { type: "Point" as const, coordinates: [m.lng, m.lat] },
+          })),
+          ...sightings.map((x, i) => ({
+            type: "Feature" as const,
+            properties: { id: `sighting:${i}`, kind: "sighting" as PinKind },
+            geometry: { type: "Point" as const, coordinates: [x.lng, x.lat] },
+          })),
+        ],
       }),
-      [markers],
+      [markers, sightings],
     );
 
 
@@ -145,19 +162,42 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
             data={markerData}
             onPress={(e) => {
               e.stopPropagation();
-              // A tap can hit "you" and a pin at once: the pin wins.
-              const { features } = e.nativeEvent;
-              const hit = features.find((f) => !f.properties?.you) ?? features[0];
-              const id = hit?.properties?.id;
+              const { features, lngLat } = e.nativeEvent;
+              const kindOf = (f: GeoJSON.Feature) => f.properties?.kind as PinKind;
+              const dist = (f: GeoJSON.Feature) => {
+                const [lng, lat] = (f.geometry as GeoJSON.Point).coordinates as [number, number];
+                const k = Math.cos((lat * Math.PI) / 180);
+                return (lat - lngLat[1]) ** 2 + ((lng - lngLat[0]) * k) ** 2;
+              };
+              const hit = [...features].sort(
+                (a, b) => dist(a) - dist(b) || TAP_ORDER.indexOf(kindOf(a)) - TAP_ORDER.indexOf(kindOf(b)),
+              )[0];
+              const id = String(hit?.properties?.id ?? "");
+              if (hit && kindOf(hit) === "sighting") {
+                const x = sightings[Number(id.slice("sighting:".length))];
+                if (x) onSightingClick?.(x);
+                return;
+              }
               const marker = markers.find((m) => m.id === id);
               if (marker) onMarkerClick?.(marker);
             }}
           >
-            {/* "You" first, so a catch at your spot is drawn on top and stays tappable. */}
+            {/* Bottom to top: others' sightings, "you", your own catches (drawn on top, tappable). */}
+            <Layer
+              id="sightings"
+              type="symbol"
+              filter={["==", ["get", "kind"], "sighting"]}
+              layout={{
+                "icon-image": SIGHTING_PIN,
+                "icon-size": 0.85,
+                "icon-allow-overlap": true,
+                "icon-ignore-placement": true,
+              }}
+            />
             <Layer
               id="you"
               type="circle"
-              filter={["get", "you"]}
+              filter={["==", ["get", "kind"], "you"]}
               paint={{
                 "circle-radius": 6, // + 3 px ring = the old 18 px dot
                 "circle-color": PB.red,
@@ -168,7 +208,7 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
             <Layer
               id="catch-pins"
               type="symbol"
-              filter={["!", ["get", "you"]]}
+              filter={["==", ["get", "kind"], "pin"]}
               layout={{
                 "icon-image": CATCH_PIN,
                 // Pins never hide each other or the map's POI icons.

@@ -99,6 +99,22 @@ try {
   const benFeed = await call('GET', '/v1/feed', ben.token);
   assert.equal(benFeed.body.events.filter((e) => e.kind === 'follow' && e.actor.userId === ann.id).length, 1);
 
+  // Shared sightings: other players' located catches near a point, nearest first, without user ids.
+  // Own, unlocated, older than a year and far-away catches never show; cleared locations vanish.
+  const near = (who, lat = 50.06, lng = 19.94) => call('GET', `/v1/sightings/nearby?lat=${lat}&lng=${lng}`, who.token);
+  await call('POST', '/v1/catches', ann.token, { bugId: 'aglais-io', at: NOW - 10, lat: 50.07, lng: 19.95 });
+  await call('POST', '/v1/catches', ann.token, { bugId: 'adalia-bipunctata', at: NOW - 11, lat: 50.5, lng: 19.94 });
+  await call('POST', '/v1/catches/batch', ann.token, { catches: [{ bugId: 'aglais-io', at: NOW - 400 * 86_400_000, lat: 50.06, lng: 19.94 }] });
+  await call('POST', '/v1/catches', ann.token, { bugId: 'aglais-io', at: NOW - 12, lat: 52.23, lng: 21.0 }); // Warsaw: outside the box
+  await call('POST', '/v1/catches', ben.token, { bugId: 'aglais-io', at: NOW - 13, lat: 50.06, lng: 19.94 }); // Ben's own
+  const forBen = await near(ben);
+  assert.equal(forBen.status, 200);
+  assert.deepEqual(forBen.body.sightings.map((x) => x.lat), [50.07, 50.5], 'nearest first; own, old and far ones absent');
+  assert.ok(forBen.body.sightings.every((x) => Object.keys(x).sort().join() === 'at,bugId,lat,lng'), 'anonymous');
+  assert.equal((await near(ben, 'x', 1)).status, 400, 'bad location');
+  assert.equal((await call('DELETE', '/v1/catches/locations', ann.token)).status, 204);
+  assert.equal((await near(ben)).body.sightings.length, 0, 'cleared locations are gone');
+
   // 5: deleting Ann also scrubs Ann's "followed you" from Ben (someone she followed).
   assert.equal((await call('DELETE', '/v1/account', ann.token)).status, 204);
   const benAfter = await call('GET', '/v1/feed', ben.token);

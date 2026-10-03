@@ -10,6 +10,21 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 > Local runbook for everything below: [[docs/handoff]].
 
+## Now — Shared sightings overlay (2026-10-03)
+
+Decided: exact locations (blurring could put a bug in a neighbour's garden), anonymous sightings (species + date, no name), last 12 months, ~100 nearest.
+
+- [x] Worker: `GET /v1/sightings/nearby?lat&lng` → ≤100 nearest catches by other players with stored coordinates, last 365 days, no user ids; index on catches(lat, lng); smoke test
+- [x] App: `fetchNearbySightings` in the adapter (Cloudflare + mock returning none); viewer position rounded to ~1 km
+- [x] App: `profile.sightingsOn` toggle in Brains (off by default, needs Network); 4 languages
+- [x] Map: second pin layer for others' sightings, tap → card (species, when, View insect); fetched on Map visits, cached ~10 min
+- [x] Network off with "Keep, hidden" also clears stored locations (it switches sharing off, so they must not stay visible)
+- [x] Texts: locShare strings say catches appear anonymously on nearby players' maps; name hint no longer promises "shared sightings"; privacy + support pages (4 languages); docs
+- [ ] Deploy: `cd worker && npx wrangler d1 execute critterboard --remote --command "CREATE INDEX IF NOT EXISTS idx_catches_lat ON catches(lat, lng) WHERE lat IS NOT NULL;"`, then `npx wrangler deploy`; redeploy the website (privacy + support pages)
+
+- [x] Prompts when switching on "Show others' sightings" (sends your ~1 km location) and crash reports (what goes to Sentry); switching off never asks, nothing is lost (4 languages)
+- [x] Also: Result adds to the Dex only after a scan (has a confidence); from a sighting or a region sample an uncaught species shows "Hunt →" (region samples could be "caught" by tapping before)
+
 ## Now — UI performance (review 2026-10-02)
 
 - [x] 1 Persist: coalesced store write (≤1 per 500 ms, in order, flushed when the app leaves the foreground); no writes before hydration

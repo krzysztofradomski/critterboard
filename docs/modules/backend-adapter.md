@@ -148,10 +148,16 @@ Nothing reaches the server until Network is on. What does, and the ways out:
 |---|---|---|
 | Profile (name, region label, ranking visibility) | any change while Network is on | "Delete my online data", or Network off → "Keep, hidden" / "Delete" |
 | Catches (species + time) | right after a catch; failures are retried in batches | same |
-| Catch coordinates, exact (blurring to ~500 m was dropped on 2026-10-03: the server never shows them to other users yet; revisit before any shared sightings map) | only with "Share spotting locations" on | switching that off calls `DELETE /v1/catches/locations` |
+| Catch coordinates, exact | only with "Share spotting locations" on | switching that off, or Network off → "Keep, hidden", calls `DELETE /v1/catches/locations` |
 | Everything | | `DELETE /v1/account` removes user, catches, follows, the user's feed, and their events in the feeds of followers and of the people they followed |
 
-Coordinates are snapped to a grid rather than offset at random: random offsets average out over many catches from the same garden, a cell centre doesn't.
+### Shared sightings
+
+Shared coordinates feed one thing: the **sightings overlay** on other players' maps (Brains → "Show others' sightings", off by default, needs Network). `GET /v1/sightings/nearby?lat&lng` returns up to 100 catches by *other* players that still have coordinates, from the last 12 months, nearest first, within a ±1° box. Each is `{ bugId, lat, lng, at }`, **no user id or name**: with exact spots, a name on a trail of sightings would show where someone lives and walks; without it a pin only says "a peacock was seen here". The viewer's position is rounded to ~1 km (`toFixed(2)`) before it is sent and isn't stored. The app caches the answer per spot for 10 minutes (`useNearbySightings`) and drops species its pack doesn't know.
+
+Exact, not blurred (decided 2026-10-03): a blurred pin is useless for finding the bug and can put it in a neighbour's garden instead.
+
+Opening a sighting's species shows its card with **"Hunt →"**, not "Add to Dex": only a scan (which always carries a confidence) can add a species.
 
 A hide (Network off → "Keep, hidden") or a location removal that fails because the phone is offline is not dropped: `online.hideOwed` / `online.clearLocationsOwed` record it and `settleOwedCleanups` retries at every launch, even with Network off, since it only removes data. An owed hide is cleared once Network is back on and the real profile reaches the server.
 
@@ -168,6 +174,7 @@ What the Worker enforces, whatever a client sends. `worker/smoke.mjs` (`cd worke
 - **Suggestions** list visible users only, with no `reason` (popularity isn't one the app can name).
 - **Profile fields are bounded** (name 32, emoji 16, region 64 characters; visibility must be a boolean). A rejected name (empty, too long, blocked word) keeps the old one and answers `422`, but visibility and region still apply, so hiding always works.
 - **Catches**: well-formed species id, a time between 2020 and a day ahead, coordinates only as a valid pair. Same check for single and batch uploads.
+- **Sightings** never include the caller's own catches, anything without coordinates (cleared or never shared), or anything older than a year, and carry no user id. Index: `idx_catches_lat` (partial, `lat IS NOT NULL`).
 - **Follows**: the target must exist (`404` otherwise); only a new follow notifies, and an inbox keeps one "followed you" per person, so follow/unfollow cycling can't flood it.
 - **Errors** answer JSON with CORS headers: bad JSON is `400`, anything unexpected `500`.
 

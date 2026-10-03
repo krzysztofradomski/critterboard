@@ -300,14 +300,20 @@ export function Result() {
         </Pressable>
 
         <View style={{ marginTop: 14 }}>
+          {/* Only a scan (which always has a confidence) can add a species. Opened from a
+              sighting, a region sample or the like, an uncaught species is something to hunt. */}
           <Btn
             full
             bg={alreadyCaught ? PB.cream : PB.ink}
             color={alreadyCaught ? PB.ink : PB.yellow}
             size="lg"
-            onPress={onAdd}
+            onPress={alreadyCaught || conf !== undefined ? onAdd : () => go('scan', { hint: bug.id })}
           >
-            {alreadyCaught ? t('result.alreadyInDex') : t('result.addToDex')}
+            {alreadyCaught
+              ? t('result.alreadyInDex')
+              : conf !== undefined
+                ? t('result.addToDex')
+                : t('home.hunt')}
           </Btn>
         </View>
       </ScrollView>

@@ -42,6 +42,8 @@ export type Profile = {
   minConfidence: number;
   /** Vibration feedback on toggles, tabs and key actions. */
   hapticsOn: boolean;
+  /** Show other players' shared sightings on the map (needs Network). Off on first run. */
+  sightingsOn: boolean;
 };
 
 export const DEFAULT_MIN_CONFIDENCE = 33;
@@ -408,10 +410,11 @@ type PersistedWire = {
   // `crashReportingOn` was added after the first ship, so legacy blobs
   // won't have it. `localLlmOn` existed until chat became Gemma-only (the
   // model file on disk now decides); older blobs may still carry it.
-  profile: Omit<Profile, 'crashReportingOn' | 'minConfidence' | 'hapticsOn'> & {
+  profile: Omit<Profile, 'crashReportingOn' | 'minConfidence' | 'hapticsOn' | 'sightingsOn'> & {
     crashReportingOn?: boolean;
     minConfidence?: number;
     hapticsOn?: boolean;
+    sightingsOn?: boolean;
     localLlmOn?: boolean;
   };
   hasOnboarded?: boolean;
@@ -535,7 +538,7 @@ const wireStorage: PersistStorage<Persisted> = {
         // flag existed. Defaulting to false keeps the opt-in invariant
         // intact — upgrading the app should never start sending crash
         // reports without an explicit user action.
-        profile: (({ localLlmOn: _retired, ...p }) => ({ crashReportingOn: false, minConfidence: DEFAULT_MIN_CONFIDENCE, hapticsOn: true, ...p }))(
+        profile: (({ localLlmOn: _retired, ...p }) => ({ crashReportingOn: false, minConfidence: DEFAULT_MIN_CONFIDENCE, hapticsOn: true, sightingsOn: false, ...p }))(
           wrapped.state.profile,
         ),
         hasOnboarded: Boolean(wrapped.state.hasOnboarded),
@@ -591,6 +594,7 @@ export const useAppStore = create<AppStore>()(
         crashReportingOn: false,
         minConfidence: DEFAULT_MIN_CONFIDENCE,
         hapticsOn: true,
+        sightingsOn: false,
       },
       hasOnboarded: false,
       toast: null,
@@ -1011,6 +1015,7 @@ export const useAppStore = create<AppStore>()(
             crashReportingOn: false,
             minConfidence: DEFAULT_MIN_CONFIDENCE,
             hapticsOn: true,
+            sightingsOn: false,
           },
           hasOnboarded: false,
           toast: null,

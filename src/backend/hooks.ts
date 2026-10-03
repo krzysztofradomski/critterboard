@@ -29,7 +29,9 @@ import type {
   PageOpts,
   ProfileSnapshot,
   UserId,
+  Sighting,
 } from '@/backend';
+import { findBug } from '@/data/bugs';
 import { useAppStore } from '@/store/useAppStore';
 import { useXp } from '@/lib/level';
 
@@ -290,4 +292,50 @@ export function usePageOpts(opts: PageOpts): PageOpts {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [opts.cursor, opts.limit],
   );
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Shared sightings (Map overlay)
+// ──────────────────────────────────────────────────────────────────────────
+
+const SIGHTINGS_TTL_MS = 10 * 60_000;
+// Last answer, per ~1 km spot: coming back to the Map within 10 minutes doesn't ask again.
+let sightingsCache: { key: string; at: number; data: Sighting[] } | null = null;
+
+/**
+ * Other players' shared catches near the player, when "Show others' sightings" and Network are on
+ * and the player's location is known. Empty otherwise, or when the request fails (it's an extra).
+ */
+export function useNearbySightings(): Sighting[] {
+  const on = useAppStore((s) => s.profile.networkOn && s.profile.sightingsOn);
+  const loc = useAppStore((s) => s.mapLocation);
+  const key = loc ? `${loc.lat.toFixed(2)},${loc.lng.toFixed(2)}` : null;
+  const [data, setData] = useState<Sighting[]>(() =>
+    sightingsCache && sightingsCache.key === key ? sightingsCache.data : [],
+  );
+
+  useEffect(() => {
+    if (!on || !loc || !key) return;
+    if (sightingsCache?.key === key && Date.now() - sightingsCache.at < SIGHTINGS_TTL_MS) {
+      setData(sightingsCache.data);
+      return;
+    }
+    let cancelled = false;
+    backend
+      .fetchNearbySightings(loc.lat, loc.lng)
+      .then((all) => {
+        // Only species this phone knows (another player may have a different pack).
+        const next = all.filter((x) => findBug(x.bugId));
+        sightingsCache = { key, at: Date.now(), data: next };
+        if (!cancelled) setData(next);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+    // `key` stands for `loc` (rounded): a GPS wobble under ~1 km doesn't refetch.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [on, key]);
+
+  return on ? data : [];
 }

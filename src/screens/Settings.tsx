@@ -359,6 +359,21 @@ export function Settings() {
                 disabled={!profile.networkOn}
               />
               <SettingToggle
+                icon="🦋"
+                color={PB.green}
+                label={t("settings.sightingsLabel")}
+                desc={
+                  !profile.networkOn
+                    ? t("settings.boardNeeds")
+                    : profile.sightingsOn
+                      ? t("settings.sightingsOn")
+                      : t("settings.sightingsOff")
+                }
+                value={profile.sightingsOn && profile.networkOn}
+                onChange={online.setSightings}
+                disabled={!profile.networkOn}
+              />
+              <SettingToggle
                 icon="🛟"
                 color={PB.red}
                 label={t("settings.crashLabel")}
@@ -370,7 +385,7 @@ export function Settings() {
                       : t("settings.crashOff")
                 }
                 value={profile.crashReportingOn && profile.networkOn}
-                onChange={(v) => setProfile({ crashReportingOn: v })}
+                onChange={online.setCrashReporting}
                 disabled={!profile.networkOn}
               />
               <SyncPanel />
