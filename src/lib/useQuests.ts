@@ -9,7 +9,7 @@ import {
   type Quest,
 } from "@/data/quests";
 import { claimStateOf, type ClaimState } from "@/lib/quests";
-import { currentStreak } from "@/lib/streak";
+import { currentStreak, todayKey } from "@/lib/streak";
 import { useAppStore } from "@/store/useAppStore";
 
 export type { ClaimState };
@@ -49,6 +49,7 @@ export function useClaimState(quest: Quest): ClaimState {
 export function useQuests(): Quest[] {
   const questProgress = useAppStore((s) => s.questProgress);
   const catchLog = useAppStore((s) => s.catchLog);
+  const today = todayKey();
   return useMemo(() => {
     const streak = currentStreak(catchLog);
     return QUESTS.map((q) => {
@@ -56,5 +57,6 @@ export function useQuests(): Quest[] {
       if (QUEST_RULES[q.id]?.kind === "streak") progress = streak;
       return { ...q, progress: Math.min(q.total, progress) };
     });
-  }, [questProgress, catchLog]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questProgress, catchLog, today]);
 }

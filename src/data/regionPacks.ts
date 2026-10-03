@@ -47,19 +47,47 @@ export function getModelPath(documentDirectory: string, regionId: string): strin
   return `${documentDirectory}models/packs/${regionId}.pte`;
 }
 
+// A pack's JSON (~0.7 MB for eu-ce, all species and names) lives in a file. It used to be one
+// AsyncStorage value, which Android can't read back past ~2 MB; that copy is moved on first read.
+// Platforms without a document directory (web) keep using AsyncStorage.
+function packFile(id: string): string | null {
+  const dir = FileSystem.documentDirectory;
+  return dir ? `${dir}packs/${id}.json` : null;
+}
+
 async function readCached(id: string): Promise<RegionPack | null> {
   try {
+    const file = packFile(id);
+    if (file && (await FileSystem.getInfoAsync(file)).exists) {
+      return JSON.parse(await FileSystem.readAsStringAsync(file)) as RegionPack;
+    }
     const raw = await AsyncStorage.getItem(STORAGE_PREFIX + id);
     if (!raw) return null;
-    return JSON.parse(raw) as RegionPack;
+    const pack = JSON.parse(raw) as RegionPack;
+    if (file) {
+      await writePackFile(file, raw);
+      await AsyncStorage.removeItem(STORAGE_PREFIX + id);
+    }
+    return pack;
   } catch {
     return null;
   }
 }
 
+async function writePackFile(file: string, json: string): Promise<void> {
+  await FileSystem.makeDirectoryAsync(file.slice(0, file.lastIndexOf('/') + 1), { intermediates: true });
+  // Write aside and move, so a crash mid-write never leaves half a pack where a whole one was.
+  await FileSystem.writeAsStringAsync(`${file}.part`, json);
+  await FileSystem.deleteAsync(file, { idempotent: true });
+  await FileSystem.moveAsync({ from: `${file}.part`, to: file });
+}
+
 export async function cachePackData(pack: RegionPack): Promise<void> {
   try {
-    await AsyncStorage.setItem(STORAGE_PREFIX + pack.id, JSON.stringify(pack));
+    const json = JSON.stringify(pack);
+    const file = packFile(pack.id);
+    if (file) await writePackFile(file, json);
+    else await AsyncStorage.setItem(STORAGE_PREFIX + pack.id, json);
     _packs.set(pack.id, pack);
     mergeBugs(pack.bugs);
   } catch {
@@ -69,6 +97,8 @@ export async function cachePackData(pack: RegionPack): Promise<void> {
 
 export async function removeCachedPack(id: string): Promise<void> {
   try {
+    const file = packFile(id);
+    if (file) await FileSystem.deleteAsync(file, { idempotent: true });
     await AsyncStorage.removeItem(STORAGE_PREFIX + id);
     _packs.delete(id);
   } catch {

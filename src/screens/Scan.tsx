@@ -71,25 +71,29 @@ export function Scan() {
   const pulse = useRef(new Animated.Value(1)).current;
   const reticleRotate = useRef(new Animated.Value(0)).current;
 
+  // Loops run until stopped, also after the screen is gone: stop them on unmount.
   useEffect(() => {
-    Animated.loop(
+    const loop = Animated.loop(
       Animated.sequence([
         Animated.timing(pulse, { toValue: 0.35, duration: 500, useNativeDriver: true }),
         Animated.timing(pulse, { toValue: 1, duration: 500, useNativeDriver: true }),
       ]),
-    ).start();
+    );
+    loop.start();
+    return () => loop.stop();
   }, [pulse]);
 
   useEffect(() => {
-    if (phase === 'analyzing') {
-      Animated.loop(
-        Animated.timing(reticleRotate, {
-          toValue: 1,
-          duration: 3000,
-          useNativeDriver: true,
-        }),
-      ).start();
-    }
+    if (phase !== 'analyzing') return;
+    const loop = Animated.loop(
+      Animated.timing(reticleRotate, {
+        toValue: 1,
+        duration: 3000,
+        useNativeDriver: true,
+      }),
+    );
+    loop.start();
+    return () => loop.stop();
   }, [phase, reticleRotate]);
 
   /**

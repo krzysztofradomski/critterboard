@@ -69,11 +69,21 @@ const _registry = new Map<string, Bug>(BUGS.map((b) => [b.id, b]));
 // Snapshot for list UIs (Dex): bundled species first, then pack species in
 // pack order. Replaced (not mutated) on every merge so React can compare it.
 let _all: readonly Bug[] = BUGS;
+// latin → species. A scan maps every one of the model's ~1,000 labels, so a linear search here
+// was ~1M string compares per photo. First in registry order wins, like the old search.
+let _byLatin = latinIndex(_all);
 const _listeners = new Set<() => void>();
+
+function latinIndex(bugs: readonly Bug[]): Map<string, Bug> {
+  const out = new Map<string, Bug>();
+  for (const b of bugs) if (!out.has(b.latin)) out.set(b.latin, b);
+  return out;
+}
 
 export function mergeBugs(bugs: Bug[]): void {
   for (const b of bugs) _registry.set(b.id, b);
   _all = Array.from(_registry.values());
+  _byLatin = latinIndex(_all);
   for (const l of _listeners) l();
 }
 
@@ -96,6 +106,5 @@ export function findBug(id: string): Bug | undefined {
 
 /** Look a species up by its latin name (bundled + installed pack species). */
 export function findBugByLatin(latin: string): Bug | undefined {
-  for (const b of _registry.values()) if (b.latin === latin) return b;
-  return undefined;
+  return _byLatin.get(latin);
 }

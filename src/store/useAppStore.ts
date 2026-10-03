@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createContext, useContext } from 'react';
 import { getRandomBytes, randomUUID } from 'expo-crypto';
 import * as FileSystem from 'expo-file-system';
 import { create } from 'zustand';
@@ -229,6 +230,11 @@ type State = {
   online: OnlineState;
   /** Live upload progress (not persisted). */
   syncStatus: SyncStatus;
+  /**
+   * True once the saved state has been read (or failed to read) at launch. Not persisted.
+   * The Router renders nothing before, so returning users never see onboarding flash by.
+   */
+  hydrated: boolean;
   /** Persisted chat transcripts keyed by `persona::topic`. */
   chatThreads: Record<string, ChatThread>;
   /** Searchable conversation index for cross-thread memory retrieval. */
@@ -427,6 +433,92 @@ type PersistedWire = {
   installedPackVersions?: Record<string, number>;
 };
 
+/**
+ * Coalesce bursts of writes: the first `schedule` opens a `delayMs` window, later calls inside it
+ * only replace the value, and the window's end writes the latest one. Writes run one at a time,
+ * in order, so a slow write can never land after a newer one.
+ */
+export function createCoalescedWriter<T>(write: (value: T) => Promise<void>, delayMs: number) {
+  let pending: { value: T } | null = null;
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  let chain: Promise<void> = Promise.resolve();
+  const flush = (): Promise<void> => {
+    if (timer) clearTimeout(timer);
+    timer = null;
+    if (pending) {
+      const { value } = pending;
+      pending = null;
+      chain = chain
+        .then(() => write(value))
+        .catch((e) => {
+          if (__DEV__) console.warn('[persist] write failed', e);
+        });
+    }
+    return chain;
+  };
+  return {
+    schedule(value: T) {
+      pending = { value };
+      timer ??= setTimeout(flush, delayMs);
+    },
+    flush,
+    cancel() {
+      if (timer) clearTimeout(timer);
+      timer = null;
+      pending = null;
+    },
+  };
+}
+
+async function writeWire(name: string, value: StorageValue<Persisted>): Promise<void> {
+  const wire: PersistedWire = {
+    dex: Array.from(value.state.dex),
+    followed: Array.from(value.state.followed),
+    persona: value.state.persona,
+    language: value.state.language,
+    profile: value.state.profile,
+    hasOnboarded: value.state.hasOnboarded,
+    catchLog: value.state.catchLog,
+    activityLog: value.state.activityLog,
+    mapLocation: value.state.mapLocation,
+    questProgress: value.state.questProgress,
+    questCompletedAt: value.state.questCompletedAt,
+    questClaimedAt: value.state.questClaimedAt,
+    backendUserId: value.state.backendUserId,
+    backendSecret: value.state.backendSecret,
+    online: value.state.online,
+    chatThreads: value.state.chatThreads,
+    conversationMemory: value.state.conversationMemory,
+    installedRegions: value.state.installedRegions,
+    activeRegion: value.state.activeRegion,
+    activeLabelMap: value.state.activeLabelMap,
+    installedPackVersions: value.state.installedPackVersions,
+  };
+  await AsyncStorage.setItem(name, JSON.stringify({ state: wire, version: value.version ?? 0 }));
+}
+
+/**
+ * zustand's persist writes after *every* `set` (each nav tap, toast, chat token), and the blob
+ * holds every chat thread and the memory index (~0.5 MB for an active user). Writing at most
+ * every 500 ms keeps that off the JS thread; App flushes it when the app leaves the foreground.
+ */
+const PERSIST_WINDOW_MS = 500;
+const persistWriter = createCoalescedWriter(
+  ({ name, value }: { name: string; value: StorageValue<Persisted> }) => writeWire(name, value),
+  PERSIST_WINDOW_MS,
+);
+
+/** Write any pending store change now (call when the app goes to the background). */
+export function flushPersistedState(): Promise<void> {
+  return persistWriter.flush();
+}
+
+/**
+ * Hydration replaces state with a raw `set` (no write), so a write scheduled before it finished
+ * (e.g. the launch-time language seed) would save first-run defaults over the user's data.
+ */
+let rehydrated = false;
+
 const wireStorage: PersistStorage<Persisted> = {
   async getItem(name) {
     const raw = await AsyncStorage.getItem(name);
@@ -468,33 +560,12 @@ const wireStorage: PersistStorage<Persisted> = {
     };
     return value;
   },
-  async setItem(name, value) {
-    const wire: PersistedWire = {
-      dex: Array.from(value.state.dex),
-      followed: Array.from(value.state.followed),
-      persona: value.state.persona,
-      language: value.state.language,
-      profile: value.state.profile,
-      hasOnboarded: value.state.hasOnboarded,
-      catchLog: value.state.catchLog,
-      activityLog: value.state.activityLog,
-      mapLocation: value.state.mapLocation,
-      questProgress: value.state.questProgress,
-      questCompletedAt: value.state.questCompletedAt,
-      questClaimedAt: value.state.questClaimedAt,
-      backendUserId: value.state.backendUserId,
-      backendSecret: value.state.backendSecret,
-      online: value.state.online,
-      chatThreads: value.state.chatThreads,
-      conversationMemory: value.state.conversationMemory,
-      installedRegions: value.state.installedRegions,
-      activeRegion: value.state.activeRegion,
-      activeLabelMap: value.state.activeLabelMap,
-      installedPackVersions: value.state.installedPackVersions,
-    };
-    await AsyncStorage.setItem(name, JSON.stringify({ state: wire, version: value.version ?? 0 }));
+  setItem(name, value) {
+    if (!rehydrated) return;
+    persistWriter.schedule({ name, value });
   },
   async removeItem(name) {
+    persistWriter.cancel();
     await AsyncStorage.removeItem(name);
   },
 };
@@ -534,6 +605,7 @@ export const useAppStore = create<AppStore>()(
       backendSecret: newBackendSecret(),
       online: EMPTY_ONLINE,
       syncStatus: { phase: 'idle', done: 0, total: 0 },
+      hydrated: false,
       chatThreads: {},
       conversationMemory: [],
       installedRegions: [],
@@ -918,6 +990,8 @@ export const useAppStore = create<AppStore>()(
           clearTimeout(toastTimer);
           toastTimer = null;
         }
+        // Drop a not-yet-written save of the old data before deleting it.
+        persistWriter.cancel();
         await AsyncStorage.removeItem('critterboard:v1');
         // Reset every persisted slice back to a brand-new install.
         set({
@@ -992,17 +1066,26 @@ export const useAppStore = create<AppStore>()(
        * stack is intentionally NOT persisted.
        */
       onRehydrateStorage: () => (state) => {
-        if (state?.hasOnboarded) {
-          state.stack = [{ name: 'home', params: undefined }];
-        }
+        // Runs after a read and after a failed one, so writes can't stay off forever.
+        rehydrated = true;
+        useAppStore.setState({
+          hydrated: true,
+          ...(state?.hasOnboarded ? { stack: [{ name: 'home', params: undefined }] } : {}),
+        });
       },
     },
   ),
 );
 
 /**
- * Hook returning the currently active stack entry (top of stack).
+ * The stack entry a screen was rendered for, provided by the Router. A main tab kept mounted in
+ * the background keeps its own entry (and params) instead of seeing whatever route is on top.
  */
+export const RouteContext = createContext<StackEntry | null>(null);
+
 export function useCurrentRoute(): StackEntry {
-  return useAppStore((s) => s.stack[s.stack.length - 1] as StackEntry);
+  const entry = useContext(RouteContext);
+  if (entry) return entry;
+  const { stack } = useAppStore.getState();
+  return stack[stack.length - 1] as StackEntry;
 }

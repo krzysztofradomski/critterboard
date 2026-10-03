@@ -6,7 +6,7 @@ vi.mock('zustand/middleware', async (importOriginal) => {
   return { ...mod, persist: (fn: unknown) => fn };
 });
 
-import { pruneActivity, useAppStore } from '@/store/useAppStore';
+import { createCoalescedWriter, pruneActivity, useAppStore } from '@/store/useAppStore';
 
 const BASE_STATE = {
   stack: [{ name: 'home' as const, params: undefined }],
@@ -466,5 +466,39 @@ describe('pruneActivity', () => {
     expect(out.find((e) => e.id === 'p1')).toBeDefined();
     expect(out.find((e) => e.id === 'c99')).toBeUndefined();
     expect(out).toHaveLength(30);
+  });
+});
+
+describe('createCoalescedWriter', () => {
+  it('writes only the latest value once per window, in order, and flush/cancel work', async () => {
+    vi.useFakeTimers();
+    try {
+      const written: number[] = [];
+      let release: () => void = () => {};
+      const w = createCoalescedWriter(async (v: number) => {
+        // The first write is slow: a later one must still land after it.
+        if (v === 3) await new Promise<void>((r) => (release = r));
+        written.push(v);
+      }, 500);
+
+      w.schedule(1);
+      w.schedule(2);
+      w.schedule(3);
+      expect(written).toEqual([]);
+      await vi.advanceTimersByTimeAsync(500); // window ends → write(3) starts, blocks
+      w.schedule(4);
+      const flushed = w.flush(); // queued behind the slow write
+      release();
+      await flushed;
+      expect(written).toEqual([3, 4]);
+
+      w.schedule(5);
+      w.cancel();
+      await vi.advanceTimersByTimeAsync(1000);
+      await w.flush();
+      expect(written).toEqual([3, 4]);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

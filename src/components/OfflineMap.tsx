@@ -2,21 +2,25 @@ import React, { useEffect, useImperativeHandle, useMemo, useRef, useState } from
 import { Dimensions, StyleSheet, View } from "react-native";
 import {
   Camera,
+  GeoJSONSource,
   Images,
+  Layer,
   Map as MapLibreMap,
   type MapRef,
-  Marker as MapMarker,
   type CameraRef,
 } from "@maplibre/maplibre-react-native";
 
-import { PixelBug } from "@/components/PixelBug";
-import { readPmtilesInfo, type PackInfo } from "@/map/mapPack";
+import { cachedPmtilesInfo, readPmtilesInfo, type PackInfo } from "@/map/mapPack";
 import { buildStickerStyle, toPmtilesUrl, NODATA_PATTERN, POI_ICONS, WATER_PATTERN } from "@/map/stickerStyle";
 import { altitudeToZoom, minZoomForBounds, type MapInitialView, type Marker } from "@/screens/mapGeo";
 import { PB } from "@/tokens/pb";
 
+const CATCH_PIN = "catch-pin";
+
 // Module-level so `<Images>` gets a stable object across renders.
 const MAP_IMAGES = {
+  // Drawn by tools/map/gen_pixel_icons.py: a pixel bug on a sticker disc.
+  [CATCH_PIN]: require("../../assets/map/pin-catch.png"),
   [WATER_PATTERN]: require("../../assets/map/water-wave.png"),
   [NODATA_PATTERN]: require("../../assets/map/nodata.png"),
   [POI_ICONS.tree]: require("../../assets/map/poi-tree.png"),
@@ -53,15 +57,33 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
     const tilesUrl = useMemo(() => toPmtilesUrl(packUri), [packUri]);
     const mapRef = useRef<MapRef>(null);
 
-    // Coverage + depth of the local pack, from its header.
-    const [info, setInfo] = useState<PackInfo | null>(null);
+    // Coverage + depth of the local pack, from its header. Normally already read by the
+    // installed-map check, so the style is built once, not again when the header arrives.
+    const [info, setInfo] = useState<PackInfo | null>(() => cachedPmtilesInfo(packUri) ?? null);
     useEffect(() => {
+      const cached = cachedPmtilesInfo(packUri);
+      if (cached) return setInfo(cached);
       let cancelled = false;
-      void readPmtilesInfo(tilesUrl.replace(/^pmtiles:\/\//, "")).then((b) => {
+      void readPmtilesInfo(packUri).then((b) => {
         if (!cancelled) setInfo(b);
       });
       return () => { cancelled = true; };
-    }, [tilesUrl]);
+    }, [packUri]);
+
+    // Catches as one GeoJSON source drawn by the map itself: a React view per pin got slow with
+    // hundreds of catches (each a native view tracking the camera, each with an SVG inside).
+    const markerData = useMemo<GeoJSON.FeatureCollection>(
+      () => ({
+        type: "FeatureCollection",
+        features: markers.map((m) => ({
+          type: "Feature",
+          id: m.id,
+          properties: { id: m.id, you: m.id === "you" },
+          geometry: { type: "Point", coordinates: [m.lng, m.lat] },
+        })),
+      }),
+      [markers],
+    );
 
 
     const mapStyle = useMemo(() => buildStickerStyle(tilesUrl, info), [tilesUrl, info]);
@@ -118,48 +140,41 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
             maxZoom={maxZoom}
             maxBounds={maxBounds}
           />
-          {markers.map((m) => (
-            <MapMarker
-              key={m.id}
-              id={m.id}
-              lngLat={[m.lng, m.lat]}
-              onPress={() => onMarkerClick?.(m)}
-            >
-              {m.id === "you" ? (
-                <View style={styles.you} />
-              ) : (
-                <View style={[styles.pin, { backgroundColor: m.color ?? PB.cream }]}>
-                  <PixelBug size={24} color={PB.ink} accent={PB.cream} />
-                </View>
-              )}
-            </MapMarker>
-          ))}
+          <GeoJSONSource
+            id="markers"
+            data={markerData}
+            onPress={(e) => {
+              e.stopPropagation();
+              const id = e.nativeEvent.features[0]?.properties?.id;
+              const marker = markers.find((m) => m.id === id);
+              if (marker) onMarkerClick?.(marker);
+            }}
+          >
+            <Layer
+              id="catch-pins"
+              type="symbol"
+              filter={["!", ["get", "you"]]}
+              layout={{
+                "icon-image": CATCH_PIN,
+                // Pins never hide each other or the map's POI icons.
+                "icon-allow-overlap": true,
+                "icon-ignore-placement": true,
+              }}
+            />
+            <Layer
+              id="you"
+              type="circle"
+              filter={["get", "you"]}
+              paint={{
+                "circle-radius": 6, // + 3 px ring = the old 18 px dot
+                "circle-color": PB.red,
+                "circle-stroke-width": 3,
+                "circle-stroke-color": PB.cream,
+              }}
+            />
+          </GeoJSONSource>
         </MapLibreMap>
       </View>
     );
   },
 );
-
-const styles = StyleSheet.create({
-  pin: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    borderWidth: 2.5,
-    borderColor: PB.ink,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: PB.ink,
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    shadowOffset: { width: 2, height: 2 },
-  },
-  you: {
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    borderWidth: 3,
-    borderColor: PB.cream,
-    backgroundColor: PB.red,
-  },
-});

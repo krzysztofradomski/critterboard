@@ -21,6 +21,7 @@ import {
   recentBugIds,
   geotaggedCatches,
   latestPhotoFor,
+  streakSummary,
   type CatchEvent,
 } from '@/lib/streak';
 
@@ -243,5 +244,25 @@ describe('computeFreezeState', () => {
     const events = Array.from({ length: 7 }, (_, i) => ev(`b${i}`, i));
     const state = computeFreezeState(events);
     expect(state.available).toBe(1);
+  });
+});
+
+describe('streakSummary', () => {
+  it('matches the separate helpers (one freeze replay instead of three)', () => {
+    const logs: CatchEvent[][] = [
+      [],
+      [ev('a', 0)],
+      [ev('a', 0), ev('b', 3), ev('c', 4)],
+      // 8 caught days earn a freeze that covers the missed day 2, then a live run.
+      [...Array.from({ length: 8 }, (_, i) => ev(`r${i}`, 10 - i)), ev('y', 1), ev('z', 0)],
+    ];
+    for (const log of logs) {
+      expect(streakSummary(log)).toEqual({
+        current: currentStreak(log),
+        best: bestStreak(log),
+        total: totalCatches(log),
+        freezes: computeFreezeState(log).available,
+      });
+    }
   });
 });

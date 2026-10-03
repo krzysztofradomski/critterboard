@@ -3,14 +3,11 @@ import { Animated, StyleSheet, Text, View } from 'react-native';
 
 import { PB } from '@/tokens/pb';
 import { Sticker } from '@/components/Sticker';
+import { useAppStore } from '@/store/useAppStore';
 
-export type ToastSpec = {
-  text: string;
-  icon?: string;
-  bg?: string;
-};
-
-export function Toast({ toast }: { toast: ToastSpec | null }) {
+/** Reads the toast itself, so showing one doesn't re-render the app root. */
+export function Toast() {
+  const toast = useAppStore((s) => s.toast);
   const scale = useRef(new Animated.Value(0.88)).current;
   const opacity = useRef(new Animated.Value(0)).current;
 

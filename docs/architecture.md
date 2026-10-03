@@ -43,11 +43,11 @@ flowchart TB
 | Path | Role |
 |---|---|
 | `App.tsx` / `index.ts` | Boot: language seeding, region-pack hydrate + refresh, i18n pack sync, crash reporting, streak notification. |
-| `src/navigation/` | Type-safe route table + a Zustand-backed stack router (no react-navigation). |
+| `src/navigation/` | Type-safe route table + a Zustand-backed stack router (no react-navigation). Home, Dex and Me stay mounted after a visit; nothing renders until the store has loaded ([[modules/ui-performance]]). |
 | `src/screens/` | One file per screen. Native `Map.tsx` uses the offline MapLibre map ([[modules/offline-map]]); `Map.web.tsx` still uses the globe. |
 | `src/map/` | Offline map style + map-pack download helper. |
 | `src/components/` | Shared UI ("sticker" design language, tokens in `src/tokens/pb.ts`). |
-| `src/store/` | Single persisted Zustand store: profile, catches, dex, quests, installed packs, backend id. |
+| `src/store/` | Single persisted Zustand store: profile, catches, dex, quests, installed packs, backend id. Saves are batched (≤1 write per 500 ms, flushed on background; [[modules/ui-performance]]). |
 | `src/ai/` | Vision + chat seams. Chat is wrapped in regex guardrails (`guardrails.ts`: length, secrets, injection, prompt leakage, PII), the same on every platform. Flags in `src/ai/index.ts`. |
 | `src/backend/` | Backend adapter seam, see [[modules/backend-adapter]]. |
 | `src/data/` | Static seeds (bugs, sightings, quests, badges, regions) + region-pack loader. |

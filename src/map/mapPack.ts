@@ -34,7 +34,17 @@ export function resolveMapUrl(
 export async function removeMapPack(id: string): Promise<void> {
   const dir = FileSystem.documentDirectory;
   if (!dir) return;
+  infoByPath.delete(mapPackPath(dir, id));
   await FileSystem.deleteAsync(mapPackPath(dir, id), { idempotent: true }).catch(() => {});
+}
+
+// Header of each installed map, kept from the check in `installedMapPack` (which runs on every
+// Map visit), so OfflineMap builds its style once, with coverage, instead of twice.
+const infoByPath = new Map<string, PackInfo>();
+
+/** The header read when the map at this path was last checked, if it was. */
+export function cachedPmtilesInfo(fileUri: string): PackInfo | undefined {
+  return infoByPath.get(fileUri);
 }
 
 /** Local file URI of an installed pack, or null when it isn't on disk. */
@@ -48,10 +58,13 @@ export async function installedMapPack(id: string): Promise<string | null> {
   const info = await FileSystem.getInfoAsync(path);
   if (!info.exists || info.isDirectory) return null;
   // Self-heal: a file that isn't a whole PMTiles archive (partial copy, bad server) counts as not installed.
-  if (!(await isCompletePmtiles(path))) {
+  const header = await completePmtilesInfo(path);
+  if (!header) {
+    infoByPath.delete(path);
     await FileSystem.deleteAsync(path, { idempotent: true }).catch(() => {});
     return null;
   }
+  infoByPath.set(path, header);
   return path;
 }
 
@@ -135,12 +148,18 @@ export async function readPmtilesInfo(fileUri: string): Promise<PackInfo | null>
 
 /** Is this a whole PMTiles archive? A valid header alone isn't enough: a cut-off file has one too. */
 export async function isCompletePmtiles(fileUri: string): Promise<boolean> {
+  return (await completePmtilesInfo(fileUri)) !== null;
+}
+
+/** The header of a whole PMTiles archive, or null if the file isn't one. */
+async function completePmtilesInfo(fileUri: string): Promise<PackInfo | null> {
   try {
-    const end = pmtilesEnd(await readHeader(fileUri));
+    const header = await readHeader(fileUri);
+    const end = pmtilesEnd(header);
     const info = await FileSystem.getInfoAsync(fileUri);
-    return end !== null && info.exists && info.size >= end;
+    return end !== null && info.exists && info.size >= end ? parsePmtilesHeader(header) : null;
   } catch {
-    return false;
+    return null;
   }
 }
 
