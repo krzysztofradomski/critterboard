@@ -774,11 +774,11 @@
         "offBody": "Your profile and catches are still on our server. Keep them (hidden from rankings) or delete them?",
         "offKeep": "Keep, hidden",
         "offDelete": "Delete online data",
-        "hideFailed": "Couldn't hide your profile online. Try again when you're connected.",
+        "hideFailed": "Couldn't hide your profile online yet. The app will try again next time it starts.",
         "olderPromptTitle": "Upload your {n} earlier catches?",
         "olderPromptBody": "Friends and rankings only know about catches made while Network is on. Locations are blurred, and only sent if you share them.",
         "locationsCleared": "Stored locations removed",
-        "locationsClearFailed": "Couldn't remove stored locations. Try again when you're online."
+        "locationsClearFailed": "Couldn't remove stored locations yet. The app will try again next time it starts."
       },
       "confirm": {
         "networkTitle": "Go online?",

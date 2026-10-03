@@ -1001,6 +1001,3 @@ export const SPECIES_XP: Record<string, number> = {
   "zygaena-trifolii": 150,
   "zygiella-x-notata": 150,
 };
-
-/** XP for a species the table doesn't know (a pack newer than the worker). */
-export const DEFAULT_SPECIES_XP = 25;

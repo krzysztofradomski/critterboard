@@ -774,11 +774,11 @@
         "offBody": "Twój profil i złapania nadal są na naszym serwerze. Zachować je (ukryte w rankingach) czy usunąć?",
         "offKeep": "Zachowaj, ukryte",
         "offDelete": "Usuń dane online",
-        "hideFailed": "Nie udało się ukryć profilu online. Spróbuj, gdy będziesz połączony.",
+        "hideFailed": "Nie udało się jeszcze ukryć profilu online. Aplikacja spróbuje ponownie przy następnym uruchomieniu.",
         "olderPromptTitle": "Wysłać {n} wcześniejszych złapań?",
         "olderPromptBody": "Znajomi i rankingi znają tylko złapania z czasu, gdy sieć jest włączona. Lokalizacje są rozmywane i wysyłane tylko, jeśli je udostępniasz.",
         "locationsCleared": "Zapisane lokalizacje usunięte",
-        "locationsClearFailed": "Nie udało się usunąć zapisanych lokalizacji. Spróbuj, gdy będziesz online."
+        "locationsClearFailed": "Nie udało się jeszcze usunąć zapisanych lokalizacji. Aplikacja spróbuje ponownie przy następnym uruchomieniu."
       },
       "confirm": {
         "networkTitle": "Przejść do trybu online?",

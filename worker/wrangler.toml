@@ -39,3 +39,15 @@ new_sqlite_classes = ["FeedInbox"] # SQLite-backed DOs are required on the free 
 
 [triggers]
 crons = ["*/5 * * * *"]
+
+# Workers Rate Limiting (per Cloudflare location, counted atomically, no KV writes).
+# namespace_id is any number unique within the account.
+[[ratelimits]]
+name = "AUTH_LIMITER" # POST /v1/auth, per client IP
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }
+
+[[ratelimits]]
+name = "API_LIMITER" # every authenticated call, per user (a 2000-catch backfill is 40 calls)
+namespace_id = "1002"
+simple = { limit = 120, period = 60 }

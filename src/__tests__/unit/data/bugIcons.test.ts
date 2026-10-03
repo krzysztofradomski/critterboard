@@ -14,16 +14,23 @@ const fs = vi.hoisted(() => {
 
 vi.mock('expo-file-system/legacy', () => ({
   EncodingType: { Base64: 'base64', UTF8: 'utf8' },
-  getInfoAsync: vi.fn(async (p: string) => ({ exists: fs.files.has(p) })),
+  getInfoAsync: vi.fn(async (p: string) => ({ exists: fs.files.has(p), size: fs.files.get(p)?.length })),
   makeDirectoryAsync: vi.fn(async () => undefined),
   deleteAsync: vi.fn(async (p: string) => {
-    for (const k of [...fs.files.keys()]) if (k === p || k.startsWith(p)) fs.files.delete(k);
+    // A path ending in '/' is a folder (deletes its contents); anything else is one file.
+    for (const k of [...fs.files.keys()]) if (k === p || (p.endsWith('/') && k.startsWith(p))) fs.files.delete(k);
   }),
-  downloadAsync: vi.fn(async (_url: string, p: string) => {
-    if (fs.failDownload) throw new Error('offline');
-    fs.downloads += 1;
-    fs.files.set(p, fs.atlas);
-    return { status: 200 };
+  createDownloadResumable: vi.fn((_url: string, p: string) => ({
+    downloadAsync: vi.fn(async () => {
+      if (fs.failDownload) throw new Error('offline');
+      fs.downloads += 1;
+      fs.files.set(p, fs.atlas);
+      return { status: 200 };
+    }),
+  })),
+  moveAsync: vi.fn(async ({ from, to }: { from: string; to: string }) => {
+    fs.files.set(to, fs.files.get(from)!);
+    fs.files.delete(from);
   }),
   readAsStringAsync: vi.fn(async (p: string, o: { position: number; length: number }) =>
     btoa(fs.files.get(p)!.slice(o.position, o.position + o.length)),
@@ -73,6 +80,13 @@ describe('ensurePackIcons', () => {
     expect(fs.downloads).toBe(2);
     expect(fs.files.has(`${DIR}.v1`)).toBe(false);
     expect(fs.files.has(`${DIR}.v2`)).toBe(true);
+  });
+
+  it('never writes outside its folder: ids from the pack must be plain species ids', async () => {
+    const evil = { ...icons(1), index: { lady: [0, 10], '../../models/x': [10, 17] } } as PackIcons;
+    expect(await ensurePackIcons(DOC, { id: 'eu-ce', icons: evil })).toBe(true);
+    expect([...fs.files.keys()].filter((k) => k.endsWith('.webp'))).toEqual([`${DIR}lady.webp`]);
+    expect(bugIconUri('../../models/x')).toBeUndefined();
   });
 
   it('falls back to emoji (nothing registered) when the download fails', async () => {

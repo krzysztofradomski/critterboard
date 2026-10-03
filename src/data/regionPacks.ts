@@ -3,6 +3,7 @@ import * as FileSystem from 'expo-file-system/legacy';
 
 import { ensurePackIcons, type PackIcons } from '@/data/bugIcons';
 import { mergeBugs, type Bug } from '@/data/bugs';
+import { downloadFile } from '@/lib/download';
 
 export type RegionPack = {
   id: string;
@@ -10,6 +11,9 @@ export type RegionPack = {
   /** GitHub release asset URL for the .pte model file. */
   modelUrl: string;
   modelVersion: number;
+  /** Pinned size and MD5 of the model (tools/packs/pin_checksums.py); checked after download. */
+  modelBytes?: number;
+  modelMd5?: string;
   bugs: Bug[];
   /** scientific name → class index, matching the model's output layer. */
   labelMap: Record<string, number>;
@@ -18,6 +22,8 @@ export type RegionPack = {
   /** Offline map (PMTiles) for this region, downloaded with the pack. Absent until hosted. */
   mapUrl?: string;
   mapVersion?: number;
+  mapBytes?: number;
+  mapMd5?: string;
 };
 
 export type PackManifest = {
@@ -115,31 +121,31 @@ export async function fetchPack(url: string): Promise<RegionPack | null> {
   }
 }
 
-/** Download a pack's .pte model to its on-disk path, reporting 0–100 progress. */
+/**
+ * Download a pack's .pte model to its on-disk path, reporting 0–100 progress. Checked
+ * against the pinned size/MD5 and swapped in only when complete, so a failed update never
+ * replaces a working model.
+ */
 export async function downloadPackModel(
   documentDirectory: string,
   pack: RegionPack,
   onProgress?: (pct: number) => void,
+  onStart?: (dl: FileSystem.DownloadResumable) => void,
 ): Promise<void> {
   await FileSystem.makeDirectoryAsync(`${documentDirectory}models/packs/`, {
     intermediates: true,
   });
-  const dl = FileSystem.createDownloadResumable(
-    pack.modelUrl,
-    getModelPath(documentDirectory, pack.id),
-    {},
-    ({ totalBytesWritten, totalBytesExpectedToWrite }) => {
-      if (totalBytesExpectedToWrite <= 0) return;
-      onProgress?.(Math.floor((totalBytesWritten / totalBytesExpectedToWrite) * 100));
-    },
-  );
-  await dl.downloadAsync();
+  await downloadFile(pack.modelUrl, getModelPath(documentDirectory, pack.id), {
+    expect: { bytes: pack.modelBytes, md5: pack.modelMd5 },
+    onProgress,
+    onStart,
+  });
 }
 
 /**
  * Does an updated pack need its model downloaded again? Only when the model
- * URL changed or the file is missing (a pack update may only add icons or
- * names, and the model is ~90 MB).
+ * URL or its pinned checksum changed, or the file is missing (a pack update
+ * may only add icons or names, and the model is ~90 MB).
  */
 export async function needsModelDownload(
   documentDirectory: string,
@@ -147,6 +153,8 @@ export async function needsModelDownload(
   next: RegionPack,
 ): Promise<boolean> {
   if (previous?.modelUrl !== next.modelUrl) return true;
+  // Same URL, new file (a model replaced in place). Packs pinned before checksums existed have none to compare.
+  if (previous.modelMd5 !== undefined && previous.modelMd5 !== next.modelMd5) return true;
   try {
     const info = await FileSystem.getInfoAsync(getModelPath(documentDirectory, next.id));
     return !info.exists;

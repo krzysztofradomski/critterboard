@@ -774,11 +774,11 @@
         "offBody": "Tu perfil y tus capturas siguen en nuestro servidor. ¿Conservarlos (ocultos en los rankings) o borrarlos?",
         "offKeep": "Conservar, oculto",
         "offDelete": "Borrar datos en línea",
-        "hideFailed": "No se pudo ocultar tu perfil en línea. Inténtalo cuando estés conectado.",
+        "hideFailed": "Todavía no se pudo ocultar tu perfil en línea. La app lo intentará de nuevo la próxima vez que se abra.",
         "olderPromptTitle": "¿Subir tus {n} capturas anteriores?",
         "olderPromptBody": "Los amigos y los rankings solo conocen las capturas hechas con la red activada. Las ubicaciones se difuminan y solo se envían si las compartes.",
         "locationsCleared": "Ubicaciones guardadas eliminadas",
-        "locationsClearFailed": "No se pudieron eliminar las ubicaciones guardadas. Inténtalo cuando tengas conexión."
+        "locationsClearFailed": "Todavía no se pudieron eliminar las ubicaciones guardadas. La app lo intentará de nuevo la próxima vez que se abra."
       },
       "confirm": {
         "networkTitle": "¿Conectarte?",

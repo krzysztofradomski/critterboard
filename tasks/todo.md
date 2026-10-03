@@ -10,6 +10,29 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 > Local runbook for everything below: [[docs/handoff]].
 
+## Now — Networking safety fixes (review 2026-10-02)
+
+- [x] 1 Global leaderboard cache never includes a hidden caller (one visible-only builder, shared with cron)
+- [x] 2 Suggested friends: only visible users, no made-up "shared bugs" reason
+- [x] 3 New users start hidden; a rejected name still applies visibility/country (hiding always works)
+- [x] 4 Deleting online data rotates the device identity (no squatting/lockout)
+- [x] 5 Account deletion also purges feeds of people the user followed
+- [x] 6 Model download: `.part` + HTTP status + rename, one shared download helper
+- [x] 7 Checksums: MD5 + size pinned in the pack JSON (model, map, icons); chat model pinned to a HF commit + size
+- [x] 8 PMTiles completeness check from the header's section offsets
+- [x] 9 Unknown species ids score 0 XP
+- [x] 10 Single catch upload validated like the batch (time window, finite coords)
+- [x] 11 Follow: target must exist, notify only on a new follow, inbox keeps one follow event per actor
+- [x] 12 Profile input validation + safe JSON parsing everywhere
+- [x] 13 Workers Rate Limiting bindings (auth per IP, API per user); weekly leaderboard cached in KV
+- [x] Low: icon ids from the pack must be species ids (no path in a file name)
+- [x] Low: catch pins snapped to a ~700 m grid cell instead of a per-catch random offset (no averaging attack)
+- [x] Low: API client 15 s request timeout; concurrent first calls share one login
+- [x] Low: failed hide / location removal is owed and retried at launch
+
+**Review (2026-10-03):** all 13 done. Checks: `pnpm run check` (typecheck + 384 tests, was 367) and `cd worker && npm run smoke` (local `wrangler dev`, every server rule end to end; it fails on the old worker at the hidden-user check). Not changed: users who registered before this fix and never synced a profile keep `leaderboard_visible = 1` (indistinguishable from opted-in users); events from a user they had already unfollowed before deleting stay in that person's feed (no record of the link). Deploy: `cd worker && npx wrangler deploy` (rate-limit bindings are in `wrangler.toml`); push `packs/eu-ce.json` with the pinned checksums.
+
+
 ## Now — Licensing and pipeline audit
 
 Findings from the audit of the committed model and training pipeline. The model host is still undecided (user is thinking), so `eu-1k-commercial-v1.pte` stays in git for now.

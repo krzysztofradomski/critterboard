@@ -774,11 +774,11 @@
         "offBody": "Dein Profil und deine Fänge liegen noch auf unserem Server. Behalten (in Ranglisten versteckt) oder löschen?",
         "offKeep": "Behalten, versteckt",
         "offDelete": "Online-Daten löschen",
-        "hideFailed": "Dein Profil konnte online nicht versteckt werden. Versuch es, wenn du verbunden bist.",
+        "hideFailed": "Dein Profil konnte online noch nicht versteckt werden. Die App versucht es beim nächsten Start erneut.",
         "olderPromptTitle": "{n} frühere Fänge hochladen?",
         "olderPromptBody": "Freunde und Ranglisten kennen nur Fänge, die bei eingeschaltetem Netzwerk entstanden. Orte werden verwischt und nur gesendet, wenn du sie teilst.",
         "locationsCleared": "Gespeicherte Orte entfernt",
-        "locationsClearFailed": "Gespeicherte Orte konnten nicht entfernt werden. Versuch es, wenn du online bist."
+        "locationsClearFailed": "Gespeicherte Orte konnten noch nicht entfernt werden. Die App versucht es beim nächsten Start erneut."
       },
       "confirm": {
         "networkTitle": "Online gehen?",

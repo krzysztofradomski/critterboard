@@ -52,3 +52,27 @@ describe('resolveMapUrl', () => {
     expect(resolveMapUrl({}, null)).toBeNull();
   });
 });
+
+import { readFileSync, statSync } from 'node:fs';
+import { pmtilesEnd } from '@/map/mapPack';
+
+describe('pmtilesEnd', () => {
+  const MAP = 'packs/maps/europe.pmtiles';
+
+  it('says where the shipped map must end: exactly its size', () => {
+    const head = new Uint8Array(readFileSync(MAP).subarray(0, 127));
+    expect(pmtilesEnd(head)).toBe(statSync(MAP).size);
+  });
+
+  it('takes the furthest section, so a file cut off anywhere before it is caught', () => {
+    const bytes = header([0, 0, 1, 1]);
+    const view = new DataView(bytes.buffer);
+    view.setUint32(56, 1000, true); // tile data offset
+    view.setUint32(64 + 4, 1, true); // tile data length: 2^32 (u64 high word)
+    expect(pmtilesEnd(bytes)).toBe(1000 + 2 ** 32);
+  });
+
+  it('is null for something that is not PMTiles', () => {
+    expect(pmtilesEnd(new Uint8Array(127))).toBeNull();
+  });
+});

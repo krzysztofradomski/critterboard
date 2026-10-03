@@ -1,5 +1,7 @@
 import * as FileSystem from "expo-file-system/legacy";
 
+import { downloadFile } from "@/lib/download";
+
 /**
  * Offline maps: one PMTiles file per region pack, downloaded on demand into
  * the app's document directory (alongside that region's model and species
@@ -45,49 +47,35 @@ export async function installedMapPack(id: string): Promise<string | null> {
   const path = mapPackPath(dir, id);
   const info = await FileSystem.getInfoAsync(path);
   if (!info.exists || info.isDirectory) return null;
-  // Self-heal: a file that isn't valid PMTiles (partial copy, bad server) counts as not installed.
-  if (!(await readPmtilesInfo(path))) {
+  // Self-heal: a file that isn't a whole PMTiles archive (partial copy, bad server) counts as not installed.
+  if (!(await isCompletePmtiles(path))) {
     await FileSystem.deleteAsync(path, { idempotent: true }).catch(() => {});
     return null;
   }
   return path;
 }
 
+type MapSource = { mapUrl?: string; mapBytes?: number; mapMd5?: string };
+
 /**
- * Download a pack once. Writes to `<id>.pmtiles.part` and renames on success,
- * so an interrupted download is never mistaken for an installed pack.
+ * Download a region's map once (see `downloadFile`): never a truncated, corrupted or
+ * non-PMTiles file, or MapLibre would fail silently and the map stay blank.
  */
 export async function downloadMapPack(
   id: string,
-  url: string,
+  pack: MapSource | null | undefined,
   onProgress?: (pct: number) => void,
 ): Promise<string> {
+  const url = resolveMapUrl(pack);
+  if (!url) throw new Error("This region has no map");
   const dir = FileSystem.documentDirectory;
   if (!dir) throw new Error("No document directory on this platform");
   await FileSystem.makeDirectoryAsync(`${dir}maps/`, { intermediates: true });
 
   const path = mapPackPath(dir, id);
-  const partPath = `${path}.part`;
-  const dl = FileSystem.createDownloadResumable(
-    url,
-    partPath,
-    {},
-    ({ totalBytesWritten, totalBytesExpectedToWrite }) => {
-      if (totalBytesExpectedToWrite <= 0) return;
-      onProgress?.(Math.floor((totalBytesWritten / totalBytesExpectedToWrite) * 100));
-    },
-  );
-  const result = await dl.downloadAsync();
-  if (!result || result.status < 200 || result.status >= 300) {
-    await FileSystem.deleteAsync(partPath, { idempotent: true });
-    throw new Error(`Map pack download failed (HTTP ${result?.status ?? "?"})`);
-  }
-  // Never keep a truncated or wrong file: MapLibre would fail silently and the map stay blank.
-  if (!(await readPmtilesInfo(partPath))) {
-    await FileSystem.deleteAsync(partPath, { idempotent: true });
-    throw new Error("Downloaded file is not a valid PMTiles map");
-  }
-  await FileSystem.moveAsync({ from: partPath, to: path });
+  // The pinned checksum belongs to the pack's own map, not to a dev override.
+  const expect = url === pack?.mapUrl ? { bytes: pack.mapBytes, md5: pack.mapMd5 } : undefined;
+  await downloadFile(url, path, { expect, verify: isCompletePmtiles, onProgress });
   return path;
 }
 
@@ -115,18 +103,44 @@ export function parsePmtilesHeader(header: Uint8Array): PackInfo | null {
   };
 }
 
+/**
+ * Where a PMTiles v3 archive must end: the furthest end of its four sections (root
+ * directory, metadata, leaf directories, tile data), each a little-endian u64 offset and
+ * length pair at bytes 8..71. Null if the bytes aren't PMTiles.
+ */
+export function pmtilesEnd(header: Uint8Array): number | null {
+  if (!parsePmtilesHeader(header)) return null;
+  const view = new DataView(header.buffer, header.byteOffset, header.byteLength);
+  const u64 = (offset: number) => view.getUint32(offset, true) + view.getUint32(offset + 4, true) * 2 ** 32;
+  return Math.max(...[8, 24, 40, 56].map((at) => u64(at) + u64(at + 8)));
+}
+
+async function readHeader(fileUri: string): Promise<Uint8Array> {
+  const b64 = await FileSystem.readAsStringAsync(fileUri, {
+    encoding: FileSystem.EncodingType.Base64,
+    position: 0,
+    length: 127,
+  });
+  return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+}
+
 /** Read a local pack's header; null on any failure (the map then just has no coverage mask). */
 export async function readPmtilesInfo(fileUri: string): Promise<PackInfo | null> {
   try {
-    const b64 = await FileSystem.readAsStringAsync(fileUri, {
-      encoding: FileSystem.EncodingType.Base64,
-      position: 0,
-      length: 127,
-    });
-    const bin = atob(b64);
-    return parsePmtilesHeader(Uint8Array.from(bin, (c) => c.charCodeAt(0)));
+    return parsePmtilesHeader(await readHeader(fileUri));
   } catch {
     return null;
+  }
+}
+
+/** Is this a whole PMTiles archive? A valid header alone isn't enough: a cut-off file has one too. */
+export async function isCompletePmtiles(fileUri: string): Promise<boolean> {
+  try {
+    const end = pmtilesEnd(await readHeader(fileUri));
+    const info = await FileSystem.getInfoAsync(fileUri);
+    return end !== null && info.exists && info.size >= end;
+  } catch {
+    return false;
   }
 }
 

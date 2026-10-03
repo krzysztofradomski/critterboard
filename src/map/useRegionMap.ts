@@ -48,10 +48,10 @@ export function useRegionMap(regionId: string | null): {
 
   const download = useCallback(() => {
     if (!regionId) return;
-    const url = resolveMapUrl(getPackData(regionId));
-    if (!url) return;
+    const pack = getPackData(regionId);
+    if (!resolveMapUrl(pack)) return;
     setState({ kind: "downloading", pct: 0 });
-    downloadMapPack(regionId, url, (pct) => setState({ kind: "downloading", pct }))
+    downloadMapPack(regionId, pack, (pct) => setState({ kind: "downloading", pct }))
       .then(() => setAttempt((n) => n + 1))
       .catch(() => setState({ kind: "error" }));
   }, [regionId]);

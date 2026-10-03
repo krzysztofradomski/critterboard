@@ -247,7 +247,9 @@ export function useSyncProfile(): void {
     void backend
       .syncProfile(snapshot)
       .then(() => {
-        if (!useAppStore.getState().online.hasData) useAppStore.getState().setOnline({ hasData: true });
+        // The real settings are on the server now, so an owed "hide" (from an earlier Network off) is moot.
+        const { online, setOnline } = useAppStore.getState();
+        if (!online.hasData || online.hideOwed) setOnline({ hasData: true, hideOwed: false });
       })
       .catch(() => undefined);
   }, [name, leaderboardOn, locationShareOn, networkOn, region]);

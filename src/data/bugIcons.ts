@@ -1,5 +1,7 @@
 import * as FileSystem from 'expo-file-system/legacy';
 
+import { downloadFile } from '@/lib/download';
+
 /**
  * Photo-based sticker icons for pack species.
  *
@@ -18,6 +20,9 @@ export type PackIcons = {
   version: number;
   /** bug id → [byte offset, byte length] in the atlas. */
   index: Record<string, [number, number]>;
+  /** Pinned size and MD5 of the atlas (tools/packs/pin_checksums.py). */
+  bytes?: number;
+  md5?: string;
 };
 
 // bug id → file URI. Replaced (not mutated) on change so React can compare it.
@@ -59,6 +64,9 @@ function unregister(dir: string): void {
   publish(next);
 }
 
+/** Ids come from the downloaded pack and become file names: plain species ids only, never a path. */
+const ICON_ID_RE = /^[a-z0-9-]{1,64}$/;
+
 /**
  * Make a pack's icons available: register them if this icon version is
  * already on disk, otherwise download the atlas and split it. Best-effort:
@@ -77,8 +85,8 @@ export async function ensurePackIcons(
       await FileSystem.deleteAsync(dir, { idempotent: true });
       await FileSystem.makeDirectoryAsync(dir, { intermediates: true });
       const atlas = `${dir}atlas.bin`;
-      await FileSystem.downloadAsync(icons.url, atlas);
-      const entries = Object.entries(icons.index);
+      await downloadFile(icons.url, atlas, { expect: { bytes: icons.bytes, md5: icons.md5 } });
+      const entries = Object.entries(icons.index).filter(([id]) => ICON_ID_RE.test(id));
       // Small batches: each slice is a native read + write of a few KB.
       for (let i = 0; i < entries.length; i += 16) {
         await Promise.all(
@@ -97,7 +105,7 @@ export async function ensurePackIcons(
       await FileSystem.deleteAsync(atlas, { idempotent: true });
       await FileSystem.writeAsStringAsync(marker, '');
     }
-    register(dir, Object.keys(icons.index));
+    register(dir, Object.keys(icons.index).filter((id) => ICON_ID_RE.test(id)));
     return true;
   } catch {
     unregister(dir);

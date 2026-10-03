@@ -22,7 +22,7 @@ import { AVAILABLE_REGION_IDS, REGIONS, type Region, type RegionStatus } from "@
 import { VISION_MODEL } from "@/data/visionModel";
 import { downloadMapPack, removeMapPack, resolveMapUrl } from "@/map/mapPack";
 import {
-  cachePackData, getModelPath, PACK_MANIFEST_URL, removeCachedPack,
+  cachePackData, downloadPackModel, getModelPath, PACK_MANIFEST_URL, removeCachedPack,
   type PackManifest, type RegionPack,
 } from "@/data/regionPacks";
 import { Btn } from "@/components/Btn";
@@ -165,28 +165,19 @@ export function Settings() {
       // Cache the pack data in AsyncStorage and merge bugs into the registry.
       await cachePackData(pack);
 
-      // Step 3: Download the .pte model file to the filesystem.
+      // Step 3: Download the .pte model file to the filesystem (checked, swapped in whole).
       if (!FileSystem.documentDirectory) throw new Error('no documentDirectory');
-      const modelDir = `${FileSystem.documentDirectory}models/packs/`;
-      await FileSystem.makeDirectoryAsync(modelDir, { intermediates: true });
-      const modelPath = getModelPath(FileSystem.documentDirectory, region.id);
 
       // One progress bar for the whole install: the model's share is its
       // slice of the total download, the map takes the rest.
       const mapUrl = region.mapSize > 0 ? resolveMapUrl(pack) : null;
       const modelShare = mapUrl ? (region.size - region.mapSize) / region.size : 1;
-      const dl = FileSystem.createDownloadResumable(
-        pack.modelUrl,
-        modelPath,
-        {},
-        ({ totalBytesWritten, totalBytesExpectedToWrite }) => {
-          if (totalBytesExpectedToWrite <= 0) return;
-          const pct = Math.floor((totalBytesWritten / totalBytesExpectedToWrite) * 100 * modelShare);
-          setRegions((prev) => ({ ...prev, [region.id]: { downloading: pct } }));
-        },
+      await downloadPackModel(
+        FileSystem.documentDirectory,
+        pack,
+        (pct) => setRegions((prev) => ({ ...prev, [region.id]: { downloading: Math.floor(pct * modelShare) } })),
+        (dl) => (packDownloadHandles.current[region.id] = dl),
       );
-      packDownloadHandles.current[region.id] = dl;
-      await dl.downloadAsync();
       packDownloadHandles.current[region.id] = null;
 
       // Species icons: one small atlas, split on the device. Best-effort,
@@ -197,7 +188,7 @@ export function Settings() {
       // scanning, and the Map tab offers the download again.
       if (mapUrl) {
         try {
-          await downloadMapPack(region.id, mapUrl, (pct) =>
+          await downloadMapPack(region.id, pack, (pct) =>
             setRegions((prev) => ({
               ...prev,
               [region.id]: { downloading: Math.floor(modelShare * 100 + pct * (1 - modelShare)) },

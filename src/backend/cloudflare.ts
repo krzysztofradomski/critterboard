@@ -57,18 +57,45 @@ function getBaseUrl(): string {
 
 let cachedToken: string | null = null;
 let adapterReady = false;
+/** The login in flight, shared by every call that needs a token meanwhile. */
+let loginInFlight: Promise<string> | null = null;
 
 /** Forget the cached login (after the device's identity changed). */
 export function resetBackendSession(): void {
   cachedToken = null;
   adapterReady = false;
+  loginInFlight = null;
+}
+
+/** A request with no answer after this is treated as offline instead of hanging a sync forever. */
+const REQUEST_TIMEOUT_MS = 15_000;
+
+async function fetchWithTimeout(url: string, init: RequestInit): Promise<Response> {
+  const abort = new AbortController();
+  const timer = setTimeout(() => abort.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    return await fetch(url, { ...init, signal: abort.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/** One login at a time: screens that load together share it rather than each spending a rate-limited /v1/auth. */
+function login(): Promise<string> {
+  if (!loginInFlight) {
+    const { backendUserId, backendSecret } = useAppStore.getState();
+    loginInFlight = fetchToken(backendUserId, backendSecret).finally(() => {
+      loginInFlight = null;
+    });
+  }
+  return loginInFlight;
 }
 
 async function fetchToken(userId: string, secret: string): Promise<string> {
   const base = getBaseUrl();
   let resp: Response;
   try {
-    resp = await fetch(`${base}/v1/auth`, {
+    resp = await fetchWithTimeout(`${base}/v1/auth`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId, secret }),
@@ -88,17 +115,16 @@ async function fetchToken(userId: string, secret: string): Promise<string> {
 
 async function authedFetch(path: string, init?: RequestInit): Promise<Response> {
   const base = getBaseUrl();
-  const { backendUserId: userId, backendSecret: secret } = useAppStore.getState();
 
   if (!cachedToken) {
-    cachedToken = await fetchToken(userId, secret);
+    cachedToken = await login();
     adapterReady = true;
   }
 
   const doRequest = async (token: string): Promise<Response> => {
     let resp: Response;
     try {
-      resp = await fetch(`${base}${path}`, {
+      resp = await fetchWithTimeout(`${base}${path}`, {
         ...init,
         headers: {
           'Content-Type': 'application/json',
@@ -118,7 +144,7 @@ async function authedFetch(path: string, init?: RequestInit): Promise<Response> 
   if (resp.status === 401) {
     cachedToken = null;
     adapterReady = false;
-    cachedToken = await fetchToken(userId, secret);
+    cachedToken = await login();
     adapterReady = true;
     resp = await doRequest(cachedToken);
   }

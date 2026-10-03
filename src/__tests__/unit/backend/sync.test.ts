@@ -1,7 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { backend } from '@/backend';
-import { catchKey, deleteOnlineData, pendingCatches, syncCatches } from '@/backend/sync';
+import {
+  catchKey,
+  clearOnlineLocations,
+  deleteOnlineData,
+  hideOnlineProfile,
+  pendingCatches,
+  settleOwedCleanups,
+  syncCatches,
+} from '@/backend/sync';
 import { EMPTY_ONLINE, useAppStore } from '@/store/useAppStore';
 
 const log = (n: number, at0: number) =>
@@ -95,10 +103,63 @@ describe('deleteOnlineData', () => {
     expect(useAppStore.getState().online).toEqual(EMPTY_ONLINE);
   });
 
+  it('moves to a fresh identity: the deleted id is public and anyone could claim it', async () => {
+    setup({ catchLog: log(1, 1), online: { since: 1, hasData: true } });
+    const before = useAppStore.getState();
+    vi.spyOn(backend, 'deleteAccount').mockResolvedValue();
+    await deleteOnlineData();
+    const after = useAppStore.getState();
+    expect(after.backendUserId).not.toBe(before.backendUserId);
+    expect(after.backendSecret).not.toBe(before.backendSecret);
+    expect(after.backendSecret).toMatch(/^[0-9a-f]{64}$/);
+  });
+
   it('changes nothing if the server could not be reached', async () => {
     setup({ catchLog: log(1, 1), online: { since: 1, hasData: true, uploaded: ['x:1'] } });
+    const { backendUserId } = useAppStore.getState();
     vi.spyOn(backend, 'deleteAccount').mockRejectedValue(new Error('offline'));
     expect(await deleteOnlineData()).toBe(false);
     expect(useAppStore.getState().online.hasData).toBe(true);
+    expect(useAppStore.getState().backendUserId).toBe(backendUserId);
+  });
+});
+
+describe('owed privacy cleanups', () => {
+  it('remembers a hide that failed and retries it at launch, even with Network now off', async () => {
+    setup({ catchLog: [], online: { hasData: true }, networkOn: false });
+    const hide = vi.spyOn(backend, 'syncProfile').mockRejectedValueOnce(new Error('offline'));
+    expect(await hideOnlineProfile()).toBe(false);
+    expect(useAppStore.getState().online.hideOwed).toBe(true);
+
+    hide.mockResolvedValueOnce();
+    await settleOwedCleanups();
+    expect(hide).toHaveBeenLastCalledWith(expect.objectContaining({ leaderboardVisible: false }));
+    expect(useAppStore.getState().online.hideOwed).toBe(false);
+  });
+
+  it('remembers a location clear that failed and retries it at launch', async () => {
+    setup({ catchLog: [], online: { hasData: true } });
+    const clear = vi.spyOn(backend, 'clearLocations').mockRejectedValueOnce(new Error('offline'));
+    expect(await clearOnlineLocations()).toBe(false);
+    expect(useAppStore.getState().online.clearLocationsOwed).toBe(true);
+
+    clear.mockResolvedValueOnce();
+    await settleOwedCleanups();
+    expect(clear).toHaveBeenCalledTimes(2);
+    expect(useAppStore.getState().online.clearLocationsOwed).toBe(false);
+  });
+
+  it('drops an owed hide once Network is back on: the profile sync sends the real settings', async () => {
+    setup({ catchLog: [], online: { hasData: true, hideOwed: true }, networkOn: true });
+    const hide = vi.spyOn(backend, 'syncProfile').mockResolvedValue();
+    await settleOwedCleanups();
+    expect(hide).not.toHaveBeenCalled();
+  });
+
+  it('forgets what was owed once the account is deleted', async () => {
+    setup({ catchLog: [], online: { hasData: true, hideOwed: true, clearLocationsOwed: true } });
+    vi.spyOn(backend, 'deleteAccount').mockResolvedValue();
+    await deleteOnlineData();
+    expect(useAppStore.getState().online).toEqual(EMPTY_ONLINE);
   });
 });

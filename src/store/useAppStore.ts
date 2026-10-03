@@ -57,9 +57,20 @@ export type OnlineState = {
   backfill: boolean;
   /** `bugId:at` of every catch known to be on the server. */
   uploaded: string[];
+  /** A "hide my profile" the user asked for that hasn't reached the server yet (retried at launch). */
+  hideOwed: boolean;
+  /** A "remove stored locations" the user asked for that hasn't reached the server yet (retried at launch). */
+  clearLocationsOwed: boolean;
 };
 
-export const EMPTY_ONLINE: OnlineState = { since: null, hasData: false, backfill: false, uploaded: [] };
+export const EMPTY_ONLINE: OnlineState = {
+  since: null,
+  hasData: false,
+  backfill: false,
+  uploaded: [],
+  hideOwed: false,
+  clearLocationsOwed: false,
+};
 
 export type SyncStatus = {
   phase: 'idle' | 'syncing' | 'error';
@@ -88,6 +99,11 @@ function newBackendUserId(): string {
  */
 function newBackendSecret(): string {
   return Array.from(getRandomBytes(32), (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/** A fresh online identity, for `setState` after the old one was deleted on the server. */
+export function newBackendIdentity(): { backendUserId: string; backendSecret: string } {
+  return { backendUserId: newBackendUserId(), backendSecret: newBackendSecret() };
 }
 
 export type ToastSpec = {

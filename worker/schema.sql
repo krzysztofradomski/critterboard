@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS users (
   avatar_emoji         TEXT,
   country              TEXT,
   xp_total             INTEGER NOT NULL DEFAULT 0,
-  leaderboard_visible  INTEGER NOT NULL DEFAULT 1,
+  -- Hidden until the app's profile sync says otherwise (the user's leaderboard switch).
+  leaderboard_visible  INTEGER NOT NULL DEFAULT 0,
   joined_at            INTEGER NOT NULL,
   last_seen_at         INTEGER NOT NULL,
   -- SHA-256 (hex) of the per-device secret that proves ownership of this id.

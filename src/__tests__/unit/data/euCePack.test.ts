@@ -57,3 +57,22 @@ describe('packs/eu-ce.json', () => {
     for (const b of BUGS) expect(byLatin.get(b.latin)).toBe(b.id);
   });
 });
+
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+
+describe('packs/eu-ce.json pinned checksums', () => {
+  // The app discards a download that doesn't match; a stale pin would break every install.
+  // Re-pin with: python3 tools/packs/pin_checksums.py
+  const local = (url: string) => readFileSync(url.replace(/^.*\/critterboard\/main\//, ''));
+  const icons = pack.icons as { url: string; bytes: number; md5: string };
+  it.each([
+    ['model', pack.modelUrl, pack.modelBytes, pack.modelMd5],
+    ['map', pack.mapUrl, pack.mapBytes, pack.mapMd5],
+    ['icons', icons.url, icons.bytes, icons.md5],
+  ])('%s matches the committed file', (_name, url, bytes, md5) => {
+    const file = local(url);
+    expect(file.length).toBe(bytes);
+    expect(createHash('md5').update(file).digest('hex')).toBe(md5);
+  });
+});

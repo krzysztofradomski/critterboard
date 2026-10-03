@@ -5,7 +5,7 @@ import "@/lib/initExecutorch";
 import { StyleSheet, View } from "react-native";
 
 import { useBackendIdentityBridge, useSyncProfile } from "@/backend/hooks";
-import { syncCatches } from "@/backend/sync";
+import { settleOwedCleanups, syncCatches } from "@/backend/sync";
 import { Toast } from "@/components/Toast";
 import { hydrateCachedPacks, syncRemotePacks, isKnownLang } from "@/i18n";
 import * as FileSystem from "expo-file-system/legacy";
@@ -42,6 +42,11 @@ export default function App() {
   useEffect(() => {
     if (networkOn) void syncCatches();
   }, [networkOn]);
+
+  // A hide or location removal that failed offline is owed: retry it once per launch.
+  useEffect(() => {
+    void settleOwedCleanups();
+  }, []);
 
   // On first launch, seed the language from the device locale so users
   // with a supported language don't have to visit Settings manually.

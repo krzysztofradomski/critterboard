@@ -2,8 +2,12 @@
   "id": "eu-ce",
   "version": 10,
   "mapUrl": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/maps/europe.pmtiles",
+  "mapBytes": 55624156,
+  "mapMd5": "ddba235fc14911cbb519a40eec19771f",
   "mapVersion": 1,
   "modelUrl": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/models/eu-1k-commercial-v1.pte",
+  "modelBytes": 88411168,
+  "modelMd5": "93b48d484ec9d6fa8bf6859c82c5c202",
   "modelVersion": 4,
   "bugs": [
     {
@@ -30469,6 +30473,8 @@
   },
   "icons": {
     "url": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/icons/eu-ce-icons-v1.bin",
+    "bytes": 9102424,
+    "md5": "61418e1ae01bf1d17876c40eb7492601",
     "version": 1,
     "index": {
       "harl": [

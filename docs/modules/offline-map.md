@@ -27,7 +27,7 @@ flowchart LR
 | File | Role |
 |---|---|
 | `src/map/stickerStyle.ts` | Builds the MapLibre style from `pb.ts` colours: land with a hard ink offset shadow, ink coastlines, flat greens, chunky ink-cased roads. Pixel landmark icons (tree, flower, peak) at z13+ come from `assets/map/` via `<Images>` (regenerate with `tools/map/gen_pixel_icons.py`). No text labels, so no glyph or sprite downloads. With no pack it returns just the sea background. |
-| `src/map/mapPack.ts` | Download-once helper. Writes `<id>.pmtiles.part`, renames on success, so a half download never counts as installed. |
+| `src/map/mapPack.ts` | Download-once helper on top of `src/lib/download.ts` (`.part` file, HTTP status, pinned size/MD5 from the pack JSON, then rename; see [[../decisions/007-download-integrity]]). A file only counts as installed if it is a *whole* archive: the header's section offsets say where it must end (`pmtilesEnd`), and a shorter file is deleted, at download and again at boot. |
 | `src/components/OfflineMap.tsx` | The map component, with a `flyTo` handle. Renders markers as React views (round stickers with a `PixelBug` sprite). Registers the water wave texture with `<Images>`. |
 | `src/screens/mapGeo.ts` | `altitudeToZoom()` converts the globe's camera altitudes to Mercator zoom, so the existing framing logic carries over. |
 | `src/screens/Map.tsx` | `USE_OFFLINE_MAP` flag picks `OfflineMap` or the globe (native only; web still uses the globe). |
