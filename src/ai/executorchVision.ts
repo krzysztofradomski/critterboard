@@ -16,6 +16,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { ClassificationModule } from 'react-native-executorch';
 
 import { SCIENTIFIC_TO_BUG_ID } from '@/ai/classMap';
+import { meanScores } from '@/ai/scanCrops';
 import { findBugByLatin } from '@/data/bugs';
 import type { Candidate, ClassifyOptions, VisionFrame } from '@/ai/vision';
 
@@ -174,8 +175,11 @@ export function useExecutorchClassifier(config: ExecutorchClassifierConfig): Exe
     async (frame: VisionFrame, opts?: ClassifyOptions): Promise<Candidate[]> => {
       if (!moduleRef.current || !isReady) return [];
       const topK = opts?.topK ?? 3;
-      const scores = await moduleRef.current.forward(frame as string) as Record<string, number>;
-      return Object.entries(scores)
+      // Several crops of one photo (see scanCrops) are classified one after another and averaged.
+      const frames = (Array.isArray(frame) ? frame : [frame]) as string[];
+      const maps: Record<string, number>[] = [];
+      for (const f of frames) maps.push(await moduleRef.current.forward(f) as Record<string, number>);
+      return Object.entries(meanScores(maps))
         .sort(([, a], [, b]) => b - a)
         .flatMap(([label, confidence]) => {
           const bugId = labelToBugId(label);

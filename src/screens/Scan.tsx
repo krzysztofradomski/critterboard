@@ -1,12 +1,13 @@
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, PanResponder, Platform, Pressable, StyleSheet, Text, View, type GestureResponderEvent } from 'react-native';
+import { Animated, PanResponder, Platform, Pressable, StyleSheet, Text, View, type GestureResponderEvent, type LayoutChangeEvent } from 'react-native';
 
 import * as FileSystem from 'expo-file-system/legacy';
 import { vision, USE_NATIVE_VISION, useExecutorchClassifier, type Candidate } from '@/ai';
 import { getModelPath } from '@/data/regionPacks';
 import { selectScanClassifier } from '@/ai/scanClassifier';
+import { scanCrops } from '@/ai/scanCrops';
 import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
@@ -23,6 +24,9 @@ import { useNav } from '@/store/useNav';
 type Phase = 'aim' | 'flash' | 'analyzing';
 
 const ZOOM_PER_LN = 0.36;
+/** Reticle size (pt) and centre height (fraction of the screen). The classifier crops around it. */
+const RETICLE = 220;
+const RETICLE_TOP = 0.46;
 
 function touchDistance(e: GestureResponderEvent): number {
   const [a, b] = e.nativeEvent.touches;
@@ -75,6 +79,9 @@ export function Scan() {
     return () => clearTimeout(id);
   }, []);
   const [flash, setFlash] = useState(false);
+  // Screen size, to find the reticle in the photo. The preview fills this view.
+  const view = useRef({ width: 0, height: 0 }).current;
+  const onLayout = (e: LayoutChangeEvent) => Object.assign(view, e.nativeEvent.layout);
 
   // Pinch to zoom. expo-camera's zoom is 0..1 of the lens range; on iOS it is exponential
   // (min × (max/min)^zoom), so adding ln(scale) × ZOOM_PER_LN keeps a pinch feeling the same at
@@ -145,7 +152,7 @@ export function Scan() {
    * spread. Holds the analysing animation for ~2 s so the UX feels
    * deliberate even when inference is sub-100 ms.
    */
-  const classifyAndRoute = (photoUri: string | null) => {
+  const classifyAndRoute = (photoUri: string | null, fromCamera: boolean) => {
     if (photoUri) setLastPhotoUri(photoUri);
     const startedAt = Date.now();
     void (async () => {
@@ -163,7 +170,13 @@ export function Scan() {
           setPhase('aim');
           return;
         }
-        candidates = await classifyFn(photoUri, { hint, topK: 3 });
+        // Classify crops around the reticle (camera) or the photo centre (gallery), not the
+        // whole frame squashed to 224 px. The web mock ignores the frame.
+        const aim = fromCamera && view.width > 0
+          ? { view, reticle: { cx: view.width / 2, cy: view.height * RETICLE_TOP, side: RETICLE } }
+          : undefined;
+        const frame = photoUri && !isWeb ? await scanCrops(photoUri, aim) : photoUri;
+        candidates = await classifyFn(frame, { hint, topK: 3 });
       } catch {
         candidates = [];
       }
@@ -226,14 +239,15 @@ export function Scan() {
     let photoUri: string | null = null;
     try {
       const result = await cameraRef.current?.takePictureAsync({
+        // No skipProcessing: processing crops the photo to the preview (so the reticle maps onto
+        // it) and records its true orientation. Raw sensor output can come back rotated.
         quality: 0.85,
-        skipProcessing: true,
       });
       photoUri = result?.uri ?? null;
     } catch {
       photoUri = null;
     }
-    classifyAndRoute(photoUri);
+    classifyAndRoute(photoUri, true);
   };
 
   const pickFromGallery = async () => {
@@ -254,7 +268,7 @@ export function Scan() {
       const photoUri = result.assets[0]?.uri ?? null;
       haptics.tap();
       setPhase('analyzing');
-      classifyAndRoute(photoUri);
+      classifyAndRoute(photoUri, false);
     } catch {
       haptics.warning();
       showToast({ text: t('scan.galleryFailed'), icon: '⚠️', bg: PB.red });
@@ -273,7 +287,7 @@ export function Scan() {
   return (
     // Pinch handlers on the root: touches bubble up through ancestors only, so a sibling layer
     // under the overlays (focus box, tip card) would never see them.
-    <View style={styles.root} {...(cameraReady ? pinchResponder.panHandlers : {})}>
+    <View style={styles.root} onLayout={onLayout} {...(cameraReady ? pinchResponder.panHandlers : {})}>
       {cameraReady ? (
         <CameraView
           ref={(ref) => {
@@ -360,8 +374,8 @@ export function Scan() {
           {
             borderColor: phase === 'analyzing' ? PB.pink : PB.yellow,
             transform: [
-              { translateX: -110 },
-              { translateY: -110 },
+              { translateX: -RETICLE / 2 },
+              { translateY: -RETICLE / 2 },
               {
                 rotate: reticleRotate.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }),
               },
@@ -463,9 +477,9 @@ const styles = StyleSheet.create({
   reticle: {
     position: 'absolute',
     left: '50%',
-    top: '46%',
-    width: 220,
-    height: 220,
+    top: `${RETICLE_TOP * 100}%`,
+    width: RETICLE,
+    height: RETICLE,
     borderWidth: 4,
     borderRadius: 32,
     borderStyle: 'dashed',

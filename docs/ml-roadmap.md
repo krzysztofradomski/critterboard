@@ -98,6 +98,26 @@ Anything slower than 250 ms feels laggy and is treated as a bug.
 
 Done without Kaggle: `training/vision/` streams the iNaturalist open-data dumps, fine-tunes ConvNeXt-nano on a CPU and exports an XNNPACK `.pte`. Result: 200 species, 83.7% top-1 / 94.0% top-3. Full write-up in `training/vision/README.md`. The Kaggle notebook below stays as the GPU route for 1000+ species.
 
+#### Scan preprocessing: crops, not the whole frame *(Oct 2026)*
+
+Phone tests showed busy backgrounds and damaged bugs were hard to identify. A main cause: the whole 12 MP photo was squashed to 224×224, so a bug inside the reticle ended up a few dozen pixels wide. That is far from the tightly framed iNaturalist photos the model learned from.
+
+`src/ai/scanCrops.ts` now feeds the model square crops instead:
+
+- **Camera:** three squares centred on the reticle, at 1× and 1.6× the reticle size plus the photo's full short side.
+- **Gallery:** the untouched photo plus the same three squares, centred on the photo.
+- **Averaging:** `useExecutorchClassifier().classify` runs each crop in turn and averages the softmax scores.
+
+```mermaid
+flowchart LR
+  P[photo] --> M[expo-image-manipulator<br/>applies EXIF orientation] --> C1[1× reticle] & C2[1.6× reticle] & C3[full short side]
+  C1 & C2 & C3 --> X[ExecuTorch ×3] --> A[mean of softmax] --> R[top-3]
+```
+
+- **EXIF:** OpenCV's `imread` in react-native-executorch already applies EXIF orientation. The crops come out of the manipulator upright anyway.
+- **Capture setting:** Scan no longer passes `skipProcessing`. With processing on, iOS crops the photo to the preview, so the on-screen reticle maps straight onto the photo.
+- **Cost:** about 3× inference time (~250 ms), hidden inside the 2.2 s analysing hold.
+
 #### Kaggle route (still valid for bigger runs) ⟶ `training/kaggle/insect_classifier_training.ipynb`
 
 The Kaggle notebook is the same EfficientNetV2-S recipe with three knobs in `CFG`:
