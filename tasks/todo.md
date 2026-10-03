@@ -10,7 +10,27 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 > Local runbook for everything below: [[docs/handoff]].
 
-## Now — Networking safety fixes (review 2026-10-02)
+## Now — UI performance (review 2026-10-02)
+
+- [x] 1 Persist: coalesced store write (≤1 per 500 ms, in order, flushed when the app leaves the foreground); no writes before hydration
+- [x] 2 Chat: save the user's message on send and the reply when it ends, not per token; memo bubbles; no animated scroll per token
+- [x] 3 Scan: vision model cached across visits, freed 60 s after Scan is left; reloads on a new file or label map
+- [x] 4 Router memo + Toast reads its own state
+- [x] 5 Latin name → species index
+- [x] 6 Map: PMTiles header cached by the installed-map check (style built once); catch pins as a GeoJSON symbol layer (`assets/map/pin-catch.png`); `PixelBug` removed
+- [x] 7 Cold start: `hydrated` flag, Router renders nothing until the store is loaded
+- [x] 8 Home, Dex, Me stay mounted after a visit (opacity 0, no touches, hidden from a11y); route params via `RouteContext`
+- [x] Low: `streakSummary` (one freeze replay); day-aware memos
+- [x] Low: `bugName` uses `lookupFor` (no dev warning per pack species)
+- [x] Low: Scan animation loops stopped on unmount
+- [x] Low: region pack JSON in `documents/packs/<id>.json`, old AsyncStorage copy migrated on first read
+- [x] Dependencies: Dependabot alerts (77 open on main)
+
+**Review (2026-10-03):** `pnpm run check` (typecheck + 395 tests, was 384; new: coalesced writer, streakSummary vs helpers, pack file migration). Release build on the iOS simulator: cold start goes straight to Home, Dex keeps its scroll across tab switches, Me sub-tabs switch, toast shows, a guide change survives background + kill + relaunch. Not checked on a device: the map pin layers (no region pack on the simulator) and chat streaming (needs the 3.1 GB model). Not done: `expo-image` for Dex icons (measure first). Docs: [[docs/modules/ui-performance]].
+
+**Dependencies:** worker `wrangler` 4.141 → 4.147 (`undici` 7.29.1, `npm audit` 0, smoke passes). App: `eas-cli` 24.10, `expo-updates` 57.0.24, same-major `pnpm.overrides` for tooling-only transitive packages; `pnpm audit` 71 → 5. Left: `node-forge` (no fix exists), `uuid` 7/8 → 11, `ts-deepmerge` 6 → 8, `diff` (major bumps inside `eas-cli`/`@expo` internals; all build tooling, none in the app bundle). Training (`training/local`): pillow, anyio, hydra-core, urllib3 bumped (export → `.pte` → runtime smoke passes); `torch` 2.13 and `setuptools` 83 blocked: executorch 1.3.1's runtime fails to load against torch 2.13 (noted in the lock).
+
+## Done — Networking safety fixes (review 2026-10-02)
 
 - [x] 1 Global leaderboard cache never includes a hidden caller (one visible-only builder, shared with cron)
 - [x] 2 Suggested friends: only visible users, no made-up "shared bugs" reason
