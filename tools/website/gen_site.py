@@ -47,7 +47,8 @@ CONTENT = {
    ("ul", [
      "<b>Leaderboard:</b> opt-in. Your name and XP appear only if you switch it on.",
      "<b>Friends:</b> follow other trainers from the Ranks tab. Friends see your public profile only.",
-     "<b>Share spotting locations:</b> optional. Public pins are blurred by about 500 m.",
+     "<b>Share spotting locations:</b> optional. Your catches appear with their exact spot, species and date (never your name) on nearby players' maps; switching it off deletes the locations from the server.",
+     "<b>Show others' sightings:</b> optional. Puts nearby players' shared catches on your map; your location is sent rounded to about 1 km.",
      "<b>Crash reports:</b> optional and anonymous.",
      "<b>Delete my online data:</b> in <b>Me → Brains</b> removes your profile, uploaded catches, follows and ranking entry from our server. Switching Network off asks whether to keep your profile (hidden from rankings) or delete it, and switching location sharing off removes the stored locations. Your Dex on the phone is never touched.",
      "<b>Existing catches:</b> the first time you go online, the app offers to upload catches you made before; Brains shows the progress and a Retry button if something fails.",
@@ -102,7 +103,8 @@ CONTENT = {
    ("ul", [
      "<b>Ranking:</b> dobrowolny. Twoja nazwa i XP pojawią się tylko po włączeniu.",
      "<b>Znajomi:</b> obserwuj innych trenerów w zakładce Rankingi. Znajomi widzą tylko twój profil publiczny.",
-     "<b>Udostępnianie lokalizacji:</b> opcjonalne. Publiczne pinezki są rozmyte o ok. 500 m.",
+     "<b>Udostępnianie lokalizacji:</b> opcjonalne. Twoje złapania widać z dokładnym miejscem, gatunkiem i datą (nigdy z nazwą) na mapach graczy w pobliżu; wyłączenie usuwa lokalizacje z serwera.",
+     "<b>Pokazuj obserwacje innych:</b> opcjonalne. Pokazuje na twojej mapie udostępnione złapania graczy w pobliżu; twoja lokalizacja jest wysyłana zaokrąglona do ok. 1 km.",
      "<b>Raporty o awariach:</b> opcjonalne i anonimowe.",
      "<b>Usuń moje dane online:</b> w <b>Ja → Mózg</b> usuwa z naszego serwera twój profil, wysłane złapania, obserwowanych i wpis w rankingu. Wyłączenie sieci pyta, czy zachować profil (ukryty w rankingach), czy go usunąć, a wyłączenie udostępniania lokalizacji usuwa zapisane lokalizacje. Twój Dex na telefonie nigdy nie jest ruszany.",
      "<b>Wcześniejsze złapania:</b> przy pierwszym przejściu do trybu online aplikacja proponuje wysłanie wcześniejszych złapań; Mózg pokazuje postęp i przycisk Ponów, gdy coś się nie uda.",
@@ -157,7 +159,8 @@ CONTENT = {
    ("ul", [
      "<b>Rangliste:</b> freiwillig. Dein Name und deine XP erscheinen nur, wenn du sie einschaltest.",
      "<b>Freunde:</b> folge anderen Trainern im Tab Ränge. Freunde sehen nur dein öffentliches Profil.",
-     "<b>Sichtungsorte teilen:</b> optional. Öffentliche Pins werden um etwa 500 m verwischt.",
+     "<b>Sichtungsorte teilen:</b> optional. Deine Fänge erscheinen mit genauem Ort, Art und Datum (nie mit deinem Namen) auf den Karten von Spielern in der Nähe; beim Ausschalten werden die Orte vom Server gelöscht.",
+     "<b>Sichtungen anderer zeigen:</b> optional. Zeigt geteilte Fänge von Spielern in der Nähe auf deiner Karte; dein Standort wird auf etwa 1 km gerundet gesendet.",
      "<b>Absturzberichte:</b> optional und anonym.",
      "<b>Meine Online-Daten löschen:</b> unter <b>Ich → Hirn</b> entfernt Profil, hochgeladene Fänge, Follows und Ranglisteneintrag von unserem Server. Beim Ausschalten des Netzwerks wirst du gefragt, ob dein Profil bleiben (in Ranglisten versteckt) oder gelöscht werden soll; das Ausschalten der Ortsfreigabe entfernt die gespeicherten Orte. Dein Dex auf dem Telefon bleibt immer unberührt.",
      "<b>Frühere Fänge:</b> beim ersten Online-Gehen bietet die App an, frühere Fänge hochzuladen; das Hirn zeigt den Fortschritt und bei Fehlern eine Erneut-Taste.",
@@ -212,7 +215,8 @@ CONTENT = {
    ("ul", [
      "<b>Ranking:</b> opcional. Tu nombre y XP aparecen solo si lo activas.",
      "<b>Amigos:</b> sigue a otros entrenadores desde la pestaña Rangos. Los amigos solo ven tu perfil público.",
-     "<b>Compartir ubicaciones:</b> opcional. Las chinchetas públicas se difuminan unos 500 m.",
+     "<b>Compartir ubicaciones:</b> opcional. Tus capturas aparecen con su ubicación exacta, especie y fecha (nunca tu nombre) en los mapas de jugadores cercanos; al desactivarlo se borran las ubicaciones del servidor.",
+     "<b>Mostrar avistamientos de otros:</b> opcional. Muestra en tu mapa las capturas compartidas de jugadores cercanos; tu ubicación se envía redondeada a 1 km aprox.",
      "<b>Informes de fallos:</b> opcionales y anónimos.",
      "<b>Borrar mis datos en línea:</b> en <b>Yo → Cerebro</b> elimina de nuestro servidor tu perfil, las capturas subidas, a quién sigues y tu entrada en el ranking. Al desactivar la red se te pregunta si conservar tu perfil (oculto en los rankings) o borrarlo, y al desactivar compartir ubicaciones se eliminan las guardadas. Tu Dex en el teléfono nunca se toca.",
      "<b>Capturas anteriores:</b> la primera vez que te conectas, la app ofrece subir las capturas hechas antes; Cerebro muestra el progreso y un botón Reintentar si algo falla.",

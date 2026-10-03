@@ -3,10 +3,11 @@
 Each page is (eyebrow, headline, updated-label, intro, [(title, [paragraph | ("ul", [items])])]).
 Facts here must match the code: see docs/modules/backend-adapter.md and the worker schema.
 """
-UPDATED = "2 October 2026"
+UPDATED = "2 October 2026"  # terms
+PRIVACY_UPDATED = "3 October 2026"  # exact shared locations, sightings overlay
 
 PRIVACY = {
-"en": ("YOUR BUGS, YOURS TO KEEP", "Privacy, simply.", f"Last updated: {UPDATED}",
+"en": ("YOUR BUGS, YOURS TO KEEP", "Privacy, simply.", f"Last updated: {PRIVACY_UPDATED}",
  "Critterboard is a free bug-identification game. It has no accounts, advertising, purchases or analytics. It works fully offline, and your collection is stored on your phone.",
  [
  ("On your phone", ["Your Dex, sightings, photos, settings and chat history are stored on your device. Identifying a bug and chatting with the guides both run on your phone. Photos you take or pick are never uploaded. They stay on your device until you delete them or wipe the app's data. Your phone's own backup settings may also apply."]),
@@ -20,7 +21,7 @@ PRIVACY = {
      "A random anonymous ID created on your phone, plus a hash of a private device key (the key itself never leaves your phone).",
      "Your display name, your XP total, whether you appear on the leaderboard, and who you follow.",
      "Your caught species and when you caught them, so friends can see your activity.",
-     "A country or region label and an approximate catch location, only if you turn on “Share spotting locations”. Catch locations are blurred by up to about 500 m on your phone before they are sent.",
+     "A country or region label and the exact catch location, only if you turn on “Share spotting locations”. Players nearby who turn on “Show others' sightings” see these catches on their map, with species and date but never your name. Turning sharing off deletes the stored locations. Showing others' sightings sends your location rounded to about 1 km to find them; it is not stored.",
    ]),
    "Your display name and XP are visible to other players only if you choose to appear on the leaderboard or if they follow you. Names are checked against a basic filter.",
    "For security, we briefly count login attempts by IP address (for about a minute) to limit abuse. Cloudflare, our hosting provider, also processes connection data such as your IP address to deliver the service; see Cloudflare's privacy policy.",
@@ -34,7 +35,7 @@ PRIVACY = {
  ("Your rights and contact", ["Depending on where you live, you may have the right to access, correct or delete the data we hold about you, or to object to its use. Email hello@critterboard.app and we will help. Support correspondence is kept while we resolve your request. Please send only what is needed."]),
  ("Changes", ["If this policy changes in a meaningful way, we will update the date above and, where it matters, tell you in the app."]),
  ]),
-"pl": ("TWOJE OWADY, TWOJE", "Prywatność, po prostu.", f"Ostatnia aktualizacja: 2 października 2026",
+"pl": ("TWOJE OWADY, TWOJE", "Prywatność, po prostu.", "Ostatnia aktualizacja: 3 października 2026",
  "Critterboard to darmowa gra do rozpoznawania owadów. Nie ma kont, reklam, zakupów ani analityki. Działa w pełni offline, a twoja kolekcja jest przechowywana na telefonie.",
  [
  ("Na twoim telefonie", ["Twój Dex, obserwacje, zdjęcia, ustawienia i historia czatu są przechowywane na urządzeniu. Rozpoznawanie owadów i rozmowy z przewodnikami odbywają się na telefonie. Zdjęcia, które robisz lub wybierasz, nigdy nie są wysyłane. Pozostają na urządzeniu, dopóki ich nie usuniesz lub nie wymażesz danych aplikacji. Mogą mieć zastosowanie także ustawienia kopii zapasowej twojego telefonu."]),
@@ -48,7 +49,7 @@ PRIVACY = {
      "Losowy anonimowy identyfikator utworzony na telefonie oraz skrót prywatnego klucza urządzenia (sam klucz nigdy nie opuszcza telefonu).",
      "Twoją wyświetlaną nazwę, sumę XP, informację, czy pojawiasz się w rankingu, oraz kogo obserwujesz.",
      "Złapane gatunki i czas złapania, aby znajomi mogli widzieć twoją aktywność.",
-     "Etykietę kraju lub regionu i przybliżoną lokalizację złapania, wyłącznie jeśli włączysz „Udostępniaj miejsca obserwacji”. Lokalizacje są rozmywane nawet o ok. 500 m na telefonie, zanim zostaną wysłane.",
+     "Etykietę kraju lub regionu i dokładną lokalizację złapania, wyłącznie jeśli włączysz „Udostępniaj miejsca obserwacji”. Gracze w pobliżu, którzy włączą „Pokazuj obserwacje innych”, widzą te złapania na mapie – z gatunkiem i datą, ale nigdy z twoją nazwą. Wyłączenie udostępniania usuwa zapisane lokalizacje. Pokazywanie obserwacji innych wysyła twoją lokalizację zaokrągloną do ok. 1 km, by je znaleźć; nie jest ona zapisywana.",
    ]),
    "Twoja nazwa i XP są widoczne dla innych graczy tylko wtedy, gdy zdecydujesz się pojawiać w rankingu lub gdy cię obserwują. Nazwy przechodzą podstawowy filtr.",
    "Dla bezpieczeństwa na krótko (ok. minuty) liczymy próby logowania według adresu IP, aby ograniczać nadużycia. Cloudflare, nasz dostawca hostingu, przetwarza też dane połączenia, takie jak adres IP, aby dostarczać usługę; zobacz politykę prywatności Cloudflare.",
@@ -62,7 +63,7 @@ PRIVACY = {
  ("Twoje prawa i kontakt", ["W zależności od miejsca zamieszkania możesz mieć prawo dostępu do danych, które o tobie przechowujemy, ich poprawiania, usunięcia lub sprzeciwu wobec ich wykorzystania. Napisz na hello@critterboard.app, a pomożemy. Korespondencję przechowujemy do czasu załatwienia sprawy. Prosimy o przesyłanie tylko tego, co potrzebne."]),
  ("Zmiany", ["Jeśli polityka istotnie się zmieni, zaktualizujemy datę powyżej i, gdy to ważne, poinformujemy cię w aplikacji."]),
  ]),
-"de": ("DEINE INSEKTEN, DEINE DATEN", "Datenschutz, einfach erklärt.", "Zuletzt aktualisiert: 2. Oktober 2026",
+"de": ("DEINE INSEKTEN, DEINE DATEN", "Datenschutz, einfach erklärt.", "Zuletzt aktualisiert: 3. Oktober 2026",
  "Critterboard ist ein kostenloses Spiel zum Bestimmen von Insekten. Es gibt keine Konten, Werbung, Käufe oder Analysen. Es funktioniert komplett offline, und deine Sammlung liegt auf deinem Telefon.",
  [
  ("Auf deinem Telefon", ["Dein Dex, Sichtungen, Fotos, Einstellungen und Chatverlauf werden auf deinem Gerät gespeichert. Die Bestimmung eines Insekts und der Chat mit den Guides laufen auf deinem Telefon. Fotos, die du aufnimmst oder auswählst, werden nie hochgeladen. Sie bleiben auf deinem Gerät, bis du sie löschst oder die App-Daten löschst. Auch die Backup-Einstellungen deines Telefons können gelten."]),
@@ -76,7 +77,7 @@ PRIVACY = {
      "Eine zufällige anonyme ID, die auf deinem Telefon erzeugt wird, sowie einen Hash eines privaten Geräteschlüssels (der Schlüssel selbst verlässt dein Telefon nie).",
      "Deinen Anzeigenamen, deine XP-Summe, ob du in der Rangliste erscheinst, und wem du folgst.",
      "Deine gefangenen Arten und wann du sie gefangen hast, damit Freunde deine Aktivität sehen können.",
-     "Ein Länder- oder Regionskennzeichen und einen ungefähren Fangort, nur wenn du „Sichtungsorte teilen“ einschaltest. Fangorte werden auf deinem Telefon um bis zu etwa 500 m verwischt, bevor sie gesendet werden.",
+     "Ein Länder- oder Regionskennzeichen und den genauen Fangort, nur wenn du „Sichtungsorte teilen“ einschaltest. Spieler in der Nähe, die „Sichtungen anderer zeigen“ einschalten, sehen diese Fänge auf ihrer Karte, mit Art und Datum, aber nie mit deinem Namen. Wenn du das Teilen ausschaltest, werden die gespeicherten Orte gelöscht. Sichtungen anderer zu zeigen sendet deinen Standort, auf etwa 1 km gerundet, um sie zu finden; er wird nicht gespeichert.",
    ]),
    "Dein Anzeigename und deine XP sind für andere Spieler nur sichtbar, wenn du in der Rangliste erscheinen willst oder sie dir folgen. Namen werden mit einem einfachen Filter geprüft.",
    "Zur Sicherheit zählen wir Anmeldeversuche kurz (etwa eine Minute) nach IP-Adresse, um Missbrauch zu begrenzen. Cloudflare, unser Hosting-Anbieter, verarbeitet außerdem Verbindungsdaten wie deine IP-Adresse, um den Dienst auszuliefern; siehe die Datenschutzerklärung von Cloudflare.",
@@ -90,7 +91,7 @@ PRIVACY = {
  ("Deine Rechte und Kontakt", ["Je nachdem, wo du lebst, hast du möglicherweise das Recht auf Auskunft, Berichtigung oder Löschung der über dich gespeicherten Daten oder auf Widerspruch gegen ihre Nutzung. Schreibe an hello@critterboard.app, wir helfen dir. Korrespondenz bewahren wir auf, bis dein Anliegen geklärt ist. Bitte sende nur, was nötig ist."]),
  ("Änderungen", ["Wenn sich diese Erklärung wesentlich ändert, aktualisieren wir das Datum oben und informieren dich, wo es wichtig ist, in der App."]),
  ]),
-"es": ("TUS BICHOS, TUYOS", "Privacidad, sin rodeos.", "Última actualización: 2 de octubre de 2026",
+"es": ("TUS BICHOS, TUYOS", "Privacidad, sin rodeos.", "Última actualización: 3 de octubre de 2026",
  "Critterboard es un juego gratuito para identificar bichos. No tiene cuentas, publicidad, compras ni analítica. Funciona totalmente sin conexión y tu colección se guarda en tu teléfono.",
  [
  ("En tu teléfono", ["Tu Dex, avistamientos, fotos, ajustes e historial de chat se guardan en tu dispositivo. Identificar un bicho y charlar con las guías ocurre en tu teléfono. Las fotos que haces o eliges nunca se suben. Permanecen en tu dispositivo hasta que las borres o borres los datos de la app. También pueden aplicarse los ajustes de copia de seguridad de tu teléfono."]),
@@ -104,7 +105,7 @@ PRIVACY = {
      "Un ID anónimo aleatorio creado en tu teléfono y un hash de una clave privada del dispositivo (la clave en sí nunca sale de tu teléfono).",
      "Tu nombre visible, tu total de XP, si apareces en el ranking y a quién sigues.",
      "Las especies que capturas y cuándo, para que tus amigos vean tu actividad.",
-     "Una etiqueta de país o región y una ubicación aproximada de la captura, solo si activas «Compartir ubicaciones de avistamientos». Las ubicaciones se difuminan hasta unos 500 m en tu teléfono antes de enviarse.",
+     "Una etiqueta de país o región y la ubicación exacta de la captura, solo si activas «Compartir ubicaciones de avistamientos». Los jugadores cercanos que activen «Mostrar avistamientos de otros» ven estas capturas en su mapa, con especie y fecha pero nunca tu nombre. Al desactivar el uso compartido se borran las ubicaciones guardadas. Mostrar avistamientos de otros envía tu ubicación redondeada a 1 km aprox. para encontrarlos; no se guarda.",
    ]),
    "Tu nombre y tu XP solo son visibles para otros jugadores si decides aparecer en el ranking o si te siguen. Los nombres pasan por un filtro básico.",
    "Por seguridad, contamos brevemente (alrededor de un minuto) los intentos de inicio de sesión por dirección IP para limitar abusos. Cloudflare, nuestro proveedor de alojamiento, también procesa datos de conexión como tu dirección IP para prestar el servicio; consulta su política de privacidad.",
