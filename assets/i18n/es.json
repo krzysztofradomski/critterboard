@@ -389,6 +389,8 @@
         "weekly": "Semanal",
         "friends": "Amigos"
       },
+      "stats": "Nv {lvl} · {n} especies",
+      "statsWeek": "{n} especies esta semana",
       "meta": "{country}",
       "hiddenTitle": "Estás oculto en el ranking",
       "hiddenDesc": "Activa \"Mostrarme en el ranking\" para aparecer.",

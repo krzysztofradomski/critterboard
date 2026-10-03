@@ -56,6 +56,8 @@ export type LeaderboardEntry = {
   country?: CountryCode;
   /** Total XP for the scope. For `'weekly'` this is the week's delta only. */
   xp: number;
+  /** Distinct species caught (within the week, for `'weekly'`). Absent from older servers. */
+  catches?: number;
   /** 1-indexed rank within the returned page's scope. */
   rank: number;
   /**

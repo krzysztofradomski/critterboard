@@ -389,6 +389,8 @@
         "weekly": "Weekly",
         "friends": "Friends"
       },
+      "stats": "Lv {lvl} · {n} species",
+      "statsWeek": "{n} species this week",
       "meta": "{country}",
       "hiddenTitle": "You are hidden from rankings",
       "hiddenDesc": "Turn on \"Show me on leaderboard\" to appear.",

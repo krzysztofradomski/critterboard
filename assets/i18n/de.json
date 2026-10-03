@@ -389,6 +389,8 @@
         "weekly": "Wöchentlich",
         "friends": "Freunde"
       },
+      "stats": "Lvl {lvl} · {n} Arten",
+      "statsWeek": "{n} Arten diese Woche",
       "meta": "{country}",
       "hiddenTitle": "Du bist in der Rangliste versteckt",
       "hiddenDesc": "Aktiviere \"In Rangliste anzeigen\", um zu erscheinen.",

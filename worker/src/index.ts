@@ -61,6 +61,8 @@ type LeaderboardEntry = {
   avatarEmoji?: string;
   country?: CountryCode;
   xp: number;
+  /** Distinct species caught (this week, for the weekly board). */
+  catches?: number;
   rank: number;
   rankDelta: number | null;
   isSelf?: boolean;
@@ -631,13 +633,14 @@ async function handleLeaderboard(userId: string, url: URL, env: Env): Promise<Re
     const ids = [userId, ...following.results.map((r) => r.followee_id)];
     const placeholders = ids.map(() => '?').join(', ');
     const rows = await env.DB.prepare(
-      `SELECT id, display_name, avatar_emoji, country, xp_total, leaderboard_visible
+      `SELECT id, display_name, avatar_emoji, country, xp_total, leaderboard_visible,
+              (SELECT COUNT(DISTINCT bug_id) FROM catches WHERE user_id = users.id) AS species
        FROM users WHERE id IN (${placeholders})
        ORDER BY xp_total DESC`,
-    ).bind(...ids).all<UserRow>();
+    ).bind(...ids).all<UserRow & { species: number }>();
     entries = rows.results
       .filter((r) => r.leaderboard_visible === 1 || r.id === userId)
-      .map((r, i) => toEntry(r, r.xp_total, i + 1, userId));
+      .map((r, i) => toEntry(r, r.xp_total, i + 1, userId, r.species));
   }
 
   const { items, nextCursor } = slice(entries, offset, limit);
@@ -654,8 +657,9 @@ async function handleLeaderboard(userId: string, url: URL, env: Env): Promise<Re
 
 type BoardRow = Pick<UserRow, 'id' | 'display_name' | 'avatar_emoji' | 'country'>;
 
-function toEntry(r: BoardRow, xp: number, rank: number, selfId?: string): LeaderboardEntry {
+function toEntry(r: BoardRow, xp: number, rank: number, selfId?: string, catches?: number): LeaderboardEntry {
   const e: LeaderboardEntry = { userId: r.id, displayName: r.display_name, xp, rank, rankDelta: null };
+  if (catches !== undefined) e.catches = catches;
   if (r.avatar_emoji) e.avatarEmoji = r.avatar_emoji;
   if (r.country) e.country = r.country;
   if (r.id === selfId) e.isSelf = true;
@@ -674,11 +678,12 @@ const boardKey = (scope: 'global' | 'weekly') => `board:${scope}`;
 async function buildBoard(scope: 'global' | 'weekly', env: Env): Promise<Board> {
   if (scope === 'global') {
     const rows = await env.DB.prepare(
-      `SELECT id, display_name, avatar_emoji, country, xp_total
+      `SELECT id, display_name, avatar_emoji, country, xp_total,
+              (SELECT COUNT(DISTINCT bug_id) FROM catches WHERE user_id = users.id) AS species
        FROM users WHERE leaderboard_visible = 1
        ORDER BY xp_total DESC LIMIT 1000`,
-    ).all<BoardRow & { xp_total: number }>();
-    return { entries: rows.results.map((r, i) => toEntry(r, r.xp_total, i + 1)), fetchedAt: Date.now() };
+    ).all<BoardRow & { xp_total: number; species: number }>();
+    return { entries: rows.results.map((r, i) => toEntry(r, r.xp_total, i + 1, undefined, r.species)), fetchedAt: Date.now() };
   }
   // Weekly XP: each distinct species a user caught in the last 7 days, at its listed XP.
   const weekStart = Date.now() - 7 * 24 * 3600 * 1000;
@@ -689,12 +694,16 @@ async function buildBoard(scope: 'global' | 'weekly', env: Env): Promise<Board> 
       .all<{ user_id: string; bug_id: string }>(),
   ]);
   const weekly = new Map<string, number>();
-  for (const c of caught.results) weekly.set(c.user_id, (weekly.get(c.user_id) ?? 0) + xpFor(c.bug_id));
+  const weeklySpecies = new Map<string, number>();
+  for (const c of caught.results) {
+    weekly.set(c.user_id, (weekly.get(c.user_id) ?? 0) + xpFor(c.bug_id));
+    weeklySpecies.set(c.user_id, (weeklySpecies.get(c.user_id) ?? 0) + 1);
+  }
   const ranked = users.results
     .map((u) => ({ u, xp: weekly.get(u.id) ?? 0 }))
     .sort((x, y) => y.xp - x.xp)
     .slice(0, 1000);
-  return { entries: ranked.map(({ u, xp }, i) => toEntry(u, xp, i + 1)), fetchedAt: Date.now() };
+  return { entries: ranked.map(({ u, xp }, i) => toEntry(u, xp, i + 1, undefined, weeklySpecies.get(u.id) ?? 0)), fetchedAt: Date.now() };
 }
 
 async function storeBoard(scope: 'global' | 'weekly', env: Env): Promise<Board> {

@@ -389,6 +389,8 @@
         "weekly": "Tygodniowy",
         "friends": "Znajomi"
       },
+      "stats": "Poz. {lvl} · {n} gat.",
+      "statsWeek": "{n} gat. w tym tygodniu",
       "meta": "{country}",
       "hiddenTitle": "Jesteś ukryty w rankingu",
       "hiddenDesc": "Włącz \"Pokaż mnie w rankingu\" by się pojawić.",

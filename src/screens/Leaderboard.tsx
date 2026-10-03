@@ -7,7 +7,7 @@ import { FriendsPanel } from '@/components/FriendsPanel';
 import { PersonModal } from '@/components/PersonModal';
 import { LEADERS, type LeaderRow } from '@/data/leaderboard';
 import { countryName, useT } from '@/i18n/helpers';
-import { useXp } from '@/lib/level';
+import { levelFromXp, useXp } from '@/lib/level';
 import { PB } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
@@ -27,6 +27,7 @@ export function Leaderboard() {
   const profile = useAppStore((s) => s.profile);
   const language = useAppStore((s) => s.language);
   const userXp = useXp();
+  const dexSize = useAppStore((s) => s.dex.size);
   const t = useT();
   const route = useCurrentRoute();
   const startTab = (route.params as { tab?: TabName } | undefined)?.tab;
@@ -58,9 +59,17 @@ export function Leaderboard() {
       rank: i + 1,
       country: l.country,
       rankDelta: null,
-      ...(l.self ? { isSelf: true } : {}),
+      ...(l.self ? { isSelf: true, catches: dexSize } : {}),
     }));
-  }, [page, userXp, profile.name]);
+  }, [page, userXp, dexSize, profile.name]);
+
+  // Under the score: level and species count (weekly: just the week's species; level needs a lifetime total).
+  const stats = (e: LeaderboardEntry): string => {
+    if (e.catches === undefined) return '';
+    return tab === 'weekly'
+      ? t('leaderboard.statsWeek', { n: e.catches })
+      : t('leaderboard.stats', { lvl: levelFromXp(e.xp).level, n: e.catches });
+  };
 
   // Nobody but the user: don't dress a one-person list up as a podium.
   const hasPeers = sorted.some((e) => !e.isSelf);
@@ -127,8 +136,8 @@ export function Leaderboard() {
                   { backgroundColor: p.c, height: p.h },
                 ]}
               >
-                <Text style={styles.podiumPlace}>{p.place}</Text>
-                <Text style={styles.podiumXp}>{row.xp.toLocaleString()}</Text>
+                <Text style={styles.podiumPlace}>{row.xp.toLocaleString()}</Text>
+                <Text style={styles.podiumXp}>{stats(row)}</Text>
               </View>
             </Pressable>
           );
@@ -174,7 +183,7 @@ export function Leaderboard() {
                     {l.isSelf ? ` ${t('common.youParen')}` : ''}
                   </Text>
                   <Text style={styles.meta}>
-                    {t('leaderboard.meta', { country: countryName(language, country) })}
+                    {[stats(l), t('leaderboard.meta', { country: countryName(language, country) })].filter(Boolean).join(' · ')}
                   </Text>
                 </View>
                 <Text style={styles.xp}>{l.xp.toLocaleString()}</Text>
@@ -268,7 +277,7 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     shadowOffset: { width: 3, height: 3 },
   },
-  podiumPlace: { fontSize: 22, fontWeight: '800', color: PB.ink },
+  podiumPlace: { fontSize: 20, fontWeight: '800', color: PB.ink },
   podiumXp: { fontSize: 10, fontWeight: '700', color: PB.ink, opacity: 0.7 },
   list: { marginTop: 18 },
   row: {
