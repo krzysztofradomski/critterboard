@@ -75,3 +75,11 @@ Each extra zoom level is about 4× more data. Plan: the whole region at low zoom
 ## Licensing
 
 Map data is © OpenStreetMap contributors (ODbL). The style sets the source attribution, and MapLibre's attribution button shows it on the map.
+
+## Stacked pins
+
+Catches made at the same spot (within ~50 m, `pinsNear` in `src/screens/mapGeo.ts`) hide behind one marker. Tapping it opens the pin card with a "‹ 2 of 3 ›" row that cycles through them, newest first. Removing a pin moves on to the next one in the stack.
+
+## Removing a Dex entry
+
+Result (opened from the Dex or Home, not from a fresh scan) has a "Remove from Dex" button. It calls `removeFromDex(bugId)`: drops the species from the Dex, its catches and activity entries, and deletes its kept photos. Quest progress and XP stay, and catches already uploaded stay online until the user deletes their online data in Brains.

@@ -17,6 +17,7 @@ import {
 } from "@/lib/useStreak";
 import { usePersona } from "@/personas/hooks";
 import { PB } from "@/tokens/pb";
+import { latestPhotoFor } from "@/lib/streak";
 import { useAppStore } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
 
@@ -27,6 +28,7 @@ export function Home() {
   const { go } = useNav();
   const persona = useAppStore((s) => s.persona);
   const dexSize = useAppStore((s) => s.dex.size);
+  const catchLog = useAppStore((s) => s.catchLog);
   const P = usePersona(persona);
   const t = useT();
 
@@ -152,7 +154,10 @@ export function Home() {
                 return (
                   <Pressable
                     key={id}
-                    onPress={() => go("result", { id })}
+                    onPress={() => {
+                      const photoUri = latestPhotoFor(catchLog, id);
+                      go("result", photoUri ? { id, photoUri } : { id });
+                    }}
                     style={[styles.recentTile, { backgroundColor: bug.color }]}
                   >
                     <BugIcon bug={bug} size={56} />

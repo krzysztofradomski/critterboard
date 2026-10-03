@@ -166,6 +166,13 @@ export function buildUserPins(
     });
 }
 
+/** Pins close enough to `pin` to hide behind it (~50 m), newest first; always includes `pin`. */
+export function pinsNear(pins: UserPinData[], pin: UserPinData, radiusDeg = 0.0005): UserPinData[] {
+  return pins
+    .filter((p) => Math.abs(p.lat - pin.lat) <= radiusDeg && Math.abs(p.lng - pin.lng) <= radiusDeg)
+    .sort((a, b) => b.at - a.at);
+}
+
 export function buildGlobeMarkers(
   userPins: UserPinData[],
   mapLocation: { lat: number; lng: number } | null,

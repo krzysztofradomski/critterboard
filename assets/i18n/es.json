@@ -86,6 +86,10 @@
     "result": {
       "headTitle": "¡IDENTIFICADO!",
       "confidence": "CONFIANZA",
+      "removeFromDex": "Quitar del Dex",
+      "removeTitle": "¿Quitar del Dex?",
+      "removeBody": "Quita {name} con sus fotos y marcadores del mapa de este móvil. El progreso de misiones y la XP ya ganada se conservan. Puedes volver a capturarlo.",
+      "removeCta": "Quitar",
       "alreadyInDex": "Ya en tu Dex ✓",
       "addToDex": "Añadir al Dex 📔",
       "askCta": "PREGUNTA A {name} →",
@@ -411,6 +415,7 @@
       "errorSub": "No se pudo descargar el mapa. Revisa tu conexión e inténtalo de nuevo.",
       "retryCta": "Reintentar",
       "sightingSub": "Visto cerca · {when}",
+      "stackOf": "{n} de {total}",
       "viewInsect": "Ver insecto →"
     },
     "permissions": {

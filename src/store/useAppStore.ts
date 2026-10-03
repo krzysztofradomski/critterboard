@@ -325,6 +325,8 @@ type Actions = {
    * Identified by the event's `at` timestamp (unique per session).
    */
   removeMapPin: (catchAt: number) => void;
+  /** Remove a species from the Dex: its catches, activity entries and kept photos. Quest progress and XP stay. */
+  removeFromDex: (bugId: string) => Promise<void>;
 };
 
 type AppStore = State & Actions;
@@ -952,6 +954,22 @@ export const useAppStore = create<AppStore>()(
             return rest;
           }),
         })),
+
+      removeFromDex: async (bugId) => {
+        for (const e of get().catchLog) {
+          if (e.id !== bugId || !e.photoUri) continue;
+          await FileSystem.deleteAsync(photoFileUri(e.photoUri), { idempotent: true }).catch(() => undefined);
+        }
+        set((s) => {
+          const dex = new Set(s.dex);
+          dex.delete(bugId);
+          return {
+            dex,
+            catchLog: s.catchLog.filter((e) => e.id !== bugId),
+            activityLog: s.activityLog.filter((e) => !(e.kind === 'catch' && e.bugId === bugId)),
+          };
+        });
+      },
 
       clearScanCache: async () => {
         const events = get().catchLog;

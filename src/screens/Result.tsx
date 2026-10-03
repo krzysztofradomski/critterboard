@@ -1,6 +1,6 @@
 import * as Location from 'expo-location';
 import React from 'react';
-import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { BugIcon } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
@@ -110,6 +110,7 @@ export function Result() {
   const persona = useAppStore((s) => s.persona);
   const catchBug = useAppStore((s) => s.catchBug);
   const showToast = useAppStore((s) => s.showToast);
+  const removeFromDex = useAppStore((s) => s.removeFromDex);
   const dex = useAppStore((s) => s.dex);
   const locationShareOn = useAppStore((s) => s.profile.locationShareOn);
   const minConfidence = useAppStore((s) => s.profile.minConfidence);
@@ -315,6 +316,29 @@ export function Result() {
                 ? t('result.addToDex')
                 : t('home.hunt')}
           </Btn>
+          {alreadyCaught && conf === undefined ? (
+            <Btn
+              full
+              bg={PB.red}
+              color={PB.cream}
+              style={{ marginTop: 10 }}
+              onPress={() =>
+                Alert.alert(t('result.removeTitle'), t('result.removeBody', { name: localizedName }), [
+                  { text: t('common.cancel'), style: 'cancel' },
+                  {
+                    text: t('result.removeCta'),
+                    style: 'destructive',
+                    onPress: () => {
+                      void removeFromDex(bug.id);
+                      go('dex');
+                    },
+                  },
+                ])
+              }
+            >
+              {t('result.removeFromDex')}
+            </Btn>
+          ) : null}
         </View>
       </ScrollView>
     </View>

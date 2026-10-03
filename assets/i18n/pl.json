@@ -86,6 +86,10 @@
     "result": {
       "headTitle": "ROZPOZNANO!",
       "confidence": "PEWNOŚĆ",
+      "removeFromDex": "Usuń z Dexu",
+      "removeTitle": "Usunąć z Dexu?",
+      "removeBody": "Usuwa {name} wraz ze zdjęciami i pinezkami na mapie z tego telefonu. Postęp zadań i zdobyte XP zostają. Możesz złapać go ponownie.",
+      "removeCta": "Usuń",
       "alreadyInDex": "Już w twoim Dexie ✓",
       "addToDex": "Dodaj do Dexa 📔",
       "askCta": "ZAPYTAJ {name} →",
@@ -397,6 +401,7 @@
       "locSub": "Pinezki na Twojej mapie: {n}",
       "hunt": "ŁOWY →",
       "pinRemove": "Usuń pin",
+      "stackOf": "{n} z {total}",
       "viewInsect": "Zobacz owada →",
       "sightingSub": "Wypatrzony w pobliżu · {when}",
       "emptyTitle": "Na razie brak pinezek",

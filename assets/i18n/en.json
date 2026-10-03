@@ -86,6 +86,10 @@
     "result": {
       "headTitle": "IDENTIFIED!",
       "confidence": "CONFIDENCE",
+      "removeFromDex": "Remove from Dex",
+      "removeTitle": "Remove from Dex?",
+      "removeBody": "Removes {name} with its photos and map pins from this phone. Quest progress and XP you already earned stay. You can catch it again later.",
+      "removeCta": "Remove",
       "alreadyInDex": "Already in your Dex ✓",
       "addToDex": "Add to Dex 📔",
       "askCta": "ASK {name} →",
@@ -397,6 +401,7 @@
       "locSub": "Pins on your map: {n}",
       "hunt": "HUNT →",
       "pinRemove": "Remove pin",
+      "stackOf": "{n} of {total}",
       "viewInsect": "View insect →",
       "sightingSub": "Spotted nearby · {when}",
       "emptyTitle": "No pins yet",

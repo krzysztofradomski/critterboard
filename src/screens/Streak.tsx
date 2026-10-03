@@ -63,7 +63,7 @@ export function Streak() {
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
         <Text style={styles.title}>{t("streak.headTitle")}</Text>
-        <IconBtn fs={14}>↗</IconBtn>
+        <View style={{ width: 38 }} />
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll}>

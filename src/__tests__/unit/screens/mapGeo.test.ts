@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { CatchEvent } from "@/lib/streak";
-import { altitudeToZoom, buildGlobeMarkers, buildUserPins, minZoomForBounds } from "@/screens/mapGeo";
+import { altitudeToZoom, buildGlobeMarkers, buildUserPins, minZoomForBounds, pinsNear } from "@/screens/mapGeo";
 
 describe("buildGlobeMarkers", () => {
   it("starts empty: no invented sightings, only the user's own pins", () => {
@@ -61,5 +61,20 @@ describe('minZoomForBounds', () => {
 
   it('needs less zoom on a smaller viewport', () => {
     expect(minZoomForBounds(europe, 200, 300)).toBeLessThan(minZoomForBounds(europe, 402, 874));
+  });
+});
+
+describe("pinsNear", () => {
+  it("groups pins at the same spot, newest first, and leaves far ones out", () => {
+    const pins = buildUserPins(
+      [
+        { id: "lady", at: 1, lat: 50, lng: 15 },
+        { id: "mona", at: 2, lat: 50.0001, lng: 15.0001 },
+        { id: "lady", at: 3, lat: 51, lng: 15 },
+      ],
+      { lat: 50, lng: 15 },
+      () => "x",
+    );
+    expect(pinsNear(pins, pins[0]!).map((p) => p.at)).toEqual([2, 1]);
   });
 });

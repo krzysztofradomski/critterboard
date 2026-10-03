@@ -86,6 +86,10 @@
     "result": {
       "headTitle": "IDENTIFIZIERT!",
       "confidence": "SICHERHEIT",
+      "removeFromDex": "Aus dem Dex entfernen",
+      "removeTitle": "Aus dem Dex entfernen?",
+      "removeBody": "Entfernt {name} samt Fotos und Kartenpins von diesem Handy. Quest-Fortschritt und bereits verdiente XP bleiben. Du kannst es später erneut fangen.",
+      "removeCta": "Entfernen",
       "alreadyInDex": "Schon im Dex ✓",
       "addToDex": "Zum Dex hinzufügen 📔",
       "askCta": "FRAG {name} →",
@@ -411,6 +415,7 @@
       "errorSub": "Karte konnte nicht geladen werden. Prüfe die Verbindung und versuche es erneut.",
       "retryCta": "Erneut versuchen",
       "sightingSub": "In der Nähe gesichtet · {when}",
+      "stackOf": "{n} von {total}",
       "viewInsect": "Insekt ansehen →"
     },
     "permissions": {

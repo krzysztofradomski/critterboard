@@ -23,6 +23,7 @@ import { useNav } from "@/store/useNav";
 import {
   LOCAL_VIEW_ALT_M,
   buildGlobeMarkers,
+  pinsNear,
   buildUserPins,
   resolveInitialMapView,
   resolveMapCenter,
@@ -37,6 +38,8 @@ export function MapScreen() {
   const language = useAppStore((state) => state.language);
   const removeMapPin = useAppStore((state) => state.removeMapPin);
   const [selectedPin, setSelectedPin] = useState<UserPinData | null>(null);
+  // Pins hidden behind the selected one (same spot): the card cycles through them.
+  const [stack, setStack] = useState<UserPinData[]>([]);
   const [selectedSighting, setSelectedSighting] = useState<Sighting | null>(null);
   // Other players' shared catches near you (Brains → "Show others' sightings").
   const sightings = useNearbySightings();
@@ -65,6 +68,12 @@ export function MapScreen() {
     () => buildUserPins(userCatches, center, (id) => bugName(language, id)),
     [userCatches, center, language],
   );
+
+  const cycle = (step: number) => {
+    if (!selectedPin || stack.length < 2) return;
+    const i = stack.findIndex((p) => p.id === selectedPin.id);
+    setSelectedPin(stack[(i + step + stack.length) % stack.length]!);
+  };
 
   const { markers, meta } = useMemo(
     () => buildGlobeMarkers(userPins, mapLocation),
@@ -122,6 +131,7 @@ export function MapScreen() {
           if (info) {
             setSelectedSighting(null);
             setSelectedPin(info.pin);
+            setStack(pinsNear(userPins, info.pin));
           }
           return false;
         }}
@@ -183,6 +193,19 @@ export function MapScreen() {
                 <Text style={styles.cardWhere}>
                   {selectedPin.lat.toFixed(4)}°, {selectedPin.lng.toFixed(4)}°
                 </Text>
+                {stack.length > 1 ? (
+                  <View style={styles.stackRow}>
+                    <Pressable onPress={() => cycle(-1)} hitSlop={8} style={styles.stackBtn}>
+                      <Text style={styles.stackBtnText}>‹</Text>
+                    </Pressable>
+                    <Text style={styles.cardWhere}>
+                      {t("map.stackOf", { n: stack.findIndex((p) => p.id === selectedPin.id) + 1, total: stack.length })}
+                    </Text>
+                    <Pressable onPress={() => cycle(1)} hitSlop={8} style={styles.stackBtn}>
+                      <Text style={styles.stackBtnText}>›</Text>
+                    </Pressable>
+                  </View>
+                ) : null}
               </View>
               <View style={{ gap: 6 }}>
                 <Pressable
@@ -194,7 +217,9 @@ export function MapScreen() {
                 <Pressable
                   onPress={() => {
                     removeMapPin(selectedPin.at);
-                    setSelectedPin(null);
+                    const rest = stack.filter((x) => x.id !== selectedPin.id);
+                    setStack(rest);
+                    setSelectedPin(rest[0] ?? null);
                   }}
                   style={styles.removePill}
                 >
@@ -298,6 +323,18 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
   },
   huntPillText: { fontSize: 11, fontWeight: "800", color: PB.ink },
+  stackRow: { flexDirection: "row", alignItems: "center", gap: 10, marginTop: 4 },
+  stackBtn: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    borderWidth: 2,
+    borderColor: PB.ink,
+    backgroundColor: PB.yellow,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  stackBtnText: { fontSize: 16, fontWeight: "900", color: PB.ink, lineHeight: 18 },
   removePill: {
     paddingVertical: 4,
     paddingHorizontal: 10,
