@@ -1,16 +1,17 @@
 import * as Location from 'expo-location';
 import React from 'react';
-import { Image, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { BugIcon, useBugIconUri } from '@/components/BugIcon';
+import { BugIcon } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
-import { CameraScene } from '@/components/CameraScene';
+import { CatchPhoto } from '@/components/CatchPhoto';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { BUGS, findBug } from '@/data/bugs';
 import { factTiles, wikipediaUrl } from '@/data/speciesFacts';
 import { useT, useBugName } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
+import { keepPhoto } from '@/lib/photos';
 import { usePersona } from '@/personas/hooks';
 import { PB, RARITY_COLOR } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
@@ -117,7 +118,6 @@ export function Result() {
   const id = params?.id ?? 'mona';
   const photoUri = params?.photoUri ?? null;
   const bug = findBug(id) ?? BUGS[0];
-  const iconUri = useBugIconUri(bug.id);
   const t = useT();
   const localizedName = useBugName(bug?.id ?? 'lady');
   if (!bug) return null;
@@ -166,11 +166,13 @@ export function Result() {
     // location read and pass coords to catchBug only after it lands.
     // To avoid two store writes, we stage the catch atomically once
     // the position is in (with a short timeout fallback for refusal).
-    const finalize = (coords?: { lat: number; lng: number }) => {
+    const finalize = async (coords?: { lat: number; lng: number }) => {
       const at = Date.now();
+      // Out of the cache folder, which the OS may empty, so the Dex keeps the photo.
+      const keptUri = photoUri ? await keepPhoto(photoUri) : null;
       catchBug(bug.id, {
         at,
-        ...(photoUri ? { photoUri } : {}),
+        ...(keptUri ? { photoUri: keptUri } : {}),
         ...(coords ? { lat: coords.lat, lng: coords.lng } : {}),
       });
       // Coordinates leave the device only for users who opted in to sharing.
@@ -183,27 +185,27 @@ export function Result() {
     void (async () => {
       const perm = await Location.getForegroundPermissionsAsync().catch(() => null);
       if (!perm?.granted) {
-        finalize();
+        void finalize();
         return;
       }
       let settled = false;
       const timer = setTimeout(() => {
         if (settled) return;
         settled = true;
-        finalize();
+        void finalize();
       }, 2500);
       Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced })
         .then((pos) => {
           if (settled) return;
           settled = true;
           clearTimeout(timer);
-          finalize({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+          void finalize({ lat: pos.coords.latitude, lng: pos.coords.longitude });
         })
         .catch(() => {
           if (settled) return;
           settled = true;
           clearTimeout(timer);
-          finalize();
+          void finalize();
         });
     })();
   };
@@ -222,15 +224,15 @@ export function Result() {
       <ScrollView contentContainerStyle={styles.scroll}>
         <Sticker bg={PB.cream} rotate={-1} style={styles.heroSticker}>
           <View style={styles.heroImage}>
-            {photoUri ? (
-              <Image source={{ uri: photoUri }} style={styles.heroPhoto} resizeMode="cover" />
-            ) : iconUri ? (
-              <View style={styles.heroIcon}>
-                <BugIcon bug={bug} size={168} />
-              </View>
-            ) : (
-              <CameraScene dark={false} />
-            )}
+            {/* The photo, else the species' sticker icon (or its emoji when there is no icon). */}
+            <CatchPhoto
+              uri={photoUri}
+              fallback={
+                <View style={styles.heroIcon}>
+                  <BugIcon bug={bug} size={168} />
+                </View>
+              }
+            />
             <View style={[styles.tierBadge, { backgroundColor: RARITY_COLOR[bug.rarity] }]}>
               <Text style={styles.tierText}>
                 {bug.tier} {t(`dex.filter.${bug.rarity}`).toUpperCase()}
@@ -321,7 +323,6 @@ const styles = StyleSheet.create({
   heroSticker: { padding: 0, overflow: 'hidden' },
   heroIcon: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: PB.cream2 },
   heroImage: { height: 200, position: 'relative', backgroundColor: '#fff', overflow: 'hidden' },
-  heroPhoto: { ...StyleSheet.absoluteFill },
   tierBadge: {
     position: 'absolute',
     top: 10,

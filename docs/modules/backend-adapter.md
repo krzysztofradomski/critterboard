@@ -148,7 +148,7 @@ Nothing reaches the server until Network is on. What does, and the ways out:
 |---|---|---|
 | Profile (name, region label, ranking visibility) | any change while Network is on | "Delete my online data", or Network off → "Keep, hidden" / "Delete" |
 | Catches (species + time) | right after a catch; failures are retried in batches | same |
-| Catch coordinates (snapped to the centre of a ~700 m grid cell, so within ~500 m; `src/lib/blurCoords.ts`) | only with "Share spotting locations" on | switching that off calls `DELETE /v1/catches/locations` |
+| Catch coordinates, exact (blurring to ~500 m was dropped on 2026-10-03: the server never shows them to other users yet; revisit before any shared sightings map) | only with "Share spotting locations" on | switching that off calls `DELETE /v1/catches/locations` |
 | Everything | | `DELETE /v1/account` removes user, catches, follows, the user's feed, and their events in the feeds of followers and of the people they followed |
 
 Coordinates are snapped to a grid rather than offset at random: random offsets average out over many catches from the same garden, a cell centre doesn't.

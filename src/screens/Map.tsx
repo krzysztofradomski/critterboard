@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
+import { BugIcon } from "@/components/BugIcon";
 import { IconBtn } from "@/components/IconBtn";
 import { MapLocked } from "@/components/MapLocked";
 import { OfflineMap, type OfflineMapHandle } from "@/components/OfflineMap";
@@ -160,7 +161,7 @@ export function MapScreen() {
           <Sticker bg={PB.cream} style={{ padding: 12 }}>
             <View style={styles.cardRow}>
               <View style={styles.cardArt}>
-                <Text style={{ fontSize: 26 }}>{selectedPin.emoji}</Text>
+                <BugIcon bug={{ id: selectedPin.bugId, emoji: selectedPin.emoji }} size={44} />
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={styles.cardTitle}>{selectedPin.name}</Text>
@@ -195,7 +196,8 @@ export function MapScreen() {
               </View>
             </View>
           </Sticker>
-        ) : (
+        ) : userPins.length === 0 ? (
+          // Only when there are no pins: with pins, nothing is shown until one is tapped.
           <Sticker bg={PB.cream} style={{ padding: 12 }}>
             <View style={styles.cardRow}>
               <View style={styles.cardArt}>
@@ -207,7 +209,7 @@ export function MapScreen() {
               </View>
             </View>
           </Sticker>
-        )}
+        ) : null}
       </View>
       )}
 

@@ -16,6 +16,7 @@ import {
   buildConversationMemoryEntry,
   type ConversationMemoryEntry,
 } from '@/lib/conversationMemory';
+import { photoFileUri } from '@/lib/photos';
 import { questsAdvancedBy } from '@/lib/quests';
 
 export type StackEntry<R extends RouteName = RouteName> = {
@@ -955,7 +956,9 @@ export const useAppStore = create<AppStore>()(
 
         let deleted = 0;
         let bytes = 0;
-        for (const uri of uris) {
+        for (const stored of uris) {
+          // Kept photos may sit under a moved app container: delete the file where it is today.
+          const uri = photoFileUri(stored);
           try {
             const info = await FileSystem.getInfoAsync(uri);
             if (info.exists && typeof info.size === 'number') bytes += info.size;

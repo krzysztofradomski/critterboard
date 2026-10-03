@@ -1,7 +1,7 @@
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Animated, PanResponder, Platform, Pressable, StyleSheet, Text, View, type GestureResponderEvent } from 'react-native';
 
 import * as FileSystem from 'expo-file-system/legacy';
 import { vision, USE_NATIVE_VISION, useExecutorchClassifier, type Candidate } from '@/ai';
@@ -21,6 +21,13 @@ import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
 type Phase = 'aim' | 'flash' | 'analyzing';
+
+const ZOOM_PER_LN = 0.36;
+
+function touchDistance(e: GestureResponderEvent): number {
+  const [a, b] = e.nativeEvent.touches;
+  return a && b ? Math.hypot(a.pageX - b.pageX, a.pageY - b.pageY) : 0;
+}
 
 export function Scan() {
   const { go, back } = useNav();
@@ -68,6 +75,42 @@ export function Scan() {
     return () => clearTimeout(id);
   }, []);
   const [flash, setFlash] = useState(false);
+
+  // Pinch to zoom. expo-camera's zoom is 0..1 of the lens range; on iOS it is exponential
+  // (min × (max/min)^zoom), so adding ln(scale) × ZOOM_PER_LN keeps a pinch feeling the same at
+  // every zoom level. ZOOM_PER_LN ≈ 1 / ln(max/min) for a typical ~16× range.
+  const [zoom, setZoom] = useState(0);
+  const pinch = useRef({ startDist: 0, startZoom: 0, zoom: 0 }).current;
+  pinch.zoom = zoom;
+  const pinchResponder = useRef(
+    PanResponder.create({
+      // Only two-finger touches: single taps fall through to the camera and buttons.
+      onStartShouldSetPanResponder: (e) => e.nativeEvent.touches.length === 2,
+      onMoveShouldSetPanResponder: (e) => e.nativeEvent.touches.length === 2,
+      onPanResponderGrant: (e) => {
+        pinch.startDist = touchDistance(e);
+        pinch.startZoom = pinch.zoom;
+      },
+      onPanResponderMove: (e) => {
+        const dist = touchDistance(e);
+        if (!dist) return;
+        // A second finger that lands after the grant starts the pinch here.
+        if (!pinch.startDist) {
+          pinch.startDist = dist;
+          pinch.startZoom = pinch.zoom;
+          return;
+        }
+        const next = pinch.startZoom + Math.log(dist / pinch.startDist) * ZOOM_PER_LN;
+        setZoom(Math.min(1, Math.max(0, next)));
+      },
+      onPanResponderRelease: () => {
+        pinch.startDist = 0;
+      },
+      onPanResponderTerminate: () => {
+        pinch.startDist = 0;
+      },
+    }),
+  ).current;
   const pulse = useRef(new Animated.Value(1)).current;
   const reticleRotate = useRef(new Animated.Value(0)).current;
 
@@ -228,7 +271,9 @@ export function Scan() {
   const cameraReady = permission?.granted;
 
   return (
-    <View style={styles.root}>
+    // Pinch handlers on the root: touches bubble up through ancestors only, so a sibling layer
+    // under the overlays (focus box, tip card) would never see them.
+    <View style={styles.root} {...(cameraReady ? pinchResponder.panHandlers : {})}>
       {cameraReady ? (
         <CameraView
           ref={(ref) => {
@@ -237,9 +282,19 @@ export function Scan() {
           style={StyleSheet.absoluteFill}
           facing="back"
           mute
+          zoom={zoom}
         />
       ) : (
         <CameraScene />
+      )}
+
+      {zoom > 0.01 && (
+        // Zoomed in: a tap goes back to the full view.
+        <View style={styles.zoomWrap} pointerEvents="box-none">
+          <Pressable onPress={() => setZoom(0)} style={styles.zoomChip}>
+            <Text style={styles.zoomText}>↺ 1×</Text>
+          </Pressable>
+        </View>
       )}
 
       {phase === 'analyzing' && <View style={styles.tint} />}
@@ -382,6 +437,20 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
   },
   statusText: { fontSize: 13, fontWeight: '800' },
+  zoomWrap: { position: 'absolute', top: 104, left: 0, right: 0, alignItems: 'center', zIndex: 10 },
+  zoomChip: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    backgroundColor: PB.cream,
+    borderColor: PB.ink,
+    borderWidth: 2,
+    borderRadius: 99,
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 2, height: 2 },
+  },
+  zoomText: { fontSize: 13, fontWeight: '800', color: PB.ink },
   permissionCard: {
     position: 'absolute',
     top: 110,

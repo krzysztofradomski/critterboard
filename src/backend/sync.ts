@@ -1,7 +1,6 @@
 import { backend } from '@/backend';
 import { resetBackendSession } from '@/backend/cloudflare';
 import type { PublishCatchInput } from '@/backend/types';
-import { blurCoords } from '@/lib/blurCoords';
 import type { CatchEvent } from '@/lib/streak';
 import { EMPTY_ONLINE, newBackendIdentity, useAppStore } from '@/store/useAppStore';
 
@@ -36,7 +35,7 @@ export function pendingCatches(state: ReturnType<typeof useAppStore.getState>): 
 function toInput(c: CatchEvent, shareLocation: boolean): PublishCatchInput {
   const base: PublishCatchInput = { bugId: c.id, at: c.at };
   if (shareLocation && c.lat !== undefined && c.lng !== undefined) {
-    return { ...base, ...blurCoords(c.lat, c.lng) };
+    return { ...base, lat: c.lat, lng: c.lng };
   }
   return base;
 }

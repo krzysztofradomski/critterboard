@@ -155,13 +155,17 @@ export function Home() {
                     onPress={() => go("result", { id })}
                     style={[styles.recentTile, { backgroundColor: bug.color }]}
                   >
-                    <BugIcon bug={bug} size={46} />
+                    <BugIcon bug={bug} size={56} />
                     <Text numberOfLines={1} style={styles.recentName}>
                       {bugName(language, id).split(" ")[0]}
                     </Text>
                   </Pressable>
                 );
               })}
+              {/* Four equal slots: one or two finds keep tile size instead of stretching to the full row. */}
+              {Array.from({ length: Math.max(0, 4 - recentIds.length) }, (_, i) => (
+                <View key={`empty-${i}`} style={styles.recentSlot} />
+              ))}
             </View>
           </View>
         )}
@@ -396,6 +400,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 6,
   },
+  recentSlot: { flex: 1, aspectRatio: 1 },
   recentName: {
     marginTop: 4,
     fontSize: 10,

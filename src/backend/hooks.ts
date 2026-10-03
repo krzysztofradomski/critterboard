@@ -20,7 +20,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { backend, bindMockIdentity, BackendError } from '@/backend';
 import { syncCatches } from '@/backend/sync';
-import { blurCoords } from '@/lib/blurCoords';
 import type {
   FeedPage,
   FriendScope,
@@ -266,7 +265,7 @@ export function usePublishCatch(): (bugId: string, at: number, lat?: number, lng
     (bugId, at, lat, lng) => {
       if (!networkOn) return;
       const input =
-        lat != null && lng != null ? { bugId, at, ...blurCoords(lat, lng) } : { bugId, at };
+        lat != null && lng != null ? { bugId, at, lat, lng } : { bugId, at };
       void backend
         .publishCatch(input)
         .then(() => useAppStore.getState().markUploaded([`${bugId}:${at}`]))

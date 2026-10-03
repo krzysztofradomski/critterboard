@@ -145,22 +145,15 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
             data={markerData}
             onPress={(e) => {
               e.stopPropagation();
-              const id = e.nativeEvent.features[0]?.properties?.id;
+              // A tap can hit "you" and a pin at once: the pin wins.
+              const { features } = e.nativeEvent;
+              const hit = features.find((f) => !f.properties?.you) ?? features[0];
+              const id = hit?.properties?.id;
               const marker = markers.find((m) => m.id === id);
               if (marker) onMarkerClick?.(marker);
             }}
           >
-            <Layer
-              id="catch-pins"
-              type="symbol"
-              filter={["!", ["get", "you"]]}
-              layout={{
-                "icon-image": CATCH_PIN,
-                // Pins never hide each other or the map's POI icons.
-                "icon-allow-overlap": true,
-                "icon-ignore-placement": true,
-              }}
-            />
+            {/* "You" first, so a catch at your spot is drawn on top and stays tappable. */}
             <Layer
               id="you"
               type="circle"
@@ -170,6 +163,17 @@ export const OfflineMap = React.forwardRef<OfflineMapHandle, Props>(
                 "circle-color": PB.red,
                 "circle-stroke-width": 3,
                 "circle-stroke-color": PB.cream,
+              }}
+            />
+            <Layer
+              id="catch-pins"
+              type="symbol"
+              filter={["!", ["get", "you"]]}
+              layout={{
+                "icon-image": CATCH_PIN,
+                // Pins never hide each other or the map's POI icons.
+                "icon-allow-overlap": true,
+                "icon-ignore-placement": true,
               }}
             />
           </GeoJSONSource>

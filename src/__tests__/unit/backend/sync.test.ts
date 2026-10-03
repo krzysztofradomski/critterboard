@@ -74,7 +74,7 @@ describe('syncCatches', () => {
     expect(pendingCatches(s).due).toHaveLength(3);
   });
 
-  it('sends blurred coordinates only when location sharing is on', async () => {
+  it('sends exact coordinates only when location sharing is on', async () => {
     setup({ catchLog: log(1, 10_000), online: { since: 1 }, share: false });
     const spy = vi.spyOn(backend, 'publishCatches').mockResolvedValue();
     await syncCatches();
@@ -83,8 +83,7 @@ describe('syncCatches', () => {
     setup({ catchLog: log(1, 20_000), online: { since: 1 }, share: true });
     await syncCatches();
     const sent = spy.mock.calls[1]![0][0]!;
-    expect(sent.lat).not.toBe(50); // blurred
-    expect(Math.abs((sent.lat as number) - 50)).toBeLessThan(0.01);
+    expect(sent).toMatchObject({ lat: 50 });
   });
 
   it('does nothing while Network is off', async () => {

@@ -48,7 +48,7 @@ The app itself is small. Species and the map come as a **region pack**, download
 
 ### Optional social (opt-in)
 
-Bug ID and chat always stay on-device. If you turn **Network** on in Brains, the app syncs **pseudonymous** activity (catches, XP, friends, leaderboard rank) to a [Cloudflare Workers](https://workers.cloudflare.com/) backend so rankings and friends work. No account, no email, no ads. Shared catch locations are blurred to about 500 m on the device first. Everything uploaded can be deleted again from the app, and with Network off nothing leaves the phone. Crash reports are a separate opt-in.
+Bug ID and chat always stay on-device. If you turn **Network** on in Brains, the app syncs **pseudonymous** activity (catches, XP, friends, leaderboard rank) to a [Cloudflare Workers](https://workers.cloudflare.com/) backend so rankings and friends work. No account, no email, no ads. Shared catch locations are exact, and turning sharing off deletes them from the server. Everything uploaded can be deleted again from the app, and with Network off nothing leaves the phone. Crash reports are a separate opt-in.
 
 ## Where things stand
 
