@@ -3,6 +3,7 @@ import type {
   StyleSpecification,
 } from "@maplibre/maplibre-react-native";
 
+import type { PackBounds } from "@/map/mapPack";
 import { PB } from "@/tokens/pb";
 
 /**
@@ -15,6 +16,8 @@ import { PB } from "@/tokens/pb";
 
 export const MAP_COLORS = {
   sea: "#9cc7ff",
+  /** Outside the map pack: muted paper, so missing data doesn't read as sea. */
+  noData: "#e6d9bd",
   land: PB.cream,
   shadow: PB.ink,
   forest: "#7cc47f",
@@ -30,6 +33,14 @@ export const MAP_COLORS = {
 } as const;
 
 export const MAP_SOURCE_ID = "protomaps";
+/** Image names registered with `<Images>` in OfflineMap (art in assets/map/). */
+export const WATER_PATTERN = "water-wave";
+export const NODATA_PATTERN = "nodata";
+export const POI_ICONS = {
+  tree: "poi-tree",
+  flower: "poi-flower",
+  peak: "poi-peak",
+} as const;
 export const OSM_ATTRIBUTION = "© OpenStreetMap contributors";
 
 const SRC = { source: MAP_SOURCE_ID } as const;
@@ -157,6 +168,14 @@ function tileLayers(): LayerSpecification[] {
       paint: { "fill-color": MAP_COLORS.water },
     },
     {
+      id: "water_pattern",
+      type: "fill",
+      ...SRC,
+      "source-layer": "water",
+      filter: isPolygon,
+      paint: { "fill-pattern": WATER_PATTERN, "fill-antialias": false },
+    },
+    {
       id: "water_lines",
       type: "line",
       ...SRC,
@@ -212,6 +231,28 @@ function tileLayers(): LayerSpecification[] {
         "fill-outline-color": MAP_COLORS.ink,
       },
     },
+    // Pixel landmark icons: no text, so still no glyphs to fetch.
+    {
+      id: "pois",
+      type: "symbol",
+      ...SRC,
+      "source-layer": "pois",
+      minzoom: 13,
+      filter: kindIn("park", "nature_reserve", "forest", "wood", "garden", "peak"),
+      layout: {
+        "icon-image": [
+          "match",
+          ["get", "kind"],
+          "garden", POI_ICONS.flower,
+          "peak", POI_ICONS.peak,
+          POI_ICONS.tree,
+        ],
+        "icon-size": 1,
+        // No text labels compete for space, so never hide an icon on collision.
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true,
+      },
+    },
     {
       id: "boundaries_country",
       type: "line",
@@ -232,29 +273,93 @@ export function toPmtilesUrl(fileUri: string): string {
   return `pmtiles://${fileUri}`;
 }
 
+export const COVERAGE_SOURCE_ID = "coverage";
+
+/** Never fetched (no text layers); exists only so symbol layers render on native. */
+export const GLYPHS_PLACEHOLDER = "file:///critterboard-unused-glyphs/{fontstack}/{range}.pbf";
+
+/** The pack's bounding box as a GeoJSON polygon: sea is drawn inside it, "no data" outside. */
+function coverageGeoJson(b: PackBounds) {
+  return {
+    type: "Feature" as const,
+    properties: {},
+    geometry: {
+      type: "Polygon" as const,
+      coordinates: [[
+        [b.minLng, b.minLat],
+        [b.maxLng, b.minLat],
+        [b.maxLng, b.maxLat],
+        [b.minLng, b.maxLat],
+        [b.minLng, b.minLat],
+      ]],
+    },
+  };
+}
+
 /**
  * Build the style. With no tiles (no map pack installed yet) it is just the
- * sea background, so the screen still renders and pins still show.
+ * "no data" background, so the screen still renders and pins still show.
+ * With `bounds` (the pack's coverage) the sea fills that box; outside it the
+ * map says "nothing here" instead of pretending to be ocean.
  */
-export function buildStickerStyle(tilesUrl: string | null): StyleSpecification {
+export function buildStickerStyle(
+  tilesUrl: string | null,
+  bounds: PackBounds | null = null,
+): StyleSpecification {
+  const coverage: LayerSpecification[] = bounds
+    ? ([
+        {
+          id: "coverage_sea",
+          type: "fill",
+          source: COVERAGE_SOURCE_ID,
+          paint: { "fill-color": MAP_COLORS.sea, "fill-antialias": false },
+        },
+        {
+          id: "coverage_waves",
+          type: "fill",
+          source: COVERAGE_SOURCE_ID,
+          paint: { "fill-pattern": WATER_PATTERN, "fill-antialias": false },
+        },
+      ] as LayerSpecification[])
+    : [];
   return {
     version: 8,
     name: "critterboard-sticker",
-    sources: tilesUrl
-      ? {
-          [MAP_SOURCE_ID]: {
-            type: "vector",
-            url: tilesUrl,
-            attribution: OSM_ATTRIBUTION,
-          },
-        }
-      : {},
+    // MapLibre Native won't draw symbol layers (our icon-only POIs) without a glyphs entry.
+    // We draw no text, so this local placeholder is never requested: still fully offline.
+    glyphs: GLYPHS_PLACEHOLDER,
+    sources: {
+      ...(tilesUrl
+        ? {
+            [MAP_SOURCE_ID]: {
+              type: "vector" as const,
+              url: tilesUrl,
+              attribution: OSM_ATTRIBUTION,
+            },
+          }
+        : {}),
+      ...(bounds
+        ? {
+            [COVERAGE_SOURCE_ID]: {
+              type: "geojson" as const,
+              data: coverageGeoJson(bounds),
+            },
+          }
+        : {}),
+    },
     layers: [
       {
         id: "background",
         type: "background",
-        paint: { "background-color": MAP_COLORS.sea },
+        paint: { "background-color": MAP_COLORS.noData },
       },
+      // Pixel dots over the no-data colour.
+      {
+        id: "background_nodata",
+        type: "background",
+        paint: { "background-pattern": NODATA_PATTERN },
+      },
+      ...coverage,
       ...(tilesUrl ? tileLayers() : []),
     ],
   };

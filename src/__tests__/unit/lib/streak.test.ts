@@ -21,7 +21,7 @@ import {
   recentBugIds,
   geotaggedCatches,
   latestPhotoFor,
-  buildSeedCatchLog,
+  streakSummary,
   type CatchEvent,
 } from '@/lib/streak';
 
@@ -233,38 +233,6 @@ describe('latestPhotoFor', () => {
   });
 });
 
-describe('buildSeedCatchLog', () => {
-  it('returns a non-empty array', () => {
-    const log = buildSeedCatchLog();
-    expect(log.length).toBeGreaterThan(0);
-  });
-
-  it('all events have valid id and at fields', () => {
-    const log = buildSeedCatchLog();
-    for (const e of log) {
-      expect(typeof e.id).toBe('string');
-      expect(e.id.length).toBeGreaterThan(0);
-      expect(typeof e.at).toBe('number');
-      expect(e.at).toBeGreaterThan(0);
-    }
-  });
-
-  it('all events are in the past', () => {
-    const now = Date.now();
-    const log = buildSeedCatchLog(now);
-    for (const e of log) {
-      expect(e.at).toBeLessThanOrEqual(now);
-    }
-  });
-
-  it('produces a positive best-streak for the seeded data', () => {
-    // The seed pattern ends with two missed days so currentStreak may be 0,
-    // but the historical best-streak is always > 0.
-    const log = buildSeedCatchLog();
-    expect(bestStreak(log)).toBeGreaterThan(0);
-  });
-});
-
 describe('computeFreezeState', () => {
   it('returns empty spent set and 0 available for no events', () => {
     const state = computeFreezeState([]);
@@ -276,5 +244,25 @@ describe('computeFreezeState', () => {
     const events = Array.from({ length: 7 }, (_, i) => ev(`b${i}`, i));
     const state = computeFreezeState(events);
     expect(state.available).toBe(1);
+  });
+});
+
+describe('streakSummary', () => {
+  it('matches the separate helpers (one freeze replay instead of three)', () => {
+    const logs: CatchEvent[][] = [
+      [],
+      [ev('a', 0)],
+      [ev('a', 0), ev('b', 3), ev('c', 4)],
+      // 8 caught days earn a freeze that covers the missed day 2, then a live run.
+      [...Array.from({ length: 8 }, (_, i) => ev(`r${i}`, 10 - i)), ev('y', 1), ev('z', 0)],
+    ];
+    for (const log of logs) {
+      expect(streakSummary(log)).toEqual({
+        current: currentStreak(log),
+        best: bestStreak(log),
+        total: totalCatches(log),
+        freezes: computeFreezeState(log).available,
+      });
+    }
   });
 });

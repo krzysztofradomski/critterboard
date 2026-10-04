@@ -39,6 +39,14 @@ function interpolate(template: string, vars?: Record<string, string | number>): 
 }
 
 /**
+ * The string for a key (English as fallback), or undefined: for keys that are optional, such as
+ * region-pack species names, which mostly come from the pack instead. No missing-key warning.
+ */
+export function lookupFor(lang: LangId, key: string): string | undefined {
+  return resolve(getPack(lang).strings, key) ?? resolve(getFallbackPack().strings, key);
+}
+
+/**
  * Translate a key for a given language. Falls back to English on miss, then
  * to the literal key so missing strings show up as `screen.foo.bar` in dev.
  */

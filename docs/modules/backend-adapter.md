@@ -22,7 +22,7 @@ One adapter, one chokepoint:
 |---|---|
 | `src/backend/types.ts` | Wire schemas — `BackendUser`, `LeaderboardEntry`, `FriendNode`, `FeedEvent`, page envelopes, `BackendError`. |
 | `src/backend/adapter.ts` | `BackendAdapter` interface — `identity / syncProfile / publishCatch / fetchLeaderboard / fetchFriends / fetchFeed / follow / unfollow / ready`. |
-| `src/backend/mock.ts` | Default impl. Projects `LEADERS` and `FRIENDS` onto the wire types, generates a deterministic peer-activity ticker for the social feed. Identity is injected via `bindMockIdentity`. |
+| `src/backend/mock.ts` | Default impl. Projects `LEADERS` and `FRIENDS` onto the wire types (empty apart from the user unless `EXPO_PUBLIC_DEMO_PEERS=1`, see [[../decisions/006-fresh-start-no-seed-data]]), generates a deterministic peer-activity ticker for the social feed. Identity is injected via `bindMockIdentity`. |
 | `src/backend/cloudflare.ts` | Real HTTP client for `worker/`. Exchanges `backendUserId` for a JWT, retries once on 401. Auto-selected when `EXPO_PUBLIC_BACKEND_URL` is set. |
 | `src/backend/index.ts` | Switchboard. `USE_REMOTE_BACKEND` flag picks mock or cloudflare. Re-exports types so consumers can import from `@/backend`. |
 | `src/backend/hooks.ts` | React layer — `useLeaderboard / useFriends / useFeed / useToggleFollow / usePublishCatch / useBackendIdentityBridge`. Owns request state, network gating, and live identity binding. |
@@ -76,7 +76,7 @@ The interesting fields, with their invariants:
 
 ### `FriendNode`
 
-`rel` is one of `following / follower / mutual / suggested / none`. Suggested rows carry a `reason` discriminated union (`sharedBugs`, `nearby`, `viaFriend`) so the UI can render an explanation without re-querying.
+`rel` is one of `following / follower / mutual / suggested / none`. Suggested rows may carry a `reason` discriminated union (`sharedBugs`, `nearby`, `viaFriend`) so the UI can render an explanation without re-querying. The Worker's suggestions (by popularity) send none, and the UI then shows no explanation.
 
 ### `FeedEvent`
 
@@ -125,3 +125,59 @@ The local store is always the source of truth for follow state. Backend writes a
 2. Set `EXPO_PUBLIC_BACKEND_URL` in `.env`.
 3. Flip `USE_REMOTE_BACKEND = true` in `src/backend/index.ts`.
 4. Run the app on a dev client with `profile.networkOn = true`. Watch the network tab — every screen should issue exactly the calls listed in this doc, no more.
+
+## Identity and login
+
+The user id is **public**: it appears in leaderboard, friends and feed responses. It therefore proves nothing on its own. Each device also generates a random `backendSecret` (32 bytes, kept in the persisted store). Id and secret are replaced together on wipe and after "Delete my online data": the deleted id is free on the server again, and since it was public anyone could register it with their own secret and lock the phone out. `POST /v1/auth` takes `{ userId, secret }`:
+
+- First login for an id registers `SHA-256(secret)` in `users.secret_hash` (`INSERT OR IGNORE`, so a racing second login can't overwrite the winner).
+- Every later login must present a secret with the same hash (constant-time compare), otherwise `401`.
+- An id with no stored hash can't be claimed; a login only ever creates a *new* user.
+- Missing or short secrets and malformed ids get `400`.
+- The client shares one login between calls that start together, and gives up on any request after 15 s (reported as `offline`).
+- Rate limits use Workers Rate Limiting bindings (`[[ratelimits]]` in `worker/wrangler.toml`): auth 10 per IP per minute, every authenticated call 120 per user per minute. Both answer `429`.
+
+Before this, `/v1/auth` minted a token for any claimed id, so anyone who read an id off the leaderboard could impersonate that user. Existing databases need `ALTER TABLE users ADD COLUMN secret_hash TEXT` (already applied to the live one).
+
+
+## What is online, and how to take it back
+
+Nothing reaches the server until Network is on. What does, and the ways out:
+
+| What | Goes up when | Comes back out |
+|---|---|---|
+| Profile (name, region label, ranking visibility) | any change while Network is on | "Delete my online data", or Network off → "Keep, hidden" / "Delete" |
+| Catches (species + time) | right after a catch; failures are retried in batches | same |
+| Catch coordinates, exact | only with "Share spotting locations" on | switching that off, or Network off → "Keep, hidden", calls `DELETE /v1/catches/locations` |
+| Everything | | `DELETE /v1/account` removes user, catches, follows, the user's feed, and their events in the feeds of followers and of the people they followed |
+
+### Shared sightings
+
+Shared coordinates feed one thing: the **sightings overlay** on other players' maps (Brains → "Show others' sightings", off by default, needs Network). `GET /v1/sightings/nearby?lat&lng` returns up to 100 catches by *other* players that still have coordinates, from the last 12 months, nearest first, within a ±1° box. Each is `{ bugId, lat, lng, at }`, **no user id or name**: with exact spots, a name on a trail of sightings would show where someone lives and walks; without it a pin only says "a peacock was seen here". The viewer's position is rounded to ~1 km (`toFixed(2)`) before it is sent and isn't stored. The app caches the answer per spot for 10 minutes (`useNearbySightings`) and drops species its pack doesn't know.
+
+Exact, not blurred (decided 2026-10-03): a blurred pin is useless for finding the bug and can put it in a neighbour's garden instead.
+
+Opening a sighting's species shows its card with **"Hunt →"**, not "Add to Dex": only a scan (which always carries a confidence) can add a species.
+
+A hide (Network off → "Keep, hidden") or a location removal that fails because the phone is offline is not dropped: `online.hideOwed` / `online.clearLocationsOwed` record it and `settleOwedCleanups` retries at every launch, even with Network off, since it only removes data. An owed hide is cleared once Network is back on and the real profile reaches the server.
+
+The phone's catch log is the source of truth. `online.uploaded` in the store lists the `bugId:at` keys known to be on the server; anything else is pending and `src/backend/sync.ts` uploads it in batches of 50 (`POST /v1/catches/batch`, idempotent: a catch's server id is `user:bug:time`). Catches from before Network was first switched on wait for an explicit "Upload" (`online.backfill`); the Brains screen shows progress, failures with a Retry button, and the delete button (`SyncPanel`). "Wipe everything" deletes online data first and stops if it can't reach the server.
+
+Leaderboard XP is computed by the Worker from the species list (`worker/src/speciesXp.ts`, generated by `tools/worker/gen_species_xp.py`): each distinct species counts once, at its listed XP. An id the table doesn't know scores 0, so made-up ids can't farm XP; its catches are kept and count once a worker with a newer table recomputes. Quest XP is local only, so a user's ranking XP can be lower than the XP shown in the app.
+
+### Server rules
+
+What the Worker enforces, whatever a client sends. `worker/smoke.mjs` (`cd worker && npm run smoke`) checks each against a local `wrangler dev`.
+
+- **Hidden by default.** A first login creates the user with `leaderboard_visible = 0`; only the app's profile sync (the user's own switch) makes them visible.
+- **Shared boards hold visible users only.** Global and weekly are one KV snapshot each (`board:global`, `board:weekly`) served to every caller, so a hidden caller is never written into them. The cron rebuilds them every 5 minutes; a catch, a profile change or a deletion drops them so the next read rebuilds. Hidden users see themselves only on the per-caller friends board.
+- **Suggestions** list visible users only, with no `reason` (popularity isn't one the app can name).
+- **Profile fields are bounded** (name 32, emoji 16, region 64 characters; visibility must be a boolean). A rejected name (empty, too long, blocked word) keeps the old one and answers `422`, but visibility and region still apply, so hiding always works.
+- **Catches**: well-formed species id, a time between 2020 and a day ahead, coordinates only as a valid pair. Same check for single and batch uploads.
+- **Sightings** never include the caller's own catches, anything without coordinates (cleared or never shared), or anything older than a year, and carry no user id. Index: `idx_catches_lat` (partial, `lat IS NOT NULL`).
+- **Follows**: the target must exist (`404` otherwise); only a new follow notifies, and an inbox keeps one "followed you" per person, so follow/unfollow cycling can't flood it.
+- **Errors** answer JSON with CORS headers: bad JSON is `400`, anything unexpected `500`.
+
+### Confirmations
+
+Every switch that shares more, or deletes, asks first (`src/backend/useOnlineActions.ts`): Network on (once, then again after "Delete my online data"), Show me on leaderboard on, Share spotting locations on, and Share spotting locations off when locations are stored online (it deletes them). Network off with data online offers keep-hidden / delete. Turning the leaderboard off and crash reports either way need no confirmation: they only hide or are anonymous.

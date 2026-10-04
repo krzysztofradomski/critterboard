@@ -1,19 +1,22 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createContext, useContext } from 'react';
+import { getRandomBytes, randomUUID } from 'expo-crypto';
 import * as FileSystem from 'expo-file-system';
 import { create } from 'zustand';
 import { persist, type PersistStorage, type StorageValue } from 'zustand/middleware';
 
-import { CAUGHT_IDS } from '@/data/bugs';
 import { INITIAL_FOLLOWED } from '@/data/personProfiles';
 import { QUESTS, QUEST_RULES } from '@/data/quests';
 import { DEFAULT_LANG, coerceLang, t, type LangId } from '@/i18n';
 import { type PersonaId, getPersonaName } from '@/personas';
 import { ME_SUB_ALIAS, type RouteName, type RouteParamMap, isMainTab } from '@/navigation/routes';
-import { buildSeedCatchLog, currentStreak, type CatchEvent } from '@/lib/streak';
+import { getPackData } from '@/data/regionPacks';
+import { currentStreak, type CatchEvent } from '@/lib/streak';
 import {
   buildConversationMemoryEntry,
   type ConversationMemoryEntry,
 } from '@/lib/conversationMemory';
+import { photoFileUri } from '@/lib/photos';
 import { questsAdvancedBy } from '@/lib/quests';
 
 export type StackEntry<R extends RouteName = RouteName> = {
@@ -32,6 +35,51 @@ export type Profile = {
    * reports can't leave a fully-offline device.
    */
   crashReportingOn: boolean;
+  /**
+   * Lowest model confidence (percent) a scan result may have and still be
+   * offered for the Dex. Adjustable in Brains.
+   */
+  minConfidence: number;
+  /** Vibration feedback on toggles, tabs and key actions. */
+  hapticsOn: boolean;
+  /** Show other players' shared sightings on the map (needs Network). Off on first run. */
+  sightingsOn: boolean;
+};
+
+export const DEFAULT_MIN_CONFIDENCE = 33;
+
+/**
+ * What this device has put on the server. Nothing leaves the phone until Network is on; this
+ * tracks what did, so the app can show sync progress and delete it all again.
+ */
+export type OnlineState = {
+  /** When Network was first switched on (ms); catches from before it need an explicit upload. */
+  since: number | null;
+  /** True once a profile or catch reached the server and not yet deleted. */
+  hasData: boolean;
+  /** The user agreed to upload catches made before `since`. */
+  backfill: boolean;
+  /** `bugId:at` of every catch known to be on the server. */
+  uploaded: string[];
+  /** A "hide my profile" the user asked for that hasn't reached the server yet (retried at launch). */
+  hideOwed: boolean;
+  /** A "remove stored locations" the user asked for that hasn't reached the server yet (retried at launch). */
+  clearLocationsOwed: boolean;
+};
+
+export const EMPTY_ONLINE: OnlineState = {
+  since: null,
+  hasData: false,
+  backfill: false,
+  uploaded: [],
+  hideOwed: false,
+  clearLocationsOwed: false,
+};
+
+export type SyncStatus = {
+  phase: 'idle' | 'syncing' | 'error';
+  done: number;
+  total: number;
 };
 
 /**
@@ -40,17 +88,26 @@ export type Profile = {
  * handshake. Reset by `wipeAll` so a fresh install is genuinely
  * indistinguishable from a new user.
  *
- * Generates a RFC-4122 v4 UUID using crypto.getRandomValues so the
- * result is cryptographically random — required because the ID acts
- * as a bearer token.
+ * Generates a RFC-4122 v4 UUID with expo-crypto (native secure RNG; Hermes
+ * has no global `crypto`). Required to be cryptographically random because
+ * the ID acts as a bearer token.
  */
 function newBackendUserId(): string {
-  const bytes = new Uint8Array(16);
-  crypto.getRandomValues(bytes);
-  bytes[6] = (bytes[6]! & 0x0f) | 0x40; // version 4
-  bytes[8] = (bytes[8]! & 0x3f) | 0x80; // variant bits
-  const h = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
-  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+  return randomUUID();
+}
+
+/**
+ * Secret that proves this device owns `backendUserId`. The id is public (it appears in
+ * leaderboards); this never leaves the phone except in the login request, where the
+ * server stores only its hash. 32 random bytes, hex.
+ */
+function newBackendSecret(): string {
+  return Array.from(getRandomBytes(32), (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/** A fresh online identity, for `setState` after the old one was deleted on the server. */
+export function newBackendIdentity(): { backendUserId: string; backendSecret: string } {
+  return { backendUserId: newBackendUserId(), backendSecret: newBackendSecret() };
 }
 
 export type ToastSpec = {
@@ -85,7 +142,8 @@ export type ActivityEntry =
   | { id: string; kind: 'persona'; at: number; personaId: PersonaId }
   | { id: string; kind: 'streak';  at: number; days: number };
 
-const ACTIVITY_CAP = 50;
+const ACTIVITY_CAP = 30;
+const ACTIVITY_MAX_AGE_MS = 30 * 24 * 3600 * 1000;
 const MEMORY_CAP = 1200;
 const STREAK_MILESTONES: ReadonlySet<number> = new Set([3, 7, 14, 30]);
 
@@ -95,6 +153,8 @@ const STREAK_MILESTONES: ReadonlySet<number> = new Set([3, 7, 14, 30]);
  * camera failure stamps coords-only, and vice versa.
  */
 export type CatchBugOptions = {
+  /** Capture time; pass the one you also publish so the local and online copies share a key. */
+  at?: number;
   photoUri?: string;
   lat?: number;
   lng?: number;
@@ -138,8 +198,8 @@ type State = {
   activityLog: ActivityEntry[];
   /**
    * Reverse-geocoded location for the Map header, refreshed at most
-   * every 24h. Null when `profile.locationShareOn` is off or before the
-   * first successful fetch.
+   * every 15 minutes. Null before the first successful fix or when the OS
+   * location permission isn't granted.
    */
   mapLocation: MapLocationCache | null;
 
@@ -149,8 +209,7 @@ type State = {
    * Epoch ms at which each quest first reached 100%. Sticky — once
    * stamped, the entry stays even if the rolling counter dips below the
    * target (a daily quest that hits goal then rolls over still shows in
-   * the completed drawer). Empty on first run; the drawer falls back to
-   * the seeded `COMPLETED_QUESTS` so the screen isn't empty.
+   * the completed drawer). Empty on first run.
    */
   questCompletedAt: Record<string, number>;
   /**
@@ -169,6 +228,16 @@ type State = {
    * not *committed* to be sent. There is no account.
    */
   backendUserId: string;
+  /** Proof of ownership of `backendUserId` (see `newBackendSecret`); rotated with it on wipe. */
+  backendSecret: string;
+  online: OnlineState;
+  /** Live upload progress (not persisted). */
+  syncStatus: SyncStatus;
+  /**
+   * True once the saved state has been read (or failed to read) at launch. Not persisted.
+   * The Router renders nothing before, so returning users never see onboarding flash by.
+   */
+  hydrated: boolean;
   /** Persisted chat transcripts keyed by `persona::topic`. */
   chatThreads: Record<string, ChatThread>;
   /** Searchable conversation index for cross-thread memory retrieval. */
@@ -176,7 +245,13 @@ type State = {
   /** Region IDs for which the pack JSON + model .pte have been downloaded. */
   installedRegions: string[];
   /**
-   * Label map from the first installed region pack (scientific name →
+   * The one region whose model Scan uses (null when none is installed).
+   * Installing a region activates it; the user can switch among installed
+   * regions in Brains.
+   */
+  activeRegion: string | null;
+  /**
+   * Label map of the active region pack (scientific name →
    * class index). Persisted so Scan can load the model without waiting
    * for hydrateInstalledPacks() to replay AsyncStorage on each boot.
    */
@@ -202,6 +277,9 @@ type Actions = {
   setPersona: (id: PersonaId) => void;
   setLanguage: (lang: LangId) => void;
   setProfile: (patch: Partial<Profile>) => void;
+  setOnline: (patch: Partial<OnlineState>) => void;
+  markUploaded: (keys: string[]) => void;
+  setSyncStatus: (status: SyncStatus) => void;
   setLastPhotoUri: (uri: string | null) => void;
   setMapLocation: (loc: MapLocationCache | null) => void;
   setOnboarded: (value: boolean) => void;
@@ -239,12 +317,16 @@ type Actions = {
   removeMessageFromThread: (threadId: string, index: number) => void;
   installRegion: (id: string, labelMap: Record<string, number>, version: number) => void;
   uninstallRegion: (id: string) => void;
+  /** Make an installed region the active one (its model + label map drive Scan). */
+  setActiveRegion: (id: string) => void;
   /**
    * Strip the GPS coordinates from a catch event so it no longer appears
    * as a pin on the map. The catch itself stays in the log and dex.
    * Identified by the event's `at` timestamp (unique per session).
    */
   removeMapPin: (catchAt: number) => void;
+  /** Remove a species from the Dex: its catches, activity entries and kept photos. Quest progress and XP stay. */
+  removeFromDex: (bugId: string) => Promise<void>;
 };
 
 type AppStore = State & Actions;
@@ -263,23 +345,6 @@ function initialQuestProgress(): Record<string, number> {
 }
 
 /**
- * Synthesize an initial activity feed from the seed catch log so the
- * Activity screen isn't a sea of crickets the first time the user
- * opens it. Only the 10 most recent catches are turned into entries —
- * older catches still drive streak math, they just don't show up in
- * the feed.
- */
-function initialActivityLog(catchLog: CatchEvent[]): ActivityEntry[] {
-  const sorted = [...catchLog].sort((a, b) => b.at - a.at).slice(0, 10);
-  return sorted.map((e, i) => ({
-    id: `seed-${i}`,
-    kind: 'catch' as const,
-    at: e.at,
-    bugId: e.id,
-  }));
-}
-
-/**
  * Generate a stable-ish id for activity entries. `at` + a tiny counter
  * is plenty — we never reconcile across devices.
  */
@@ -289,9 +354,25 @@ function newActivityId(at: number): string {
   return `${at}-${activityCounter}`;
 }
 
+/**
+ * Keep the Buzz feed short: newest first, nothing older than 30 days, at most ACTIVITY_CAP entries,
+ * and only the latest "switched guide" (that is a state, not a history worth listing).
+ */
+export function pruneActivity(log: ActivityEntry[], now = Date.now()): ActivityEntry[] {
+  let seenPersona = false;
+  const kept = log.filter((e) => {
+    if (now - e.at > ACTIVITY_MAX_AGE_MS) return false;
+    if (e.kind === 'persona') {
+      if (seenPersona) return false;
+      seenPersona = true;
+    }
+    return true;
+  });
+  return kept.length > ACTIVITY_CAP ? kept.slice(0, ACTIVITY_CAP) : kept;
+}
+
 function prependActivity(log: ActivityEntry[], entry: ActivityEntry): ActivityEntry[] {
-  const next = [entry, ...log];
-  return next.length > ACTIVITY_CAP ? next.slice(0, ACTIVITY_CAP) : next;
+  return pruneActivity([entry, ...log]);
 }
 
 // ──────────────────────────────────────────────────────────────────────────
@@ -313,9 +394,12 @@ type Persisted = Pick<
   | 'questCompletedAt'
   | 'questClaimedAt'
   | 'backendUserId'
+  | 'backendSecret'
+  | 'online'
   | 'chatThreads'
   | 'conversationMemory'
   | 'installedRegions'
+  | 'activeRegion'
   | 'activeLabelMap'
   | 'installedPackVersions'
 >;
@@ -328,8 +412,11 @@ type PersistedWire = {
   // `crashReportingOn` was added after the first ship, so legacy blobs
   // won't have it. `localLlmOn` existed until chat became Gemma-only (the
   // model file on disk now decides); older blobs may still carry it.
-  profile: Omit<Profile, 'crashReportingOn'> & {
+  profile: Omit<Profile, 'crashReportingOn' | 'minConfidence' | 'hapticsOn' | 'sightingsOn'> & {
     crashReportingOn?: boolean;
+    minConfidence?: number;
+    hapticsOn?: boolean;
+    sightingsOn?: boolean;
     localLlmOn?: boolean;
   };
   hasOnboarded?: boolean;
@@ -341,12 +428,102 @@ type PersistedWire = {
   questClaimedAt?: Record<string, number>;
   /** Backfilled to a fresh id for users persisted before the slice existed. */
   backendUserId?: string;
+  /** Backfilled for users persisted before login required a secret. */
+  backendSecret?: string;
+  online?: OnlineState;
   chatThreads?: Record<string, ChatThread>;
   conversationMemory?: ConversationMemoryEntry[];
   installedRegions?: string[];
+  activeRegion?: string | null;
   activeLabelMap?: Record<string, number>;
   installedPackVersions?: Record<string, number>;
 };
+
+/**
+ * Coalesce bursts of writes: the first `schedule` opens a `delayMs` window, later calls inside it
+ * only replace the value, and the window's end writes the latest one. Writes run one at a time,
+ * in order, so a slow write can never land after a newer one.
+ */
+export function createCoalescedWriter<T>(write: (value: T) => Promise<void>, delayMs: number) {
+  let pending: { value: T } | null = null;
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  let chain: Promise<void> = Promise.resolve();
+  const flush = (): Promise<void> => {
+    if (timer) clearTimeout(timer);
+    timer = null;
+    if (pending) {
+      const { value } = pending;
+      pending = null;
+      chain = chain
+        .then(() => write(value))
+        .catch((e) => {
+          if (__DEV__) console.warn('[persist] write failed', e);
+        });
+    }
+    return chain;
+  };
+  return {
+    schedule(value: T) {
+      pending = { value };
+      timer ??= setTimeout(flush, delayMs);
+    },
+    flush,
+    cancel() {
+      if (timer) clearTimeout(timer);
+      timer = null;
+      pending = null;
+    },
+  };
+}
+
+async function writeWire(name: string, value: StorageValue<Persisted>): Promise<void> {
+  const wire: PersistedWire = {
+    dex: Array.from(value.state.dex),
+    followed: Array.from(value.state.followed),
+    persona: value.state.persona,
+    language: value.state.language,
+    profile: value.state.profile,
+    hasOnboarded: value.state.hasOnboarded,
+    catchLog: value.state.catchLog,
+    activityLog: value.state.activityLog,
+    mapLocation: value.state.mapLocation,
+    questProgress: value.state.questProgress,
+    questCompletedAt: value.state.questCompletedAt,
+    questClaimedAt: value.state.questClaimedAt,
+    backendUserId: value.state.backendUserId,
+    backendSecret: value.state.backendSecret,
+    online: value.state.online,
+    chatThreads: value.state.chatThreads,
+    conversationMemory: value.state.conversationMemory,
+    installedRegions: value.state.installedRegions,
+    activeRegion: value.state.activeRegion,
+    activeLabelMap: value.state.activeLabelMap,
+    installedPackVersions: value.state.installedPackVersions,
+  };
+  await AsyncStorage.setItem(name, JSON.stringify({ state: wire, version: value.version ?? 0 }));
+}
+
+/**
+ * zustand's persist writes after *every* `set` (each nav tap, toast, chat token), and the blob
+ * holds every chat thread and the memory index (~0.5 MB for an active user). Writing at most
+ * every 500 ms keeps that off the JS thread; App flushes it when the app leaves the foreground.
+ */
+const PERSIST_WINDOW_MS = 500;
+const persistWriter = createCoalescedWriter(
+  ({ name, value }: { name: string; value: StorageValue<Persisted> }) => writeWire(name, value),
+  PERSIST_WINDOW_MS,
+);
+
+/** Write any pending store change now (call when the app goes to the background). */
+export function flushPersistedState(): Promise<void> {
+  return persistWriter.flush();
+}
+
+/**
+ * Hydration replaces state with a raw `set` (no write), so a write scheduled before it finished
+ * (e.g. the launch-time language seed) would save first-run defaults over the user's data.
+ */
+let rehydrated = false;
 
 const wireStorage: PersistStorage<Persisted> = {
   async getItem(name) {
@@ -363,20 +540,25 @@ const wireStorage: PersistStorage<Persisted> = {
         // flag existed. Defaulting to false keeps the opt-in invariant
         // intact — upgrading the app should never start sending crash
         // reports without an explicit user action.
-        profile: (({ localLlmOn: _retired, ...p }) => ({ crashReportingOn: false, ...p }))(
+        profile: (({ localLlmOn: _retired, ...p }) => ({ crashReportingOn: false, minConfidence: DEFAULT_MIN_CONFIDENCE, hapticsOn: true, sightingsOn: false, ...p }))(
           wrapped.state.profile,
         ),
         hasOnboarded: Boolean(wrapped.state.hasOnboarded),
-        catchLog: wrapped.state.catchLog ?? buildSeedCatchLog(),
-        activityLog: wrapped.state.activityLog ?? [],
+        catchLog: wrapped.state.catchLog ?? [],
+        activityLog: pruneActivity(wrapped.state.activityLog ?? []),
         mapLocation: wrapped.state.mapLocation ?? null,
         questProgress: { ...initialQuestProgress(), ...(wrapped.state.questProgress ?? {}) },
         questCompletedAt: wrapped.state.questCompletedAt ?? {},
         questClaimedAt: wrapped.state.questClaimedAt ?? {},
         backendUserId: wrapped.state.backendUserId ?? newBackendUserId(),
+        backendSecret: wrapped.state.backendSecret ?? newBackendSecret(),
+        online: { ...EMPTY_ONLINE, ...(wrapped.state.online ?? {}) },
         chatThreads: wrapped.state.chatThreads ?? {},
         conversationMemory: wrapped.state.conversationMemory ?? [],
         installedRegions: wrapped.state.installedRegions ?? [],
+        // Older saves had no explicit choice: the first installed region was active.
+        activeRegion:
+          wrapped.state.activeRegion ?? wrapped.state.installedRegions?.[0] ?? null,
         activeLabelMap: wrapped.state.activeLabelMap ?? {},
         installedPackVersions: wrapped.state.installedPackVersions ?? {},
       },
@@ -384,30 +566,12 @@ const wireStorage: PersistStorage<Persisted> = {
     };
     return value;
   },
-  async setItem(name, value) {
-    const wire: PersistedWire = {
-      dex: Array.from(value.state.dex),
-      followed: Array.from(value.state.followed),
-      persona: value.state.persona,
-      language: value.state.language,
-      profile: value.state.profile,
-      hasOnboarded: value.state.hasOnboarded,
-      catchLog: value.state.catchLog,
-      activityLog: value.state.activityLog,
-      mapLocation: value.state.mapLocation,
-      questProgress: value.state.questProgress,
-      questCompletedAt: value.state.questCompletedAt,
-      questClaimedAt: value.state.questClaimedAt,
-      backendUserId: value.state.backendUserId,
-      chatThreads: value.state.chatThreads,
-      conversationMemory: value.state.conversationMemory,
-      installedRegions: value.state.installedRegions,
-      activeLabelMap: value.state.activeLabelMap,
-      installedPackVersions: value.state.installedPackVersions,
-    };
-    await AsyncStorage.setItem(name, JSON.stringify({ state: wire, version: value.version ?? 0 }));
+  setItem(name, value) {
+    if (!rehydrated) return;
+    persistWriter.schedule({ name, value });
   },
   async removeItem(name) {
+    persistWriter.cancel();
     await AsyncStorage.removeItem(name);
   },
 };
@@ -416,13 +580,11 @@ const wireStorage: PersistStorage<Persisted> = {
 // Store
 // ──────────────────────────────────────────────────────────────────────────
 
-const SEED_CATCH_LOG = buildSeedCatchLog();
-
 export const useAppStore = create<AppStore>()(
   persist(
     (set, get) => ({
       stack: [{ name: 'onboarding', params: undefined }],
-      dex: new Set(CAUGHT_IDS),
+      dex: new Set(),
       followed: new Set(INITIAL_FOLLOWED),
       persona: 'larva',
       language: DEFAULT_LANG,
@@ -432,21 +594,29 @@ export const useAppStore = create<AppStore>()(
         leaderboardOn: true,
         locationShareOn: false,
         crashReportingOn: false,
+        minConfidence: DEFAULT_MIN_CONFIDENCE,
+        hapticsOn: true,
+        sightingsOn: false,
       },
       hasOnboarded: false,
       toast: null,
       lastPhotoUri: null,
 
-      catchLog: SEED_CATCH_LOG,
-      activityLog: initialActivityLog(SEED_CATCH_LOG),
+      catchLog: [],
+      activityLog: [],
       mapLocation: null,
       questProgress: initialQuestProgress(),
       questCompletedAt: {},
       questClaimedAt: {},
       backendUserId: newBackendUserId(),
+      backendSecret: newBackendSecret(),
+      online: EMPTY_ONLINE,
+      syncStatus: { phase: 'idle', done: 0, total: 0 },
+      hydrated: false,
       chatThreads: {},
       conversationMemory: [],
       installedRegions: [],
+      activeRegion: null,
       activeLabelMap: {},
       installedPackVersions: {},
 
@@ -491,7 +661,7 @@ export const useAppStore = create<AppStore>()(
        */
       catchBug: (id, opts) =>
         set((s) => {
-          const at = Date.now();
+          const at = opts?.at ?? Date.now();
           const photoUri = opts?.photoUri;
           const event: CatchEvent = { id, at };
           if (photoUri) event.photoUri = photoUri;
@@ -628,6 +798,15 @@ export const useAppStore = create<AppStore>()(
       setProfile: (patch) =>
         set((s) => ({ profile: { ...s.profile, ...patch } })),
 
+      setOnline: (patch) => set((s) => ({ online: { ...s.online, ...patch } })),
+
+      markUploaded: (keys) =>
+        set((s) => ({
+          online: { ...s.online, hasData: true, uploaded: Array.from(new Set([...s.online.uploaded, ...keys])) },
+        })),
+
+      setSyncStatus: (status) => set({ syncStatus: status }),
+
       setLastPhotoUri: (uri) => set({ lastPhotoUri: uri }),
 
       setMapLocation: (loc) => set({ mapLocation: loc }),
@@ -728,35 +907,43 @@ export const useAppStore = create<AppStore>()(
           };
         }),
 
-      // Upsert: also used to refresh a pack in place (version bump). When the
-      // region is the active (first) one, its labelMap is (re)applied so an
-      // updated model's class order takes effect immediately.
+      // Upsert: also used to refresh a pack in place (version bump). A newly
+      // installed region becomes the active one; refreshing the active region
+      // re-applies its labelMap so an updated model's class order takes effect.
       installRegion: (id, labelMap, version) =>
         set((s) => {
-          const installedRegions = s.installedRegions.includes(id)
-            ? s.installedRegions
-            : [...s.installedRegions, id];
-          const isActive = installedRegions[0] === id;
+          const isNew = !s.installedRegions.includes(id);
+          const installedRegions = isNew ? [...s.installedRegions, id] : s.installedRegions;
+          const becomesActive = isNew || s.activeRegion === id;
           return {
             installedRegions,
             installedPackVersions: { ...s.installedPackVersions, [id]: version },
-            activeLabelMap: isActive ? labelMap : s.activeLabelMap,
+            activeRegion: becomesActive ? id : s.activeRegion,
+            activeLabelMap: becomesActive ? labelMap : s.activeLabelMap,
           };
         }),
 
       uninstallRegion: (id) =>
         set((s) => {
-          const next = s.installedRegions.filter((r) => r !== id);
-          // If the removed region was the active (first) one, clear the label
-          // map — Scan asks for a pack install until a region is
-          // installed again.
-          const removedActive = s.installedRegions[0] === id;
+          const installedRegions = s.installedRegions.filter((r) => r !== id);
           const { [id]: _removed, ...installedPackVersions } = s.installedPackVersions;
+          if (s.activeRegion !== id) return { installedRegions, installedPackVersions };
+          // The active region went away: fall back to another installed one
+          // (if its pack is loaded), otherwise Scan asks for a pack again.
+          const next = installedRegions.find((r) => getPackData(r)) ?? null;
           return {
-            installedRegions: next,
-            activeLabelMap: removedActive ? {} : s.activeLabelMap,
+            installedRegions,
             installedPackVersions,
+            activeRegion: next,
+            activeLabelMap: next ? getPackData(next)!.labelMap : {},
           };
+        }),
+
+      setActiveRegion: (id) =>
+        set((s) => {
+          const pack = getPackData(id);
+          if (!s.installedRegions.includes(id) || !pack) return s;
+          return { activeRegion: id, activeLabelMap: pack.labelMap };
         }),
 
       removeMapPin: (catchAt) =>
@@ -768,6 +955,22 @@ export const useAppStore = create<AppStore>()(
           }),
         })),
 
+      removeFromDex: async (bugId) => {
+        for (const e of get().catchLog) {
+          if (e.id !== bugId || !e.photoUri) continue;
+          await FileSystem.deleteAsync(photoFileUri(e.photoUri), { idempotent: true }).catch(() => undefined);
+        }
+        set((s) => {
+          const dex = new Set(s.dex);
+          dex.delete(bugId);
+          return {
+            dex,
+            catchLog: s.catchLog.filter((e) => e.id !== bugId),
+            activityLog: s.activityLog.filter((e) => !(e.kind === 'catch' && e.bugId === bugId)),
+          };
+        });
+      },
+
       clearScanCache: async () => {
         const events = get().catchLog;
         const uris = new Set<string>();
@@ -775,7 +978,9 @@ export const useAppStore = create<AppStore>()(
 
         let deleted = 0;
         let bytes = 0;
-        for (const uri of uris) {
+        for (const stored of uris) {
+          // Kept photos may sit under a moved app container: delete the file where it is today.
+          const uri = photoFileUri(stored);
           try {
             const info = await FileSystem.getInfoAsync(uri);
             if (info.exists && typeof info.size === 'number') bytes += info.size;
@@ -810,10 +1015,10 @@ export const useAppStore = create<AppStore>()(
           clearTimeout(toastTimer);
           toastTimer = null;
         }
+        // Drop a not-yet-written save of the old data before deleting it.
+        persistWriter.cancel();
         await AsyncStorage.removeItem('critterboard:v1');
-        // Reset every persisted slice. Note: dex/catchLog go to EMPTY,
-        // not back to the seeded values — "wipe" means lose the
-        // history, not regenerate yesterday's fake catches.
+        // Reset every persisted slice back to a brand-new install.
         set({
           stack: [{ name: 'onboarding', params: undefined }],
           dex: new Set(),
@@ -826,6 +1031,9 @@ export const useAppStore = create<AppStore>()(
             leaderboardOn: true,
             locationShareOn: false,
             crashReportingOn: false,
+            minConfidence: DEFAULT_MIN_CONFIDENCE,
+            hapticsOn: true,
+            sightingsOn: false,
           },
           hasOnboarded: false,
           toast: null,
@@ -839,11 +1047,15 @@ export const useAppStore = create<AppStore>()(
           chatThreads: {},
           conversationMemory: [],
           installedRegions: [],
+          activeRegion: null,
           activeLabelMap: {},
           installedPackVersions: {},
           // Rotate the backend identity on every wipe so a fresh install
           // and a wiped install look identical to the server.
           backendUserId: newBackendUserId(),
+          backendSecret: newBackendSecret(),
+          online: EMPTY_ONLINE,
+          syncStatus: { phase: 'idle', done: 0, total: 0 },
         });
       },
     }),
@@ -864,9 +1076,12 @@ export const useAppStore = create<AppStore>()(
         questCompletedAt: s.questCompletedAt,
         questClaimedAt: s.questClaimedAt,
         backendUserId: s.backendUserId,
+        backendSecret: s.backendSecret,
+        online: s.online,
         chatThreads: s.chatThreads,
         conversationMemory: s.conversationMemory,
         installedRegions: s.installedRegions,
+        activeRegion: s.activeRegion,
         activeLabelMap: s.activeLabelMap,
         installedPackVersions: s.installedPackVersions,
       }),
@@ -877,17 +1092,26 @@ export const useAppStore = create<AppStore>()(
        * stack is intentionally NOT persisted.
        */
       onRehydrateStorage: () => (state) => {
-        if (state?.hasOnboarded) {
-          state.stack = [{ name: 'home', params: undefined }];
-        }
+        // Runs after a read and after a failed one, so writes can't stay off forever.
+        rehydrated = true;
+        useAppStore.setState({
+          hydrated: true,
+          ...(state?.hasOnboarded ? { stack: [{ name: 'home', params: undefined }] } : {}),
+        });
       },
     },
   ),
 );
 
 /**
- * Hook returning the currently active stack entry (top of stack).
+ * The stack entry a screen was rendered for, provided by the Router. A main tab kept mounted in
+ * the background keeps its own entry (and params) instead of seeing whatever route is on top.
  */
+export const RouteContext = createContext<StackEntry | null>(null);
+
 export function useCurrentRoute(): StackEntry {
-  return useAppStore((s) => s.stack[s.stack.length - 1] as StackEntry);
+  const entry = useContext(RouteContext);
+  if (entry) return entry;
+  const { stack } = useAppStore.getState();
+  return stack[stack.length - 1] as StackEntry;
 }

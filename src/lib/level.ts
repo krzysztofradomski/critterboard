@@ -8,22 +8,31 @@ import { useAppStore } from '@/store/useAppStore';
 /**
  * Progression model.
  *
- * Cumulative XP required to *enter* level `L` is `(L - 1)² × 100`:
+ * Cumulative XP required to *enter* level `L` is `300 × (L - 1)^1.7`,
+ * rounded to the nearest 10:
  *
- *   Level 1 →    0 XP
- *   Level 2 →  100 XP
- *   Level 3 →  400 XP
- *   Level 4 →  900 XP
- *   Level 5 → 1,600 XP
- *   ...
+ *   Level 2 →     300 XP   (about three catches)
+ *   Level 3 →     970 XP
+ *   Level 5 →   3,170 XP
+ *   Level 10 → 12,570 XP
+ *   Level 30 → ~92,000 XP  (a pack's full ~115k XP lands near level 34)
  *
- * The curve was picked to roughly land the seeded dex (≈450 XP) at
- * level 3 with a believable progress bar toward 4. It's also gentle
- * enough that the first few catches feel like immediate wins.
+ * An average catch is worth ~115 XP (most of the 1,000 species are rare or
+ * epic), so the old `(L-1)² × 100` curve gave level 2 for a single catch
+ * and level 34 for a full dex. This one makes the first level-up a small
+ * goal and keeps later levels a long chase.
  *
  * All values are derived — never persisted — so changing the curve
  * later is a one-file patch.
  */
+const BASE_XP = 300;
+const EXPONENT = 1.7;
+
+/** Cumulative XP needed to reach `level` (level 1 needs none). */
+export function xpToReach(level: number): number {
+  if (level <= 1) return 0;
+  return Math.round((BASE_XP * Math.pow(level - 1, EXPONENT)) / 10) * 10;
+}
 
 export type LevelInfo = {
   /** Current level, 1-indexed. */
@@ -83,10 +92,12 @@ export function maxXp(): number {
  */
 export function levelFromXp(xp: number): LevelInfo {
   const safe = Math.max(0, Math.floor(xp));
-  // floor(sqrt(xp / 100)) + 1, i.e. the largest L where (L-1)²·100 ≤ xp.
-  const level = Math.floor(Math.sqrt(safe / 100)) + 1;
-  const prevAt = (level - 1) * (level - 1) * 100;
-  const nextAt = level * level * 100;
+  // Invert the curve for a first guess, then settle on the exact threshold (rounding can nudge it by one).
+  let level = Math.max(1, Math.floor(Math.pow(safe / BASE_XP, 1 / EXPONENT)) + 1);
+  while (xpToReach(level) > safe) level -= 1;
+  while (xpToReach(level + 1) <= safe) level += 1;
+  const prevAt = xpToReach(level);
+  const nextAt = xpToReach(level + 1);
   return {
     level,
     xp: safe,
@@ -151,8 +162,9 @@ export function rankFromXp(xp: number): number {
   return rank;
 }
 
-export function useRank(): number {
+/** The user's rank, or `null` while there is nobody to rank against (no peers yet). */
+export function useRank(): number | null {
   const xp = useXp();
-  return useMemo(() => rankFromXp(xp), [xp]);
+  return useMemo(() => (LEADERS.some((r) => !r.self) ? rankFromXp(xp) : null), [xp]);
 }
 

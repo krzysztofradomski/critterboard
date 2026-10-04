@@ -18,7 +18,8 @@
       "retry": "Ponów",
       "ok": "OK",
       "open": "Otwórz",
-      "level": "poziom"
+      "level": "poziom",
+      "delete": "Usuń"
     },
     "tabs": {
       "home": "Start",
@@ -34,23 +35,22 @@
     },
     "onboarding": {
       "title": "Critterboard",
-      "tagline": "rozpoznaj każdego owada · offline · z humorem",
+      "tagline": "rozpoznaj każdego owada · działa offline · bez spiny",
       "snap": "📷 ZRÓB ZDJĘCIE",
-      "sassyId": "🤖 BEZCZELNE ID",
+      "identify": "🔍 ROZPOZNAJ GO",
       "buildDex": "🏆 ZBIERAJ DEX",
       "pickGuide": "WYBIERZ PRZEWODNIKA",
       "startHunting": "Zaczynamy →",
-      "legal": "✓ bez konta · ✓ bez internetu · ✓ za darmo",
-      "legalOnline": "✓ bez konta · ✓ z internetem · ✓ za darmo"
+      "legal": "✓ bez konta · ✓ bez internetu · ✓ bez płacenia",
+      "legalOnline": "✓ bez konta · ✓ z internetem · ✓ bez płacenia",
+      "namePrompt": "JAK MAMY CIĘ NAZYWAĆ?",
+      "haveBackup": "Masz kopię? Przywróć ją"
     },
     "home": {
       "streakPill": "passa {days} dni",
       "bugOfDay": "OWAD DNIA",
-      "bugOfDayName": "Ćma Luna 🌙",
-      "legendary": "★★★★★ LEGENDARNY",
       "hunt": "ŁOWY →",
-      "bugOfDayDesc": "Złap dziś jednego dla",
-      "bugOfDayXp": " +500 XP ",
+      "bugOfDayDesc": "Złap dziś jednego dla ",
       "bugOfDayDescTail": " i błyszczącej odznaki.",
       "yourWeek": "Twój tydzień",
       "daysToBadge": "{n} dni do odznaki",
@@ -60,10 +60,11 @@
         "xp": "XP",
         "rank": "RANG"
       },
-      "bugOfDayXpAmount": " +{xp} XP ",
+      "bugOfDayXpAmount": " +{xp} XP ",
       "recentFinds": "Ostatnie zdobycze"
     },
     "scan": {
+      "galleryFailed": "Nie udało się otworzyć zdjęć. Spróbuj ponownie.",
       "analyzing": "ANALIZUJĘ…",
       "scanning": "OFFLINE · SKANOWANIE",
       "permissionTitle": "Dostęp do aparatu",
@@ -73,17 +74,28 @@
       "focus": "ostrość",
       "matching": "dopasowuję…",
       "needPackTitle": "Pobierz paczkę gatunków",
-      "needPackBody": "Rozpoznawanie działa na Twoim telefonie. Zainstaluj raz paczkę Europa Środkowa (1000 gatunków, ok. 89 MB), aby zacząć skanować.",
+      "needPackBody": "Rozpoznawanie działa na Twoim telefonie. Zainstaluj raz paczkę Europa Środkowa (1000 gatunków i mapa offline, ok. 145 MB), aby zacząć skanować.",
       "needPackCta": "Otwórz paczki gatunków",
-      "modelNotReady": "Model gatunków wciąż się wczytuje. Spróbuj za chwilę."
+      "modelNotReady": "Model gatunków wciąż się wczytuje. Spróbuj za chwilę.",
+      "modelFetching": "Pobieranie modelu… {pct}%",
+      "modelLoading": "Ładowanie modelu…",
+      "tipsTitle": "Wskazówki do zdjęcia",
+      "tipsSub": "Lepsze zdjęcia, trafniejsze wyniki.",
+      "tipsGotIt": "Jasne"
     },
     "result": {
       "headTitle": "ROZPOZNANO!",
       "confidence": "PEWNOŚĆ",
+      "removeFromDex": "Usuń z Dexu",
+      "removeTitle": "Usunąć z Dexu?",
+      "removeBody": "Usuwa {name} wraz ze zdjęciami i pinezkami na mapie z tego telefonu. Postęp zadań i zdobyte XP zostają. Możesz złapać go ponownie.",
+      "removeCta": "Usuń",
       "alreadyInDex": "Już w twoim Dexie ✓",
       "addToDex": "Dodaj do Dexa 📔",
       "askCta": "ZAPYTAJ {name} →",
-      "caughtToast": "Złapany! +{xp} XP · {tier}"
+      "caughtToast": "Złapany! +{xp} XP · {tier}",
+      "tooUnsure": "Za mało pewne, by dodać (wymaga {min}%+). Zrób inne zdjęcie.",
+      "readMore": "Więcej na Wikipedii ↗"
     },
     "facts": {
       "habitat": "Siedlisko",
@@ -127,23 +139,70 @@
         "leaves": "Liście",
         "nighttime": "Noc",
         "nectar": "Nektar"
+      },
+      "family": "Rodzina",
+      "region": {
+        "EUROPE": "Europa",
+        "NORTH_AMERICA": "Ameryka Płn.",
+        "ASIA": "Azja",
+        "AFRICA": "Afryka",
+        "OCEANIA": "Oceania",
+        "LATIN_AMERICA": "Ameryka Łac."
+      },
+      "habitatOf": {
+        "flowery": "Łąki, ogrody, skraje lasów",
+        "water": "Stawy, jeziora, wolne strumienie",
+        "grassland": "Murawy i łąki",
+        "vegetation": "Krzewy, rośliny i ziemia",
+        "leaflitter": "Ściółka i gleba",
+        "dry_sunny": "Ciepłe, suche, słoneczne miejsca",
+        "crevices": "Wilgotne szczeliny, kora, budynki",
+        "damp_woods": "Wilgotne lasy i cienisty podszyt",
+        "deadwood": "Lasy i martwe drewno",
+        "ground": "Gleba, ściółka, pod kamieniami",
+        "plants": "Rośliny, krzewy i drzewa"
+      },
+      "dietOf": {
+        "lepi": "Gąsienice jedzą liście; dorosłe piją nektar",
+        "predator": "Poluje na inne owady",
+        "predator_flying": "Poluje na latające owady",
+        "aphid_eaters": "Głównie mszyce",
+        "sap": "Sok roślin",
+        "nectar_pollen": "Nektar i pyłek",
+        "wasp": "Owady, nektar i słodkie rzeczy",
+        "omnivore_ant": "Prawie wszystko: owady, spadź, nasiona",
+        "gall": "Larwy żyją w galasach roślin",
+        "parasitoid": "Larwy żywią się innymi owadami lub pająkami",
+        "leaves": "Liście i tkanki roślin",
+        "grass": "Trawy i liście",
+        "plants_insects": "Rośliny i drobne owady",
+        "wood": "Larwy jedzą drewno; dorosłe piją sok lub pyłek",
+        "beetle_mixed": "Odchody, rośliny, pyłek lub owoce, zależnie od gatunku",
+        "pollen": "Pyłek i płatki",
+        "detritus": "Gnijące resztki roślin i odpadki",
+        "spiders": "Łowi owady siecią lub z zasadzki",
+        "harvestman": "Drobne bezkręgowce i martwa materia",
+        "blood": "Krew zwierząt",
+        "hoverfly": "Nektar i pyłek; larwy często jedzą mszyce",
+        "nonfeeding": "Dorosłe prawie nie jedzą; larwy żyją w wodzie",
+        "scavenge": "Martwe owady i opadłe owoce",
+        "varied": "Zależy od gatunku"
       }
     },
     "disambiguate": {
       "headTitle": "NIE JESTEM PEWIEN",
-      "lowConfidence": "NISKA PEWNOŚĆ · 62%",
-      "shotMeta": "📷 1/250s · rozmyte",
+      "lowConfidence": "NISKA PEWNOŚĆ · {pct}%",
       "topCandidates": "TOP KANDYDACI",
       "tapToConfirm": "naciśnij, by potwierdzić",
       "askForHelp": "Zapytaj {name} o pomoc →",
       "noneOfThese": "Żaden z tych",
       "thisMystery": "ten tajemniczy owad",
-      "foot": "ID w pełni na urządzeniu · 320 ms · żadne zdjęcie nie opuściło telefonu"
+      "foot": "ID w pełni na urządzeniu · żadne zdjęcie nie opuściło telefonu"
     },
     "noMatch": {
       "headTitle": "BRAK DOPASOWANIA",
       "heroTitle": "Nie udało się rozpoznać.",
-      "heroSub": "BugNet v3 zwrócił wszystkich kandydatów poniżej 15%.",
+      "heroSub": "{model} zwrócił wszystkich kandydatów poniżej 15%.",
       "tryThis": "SPRÓBUJ TAK",
       "tip": {
         "lightTitle": "Więcej światła",
@@ -193,6 +252,9 @@
         "body": "Twoi przewodnicy działają w całości na tym telefonie dzięki modelowi {model} od Google: jednorazowe pobranie {size} GB (zalecane Wi-Fi). Nic, co piszesz, nie opuszcza urządzenia.",
         "errorBody": "Pobieranie {model} nie zostało ukończone. Sprawdź połączenie i wolne miejsce ({size} GB), a potem spróbuj ponownie w Ustawieniach.",
         "busyBody": "Czat otworzy się, gdy model będzie gotowy. W tym czasie możesz dalej korzystać z aplikacji.",
+        "ejectedTitle": "{model} jest wysunięty",
+        "ejectedBody": "Model nadal jest na telefonie, ale nie jest wczytany, więc nie zajmuje pamięci. Wczytaj go, żeby czatować.",
+        "loadCta": "Wczytaj model",
         "loadingTitle": "Budzę {model}…",
         "downloadingTitle": "Pobieranie {model}… {pct}%",
         "webTitle": "Czat działa w aplikacji na telefon",
@@ -200,7 +262,9 @@
         "cta": "Otwórz Ustawienia",
         "ramTitle": "Czat nie jest dostępny na tym telefonie",
         "ramBody": "Przewodnicy działają na modelu {model}, który wymaga telefonu z co najmniej 4 GB pamięci. Reszta Critterboard działa normalnie."
-      }
+      },
+      "deleteTitle": "Usuń wiadomość",
+      "deleteBody": "Usunąć tę wiadomość z rozmowy?"
     },
     "activity": {
       "title": "Brzęczenie",
@@ -214,33 +278,6 @@
       "emptyTitle": "Cisza.",
       "emptySub": "Jeszcze nic tu nie ma.",
       "newBadge": "NOWE",
-      "item": {
-        "a1Title": "antqueen polubiła Twojego Monarchę",
-        "a1Sub": "2 godz. temu · klaster Brooklyn",
-        "a1Cta": "Zobacz obserwację",
-        "a2Title": "Gemma 4 E2B gotowa do instalacji",
-        "a2Sub": "Nowe żarty. Ten sam klimat. 240 MB.",
-        "a2Cta": "Aktualizuj",
-        "a3Title": "Passa 4 dni! Nie zepsuj jej",
-        "a3Sub": "Złap dziś jednego owada. Nawet bzygowate.",
-        "a3Cta": "Otwórz skan",
-        "a4Title": "Wyprzedziłeś bug_dad_42",
-        "a4Sub": "Jesteś #6 w globalnym rankingu.",
-        "a4Cta": "Ranking",
-        "a5Title": "Zadanie ukończone: 3 zapylacze",
-        "a5Sub": "+75 XP. Nagroda odblokowana.",
-        "a5Cta": "Odbierz",
-        "a6Title": "mothwhisperer złapał Ćmę Luna",
-        "a6Sub": "420 m od ciebie · 6 godz. temu",
-        "a6Cta": "Pokaż na mapie",
-        "a7Title": "Pakiet regionalny: Northeast NA",
-        "a7Sub": "Zsynchronizowano nowy indeks sezonowy (+38 gatunków).",
-        "a7Cta": "Zobacz pakiet",
-        "a8Title": "wingedfren odpowiedział w wątku o bzygach",
-        "a8Sub": "\"Wygląda na bzyga marmoladowego — paski na skrzydłach.\"",
-        "a8Cta": "Otwórz czat",
-        "a8Topic": "Bzygi"
-      },
       "kind": {
         "catchTitle": "Złapano {name}",
         "catchSub": "+{xp} XP · {when}",
@@ -274,8 +311,6 @@
       }
     },
     "friends": {
-      "title": "Przyrodnicy",
-      "sub": "Osoby, które obserwujesz · ich owady",
       "tab": {
         "following": "Obserwowani",
         "followers": "Obserwujący",
@@ -284,8 +319,8 @@
       "follow": "+ Obserwuj",
       "following": "✓ Obserwujesz",
       "ago": "{when} temu",
-      "emptyTitle": "Nikogo tu jeszcze nie ma.",
-      "emptySub": "Sprawdź zakładkę Propozycje, by znaleźć podobnych przyrodników."
+      "emptyTitle": "Na razie nikogo tu nie ma.",
+      "emptySub": "Znajomi i propozycje pojawią się, gdy dołączą inni przyrodnicy."
     },
     "person": {
       "rank": "MIEJSCE #{rank}",
@@ -348,27 +383,42 @@
     },
     "leaderboard": {
       "title": "Ranking",
-      "sub": "Reset za 3d 14h · 482 tys. tropicieli",
+      "sub": "Tylko dobrowolnie. Tylko nazwa i XP.",
       "tab": {
         "global": "Globalny",
         "weekly": "Tygodniowy",
         "friends": "Znajomi"
       },
-      "meta": "{country} · poziom 12",
+      "stats": "Poz. {lvl} · {n} gat.",
+      "statsWeek": "{n} gat. w tym tygodniu",
+      "meta": "{country}",
       "hiddenTitle": "Jesteś ukryty w rankingu",
       "hiddenDesc": "Włącz \"Pokaż mnie w rankingu\" by się pojawić.",
-      "fix": "POPRAW →"
+      "fix": "POPRAW →",
+      "emptyTitle": "Na razie brak rywali",
+      "emptySub": "Ranking zapełni się, gdy dołączą inni. Na razie jesteś tylko ty."
     },
     "map": {
-      "locName": "Brooklyn, NY",
-      "locNamePrivate": "Lokalizacja ukryta",
-      "locSub": "{n} obserwacji · ostatnie 30 dni",
-      "sightings": "{n}× obserwacje",
-      "distance": "0,6 km",
-      "where": "Prospect Park · 2 dni temu",
+      "locName": "Twoja mapa",
+      "locSub": "Pinezki na Twojej mapie: {n}",
       "hunt": "ŁOWY →",
       "pinRemove": "Usuń pin",
-      "viewInsect": "Zobacz owada →"
+      "stackOf": "{n} z {total}",
+      "viewInsect": "Zobacz owada →",
+      "sightingSub": "Wypatrzony w pobliżu · {when}",
+      "emptyTitle": "Na razie brak pinezek",
+      "emptySub": "Złap robaka z włączoną lokalizacją, a pojawi się tutaj.",
+      "zoomIn": "Przybliż",
+      "zoomOut": "Oddal",
+      "lockedTitle": "Mapa jest wyłączona",
+      "noRegionSub": "Mapa offline jest częścią pakietu regionalnego. Zainstaluj go w Brains, a mapa się odblokuje.",
+      "noRegionCta": "Otwórz Brains",
+      "unavailableSub": "{name} nie ma jeszcze mapy offline.",
+      "needsDownloadSub": "Pobierz mapę {name} ({mb} MB), by używać jej offline.",
+      "downloadCta": "↓ Pobierz mapę · {mb} MB",
+      "downloadingSub": "Pobieranie mapy… {pct}%",
+      "errorSub": "Nie udało się pobrać mapy. Sprawdź połączenie i spróbuj ponownie.",
+      "retryCta": "Spróbuj ponownie"
     },
     "permissions": {
       "title": "Trzy szybkie prośby.",
@@ -400,7 +450,7 @@
         "location": {
           "title": "Lokalizacja",
           "desc": "Lepsze filtrowanie zasięgu — model wie, co żyje obok.",
-          "b1": "Rozmycie na poziomie miasta (~5 km)",
+          "b1": "Zaznacza złapania na twojej mapie",
           "b2": "Zostaje na urządzeniu, chyba że udostępnisz",
           "b3": "Wyłącz w każdej chwili"
         },
@@ -499,19 +549,16 @@
       "items": {
         "b1": {
           "name": "Pierwsza Zdobycz",
-          "earned": "12 kwi",
           "desc": "Twoje pierwsze ID. Witaj w klubie — każdy przyrodnik ma tę odznakę z przodu notesu.",
           "crit": "Rozpoznaj pierwszego owada."
         },
         "b2": {
           "name": "Passa 3",
-          "earned": "4 maja",
           "desc": "Trzy dni uważności z rzędu. Trudna jest pierwsza próba; trudniejsze pojawienie się jutro.",
           "crit": "Rozpoznaj co najmniej jednego owada przez trzy kolejne dni."
         },
         "b3": {
           "name": "Nocny Marek",
-          "earned": "9 maja",
           "desc": "Wyszedłeś po zmroku z latarką i znalazłeś coś, co odpowiedziało spojrzeniem. Ćmy salutują.",
           "crit": "Rozpoznaj owada między 21:00 a 4:00."
         },
@@ -521,9 +568,9 @@
           "crit": "Rozpoznaj 10 różnych zapylaczy."
         },
         "b5": {
-          "name": "Rozdzielacz",
-          "desc": "Odróżniasz bzyga od osy z dwudziestu kroków. Generaliści się ciebie boją.",
-          "crit": "Poprawnie rozróżnij 5 gatunków mimetycznych."
+          "name": "Fotograf",
+          "desc": "Bez zdjęcia się nie liczy. Dokumentujesz swoje znaleziska.",
+          "crit": "Złap 10 robaków ze zdjęciem."
         },
         "b6": {
           "name": "Centurion",
@@ -531,16 +578,63 @@
           "crit": "Osiągnij łącznie 100 rozpoznań."
         },
         "b7": {
-          "name": "???",
-          "desc": "Zablokowane. Tropij dalej, a sama się ujawni.",
-          "crit": "Ukryte do czasu zdobycia."
+          "name": "Ranny ptaszek",
+          "desc": "Rosa jeszcze nie obeschła, a polowanie trwa. Najlepsze owady wstają wcześnie.",
+          "crit": "Złap owada między 4 a 8 rano."
         },
         "b8": {
-          "name": "???",
-          "desc": "Zablokowane. Tropij dalej, a sama się ujawni.",
-          "crit": "Ukryte do czasu zdobycia."
+          "name": "Łowca legend",
+          "desc": "Udało się spotkać stworzenie, o którym większość tylko czyta. Oprawić to zdjęcie!",
+          "crit": "Złap legendarny gatunek."
+        },
+        "b9": {
+          "name": "Chrząszczomania",
+          "desc": "Błyszczące, opancerzone i wszędzie. Masz swój typ.",
+          "crit": "Złap 5 różnych chrząszczy."
+        },
+        "b10": {
+          "name": "Kolekcjoner skrzydeł",
+          "desc": "Łuski, skrzydła i oko do właściwej chwili.",
+          "crit": "Złap 5 różnych motyli."
+        },
+        "b11": {
+          "name": "Początek Dexu",
+          "desc": "Notes oficjalnie otwarty.",
+          "crit": "Złap 10 różnych gatunków."
+        },
+        "b12": {
+          "name": "Znawca Dexu",
+          "desc": "Pięćdziesiąt gatunków i strony pięknie się zapełniają.",
+          "crit": "Złap 50 różnych gatunków."
+        },
+        "b13": {
+          "name": "Tygodniowy wojownik",
+          "desc": "Cały tydzień uważności. Owady to zauważyły.",
+          "crit": "Osiągnij serię 7 dni."
+        },
+        "b14": {
+          "name": "Żelazny nawyk",
+          "desc": "Trzydzieści dni. To już nie hobby, to styl życia.",
+          "crit": "Osiągnij serię 30 dni."
+        },
+        "b15": {
+          "name": "Kartograf",
+          "desc": "Twoja mapa zaczyna wyglądać jak prawdziwy dziennik terenowy.",
+          "crit": "Złap 5 owadów z zaznaczoną lokalizacją."
+        },
+        "b16": {
+          "name": "Hat-trick",
+          "desc": "Trzy znaleziska przed obiadem. Produktywne popołudnie.",
+          "crit": "Złap 3 owady jednego dnia."
+        },
+        "b17": {
+          "name": "Rzadkie znalezisko",
+          "desc": "Nie każdy takie dostrzeże. Tobie się udało.",
+          "crit": "Złap rzadki (lub rzadszy) gatunek."
         }
-      }
+      },
+      "hiddenDesc": "Zablokowane. Poluj dalej, a samo się ujawni.",
+      "hiddenCrit": "Ukryte, dopóki go nie zdobędziesz."
     },
     "notify": {
       "streak": {
@@ -566,7 +660,8 @@
       },
       "freezeTitle": "Zamrożenia Passy",
       "freezeDesc": "Używają się automatycznie, by passa przetrwała pominięty dzień. Jedno co 7 dni.",
-      "keepAlive": "📷 Utrzymaj passę"
+      "keepAlive": "📷 Utrzymaj passę",
+      "noStreak": "Jeszcze bez serii."
     },
     "settings": {
       "title": "Mózg na urządzeniu",
@@ -577,7 +672,7 @@
       "profileSafe": "Żadne dane nie opuszczają telefonu.",
       "displayName": "WYŚWIETLANA NAZWA",
       "namePlaceholder": "twoja ksywa tropiciela",
-      "nameHint": "Widoczna w rankingu i przy udostępnionych obserwacjach.",
+      "nameHint": "Widoczna w rankingu i dla znajomych.",
       "nameOffensive": "Ta nazwa jest niedozwolona. Wybierz inną.",
       "privacy": "PRYWATNOŚĆ",
       "networkLabel": "Dostęp do sieci",
@@ -587,20 +682,19 @@
       "boardOn": "Twoje XP i nazwa pojawią się globalnie.",
       "boardNeeds": "Wymaga dostępu do sieci.",
       "locShareLabel": "Udostępniaj lokalizacje obserwacji",
-      "locShareOn": "Piny dodawane do publicznej mapy (±500m rozmycia).",
+      "locShareOn": "Twoje złapania widać – z gatunkiem i datą, ale bez nazwy – na mapach graczy w pobliżu.",
       "locShareOff": "Twoja mapa pozostaje prywatna.",
+      "sightingsLabel": "Pokazuj obserwacje innych",
+      "sightingsOn": "Złapania innych graczy w pobliżu pojawią się na twojej mapie. Aby je znaleźć, wysyłana jest twoja lokalizacja zaokrąglona do ok. 1 km.",
+      "sightingsOff": "Na mapie tylko twoje pinezki.",
       "crashLabel": "Wysyłaj raporty o awariach",
       "crashOn": "Anonimowe dane pomagają nam łapać błędy.",
       "crashOff": "Żadne dane o awariach nie opuszczają urządzenia.",
       "crashNeeds": "Wymaga dostępu do sieci.",
       "model": {
-        "bugNet": "BugNet v3",
-        "bugNetMeta": "Wizja · 88 MB · 1000 gatunków",
         "larva": "{model} (Q4)",
         "larvaMeta": "Model czatu · {size} GB · {state}",
         "larvaInstalled": "zainstalowany",
-        "species": "Baza Gatunków",
-        "speciesMeta": "Fakty i siedliska · 88 MB · v2026.04",
         "ready": "GOTOWE",
         "downloading": "↓ {pct}%",
         "loading": "ŁADOWANIE",
@@ -611,9 +705,11 @@
         "larvaPhoneOnly": "tylko w aplikacji na telefon",
         "phoneOnly": "TYLKO TELEFON",
         "larvaTooLittleRam": "wymaga 4 GB pamięci",
-        "notSupported": "NIEOBSŁUGIWANE"
+        "notSupported": "NIEOBSŁUGIWANE",
+        "visionMeta": "{id} · {mb} MB · {n} gatunków",
+        "noPack": "BRAK PACZKI"
       },
-      "regionsBand": "Pakiety regionalne",
+      "regionsBand": "Pakiety regionalne · jeden aktywny",
       "regionsSub": "Zwiększają trafność ID tam, gdzie naprawdę jesteś.",
       "regionMeta": "{installed}/{total} · {mb} MB",
       "regionInstalled": "✓ NA URZĄDZ.",
@@ -621,13 +717,13 @@
       "regionDownloading": "Pobieranie · {pct}% · {mb} MB",
       "regionFoot": "Pakiety działają w pełni offline. Dotknij zainstalowany, by zobaczyć zawartość.",
       "languageBand": "Język",
-      "languageSub": "Dla UI, nazw gatunków i bezczelności {name}.",
+      "languageSub": "Dla interfejsu, nazw gatunków i tekstów: {name}.",
       "naturalistsTile": "Open source",
       "naturalistsSub": "Biblioteki i zależności",
       "helpTile": "Pomoc i informacje",
       "helpSub": "FAQ · eksport danych",
       "creditsTitle": "Darmowe na zawsze. Bez reklam. Bez śledzenia.",
-      "creditsSub": "Zrobione z miłością przez 3 osoby, które naprawdę lubią chrząszcze.",
+      "creditsSub": "Zrobione z miłością dla ludzi, którzy lubią chrząszcze.",
       "viewCredits": "ZOBACZ TWÓRCÓW →",
       "guideToast": "Przewodnik: {name}",
       "localLlmLabel": "Czat na urządzeniu ({model})",
@@ -635,13 +731,91 @@
       "localLlmOff": "Wyłączone: czat jest niedostępny. Włącz, aby pobrać {model} ({size} GB, zalecane Wi-Fi).",
       "localLlmNoWeb": "Czat wymaga aplikacji na iPhone lub Androida.",
       "localLlmError": "Pobieranie nie powiodło się. Włącz, aby spróbować ponownie ({size} GB).",
+      "localLlmEjected": "Model czatu jest wysunięty: zostaje na telefonie, ale nie zajmuje pamięci.",
+      "localLlmEject": "Wysuń z pamięci (zachowaj plik)",
+      "localLlmLoad": "Wczytaj do pamięci",
       "localLlmDeleteTitle": "Wyłączyć czat?",
       "localLlmDeleteBody": "To usunie {model} z telefonu i zwolni {size} GB. Czat pozostanie wyłączony, dopóki nie pobierzesz modelu ponownie.",
       "localLlmDeleteCta": "Usuń model",
       "localLlmTooLittleRam": "Wymaga telefonu z co najmniej 4 GB pamięci.",
       "localLlmLowRamTitle": "Pobrać na telefonie z 4 GB?",
       "localLlmLowRamBody": "Ten telefon ma około 4 GB pamięci. {model} zużywa około 3 GB podczas czatu, więc odpowiedzi mogą być wolne, a aplikacja może się zamknąć, gdy działają inne aplikacje. Pobranie ma {size} GB.",
-      "localLlmLowRamCta": "Pobierz mimo to"
+      "localLlmLowRamCta": "Pobierz mimo to",
+      "regionSoon": "WKRÓTCE",
+      "regionSoonSub": "Wkrótce",
+      "regionActive": "● AKTYWNY",
+      "regionUse": "UŻYJ",
+      "regionSwitched": "BugNet używa teraz: {name}",
+      "packCta": "↓ Pobierz {name} · {mb} MB",
+      "packHint": "BugNet potrzebuje pakietu regionalnego, by rozpoznawać owady. Model, lista gatunków i mapa offline pobierają się razem.",
+      "mapDownloadFailed": "Pakiet zainstalowany, ale mapa się nie pobrała. Spróbuj ponownie w zakładce Mapa.",
+      "memoryBand": "Pamięć rozmów",
+      "memorySub": "Zapisana lokalnie, by odpowiedzi miały kontekst.",
+      "memoryThreadsMeta": "Zapisane rozmowy: {n}",
+      "memoryEntriesMeta": "Wpisów w pamięci: {n}",
+      "memoryClearCta": "Usuń zapisane rozmowy",
+      "memoryClearConfirmCta": "Dotknij ponownie, by potwierdzić",
+      "memoryClearToast": "Pamięć rozmów wyczyszczona",
+      "packDownloadFailed": "Nie udało się pobrać: {name}",
+      "minConf": {
+        "title": "Próg dopasowania",
+        "sub": "Skanów poniżej tej pewności nie można dodać do Dexa.",
+        "l20": "Luźny",
+        "l33": "Wyważony",
+        "l50": "Ścisły",
+        "l70": "Bardzo ścisły",
+        "foot": "Wyższy próg to mniej błędnych rozpoznań, ale więcej „brak dopasowania”."
+      },
+      "sync": {
+        "upToDate": "Wszystkie złapania ({n}) są online",
+        "nothingYet": "Nic jeszcze nie wysłano",
+        "uploading": "Wysyłanie {done} / {total}…",
+        "failed": "Nie udało się wysłać {n} złapań. Są bezpieczne na telefonie.",
+        "retry": "Ponów",
+        "older": "{n} wcześniejszych złapań nie ma online.",
+        "upload": "Wyślij",
+        "notNow": "Nie teraz",
+        "cancel": "Anuluj",
+        "delete": "Usuń moje dane online",
+        "deleted": "Dane online usunięte",
+        "deleteFailed": "Brak połączenia z serwerem. Spróbuj, gdy będziesz online.",
+        "deleteConfirmTitle": "Usunąć dane online?",
+        "deleteConfirmBody": "Usuwa z naszego serwera twój profil, wysłane złapania, obserwowanych i wpis w rankingu. Twój Dex na tym telefonie zostaje.",
+        "offTitle": "Wyłączyć sieć?",
+        "offBody": "Twój profil i złapania nadal są na naszym serwerze. Zachować je (ukryte w rankingach) czy usunąć?",
+        "offKeep": "Zachowaj, ukryte",
+        "offDelete": "Usuń dane online",
+        "hideFailed": "Nie udało się jeszcze ukryć profilu online. Aplikacja spróbuje ponownie przy następnym uruchomieniu.",
+        "olderPromptTitle": "Wysłać {n} wcześniejszych złapań?",
+        "olderPromptBody": "Znajomi i rankingi znają tylko złapania z czasu, gdy sieć jest włączona. Lokalizacje są wysyłane tylko, jeśli je udostępniasz.",
+        "locationsCleared": "Zapisane lokalizacje usunięte",
+        "locationsClearFailed": "Nie udało się jeszcze usunąć zapisanych lokalizacji. Aplikacja spróbuje ponownie przy następnym uruchomieniu."
+      },
+      "confirm": {
+        "networkTitle": "Przejść do trybu online?",
+        "networkBody": "Critterboard działa w pełni offline. Włączenie sieci pozwala wysyłać na nasz serwer twoją nazwę, złapane gatunki z czasem oraz (tylko jeśli to włączysz) dokładne lokalizacje złapań, na potrzeby rankingów i znajomych. Wszystko możesz w każdej chwili usunąć.",
+        "networkYes": "Włącz sieć",
+        "boardTitle": "Pokazać cię w rankingu?",
+        "boardBody": "Twoja nazwa i XP będą widoczne dla wszystkich graczy w rankingu globalnym i tygodniowym. W każdej chwili możesz się znów ukryć.",
+        "boardYes": "Pokaż mnie",
+        "locTitle": "Udostępniać lokalizacje złapań?",
+        "locBody": "Każde nowe złapanie zostanie wysłane z dokładną lokalizacją i pojawi się – bez twojej nazwy – na mapach graczy w pobliżu, którzy pokazują obserwacje. Wyłączenie tej opcji usuwa zapisane lokalizacje.",
+        "locYes": "Udostępniaj",
+        "locOffTitle": "Przestać udostępniać lokalizacje?",
+        "locOffBody": "To usunie też lokalizacje złapań zapisane już na naszym serwerze. Twoja mapa na tym telefonie się nie zmieni.",
+        "locOffYes": "Przestań i usuń",
+        "sightingsTitle": "Pokazywać obserwacje innych?",
+        "sightingsBody": "Za każdym razem, gdy otwierasz Mapę, twoja lokalizacja zaokrąglona do ok. 1 km jest wysyłana na nasz serwer, by znaleźć obserwacje w pobliżu. Nie jest zapisywana.",
+        "sightingsYes": "Pokazuj",
+        "crashTitle": "Wysyłać raporty o awariach?",
+        "crashBody": "Gdy aplikacja się zawiesi, wysyła błąd, model telefonu, wersję systemu i wersję aplikacji do Sentry, naszej usługi raportów awarii. Bez nazwy, zdjęć, złapań i lokalizacji.",
+        "crashYes": "Wysyłaj"
+      },
+      "haptics": {
+        "label": "Wibracje",
+        "on": "Dotknięcia, przełączniki i zakładki delikatnie wibrują.",
+        "off": "Bez wibracji."
+      }
     },
     "regions": {
       "list": {
@@ -702,12 +876,12 @@
             "oth": "Inne"
           },
           "why": {
-            "mona": "ikoniczny migrant",
-            "lhoc": "wylot środka lata",
-            "drag": "stały bywalec stawów bobrowych",
-            "fire": "czerwiec–lipiec o zmierzchu",
             "lady": "powszechny",
-            "walk": "dąb / hikoria"
+            "peac": "gość ogrodów",
+            "swal": "gatunek otwartych łąk",
+            "stag": "wskaźnik starego lasu",
+            "hcat": "pospolity zapylacz",
+            "bdam": "brzeg wód słodkich"
           },
           "notes": [
             "Gatunki słonych moczarów ważone wyżej niż średnio w głębi lądu.",
@@ -726,56 +900,104 @@
             "oth": "Inne"
           },
           "why": {
-            "rhin": "loty monsunowe",
-            "mant": "częsta przy drodze",
             "lady": "powszechna",
-            "cica": "pustynny chór",
-            "walk": "krzew mesquite",
-            "mona": "wiosenny korytarz"
+            "buff": "szeroko rozpowszechniony trzmiel",
+            "rchf": "opalizujący gość kwiatów",
+            "tort": "pokrzywy i gatunek ogrodowy",
+            "brim": "wczesny motyl wiosenny",
+            "harl": "inwazyjna, ale charakterystyczna"
           },
           "notes": [
             "Fauna rodzimych pszczół nadpróbkowana w porównaniu do miodnych.",
             "Taksonomia pustynnych mrówek wciąż się zmienia — pewność ograniczona do 92%."
           ]
+        },
+        "eu-ce": {
+          "tagline": "Ogrody, łąki i skraje lasów.",
+          "fam": {
+            "lep": "Motyle (Lepidoptera)",
+            "hym": "Błonkówki (pszczoły i osy)",
+            "col": "Chrząszcze (Coleoptera)",
+            "hem": "Pluskwiaki (Hemiptera)",
+            "odo": "Ważki (Odonata)",
+            "oth": "Inne"
+          },
+          "why": {
+            "peac": "niepowtarzalne oczka na skrzydłach",
+            "swal": "największy motyl Europy",
+            "stag": "gatunek chroniony w UE i Wielkiej Brytanii",
+            "lady": "najbardziej znany chrząszcz",
+            "hcat": "ważny zapylacz",
+            "bdam": "pospolita ważka nad wodą"
+          },
+          "notes": [
+            "1000 gatunków z ogrodów, łąk i lasów Europy Środkowej i Zachodniej.",
+            "BugNet: model wizyjny wytrenowany na zdjęciach z iNaturalist (CC BY / CC0).",
+            "Po pobraniu działa w pełni offline: model, lista gatunków, ikony i mapa."
+          ]
         }
       }
     },
     "bugs": {
-      "mona": {
-        "name": "Monarch (Danaid wędrowny)"
-      },
-      "rhin": {
-        "name": "Chrząszcz Nosorożec"
-      },
       "hcat": {
         "name": "Pszczoła Miodna"
-      },
-      "mant": {
-        "name": "Modliszka Zwyczajna"
       },
       "lady": {
         "name": "Biedronka Siedmiokropka"
       },
-      "drag": {
-        "name": "Husarz Władca"
+      "buff": {
+        "name": "Trzmiel ziemny"
       },
-      "lhoc": {
-        "name": "Ćma Luna"
+      "gbee": {
+        "name": "Trzmiel ogrodowy"
       },
-      "fire": {
-        "name": "Świetlik Pospolity"
+      "wasp": {
+        "name": "Osa pospolita"
       },
-      "cica": {
-        "name": "Cykada Okresowa"
+      "horn": {
+        "name": "Szerszeń europejski"
       },
-      "hwsp": {
-        "name": "Klecanka Polna"
+      "harl": {
+        "name": "Biedronka azjatycka"
       },
-      "walk": {
-        "name": "Patyczak"
+      "stag": {
+        "name": "Jelonek rogacz"
       },
-      "atla": {
-        "name": "Ćma Atlas"
+      "rchf": {
+        "name": "Kruszczyca złotawka"
+      },
+      "gshb": {
+        "name": "Tarczówka zielona"
+      },
+      "bdam": {
+        "name": "Łątka pospolita"
+      },
+      "brim": {
+        "name": "Latolistek cytrynek"
+      },
+      "peac": {
+        "name": "Rusałka pawik"
+      },
+      "lwhi": {
+        "name": "Bielinek kapustnik"
+      },
+      "swhi": {
+        "name": "Bielinek rzepnik"
+      },
+      "orng": {
+        "name": "Zorzyk rzeżuchowiec"
+      },
+      "radm": {
+        "name": "Rusałka admirał"
+      },
+      "tort": {
+        "name": "Rusałka pokrzywnik"
+      },
+      "pntl": {
+        "name": "Rusałka osetnik"
+      },
+      "swal": {
+        "name": "Paź królowej"
       }
     },
     "personas": {
@@ -787,7 +1009,7 @@
           "intro": "\"O super, kolejny tropiciel. Pozwól, że wszystko rzucę.\"",
           "scanTip": "No tak, ustaw ostrość. Jestem AI, nie magikiem.",
           "analyzing": "Mrużę oczy. Nie poganiaj.",
-          "streak": "\"Trzy dni z rzędu. Twój terapeuta musi być zachwycony.\"",
+          "streak": "\"Wracasz raz za razem. Twój terapeuta musi być zachwycony.\"",
           "chatHello": "Tak? Co teraz?",
           "topicHello": "Więc teraz rozmawiamy o {topic}? No dobra.",
           "common": "\"To {name}. Tak. Naprawdę byłem ci do tego potrzebny?\"",
@@ -814,7 +1036,7 @@
           "intro": "\"Witaj. Nie spiesz się — nauczymy się razem.\"",
           "scanTip": "Ustabilizuj aparat. Nie ma pośpiechu. Owad czeka.",
           "analyzing": "Sprawdzam uważnie. Chwilę proszę.",
-          "streak": "\"Cztery wspaniałe dni uważności. Brawo.\"",
+          "streak": "\"Dzień po dniu uważności. Brawo.\"",
           "chatHello": "Witaj, przyjacielu. Co dziś znalazłeś?",
           "topicHello": "Ach, {topic}. Dobry wybór do studiowania. Od czego zaczniemy?",
           "common": "\"{name}. Urocza, pospolita osoba — owad, który uczy patrzeć uważnie.\"",
@@ -834,14 +1056,14 @@
         ]
       },
       "maywind": {
-        "name": "R.A. Maywind",
+        "name": "Asystent Maj",
         "title": "gemma-4 · ciekawska",
         "blurb": "Dowcipna. Wesoła. Kocha każdego owada.",
         "lines": {
           "intro": "\"Cześć cześć! Notes gotowy, buty zasznurowane — szukamy stworków!\"",
           "scanTip": "Ooo ooo — wyceluj obiektyw! UWIELBIAM tę część.",
           "analyzing": "Sprawdzam bazę — to jest fajna część!",
-          "streak": "\"Cztery dni z rzędu! Absolutna legenda!\"",
+          "streak": "\"Dzień po dniu! Absolutna legenda!\"",
           "chatHello": "Cześć! Co dziś oglądamy? Opowiadaj wszystko.",
           "topicHello": "Ooo, {topic}! Świetny wybór. Pytaj o cokolwiek!",
           "common": "\"{name}! Klasyczny ulubieniec. Dziesięć na dziesięć, identyfikowałabym ponownie.\"",
@@ -849,7 +1071,7 @@
         },
         "uncertain": "Ooo, zagadka! Zawęziłam do trzech. Pomóż mi wybrać!",
         "noMatch": "Hmm! Wyszło na zero. Nowy kąt, więcej światła i damy radę!",
-        "streakSass": "CZTERY DNI! Jutro robi pięć — dasz radę!",
+        "streakSass": "SERIA! Jutro ciąg dalszy — dasz radę!",
         "badgeLocked": "Ooo, ta jest ŚWIETNA — pokochasz jej odblokowanie!",
         "badgeEarned": "TAK! Spójrz na siebie! Wpisuję to do notesu!",
         "canned": [
@@ -862,6 +1084,7 @@
       }
     },
     "help": {
+      "webLabel": "Otwórz pełną stronę pomocy na critterboard.app",
       "title": "Pomoc i informacje",
       "sub": "FAQ, kontakt, twoje dane.",
       "section": "FAQ",
@@ -872,7 +1095,7 @@
         },
         "faq2": {
           "q": "Dlaczego mam niską pewność ID?",
-          "a": "Zwykle jedno z trzech: rozmyte zdjęcie, owad zajmuje mniej niż 1/4 kadru lub jesteś poza zainstalowanym pakietem regionalnym. Spróbuj ciaśniejszego kadru, jaśniejszego światła i profilu z boku."
+          "a": "Zwykle jedno z trzech: rozmyte zdjęcie, owad zajmuje mniej niż 1/4 kadru lub jesteś poza zainstalowanym pakietem regionalnym. Skanów poniżej progu dopasowania (Mózg, domyślnie 33%) w ogóle nie można dodać. Spróbuj ciaśniejszego kadru, jaśniejszego światła i profilu z boku."
         },
         "faq3": {
           "q": "Jak działają zamrożenia passy?",
@@ -888,7 +1111,15 @@
         },
         "faq6": {
           "q": "Jak usunąć moje dane?",
-          "a": "Przewiń do \"Wymaż wszystko.\" Usuwa twój dex, obserwacje, ustawienia i modele. Obserwujący i wpisy rankingu też znikają. Nie ma cofnięcia."
+          "a": "Wszystko na tym telefonie: przewiń do „Wymaż wszystko”. Usuwa dex, obserwacje, ustawienia i modele, a najpierw kasuje twoje dane online. Tylko online: w Mózgu jest „Usuń moje dane online”. Nie ma cofnięcia."
+        },
+        "faq7": {
+          "q": "Czy mogę przenieść dane na nowy telefon?",
+          "a": "Tak. Użyj tutaj „Kopia zapasowa (plik)”, trzymaj plik w Plikach lub iCloud Drive, a na nowym telefonie wybierz „Przywróć z kopii” (lub na pierwszym ekranie po reinstalacji). Dodaje dex, złapania, zadania i ustawienia; zdjęcia i historia czatu nie są zawarte."
+        },
+        "faq8": {
+          "q": "Skąd biorą się siedlisko, rozmiar, zasięg i pokarm?",
+          "a": "Siedlisko i pokarm są typowe dla rodziny gatunku. Rozmiar pochodzi z Wikipedii, a zasięg z rekordów GBIF, więc kilka gatunków pokazuje rodzinę zamiast rozmiaru. „Więcej na Wikipedii” otwiera pełny artykuł."
         }
       },
       "contactTitle": "Skontaktuj się",
@@ -920,53 +1151,59 @@
         "wipeDesc": "Dex, obserwacje, modele, ustawienia. Bez cofnięcia.",
         "wipeCta": "Wymaż",
         "wipeConfirmCta": "Dotknij ponownie, by potwierdzić",
-        "wipeToast": "Wymazywanie w kolejce — uruchom aplikację ponownie."
+        "wipeToast": "Wymazywanie w kolejce — uruchom aplikację ponownie.",
+        "wipeOnlineFailed": "Nie udało się usunąć danych online, więc nic nie wymazano. Połącz się i spróbuj ponownie.",
+        "backupTitle": "Kopia zapasowa (plik)",
+        "backupDesc": "Dex, złapania, zadania i ustawienia w jednym pliku. Trzymaj go w Plikach lub iCloud Drive.",
+        "backupCta": "Zapisz",
+        "restoreTitle": "Przywróć z kopii",
+        "restoreDesc": "Dodaje plik kopii do tego telefonu. Nic nie jest usuwane.",
+        "restoreCta": "Przywróć"
       },
       "appName": "Critterboard",
-      "appBuild": "v1.4.0 · build 2026.05 · licencja MIT",
-      "appSpecOn": "iOS 16+ · 312 MB na dysku · sieć WŁ.",
-      "appSpecOff": "iOS 16+ · 312 MB na dysku · w pełni offline"
+      "appBuild": "v{version} · licencja MIT",
+      "appSpecOn": "iOS 17+ · sieć WŁ.",
+      "appSpecOff": "iOS 17+ · w pełni offline",
+      "backup": {
+        "keyTitle": "Dołączyć klucz online?",
+        "keyBody": "Klucz zachowa twój ranking i znajomych po ponownej instalacji. Każdy z tym plikiem mógłby działać online jako ty, więc dołącz go tylko, jeśli plik pozostanie prywatny.",
+        "keyWith": "Dołącz klucz",
+        "keyWithout": "Pomiń",
+        "readFailed": "Nie udało się odczytać pliku.",
+        "invalid": "To nie jest kopia Critterboard.",
+        "restoreTitle": "Przywrócić tę kopię?",
+        "restoreBody": "{species} gatunków i {catches} złapań (kopia z {date}) zostanie dodanych do tego telefonu. Nic nie jest usuwane.",
+        "restoreYes": "Przywróć",
+        "restored": "Przywrócono · {n} złapań",
+        "regionHint": "Pobierz ponownie pakiet regionalny w Mózgu.",
+        "identityHint": "Twój profil online wrócił. Włącz sieć w Mózgu, by z niego korzystać."
+      }
     },
     "credits": {
-      "build": "v1.4.0 · build 2026.05",
-      "intro": "Zrobione przez trzy osoby, które naprawdę uważają, że owady są fajne. Bez VC, bez reklam, bez śledzenia, bez konta. Tylko owady i telefon.",
+      "build": "v{version}",
+      "intro": "Zrobione przez niezależnego dewelopera, który naprawdę uważa, że owady są fajne. Bez VC, bez reklam, bez śledzenia, bez konta. Tylko owady i telefon.",
       "section": {
-        "team": "Zespół",
         "models": "Modele na urządzeniu",
         "data": "Dane i podziękowania"
       },
-      "team": {
-        "mira": {
-          "name": "Mira Ostrov",
-          "role": "Design i ilustracje"
-        },
-        "theo": {
-          "name": "Theo Bramble",
-          "role": "Inżynieria iOS"
-        },
-        "junie": {
-          "name": "Junie Halverson",
-          "role": "ML i modele na urządzeniu"
-        }
-      },
       "models": {
         "bugnet": {
-          "name": "BugNet v3",
-          "role": "Wizja · 88 MB · 1000 gatunków"
+          "name": "BugNet",
+          "role": "Wizja · {id} · {mb} MB · {n} gatunków"
         },
         "larva": {
           "name": "Gemma 4 E2B",
           "role": "Czat · 3,1 GB · Q4_K_M · Apache 2.0"
         },
         "variants": {
-          "name": "Maywind / Snail",
+          "name": "Maj / Ślimak",
           "role": "Persony: prompty systemowe na Gemma 4"
         }
       },
       "data": {
         "iNat": {
           "name": "iNaturalist",
-          "role": "Zdjęcia referencyjne (CC-BY-NC)"
+          "role": "Zdjęcia treningowe i referencyjne (CC0 / CC BY)"
         },
         "gbif": {
           "name": "GBIF",
@@ -974,12 +1211,23 @@
         },
         "beta": {
           "name": "Każdy beta tester",
-          "role": "Testowane w terenie w 14 miastach"
+          "role": "Dzięki za zgłoszenia błędów"
         }
       },
       "contactTitle": "Znalazłeś bug bug?",
       "contactEmail": "hello@critterboard.app",
       "footer": "Całe przetwarzanie dzieje się na twoim urządzeniu.\nŻadne dane nie opuszczają telefonu. Obiecujemy.\n© 2026 Critterboard · open source na licencji MIT"
+    },
+    "openSource": {
+      "title": "Biblioteki open source",
+      "sub": "Zewnętrzne zależności używane przez Critterboard",
+      "models": "Modele na urządzeniu",
+      "modelsSub": "Rozpoznawanie i czat: źródła i licencje",
+      "runtime": "Zależności uruchomieniowe",
+      "runtimeSub": "{n} pakietów w aplikacji",
+      "dev": "Zależności deweloperskie",
+      "devSub": "{n} pakietów używanych w narzędziach i buildzie",
+      "footer": "Dotknij pakietu, by otworzyć wyszukiwanie w Google."
     }
   }
 }

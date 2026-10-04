@@ -1,6 +1,9 @@
+import appJson from '../../app.json';
 import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { deleteOnlineData } from '@/backend/sync';
+import { useBackupActions } from '@/lib/useBackupActions';
 import { DataRow } from '@/components/DataRow';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
@@ -10,7 +13,11 @@ import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
-const FAQ_IDS = ['faq1', 'faq2', 'faq3', 'faq4', 'faq5', 'faq6'] as const;
+const FAQ_IDS = ['faq1', 'faq2', 'faq3', 'faq4', 'faq5', 'faq6', 'faq7', 'faq8'] as const;
+
+/** The localized support page; English lives at /support/, the rest at /support/<lang>/. */
+const helpUrl = (lang: string) =>
+  `https://critterboard.app/support/${lang === 'en' ? '' : `${lang}/`}`;
 
 export function Help() {
   const { back } = useNav();
@@ -19,6 +26,7 @@ export function Help() {
   const catchLog = useAppStore((s) => s.catchLog);
   const language = useAppStore((s) => s.language);
   const showToast = useAppStore((s) => s.showToast);
+  const { exportBackup, importBackup } = useBackupActions();
   const wipeAll = useAppStore((s) => s.wipeAll);
   const clearScanCache = useAppStore((s) => s.clearScanCache);
   const backendUserId = useAppStore((s) => s.backendUserId);
@@ -82,7 +90,9 @@ export function Help() {
           <Text style={styles.title}>{t('help.title')}</Text>
           <Text style={styles.sub}>{t('help.sub')}</Text>
         </View>
-        <IconBtn fs={14}>↗</IconBtn>
+        <IconBtn fs={14} accessibilityLabel={t('help.webLabel')} onPress={() => void Linking.openURL(helpUrl(language))}>
+          ↗
+        </IconBtn>
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll}>
@@ -143,6 +153,22 @@ export function Help() {
           </View>
           <View style={{ padding: 12, gap: 8 }}>
             <DataRow
+              icon="💾"
+              color={PB.cream2}
+              title={t('help.data.backupTitle')}
+              desc={t('help.data.backupDesc')}
+              cta={t('help.data.backupCta')}
+              onPress={exportBackup}
+            />
+            <DataRow
+              icon="📥"
+              color={PB.cream2}
+              title={t('help.data.restoreTitle')}
+              desc={t('help.data.restoreDesc')}
+              cta={t('help.data.restoreCta')}
+              onPress={() => { void importBackup(); }}
+            />
+            <DataRow
               icon="⬇️"
               color={PB.cream2}
               title={t('help.data.exportDexTitle')}
@@ -194,9 +220,16 @@ export function Help() {
                   // The two-tap pattern from the prototype stays — wipe
                   // is irreversible and the user must confirm. After
                   // this call the next render starts at onboarding.
-                  void wipeAll();
-                  showToast({ text: t('help.data.wipeToast'), icon: '🔥', bg: PB.red });
                   setConfirmWipe(false);
+                  void (async () => {
+                    // Online data first: once the identity is rotated there is no way to reach it again.
+                    if (useAppStore.getState().online.hasData && !(await deleteOnlineData())) {
+                      showToast({ text: t('help.data.wipeOnlineFailed'), icon: '⚠️', bg: PB.red });
+                      return;
+                    }
+                    void wipeAll();
+                    showToast({ text: t('help.data.wipeToast'), icon: '🔥', bg: PB.red });
+                  })();
                 } else {
                   setConfirmWipe(true);
                   setTimeout(() => setConfirmWipe(false), 3500);
@@ -208,7 +241,7 @@ export function Help() {
 
         <Sticker bg={PB.cream2} style={{ padding: 14, alignItems: 'center' }}>
           <Text style={styles.appName}>{t('help.appName')}</Text>
-          <Text style={styles.appBuild}>{t('help.appBuild')}</Text>
+          <Text style={styles.appBuild}>{t('help.appBuild', { version: appJson.expo.version })}</Text>
           <Text style={styles.appSpec}>
             {profile.networkOn ? t('help.appSpecOn') : t('help.appSpecOff')}
           </Text>

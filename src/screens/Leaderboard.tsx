@@ -3,13 +3,15 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useLeaderboard } from '@/backend/hooks';
 import type { LeaderboardEntry, LeaderboardScope } from '@/backend';
+import { FriendsPanel } from '@/components/FriendsPanel';
 import { PersonModal } from '@/components/PersonModal';
 import { LEADERS, type LeaderRow } from '@/data/leaderboard';
 import { countryName, useT } from '@/i18n/helpers';
-import { useXp } from '@/lib/level';
+import { levelFromXp, useXp } from '@/lib/level';
 import { PB } from '@/tokens/pb';
-import { useAppStore } from '@/store/useAppStore';
+import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
+import { haptics } from '@/lib/haptics';
 
 const TABS: LeaderboardScope[] = ['global', 'weekly', 'friends'];
 type TabName = LeaderboardScope;
@@ -25,19 +27,24 @@ export function Leaderboard() {
   const profile = useAppStore((s) => s.profile);
   const language = useAppStore((s) => s.language);
   const userXp = useXp();
+  const dexSize = useAppStore((s) => s.dex.size);
   const t = useT();
-  const [tab, setTab] = useState<TabName>('global');
+  const route = useCurrentRoute();
+  const startTab = (route.params as { tab?: TabName } | undefined)?.tab;
+  const [tab, setTab] = useState<TabName>(startTab ?? 'global');
   const [openName, setOpenName] = useState<string | null>(null);
 
   const userVisible = profile.networkOn && profile.leaderboardOn;
-  const userCountry = profile.locationShareOn && profile.networkOn ? 'US' : 'private';
+  const mapRegion = useAppStore((s) => s.mapLocation?.region);
+  const userCountry =
+    profile.locationShareOn && profile.networkOn && mapRegion ? mapRegion : 'private';
 
   // Backend-fed leaderboard. While offline (`networkOn === false`) the
   // hook short-circuits to `data: null` — fall back to the same in-app
   // synthesis we used before the seam was introduced so the screen
   // still has something to render. When online the data comes from the
   // mock adapter today, swappable to Cloudflare with one flag flip.
-  const { data: page } = useLeaderboard(tab);
+  const { data: page } = useLeaderboard(tab === 'friends' ? 'global' : tab);
 
   const sorted = useMemo<LeaderboardEntry[]>(() => {
     if (page) return page.entries;
@@ -52,9 +59,20 @@ export function Leaderboard() {
       rank: i + 1,
       country: l.country,
       rankDelta: null,
-      ...(l.self ? { isSelf: true } : {}),
+      ...(l.self ? { isSelf: true, catches: dexSize } : {}),
     }));
-  }, [page, userXp, profile.name]);
+  }, [page, userXp, dexSize, profile.name]);
+
+  // Under the score: level and species count (weekly: just the week's species; level needs a lifetime total).
+  const stats = (e: LeaderboardEntry): string => {
+    if (e.catches === undefined) return '';
+    return tab === 'weekly'
+      ? t('leaderboard.statsWeek', { n: e.catches })
+      : t('leaderboard.stats', { lvl: levelFromXp(e.xp).level, n: e.catches });
+  };
+
+  // Nobody but the user: don't dress a one-person list up as a podium.
+  const hasPeers = sorted.some((e) => !e.isSelf);
 
   const podium = useMemo(() => {
     const top = [sorted[0], sorted[1], sorted[2]];
@@ -67,6 +85,7 @@ export function Leaderboard() {
 
   return (
     <View style={styles.root}>
+      <ScrollView contentContainerStyle={styles.scroll}>
       <View style={styles.header}>
         <Text style={styles.title}>{t('leaderboard.title')}</Text>
         <Text style={styles.sub}>{t('leaderboard.sub')}</Text>
@@ -74,7 +93,10 @@ export function Leaderboard() {
           {TABS.map((tabId) => (
             <Pressable
               key={tabId}
-              onPress={() => (tabId === 'friends' ? go('friends') : setTab(tabId))}
+              onPress={() => {
+                haptics.select();
+                setTab(tabId);
+              }}
               style={[
                 styles.tab,
                 {
@@ -91,8 +113,8 @@ export function Leaderboard() {
             </Pressable>
           ))}
         </View>
-      </View>
 
+      {hasPeers && tab !== 'friends' && (
       <View style={styles.podium}>
         {podium.map((p) => {
           if (!p.row) return null;
@@ -114,17 +136,31 @@ export function Leaderboard() {
                   { backgroundColor: p.c, height: p.h },
                 ]}
               >
-                <Text style={styles.podiumPlace}>{p.place}</Text>
-                <Text style={styles.podiumXp}>{row.xp.toLocaleString()}</Text>
+                <Text style={styles.podiumPlace}>{row.xp.toLocaleString()}</Text>
+                <Text style={styles.podiumXp}>{stats(row)}</Text>
               </View>
             </Pressable>
           );
         })}
       </View>
+      )}
+      </View>
 
       <View style={styles.list}>
-        <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
-          {sorted.slice(3).map((l) => {
+        {tab === 'friends' ? (
+          <FriendsPanel />
+        ) : (
+        <View>
+          {!hasPeers && (
+            <View style={styles.hiddenRow}>
+              <Text style={{ fontSize: 22 }}>🐜</Text>
+              <View style={{ flex: 1, minWidth: 0 }}>
+                <Text style={styles.hiddenTitle}>{t('leaderboard.emptyTitle')}</Text>
+                <Text style={styles.hiddenDesc}>{t('leaderboard.emptySub')}</Text>
+              </View>
+            </View>
+          )}
+          {hasPeers && sorted.slice(3).map((l) => {
             if (l.isSelf && !userVisible) return null;
             const name = l.isSelf ? profile.name : l.displayName;
             const country = l.isSelf ? userCountry : (l.country ?? 'private');
@@ -147,7 +183,7 @@ export function Leaderboard() {
                     {l.isSelf ? ` ${t('common.youParen')}` : ''}
                   </Text>
                   <Text style={styles.meta}>
-                    {t('leaderboard.meta', { country: countryName(language, country) })}
+                    {[stats(l), t('leaderboard.meta', { country: countryName(language, country) })].filter(Boolean).join(' · ')}
                   </Text>
                 </View>
                 <Text style={styles.xp}>{l.xp.toLocaleString()}</Text>
@@ -167,8 +203,10 @@ export function Leaderboard() {
               </View>
             </Pressable>
           )}
-        </ScrollView>
+        </View>
+        )}
       </View>
+      </ScrollView>
 
       <PersonModal
         name={openName}
@@ -181,8 +219,20 @@ export function Leaderboard() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.purple },
-  header: { paddingTop: 112, paddingHorizontal: 16, paddingBottom: 14 },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.cream },
+  // Everything scrolls beneath the floating sub-tabs (top) and tab bar (bottom).
+  scroll: { paddingTop: 112, paddingHorizontal: 14, paddingBottom: 130 },
+  header: {
+    padding: 16,
+    backgroundColor: PB.purple,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    borderRadius: 20,
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 3, height: 3 },
+  },
   title: { fontSize: 30, fontWeight: '800', color: PB.cream, lineHeight: 30 },
   sub: { fontSize: 13, color: PB.cream, opacity: 0.85, fontWeight: '600', marginTop: 4 },
   tabs: {
@@ -197,7 +247,7 @@ const styles = StyleSheet.create({
   },
   tab: { flex: 1, minWidth: 0, paddingVertical: 8, paddingHorizontal: 4, borderRadius: 10, alignItems: 'center' },
   tabText: { fontSize: 13, fontWeight: '800', flexShrink: 1 },
-  podium: { paddingHorizontal: 16, paddingBottom: 14, flexDirection: 'row', alignItems: 'flex-end', gap: 8 },
+  podium: { marginTop: 14, flexDirection: 'row', alignItems: 'flex-end', gap: 8 },
   medal: {
     width: 48,
     height: 48,
@@ -227,19 +277,9 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     shadowOffset: { width: 3, height: 3 },
   },
-  podiumPlace: { fontSize: 22, fontWeight: '800', color: PB.ink },
+  podiumPlace: { fontSize: 20, fontWeight: '800', color: PB.ink },
   podiumXp: { fontSize: 10, fontWeight: '700', color: PB.ink, opacity: 0.7 },
-  list: {
-    flex: 1,
-    backgroundColor: PB.cream,
-    borderTopLeftRadius: 26,
-    borderTopRightRadius: 26,
-    borderColor: PB.ink,
-    borderWidth: 2.5,
-    borderBottomWidth: 0,
-    padding: 12,
-    marginBottom: 120,
-  },
+  list: { marginTop: 18 },
   row: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -1,16 +1,19 @@
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Animated, PanResponder, Platform, Pressable, StyleSheet, Text, View, type GestureResponderEvent, type LayoutChangeEvent } from 'react-native';
 
 import * as FileSystem from 'expo-file-system/legacy';
 import { vision, USE_NATIVE_VISION, useExecutorchClassifier, type Candidate } from '@/ai';
 import { getModelPath } from '@/data/regionPacks';
 import { selectScanClassifier } from '@/ai/scanClassifier';
+import { scanCrops } from '@/ai/scanCrops';
 import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
+import { PhotoTipsDialog } from '@/components/PhotoTipsDialog';
 import { Sticker } from '@/components/Sticker';
+import { TabBar } from '@/components/TabBar';
 import { useT } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
 import { usePersona } from '@/personas/hooks';
@@ -20,23 +23,33 @@ import { useNav } from '@/store/useNav';
 
 type Phase = 'aim' | 'flash' | 'analyzing';
 
+const ZOOM_PER_LN = 0.36;
+/** Reticle size (pt) and centre height (fraction of the screen). The classifier crops around it. */
+const RETICLE = 220;
+const RETICLE_TOP = 0.46;
+
+function touchDistance(e: GestureResponderEvent): number {
+  const [a, b] = e.nativeEvent.touches;
+  return a && b ? Math.hypot(a.pageX - b.pageX, a.pageY - b.pageY) : 0;
+}
+
 export function Scan() {
   const { go, back } = useNav();
   const persona = useAppStore((s) => s.persona);
   const setLastPhotoUri = useAppStore((s) => s.setLastPhotoUri);
+  const minConfidence = useAppStore((s) => s.profile.minConfidence);
   const P = usePersona(persona);
   const t = useT();
   const route = useCurrentRoute();
   const hint = (route.params as { hint?: string } | undefined)?.hint ?? 'lady';
 
-  const installedRegions = useAppStore((s) => s.installedRegions);
+  const activeRegionId = useAppStore((s) => s.activeRegion);
   const activeLabelMap = useAppStore((s) => s.activeLabelMap);
-  const activeRegionId = installedRegions[0] ?? null;
   const modelSource = activeRegionId && FileSystem.documentDirectory
     ? getModelPath(FileSystem.documentDirectory, activeRegionId)
     : null;
 
-  // ExecuTorch on-device classifier. Driven by the first installed region
+  // ExecuTorch on-device classifier. Driven by the active region
   // pack — modelSource is its .pte path on disk, labelMap maps scientific
   // names to class indices. preventLoad keeps it dormant until both
   // USE_NATIVE_VISION is on and a pack has been installed.
@@ -58,29 +71,79 @@ export function Scan() {
   const cameraRef = useRef<CameraView | null>(null);
 
   const [phase, setPhase] = useState<Phase>('aim');
+  const [tipsOpen, setTipsOpen] = useState(false);
+  // The guide's hint is a greeting, not a status: show it on arrival, then get out of the way.
+  const [tipVisible, setTipVisible] = useState(true);
+  useEffect(() => {
+    const id = setTimeout(() => setTipVisible(false), 6000);
+    return () => clearTimeout(id);
+  }, []);
   const [flash, setFlash] = useState(false);
+  // Screen size, to find the reticle in the photo. The preview fills this view.
+  const view = useRef({ width: 0, height: 0 }).current;
+  const onLayout = (e: LayoutChangeEvent) => Object.assign(view, e.nativeEvent.layout);
+
+  // Pinch to zoom. expo-camera's zoom is 0..1 of the lens range; on iOS it is exponential
+  // (min × (max/min)^zoom), so adding ln(scale) × ZOOM_PER_LN keeps a pinch feeling the same at
+  // every zoom level. ZOOM_PER_LN ≈ 1 / ln(max/min) for a typical ~16× range.
+  const [zoom, setZoom] = useState(0);
+  const pinch = useRef({ startDist: 0, startZoom: 0, zoom: 0 }).current;
+  pinch.zoom = zoom;
+  const pinchResponder = useRef(
+    PanResponder.create({
+      // Only two-finger touches: single taps fall through to the camera and buttons.
+      onStartShouldSetPanResponder: (e) => e.nativeEvent.touches.length === 2,
+      onMoveShouldSetPanResponder: (e) => e.nativeEvent.touches.length === 2,
+      onPanResponderGrant: (e) => {
+        pinch.startDist = touchDistance(e);
+        pinch.startZoom = pinch.zoom;
+      },
+      onPanResponderMove: (e) => {
+        const dist = touchDistance(e);
+        if (!dist) return;
+        // A second finger that lands after the grant starts the pinch here.
+        if (!pinch.startDist) {
+          pinch.startDist = dist;
+          pinch.startZoom = pinch.zoom;
+          return;
+        }
+        const next = pinch.startZoom + Math.log(dist / pinch.startDist) * ZOOM_PER_LN;
+        setZoom(Math.min(1, Math.max(0, next)));
+      },
+      onPanResponderRelease: () => {
+        pinch.startDist = 0;
+      },
+      onPanResponderTerminate: () => {
+        pinch.startDist = 0;
+      },
+    }),
+  ).current;
   const pulse = useRef(new Animated.Value(1)).current;
   const reticleRotate = useRef(new Animated.Value(0)).current;
 
+  // Loops run until stopped, also after the screen is gone: stop them on unmount.
   useEffect(() => {
-    Animated.loop(
+    const loop = Animated.loop(
       Animated.sequence([
         Animated.timing(pulse, { toValue: 0.35, duration: 500, useNativeDriver: true }),
         Animated.timing(pulse, { toValue: 1, duration: 500, useNativeDriver: true }),
       ]),
-    ).start();
+    );
+    loop.start();
+    return () => loop.stop();
   }, [pulse]);
 
   useEffect(() => {
-    if (phase === 'analyzing') {
-      Animated.loop(
-        Animated.timing(reticleRotate, {
-          toValue: 1,
-          duration: 3000,
-          useNativeDriver: true,
-        }),
-      ).start();
-    }
+    if (phase !== 'analyzing') return;
+    const loop = Animated.loop(
+      Animated.timing(reticleRotate, {
+        toValue: 1,
+        duration: 3000,
+        useNativeDriver: true,
+      }),
+    );
+    loop.start();
+    return () => loop.stop();
   }, [phase, reticleRotate]);
 
   /**
@@ -89,7 +152,7 @@ export function Scan() {
    * spread. Holds the analysing animation for ~2 s so the UX feels
    * deliberate even when inference is sub-100 ms.
    */
-  const classifyAndRoute = (photoUri: string | null) => {
+  const classifyAndRoute = (photoUri: string | null, fromCamera: boolean) => {
     if (photoUri) setLastPhotoUri(photoUri);
     const startedAt = Date.now();
     void (async () => {
@@ -107,17 +170,26 @@ export function Scan() {
           setPhase('aim');
           return;
         }
-        candidates = await classifyFn(photoUri, { hint, topK: 3 });
+        // Classify crops around the reticle (camera) or the photo centre (gallery), not the
+        // whole frame squashed to 224 px. The web mock ignores the frame.
+        const aim = fromCamera && view.width > 0
+          ? { view, reticle: { cx: view.width / 2, cy: view.height * RETICLE_TOP, side: RETICLE } }
+          : undefined;
+        const frame = photoUri && !isWeb ? await scanCrops(photoUri, aim) : photoUri;
+        candidates = await classifyFn(frame, { hint, topK: 3 });
       } catch {
         candidates = [];
       }
       const minHold = 2200 - (Date.now() - startedAt);
       setTimeout(() => {
-        const top = candidates[0];
-        const second = candidates[1];
+        // Anything under the user's floor can't be added to the Dex at all.
+        const floor = minConfidence / 100;
+        const viable = candidates.filter((c) => c.confidence >= floor);
+        const top = viable[0];
+        const second = viable[1];
         const confident =
           top &&
-          top.confidence >= 0.7 &&
+          top.confidence >= Math.max(0.7, floor) &&
           (!second || top.confidence - second.confidence >= 0.15);
 
         if (confident && top) {
@@ -127,11 +199,19 @@ export function Scan() {
             conf: Math.round(top.confidence * 100),
             ...(photoUri ? { photoUri } : {}),
           });
-        } else if (candidates.length >= 2) {
+        } else if (viable.length >= 2) {
           haptics.select();
           go('disambiguate', {
-            candidates: candidates.map((c) => c.bugId),
-            confs: candidates.map((c) => Math.round(c.confidence * 100)),
+            candidates: viable.map((c) => c.bugId),
+            confs: viable.map((c) => Math.round(c.confidence * 100)),
+            ...(photoUri ? { photoUri } : {}),
+          });
+        } else if (top) {
+          // One plausible species above the floor, just not a sure one: show it with its confidence.
+          haptics.select();
+          go('result', {
+            id: top.bugId,
+            conf: Math.round(top.confidence * 100),
             ...(photoUri ? { photoUri } : {}),
           });
         } else {
@@ -159,14 +239,15 @@ export function Scan() {
     let photoUri: string | null = null;
     try {
       const result = await cameraRef.current?.takePictureAsync({
+        // No skipProcessing: processing crops the photo to the preview (so the reticle maps onto
+        // it) and records its true orientation. Raw sensor output can come back rotated.
         quality: 0.85,
-        skipProcessing: true,
       });
       photoUri = result?.uri ?? null;
     } catch {
       photoUri = null;
     }
-    classifyAndRoute(photoUri);
+    classifyAndRoute(photoUri, true);
   };
 
   const pickFromGallery = async () => {
@@ -175,21 +256,23 @@ export function Scan() {
       haptics.warning();
       return;
     }
-    const status = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!status.granted) {
+    // The system photo picker needs no library permission (iOS PHPicker, Android photo
+    // picker); asking first made a once-denied prompt silently kill this button.
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ['images'],
+        quality: 0.85,
+        allowsEditing: false,
+      });
+      if (result.canceled || !result.assets?.length) return;
+      const photoUri = result.assets[0]?.uri ?? null;
+      haptics.tap();
+      setPhase('analyzing');
+      classifyAndRoute(photoUri, false);
+    } catch {
       haptics.warning();
-      return;
+      showToast({ text: t('scan.galleryFailed'), icon: '⚠️', bg: PB.red });
     }
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 0.85,
-      allowsEditing: false,
-    });
-    if (result.canceled || !result.assets?.length) return;
-    const photoUri = result.assets[0]?.uri ?? null;
-    haptics.tap();
-    setPhase('analyzing');
-    classifyAndRoute(photoUri);
   };
 
   /**
@@ -202,7 +285,9 @@ export function Scan() {
   const cameraReady = permission?.granted;
 
   return (
-    <View style={styles.root}>
+    // Pinch handlers on the root: touches bubble up through ancestors only, so a sibling layer
+    // under the overlays (focus box, tip card) would never see them.
+    <View style={styles.root} onLayout={onLayout} {...(cameraReady ? pinchResponder.panHandlers : {})}>
       {cameraReady ? (
         <CameraView
           ref={(ref) => {
@@ -211,9 +296,19 @@ export function Scan() {
           style={StyleSheet.absoluteFill}
           facing="back"
           mute
+          zoom={zoom}
         />
       ) : (
         <CameraScene />
+      )}
+
+      {zoom > 0.01 && (
+        // Zoomed in: a tap goes back to the full view.
+        <View style={styles.zoomWrap} pointerEvents="box-none">
+          <Pressable onPress={() => setZoom(0)} style={styles.zoomChip}>
+            <Text style={styles.zoomText}>↺ 1×</Text>
+          </Pressable>
+        </View>
       )}
 
       {phase === 'analyzing' && <View style={styles.tint} />}
@@ -267,8 +362,8 @@ export function Scan() {
         <View style={styles.modelBanner}>
           <Text style={styles.modelBannerText}>
             {executorch.downloadProgress > 0
-              ? `Fetching model… ${Math.round(executorch.downloadProgress * 100)}%`
-              : 'Loading model…'}
+              ? t('scan.modelFetching', { pct: Math.round(executorch.downloadProgress * 100) })
+              : t('scan.modelLoading')}
           </Text>
         </View>
       )}
@@ -279,8 +374,8 @@ export function Scan() {
           {
             borderColor: phase === 'analyzing' ? PB.pink : PB.yellow,
             transform: [
-              { translateX: -110 },
-              { translateY: -110 },
+              { translateX: -RETICLE / 2 },
+              { translateY: -RETICLE / 2 },
               {
                 rotate: reticleRotate.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }),
               },
@@ -295,6 +390,7 @@ export function Scan() {
         </View>
       </Animated.View>
 
+      {(tipVisible || phase === 'analyzing') && (
       <View style={styles.tipWrap}>
         <Sticker bg={PB.cream} rotate={-1.5} style={{ paddingVertical: 10, paddingHorizontal: 12 }}>
           <View style={styles.tipRow}>
@@ -307,14 +403,19 @@ export function Scan() {
           </View>
         </Sticker>
       </View>
+      )}
 
       <View style={styles.bottomRow}>
         <IconBtn size={48} fs={22} onPress={pickFromGallery}>🖼️</IconBtn>
         <Pressable onPress={shutter} style={[styles.shutter, phase !== 'aim' && styles.shutterPressed]}>
           <View style={styles.shutterInner} />
         </Pressable>
-        <IconBtn size={48} fs={22} onPress={() => phase === 'aim' && go('nomatch')}>🤷</IconBtn>
+        <IconBtn size={48} fs={22} onPress={() => setTipsOpen(true)} accessibilityLabel={t('scan.tipsTitle')}>💡</IconBtn>
       </View>
+
+      <PhotoTipsDialog visible={tipsOpen} onClose={() => setTipsOpen(false)} />
+
+      <TabBar active="scan" />
     </View>
   );
 }
@@ -350,6 +451,20 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
   },
   statusText: { fontSize: 13, fontWeight: '800' },
+  zoomWrap: { position: 'absolute', top: 104, left: 0, right: 0, alignItems: 'center', zIndex: 10 },
+  zoomChip: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    backgroundColor: PB.cream,
+    borderColor: PB.ink,
+    borderWidth: 2,
+    borderRadius: 99,
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 2, height: 2 },
+  },
+  zoomText: { fontSize: 13, fontWeight: '800', color: PB.ink },
   permissionCard: {
     position: 'absolute',
     top: 110,
@@ -362,9 +477,9 @@ const styles = StyleSheet.create({
   reticle: {
     position: 'absolute',
     left: '50%',
-    top: '46%',
-    width: 220,
-    height: 220,
+    top: `${RETICLE_TOP * 100}%`,
+    width: RETICLE,
+    height: RETICLE,
     borderWidth: 4,
     borderRadius: 32,
     borderStyle: 'dashed',
@@ -381,7 +496,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   focusTagText: { fontSize: 11, fontWeight: '800', color: PB.ink },
-  tipWrap: { position: 'absolute', bottom: 200, left: 12, right: 12, zIndex: 10 },
+  tipWrap: { position: 'absolute', bottom: 222, left: 12, right: 12, zIndex: 10 },
   tipRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   tipAvatar: {
     width: 32,
@@ -395,7 +510,7 @@ const styles = StyleSheet.create({
   tipText: { flex: 1, fontSize: 13, color: PB.ink, fontWeight: '600', lineHeight: 17 },
   bottomRow: {
     position: 'absolute',
-    bottom: 60,
+    bottom: 118, // clears the tab bar (28 + 70)
     left: 12,
     right: 12,
     flexDirection: 'row',
@@ -431,7 +546,7 @@ const styles = StyleSheet.create({
   },
   modelBanner: {
     position: 'absolute',
-    bottom: 160,
+    bottom: 300,
     left: 12,
     right: 12,
     backgroundColor: PB.ink,

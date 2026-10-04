@@ -5,10 +5,13 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 const modelOnDisk = vi.hoisted(() => ({ exists: false }));
 vi.mock('expo-file-system/legacy', () => ({
   makeDirectoryAsync: vi.fn().mockResolvedValue(undefined),
-  getInfoAsync: vi.fn(async () => ({ exists: modelOnDisk.exists })),
+  // A finished download's `.part` file is there; the model itself as the test says.
+  getInfoAsync: vi.fn(async (p: string) => ({ exists: p.endsWith('.part') || modelOnDisk.exists, size: 1 })),
   createDownloadResumable: vi.fn(() => ({
-    downloadAsync: vi.fn().mockResolvedValue({}),
+    downloadAsync: vi.fn().mockResolvedValue({ status: 200 }),
   })),
+  deleteAsync: vi.fn().mockResolvedValue(undefined),
+  moveAsync: vi.fn().mockResolvedValue(undefined),
 }));
 
 import {
@@ -124,6 +127,17 @@ describe('needsModelDownload', () => {
     expect(
       await needsModelDownload('/docs/', { ...pack, modelUrl: 'https://example.com/old.pte' }, pack),
     ).toBe(true);
+  });
+
+  it('downloads when the pinned checksum changed (a model replaced at the same URL)', async () => {
+    modelOnDisk.exists = true;
+    expect(await needsModelDownload('/docs/', { ...pack, modelMd5: 'a' }, { ...pack, modelMd5: 'b' })).toBe(true);
+    expect(await needsModelDownload('/docs/', { ...pack, modelMd5: 'a' }, { ...pack, modelMd5: 'a' })).toBe(false);
+  });
+
+  it('does not re-download just because an older pack had no checksum yet', async () => {
+    modelOnDisk.exists = true;
+    expect(await needsModelDownload('/docs/', pack, { ...pack, modelMd5: 'b' })).toBe(false);
   });
 
   it('downloads when the model file is missing or there is no previous pack', async () => {

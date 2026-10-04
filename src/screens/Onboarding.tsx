@@ -1,20 +1,40 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 
 import { Btn } from '@/components/Btn';
 import { PersonaPick } from '@/components/PersonaPick';
 import { Sticker } from '@/components/Sticker';
+import { LANG_META } from '@/i18n';
 import { useT } from '@/i18n/helpers';
+import { isOffensiveName } from '@/lib/moderation';
+import { useBackupActions } from '@/lib/useBackupActions';
 import { PERSONA_IDS } from '@/personas';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
+import { haptics } from '@/lib/haptics';
 
 export function Onboarding() {
   const { go } = useNav();
   const networkOn = useAppStore((s) => s.profile.networkOn);
+  const setProfile = useAppStore((s) => s.setProfile);
+  const language = useAppStore((s) => s.language);
+  const setLanguage = useAppStore((s) => s.setLanguage);
+  const { importBackup } = useBackupActions();
   const t = useT();
+  const [name, setName] = useState('');
+  const [nameError, setNameError] = useState(false);
+
+  const start = () => {
+    const v = name.trim();
+    if (v && isOffensiveName(v)) {
+      setNameError(true);
+      return;
+    }
+    if (v) setProfile({ name: v });
+    go('permissions');
+  };
   return (
     <View style={styles.root}>
       {/* Decorative confetti */}
@@ -42,16 +62,53 @@ export function Onboarding() {
           </View>
         </View>
 
+        <View style={styles.langRow} accessibilityRole="radiogroup">
+          {LANG_META.map((l) => {
+            const on = l.id === language;
+            return (
+              <Pressable
+                key={l.id}
+                onPress={() => {
+                  haptics.select();
+                  setLanguage(l.id);
+                }}
+                accessibilityRole="radio"
+                accessibilityState={{ selected: on }}
+                accessibilityLabel={l.native}
+                style={[styles.langChip, on && styles.langChipOn]}
+              >
+                <Text style={styles.langFlag}>{l.flag}</Text>
+                <Text style={[styles.langText, on && styles.langTextOn]}>{l.native}</Text>
+              </Pressable>
+            );
+          })}
+        </View>
+
         <View style={styles.choices}>
           <Sticker bg={PB.green} rotate={-4} style={styles.choice} onPress={() => go('scan')}>
             <Text style={styles.choiceText}>{t('onboarding.snap')}</Text>
           </Sticker>
-          <Sticker bg={PB.blue} rotate={3} style={styles.choice} onPress={() => go('chat')}>
-            <Text style={styles.choiceText}>{t('onboarding.sassyId')}</Text>
+          <Sticker bg={PB.blue} rotate={3} style={styles.choice} onPress={() => go('scan')}>
+            <Text style={styles.choiceText}>{t('onboarding.identify')}</Text>
           </Sticker>
           <Sticker bg={PB.purple} rotate={-2} style={styles.choice} onPress={() => go('dex')}>
             <Text style={styles.choiceText}>{t('onboarding.buildDex')}</Text>
           </Sticker>
+        </View>
+
+        <View style={styles.personaBlock}>
+          <Text style={styles.section}>{t('onboarding.namePrompt')}</Text>
+          <TextInput
+            value={name}
+            onChangeText={(v) => { setName(v); setNameError(false); }}
+            onSubmitEditing={start}
+            placeholder={t('settings.namePlaceholder')}
+            placeholderTextColor={PB.ink + '99'}
+            maxLength={18}
+            returnKeyType="done"
+            style={styles.nameInput}
+          />
+          {nameError && <Text style={styles.nameError}>{t('settings.nameOffensive')}</Text>}
         </View>
 
         <View style={styles.personaBlock}>
@@ -64,9 +121,12 @@ export function Onboarding() {
         </View>
 
         <View style={styles.footer}>
-          <Btn full bg={PB.ink} color={PB.yellow} size="lg" onPress={() => go('permissions')}>
+          <Btn full bg={PB.ink} color={PB.yellow} size="lg" onPress={start}>
             {t('onboarding.startHunting')}
           </Btn>
+          <Pressable onPress={() => void importBackup()} accessibilityRole="button" style={styles.restoreLink}>
+            <Text style={styles.restoreText}>{t('onboarding.haveBackup')}</Text>
+          </Pressable>
           <Text style={styles.legal}>
             {t(networkOn ? 'onboarding.legalOnline' : 'onboarding.legal')}
           </Text>
@@ -97,11 +157,50 @@ const styles = StyleSheet.create({
   logoEmoji: { fontSize: 28 },
   title: { fontSize: 36, fontWeight: '800', color: PB.ink, lineHeight: 36 },
   tagline: { fontSize: 12, color: PB.ink, marginTop: 4, fontWeight: '600' },
-  choices: { marginTop: 36, gap: 16, alignItems: 'center' },
+  langRow: { marginTop: 16, flexDirection: 'row', gap: 6 },
+  langChip: {
+    flex: 1,
+    paddingVertical: 7,
+    alignItems: 'center',
+    gap: 2,
+    backgroundColor: PB.cream,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    borderRadius: 12,
+  },
+  langChipOn: {
+    backgroundColor: PB.ink,
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 2, height: 2 },
+  },
+  langFlag: { fontSize: 16 },
+  langText: { fontSize: 11, fontWeight: '800', color: PB.ink },
+  langTextOn: { color: PB.yellow },
+  choices: { marginTop: 24, gap: 16, alignItems: 'center' },
   choice: { paddingVertical: 14, paddingHorizontal: 18, alignSelf: 'stretch' },
   choiceText: { fontSize: 18, color: PB.cream, fontWeight: '800', textAlign: 'center' },
   personaBlock: { marginTop: 26 },
   section: { fontSize: 11, fontWeight: '800', color: PB.ink, opacity: 0.7, letterSpacing: 0.8, marginBottom: 8 },
+  nameInput: {
+    height: 42,
+    paddingHorizontal: 12,
+    backgroundColor: PB.cream,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    borderRadius: 12,
+    fontSize: 15,
+    fontWeight: '700',
+    color: PB.ink,
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 2, height: 2 },
+  },
+  nameError: { marginTop: 4, fontSize: 11, fontWeight: '700', color: PB.red },
   footer: { marginTop: 'auto', gap: 10 },
+  restoreLink: { alignSelf: 'center', paddingVertical: 4 },
+  restoreText: { fontSize: 13, fontWeight: '800', color: PB.ink, textDecorationLine: 'underline' },
   legal: { textAlign: 'center', fontSize: 12, color: PB.ink, fontWeight: '600' },
 });

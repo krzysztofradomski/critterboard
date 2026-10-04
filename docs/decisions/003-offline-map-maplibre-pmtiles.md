@@ -25,6 +25,6 @@ Use **MapLibre Native** (`@maplibre/maplibre-react-native`) to render **PMTiles*
 ## Consequences
 
 - One more native dependency (MapLibre Native via Swift Package Manager / Gradle), set up by its Expo config plugin. Requires a dev build; the app already needs one.
-- Retires `react-cartoon-planet`, `three`, `@types/three`, `expo-gl` once the spike is proven.
+- Retired `react-cartoon-planet`, `three`, `@types/three`, `expo-gl` and the web globe (removed from the repo).
 - Pack sizes grow about 4× per zoom level, so regions ship at low zoom and street detail is an opt-in local-area download.
 - OSM attribution is required on the map and in credits.

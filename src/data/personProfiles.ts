@@ -37,7 +37,10 @@ export type PersonProfile = {
   recent: string[];
 };
 
-export const PERSON_PROFILES: Record<string, PersonProfile> = {
+const DEMO_PEERS = process.env.EXPO_PUBLIC_DEMO_PEERS === '1';
+
+/** Invented profiles: dev demos only (`EXPO_PUBLIC_DEMO_PEERS=1`). */
+const DEMO_PROFILES: Record<string, PersonProfile> = {
   mothwhisperer: { emoji: '🌙', color: PB.purple, country: 'JP', city: 'Kyoto',    joined: 'Mar 2024', level: 31, rank: 1,  xp: 48230, badge: '👑', bioKey: 'mothwhisperer', recent: ['atla','lhoc','fire','cica'] },
   bug_dad_42:    { emoji: '🪲', color: PB.green,  country: 'DE', city: 'Hamburg',  joined: 'Jun 2024', level: 27, rank: 2,  xp: 41117, badge: '🥈', bioKey: 'bug_dad_42',    recent: ['rhin','fire','lady','walk'] },
   antqueen:      { emoji: '🐜', color: PB.red,    country: 'BR', city: 'Manaus',   joined: 'Aug 2024', level: 25, rank: 3,  xp: 38950, badge: '🥉', bioKey: 'antqueen',      recent: ['cica','mant','walk','rhin'] },
@@ -68,7 +71,7 @@ export type FriendsRow = {
   whyKey?: FriendWhyKey;
 };
 
-export const FRIENDS: FriendsRow[] = [
+const DEMO_FRIENDS: FriendsRow[] = [
   { name: 'mothwhisperer', emoji: '🌙', color: PB.purple, country: 'JP', xp: 48230, rank: 1,  delta: '+0', lastKey: 'atlasMothLast',    when: '2 hr', catchEmoji: '🦋', rel: 'following' },
   { name: 'bug_dad_42',    emoji: '🪲', color: PB.green,  country: 'DE', xp: 41117, rank: 2,  delta: '-1', lastKey: 'stagBeetleLast',   when: '5 hr', catchEmoji: '🪲', rel: 'follower'  },
   { name: 'antqueen',      emoji: '🐜', color: PB.red,    country: 'BR', xp: 38950, rank: 3,  delta: '+1', lastKey: 'bulletAntLast',    when: '1 d',  catchEmoji: '🐜', rel: 'following' },
@@ -81,7 +84,11 @@ export const FRIENDS: FriendsRow[] = [
   { name: 'aphid_attic',   emoji: '🌱', color: PB.cream2, country: 'IE', xp:  9120, rank: 32, delta: null, lastKey: 'greenflyLast',     when: '2 d',  catchEmoji: '🐞', rel: 'suggested', whyKey: 'viaMothwhisperer' },
 ];
 
-export const INITIAL_FOLLOWED: string[] = [
+const DEMO_FOLLOWED: string[] = [
   'mothwhisperer', 'antqueen', 'chitin_chris', 'wingedfren',
   'larva_loyd', 'molt_master',
 ];
+
+export const PERSON_PROFILES: Record<string, PersonProfile> = DEMO_PEERS ? DEMO_PROFILES : {};
+export const FRIENDS: FriendsRow[] = DEMO_PEERS ? DEMO_FRIENDS : [];
+export const INITIAL_FOLLOWED: string[] = DEMO_PEERS ? DEMO_FOLLOWED : [];

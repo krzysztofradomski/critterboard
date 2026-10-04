@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { PB } from '@/tokens/pb';
+import { haptics } from '@/lib/haptics';
 
 export type StickerProps = {
   children: React.ReactNode;
@@ -38,7 +39,10 @@ export function Sticker({ children, bg = PB.paper, rotate = 0, style, onPress }:
 
   return (
     <Pressable
-      onPress={onPress}
+      onPress={() => {
+        haptics.tap();
+        onPress?.();
+      }}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
       style={[styles.base, dynamic, style]}

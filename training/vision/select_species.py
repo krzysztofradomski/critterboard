@@ -19,6 +19,8 @@ import random
 from collections import Counter, defaultdict
 from pathlib import Path
 
+from splits import split_of_observer
+
 # The 20 species the app already knows (src/data/bugs.ts) — always included so
 # existing ids, catches and translations keep working.
 FORCE_INCLUDE = [
@@ -60,8 +62,8 @@ def main():
     ap.add_argument("--top", type=int, default=200)
     ap.add_argument("--per-species", type=int, default=400)
     ap.add_argument("--max-per-observer", type=int, default=3)
-    ap.add_argument("--test", type=int, default=40, help="test observations per species")
-    ap.add_argument("--val", type=int, default=30, help="val observations per species")
+    ap.add_argument("--test-frac", type=float, default=0.10, help="share of photographers held out for test")
+    ap.add_argument("--val-frac", type=float, default=0.065, help="share of photographers held out for validation")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
     rng = random.Random(args.seed)
@@ -94,7 +96,8 @@ def main():
                         lin.get("family", ""), counts[sid]])
 
     # Sample observations: cap per observer (diversity), then split by observer
-    # so no photographer appears in both train and test.
+    # globally (hash of observer id), so no photographer appears in both train
+    # and test, even across different species.
     with (args.data / "sampled.tsv").open("w") as out:
         for sid in chosen:
             by_observer = defaultdict(list)
@@ -111,21 +114,7 @@ def main():
                     break
             picked = picked[: args.per_species]
 
-            split_of, n_test, n_val = {}, 0, 0
-            for _, o in picked:
-                if o in split_of:
-                    continue
-                if n_test < args.test:
-                    split_of[o] = "test"
-                elif n_val < args.val:
-                    split_of[o] = "val"
-                else:
-                    split_of[o] = "train"
-                k = sum(1 for _, oo in picked if oo == o)
-                if split_of[o] == "test":
-                    n_test += k
-                elif split_of[o] == "val":
-                    n_val += k
+            split_of = {o: split_of_observer(o, args.seed, args.test_frac, args.val_frac) for _, o in picked}
             for u, o in picked:
                 out.write(f"{u}\t{sid}\t{split_of[o]}\n")
 

@@ -11,19 +11,28 @@ export type RegionStatus = 'installed' | 'available' | { downloading: number };
 export type Region = {
   id: string;
   emoji: string;
+  /** Total download in MB: model + species list + icons + map. */
   size: number;
+  /** Part of `size` that is the offline map (MB); 0 when the region has no map yet. */
+  mapSize: number;
   color: string;
 };
 
+/**
+ * Regions that have a real pack. Keep in sync with `packs/manifest.json`
+ * (a test enforces it); every other region renders as "coming soon".
+ */
+export const AVAILABLE_REGION_IDS: ReadonlySet<string> = new Set(['eu-ce']);
+
 export const REGIONS: Region[] = [
-  { id: 'eu-ce', emoji: '🌿', size: 89,  color: PB.green  },
-  { id: 'na-ne', emoji: '🍁', size: 84,  color: PB.orange },
-  { id: 'na-sw', emoji: '🌵', size: 76,  color: PB.yellow },
-  { id: 'eu-uk', emoji: '🇬🇧', size: 62,  color: PB.green  },
-  { id: 'eu-md', emoji: '🫒', size: 96,  color: PB.blue   },
-  { id: 'sa-am', emoji: '🦋', size: 218, color: PB.purple },
-  { id: 'oc-au', emoji: '🦘', size: 142, color: PB.pink   },
-  { id: 'as-se', emoji: '🌴', size: 168, color: PB.red    },
+  { id: 'eu-ce', emoji: '🌿', size: 145, mapSize: 56,  color: PB.green  },
+  { id: 'na-ne', emoji: '🍁', size: 84, mapSize: 0,  color: PB.orange },
+  { id: 'na-sw', emoji: '🌵', size: 76, mapSize: 0,  color: PB.yellow },
+  { id: 'eu-uk', emoji: '🇬🇧', size: 62, mapSize: 0,  color: PB.green  },
+  { id: 'eu-md', emoji: '🫒', size: 96, mapSize: 0,  color: PB.blue   },
+  { id: 'sa-am', emoji: '🦋', size: 218, mapSize: 0, color: PB.purple },
+  { id: 'oc-au', emoji: '🦘', size: 142, mapSize: 0, color: PB.pink   },
+  { id: 'as-se', emoji: '🌴', size: 168, mapSize: 0, color: PB.red    },
 ];
 
 /**
@@ -56,7 +65,7 @@ export const REGION_DETAILS: Record<string, RegionDetail> = {
   'eu-ce': {
     id: 'eu-ce',
     emoji: '🌿', color: PB.green,
-    species: 1000, size: 89, version: 'v2026.09b', updated: 'Sep 27, 2026',
+    species: 1000, size: 145, version: 'v2026.09b', updated: 'Sep 27, 2026',
     families: [
       { key: 'lep', count: 453, color: PB.purple },
       { key: 'col', count: 157, color: PB.green  },

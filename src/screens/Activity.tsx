@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useFeed } from '@/backend/hooks';
 import type { FeedEvent } from '@/backend';
 import { BugIcon } from '@/components/BugIcon';
+import { CatchPhoto } from '@/components/CatchPhoto';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { findBug } from '@/data/bugs';
@@ -63,7 +64,7 @@ function resolveFeedEvent(
   const when = timeAgo(ev.at, language);
   const baseEmoji = ev.actor.avatarEmoji ?? '🐛';
   const baseColor = PB.cream2;
-  const profileGo = () => go('friends');
+  const profileGo = () => go('me', { sub: 'leaderboard', tab: 'friends' });
 
   if (ev.kind === 'catch') {
     const bug = findBug(ev.bugId);
@@ -222,7 +223,7 @@ export function Activity() {
           <Text style={styles.title}>{t('activity.title')}</Text>
           <Text style={styles.sub}>{t('activity.sub', { n: activityLog.length })}</Text>
         </View>
-        <IconBtn fs={14}>✓</IconBtn>
+        <View style={{ width: 38 }} />
       </View>
 
       <View style={styles.tabs}>
@@ -254,19 +255,18 @@ export function Activity() {
         )}
         {filtered.map((r) => (
           <Pressable key={r.id} onPress={r.onPress} style={styles.row}>
-            {r.photoUri ? (
-              <View style={[styles.icon, { backgroundColor: r.color, overflow: 'hidden' }]}>
-                <Image source={{ uri: r.photoUri }} style={StyleSheet.absoluteFill} resizeMode="cover" />
-              </View>
-            ) : (
-              <View style={[styles.icon, { backgroundColor: r.color }]}>
-                {r.bugId ? (
-                  <BugIcon bug={{ id: r.bugId, emoji: r.emoji }} size={34} />
-                ) : (
-                  <Text style={{ fontSize: 22 }}>{r.emoji}</Text>
-                )}
-              </View>
-            )}
+            <View style={[styles.icon, { backgroundColor: r.color, overflow: 'hidden' }]}>
+              <CatchPhoto
+                uri={r.photoUri}
+                fallback={
+                  r.bugId ? (
+                    <BugIcon bug={{ id: r.bugId, emoji: r.emoji }} size={34} />
+                  ) : (
+                    <Text style={{ fontSize: 22 }}>{r.emoji}</Text>
+                  )
+                }
+              />
+            </View>
             <View style={{ flex: 1, minWidth: 0 }}>
               <Text style={styles.rowTitle}>{r.title}</Text>
               <Text style={styles.rowSub}>{r.sub}</Text>

@@ -17,6 +17,21 @@ export type Bug = {
   emoji: string;
   color: string;
   traits: BugTrait[];
+  /** Vernacular names per UI language, for pack species without bundled strings (tools/names/). */
+  names?: Partial<Record<"pl" | "de" | "es", string>>;
+  /**
+   * Educational facts for pack species (tools/facts/): order, family, typical habitat and diet
+   * keys, size in mm (k: length or wingspan) and GBIF regions where it is recorded.
+   */
+  facts?: {
+    o?: string;
+    fa?: string;
+    h?: string;
+    d?: string;
+    sz?: [number, number];
+    k?: "l" | "w";
+    r?: string[];
+  };
 };
 
 /** 20 Central European species. IDs mirror src/ai/classMap.ts. */
@@ -48,22 +63,27 @@ export const BUGS: Bug[] = [
   { id: 'swal', name: 'Common Swallowtail',     latin: 'Papilio machaon',           rarity: 'rare',     xp: 100, tier: '★★★',  emoji: '🦋', color: '#f0d050', traits: ['butterfly', 'pollinator'] },
 ];
 
-/** Initial dex — bugs the user has already "found" on first launch. */
-export const CAUGHT_IDS: ReadonlySet<string> = new Set([
-  'hcat', 'lady', 'buff', 'brim', 'peac', 'wasp', 'gshb',
-]);
-
 // Mutable registry seeded from the bundled list. Regional pack downloads
 // call mergeBugs() at boot to extend it with their species.
 const _registry = new Map<string, Bug>(BUGS.map((b) => [b.id, b]));
 // Snapshot for list UIs (Dex): bundled species first, then pack species in
 // pack order. Replaced (not mutated) on every merge so React can compare it.
 let _all: readonly Bug[] = BUGS;
+// latin → species. A scan maps every one of the model's ~1,000 labels, so a linear search here
+// was ~1M string compares per photo. First in registry order wins, like the old search.
+let _byLatin = latinIndex(_all);
 const _listeners = new Set<() => void>();
+
+function latinIndex(bugs: readonly Bug[]): Map<string, Bug> {
+  const out = new Map<string, Bug>();
+  for (const b of bugs) if (!out.has(b.latin)) out.set(b.latin, b);
+  return out;
+}
 
 export function mergeBugs(bugs: Bug[]): void {
   for (const b of bugs) _registry.set(b.id, b);
   _all = Array.from(_registry.values());
+  _byLatin = latinIndex(_all);
   for (const l of _listeners) l();
 }
 
@@ -86,6 +106,5 @@ export function findBug(id: string): Bug | undefined {
 
 /** Look a species up by its latin name (bundled + installed pack species). */
 export function findBugByLatin(latin: string): Bug | undefined {
-  for (const b of _registry.values()) if (b.latin === latin) return b;
-  return undefined;
+  return _byLatin.get(latin);
 }

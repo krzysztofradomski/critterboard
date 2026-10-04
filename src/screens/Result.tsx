@@ -1,15 +1,17 @@
 import * as Location from 'expo-location';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { BugIcon, useBugIconUri } from '@/components/BugIcon';
+import { BugIcon } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
-import { CameraScene } from '@/components/CameraScene';
+import { CatchPhoto } from '@/components/CatchPhoto';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { BUGS, findBug } from '@/data/bugs';
+import { factTiles, wikipediaUrl } from '@/data/speciesFacts';
 import { useT, useBugName } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
+import { keepPhoto } from '@/lib/photos';
 import { usePersona } from '@/personas/hooks';
 import { PB, RARITY_COLOR } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
@@ -108,14 +110,15 @@ export function Result() {
   const persona = useAppStore((s) => s.persona);
   const catchBug = useAppStore((s) => s.catchBug);
   const showToast = useAppStore((s) => s.showToast);
+  const removeFromDex = useAppStore((s) => s.removeFromDex);
   const dex = useAppStore((s) => s.dex);
   const locationShareOn = useAppStore((s) => s.profile.locationShareOn);
+  const minConfidence = useAppStore((s) => s.profile.minConfidence);
   const route = useCurrentRoute();
   const params = route.params as { id?: string; photoUri?: string; conf?: number } | undefined;
   const id = params?.id ?? 'mona';
   const photoUri = params?.photoUri ?? null;
   const bug = findBug(id) ?? BUGS[0];
-  const iconUri = useBugIconUri(bug.id);
   const t = useT();
   const localizedName = useBugName(bug?.id ?? 'lady');
   if (!bug) return null;
@@ -123,8 +126,13 @@ export function Result() {
   const publishCatch = usePublishCatch();
   const P = usePersona(persona);
   const alreadyCaught = dex.has(bug.id);
-  const conf = params?.conf ?? (bug.rarity === 'legendary' ? 88 : bug.rarity === 'common' ? 98 : 94);
-  const facts = FACT_KEYS[bug.id] ?? DEFAULT_FACT_KEYS;
+  // Only a fresh scan carries a model confidence; opening a bug from the Dex has none.
+  const conf = params?.conf;
+  const language = useAppStore((s) => s.language);
+  // Hand-written facts for the bundled species; pack species carry data-driven ones.
+  const handFacts = FACT_KEYS[bug.id];
+  const packTiles = handFacts ? null : factTiles(bug, language, t);
+  const facts = handFacts ?? DEFAULT_FACT_KEYS;
 
   const snarkLine = bug.rarity === 'legendary'
     ? P.lines.legendary(localizedName)
@@ -136,6 +144,12 @@ export function Result() {
   const onAdd = () => {
     if (alreadyCaught) {
       go('dex');
+      return;
+    }
+    // Defence in depth: the scanner already filters these out.
+    if (conf !== undefined && conf < minConfidence) {
+      haptics.warning();
+      showToast({ text: t('result.tooUnsure', { min: minConfidence }), icon: '🤔', bg: PB.yellow });
       return;
     }
     haptics.success();
@@ -153,40 +167,48 @@ export function Result() {
     // location read and pass coords to catchBug only after it lands.
     // To avoid two store writes, we stage the catch atomically once
     // the position is in (with a short timeout fallback for refusal).
-    const finalize = (coords?: { lat: number; lng: number }) => {
+    const finalize = async (coords?: { lat: number; lng: number }) => {
       const at = Date.now();
+      // Out of the cache folder, which the OS may empty, so the Dex keeps the photo.
+      const keptUri = photoUri ? await keepPhoto(photoUri) : null;
       catchBug(bug.id, {
-        ...(photoUri ? { photoUri } : {}),
+        at,
+        ...(keptUri ? { photoUri: keptUri } : {}),
         ...(coords ? { lat: coords.lat, lng: coords.lng } : {}),
       });
-      publishCatch(bug.id, at, coords?.lat, coords?.lng);
+      // Coordinates leave the device only for users who opted in to sharing.
+      publishCatch(bug.id, at, locationShareOn ? coords?.lat : undefined, locationShareOn ? coords?.lng : undefined);
     };
 
-    if (!locationShareOn) {
-      finalize();
-      return;
-    }
-
-    let settled = false;
-    const timer = setTimeout(() => {
-      if (settled) return;
-      settled = true;
-      finalize();
-    }, 2500);
-
-    void Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced })
-      .then((pos) => {
+    // The catch is pinned on the user's own (private) map whenever the OS
+    // location permission is granted; coordinates are only *published*
+    // when they opted in to sharing.
+    void (async () => {
+      const perm = await Location.getForegroundPermissionsAsync().catch(() => null);
+      if (!perm?.granted) {
+        void finalize();
+        return;
+      }
+      let settled = false;
+      const timer = setTimeout(() => {
         if (settled) return;
         settled = true;
-        clearTimeout(timer);
-        finalize({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-      })
-      .catch(() => {
-        if (settled) return;
-        settled = true;
-        clearTimeout(timer);
-        finalize();
-      });
+        void finalize();
+      }, 2500);
+      Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced })
+        .then((pos) => {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          void finalize({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        })
+        .catch(() => {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          void finalize();
+        });
+    })();
   };
 
   const titleColor = bug.rarity === 'legendary' ? PB.cream : PB.ink;
@@ -197,21 +219,21 @@ export function Result() {
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
         <Text style={[styles.headTitle, { color: titleColor }]}>{t('result.headTitle')}</Text>
-        <IconBtn fs={14}>↗</IconBtn>
+        <View style={{ width: 38 }} />
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll}>
         <Sticker bg={PB.cream} rotate={-1} style={styles.heroSticker}>
           <View style={styles.heroImage}>
-            {photoUri ? (
-              <Image source={{ uri: photoUri }} style={styles.heroPhoto} resizeMode="cover" />
-            ) : iconUri ? (
-              <View style={styles.heroIcon}>
-                <BugIcon bug={bug} size={168} />
-              </View>
-            ) : (
-              <CameraScene dark={false} />
-            )}
+            {/* The photo, else the species' sticker icon (or its emoji when there is no icon). */}
+            <CatchPhoto
+              uri={photoUri}
+              fallback={
+                <View style={styles.heroIcon}>
+                  <BugIcon bug={bug} size={168} />
+                </View>
+              }
+            />
             <View style={[styles.tierBadge, { backgroundColor: RARITY_COLOR[bug.rarity] }]}>
               <Text style={styles.tierText}>
                 {bug.tier} {t(`dex.filter.${bug.rarity}`).toUpperCase()}
@@ -224,13 +246,17 @@ export function Result() {
           <View style={{ padding: 14 }}>
             <Text style={styles.bugName}>{localizedName}</Text>
             <Text style={styles.bugLatin}>{bug.latin}</Text>
-            <View style={styles.confRow}>
-              <Text style={styles.confLabel}>{t('result.confidence')}</Text>
-              <Text style={[styles.confValue, { color: PB.green }]}>{conf}%</Text>
-            </View>
-            <View style={styles.confBar}>
-              <View style={[styles.confFill, { width: `${conf}%` }]} />
-            </View>
+            {conf !== undefined && (
+              <>
+                <View style={styles.confRow}>
+                  <Text style={styles.confLabel}>{t('result.confidence')}</Text>
+                  <Text style={[styles.confValue, { color: PB.green }]}>{conf}%</Text>
+                </View>
+                <View style={styles.confBar}>
+                  <View style={[styles.confFill, { width: `${conf}%` }]} />
+                </View>
+              </>
+            )}
           </View>
         </Sticker>
 
@@ -252,24 +278,67 @@ export function Result() {
         </Sticker>
 
         <View style={styles.factGrid}>
-          {facts.map(([labelKey, valueKey, c]) => (
-            <View key={labelKey} style={styles.factTile}>
-              <Text style={[styles.factLabel, { color: c }]}>{t(labelKey).toUpperCase()}</Text>
-              <Text style={styles.factValue}>{t(valueKey)}</Text>
-            </View>
-          ))}
+          {packTiles
+            ? packTiles.map((tile) => (
+                <View key={tile.label} style={styles.factTile}>
+                  <Text style={[styles.factLabel, { color: tile.color }]}>{tile.label.toUpperCase()}</Text>
+                  <Text style={styles.factValueSmall}>{tile.value}</Text>
+                </View>
+              ))
+            : facts.map(([labelKey, valueKey, c]) => (
+                <View key={labelKey} style={styles.factTile}>
+                  <Text style={[styles.factLabel, { color: c }]}>{t(labelKey).toUpperCase()}</Text>
+                  <Text style={styles.factValue}>{t(valueKey)}</Text>
+                </View>
+              ))}
         </View>
+        <Pressable
+          onPress={() => void Linking.openURL(wikipediaUrl(bug, language))}
+          accessibilityRole="link"
+          style={styles.readMore}
+        >
+          <Text style={styles.readMoreText}>{t('result.readMore')}</Text>
+        </Pressable>
 
         <View style={{ marginTop: 14 }}>
+          {/* Only a scan (which always has a confidence) can add a species. Opened from a
+              sighting, a region sample or the like, an uncaught species is something to hunt. */}
           <Btn
             full
             bg={alreadyCaught ? PB.cream : PB.ink}
             color={alreadyCaught ? PB.ink : PB.yellow}
             size="lg"
-            onPress={onAdd}
+            onPress={alreadyCaught || conf !== undefined ? onAdd : () => go('scan', { hint: bug.id })}
           >
-            {alreadyCaught ? t('result.alreadyInDex') : t('result.addToDex')}
+            {alreadyCaught
+              ? t('result.alreadyInDex')
+              : conf !== undefined
+                ? t('result.addToDex')
+                : t('home.hunt')}
           </Btn>
+          {alreadyCaught && conf === undefined ? (
+            <Btn
+              full
+              bg={PB.red}
+              color={PB.cream}
+              style={{ marginTop: 10 }}
+              onPress={() =>
+                Alert.alert(t('result.removeTitle'), t('result.removeBody', { name: localizedName }), [
+                  { text: t('common.cancel'), style: 'cancel' },
+                  {
+                    text: t('result.removeCta'),
+                    style: 'destructive',
+                    onPress: () => {
+                      void removeFromDex(bug.id);
+                      go('dex');
+                    },
+                  },
+                ])
+              }
+            >
+              {t('result.removeFromDex')}
+            </Btn>
+          ) : null}
         </View>
       </ScrollView>
     </View>
@@ -284,7 +353,6 @@ const styles = StyleSheet.create({
   heroSticker: { padding: 0, overflow: 'hidden' },
   heroIcon: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: PB.cream2 },
   heroImage: { height: 200, position: 'relative', backgroundColor: '#fff', overflow: 'hidden' },
-  heroPhoto: { ...StyleSheet.absoluteFill },
   tierBadge: {
     position: 'absolute',
     top: 10,
@@ -350,4 +418,7 @@ const styles = StyleSheet.create({
   },
   factLabel: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5 },
   factValue: { fontSize: 16, fontWeight: '800', color: PB.ink, marginTop: 2 },
+  factValueSmall: { fontSize: 13, fontWeight: '800', color: PB.ink, marginTop: 3, lineHeight: 16 },
+  readMore: { marginTop: 12, alignSelf: 'center', paddingVertical: 6, paddingHorizontal: 12 },
+  readMoreText: { fontSize: 12, fontWeight: '800', color: PB.ink, textDecorationLine: 'underline' },
 });

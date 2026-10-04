@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { haptics } from '@/lib/haptics';
 import { PB } from '@/tokens/pb';
 
 export type SettingToggleProps = {
@@ -33,7 +34,10 @@ export function SettingToggle({
       </View>
       <Pressable
         disabled={disabled}
-        onPress={() => onChange(!value)}
+        onPress={() => {
+          haptics.select();
+          onChange(!value);
+        }}
         style={[
           styles.track,
           { backgroundColor: value ? PB.green : PB.cream2 },

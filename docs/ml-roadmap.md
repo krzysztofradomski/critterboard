@@ -87,6 +87,26 @@ Anything slower than 250 ms feels laggy and is treated as a bug.
 
 Done without Kaggle: `training/vision/` streams the iNaturalist open-data dumps, fine-tunes ConvNeXt-nano on a CPU and exports an XNNPACK `.pte`. Result: 200 species, 83.7% top-1 / 94.0% top-3. Full write-up in `training/vision/README.md`. The Kaggle notebook below stays as the GPU route for 1000+ species.
 
+#### Scan preprocessing: crops, not the whole frame *(Oct 2026)*
+
+Phone tests showed busy backgrounds and damaged bugs were hard to identify. A main cause: the whole 12 MP photo was squashed to 224×224, so a bug inside the reticle ended up a few dozen pixels wide. That is far from the tightly framed iNaturalist photos the model learned from.
+
+`src/ai/scanCrops.ts` now feeds the model square crops instead:
+
+- **Camera:** three squares centred on the reticle, at 1× and 1.6× the reticle size plus the photo's full short side.
+- **Gallery:** the untouched photo plus the same three squares, centred on the photo.
+- **Averaging:** `useExecutorchClassifier().classify` runs each crop in turn and averages the softmax scores.
+
+```mermaid
+flowchart LR
+  P[photo] --> M[expo-image-manipulator<br/>applies EXIF orientation] --> C1[1× reticle] & C2[1.6× reticle] & C3[full short side]
+  C1 & C2 & C3 --> X[ExecuTorch ×3] --> A[mean of softmax] --> R[top-3]
+```
+
+- **EXIF:** OpenCV's `imread` in react-native-executorch already applies EXIF orientation. The crops come out of the manipulator upright anyway.
+- **Capture setting:** Scan no longer passes `skipProcessing`. With processing on, iOS crops the photo to the preview, so the on-screen reticle maps straight onto the photo.
+- **Cost:** about 3× inference time (~250 ms), hidden inside the 2.2 s analysing hold.
+
 #### Kaggle route (still valid for bigger runs) ⟶ `training/kaggle/insect_classifier_training.ipynb`
 
 The Kaggle notebook is the same EfficientNetV2-S recipe with three knobs in `CFG`:
@@ -133,7 +153,7 @@ type LlmRuntime = {
 
 > **Current state (Sep 2026):** chat runs only on **Gemma 4 E2B** (Apache 2.0) via `llama.rn`; there is no mock/scripted fallback and no web chat. See [[decisions/005-gemma-4-only-chat]]. The original plan below is kept for history where noted.
 
-Implementation: `llamaRnRuntime` in `src/ai/llm.ts` wraps [`llama.rn`](https://github.com/mybigday/llama.rn). It streams `complete(messages)` through the chat template embedded in the GGUF (`jinja: true`, thinking off). `buildMessages()` builds the prompt: the persona `systemPrompt` plus "reply in the app language" and the topic, then the last 8 turns (normalised to alternate user/assistant) and the new message. `src/ai/chatModel.ts` owns the download, load and delete.
+Implementation: `llamaRnRuntime` in `src/ai/llm.ts` wraps [`llama.rn`](https://github.com/mybigday/llama.rn). It streams `complete(messages)` through the chat template embedded in the GGUF (`jinja: true`, thinking off). `buildMessages()` builds the prompt: the persona `systemPrompt` plus "reply in the app language" and the topic, then the last 8 turns (normalised to alternate user/assistant) and the new message. `src/ai/chatModel.ts` owns the download, load, delete and eject (unload from RAM, keep the file; Chat and Settings offer "Load model" to bring it back, and the boot check does not auto-reload an ejected model).
 
 Model: `gemma-4-E2B-it-Q4_K_M.gguf` (3.1 GB download, about 3 GB RAM), from `https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF`.
 
@@ -237,7 +257,8 @@ docs/
 | 1 · Generate real `.pte` from iNaturalist-trained weights | ⏳ pending — run `04_export.py --pte` after `pip install executorch` |
 | 1 · Bench shutter → Result round-trip on device | ⏳ pending |
 | 2 · Commercial 1,000-species model (`eu-1k-commercial-v1`) | ✅ done and shipped as pack `eu-ce` v4 — ViT-S/16 (Apache 2.0), CC0/CC-BY photos only, 78.2% top-1 / 90.1% top-3; see its MODEL_CARD |
-| 2 · 200-species EU model (`eu-ce` v3) | ✅ done — ConvNeXt-nano, 83.7% top-1 / 94.0% top-3 on held-out photographers; see `training/vision/README.md` |
+| 2 · 200-species EU model (`eu-ce` v3) | ⛔ retired — ConvNeXt-nano, 83.7% top-1. Trained on NC/ND/SA photos and ImageNet-1k weights, so the file was deleted; see `NOTICE.md` |
+| 2 · Photographer-grouped split | ✅ scripts fixed (`training/vision/splits.py`); ⏳ retrain `eu-1k-commercial-v1` on it for an honest test score |
 | 2 · `llama.rn` integration | ✅ Gemma 4 E2B, phone check pending |
 | 2 · `training/personas/` scaffold | ✅ done — run when system-prompt drift > 10% |
 | 3 · Placeholder surfaces | 🅿️ deliberately paused |

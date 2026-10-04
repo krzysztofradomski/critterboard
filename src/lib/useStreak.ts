@@ -1,13 +1,11 @@
 import { useMemo } from "react";
 
 import {
-  bestStreak,
   calendarGrid,
-  computeFreezeState,
-  currentStreak,
   geotaggedCatches,
   recentBugIds,
-  totalCatches,
+  streakSummary,
+  todayKey,
   type CatchEvent,
   type DayCell,
 } from "@/lib/streak";
@@ -23,22 +21,19 @@ export type StreakSummary = {
 
 export type { DayCell };
 
+// `today` in the deps: a screen that stays mounted past midnight recomputes on its next render.
 export function useStreakSummary(): StreakSummary {
   const log = useAppStore((s) => s.catchLog);
-  return useMemo(
-    () => ({
-      current: currentStreak(log),
-      best: bestStreak(log),
-      total: totalCatches(log),
-      freezes: computeFreezeState(log).available,
-    }),
-    [log],
-  );
+  const today = todayKey();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useMemo(() => streakSummary(log), [log, today]);
 }
 
 export function useCalendar(days: number): DayCell[] {
   const log = useAppStore((s) => s.catchLog);
-  return useMemo(() => calendarGrid(log, days), [log, days]);
+  const today = todayKey();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useMemo(() => calendarGrid(log, days), [log, days, today]);
 }
 
 export function useRecentBugIds(n: number): string[] {

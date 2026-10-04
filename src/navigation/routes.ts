@@ -19,7 +19,7 @@ export type RouteParamMap = {
   chat: { topic?: string } | undefined;
   dex: undefined;
   map: undefined;
-  me: { sub?: MeSub } | undefined;
+  me: { sub?: MeSub; tab?: 'global' | 'weekly' | 'friends' } | undefined;
   quests: undefined;
   leaderboard: undefined;
   settings: undefined;
@@ -28,7 +28,6 @@ export type RouteParamMap = {
   activity: undefined;
   region: { id: string };
   streak: undefined;
-  friends: undefined;
   openSourceLibraries: undefined;
   help: undefined;
 };

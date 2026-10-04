@@ -2,13 +2,17 @@
  * Critterboard API — Cloudflare Worker
  *
  * Routes:
- *   POST   /v1/auth              Exchange device UUID for JWT
+ *   POST   /v1/auth              Exchange { userId, secret } for a JWT (secret proves ownership of the public id)
  *   GET    /v1/identity          Get caller's BackendUser
  *   POST   /v1/profile           Sync profile snapshot
  *   POST   /v1/catches           Publish a catch + fan out feed events
+ *   POST   /v1/catches/batch     Upload older catches (idempotent, no fan-out)
+ *   DELETE /v1/catches/locations Clear the stored coordinates of every catch
+ *   DELETE /v1/account           Delete the user and everything stored for them
  *   GET    /v1/leaderboard       Fetch leaderboard page (global/weekly/friends)
  *   GET    /v1/friends           Fetch friend graph page (following/followers/suggested)
  *   GET    /v1/feed              Fetch social feed from per-user Durable Object inbox
+ *   GET    /v1/sightings/nearby  Other players' shared catches nearest to ?lat&lng (anonymous)
  *   POST   /v1/follows/:userId   Follow
  *   DELETE /v1/follows/:userId   Unfollow
  *
@@ -19,6 +23,8 @@
  *   JWT_SECRET   — Worker secret: HMAC-SHA256 signing key
  */
 
+import { SPECIES_XP } from './speciesXp';
+
 // ── Environment ───────────────────────────────────────────────────────────────
 
 export interface Env {
@@ -26,6 +32,10 @@ export interface Env {
   LEADERBOARD: KVNamespace;
   FEED_INBOX: DurableObjectNamespace;
   JWT_SECRET: string;
+  /** Workers Rate Limiting: POST /v1/auth, keyed by client IP. */
+  AUTH_LIMITER: RateLimit;
+  /** Workers Rate Limiting: every authenticated call, keyed by user id. */
+  API_LIMITER: RateLimit;
   /** Comma-separated allowed origins, e.g. "https://app.critterboard.com". Defaults to '*' if unset. */
   CORS_ORIGIN?: string;
 }
@@ -51,6 +61,8 @@ type LeaderboardEntry = {
   avatarEmoji?: string;
   country?: CountryCode;
   xp: number;
+  /** Distinct species caught (this week, for the weekly board). */
+  catches?: number;
   rank: number;
   rankDelta: number | null;
   isSelf?: boolean;
@@ -285,9 +297,61 @@ function isOffensiveName(name: string): boolean {
   return BLOCKED_NAME_TERMS.some((term) => n.includes(term));
 }
 
-// ── XP per confirmed catch ────────────────────────────────────────────────────
+// ── XP ────────────────────────────────────────────────────────────────────────
+// Leaderboard XP is computed here, never sent by the client: each distinct species a user
+// has caught is worth its listed XP once (the same rule as the app's Dex).
 
-const XP_PER_CATCH = 100;
+/**
+ * XP for one species. An id the table doesn't know scores nothing, so made-up ids can't
+ * farm XP. Its catches are still stored: once the worker ships a table that lists the
+ * species, the next recompute counts them.
+ */
+const xpFor = (bugId: string): number => SPECIES_XP[bugId] ?? 0;
+
+/** Recompute and store a user's XP from their distinct caught species. */
+async function recomputeXp(userId: string, env: Env): Promise<void> {
+  const rows = await env.DB.prepare('SELECT DISTINCT bug_id FROM catches WHERE user_id = ?')
+    .bind(userId)
+    .all<{ bug_id: string }>();
+  const xp = rows.results.reduce((sum, r) => sum + xpFor(r.bug_id), 0);
+  await env.DB.prepare('UPDATE users SET xp_total = ? WHERE id = ?').bind(xp, userId).run();
+}
+
+async function invalidateLeaderboards(env: Env): Promise<void> {
+  await Promise.all([env.LEADERBOARD.delete(boardKey('global')), env.LEADERBOARD.delete(boardKey('weekly'))]);
+}
+
+const BUG_ID_RE = /^[a-z0-9-]{1,64}$/;
+/** One catch is identified by user + species + time, so uploading it twice is harmless. */
+const catchId = (userId: string, bugId: string, at: number) => `${userId}:${bugId}:${at}`;
+
+/** 2020-01-01: nothing older is a real catch. */
+const MIN_CATCH_AT = 1_577_836_800_000;
+
+type ValidCatch = { bugId: string; at: number; lat: number | null; lng: number | null };
+
+/**
+ * A catch from the client, or null when it's malformed: a well-formed species id, a time
+ * between 2020 and a day from now (clock skew), and coordinates only as a valid pair.
+ */
+function parseCatch(c: unknown, now: number): ValidCatch | null {
+  if (!c || typeof c !== 'object') return null;
+  const { bugId, at, lat, lng } = c as Record<string, unknown>;
+  if (typeof bugId !== 'string' || !BUG_ID_RE.test(bugId)) return null;
+  if (typeof at !== 'number' || !(at > MIN_CATCH_AT && at <= now + 86_400_000)) return null;
+  const hasLoc = typeof lat === 'number' && typeof lng === 'number' && Math.abs(lat) <= 90 && Math.abs(lng) <= 180;
+  return { bugId, at: Math.floor(at), lat: hasLoc ? lat : null, lng: hasLoc ? lng : null };
+}
+
+/** The JSON body if it is an object, else null (the caller answers 400). */
+async function readJson<T extends object>(request: Request): Promise<Partial<T> | null> {
+  try {
+    const body: unknown = await request.json();
+    return body && typeof body === 'object' && !Array.isArray(body) ? (body as Partial<T>) : null;
+  } catch {
+    return null;
+  }
+}
 
 // ── User row → BackendUser ────────────────────────────────────────────────────
 
@@ -300,33 +364,70 @@ function rowToUser(row: UserRow): BackendUser {
 
 // ── Handlers ──────────────────────────────────────────────────────────────────
 
-async function handleAuth(request: Request, env: Env): Promise<Response> {
-  // Rate-limit auth attempts to 10 per IP per minute using the LEADERBOARD KV.
-  const ip = request.headers.get('CF-Connecting-IP') ?? request.headers.get('X-Forwarded-For') ?? 'unknown';
-  const rlKey = `ratelimit:auth:${ip}`;
-  const rlNow = Math.floor(Date.now() / 1000);
-  const rlWindow = 60;
-  const rlMax = 10;
-  const rl = await env.LEADERBOARD.get<{ count: number; reset: number }>(rlKey, 'json');
-  if (rl && rl.reset > rlNow) {
-    if (rl.count >= rlMax) return json({ error: 'too many requests' }, 429);
-    await env.LEADERBOARD.put(rlKey, JSON.stringify({ count: rl.count + 1, reset: rl.reset }), { expirationTtl: rlWindow });
-  } else {
-    await env.LEADERBOARD.put(rlKey, JSON.stringify({ count: 1, reset: rlNow + rlWindow }), { expirationTtl: rlWindow });
-  }
+const USER_ID_RE = /^[a-zA-Z0-9_-]{8,128}$/;
 
-  const body = (await request.json()) as { userId?: unknown };
-  if (typeof body.userId !== 'string' || !body.userId) return json({ error: 'userId required' }, 400);
+async function sha256Hex(text: string): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/** Constant-time string comparison (equal-length hex digests). */
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
+/**
+ * Exchange `{ userId, secret }` for a JWT.
+ *
+ * The userId is public (it appears in leaderboard and friends responses), so it
+ * proves nothing. The `secret` is a high-entropy value generated on the device and
+ * never shown to anyone: the first login for an id registers its SHA-256 hash, and
+ * every later login must present a secret with the same hash. An id with no stored
+ * hash can't be claimed, so a login can only ever create a *new* user.
+ */
+async function handleAuth(request: Request, env: Env): Promise<Response> {
+  // CF-Connecting-IP is set by Cloudflare and can't be spoofed by the client (X-Forwarded-For can).
+  const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+  if (!(await env.AUTH_LIMITER.limit({ key: ip })).success) return json({ error: 'too many requests' }, 429);
+
+  const body = await readJson<{ userId: unknown; secret: unknown }>(request);
+  if (!body) return json({ error: 'invalid json' }, 400);
+  if (typeof body.userId !== 'string' || !USER_ID_RE.test(body.userId)) {
+    return json({ error: 'userId required' }, 400);
+  }
+  if (typeof body.secret !== 'string' || body.secret.length < 32 || body.secret.length > 256) {
+    return json({ error: 'secret required' }, 400);
+  }
   const userId = body.userId;
+  const secretHash = await sha256Hex(body.secret);
   const now = Date.now();
 
-  await env.DB.prepare(
-    `INSERT INTO users (id, display_name, xp_total, leaderboard_visible, joined_at, last_seen_at)
-     VALUES (?, ?, 0, 1, ?, ?)
-     ON CONFLICT(id) DO UPDATE SET last_seen_at = excluded.last_seen_at`,
-  )
-    .bind(userId, `user_${userId.slice(0, 6)}`, now, now)
-    .run();
+  const existing = await env.DB.prepare('SELECT secret_hash FROM users WHERE id = ?')
+    .bind(userId)
+    .first<{ secret_hash: string | null }>();
+
+  if (existing) {
+    // Wrong secret, or a pre-secret row nobody may claim: same answer either way.
+    if (!existing.secret_hash || !timingSafeEqual(existing.secret_hash, secretHash)) return errUnauthorized();
+    await env.DB.prepare('UPDATE users SET last_seen_at = ? WHERE id = ?').bind(now, userId).run();
+  } else {
+    // First login: register the secret. INSERT OR IGNORE keeps a concurrent first
+    // login with a different secret from overwriting the winner. New users start hidden:
+    // only the app's profile sync (the user's own leaderboard switch) makes them visible.
+    await env.DB.prepare(
+      `INSERT OR IGNORE INTO users (id, display_name, xp_total, leaderboard_visible, joined_at, last_seen_at, secret_hash)
+       VALUES (?, ?, 0, 0, ?, ?, ?)`,
+    )
+      .bind(userId, `user_${userId.slice(0, 6)}`, now, now, secretHash)
+      .run();
+    const created = await env.DB.prepare('SELECT secret_hash FROM users WHERE id = ?')
+      .bind(userId)
+      .first<{ secret_hash: string | null }>();
+    if (!created?.secret_hash || !timingSafeEqual(created.secret_hash, secretHash)) return errUnauthorized();
+  }
 
   const row = await env.DB.prepare('SELECT * FROM users WHERE id = ?').bind(userId).first<UserRow>();
   if (!row) return json({ error: 'internal error' }, 500);
@@ -341,39 +442,53 @@ async function handleIdentity(userId: string, env: Env): Promise<Response> {
   return json(rowToUser(row));
 }
 
+/** Every profile field ends up in other users' leaderboards and feeds, so each is bounded. */
+const NAME_MAX = 32; // the app caps names at 18
+const EMOJI_MAX = 16; // ZWJ emoji sequences run to ~11 UTF-16 units
+const COUNTRY_MAX = 64; // a region name or 'private'
+
+const optionalString = (v: unknown, max: number): v is string | null | undefined =>
+  v == null || (typeof v === 'string' && v.length <= max);
+
 async function handleSyncProfile(userId: string, request: Request, env: Env): Promise<Response> {
-  const snap = (await request.json()) as ProfileSnapshot;
-  if (typeof snap.displayName === 'string' && isOffensiveName(snap.displayName)) {
-    return json({ error: 'display_name_not_allowed' }, 422);
+  const snap = await readJson<ProfileSnapshot>(request);
+  if (
+    !snap ||
+    !optionalString(snap.avatarEmoji, EMOJI_MAX) ||
+    !optionalString(snap.country, COUNTRY_MAX) ||
+    typeof snap.leaderboardVisible !== 'boolean'
+  ) {
+    return json({ error: 'bad_profile' }, 400);
   }
+  // A rejected name (empty, too long, offensive) keeps the old one but must not block the rest:
+  // hiding has to work whatever the name.
+  const name = typeof snap.displayName === 'string' ? snap.displayName.trim() : '';
+  const nameOk = name.length > 0 && name.length <= NAME_MAX && !isOffensiveName(name);
   await env.DB.prepare(
     `UPDATE users
-     SET display_name = ?, avatar_emoji = ?, country = ?, leaderboard_visible = ?
+     SET display_name = COALESCE(?, display_name), avatar_emoji = ?, country = ?, leaderboard_visible = ?
      WHERE id = ?`,
   )
-    .bind(snap.displayName, snap.avatarEmoji ?? null, snap.country ?? null, snap.leaderboardVisible ? 1 : 0, userId)
+    .bind(nameOk ? name : null, snap.avatarEmoji ?? null, snap.country ?? null, snap.leaderboardVisible ? 1 : 0, userId)
     .run();
-  return noContent();
+  // Name, visibility and country are all in the cached boards: a user who hides must drop off now, not in 5 min.
+  await invalidateLeaderboards(env);
+  return nameOk ? noContent() : json({ error: 'display_name_not_allowed' }, 422);
 }
 
 async function handlePublishCatch(userId: string, request: Request, env: Env): Promise<Response> {
-  const input = (await request.json()) as PublishCatchInput;
-  const catchId = crypto.randomUUID();
-  const at = input.at ?? Date.now();
+  const input = parseCatch(await readJson<PublishCatchInput>(request), Date.now());
+  if (!input) return json({ error: 'bad_catch' }, 400);
+  const { at } = input;
+  const id = catchId(userId, input.bugId, at);
 
-  await env.DB.prepare('INSERT INTO catches (id, user_id, bug_id, lat, lng, at) VALUES (?, ?, ?, ?, ?, ?)')
-    .bind(catchId, userId, input.bugId, input.lat ?? null, input.lng ?? null, at)
+  const ins = await env.DB.prepare('INSERT OR IGNORE INTO catches (id, user_id, bug_id, lat, lng, at) VALUES (?, ?, ?, ?, ?, ?)')
+    .bind(id, userId, input.bugId, input.lat, input.lng, at)
     .run();
+  if (!ins.meta.changes) return noContent(); // already uploaded
 
-  await env.DB.prepare('UPDATE users SET xp_total = xp_total + ? WHERE id = ?')
-    .bind(XP_PER_CATCH, userId)
-    .run();
-
-  // Invalidate KV snapshots so the next leaderboard read recomputes.
-  await Promise.all([
-    env.LEADERBOARD.delete('leaderboard:global'),
-    env.LEADERBOARD.delete('leaderboard:weekly'),
-  ]);
+  await recomputeXp(userId, env);
+  await invalidateLeaderboards(env);
 
   // Fan out a catch event into each follower's inbox.
   const catcher = await env.DB.prepare(
@@ -384,7 +499,7 @@ async function handlePublishCatch(userId: string, request: Request, env: Env): P
     const actor: ActorRef = { userId: catcher.id, displayName: catcher.display_name, rel: 'following' };
     if (catcher.avatar_emoji) actor.avatarEmoji = catcher.avatar_emoji;
 
-    const event: FeedEvent = { id: catchId, kind: 'catch', at, actor, bugId: input.bugId };
+    const event: FeedEvent = { id, kind: 'catch', at, actor, bugId: input.bugId };
 
     const followers = await env.DB.prepare('SELECT follower_id FROM follows WHERE followee_id = ?')
       .bind(userId)
@@ -405,6 +520,96 @@ async function handlePublishCatch(userId: string, request: Request, env: Env): P
   return noContent();
 }
 
+async function handleBatchCatches(userId: string, request: Request, env: Env): Promise<Response> {
+  const body = await readJson<{ catches: unknown[] }>(request);
+  const list = body?.catches;
+  if (!Array.isArray(list) || list.length === 0 || list.length > 100) return json({ error: 'bad_batch' }, 400);
+
+  const now = Date.now();
+  const stmts: D1PreparedStatement[] = [];
+  for (const raw of list) {
+    const c = parseCatch(raw, now);
+    if (!c) return json({ error: 'bad_catch' }, 400);
+    stmts.push(
+      env.DB.prepare('INSERT OR IGNORE INTO catches (id, user_id, bug_id, lat, lng, at) VALUES (?, ?, ?, ?, ?, ?)')
+        .bind(catchId(userId, c.bugId, c.at), userId, c.bugId, c.lat, c.lng, c.at),
+    );
+  }
+  await env.DB.batch(stmts);
+  await recomputeXp(userId, env);
+  await invalidateLeaderboards(env); // no follower fan-out: these are old catches, not news
+  return noContent();
+}
+
+async function handleClearLocations(userId: string, env: Env): Promise<Response> {
+  await env.DB.prepare('UPDATE catches SET lat = NULL, lng = NULL WHERE user_id = ?').bind(userId).run();
+  return noContent();
+}
+
+/**
+ * Shared sightings for the map overlay: other players' catches that still have coordinates (only
+ * people who share locations), nearest first. Species, exact spot and date only, never who: a name
+ * on a trail of exact spots would show where someone lives and walks.
+ */
+const SIGHTINGS_LIMIT = 100;
+const SIGHTINGS_MAX_AGE_MS = 365 * 24 * 3600 * 1000;
+// ponytail: a ±1° box (~110 km) around the player, no antimeridian wrap; fine for Europe, widen
+// or tile it if packs ever cover the Pacific.
+const SIGHTINGS_BOX_DEG = 1;
+
+async function handleNearbySightings(userId: string, url: URL, env: Env): Promise<Response> {
+  const lat = Number(url.searchParams.get('lat'));
+  const lng = Number(url.searchParams.get('lng'));
+  if (!url.searchParams.has('lat') || !url.searchParams.has('lng') || !Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) {
+    return json({ error: 'bad location' }, 400);
+  }
+  // A degree of longitude shrinks towards the poles: scale it so "nearest" means real distance.
+  const k = Math.max(Math.cos((lat * Math.PI) / 180), 0.01);
+  const boxLng = Math.min(180, SIGHTINGS_BOX_DEG / k);
+  const rows = await env.DB.prepare(
+    `SELECT bug_id, lat, lng, at FROM catches
+     WHERE lat BETWEEN ? AND ? AND lng BETWEEN ? AND ? AND at >= ? AND user_id != ?
+     ORDER BY (lat - ?) * (lat - ?) + (lng - ?) * (lng - ?) * ? LIMIT ?`,
+  )
+    .bind(
+      lat - SIGHTINGS_BOX_DEG, lat + SIGHTINGS_BOX_DEG, lng - boxLng, lng + boxLng,
+      Date.now() - SIGHTINGS_MAX_AGE_MS, userId,
+      lat, lat, lng, lng, k * k, SIGHTINGS_LIMIT,
+    )
+    .all<{ bug_id: string; lat: number; lng: number; at: number }>();
+  return json({
+    sightings: rows.results.map((r) => ({ bugId: r.bug_id, lat: r.lat, lng: r.lng, at: r.at })),
+  });
+}
+
+async function handleDeleteAccount(userId: string, env: Env): Promise<Response> {
+  // Feed events naming this user sit in their followers' inboxes (catches) and in the inboxes of
+  // the people they followed ("followed you"): scrub both first, while we still know who they are.
+  const linked = await env.DB.prepare(
+    'SELECT follower_id AS id FROM follows WHERE followee_id = ? UNION SELECT followee_id FROM follows WHERE follower_id = ?',
+  )
+    .bind(userId, userId)
+    .all<{ id: string }>();
+  await Promise.allSettled(
+    linked.results.map((row) =>
+      env.FEED_INBOX.get(env.FEED_INBOX.idFromName(row.id)).fetch('https://inbox/purge-actor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId }),
+      }),
+    ),
+  );
+  await env.FEED_INBOX.get(env.FEED_INBOX.idFromName(userId)).fetch('https://inbox/clear', { method: 'POST' });
+
+  await env.DB.batch([
+    env.DB.prepare('DELETE FROM catches WHERE user_id = ?').bind(userId),
+    env.DB.prepare('DELETE FROM follows WHERE follower_id = ? OR followee_id = ?').bind(userId, userId),
+    env.DB.prepare('DELETE FROM users WHERE id = ?').bind(userId),
+  ]);
+  await invalidateLeaderboards(env);
+  return noContent();
+}
+
 async function handleLeaderboard(userId: string, url: URL, env: Env): Promise<Response> {
   const scope = (url.searchParams.get('scope') ?? 'global') as LeaderboardScope;
   const { offset, limit } = parsePage(url);
@@ -415,68 +620,27 @@ async function handleLeaderboard(userId: string, url: URL, env: Env): Promise<Re
   const selfVisible = selfRow?.leaderboard_visible === 1;
 
   let entries: LeaderboardEntry[];
+  let fetchedAt = Date.now();
 
-  if (scope === 'global') {
-    const cached = await env.LEADERBOARD.get<LeaderboardPage>('leaderboard:global', 'json');
-    if (cached) {
-      const patched = cached.entries.map((e) => (e.userId === userId ? { ...e, isSelf: true } : e));
-      const { items, nextCursor } = slice(patched, offset, limit);
-      const selfEntry = patched.find((e) => e.isSelf);
-      return json({ ...cached, entries: items, selfRank: selfVisible ? (selfEntry?.rank ?? null) : null, nextCursor });
-    }
-    // Cache miss — compute from D1.
-    const rows = await env.DB.prepare(
-      `SELECT id, display_name, avatar_emoji, country, xp_total, leaderboard_visible
-       FROM users WHERE leaderboard_visible = 1 OR id = ?
-       ORDER BY xp_total DESC LIMIT 1000`,
-    ).bind(userId).all<UserRow>();
-    entries = buildLeaderboardEntries(rows.results, userId);
-    // Cache without isSelf so it's reusable for any caller.
-    const snapshot: LeaderboardPage = {
-      scope: 'global',
-      entries: entries.map((e) => ({ ...e, isSelf: undefined })),
-      selfRank: null,
-      totalCount: entries.length,
-      fetchedAt: Date.now(),
-      nextCursor: null,
-    };
-    await env.LEADERBOARD.put('leaderboard:global', JSON.stringify(snapshot), { expirationTtl: 300 });
-  } else if (scope === 'weekly') {
-    const weekStart = Date.now() - 7 * 24 * 3600 * 1000;
-    const rows = await env.DB.prepare(
-      `SELECT u.id, u.display_name, u.avatar_emoji, u.country, u.leaderboard_visible,
-              COUNT(c.id) * ? AS xp
-       FROM users u
-       LEFT JOIN catches c ON c.user_id = u.id AND c.at >= ?
-       WHERE u.leaderboard_visible = 1 OR u.id = ?
-       GROUP BY u.id
-       ORDER BY xp DESC
-       LIMIT 1000`,
-    ).bind(XP_PER_CATCH, weekStart, userId).all<WeeklyRow>();
-    entries = rows.results.map((r, i) => {
-      const e: LeaderboardEntry = {
-        userId: r.id, displayName: r.display_name, xp: r.xp, rank: i + 1, rankDelta: null,
-      };
-      if (r.avatar_emoji) e.avatarEmoji = r.avatar_emoji;
-      if (r.country) e.country = r.country;
-      if (r.id === userId) e.isSelf = true;
-      return e;
-    });
+  if (scope === 'global' || scope === 'weekly') {
+    const board = await cachedBoard(scope, env);
+    fetchedAt = board.fetchedAt;
+    entries = board.entries.map((e) => (e.userId === userId ? { ...e, isSelf: true } : e));
   } else {
-    // Friends scope — user + everyone they follow.
+    // Friends scope — user + everyone they follow. Per caller, so the caller may see themselves while hidden.
     const following = await env.DB.prepare('SELECT followee_id FROM follows WHERE follower_id = ?')
       .bind(userId).all<{ followee_id: string }>();
     const ids = [userId, ...following.results.map((r) => r.followee_id)];
     const placeholders = ids.map(() => '?').join(', ');
     const rows = await env.DB.prepare(
-      `SELECT id, display_name, avatar_emoji, country, xp_total, leaderboard_visible
+      `SELECT id, display_name, avatar_emoji, country, xp_total, leaderboard_visible,
+              (SELECT COUNT(DISTINCT bug_id) FROM catches WHERE user_id = users.id) AS species
        FROM users WHERE id IN (${placeholders})
        ORDER BY xp_total DESC`,
-    ).bind(...ids).all<UserRow>();
-    entries = buildLeaderboardEntries(
-      rows.results.filter((r) => r.leaderboard_visible === 1 || r.id === userId),
-      userId,
-    );
+    ).bind(...ids).all<UserRow & { species: number }>();
+    entries = rows.results
+      .filter((r) => r.leaderboard_visible === 1 || r.id === userId)
+      .map((r, i) => toEntry(r, r.xp_total, i + 1, userId, r.species));
   }
 
   const { items, nextCursor } = slice(entries, offset, limit);
@@ -486,19 +650,70 @@ async function handleLeaderboard(userId: string, url: URL, env: Env): Promise<Re
     entries: items,
     selfRank: selfVisible ? (selfEntry?.rank ?? null) : null,
     totalCount: entries.length,
-    fetchedAt: Date.now(),
+    fetchedAt,
     nextCursor,
   } satisfies LeaderboardPage);
 }
 
-function buildLeaderboardEntries(rows: UserRow[], selfId: string): LeaderboardEntry[] {
-  return rows.map((r, i) => {
-    const e: LeaderboardEntry = { userId: r.id, displayName: r.display_name, xp: r.xp_total, rank: i + 1, rankDelta: null };
-    if (r.avatar_emoji) e.avatarEmoji = r.avatar_emoji;
-    if (r.country) e.country = r.country;
-    if (r.id === selfId) e.isSelf = true;
-    return e;
-  });
+type BoardRow = Pick<UserRow, 'id' | 'display_name' | 'avatar_emoji' | 'country'>;
+
+function toEntry(r: BoardRow, xp: number, rank: number, selfId?: string, catches?: number): LeaderboardEntry {
+  const e: LeaderboardEntry = { userId: r.id, displayName: r.display_name, xp, rank, rankDelta: null };
+  if (catches !== undefined) e.catches = catches;
+  if (r.avatar_emoji) e.avatarEmoji = r.avatar_emoji;
+  if (r.country) e.country = r.country;
+  if (r.id === selfId) e.isSelf = true;
+  return e;
+}
+
+// ── Shared boards (global / weekly) ───────────────────────────────────────────
+// One snapshot per scope serves every caller, so it holds visible users only: a hidden
+// caller must never be written into it. Refreshed by the cron, dropped on changes.
+
+type Board = { entries: LeaderboardEntry[]; fetchedAt: number };
+
+// New key names: the old `leaderboard:*` values had another shape and simply expire.
+const boardKey = (scope: 'global' | 'weekly') => `board:${scope}`;
+
+async function buildBoard(scope: 'global' | 'weekly', env: Env): Promise<Board> {
+  if (scope === 'global') {
+    const rows = await env.DB.prepare(
+      `SELECT id, display_name, avatar_emoji, country, xp_total,
+              (SELECT COUNT(DISTINCT bug_id) FROM catches WHERE user_id = users.id) AS species
+       FROM users WHERE leaderboard_visible = 1
+       ORDER BY xp_total DESC LIMIT 1000`,
+    ).all<BoardRow & { xp_total: number; species: number }>();
+    return { entries: rows.results.map((r, i) => toEntry(r, r.xp_total, i + 1, undefined, r.species)), fetchedAt: Date.now() };
+  }
+  // Weekly XP: each distinct species a user caught in the last 7 days, at its listed XP.
+  const weekStart = Date.now() - 7 * 24 * 3600 * 1000;
+  const [users, caught] = await Promise.all([
+    env.DB.prepare('SELECT id, display_name, avatar_emoji, country FROM users WHERE leaderboard_visible = 1').all<BoardRow>(),
+    env.DB.prepare('SELECT DISTINCT user_id, bug_id FROM catches WHERE at >= ?')
+      .bind(weekStart)
+      .all<{ user_id: string; bug_id: string }>(),
+  ]);
+  const weekly = new Map<string, number>();
+  const weeklySpecies = new Map<string, number>();
+  for (const c of caught.results) {
+    weekly.set(c.user_id, (weekly.get(c.user_id) ?? 0) + xpFor(c.bug_id));
+    weeklySpecies.set(c.user_id, (weeklySpecies.get(c.user_id) ?? 0) + 1);
+  }
+  const ranked = users.results
+    .map((u) => ({ u, xp: weekly.get(u.id) ?? 0 }))
+    .sort((x, y) => y.xp - x.xp)
+    .slice(0, 1000);
+  return { entries: ranked.map(({ u, xp }, i) => toEntry(u, xp, i + 1, undefined, weeklySpecies.get(u.id) ?? 0)), fetchedAt: Date.now() };
+}
+
+async function storeBoard(scope: 'global' | 'weekly', env: Env): Promise<Board> {
+  const board = await buildBoard(scope, env);
+  await env.LEADERBOARD.put(boardKey(scope), JSON.stringify(board), { expirationTtl: 3600 });
+  return board;
+}
+
+async function cachedBoard(scope: 'global' | 'weekly', env: Env): Promise<Board> {
+  return (await env.LEADERBOARD.get<Board>(boardKey(scope), 'json')) ?? storeBoard(scope, env);
 }
 
 async function handleFriends(userId: string, url: URL, env: Env): Promise<Response> {
@@ -523,22 +738,22 @@ async function handleFriends(userId: string, url: URL, env: Env): Promise<Respon
     ).bind(userId, userId).all<Pick<UserRow, 'id' | 'display_name' | 'avatar_emoji' | 'country' | 'xp_total'> & { i_follow: 1 | null }>();
     nodes = rows.results.map((r) => friendNode(r, r.i_follow ? 'mutual' : 'follower'));
   } else {
-    // Suggested: not already followed, ranked by popularity (follower count).
+    // Suggested: visible users not already followed, ranked by popularity (follower count).
+    // Hidden users are never suggested: being findable is what the leaderboard switch controls.
+    // No `reason`: popularity isn't one the app can name, and a made-up one would be a lie.
     const rows = await env.DB.prepare(
       `SELECT u.id, u.display_name, u.avatar_emoji, u.country, u.xp_total,
               COUNT(f2.follower_id) AS follower_count
        FROM users u
        LEFT JOIN follows f2 ON f2.followee_id = u.id
        WHERE u.id != ?
+         AND u.leaderboard_visible = 1
          AND NOT EXISTS (SELECT 1 FROM follows f WHERE f.follower_id = ? AND f.followee_id = u.id)
        GROUP BY u.id
        ORDER BY follower_count DESC, u.xp_total DESC
        LIMIT 50`,
     ).bind(userId, userId).all<Pick<UserRow, 'id' | 'display_name' | 'avatar_emoji' | 'country' | 'xp_total'>>();
-    nodes = rows.results.map((r) => ({
-      ...friendNode(r, 'suggested'),
-      reason: { kind: 'sharedBugs', sharedCount: 1 } as SuggestionReason,
-    }));
+    nodes = rows.results.map((r) => friendNode(r, 'suggested'));
   }
 
   const { items, nextCursor } = slice(nodes, offset, limit);
@@ -568,12 +783,16 @@ async function handleFeed(userId: string, url: URL, env: Env): Promise<Response>
 
 async function handleFollow(callerId: string, targetId: string, env: Env): Promise<Response> {
   if (callerId === targetId) return json({ error: 'cannot follow self' }, 400);
+  // Only real users: following made-up ids would create an inbox (Durable Object) per id.
+  const target = await env.DB.prepare('SELECT 1 AS ok FROM users WHERE id = ?').bind(targetId).first();
+  if (!target) return json({ error: 'not found' }, 404);
   const now = Date.now();
 
-  await env.DB.prepare(
+  const ins = await env.DB.prepare(
     `INSERT INTO follows (follower_id, followee_id, created_at) VALUES (?, ?, ?)
      ON CONFLICT DO NOTHING`,
   ).bind(callerId, targetId, now).run();
+  if (!ins.meta.changes) return noContent(); // already following: no second "followed you"
 
   // Notify the target's inbox.
   const caller = await env.DB.prepare('SELECT id, display_name, avatar_emoji FROM users WHERE id = ?')
@@ -605,34 +824,6 @@ async function handleUnfollow(callerId: string, targetId: string, env: Env): Pro
   return noContent();
 }
 
-// ── Cron — refresh KV leaderboard snapshot ────────────────────────────────────
-
-async function refreshLeaderboardCache(env: Env): Promise<void> {
-  const rows = await env.DB.prepare(
-    `SELECT id, display_name, avatar_emoji, country, xp_total, leaderboard_visible
-     FROM users WHERE leaderboard_visible = 1
-     ORDER BY xp_total DESC LIMIT 1000`,
-  ).all<UserRow>();
-
-  const entries: LeaderboardEntry[] = rows.results.map((r, i) => {
-    const e: LeaderboardEntry = { userId: r.id, displayName: r.display_name, xp: r.xp_total, rank: i + 1, rankDelta: null };
-    if (r.avatar_emoji) e.avatarEmoji = r.avatar_emoji;
-    if (r.country) e.country = r.country;
-    return e;
-  });
-
-  const page: LeaderboardPage = {
-    scope: 'global',
-    entries,
-    selfRank: null,
-    totalCount: entries.length,
-    fetchedAt: Date.now(),
-    nextCursor: null,
-  };
-
-  await env.LEADERBOARD.put('leaderboard:global', JSON.stringify(page), { expirationTtl: 3600 });
-}
-
 // ── Durable Object — FeedInbox ────────────────────────────────────────────────
 
 export class FeedInbox implements DurableObject {
@@ -647,10 +838,26 @@ export class FeedInbox implements DurableObject {
 
     if (request.method === 'POST' && url.pathname === '/append') {
       const event = (await request.json()) as FeedEvent;
-      const events: FeedEvent[] = (await this.state.storage.get<FeedEvent[]>('events')) ?? [];
+      let events: FeedEvent[] = (await this.state.storage.get<FeedEvent[]>('events')) ?? [];
+      // One "followed you" per person: follow/unfollow cycling must not push real events out.
+      if (event.kind === 'follow') {
+        events = events.filter((e) => !(e.kind === 'follow' && e.actor.userId === event.actor.userId));
+      }
       events.unshift(event);
       if (events.length > 200) events.length = 200;
       await this.state.storage.put('events', events);
+      return new Response(null, { status: 204 });
+    }
+
+    if (request.method === 'POST' && url.pathname === '/clear') {
+      await this.state.storage.deleteAll();
+      return new Response(null, { status: 204 });
+    }
+
+    if (request.method === 'POST' && url.pathname === '/purge-actor') {
+      const { userId } = (await request.json()) as { userId: string };
+      const events: FeedEvent[] = (await this.state.storage.get<FeedEvent[]>('events')) ?? [];
+      await this.state.storage.put('events', events.filter((e) => e.actor?.userId !== userId));
       return new Response(null, { status: 204 });
     }
 
@@ -700,13 +907,18 @@ async function routeRequest(request: Request, env: Env): Promise<Response> {
   const authResult = await authenticate(request, env);
   if (authResult instanceof Response) return authResult;
   const userId = authResult;
+  if (!(await env.API_LIMITER.limit({ key: userId })).success) return json({ error: 'too many requests' }, 429);
 
   if (method === 'GET'  && path === '/v1/identity')   return handleIdentity(userId, env);
   if (method === 'POST' && path === '/v1/profile')    return handleSyncProfile(userId, request, env);
   if (method === 'POST' && path === '/v1/catches')    return handlePublishCatch(userId, request, env);
+  if (method === 'POST' && path === '/v1/catches/batch') return handleBatchCatches(userId, request, env);
+  if (method === 'DELETE' && path === '/v1/catches/locations') return handleClearLocations(userId, env);
+  if (method === 'DELETE' && path === '/v1/account')  return handleDeleteAccount(userId, env);
   if (method === 'GET'  && path === '/v1/leaderboard') return handleLeaderboard(userId, url, env);
   if (method === 'GET'  && path === '/v1/friends')    return handleFriends(userId, url, env);
   if (method === 'GET'  && path === '/v1/feed')       return handleFeed(userId, url, env);
+  if (method === 'GET'  && path === '/v1/sightings/nearby') return handleNearbySightings(userId, url, env);
 
   const followMatch = /^\/v1\/follows\/([a-zA-Z0-9_-]{1,128})$/.exec(path);
   if (followMatch) {
@@ -720,11 +932,18 @@ async function routeRequest(request: Request, env: Env): Promise<Response> {
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const response = await routeRequest(request, env);
+    let response: Response;
+    try {
+      response = await routeRequest(request, env);
+    } catch (err) {
+      // Still a JSON answer with CORS headers, not Cloudflare's bare error page.
+      console.error(err);
+      response = json({ error: 'internal error' }, 500);
+    }
     return applyOrigin(response, request, env);
   },
 
   async scheduled(_event: ScheduledEvent, env: Env, _ctx: ExecutionContext): Promise<void> {
-    await refreshLeaderboardCache(env);
+    await Promise.all([storeBoard('global', env), storeBoard('weekly', env)]);
   },
 };

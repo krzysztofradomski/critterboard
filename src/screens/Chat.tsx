@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
   Animated,
@@ -18,6 +18,7 @@ import {
   CHAT_MODEL,
   guardedLocalLlmChatAdapter,
   initChatModel,
+  loadChatModel,
   type ChatHistoryTurn,
   type ChatModelState,
 } from '@/ai';
@@ -25,7 +26,7 @@ import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { allBugs, findBug } from '@/data/bugs';
-import { useT } from '@/i18n/helpers';
+import { bugName, useT } from '@/i18n/helpers';
 import { xpFromClaimedQuests, xpFromDex } from '@/lib/level';
 import { currentStreak } from '@/lib/streak';
 import { haptics } from '@/lib/haptics';
@@ -103,13 +104,41 @@ export function Chat() {
   }, []);
 
   useEffect(() => {
-    scrollRef.current?.scrollToEnd({ animated: true });
+    // No animation per streamed token: a new one would restart it every few ms.
+    scrollRef.current?.scrollToEnd({ animated: !typing });
   }, [msgs, typing]);
 
+  // Saving rewrites the thread in the store; a streaming reply would do that per token.
+  // `send` saves the user's message right away, and this saves the reply once it ends.
   useEffect(() => {
+    if (typing) return;
     const persisted: ChatMessage[] = msgs.filter((m) => m.t.trim().length > 0);
     saveChatThread(threadId, persisted);
-  }, [msgs, threadId, saveChatThread]);
+  }, [msgs, typing, threadId, saveChatThread]);
+
+  const deleteMessage = useCallback(
+    (i: number) => {
+      haptics.select();
+      Alert.alert(
+        t('chat.deleteTitle'),
+        t('chat.deleteBody'),
+        [
+          { text: t('common.cancel'), style: 'cancel' },
+          {
+            text: t('common.delete'),
+            style: 'destructive',
+            onPress: () => {
+              // Remove from UI first for instant feedback.
+              setMsgs((prev) => prev.filter((_, j) => j !== i));
+              // Sync to persistent store + strip from memory index.
+              removeMessageFromThread(threadId, i);
+            },
+          },
+        ],
+      );
+    },
+    [t, threadId, removeMessageFromThread],
+  );
 
   /**
    * Streamed completion: Gemma yields text as it generates, appended into
@@ -125,6 +154,7 @@ export function Chat() {
     setMsgs((m) => [...m, { who: 'me', t: text }]);
     setInput('');
     setTyping(true);
+    saveChatThread(threadId, [...msgs, { who: 'me' as const, t: text }].filter((m) => m.t.trim().length > 0));
     indexConversationMessage(threadId, { who: 'me', t: text });
 
     // Reserve the assistant bubble so chunks have a place to land.
@@ -142,7 +172,7 @@ export function Chat() {
       .slice(0, 8)
       .map((e) => ({
         bugId: e.id,
-        bugName: findBug(e.id)?.name ?? e.id,
+        bugName: bugName(language, e.id),
         at: e.at,
       }));
     const memorySnippets = searchConversationMemories(conversationMemory, text, 6).map((hit) => ({
@@ -264,30 +294,7 @@ export function Chat() {
 
       <ScrollView ref={scrollRef} contentContainerStyle={styles.list}>
         {msgs.map((m, i) => (
-          <Bubble
-            key={i}
-            m={m}
-            onDelete={() => {
-              haptics.select();
-              Alert.alert(
-                'Delete message',
-                'Remove this message from the conversation?',
-                [
-                  { text: 'Cancel', style: 'cancel' },
-                  {
-                    text: 'Delete',
-                    style: 'destructive',
-                    onPress: () => {
-                      // Remove from UI first for instant feedback.
-                      setMsgs((prev) => prev.filter((_, j) => j !== i));
-                      // Sync to persistent store + strip from memory index.
-                      removeMessageFromThread(threadId, i);
-                    },
-                  },
-                ],
-              );
-            }}
-          />
+          <Bubble key={i} m={m} index={i} onDelete={deleteMessage} />
         ))}
         {typing ? <TypingDots /> : null}
       </ScrollView>
@@ -327,12 +334,14 @@ function ChatGate({ state, onOpenSettings }: { state: ChatModelState; onOpenSett
     state.status === 'unsupported' ? t('chat.gate.webTitle')
     : state.status === 'tooLittleRam' ? t('chat.gate.ramTitle')
     : state.status === 'downloading' ? t('chat.gate.downloadingTitle', vars)
+    : state.status === 'ejected' ? t('chat.gate.ejectedTitle', vars)
     : busy ? t('chat.gate.loadingTitle', vars)
     : t('chat.gate.title', vars);
   const body =
     state.status === 'unsupported' ? t('chat.gate.webBody', vars)
     : state.status === 'tooLittleRam' ? t('chat.gate.ramBody', vars)
     : state.status === 'error' ? t('chat.gate.errorBody', vars)
+    : state.status === 'ejected' ? t('chat.gate.ejectedBody', vars)
     : busy ? t('chat.gate.busyBody', vars)
     : t('chat.gate.body', vars);
   return (
@@ -340,6 +349,11 @@ function ChatGate({ state, onOpenSettings }: { state: ChatModelState; onOpenSett
       <Sticker bg={PB.cream} rotate={-1} style={{ padding: 16 }}>
         <Text style={styles.gateTitle}>{title}</Text>
         <Text style={styles.gateBody}>{body}</Text>
+        {state.status === 'ejected' ? (
+          <Btn full bg={PB.ink} color={PB.yellow} onPress={() => void loadChatModel()} style={{ marginTop: 12 }}>
+            {t('chat.gate.loadCta')}
+          </Btn>
+        ) : null}
         {state.status === 'absent' || state.status === 'error' ? (
           <Btn full bg={PB.ink} color={PB.yellow} onPress={onOpenSettings} style={{ marginTop: 12 }}>
             {t('chat.gate.cta')}
@@ -368,11 +382,20 @@ function parseBubble(text: string): BubbleSegment[] {
   return segments.length > 0 ? segments : [{ type: 'text', value: text }];
 }
 
-function Bubble({ m, onDelete }: { m: Msg; onDelete?: () => void }) {
+/** Memoised: while a reply streams, only its own bubble re-renders. */
+const Bubble = memo(function Bubble({
+  m,
+  index,
+  onDelete,
+}: {
+  m: Msg;
+  index: number;
+  onDelete: (index: number) => void;
+}) {
   const isMe = m.who === 'me';
-  const segments = parseBubble(m.t);
+  const segments = useMemo(() => parseBubble(m.t), [m.t]);
   return (
-    <Pressable onLongPress={onDelete} delayLongPress={400}>
+    <Pressable onLongPress={() => onDelete(index)} delayLongPress={400}>
       <View
         style={[
           styles.bubble,
@@ -399,7 +422,7 @@ function Bubble({ m, onDelete }: { m: Msg; onDelete?: () => void }) {
       </View>
     </Pressable>
   );
-}
+});
 
 function TypingDots() {
   const opacities = [useRef(new Animated.Value(0.3)).current, useRef(new Animated.Value(0.3)).current, useRef(new Animated.Value(0.3)).current];

@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pomoc — Critterboard</title><meta name="description" content="Wszystko o szukaniu, skanowaniu i kolekcjonowaniu owadów.">
+<link rel="canonical" href="https://critterboard.app/support/pl/"><link rel="alternate" hreflang="en" href="https://critterboard.app/support/"><link rel="alternate" hreflang="pl" href="https://critterboard.app/support/pl/"><link rel="alternate" hreflang="de" href="https://critterboard.app/support/de/"><link rel="alternate" hreflang="es" href="https://critterboard.app/support/es/">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>:root {
+        --y: #f5c840;
+        --yd: #e0b020;
+        --cr: #fdf6e3;
+        --bk: #1a1209;
+        --gn: #3d9a4f;
+        --bl: #3b6fd4;
+        --pu: #7b4fc4;
+        --rd: #d94040;
+        --bd: 2.5px solid var(--bk);
+        --sh: 4px 4px 0 var(--bk);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--y);
+        color: var(--bk);
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1120px;
+        margin-inline: auto;
+        padding-inline: clamp(16px, 4vw, 32px);
+      }
+
+      /* noise */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 999;
+        opacity: 0.35;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--y);
+        border-bottom: var(--bd);
+        padding-block: 12px;
+      }
+      nav .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--bk);
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.35rem;
+        font-weight: 700;
+      }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: var(--rd);
+        border: var(--bd);
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        box-shadow: var(--sh);
+      }
+
+      .nav-r {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .mit {
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.4px;
+        background: var(--bk);
+        color: var(--y);
+        padding: 4px 11px;
+        border-radius: 100px;
+        text-decoration: none;
+        transition: opacity 0.15s;
+      }
+      .mit:hover {
+        opacity: 0.8;
+      }
+
+      .nav-btn {
+        font-family: "Fredoka", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        background: var(--bk);
+        color: var(--y);
+        border: var(--bd);
+        border-radius: 100px;
+        padding: 8px 20px;
+        text-decoration: none;
+        cursor: pointer;
+        box-shadow: var(--sh);
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+      }
+      .nav-btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0 var(--bk);
+      }
+      .nav-btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0 var(--bk);
+      }
+
+      /* ── LANGUAGE SWITCH ── */
+      .lang-switch {
+        position: relative;
+      }
+      .lang-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: transparent;
+        border: 2px solid var(--bk);
+        border-radius: 100px;
+        padding: 6px 12px;
+        font-family: "Fredoka", sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--bk);
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+      }
+      .lang-btn:hover {
+        background: var(--bk);
+        color: var(--y);
+      }
+      .lang-caret {
+        font-size: 0.7rem;
+        line-height: 1;
+        transition: transform 0.2s;
+      }
+      .lang-btn[aria-expanded="true"] .lang-caret {
+        transform: rotate(180deg);
+      }
+      .lang-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        list-style: none;
+        margin: 0;
+        padding: 6px;
+        background: var(--cr);
+        border: var(--bd);
+        border-radius: 14px;
+        box-shadow: var(--sh);
+        z-index: 50;
+        min-width: 160px;
+      }
+      .lang-menu[hidden] {
+        display: none;
+      }
+      .lang-menu li {
+        list-style: none;
+      }
+      .lang-menu button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        background: transparent;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.9rem;
+        color: var(--bk);
+        cursor: pointer;
+      }
+      .lang-menu button:hover,
+      .lang-menu button[aria-current="true"] {
+        background: var(--y);
+      }
+
+            footer {
+        background: var(--y);
+        border-top: var(--bd);
+        padding-block: 24px;
+      }
+      footer .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+      .ft-logo {
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .ft-links {
+        display: flex;
+        gap: 24px;
+      }
+      .ft-links a {
+        font-size: 0.82rem;
+        color: var(--bk);
+        opacity: 0.55;
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+      .ft-links a:hover {
+        opacity: 1;
+      }
+      .ft-links .gh-star {
+        opacity: 0.85;
+        font-weight: 600;
+      }
+      footer p {
+        font-size: 0.75rem;
+        opacity: 0.35;
+      }
+.eyebrow{font-weight:700;letter-spacing:.14em;font-size:.78rem;margin-top:34px}
+h1{font-family:Fredoka,sans-serif;font-size:clamp(2.2rem,7vw,3.2rem);line-height:1.1;margin:6px 0 10px}
+.lead{font-size:1.1rem;max-width:560px}.upd{font-size:.9rem;opacity:.75;margin-top:6px}
+.card{background:var(--cr);border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:26px 30px 8px;margin:26px 0;column-width:380px;column-gap:56px}
+/* two columns on desktop keep the lines readable at the landing page's width */
+.card section{break-inside:avoid;margin-bottom:24px}
+h2{font-family:Fredoka,sans-serif;font-size:1.3rem;margin-bottom:8px}
+main p{line-height:1.65;margin-bottom:10px}main ul{padding-left:20px;margin-bottom:10px}main li{margin-bottom:6px;line-height:1.6}
+main a{color:var(--bl)}
+details{border-top:1.5px solid #ecdcae;padding:8px 0}details:first-of-type{border-top:0}
+summary{cursor:pointer;font-weight:700}details p{margin:8px 0 2px}
+.tip{display:flex;gap:12px;margin-bottom:10px}.tip i{font-style:normal;font-size:1.4rem}
+.help{background:var(--gn);color:#fff;border:var(--bd);border-radius:18px;box-shadow:var(--sh);padding:22px 24px;margin:26px 0 40px}
+.help a{color:#fff;font-weight:700}.help h2{color:#fff}
+.lang-menu a{display:block;width:100%;text-align:left;border-radius:8px;padding:8px 12px;font-family:"DM Sans",sans-serif;font-size:.9rem;color:var(--bk);text-decoration:none}
+.lang-menu a:hover,.lang-menu a[aria-current="true"]{background:var(--y)}
+.ft-links{flex-wrap:wrap}
+@media (max-width:768px){nav .container{max-width:none}.card{padding:22px 20px 4px}.mit{display:none}footer .container{flex-direction:column;align-items:flex-start;gap:10px}}
+</style></head><body>
+<nav><div class="container">
+<a href="/" class="logo"><div class="logo-icon">🪲</div>Critterboard</a>
+<div class="nav-r"><div class="lang-switch">
+<button class="lang-btn" id="lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Język"><span>PL</span><span class="lang-caret" aria-hidden="true">▾</span></button>
+<ul class="lang-menu" id="lang-menu" role="listbox" hidden><li><a href="/support/" hreflang="en" data-lang="en">🇬🇧 English</a></li><li><a href="/support/pl/" hreflang="pl" data-lang="pl" aria-current=true>🇵🇱 Polski</a></li><li><a href="/support/es/" hreflang="es" data-lang="es">🇪🇸 Español</a></li><li><a href="/support/de/" hreflang="de" data-lang="de">🇩🇪 Deutsch</a></li></ul></div>
+<a href="https://github.com/krzysztofradomski/critterboard" target="_blank" rel="noopener" class="mit">Open source (MIT)</a></div>
+</div></nav>
+<main class="container"><p class="eyebrow">TROCHĘ POMOCY NA ŁOWACH</p><h1>Udanych łowów.</h1><p class="lead">Wszystko o szukaniu, skanowaniu i kolekcjonowaniu owadów.</p>
+<div class="card"><section id="start"><h2>Pierwsze kroki</h2><p>Otwórz zakładkę <b>Skan</b>, skieruj aparat na owada i zrób zdjęcie. Critterboard rozpoznaje go na telefonie, dodaje do twojego <b>Dexa</b> i przyznaje XP.</p><p>Rozpoznawanie wymaga pakietu regionalnego. Wejdź w <b>Ja → Mózg</b>, wybierz swój region i dotknij <b>Pobierz</b>. Pakiet zawiera listę gatunków i model wizji BugNet (ok. 88 MB) i pobiera się tylko raz.</p></section><section id="regions"><h2>Pakiety regionalne i mapa offline</h2><p>Naraz aktywny jest tylko jeden pakiet regionalny. Decyduje, które gatunki Critterboard rozpozna i jaką mapę zobaczysz. Na razie dostępna jest Europa Środkowa; pozostałe regiony oznaczono jako <i>wkrótce</i>.</p><p>Mapa offline jest częścią pakietu (ok. 56 MB, cała Europa w niewielkim stopniu szczegółowości). Zakładka <b>Mapa</b> jest zablokowana, dopóki jej nie pobierzesz. Potem działa bez internetu i pokazuje pinezki tam, gdzie coś złapałeś.</p><ul><li>Pakiety pobieraj przez Wi-Fi: model i mapa mają dziesiątki megabajtów.</li><li>Lokalizacja służy tylko do wyśrodkowania mapy i stawiania pinezek. Nigdzie nie jest wysyłana, chyba że włączysz udostępnianie lokalizacji.</li></ul></section><section id="progress"><h2>XP, rzadkość, zadania, odznaki i passy</h2><ul><li><b>XP i poziomy:</b> każdy nowy gatunek daje XP. Rzadsze gatunki (pospolity → niepospolity → rzadki → epicki → legendarny) dają więcej.</li><li><b>Zadania:</b> cele tygodniowe, np. „Znajdź legendarnego”. Otwórz <b>Ja → Zadania</b>.</li><li><b>Odznaki:</b> zaczynasz od zera i odblokowujesz je w trakcie gry. Dotknij odznaki, by zobaczyć, jak ją zdobyć.</li><li><b>Karty gatunków:</b> każda pokazuje siedlisko, rozmiar lub rozpiętość skrzydeł, zasięg i pokarm. Siedlisko i pokarm są typowe dla rodziny gatunku; rozmiar pochodzi z Wikipedii, a zasięg z rekordów GBIF. „Więcej na Wikipedii” otwiera pełny artykuł.</li><li><b>Poziomy:</b> poziom 2 wymaga ok. 300 XP (około trzech złapań); kolejne poziomy trwają dłużej.</li><li><b>Passy:</b> łap coś codziennie. Co 7 dni aktywności zdobywasz zamrożenie (maks. trzy), które zużywa się automatycznie, gdy pominiesz dzień.</li></ul></section><section id="network"><h2>Sieć, ranking i znajomi</h2><p>Critterboard działa w pełni offline, a przełącznik sieci jest <b>domyślnie wyłączony</b>. Włącz go w <b>Ja → Mózg</b> tylko wtedy, gdy chcesz korzystać z funkcji online.</p><ul><li><b>Ranking:</b> dobrowolny. Twoja nazwa i XP pojawią się tylko po włączeniu.</li><li><b>Znajomi:</b> obserwuj innych trenerów w zakładce Rankingi. Znajomi widzą tylko twój profil publiczny.</li><li><b>Udostępnianie lokalizacji:</b> opcjonalne. Twoje złapania widać z dokładnym miejscem, gatunkiem i datą (nigdy z nazwą) na mapach graczy w pobliżu; wyłączenie usuwa lokalizacje z serwera.</li><li><b>Pokazuj obserwacje innych:</b> opcjonalne. Pokazuje na twojej mapie udostępnione złapania graczy w pobliżu; twoja lokalizacja jest wysyłana zaokrąglona do ok. 1 km.</li><li><b>Raporty o awariach:</b> opcjonalne i anonimowe.</li><li><b>Usuń moje dane online:</b> w <b>Ja → Mózg</b> usuwa z naszego serwera twój profil, wysłane złapania, obserwowanych i wpis w rankingu. Wyłączenie sieci pyta, czy zachować profil (ukryty w rankingach), czy go usunąć, a wyłączenie udostępniania lokalizacji usuwa zapisane lokalizacje. Twój Dex na telefonie nigdy nie jest ruszany.</li><li><b>Wcześniejsze złapania:</b> przy pierwszym przejściu do trybu online aplikacja proponuje wysłanie wcześniejszych złapań; Mózg pokazuje postęp i przycisk Ponów, gdy coś się nie uda.</li></ul><p>Nie ma kont. Telefon tworzy przy pierwszym użyciu losowy prywatny klucz, po którym serwer rozpoznaje urządzenie. Po ponownej instalacji lub wymazaniu danych zaczynasz jako nowy trener.</p></section><section id="chat"><h2>Czat i przewodnicy</h2><p>Przewodnicy czatu (Prof. Larwa, Dr Ślimak i Asystent Maj) działają na twoim telefonie z modelem Gemma 4 E2B. To opcjonalne pobranie (ok. 3,1 GB, zalecane Wi-Fi) w <b>Ja → Mózg</b>. Bez niego czat jest wyłączony, a reszta aplikacji działa normalnie.</p></section><section id="trouble"><h2>Rozwiązywanie problemów</h2><ul><li><b>Brak dopasowania lub niska pewność:</b> zobacz wskazówki o zdjęciach poniżej i sprawdź, czy masz pakiet swojego regionu. Skanów poniżej progu dopasowania (domyślnie 33%, do zmiany w <b>Ja → Mózg → Próg dopasowania</b>) nie można dodać do Dexa.</li><li><b>Zakładka Mapa jest zablokowana:</b> pobierz aktywny region w <b>Ja → Mózg</b>. Wymaga to połączenia z internetem jeden raz.</li><li><b>Mapa lub pobieranie się nie udaje:</b> sprawdź połączenie i spróbuj ponownie; przerwane pobrania są odrzucane, nigdy nie zostają w połowie zainstalowane.</li><li><b>Lokalizacja nie jest wykrywana:</b> zezwól Critterboard na lokalizację w Ustawieniach iOS lub Androida, potem otwórz ponownie zakładkę Mapa.</li><li><b>Za dużo wibracji:</b> <b>Ja → Mózg → Wibracje</b> wyłącza wibracje.</li><li><b>Zmiana języka:</b> <b>Ja → Mózg → Język</b>. Zmienia aplikację, nazwy gatunków i przewodników.</li></ul></section><section id="photo"><h2>Jak zrobić dobre zdjęcie</h2><div class="tip"><i>🔆</i><div><b>Więcej światła</b><br>Wejdź w słońce albo użyj lampy. Cień zjada detale.</div></div><div class="tip"><i>🔍</i><div><b>Wypełnij kadr</b><br>Podejdź na 20 cm i ciasno wykadruj sylwetkę.</div></div><div class="tip"><i>🌿</i><div><b>Czyste tło</b><br>Mniej liści w tle pomaga modelowi się skupić.</div></div><div class="tip"><i>📐</i><div><b>Profil z boku</b><br>Skrzydła i nogi widoczne z boku są najłatwiejsze.</div></div></section><section id="faq"><h2>FAQ</h2><details><summary>Czy Critterboard działa bez internetu?</summary><p>Tak. Wizja, czat i baza gatunków działają na telefonie. Sieć włączasz tylko by udostępniać w rankingu lub publikować obserwacje.</p></details><details><summary>Dlaczego mam niską pewność ID?</summary><p>Zwykle jedno z trzech: rozmyte zdjęcie, owad zajmuje mniej niż 1/4 kadru lub jesteś poza zainstalowanym pakietem regionalnym. Skanów poniżej progu dopasowania (Mózg, domyślnie 33%) w ogóle nie można dodać. Spróbuj ciaśniejszego kadru, jaśniejszego światła i profilu z boku.</p></details><details><summary>Jak działają zamrożenia passy?</summary><p>Co 7 dni aktywności zdobywasz jedno zamrożenie, maks. trzy w banku. Pominięty dzień zużywa zamrożenie automatycznie. Nic nie musisz robić.</p></details><details><summary>Czy Critterboard nadaje się dla daltonistów?</summary><p>Tak. Wszystkie wskaźniki pewności i rzadkości są podwójnie zakodowane kształtem i etykietą. Trwają prace nad trybem wysokiego kontrastu; daj znać, jeśli któryś ekran sprawia problem.</p></details><details><summary>Skąd biorą się zdjęcia referencyjne?</summary><p>iNaturalist (CC-BY-NC) dla zdjęć; GBIF dla zasięgów. Nie trenujemy na twoich zdjęciach — aktualizacje modeli wypuszczamy tylko my.</p></details><details><summary>Jak usunąć moje dane?</summary><p>Wszystko na tym telefonie: przewiń do „Wymaż wszystko”. Usuwa dex, obserwacje, ustawienia i modele, a najpierw kasuje twoje dane online. Tylko online: w Mózgu jest „Usuń moje dane online”. Nie ma cofnięcia.</p></details><details><summary>Czy mogę przenieść dane na nowy telefon?</summary><p>Tak. Użyj tutaj „Kopia zapasowa (plik)”, trzymaj plik w Plikach lub iCloud Drive, a na nowym telefonie wybierz „Przywróć z kopii” (lub na pierwszym ekranie po reinstalacji). Dodaje dex, złapania, zadania i ustawienia; zdjęcia i historia czatu nie są zawarte.</p></details><details><summary>Skąd biorą się siedlisko, rozmiar, zasięg i pokarm?</summary><p>Siedlisko i pokarm są typowe dla rodziny gatunku. Rozmiar pochodzi z Wikipedii, a zasięg z rekordów GBIF, więc kilka gatunków pokazuje rodzinę zamiast rozmiaru. „Więcej na Wikipedii” otwiera pełny artykuł.</p></details></section><section id="data"><h2>Twoje dane</h2><p>Wszystko mieszka na twoim telefonie: dex, obserwacje, zdjęcia i ustawienia. Nie ma konta, śledzenia reklamowego ani analityki, chyba że włączysz raporty o awariach.</p><ul><li><b>Eksport:</b> w <b>Ja → Pomoc</b> wyeksportujesz dex (JSON), obserwacje (CSV), plik wystąpień gotowy dla GBIF (Darwin Core) albo wszystko naraz.</li><li><b>Wymazanie:</b> „Wymaż wszystko” na tym samym ekranie usuwa dex, obserwacje, ustawienia i pobrane modele. Obserwujący i wpisy rankingu też znikają. Nie ma cofnięcia.</li><li><b>Kopia i przywracanie:</b> w <b>Ja → Pomoc</b> zapiszesz dex, złapania, zadania i ustawienia w jednym pliku (trzymaj go w Plikach lub iCloud Drive) i przywrócisz go po ponownej instalacji lub na innym telefonie. Przywracanie tylko dodaje do tego, co już jest. Zdjęcia, historia czatu i pobrane modele nie są w niej zawarte, podobnie jak twoje wybory dotyczące udostępniania: wszystko online znów jest wyłączone.</li><li><b>Zdjęcia i modele:</b> zdjęcia referencyjne pochodzą z iNaturalist, a zasięgi z GBIF. Nigdy nie trenujemy na twoich zdjęciach.</li></ul></section></div><div class="help"><h2>Potrzebujesz pomocy?</h2><p>Napisz, jakiego urządzenia, systemu i wersji aplikacji używasz oraz co się stało. Zrzuty ekranu pomagają. Nigdy nie wysyłaj haseł ani osobistych plików.</p><p><a href="mailto:hello@critterboard.app">hello@critterboard.app</a></p></div></main>
+<footer><div class="container">
+<div class="ft-logo">🪲 Critterboard</div>
+<p>Za darmo · Open source (MIT) · Wkrótce</p>
+<div class="ft-links"><a href="https://github.com/krzysztofradomski/critterboard" target="_blank" rel="noopener" class="gh-star">★ Daj gwiazdkę na GitHubie</a><a href="mailto:hello@critterboard.app">Kontakt</a><a href="/support/pl/">Pomoc</a><a href="/privacy/pl/">Prywatność</a><a href="/terms/pl/">Warunki</a></div>
+</div></footer>
+<script>
+(function(){var b=document.getElementById('lang-btn'),m=document.getElementById('lang-menu');
+function c(){m.hidden=true;b.setAttribute('aria-expanded','false')}
+b.addEventListener('click',function(e){e.stopPropagation();var o=m.hidden;m.hidden=!o;b.setAttribute('aria-expanded',String(o))});
+document.addEventListener('click',function(e){if(!m.hidden&&!e.target.closest('.lang-switch'))c()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')c()});
+m.addEventListener('click',function(e){var a=e.target.closest('[data-lang]');if(a)try{localStorage.setItem('cb-lang',a.dataset.lang)}catch(_){}});
+try{localStorage.setItem('cb-lang',document.documentElement.lang)}catch(_){}})();
+</script></body></html>

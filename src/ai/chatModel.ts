@@ -3,6 +3,7 @@ import * as FileSystem from 'expo-file-system/legacy';
 import { Platform } from 'react-native';
 
 import { llamaRnRuntime } from '@/ai/llm';
+import { downloadFile } from '@/lib/download';
 
 /**
  * The on-device chat model: Gemma 4 E2B instruct (Apache 2.0), 4-bit GGUF.
@@ -16,7 +17,14 @@ import { llamaRnRuntime } from '@/ai/llm';
 export const CHAT_MODEL = {
   name: 'Gemma 4 E2B',
   filename: 'gemma-4-E2B-it-Q4_K_M.gguf',
-  url: 'https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF/resolve/main/gemma-4-E2B-it-Q4_K_M.gguf',
+  /**
+   * Pinned to a repo commit, not `main`: a third-party repo could otherwise swap the file
+   * the app hands to llama.cpp at any time. To update, take the new commit `sha` and the
+   * file's `size` from https://huggingface.co/api/models/unsloth/gemma-4-E2B-it-GGUF/revision/main?blobs=true
+   */
+  url: 'https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF/resolve/0314792d7f1f7e229411f620751375812bb9faf2/gemma-4-E2B-it-Q4_K_M.gguf',
+  /** Exact size at that commit; a download of any other size is discarded. */
+  bytes: 3_106_738_272,
   /** Approximate download size, for the UI. */
   sizeGb: 3.1,
 } as const;
@@ -47,6 +55,7 @@ export type ChatModelStatus =
   | 'downloading'
   | 'loading'
   | 'ready'
+  | 'ejected' // file on disk, unloaded from memory by the user
   | 'error';
 
 export type ChatModelState = { status: ChatModelStatus; pct: number; fit: MemoryFit };
@@ -109,7 +118,12 @@ export async function initChatModel(): Promise<void> {
   const dir = modelsDir();
   const path = chatModelPath();
   if (!dir || !path) return;
-  if (_state.status === 'ready' || _state.status === 'loading' || _state.status === 'downloading') {
+  if (
+    _state.status === 'ready' ||
+    _state.status === 'loading' ||
+    _state.status === 'downloading' ||
+    _state.status === 'ejected' // stays out of memory until the user loads it
+  ) {
     return;
   }
   if (FIT === 'tooLittle') {
@@ -142,23 +156,13 @@ export async function downloadChatModel(): Promise<void> {
   set({ status: 'downloading', pct: 0 });
   try {
     await FileSystem.makeDirectoryAsync(dir, { intermediates: true });
-    _download = FileSystem.createDownloadResumable(
-      CHAT_MODEL.url,
-      path,
-      {},
-      ({ totalBytesWritten, totalBytesExpectedToWrite }) => {
-        if (totalBytesExpectedToWrite <= 0) return;
-        set({ pct: Math.floor((totalBytesWritten / totalBytesExpectedToWrite) * 100) });
-      },
-    );
-    const res = await _download.downloadAsync();
+    // Throws on a non-2xx answer (e.g. a login page), a wrong size or a cancel; nothing is kept then.
+    await downloadFile(CHAT_MODEL.url, path, {
+      expect: { bytes: CHAT_MODEL.bytes },
+      onProgress: (pct) => set({ pct }),
+      onStart: (dl) => (_download = dl),
+    });
     _download = null;
-    if (!res || res.status < 200 || res.status >= 300) {
-      // e.g. 401/403 if the host starts requiring a login; don't keep the error page.
-      await FileSystem.deleteAsync(path, { idempotent: true }).catch(() => undefined);
-      set({ status: 'error', pct: 0 });
-      return;
-    }
     await load(path);
   } catch {
     _download = null;
@@ -174,4 +178,18 @@ export async function deleteChatModel(): Promise<void> {
   await llamaRnRuntime.unload().catch(() => undefined);
   if (path) await FileSystem.deleteAsync(path, { idempotent: true }).catch(() => undefined);
   set({ status: idleStatus(), pct: 0 });
+}
+
+/** Free the model's ~3 GB of RAM but keep the file; `loadChatModel` brings it back. */
+export async function ejectChatModel(): Promise<void> {
+  if (_state.status !== 'ready') return;
+  await llamaRnRuntime.unload().catch(() => undefined);
+  set({ status: 'ejected', pct: 0 });
+}
+
+/** Load a downloaded model that was ejected (or failed to load). */
+export async function loadChatModel(): Promise<void> {
+  const path = chatModelPath();
+  if (!path || (_state.status !== 'ejected' && _state.status !== 'error')) return;
+  await load(path);
 }

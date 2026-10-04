@@ -13,6 +13,18 @@ vi.mock('expo-file-system', () => ({
   deleteAsync: vi.fn().mockResolvedValue(undefined),
 }));
 
+vi.mock('expo-file-system/legacy', () => ({
+  documentDirectory: null,
+  getInfoAsync: vi.fn().mockResolvedValue({ exists: false }),
+  deleteAsync: vi.fn().mockResolvedValue(undefined),
+  makeDirectoryAsync: vi.fn().mockResolvedValue(undefined),
+}));
+
+vi.mock('expo-crypto', () => ({
+  randomUUID: () => globalThis.crypto.randomUUID(),
+  getRandomBytes: (n: number) => globalThis.crypto.getRandomValues(new Uint8Array(n)),
+}));
+
 vi.mock('expo-notifications', () => ({
   scheduleNotificationAsync: vi.fn().mockResolvedValue('id'),
   cancelScheduledNotificationAsync: vi.fn().mockResolvedValue(undefined),

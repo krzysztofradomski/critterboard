@@ -11,17 +11,29 @@ export type Badge = {
   icon: string;
   color: string;
   unlocked: boolean;
+  /** Teaser: name, icon and criteria stay secret until it is earned. */
+  hidden?: boolean;
 };
 
 export const BADGES: Badge[] = [
-  { id: 'b1', icon: '🦋', color: PB.yellow, unlocked: true  },
-  { id: 'b2', icon: '🔥', color: PB.orange, unlocked: true  },
-  { id: 'b3', icon: '🌙', color: PB.purple, unlocked: true  },
-  { id: 'b4', icon: '🌼', color: PB.green,  unlocked: false },
-  { id: 'b5', icon: '🔬', color: PB.blue,   unlocked: false },
-  { id: 'b6', icon: '🏆', color: PB.red,    unlocked: false },
-  { id: 'b7', icon: '✨', color: PB.cream2, unlocked: false },
-  { id: 'b8', icon: '✨', color: PB.cream2, unlocked: false },
+  { id: 'b1',  icon: '🦋', color: PB.yellow, unlocked: false },
+  { id: 'b2',  icon: '🔥', color: PB.orange, unlocked: false },
+  { id: 'b3',  icon: '🌙', color: PB.purple, unlocked: false },
+  { id: 'b4',  icon: '🌼', color: PB.green,  unlocked: false },
+  { id: 'b5',  icon: '📸', color: PB.blue,   unlocked: false },
+  { id: 'b6',  icon: '🏆', color: PB.red,    unlocked: false },
+  { id: 'b9',  icon: '🪲', color: PB.green,  unlocked: false },
+  { id: 'b10', icon: '🦋', color: PB.pink,   unlocked: false },
+  { id: 'b11', icon: '📖', color: PB.yellow, unlocked: false },
+  { id: 'b12', icon: '🎓', color: PB.blue,   unlocked: false },
+  { id: 'b13', icon: '🗓️', color: PB.orange, unlocked: false },
+  { id: 'b14', icon: '🛡️', color: PB.red,    unlocked: false },
+  { id: 'b15', icon: '📍', color: PB.green,  unlocked: false },
+  { id: 'b16', icon: '🎯', color: PB.purple, unlocked: false },
+  { id: 'b17', icon: '💎', color: PB.blue,   unlocked: false },
+  { id: 'b7',  icon: '🌅', color: PB.orange, unlocked: false, hidden: true },
+  { id: 'b8',  icon: '👑', color: PB.purple, unlocked: false, hidden: true },
 ];
 
-export const BADGES_TOTAL = 24;
+/** Every badge starts locked; useBadges() derives the real state from the catch history. */
+export const BADGES_TOTAL = BADGES.length;

@@ -1,0 +1,8405 @@
+{
+ "Abraxas grossulariata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Abraxas sylvata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Abrostola tripartita": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Acanthosoma haemorrhoidale": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acanthosomatidae",
+  "order": "Hemiptera"
+ },
+ "Aceria erinea": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Eriophyidae",
+  "order": "Trombidiformes"
+ },
+ "Acherontia atropos": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Sphingidae",
+  "order": "Lepidoptera"
+ },
+ "Acleris variegana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Acontia lucida": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Acrida ungarica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Acrobasis advenella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pyralidae",
+  "order": "Lepidoptera"
+ },
+ "Acronicta aceris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Acronicta leporina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Acronicta megacephala": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Acronicta psi": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Acronicta rumicis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Acrosternum heegeri": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Aculepeira ceropegia": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Araneidae",
+  "order": "Araneae"
+ },
+ "Adalia bipunctata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Adalia decempunctata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Adela reaumurella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Adelidae",
+  "order": "Lepidoptera"
+ },
+ "Adelphocoris lineolatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Adscita statices": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Zygaenidae",
+  "order": "Lepidoptera"
+ },
+ "Aedia leucomelas": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "OCEANIA",
+   "ASIA"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Aegosoma scabricorne": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Aelia acuminata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Aeshna affinis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Aeshnidae",
+  "order": "Odonata"
+ },
+ "Aeshna cyanea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Aeshnidae",
+  "order": "Odonata"
+ },
+ "Aeshna grandis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Aeshnidae",
+  "order": "Odonata"
+ },
+ "Aeshna juncea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA"
+  ],
+  "family": "Aeshnidae",
+  "order": "Odonata"
+ },
+ "Aeshna mixta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Aeshnidae",
+  "order": "Odonata"
+ },
+ "Agalenatea redii": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Araneidae",
+  "order": "Araneae"
+ },
+ "Agapanthia villosoviridescens": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Agapeta hamana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Agapeta zoegana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Agelastica alni": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Chrysomelidae",
+  "order": "Coleoptera"
+ },
+ "Agelena labyrinthica": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Agelenidae",
+  "order": "Araneae"
+ },
+ "Aglais io": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Aglais urticae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Aglia tau": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Saturniidae",
+  "order": "Lepidoptera"
+ },
+ "Aglossa pinguinalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Pyralidae",
+  "order": "Lepidoptera"
+ },
+ "Agriopis marginaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Agriphila geniculea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Agriphila inquinatella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Agriphila straminella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Agriphila tristella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Agrius convolvuli": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA",
+   "OCEANIA",
+   "AFRICA"
+  ],
+  "family": "Sphingidae",
+  "order": "Lepidoptera"
+ },
+ "Agrochola lunosa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Agrochola lychnidis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Agrotis clavis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Agrotis exclamationis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Agrotis ipsilon": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Agrotis puta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Agrotis segetum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Agrypnus murinus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Elateridae",
+  "order": "Coleoptera"
+ },
+ "Aiolopus strepens": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Alcis repandata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Allophyes oxyacanthae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Alosterna tabacicolor": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Alsophila aescularia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Alucita hexadactyla": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Alucitidae",
+  "order": "Lepidoptera"
+ },
+ "Amata phegea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Ameles spallanzania": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Amelidae",
+  "order": "Mantodea"
+ },
+ "Amphimallon solstitiale": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Amphipyra pyramidea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Amphipyra tragopoginis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Anacridium aegyptium": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Anania hortulata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Anarta trifolii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Anastrangalia sanguinolenta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Anatis ocellata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Anax imperator": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Aeshnidae",
+  "order": "Odonata"
+ },
+ "Anax parthenope": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Aeshnidae",
+  "order": "Odonata"
+ },
+ "Andrena cineraria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Andrenidae",
+  "order": "Hymenoptera"
+ },
+ "Andrena fulva": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Andrenidae",
+  "order": "Hymenoptera"
+ },
+ "Andrena haemorrhoa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Andrenidae",
+  "order": "Hymenoptera"
+ },
+ "Andrena hattorfiana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Andrenidae",
+  "order": "Hymenoptera"
+ },
+ "Andrena vaga": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Andrenidae",
+  "order": "Hymenoptera"
+ },
+ "Andricus foecundatrix": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cynipidae",
+  "order": "Hymenoptera"
+ },
+ "Andricus kollari": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cynipidae",
+  "order": "Hymenoptera"
+ },
+ "Andricus quercuscalicis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cynipidae",
+  "order": "Hymenoptera"
+ },
+ "Andricus quercustozae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cynipidae",
+  "order": "Hymenoptera"
+ },
+ "Angerona prunaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Anoplotrupes stercorosus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geotrupidae",
+  "order": "Coleoptera"
+ },
+ "Anthaxia hungarica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Buprestidae",
+  "order": "Coleoptera"
+ },
+ "Anthaxia nitidula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Buprestidae",
+  "order": "Coleoptera"
+ },
+ "Anthidium florentinum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA",
+   "NORTH_AMERICA"
+  ],
+  "family": "Megachilidae",
+  "order": "Hymenoptera"
+ },
+ "Anthidium manicatum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "LATIN_AMERICA",
+   "OCEANIA"
+  ],
+  "family": "Megachilidae",
+  "order": "Hymenoptera"
+ },
+ "Anthocharis cardamines": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pieridae",
+  "order": "Lepidoptera"
+ },
+ "Anthophila fabriciana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Choreutidae",
+  "order": "Lepidoptera"
+ },
+ "Anthophora plumipes": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Anthrax anthrax": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Bombyliidae",
+  "order": "Diptera"
+ },
+ "Anthrenus verbasci": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA",
+   "ASIA",
+   "LATIN_AMERICA"
+  ],
+  "family": "Dermestidae",
+  "order": "Coleoptera"
+ },
+ "Anyphaena accentuata": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Anyphaenidae",
+  "order": "Araneae"
+ },
+ "Apamea monoglypha": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Apatura ilia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Apatura iris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Aphantopus hyperantus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Aphomia sociella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Pyralidae",
+  "order": "Lepidoptera"
+ },
+ "Aphrophora alni": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Aphrophoridae",
+  "order": "Hemiptera"
+ },
+ "Apis mellifera": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "LATIN_AMERICA",
+   "OCEANIA",
+   "AFRICA",
+   "ASIA"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Apoda limacodes": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Limacodidae",
+  "order": "Lepidoptera"
+ },
+ "Apoderus coryli": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Attelabidae",
+  "order": "Coleoptera"
+ },
+ "Aporia crataegi": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pieridae",
+  "order": "Lepidoptera"
+ },
+ "Aporophyla nigra": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Aquarius paludum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Gerridae",
+  "order": "Hemiptera"
+ },
+ "Araneus angulatus": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Araneidae",
+  "order": "Araneae"
+ },
+ "Araneus diadematus": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Araneidae",
+  "order": "Araneae"
+ },
+ "Araneus quadratus": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Araneidae",
+  "order": "Araneae"
+ },
+ "Araschnia levana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Archips podana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Archips xylosteana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Arctia caja": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Arctia villica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Arge pagana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Argidae",
+  "order": "Hymenoptera"
+ },
+ "Argiope bruennichi": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Araneidae",
+  "order": "Araneae"
+ },
+ "Argiope lobata": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "AFRICA",
+   "ASIA"
+  ],
+  "family": "Araneidae",
+  "order": "Araneae"
+ },
+ "Argynnis adippe": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Argynnis aglaja": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Argynnis niobe": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Argynnis pandora": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Argynnis paphia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Aricia agestis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Aricia cramera": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Aromia moschata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Ascotis selenaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA",
+   "AFRICA"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Aspitates ochrearia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Atethmia centrago": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Athalia rosae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Tenthredinidae",
+  "order": "Hymenoptera"
+ },
+ "Athous haemorrhoidalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Elateridae",
+  "order": "Coleoptera"
+ },
+ "Atolmis rubricollis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Autographa gamma": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Axylia putris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Barbitistes serricauda": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Beosus maritimus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Rhyparochromidae",
+  "order": "Hemiptera"
+ },
+ "Bibio marci": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Bibionidae",
+  "order": "Diptera"
+ },
+ "Biorhiza pallida": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cynipidae",
+  "order": "Hymenoptera"
+ },
+ "Biston betularia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Biston strataria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Blatta orientalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "LATIN_AMERICA",
+   "OCEANIA"
+  ],
+  "family": "Blattidae",
+  "order": "Blattodea"
+ },
+ "Boloria dia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Boloria euphrosyne": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Boloria selene": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Bombus campestris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Bombus hortorum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Bombus humilis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Bombus hypnorum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Bombus lapidarius": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Bombus lucorum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Bombus pascuorum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Bombus pratorum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Bombus rupestris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Bombus sylvarum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Bombus terrestris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "OCEANIA"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Bombus vestalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Bombylius major": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA"
+  ],
+  "family": "Bombyliidae",
+  "order": "Diptera"
+ },
+ "Brachytron pratense": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Aeshnidae",
+  "order": "Odonata"
+ },
+ "Brenthis daphne": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Brenthis ino": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Brintesia circe": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Bryophila domestica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Bryopsis muralis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Cabera exanthemata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Cabera pusaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Cacyreus marshalli": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Callimorpha dominula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Calliptamus barbarus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Calliptamus italicus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Callistege mi": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Calliteara pudibunda": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Callophrys rubi": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Calopteryx haemorrhoidalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Calopterygidae",
+  "order": "Odonata"
+ },
+ "Calopteryx splendens": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Calopterygidae",
+  "order": "Odonata"
+ },
+ "Calopteryx virgo": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Calopterygidae",
+  "order": "Odonata"
+ },
+ "Calvia decemguttata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Calvia quatuordecimguttata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Cameraria ohridella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Gracillariidae",
+  "order": "Lepidoptera"
+ },
+ "Campaea margaritaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Camponotus cruentatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Formicidae",
+  "order": "Hymenoptera"
+ },
+ "Camponotus lateralis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Formicidae",
+  "order": "Hymenoptera"
+ },
+ "Camponotus ligniperda": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Formicidae",
+  "order": "Hymenoptera"
+ },
+ "Camponotus vagus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Formicidae",
+  "order": "Hymenoptera"
+ },
+ "Camptogramma bilineata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Camptopus lateralis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Alydidae",
+  "order": "Hemiptera"
+ },
+ "Campyloneura virgula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Cantharis fusca": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cantharidae",
+  "order": "Coleoptera"
+ },
+ "Cantharis livida": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Cantharidae",
+  "order": "Coleoptera"
+ },
+ "Cantharis nigricans": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cantharidae",
+  "order": "Coleoptera"
+ },
+ "Cantharis pellucida": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cantharidae",
+  "order": "Coleoptera"
+ },
+ "Cantharis rustica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cantharidae",
+  "order": "Coleoptera"
+ },
+ "Capnodis tenebrionis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Buprestidae",
+  "order": "Coleoptera"
+ },
+ "Carabus auronitens": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Carabidae",
+  "order": "Coleoptera"
+ },
+ "Carabus coriaceus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Carabidae",
+  "order": "Coleoptera"
+ },
+ "Carabus granulatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA"
+  ],
+  "family": "Carabidae",
+  "order": "Coleoptera"
+ },
+ "Carabus intricatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Carabidae",
+  "order": "Coleoptera"
+ },
+ "Carabus nemoralis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Carabidae",
+  "order": "Coleoptera"
+ },
+ "Carabus violaceus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Carabidae",
+  "order": "Coleoptera"
+ },
+ "Caradrina clavipalpis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Caradrina morpheus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Carcharodus alceae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Hesperiidae",
+  "order": "Lepidoptera"
+ },
+ "Carcina quercana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Peleopodidae",
+  "order": "Lepidoptera"
+ },
+ "Carpocoris fuscispinus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Carpocoris mediterraneus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Carpocoris purpureipennis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Carrhotus xanthogramma": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Salticidae",
+  "order": "Araneae"
+ },
+ "Carterocephalus palaemon": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Hesperiidae",
+  "order": "Lepidoptera"
+ },
+ "Cassida rubiginosa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA",
+   "OCEANIA"
+  ],
+  "family": "Chrysomelidae",
+  "order": "Coleoptera"
+ },
+ "Cataclysta lemnata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Catocala nupta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Catoptria falsella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Catoptria pinella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Celastrina argiolus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Celypha striana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Centrotus cornutus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Membracidae",
+  "order": "Hemiptera"
+ },
+ "Cerambyx cerdo": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Cerambyx scopolii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Cerapteryx graminis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Ceratomegilla notata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Cercopis intermedia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cercopidae",
+  "order": "Hemiptera"
+ },
+ "Cercopis vulnerata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cercopidae",
+  "order": "Hemiptera"
+ },
+ "Ceriagrion tenellum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coenagrionidae",
+  "order": "Odonata"
+ },
+ "Cerura vinula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Notodontidae",
+  "order": "Lepidoptera"
+ },
+ "Cetonia aurata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Chalcolestes viridis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lestidae",
+  "order": "Odonata"
+ },
+ "Chalcophora mariana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Buprestidae",
+  "order": "Coleoptera"
+ },
+ "Charanyca trigrammica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Charaxes jasius": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Cheilosia illustrata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Chiasmia clathrata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Chilocorus bipustulatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Chilocorus renipustulatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Chloroclysta siterata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Chloroclystis v-ata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Chloromyia formosa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Stratiomyidae",
+  "order": "Diptera"
+ },
+ "Chlorophorus varius": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Chorthippus albomarginatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Chorthippus biguttulus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Chorthippus brunneus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Chorthippus dorsatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Chrysochraon dispar": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Chrysolina americana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Chrysomelidae",
+  "order": "Coleoptera"
+ },
+ "Chrysolina bankii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Chrysomelidae",
+  "order": "Coleoptera"
+ },
+ "Chrysolina polita": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Chrysomelidae",
+  "order": "Coleoptera"
+ },
+ "Chrysomela populi": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Chrysomelidae",
+  "order": "Coleoptera"
+ },
+ "Chrysopa perla": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Chrysopidae",
+  "order": "Neuroptera"
+ },
+ "Chrysoteuchia culmella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Chrysotoxum bicinctum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Cicada orni": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cicadidae",
+  "order": "Hemiptera"
+ },
+ "Cicadella viridis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Cicadellidae",
+  "order": "Hemiptera"
+ },
+ "Cicindela campestris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Carabidae",
+  "order": "Coleoptera"
+ },
+ "Cicindela hybrida": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Carabidae",
+  "order": "Coleoptera"
+ },
+ "Cilix glaucata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Drepanidae",
+  "order": "Lepidoptera"
+ },
+ "Clepsis consimilana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Clogmia albipunctata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "LATIN_AMERICA",
+   "ASIA",
+   "OCEANIA",
+   "AFRICA"
+  ],
+  "family": "Psychodidae",
+  "order": "Diptera"
+ },
+ "Closterotomus biclavatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Closterotomus norwegicus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Closterotomus trivialis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Clytra laeviuscula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Chrysomelidae",
+  "order": "Coleoptera"
+ },
+ "Clytus arietis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Coccinella septempunctata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Coccinula quatuordecimpustulata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Coenagrion hastulatum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coenagrionidae",
+  "order": "Odonata"
+ },
+ "Coenagrion puella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coenagrionidae",
+  "order": "Odonata"
+ },
+ "Coenagrion pulchellum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coenagrionidae",
+  "order": "Odonata"
+ },
+ "Coenagrion scitulum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coenagrionidae",
+  "order": "Odonata"
+ },
+ "Coenonympha arcania": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Coenonympha glycerion": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Coenonympha pamphilus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Colias crocea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pieridae",
+  "order": "Lepidoptera"
+ },
+ "Colletes cunicularius": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Colletidae",
+  "order": "Hymenoptera"
+ },
+ "Colletes hederae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Colletidae",
+  "order": "Hymenoptera"
+ },
+ "Colocasia coryli": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Colostygia pectinataria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Colotois pennaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Conistra vaccinii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Conocephalus fuscus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Cordulegaster boltonii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cordulegastridae",
+  "order": "Odonata"
+ },
+ "Cordulia aenea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Corduliidae",
+  "order": "Odonata"
+ },
+ "Coreus marginatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coreidae",
+  "order": "Hemiptera"
+ },
+ "Corizus hyoscyami": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Rhopalidae",
+  "order": "Hemiptera"
+ },
+ "Corythucha arcuata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Tingidae",
+  "order": "Hemiptera"
+ },
+ "Corythucha ciliata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA",
+   "OCEANIA"
+  ],
+  "family": "Tingidae",
+  "order": "Hemiptera"
+ },
+ "Cosmia trapezina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Cosmorhoe ocellata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Cossus cossus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cossidae",
+  "order": "Lepidoptera"
+ },
+ "Crambus lathoniellus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Crambus pascuella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Crambus perlella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Craniophora ligustri": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Crematogaster scutellaris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Formicidae",
+  "order": "Hymenoptera"
+ },
+ "Crocallis elinguaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Crocothemis erythraea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Cryphia algae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Cteniopus sulphureus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tenebrionidae",
+  "order": "Coleoptera"
+ },
+ "Cucullia verbasci": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Cupido minimus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Curculio glandium": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Curculionidae",
+  "order": "Coleoptera"
+ },
+ "Cyaniris semiargus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Cyclophora annularia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Cyclophora linearia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Cyclophora punctaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Cyclophora puppillaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Cydalima perspectalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Cydia pomonella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Cydia splendana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Cydnus aterrimus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Cydnidae",
+  "order": "Hemiptera"
+ },
+ "Cymbalophora pudica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Cynips longiventris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cynipidae",
+  "order": "Hymenoptera"
+ },
+ "Cynips quercusfolii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cynipidae",
+  "order": "Hymenoptera"
+ },
+ "Cyrtophora citricola": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "AFRICA",
+   "LATIN_AMERICA",
+   "NORTH_AMERICA",
+   "ASIA"
+  ],
+  "family": "Araneidae",
+  "order": "Araneae"
+ },
+ "Dasypoda hirtipes": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Melittidae",
+  "order": "Hymenoptera"
+ },
+ "Dasysyrphus albostriatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Decticus albifrons": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Decticus verrucivorus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Deilephila elpenor": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Sphingidae",
+  "order": "Lepidoptera"
+ },
+ "Deilephila porcellus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Sphingidae",
+  "order": "Lepidoptera"
+ },
+ "Deltote bankiana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Deltote pygarga": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Dendrolimus pini": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lasiocampidae",
+  "order": "Lepidoptera"
+ },
+ "Deraeocoris flavilinea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Deraeocoris lutescens": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Deraeocoris ruber": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Diachrysia chrysitis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Diacrisia sannio": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Diaea dorsata": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Thomisidae",
+  "order": "Araneae"
+ },
+ "Diaperis boleti": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tenebrionidae",
+  "order": "Coleoptera"
+ },
+ "Diaphora mendica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Diarsia rubi": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Dicranopalpus ramosus": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Phalangiidae",
+  "order": "Opiliones"
+ },
+ "Dinoptera collaris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Dioctria hyalipennis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Asilidae",
+  "order": "Diptera"
+ },
+ "Diplolepis rosae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Cynipidae",
+  "order": "Hymenoptera"
+ },
+ "Distoleon tetragrammicus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Myrmeleontidae",
+  "order": "Neuroptera"
+ },
+ "Diurnea fagella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lypusidae",
+  "order": "Lepidoptera"
+ },
+ "Dolichoderus quadripunctatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Formicidae",
+  "order": "Hymenoptera"
+ },
+ "Dolichovespula media": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Vespidae",
+  "order": "Hymenoptera"
+ },
+ "Dolycoris baccarum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Dorcus parallelipipedus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lucanidae",
+  "order": "Coleoptera"
+ },
+ "Drepana falcataria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Drepanidae",
+  "order": "Lepidoptera"
+ },
+ "Dryophilocoris flavoquadrimaculatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Dypterygia scabriuscula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Dysgonia algira": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Dysstroma truncata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Ebrechtella tricuspidata": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Thomisidae",
+  "order": "Araneae"
+ },
+ "Ecliptopera silaceata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Ectobius lapponicus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Ectobiidae",
+  "order": "Blattodea"
+ },
+ "Ectobius sylvestris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Ectobiidae",
+  "order": "Blattodea"
+ },
+ "Ectobius vittiventris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Ectobiidae",
+  "order": "Blattodea"
+ },
+ "Ectophasia crassipennis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tachinidae",
+  "order": "Diptera"
+ },
+ "Ectropis crepuscularia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Eilema caniola": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Eilema complana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Eilema depressa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Eilema griseola": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Eilema lurideola": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Eilema sororcula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Elaphria venustula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Elasmostethus interstinctus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Acanthosomatidae",
+  "order": "Hemiptera"
+ },
+ "Elasmucha grisea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acanthosomatidae",
+  "order": "Hemiptera"
+ },
+ "Elophila nymphaeata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Ematurga atomaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Emmelia trabealis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Emmelina monodactyla": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Pterophoridae",
+  "order": "Lepidoptera"
+ },
+ "Empis tessellata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Empididae",
+  "order": "Diptera"
+ },
+ "Empusa pennata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Empusidae",
+  "order": "Mantodea"
+ },
+ "Enallagma cyathigerum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coenagrionidae",
+  "order": "Odonata"
+ },
+ "Endomychus coccineus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Endomychidae",
+  "order": "Coleoptera"
+ },
+ "Endotricha flammealis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pyralidae",
+  "order": "Lepidoptera"
+ },
+ "Endrosis sarcitrella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "OCEANIA",
+   "NORTH_AMERICA"
+  ],
+  "family": "Oecophoridae",
+  "order": "Lepidoptera"
+ },
+ "Ennomos alniaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Ennomos fuscantaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Ephemera danica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Ephemeridae",
+  "order": "Ephemeroptera"
+ },
+ "Ephippiger diurnus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Epiphyas postvittana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "OCEANIA"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Epirrhoe alternata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Epistrophe eligans": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Episyrphus balteatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Erannis defoliaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Eratigena atrica": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Agelenidae",
+  "order": "Araneae"
+ },
+ "Erebia aethiops": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Erebia euryale": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Erebia ligea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Erebia medusa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Eriophyes tiliae": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Eriophyidae",
+  "order": "Trombidiformes"
+ },
+ "Eriothrix rufomaculata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tachinidae",
+  "order": "Diptera"
+ },
+ "Eristalis arbustorum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Eristalis intricaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Eristalis nemorum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Eristalis pertinax": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Eristalis similis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Eristalis tenax": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA",
+   "OCEANIA"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Erynnis tages": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Hesperiidae",
+  "order": "Lepidoptera"
+ },
+ "Erythromma lindenii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coenagrionidae",
+  "order": "Odonata"
+ },
+ "Erythromma najas": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coenagrionidae",
+  "order": "Odonata"
+ },
+ "Erythromma viridulum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coenagrionidae",
+  "order": "Odonata"
+ },
+ "Ethmia bipunctella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Ethmiidae",
+  "order": "Lepidoptera"
+ },
+ "Euchorthippus declivus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Euclidia glyphica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Eudonia angustea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Eudonia lacustrata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Eudonia mercurella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Eumodicogryllus bordigalensis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Gryllidae",
+  "order": "Orthoptera"
+ },
+ "Eupeodes corollae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Eupeodes luniger": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Euphydryas aurinia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Eupithecia centaureata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Eupithecia icterata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Euplagia quadripunctaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Euplexia lucipara": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Euproctis chrysorrhoea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Eupsilia transversa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Eurydema oleracea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Eurydema ornata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Eurydema ventralis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Eurygaster maura": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Scutelleridae",
+  "order": "Hemiptera"
+ },
+ "Eurygaster testudinaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Scutelleridae",
+  "order": "Hemiptera"
+ },
+ "Euthrix potatoria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lasiocampidae",
+  "order": "Lepidoptera"
+ },
+ "Euthystira brachyptera": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Euura proxima": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "OCEANIA",
+   "NORTH_AMERICA"
+  ],
+  "family": "Tenthredinidae",
+  "order": "Hymenoptera"
+ },
+ "Evarcha arcuata": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Salticidae",
+  "order": "Araneae"
+ },
+ "Evarcha jucunda": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Salticidae",
+  "order": "Araneae"
+ },
+ "Everes argiades": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Exochomus quadripustulatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Exosoma lusitanicum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Chrysomelidae",
+  "order": "Coleoptera"
+ },
+ "Fasta fastuosa": {
+  "class": null,
+  "family": null,
+  "order": null
+ },
+ "Favonius quercus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Forficula auricularia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Forficulidae",
+  "order": "Dermaptera"
+ },
+ "Galeruca tanaceti": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Chrysomelidae",
+  "order": "Coleoptera"
+ },
+ "Gastrophysa viridula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Chrysomelidae",
+  "order": "Coleoptera"
+ },
+ "Gaurotes virginea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Geometra papilionaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Glaucopsyche alexis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Glyphotaelius pellucidus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Limnephilidae",
+  "order": "Trichoptera"
+ },
+ "Gomphocerippus rufus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Gomphus vulgatissimus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Gomphidae",
+  "order": "Odonata"
+ },
+ "Gonepteryx cleopatra": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pieridae",
+  "order": "Lepidoptera"
+ },
+ "Gonepteryx rhamni": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pieridae",
+  "order": "Lepidoptera"
+ },
+ "Gonocerus acuteangulatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coreidae",
+  "order": "Hemiptera"
+ },
+ "Grammoptera ruficornis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Graphocephala fennahi": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Cicadellidae",
+  "order": "Hemiptera"
+ },
+ "Graphopsocus cruciatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Stenopsocidae",
+  "order": "Psocodea"
+ },
+ "Graphosoma italicum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Graphosoma semipunctatum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Gryllotalpa gryllotalpa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Gryllotalpidae",
+  "order": "Orthoptera"
+ },
+ "Gryllus bimaculatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA",
+   "ASIA"
+  ],
+  "family": "Gryllidae",
+  "order": "Orthoptera"
+ },
+ "Gryllus campestris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Gryllidae",
+  "order": "Orthoptera"
+ },
+ "Gymnoscelis rufifasciata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Habrosyne pyritoides": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Drepanidae",
+  "order": "Lepidoptera"
+ },
+ "Hada plebeja": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Halictus scabiosae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Halictidae",
+  "order": "Hymenoptera"
+ },
+ "Halyomorpha halys": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Halyzia sedecimguttata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Hamearis lucina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Riodinidae",
+  "order": "Lepidoptera"
+ },
+ "Harmonia axyridis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "LATIN_AMERICA",
+   "ASIA"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Harmonia quadripunctata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Harpalus rufipes": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Carabidae",
+  "order": "Coleoptera"
+ },
+ "Harpocera thoracica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Hedya nubiferana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Helicoverpa armigera": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "OCEANIA",
+   "AFRICA",
+   "ASIA",
+   "LATIN_AMERICA"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Heliophanus cupreus": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Salticidae",
+  "order": "Araneae"
+ },
+ "Heliotaurus ruficollis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tenebrionidae",
+  "order": "Coleoptera"
+ },
+ "Heliothis peltigera": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA",
+   "ASIA"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Helophilus pendulus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Helophilus trivittatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Hemaris fuciformis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Sphingidae",
+  "order": "Lepidoptera"
+ },
+ "Hemipenthes morio": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Bombyliidae",
+  "order": "Diptera"
+ },
+ "Hemithea aestivaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Hermetia illucens": {
+  "class": "Insecta",
+  "continents": [
+   "NORTH_AMERICA",
+   "LATIN_AMERICA",
+   "ASIA",
+   "EUROPE",
+   "OCEANIA",
+   "AFRICA"
+  ],
+  "family": "Stratiomyidae",
+  "order": "Diptera"
+ },
+ "Hesperia comma": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Hesperiidae",
+  "order": "Lepidoptera"
+ },
+ "Hierodula transcaucasica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Mantidae",
+  "order": "Mantodea"
+ },
+ "Himacerus apterus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Nabidae",
+  "order": "Hemiptera"
+ },
+ "Himacerus mirmicoides": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nabidae",
+  "order": "Hemiptera"
+ },
+ "Hipparchia fidia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Hipparchia semele": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Hipparchia statilinus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Hippodamia variegata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "OCEANIA",
+   "NORTH_AMERICA",
+   "LATIN_AMERICA",
+   "ASIA",
+   "AFRICA"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Hofmannophila pseudospretella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Oecophoridae",
+  "order": "Lepidoptera"
+ },
+ "Hogna radiata": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycosidae",
+  "order": "Araneae"
+ },
+ "Holocnemus pluchei": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "LATIN_AMERICA",
+   "OCEANIA"
+  ],
+  "family": "Pholcidae",
+  "order": "Araneae"
+ },
+ "Homoeosoma sinuella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pyralidae",
+  "order": "Lepidoptera"
+ },
+ "Hoplodrina ambigua": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Hoplodrina octogenaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Hydraecia micacea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Hydriomena furcata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Hydrometra stagnorum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Hydrometridae",
+  "order": "Hemiptera"
+ },
+ "Hyles euphorbiae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Sphingidae",
+  "order": "Lepidoptera"
+ },
+ "Hyles gallii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Sphingidae",
+  "order": "Lepidoptera"
+ },
+ "Hyles livornica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA",
+   "ASIA"
+  ],
+  "family": "Sphingidae",
+  "order": "Lepidoptera"
+ },
+ "Hylobius abietis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Curculionidae",
+  "order": "Coleoptera"
+ },
+ "Hypena obsitalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Hypena proboscidalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Hypena rostralis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Hypomecis punctinalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Hypsopygia costalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Pyralidae",
+  "order": "Lepidoptera"
+ },
+ "Idaea aversata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Idaea biselata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Idaea degeneraria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Idaea dimidiata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Idaea filicata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Idaea fuscovenosa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Idaea ochrata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Idaea rusticata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Idaea seriata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Idaea subsericeata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Iphiclides feisthamelii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Papilionidae",
+  "order": "Lepidoptera"
+ },
+ "Iphiclides podalirius": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Papilionidae",
+  "order": "Lepidoptera"
+ },
+ "Iris oratoria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "AFRICA",
+   "LATIN_AMERICA"
+  ],
+  "family": "Eremiaphilidae",
+  "order": "Mantodea"
+ },
+ "Ischnura elegans": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coenagrionidae",
+  "order": "Odonata"
+ },
+ "Ischnura pumilio": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coenagrionidae",
+  "order": "Odonata"
+ },
+ "Isoaeschna isoceles": {
+  "class": null,
+  "family": null,
+  "order": null
+ },
+ "Isodontia mexicana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Sphecidae",
+  "order": "Hymenoptera"
+ },
+ "Issoria lathonia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Issus coleoptratus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Issidae",
+  "order": "Hemiptera"
+ },
+ "Ixodes ricinus": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Ixodidae",
+  "order": "Ixodida"
+ },
+ "Judolia cerambyciformis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Kleidocerys resedae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Lygaeidae",
+  "order": "Hemiptera"
+ },
+ "Korscheltellus lupulina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Hepialidae",
+  "order": "Lepidoptera"
+ },
+ "Lacanobia oleracea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Lacanobia w-latinum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Lagria hirta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tenebrionidae",
+  "order": "Coleoptera"
+ },
+ "Lamia textor": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Lamoria anella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pyralidae",
+  "order": "Lepidoptera"
+ },
+ "Lampides boeticus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA",
+   "AFRICA",
+   "OCEANIA"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Lampyris noctiluca": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lampyridae",
+  "order": "Coleoptera"
+ },
+ "Laothoe populi": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Sphingidae",
+  "order": "Lepidoptera"
+ },
+ "Larinioides sclopetarius": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Araneidae",
+  "order": "Araneae"
+ },
+ "Larinus turbinatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Curculionidae",
+  "order": "Coleoptera"
+ },
+ "Lasiocampa quercus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lasiocampidae",
+  "order": "Lepidoptera"
+ },
+ "Lasiocampa trifolii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lasiocampidae",
+  "order": "Lepidoptera"
+ },
+ "Lasiommata maera": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Lasiommata megera": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Lasius emarginatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Formicidae",
+  "order": "Hymenoptera"
+ },
+ "Lasius fuliginosus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Formicidae",
+  "order": "Hymenoptera"
+ },
+ "Laspeyria flexula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Leiobunum rotundum": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Sclerosomatidae",
+  "order": "Opiliones"
+ },
+ "Lepisma saccharinum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Lepismatidae",
+  "order": "Zygentoma"
+ },
+ "Leptinotarsa decemlineata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Chrysomelidae",
+  "order": "Coleoptera"
+ },
+ "Leptoglossus occidentalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Coreidae",
+  "order": "Hemiptera"
+ },
+ "Leptophyes albovittata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Leptophyes punctatissima": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Leptopterna dolabrata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Leptotes pirithous": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Leptura quadrifasciata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Lestes barbarus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lestidae",
+  "order": "Odonata"
+ },
+ "Lestes dryas": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Lestidae",
+  "order": "Odonata"
+ },
+ "Lestes sponsa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lestidae",
+  "order": "Odonata"
+ },
+ "Lestes virens": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lestidae",
+  "order": "Odonata"
+ },
+ "Leucorrhinia dubia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Libelloides coccajus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Ascalaphidae",
+  "order": "Neuroptera"
+ },
+ "Libellula depressa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Libellula fulva": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Libellula quadrimaculata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Libythea celtis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Ligdia adustata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Lilioceris lilii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Chrysomelidae",
+  "order": "Coleoptera"
+ },
+ "Limenitis camilla": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "LATIN_AMERICA",
+   "ASIA",
+   "AFRICA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Limenitis reducta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Liocoris tripustulatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Liophloeus tessulatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Curculionidae",
+  "order": "Coleoptera"
+ },
+ "Lithosia quadra": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Lixus iridis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Curculionidae",
+  "order": "Coleoptera"
+ },
+ "Lixus pulverulentus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Curculionidae",
+  "order": "Coleoptera"
+ },
+ "Locusta migratoria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA",
+   "OCEANIA",
+   "AFRICA"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Lomaspilis marginata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Lomographa temerata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Loxostege sticticalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Lucanus cervus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lucanidae",
+  "order": "Coleoptera"
+ },
+ "Luperina testacea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Lycaena alciphron": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Lycaena dispar": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Lycaena hippothoe": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA",
+   "LATIN_AMERICA",
+   "AFRICA",
+   "OCEANIA"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Lycaena phlaeas": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Lycaena tityrus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Lycaena virgaureae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Lycia hirtaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Lygaeus equestris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Lygaeidae",
+  "order": "Hemiptera"
+ },
+ "Lygistopterus sanguineus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycidae",
+  "order": "Coleoptera"
+ },
+ "Lymantria dispar": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Lymantria monacha": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Lyristes plebejus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cicadidae",
+  "order": "Hemiptera"
+ },
+ "Lythria purpuraria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Macaria alternata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Macaria liturata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Macdunnoughia confusa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Macroglossum stellatarum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Sphingidae",
+  "order": "Lepidoptera"
+ },
+ "Macrophya montana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tenthredinidae",
+  "order": "Hymenoptera"
+ },
+ "Macrothylacia rubi": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lasiocampidae",
+  "order": "Lepidoptera"
+ },
+ "Malachius bipustulatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Melyridae",
+  "order": "Coleoptera"
+ },
+ "Malacosoma neustria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lasiocampidae",
+  "order": "Lepidoptera"
+ },
+ "Mamestra brassicae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Mangora acalypha": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Araneidae",
+  "order": "Araneae"
+ },
+ "Maniola jurtina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Mantis religiosa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Mantidae",
+  "order": "Mantodea"
+ },
+ "Marpissa muscosa": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Salticidae",
+  "order": "Araneae"
+ },
+ "Meconema meridionale": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Meconema thalassinum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Mecostethus parapleurus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Melanargia galathea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Melanargia lachesis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Melanchra persicariae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Melanocoryphus albomaculatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lygaeidae",
+  "order": "Hemiptera"
+ },
+ "Melanostoma scalare": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Meliscaeva auricollis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Melitaea athalia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Melitaea cinxia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Melitaea diamina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Melitaea didyma": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Melitaea phoebe": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Meloe proscarabaeus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Meloidae",
+  "order": "Coleoptera"
+ },
+ "Meloe violaceus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Meloidae",
+  "order": "Coleoptera"
+ },
+ "Melolontha melolontha": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Menemerus semilimbatus": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "LATIN_AMERICA"
+  ],
+  "family": "Salticidae",
+  "order": "Araneae"
+ },
+ "Menophra abruptaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Merodon equestris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Mesembrina meridiana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Muscidae",
+  "order": "Diptera"
+ },
+ "Mesoligia furuncula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Messor barbarus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Formicidae",
+  "order": "Hymenoptera"
+ },
+ "Metcalfa pruinosa": {
+  "class": "Insecta",
+  "continents": [
+   "NORTH_AMERICA",
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Flatidae",
+  "order": "Hemiptera"
+ },
+ "Metellina merianae": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tetragnathidae",
+  "order": "Araneae"
+ },
+ "Micrommata ligurina": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Sparassidae",
+  "order": "Araneae"
+ },
+ "Micrommata virescens": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Sparassidae",
+  "order": "Araneae"
+ },
+ "Mikiola fagi": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cecidomyiidae",
+  "order": "Diptera"
+ },
+ "Miltochrista miniata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Mimas tiliae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Sphingidae",
+  "order": "Lepidoptera"
+ },
+ "Minois dryas": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Miramella alpina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Miris striatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Misumena vatia": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Thomisidae",
+  "order": "Araneae"
+ },
+ "Mitopus morio": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Phalangiidae",
+  "order": "Opiliones"
+ },
+ "Moma alpium": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Monochamus galloprovincialis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Mononychus punctumalbum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Curculionidae",
+  "order": "Coleoptera"
+ },
+ "Morimus asper": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Mormo maura": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Myathropa florea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Mylabris quadripunctata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Meloidae",
+  "order": "Coleoptera"
+ },
+ "Mylabris variabilis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Meloidae",
+  "order": "Coleoptera"
+ },
+ "Myrmeleotettix maculatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Mystacides longicornis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Leptoceridae",
+  "order": "Trichoptera"
+ },
+ "Mythimna albipuncta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Mythimna ferrago": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Mythimna pallens": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Mythimna vitellina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Nagusta goedelii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Reduviidae",
+  "order": "Hemiptera"
+ },
+ "Nemobius sylvestris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Trigonidiidae",
+  "order": "Orthoptera"
+ },
+ "Nemophora degeerella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Adelidae",
+  "order": "Lepidoptera"
+ },
+ "Neoscona adianta": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Araneidae",
+  "order": "Araneae"
+ },
+ "Nepa cinerea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nepidae",
+  "order": "Hemiptera"
+ },
+ "Neriene montana": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Linyphiidae",
+  "order": "Araneae"
+ },
+ "Neuroterus anthracinus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Cynipidae",
+  "order": "Hymenoptera"
+ },
+ "Neuroterus numismalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cynipidae",
+  "order": "Hymenoptera"
+ },
+ "Neuroterus quercusbaccarum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cynipidae",
+  "order": "Hymenoptera"
+ },
+ "Nezara viridula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "OCEANIA",
+   "LATIN_AMERICA",
+   "NORTH_AMERICA",
+   "AFRICA"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Nicrophorus vespillo": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Staphylinidae",
+  "order": "Coleoptera"
+ },
+ "Nicrophorus vespilloides": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Staphylinidae",
+  "order": "Coleoptera"
+ },
+ "Nigma walckenaeri": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Dictynidae",
+  "order": "Araneae"
+ },
+ "Noctua comes": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Noctua fimbriata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Noctua janthe": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Noctua pronuba": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Nomophila noctuella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Notocelia uddmanniana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Notodonta dromedarius": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Notodontidae",
+  "order": "Lepidoptera"
+ },
+ "Notodonta ziczac": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Notodontidae",
+  "order": "Lepidoptera"
+ },
+ "Nuctenea umbratica": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Araneidae",
+  "order": "Araneae"
+ },
+ "Nyctophila reichii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lampyridae",
+  "order": "Coleoptera"
+ },
+ "Nymphalis antiopa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "LATIN_AMERICA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Nymphalis polychloros": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Nymphalis xanthomelas": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Ochlodes sylvanus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Hesperiidae",
+  "order": "Lepidoptera"
+ },
+ "Ochropleura plecta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Ocypus olens": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Staphylinidae",
+  "order": "Coleoptera"
+ },
+ "Odezia atrata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Oecanthus pellucens": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Gryllidae",
+  "order": "Orthoptera"
+ },
+ "Oedemera femorata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Oedemeridae",
+  "order": "Coleoptera"
+ },
+ "Oedemera flavipes": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Oedemeridae",
+  "order": "Coleoptera"
+ },
+ "Oedemera nobilis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Oedemeridae",
+  "order": "Coleoptera"
+ },
+ "Oedemera podagrariae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Oedemeridae",
+  "order": "Coleoptera"
+ },
+ "Oedipoda caerulescens": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Oenopia conglobata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Oiceoptoma thoracicum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Staphylinidae",
+  "order": "Coleoptera"
+ },
+ "Olethreutes arcuella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Olios argelasius": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Sparassidae",
+  "order": "Araneae"
+ },
+ "Omocestus rufipes": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Omocestus viridulus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Oncocera semirubella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Pyralidae",
+  "order": "Lepidoptera"
+ },
+ "Onychogomphus forcipatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Gomphidae",
+  "order": "Odonata"
+ },
+ "Onychogomphus uncatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Gomphidae",
+  "order": "Odonata"
+ },
+ "Operophtera brumata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Opilio canestrinii": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Phalangiidae",
+  "order": "Opiliones"
+ },
+ "Opisthograptis luteolata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Orgyia antiqua": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Orthetrum albistylum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Orthetrum brunneum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Orthetrum cancellatum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Orthetrum coerulescens": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Orthosia cerasi": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Orthosia cruda": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Orthosia gothica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Orthosia incerta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Orthosia munda": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Oryctes nasicornis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Osmia bicornis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Megachilidae",
+  "order": "Hymenoptera"
+ },
+ "Osmia cornuta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Megachilidae",
+  "order": "Hymenoptera"
+ },
+ "Ostrinia nubilalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Otiorhynchus sulcatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA"
+  ],
+  "family": "Curculionidae",
+  "order": "Coleoptera"
+ },
+ "Ourapteryx sambucaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Oxycarenus lavaterae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Oxycarenidae",
+  "order": "Hemiptera"
+ },
+ "Oxythyrea funesta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Palomena prasina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Palpita vitrealis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Panorpa communis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Panorpidae",
+  "order": "Mecoptera"
+ },
+ "Panorpa germanica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Panorpidae",
+  "order": "Mecoptera"
+ },
+ "Panorpa vulgaris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Panorpidae",
+  "order": "Mecoptera"
+ },
+ "Papilio machaon": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA",
+   "NORTH_AMERICA"
+  ],
+  "family": "Papilionidae",
+  "order": "Lepidoptera"
+ },
+ "Paracolax tristalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Paracorymbia fulva": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Paracorymbia maculicornis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Parapoynx stratiotata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Pararge aegeria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Parnassius apollo": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Papilionidae",
+  "order": "Lepidoptera"
+ },
+ "Parnassius mnemosyne": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Papilionidae",
+  "order": "Lepidoptera"
+ },
+ "Pasiphila rectangulata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Patania ruralis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Pediasia contaminella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Pentatoma rufipes": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Peribalus strictus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Peribatodes rhomboidaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Peridea anceps": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Notodontidae",
+  "order": "Lepidoptera"
+ },
+ "Peridroma saucia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Perizoma alchemillata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Petrophora chlorosata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pterophoridae",
+  "order": "Lepidoptera"
+ },
+ "Pezotettix giornae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Phalangium opilio": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA"
+  ],
+  "family": "Phalangiidae",
+  "order": "Opiliones"
+ },
+ "Phalera bucephala": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Notodontidae",
+  "order": "Lepidoptera"
+ },
+ "Phaneroptera falcata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Phaneroptera nana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Phasia hemiptera": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tachinidae",
+  "order": "Diptera"
+ },
+ "Pheidole pallidula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "AFRICA"
+  ],
+  "family": "Formicidae",
+  "order": "Hymenoptera"
+ },
+ "Pheosia gnoma": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Notodontidae",
+  "order": "Lepidoptera"
+ },
+ "Pheosia tremula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Notodontidae",
+  "order": "Lepidoptera"
+ },
+ "Phigalia pilosaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Philaenus spumarius": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA"
+  ],
+  "family": "Aphrophoridae",
+  "order": "Hemiptera"
+ },
+ "Philaeus chrysops": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Salticidae",
+  "order": "Araneae"
+ },
+ "Philanthus triangulum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Crabronidae",
+  "order": "Hymenoptera"
+ },
+ "Philodromus dispar": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Philodromidae",
+  "order": "Araneae"
+ },
+ "Philodromus margaritatus": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Philodromidae",
+  "order": "Araneae"
+ },
+ "Phlogophora meticulosa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Pholcus phalangioides": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA",
+   "LATIN_AMERICA"
+  ],
+  "family": "Pholcidae",
+  "order": "Araneae"
+ },
+ "Pholidoptera aptera": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Pholidoptera griseoaptera": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Phosphuga atrata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Staphylinidae",
+  "order": "Coleoptera"
+ },
+ "Phragmatobia fuliginosa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Phyllobius pomaceus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Curculionidae",
+  "order": "Coleoptera"
+ },
+ "Phyllobius pyri": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Curculionidae",
+  "order": "Coleoptera"
+ },
+ "Phyllopertha horticola": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Phymatodes testaceus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Phytomyza ilicis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Agromyzidae",
+  "order": "Diptera"
+ },
+ "Picromerus bidens": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Pieris brassicae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pieridae",
+  "order": "Lepidoptera"
+ },
+ "Pieris mannii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pieridae",
+  "order": "Lepidoptera"
+ },
+ "Pieris napi": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pieridae",
+  "order": "Lepidoptera"
+ },
+ "Pieris rapae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Pieridae",
+  "order": "Lepidoptera"
+ },
+ "Piezodorus lituratus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Pisaura mirabilis": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pisauridae",
+  "order": "Araneae"
+ },
+ "Plagiognathus arbustorum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Plagodis dolabraria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Planuncus tingitanus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Ectobiidae",
+  "order": "Blattodea"
+ },
+ "Platycheirus albimanus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Platycleis albopunctata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Platycnemis latipes": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Platycnemididae",
+  "order": "Odonata"
+ },
+ "Platycnemis pennipes": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Platycnemididae",
+  "order": "Odonata"
+ },
+ "Platystomos albinus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Anthribidae",
+  "order": "Coleoptera"
+ },
+ "Plebejus argus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Plebejus idas": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Plodia interpunctella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "LATIN_AMERICA",
+   "OCEANIA",
+   "ASIA"
+  ],
+  "family": "Pyralidae",
+  "order": "Lepidoptera"
+ },
+ "Plutella xylostella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA",
+   "ASIA"
+  ],
+  "family": "Plutellidae",
+  "order": "Lepidoptera"
+ },
+ "Polistes dominula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA"
+  ],
+  "family": "Eumenidae",
+  "order": "Hymenoptera"
+ },
+ "Polydrusus formosus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Curculionidae",
+  "order": "Coleoptera"
+ },
+ "Polygonia c-album": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Polyommatus amandus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Polyommatus bellargus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Polyommatus coridon": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Polyommatus icarus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Polyphaenis sericata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Polyphylla fullo": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Pontia daplidice": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA",
+   "AFRICA"
+  ],
+  "family": "Pieridae",
+  "order": "Lepidoptera"
+ },
+ "Pontia edusa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Pieridae",
+  "order": "Lepidoptera"
+ },
+ "Prionus coriarius": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Propylea quatuordecimpunctata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Protaetia cuprea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Protaetia morio": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Pseudaletia unipuncta": {
+  "class": "Insecta",
+  "continents": [
+   "NORTH_AMERICA",
+   "EUROPE",
+   "LATIN_AMERICA"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Pseudeuophrys lanigera": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Salticidae",
+  "order": "Araneae"
+ },
+ "Pseudochorthippus parallelus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Pseudoips prasinana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Nolidae",
+  "order": "Lepidoptera"
+ },
+ "Pseudopanthera macularia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Pseudovadonia livida": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Psilothrix viridicoerulea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Dasytidae",
+  "order": "Coleoptera"
+ },
+ "Psyllobora vigintiduopunctata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Pterophorus pentadactyla": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pterophoridae",
+  "order": "Lepidoptera"
+ },
+ "Pterostoma palpina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Notodontidae",
+  "order": "Lepidoptera"
+ },
+ "Ptilodon capucina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Notodontidae",
+  "order": "Lepidoptera"
+ },
+ "Pyralis farinalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA"
+  ],
+  "family": "Pyralidae",
+  "order": "Lepidoptera"
+ },
+ "Pyrausta aurata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Pyrausta despicata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Pyrausta purpuralis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Pyrgus malvae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Hesperiidae",
+  "order": "Lepidoptera"
+ },
+ "Pyrgus malvoides": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Hesperiidae",
+  "order": "Lepidoptera"
+ },
+ "Pyrochroa coccinea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pyrochroidae",
+  "order": "Coleoptera"
+ },
+ "Pyrochroa serraticornis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pyrochroidae",
+  "order": "Coleoptera"
+ },
+ "Pyronia bathseba": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Pyronia cecilia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Pyronia tithonus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Pyrrhocoris apterus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Pyrrhocoridae",
+  "order": "Hemiptera"
+ },
+ "Pyrrhosoma nymphula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coenagrionidae",
+  "order": "Odonata"
+ },
+ "Reduvius personatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Reduviidae",
+  "order": "Hemiptera"
+ },
+ "Regiscolia maculata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA",
+   "AFRICA"
+  ],
+  "family": "Scoliidae",
+  "order": "Hymenoptera"
+ },
+ "Rhabdomiris striatellus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Rhagio scolopaceus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Rhagionidae",
+  "order": "Diptera"
+ },
+ "Rhagium bifasciatum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Rhagium inquisitor": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Rhagium mordax": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Rhagonycha fulva": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Cantharidae",
+  "order": "Coleoptera"
+ },
+ "Rhaphigaster nebulosa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Rhingia campestris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Rhodometra sacraria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Rhopalus subrufus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Rhopalidae",
+  "order": "Hemiptera"
+ },
+ "Rhynchophorus ferrugineus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA",
+   "AFRICA",
+   "LATIN_AMERICA"
+  ],
+  "family": "Dryophthoridae",
+  "order": "Coleoptera"
+ },
+ "Rhyparochromus vulgaris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Rhyparochromidae",
+  "order": "Hemiptera"
+ },
+ "Rilaena triangularis": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Phalangiidae",
+  "order": "Opiliones"
+ },
+ "Rivula sericealis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Roeseliana roeselii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Rosalia alpina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Runcinia grammica": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Thomisidae",
+  "order": "Araneae"
+ },
+ "Rusina ferruginea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Ruspolia nitidula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Rutpela maculata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Saitis barbipes": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Salticidae",
+  "order": "Araneae"
+ },
+ "Salticus scenicus": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Salticidae",
+  "order": "Araneae"
+ },
+ "Saturnia pavonia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Saturniidae",
+  "order": "Lepidoptera"
+ },
+ "Saturnia pyri": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Saturniidae",
+  "order": "Lepidoptera"
+ },
+ "Satyrium esculi": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Satyrium spini": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Satyrium w-album": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Scaeva pyrastri": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Scathophaga stercoraria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA"
+  ],
+  "family": "Scathophagidae",
+  "order": "Diptera"
+ },
+ "Sceliphron caementarium": {
+  "class": "Insecta",
+  "continents": [
+   "NORTH_AMERICA",
+   "EUROPE",
+   "LATIN_AMERICA"
+  ],
+  "family": "Sphecidae",
+  "order": "Hymenoptera"
+ },
+ "Sceliphron curvatum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "LATIN_AMERICA"
+  ],
+  "family": "Sphecidae",
+  "order": "Hymenoptera"
+ },
+ "Scolia hirta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Scoliidae",
+  "order": "Hymenoptera"
+ },
+ "Scoliopteryx libatrix": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Scolitantides orion": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Scopula imitaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Scopula immorata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Scopula marginepunctata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Scopula ornata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Scopula rubiginata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Scotopteryx chenopodiata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Scytodes thoracica": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Scytodidae",
+  "order": "Araneae"
+ },
+ "Selenia dentaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Selenia tetralunaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Serica brunnea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Sericomyia silentis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Sicus ferrugineus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Conopidae",
+  "order": "Diptera"
+ },
+ "Silpha obscura": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Staphylinidae",
+  "order": "Coleoptera"
+ },
+ "Silpha tristis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Staphylinidae",
+  "order": "Coleoptera"
+ },
+ "Siona lineata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Sitochroa verticalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Sitona lineatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Curculionidae",
+  "order": "Coleoptera"
+ },
+ "Smerinthus ocellata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Sphingidae",
+  "order": "Lepidoptera"
+ },
+ "Sphaerophoria scripta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Sphex funerarius": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Sphecidae",
+  "order": "Hymenoptera"
+ },
+ "Sphinx ligustri": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Sphingidae",
+  "order": "Lepidoptera"
+ },
+ "Sphinx pinastri": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Sphingidae",
+  "order": "Lepidoptera"
+ },
+ "Sphrageidus similis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Spialia sertorius": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Hesperiidae",
+  "order": "Lepidoptera"
+ },
+ "Spilosoma lubricipeda": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Spilosoma lutea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Spilostethus pandurus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA",
+   "ASIA",
+   "LATIN_AMERICA"
+  ],
+  "family": "Lygaeidae",
+  "order": "Hemiptera"
+ },
+ "Spilostethus saxatilis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lygaeidae",
+  "order": "Hemiptera"
+ },
+ "Spodoptera exigua": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "OCEANIA",
+   "NORTH_AMERICA",
+   "ASIA"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Spondylis buprestoides": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Stagonomus venustissimus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pentatomidae",
+  "order": "Hemiptera"
+ },
+ "Stauropus fagi": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Notodontidae",
+  "order": "Lepidoptera"
+ },
+ "Steatoda bipunctata": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Theridiidae",
+  "order": "Araneae"
+ },
+ "Steatoda grossa": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "LATIN_AMERICA",
+   "OCEANIA"
+  ],
+  "family": "Theridiidae",
+  "order": "Araneae"
+ },
+ "Steatoda nobilis": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "LATIN_AMERICA"
+  ],
+  "family": "Theridiidae",
+  "order": "Araneae"
+ },
+ "Steatoda triangulosa": {
+  "class": "Arachnida",
+  "continents": [
+   "NORTH_AMERICA",
+   "EUROPE",
+   "LATIN_AMERICA"
+  ],
+  "family": "Theridiidae",
+  "order": "Araneae"
+ },
+ "Stegania trimaculata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Stenobothrus lineatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Stenodema laevigata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Stenopterus rufus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Stenotus binotatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA",
+   "ASIA"
+  ],
+  "family": "Miridae",
+  "order": "Hemiptera"
+ },
+ "Stenurella bifasciata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Stenurella melanura": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Stenurella nigra": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Stethophyma grossum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Acrididae",
+  "order": "Orthoptera"
+ },
+ "Stictocephala bisonia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Membracidae",
+  "order": "Hemiptera"
+ },
+ "Stictoleptura cordigera": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Stictoleptura rubra": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Cerambycidae",
+  "order": "Coleoptera"
+ },
+ "Stomorhina lunata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Calliphoridae",
+  "order": "Diptera"
+ },
+ "Subcoccinella vigintiquatuorpunctata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Sympecma fusca": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lestidae",
+  "order": "Odonata"
+ },
+ "Sympetrum danae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Sympetrum flaveolum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Sympetrum fonscolombii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Sympetrum meridionale": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Sympetrum pedemontanum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Sympetrum sanguineum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Sympetrum striolatum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Sympetrum vulgatum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Synaphe punctalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Pyralidae",
+  "order": "Lepidoptera"
+ },
+ "Synema globosum": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Thomisidae",
+  "order": "Araneae"
+ },
+ "Syricoris lacunana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Syritta pipiens": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Syromastus rhombeus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coreidae",
+  "order": "Hemiptera"
+ },
+ "Syrphus ribesii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Tachina fera": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tachinidae",
+  "order": "Diptera"
+ },
+ "Tachystola acroxantha": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "OCEANIA"
+  ],
+  "family": "Oecophoridae",
+  "order": "Lepidoptera"
+ },
+ "Tetrix subulata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Tetrigidae",
+  "order": "Orthoptera"
+ },
+ "Tettigonia cantans": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Tettigonia viridissima": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Thalpophila matura": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Thanasimus formicarius": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cleridae",
+  "order": "Coleoptera"
+ },
+ "Thaumetopoea pityocampa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Notodontidae",
+  "order": "Lepidoptera"
+ },
+ "Thaumetopoea processionea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Notodontidae",
+  "order": "Lepidoptera"
+ },
+ "Thecla betulae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Lycaenidae",
+  "order": "Lepidoptera"
+ },
+ "Tholera decimalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Thomisus onustus": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Thomisidae",
+  "order": "Araneae"
+ },
+ "Thyatira batis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Drepanidae",
+  "order": "Lepidoptera"
+ },
+ "Thymelicus acteon": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Hesperiidae",
+  "order": "Lepidoptera"
+ },
+ "Thymelicus lineola": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Hesperiidae",
+  "order": "Lepidoptera"
+ },
+ "Thymelicus sylvestris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Hesperiidae",
+  "order": "Lepidoptera"
+ },
+ "Timandra comae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Timarcha tenebricosa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Chrysomelidae",
+  "order": "Coleoptera"
+ },
+ "Tipula paludosa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Tipulidae",
+  "order": "Diptera"
+ },
+ "Tipula vernalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tipulidae",
+  "order": "Diptera"
+ },
+ "Tortrix viridana": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tortricidae",
+  "order": "Lepidoptera"
+ },
+ "Trachea atriplicis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Trichius fasciatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Trichius gallicus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Trichodes alvearius": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cleridae",
+  "order": "Coleoptera"
+ },
+ "Trichodes apiarius": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cleridae",
+  "order": "Coleoptera"
+ },
+ "Triodia sylvina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Hepialidae",
+  "order": "Lepidoptera"
+ },
+ "Trithemis annulata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA",
+   "ASIA"
+  ],
+  "family": "Libellulidae",
+  "order": "Odonata"
+ },
+ "Tritomegas bicolor": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cydnidae",
+  "order": "Hemiptera"
+ },
+ "Tritomegas sexmaculatus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Cydnidae",
+  "order": "Hemiptera"
+ },
+ "Tropinota hirta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Tropinota squalida": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Trypocopris vernalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geotrupidae",
+  "order": "Coleoptera"
+ },
+ "Tylopsis lilifolia": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Tettigoniidae",
+  "order": "Orthoptera"
+ },
+ "Typhaeus typhoeus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geotrupidae",
+  "order": "Coleoptera"
+ },
+ "Tyria jacobaeae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Tyta luctuosa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Tytthaspis sedecimpunctata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Udea ferrugalis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Udea lutealis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Uresiphita gilvata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA"
+  ],
+  "family": "Crambidae",
+  "order": "Lepidoptera"
+ },
+ "Utetheisa pulchella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "AFRICA",
+   "ASIA"
+  ],
+  "family": "Erebidae",
+  "order": "Lepidoptera"
+ },
+ "Valgus hemipterus": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Scarabaeidae",
+  "order": "Coleoptera"
+ },
+ "Vanessa atalanta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Vanessa cardui": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Nymphalidae",
+  "order": "Lepidoptera"
+ },
+ "Vespa crabro": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "ASIA"
+  ],
+  "family": "Vespidae",
+  "order": "Hymenoptera"
+ },
+ "Vespa velutina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Vespidae",
+  "order": "Hymenoptera"
+ },
+ "Vespula germanica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA",
+   "AFRICA",
+   "LATIN_AMERICA"
+  ],
+  "family": "Vespidae",
+  "order": "Hymenoptera"
+ },
+ "Vespula vulgaris": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "OCEANIA",
+   "NORTH_AMERICA"
+  ],
+  "family": "Vespidae",
+  "order": "Hymenoptera"
+ },
+ "Vibidia duodecimguttata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "ASIA"
+  ],
+  "family": "Coccinellidae",
+  "order": "Coleoptera"
+ },
+ "Volucella bombylans": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Volucella inanis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Volucella pellucens": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Volucella zonaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Watsonalla binaria": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Drepanidae",
+  "order": "Lepidoptera"
+ },
+ "Watsonalla uncinula": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Drepanidae",
+  "order": "Lepidoptera"
+ },
+ "Xanthogaleruca luteola": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA",
+   "LATIN_AMERICA"
+  ],
+  "family": "Chrysomelidae",
+  "order": "Coleoptera"
+ },
+ "Xanthorhoe designata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Xanthorhoe ferrugata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Xanthorhoe fluctuata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Xanthorhoe montanata": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Geometridae",
+  "order": "Lepidoptera"
+ },
+ "Xestia baja": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Xestia c-nigrum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Xestia triangulum": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Xestia xanthographa": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Xylocampa areola": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Noctuidae",
+  "order": "Lepidoptera"
+ },
+ "Xylocopa violacea": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Apidae",
+  "order": "Hymenoptera"
+ },
+ "Xylota segnis": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Syrphidae",
+  "order": "Diptera"
+ },
+ "Xysticus ulmi": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Thomisidae",
+  "order": "Araneae"
+ },
+ "Yponomeuta evonymella": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Yponomeutidae",
+  "order": "Lepidoptera"
+ },
+ "Zelus renardii": {
+  "class": "Insecta",
+  "continents": [
+   "NORTH_AMERICA",
+   "EUROPE",
+   "LATIN_AMERICA"
+  ],
+  "family": "Reduviidae",
+  "order": "Hemiptera"
+ },
+ "Zerynthia polyxena": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Papilionidae",
+  "order": "Lepidoptera"
+ },
+ "Zerynthia rumina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Papilionidae",
+  "order": "Lepidoptera"
+ },
+ "Zeuzera pyrina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Cossidae",
+  "order": "Lepidoptera"
+ },
+ "Zilla diodia": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Araneidae",
+  "order": "Araneae"
+ },
+ "Zoropsis spinimana": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA"
+  ],
+  "family": "Zoropsidae",
+  "order": "Araneae"
+ },
+ "Zygaena carniolica": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Zygaenidae",
+  "order": "Lepidoptera"
+ },
+ "Zygaena fausta": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Zygaenidae",
+  "order": "Lepidoptera"
+ },
+ "Zygaena filipendulae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Zygaenidae",
+  "order": "Lepidoptera"
+ },
+ "Zygaena lonicerae": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Zygaenidae",
+  "order": "Lepidoptera"
+ },
+ "Zygaena loti": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Zygaenidae",
+  "order": "Lepidoptera"
+ },
+ "Zygaena transalpina": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Zygaenidae",
+  "order": "Lepidoptera"
+ },
+ "Zygaena trifolii": {
+  "class": "Insecta",
+  "continents": [
+   "EUROPE"
+  ],
+  "family": "Zygaenidae",
+  "order": "Lepidoptera"
+ },
+ "Zygiella x-notata": {
+  "class": "Arachnida",
+  "continents": [
+   "EUROPE",
+   "NORTH_AMERICA",
+   "OCEANIA",
+   "LATIN_AMERICA"
+  ],
+  "family": "Araneidae",
+  "order": "Araneae"
+ }
+}

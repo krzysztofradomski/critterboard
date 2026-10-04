@@ -63,7 +63,7 @@ export function Streak() {
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
         <Text style={styles.title}>{t("streak.headTitle")}</Text>
-        <IconBtn fs={14}>↗</IconBtn>
+        <View style={{ width: 38 }} />
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll}>
@@ -79,9 +79,9 @@ export function Streak() {
             </View>
             <View style={{ flex: 1, minWidth: 0 }}>
               <Text style={styles.heroTitle}>
-                {t("streak.dayOnFire", { n: cur })}
+                {cur > 0 ? t("streak.dayOnFire", { n: cur }) : t("streak.noStreak")}
               </Text>
-              <Text style={styles.heroSass}>{P.streakSass}</Text>
+              <Text style={styles.heroSass}>{cur > 0 ? P.streakSass : P.lines.intro}</Text>
             </View>
           </View>
         </Sticker>

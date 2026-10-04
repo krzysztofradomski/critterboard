@@ -1,8 +1,8 @@
 /**
  * Cloudflare backend adapter — real HTTP client.
  *
- * Exchanges the device-local `backendUserId` for a signed JWT on first
- * call, then sends every subsequent request with `Authorization: Bearer
+ * Exchanges the device-local `backendUserId` + `backendSecret` for a signed JWT on
+ * first call (the id is public; the secret proves ownership), then sends every subsequent request with `Authorization: Bearer
  * <jwt>`. Token is cached in memory (warm across navigations, reset on
  * cold start — cheap because auth is one D1 upsert + JWT mint).
  *
@@ -26,6 +26,7 @@ import {
   type LeaderboardScope,
   type ProfileSnapshot,
   type PublishCatchInput,
+  type Sighting,
   type UserId,
 } from '@/backend/types';
 
@@ -57,15 +58,48 @@ function getBaseUrl(): string {
 
 let cachedToken: string | null = null;
 let adapterReady = false;
+/** The login in flight, shared by every call that needs a token meanwhile. */
+let loginInFlight: Promise<string> | null = null;
 
-async function fetchToken(userId: string): Promise<string> {
+/** Forget the cached login (after the device's identity changed). */
+export function resetBackendSession(): void {
+  cachedToken = null;
+  adapterReady = false;
+  loginInFlight = null;
+}
+
+/** A request with no answer after this is treated as offline instead of hanging a sync forever. */
+const REQUEST_TIMEOUT_MS = 15_000;
+
+async function fetchWithTimeout(url: string, init: RequestInit): Promise<Response> {
+  const abort = new AbortController();
+  const timer = setTimeout(() => abort.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    return await fetch(url, { ...init, signal: abort.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/** One login at a time: screens that load together share it rather than each spending a rate-limited /v1/auth. */
+function login(): Promise<string> {
+  if (!loginInFlight) {
+    const { backendUserId, backendSecret } = useAppStore.getState();
+    loginInFlight = fetchToken(backendUserId, backendSecret).finally(() => {
+      loginInFlight = null;
+    });
+  }
+  return loginInFlight;
+}
+
+async function fetchToken(userId: string, secret: string): Promise<string> {
   const base = getBaseUrl();
   let resp: Response;
   try {
-    resp = await fetch(`${base}/v1/auth`, {
+    resp = await fetchWithTimeout(`${base}/v1/auth`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId }),
+      body: JSON.stringify({ userId, secret }),
     });
   } catch {
     throw new BackendError('offline', 'Network request failed during auth');
@@ -82,17 +116,16 @@ async function fetchToken(userId: string): Promise<string> {
 
 async function authedFetch(path: string, init?: RequestInit): Promise<Response> {
   const base = getBaseUrl();
-  const userId = useAppStore.getState().backendUserId;
 
   if (!cachedToken) {
-    cachedToken = await fetchToken(userId);
+    cachedToken = await login();
     adapterReady = true;
   }
 
   const doRequest = async (token: string): Promise<Response> => {
     let resp: Response;
     try {
-      resp = await fetch(`${base}${path}`, {
+      resp = await fetchWithTimeout(`${base}${path}`, {
         ...init,
         headers: {
           'Content-Type': 'application/json',
@@ -112,7 +145,7 @@ async function authedFetch(path: string, init?: RequestInit): Promise<Response> 
   if (resp.status === 401) {
     cachedToken = null;
     adapterReady = false;
-    cachedToken = await fetchToken(userId);
+    cachedToken = await login();
     adapterReady = true;
     resp = await doRequest(cachedToken);
   }
@@ -144,6 +177,30 @@ export const cloudflareAdapter: BackendAdapter = {
       method: 'POST',
       body: JSON.stringify(input),
     });
+  },
+
+  async publishCatches(catches: PublishCatchInput[]): Promise<void> {
+    await authedFetch('/v1/catches/batch', {
+      method: 'POST',
+      body: JSON.stringify({ catches }),
+    });
+  },
+
+  async clearLocations(): Promise<void> {
+    await authedFetch('/v1/catches/locations', { method: 'DELETE' });
+  },
+
+  async deleteAccount(): Promise<void> {
+    await authedFetch('/v1/account', { method: 'DELETE' });
+    cachedToken = null; // the account is gone; the next call would register a fresh one
+    adapterReady = false;
+  },
+
+  async fetchNearbySightings(lat: number, lng: number): Promise<Sighting[]> {
+    // "Nearest 100" doesn't need the exact spot: the server only ever sees it to ~1 km.
+    const params = new URLSearchParams({ lat: lat.toFixed(2), lng: lng.toFixed(2) });
+    const resp = await authedFetch(`/v1/sightings/nearby?${params}`);
+    return ((await resp.json()) as { sightings: Sighting[] }).sightings;
   },
 
   async fetchLeaderboard(scope: LeaderboardScope, opts?: PageOpts): Promise<LeaderboardPage> {

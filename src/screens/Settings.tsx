@@ -14,14 +14,19 @@ import {
 import { CreditsDialog } from "@/components/CreditsDialog";
 import { PersonaPick } from "@/components/PersonaPick";
 import { SettingToggle } from "@/components/SettingToggle";
+import { SyncPanel } from "@/components/SyncPanel";
+import { useOnlineActions } from "@/backend/useOnlineActions";
 import { Sticker } from "@/components/Sticker";
 import { ensurePackIcons, removePackIcons } from "@/data/bugIcons";
-import { REGIONS, type Region, type RegionStatus } from "@/data/regions";
+import { AVAILABLE_REGION_IDS, REGIONS, type Region, type RegionStatus } from "@/data/regions";
+import { VISION_MODEL } from "@/data/visionModel";
+import { downloadMapPack, removeMapPack, resolveMapUrl } from "@/map/mapPack";
 import {
-  cachePackData, getModelPath, PACK_MANIFEST_URL, removeCachedPack,
+  cachePackData, downloadPackModel, getModelPath, PACK_MANIFEST_URL, removeCachedPack,
   type PackManifest, type RegionPack,
 } from "@/data/regionPacks";
-import { CHAT_MODEL, deleteChatModel, downloadChatModel, initChatModel, type ChatModelStatus } from "@/ai";
+import { Btn } from "@/components/Btn";
+import { CHAT_MODEL, deleteChatModel, downloadChatModel, ejectChatModel, initChatModel, loadChatModel, type ChatModelStatus } from "@/ai";
 import { useChatModel } from "@/lib/useChatModel";
 import { LANG_META, type LangId } from "@/i18n";
 import { useT } from "@/i18n/helpers";
@@ -31,6 +36,7 @@ import { PB } from "@/tokens/pb";
 import { isOffensiveName } from "@/lib/moderation";
 import { useAppStore } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
+import { haptics } from '@/lib/haptics';
 
 const NAME_MAX = 18;
 
@@ -42,6 +48,7 @@ function localLlmDesc(
   if (status === 'unsupported') return t('settings.localLlmNoWeb', vars);
   if (status === 'tooLittleRam') return t('settings.localLlmTooLittleRam', vars);
   if (status === 'error') return t('settings.localLlmError', vars);
+  if (status === 'ejected') return t('settings.localLlmEjected', vars);
   if (status === 'absent' || status === 'checking') return t('settings.localLlmOff', vars);
   return t('settings.localLlmOn', vars);
 }
@@ -50,6 +57,7 @@ export function Settings() {
   const { go } = useNav();
   const persona = useAppStore((s) => s.persona);
   const profile = useAppStore((s) => s.profile);
+  const online = useOnlineActions();
   const language = useAppStore((s) => s.language);
   const setProfile = useAppStore((s) => s.setProfile);
   const setLanguage = useAppStore((s) => s.setLanguage);
@@ -62,6 +70,8 @@ export function Settings() {
   );
   const showToast = useAppStore((s) => s.showToast);
   const installedRegions = useAppStore((s) => s.installedRegions);
+  const activeRegion = useAppStore((s) => s.activeRegion);
+  const setActiveRegion = useAppStore((s) => s.setActiveRegion);
   const installRegion = useAppStore((s) => s.installRegion);
   const uninstallRegion = useAppStore((s) => s.uninstallRegion);
   const P = usePersona(persona);
@@ -126,6 +136,7 @@ export function Settings() {
       uninstallRegion(region.id);
       void removeCachedPack(region.id);
       void removePackIcons(FileSystem.documentDirectory, region.id);
+      void removeMapPack(region.id);
       if (FileSystem.documentDirectory) {
         void FileSystem.deleteAsync(
           getModelPath(FileSystem.documentDirectory, region.id),
@@ -154,36 +165,49 @@ export function Settings() {
       // Cache the pack data in AsyncStorage and merge bugs into the registry.
       await cachePackData(pack);
 
-      // Step 3: Download the .pte model file to the filesystem.
+      // Step 3: Download the .pte model file to the filesystem (checked, swapped in whole).
       if (!FileSystem.documentDirectory) throw new Error('no documentDirectory');
-      const modelDir = `${FileSystem.documentDirectory}models/packs/`;
-      await FileSystem.makeDirectoryAsync(modelDir, { intermediates: true });
-      const modelPath = getModelPath(FileSystem.documentDirectory, region.id);
 
-      const dl = FileSystem.createDownloadResumable(
-        pack.modelUrl,
-        modelPath,
-        {},
-        ({ totalBytesWritten, totalBytesExpectedToWrite }) => {
-          if (totalBytesExpectedToWrite <= 0) return;
-          const pct = Math.floor((totalBytesWritten / totalBytesExpectedToWrite) * 100);
-          setRegions((prev) => ({ ...prev, [region.id]: { downloading: pct } }));
-        },
+      // One progress bar for the whole install: the model's share is its
+      // slice of the total download, the map takes the rest.
+      const mapUrl = region.mapSize > 0 ? resolveMapUrl(pack) : null;
+      const modelShare = mapUrl ? (region.size - region.mapSize) / region.size : 1;
+      await downloadPackModel(
+        FileSystem.documentDirectory,
+        pack,
+        (pct) => setRegions((prev) => ({ ...prev, [region.id]: { downloading: Math.floor(pct * modelShare) } })),
+        (dl) => (packDownloadHandles.current[region.id] = dl),
       );
-      packDownloadHandles.current[region.id] = dl;
-      await dl.downloadAsync();
       packDownloadHandles.current[region.id] = null;
 
       // Species icons: one small atlas, split on the device. Best-effort,
       // species without an icon show their emoji.
       await ensurePackIcons(FileSystem.documentDirectory, pack);
 
+      // The region's offline map. Not fatal: the region still works for
+      // scanning, and the Map tab offers the download again.
+      if (mapUrl) {
+        try {
+          await downloadMapPack(region.id, pack, (pct) =>
+            setRegions((prev) => ({
+              ...prev,
+              [region.id]: { downloading: Math.floor(modelShare * 100 + pct * (1 - modelShare)) },
+            })),
+          );
+        } catch {
+          showToast({ text: t("settings.mapDownloadFailed"), icon: "🗺️", bg: PB.cream2 });
+        }
+      }
+
       // Step 4: Persist installed state (version drives boot-time refresh).
       installRegion(region.id, pack.labelMap, pack.version);
       setRegions((r) => ({ ...r, [region.id]: "installed" }));
     } catch {
       setRegions((r) => ({ ...r, [region.id]: "available" }));
-      showToast({ text: `Failed to download ${region.id}`, bg: '#e53935' });
+      showToast({
+        text: t('settings.packDownloadFailed', { name: t(`regions.list.${region.id}.name`) }),
+        bg: '#e53935',
+      });
     }
   };
 
@@ -306,18 +330,7 @@ export function Settings() {
                     : t("settings.networkOff")
                 }
                 value={profile.networkOn}
-                onChange={(v) =>
-                  setProfile({
-                    networkOn: v,
-                    ...(v
-                      ? {}
-                      : {
-                          leaderboardOn: false,
-                          locationShareOn: false,
-                          crashReportingOn: false,
-                        }),
-                  })
-                }
+                onChange={online.setNetwork}
               />
               <SettingToggle
                 icon="🏆"
@@ -329,7 +342,7 @@ export function Settings() {
                     : t("settings.boardNeeds")
                 }
                 value={profile.leaderboardOn && profile.networkOn}
-                onChange={(v) => setProfile({ leaderboardOn: v })}
+                onChange={online.setLeaderboard}
                 disabled={!profile.networkOn}
               />
               <SettingToggle
@@ -342,7 +355,22 @@ export function Settings() {
                     : t("settings.locShareOff")
                 }
                 value={profile.locationShareOn && profile.networkOn}
-                onChange={(v) => setProfile({ locationShareOn: v })}
+                onChange={online.setLocationShare}
+                disabled={!profile.networkOn}
+              />
+              <SettingToggle
+                icon="🦋"
+                color={PB.green}
+                label={t("settings.sightingsLabel")}
+                desc={
+                  !profile.networkOn
+                    ? t("settings.boardNeeds")
+                    : profile.sightingsOn
+                      ? t("settings.sightingsOn")
+                      : t("settings.sightingsOff")
+                }
+                value={profile.sightingsOn && profile.networkOn}
+                onChange={online.setSightings}
                 disabled={!profile.networkOn}
               />
               <SettingToggle
@@ -357,23 +385,12 @@ export function Settings() {
                       : t("settings.crashOff")
                 }
                 value={profile.crashReportingOn && profile.networkOn}
-                onChange={(v) => setProfile({ crashReportingOn: v })}
+                onChange={online.setCrashReporting}
                 disabled={!profile.networkOn}
               />
+              <SyncPanel />
             </View>
           </View>
-        </Sticker>
-
-        <Sticker bg={PB.paper} style={{ padding: 14 }}>
-          <ModelTile
-            icon="👁️"
-            color={PB.blue}
-            title={t("settings.model.bugNet")}
-            meta={t("settings.model.bugNetMeta")}
-            statusText={t("settings.model.ready")}
-            statusBg={PB.green}
-            statusFg={PB.cream}
-          />
         </Sticker>
 
         <Sticker bg={PB.paper} style={{ padding: 14 }}>
@@ -434,7 +451,7 @@ export function Settings() {
             label={t("settings.localLlmLabel", { model: CHAT_MODEL.name })}
             desc={localLlmDesc(modelState, t)}
             value={
-              modelState === 'downloading' || modelState === 'loading' || modelState === 'ready'
+              modelState === 'downloading' || modelState === 'loading' || modelState === 'ready' || modelState === 'ejected'
             }
             onChange={(v) => {
               if (v) {
@@ -471,41 +488,62 @@ export function Settings() {
               modelState === "unsupported" || modelState === "tooLittleRam" || modelState === "checking"
             }
           />
-        </Sticker>
-
-        <Sticker bg={PB.paper} style={{ padding: 14 }}>
-          <ModelTile
-            icon="📚"
-            color={PB.orange}
-            title={t("settings.model.species")}
-            meta={t("settings.model.speciesMeta")}
-            statusText={t("settings.model.ready")}
-            statusBg={PB.green}
-            statusFg={PB.cream}
-          />
+          {modelState === 'ready' || modelState === 'ejected' ? (
+            <Btn
+              full
+              bg={PB.cream}
+              onPress={() => void (modelState === 'ready' ? ejectChatModel() : loadChatModel())}
+              style={{ marginTop: 10 }}
+            >
+              {t(modelState === 'ready' ? "settings.localLlmEject" : "settings.localLlmLoad")}
+            </Btn>
+          ) : null}
         </Sticker>
 
         <Sticker bg={PB.paper} style={{ padding: 0 }}>
-          <View style={[styles.bandHeader, { backgroundColor: PB.green }]}>
-            <Text style={{ fontSize: 26 }}>🗺️</Text>
+          <View style={[styles.bandHeader, { backgroundColor: PB.blue }]}>
+            <Text style={{ fontSize: 26 }}>👁️</Text>
             <View style={{ flex: 1, minWidth: 0 }}>
-              <Text style={styles.bandTitle}>{t("settings.regionsBand")}</Text>
-              <Text style={styles.bandSub}>{t("settings.regionsSub")}</Text>
-            </View>
-            <View style={styles.regionMetaPill}>
-              <Text style={styles.regionMetaText}>
-                {t("settings.regionMeta", {
-                  installed: installedCount,
-                  total: REGIONS.length,
-                  mb: totalInstalledMb,
+              <Text style={styles.bandTitle}>{VISION_MODEL.name}</Text>
+              <Text style={styles.bandSub}>
+                {t("settings.model.visionMeta", {
+                  id: VISION_MODEL.id,
+                  mb: VISION_MODEL.sizeMb,
+                  n: VISION_MODEL.species.toLocaleString(),
                 })}
               </Text>
             </View>
+            <View style={styles.regionMetaPill}>
+              <Text style={styles.regionMetaText}>
+                {activeRegion ? t("settings.model.ready") : t("settings.model.noPack")}
+              </Text>
+            </View>
           </View>
+          {!activeRegion && !Object.values(regions).some((r) => typeof r === "object") && (
+            <View style={{ paddingHorizontal: 10, paddingTop: 10, gap: 8 }}>
+              <Text style={styles.regionFoot}>{t("settings.packHint")}</Text>
+              <Pressable
+                onPress={() => startDownload(REGIONS.find((r) => r.id === "eu-ce")!)}
+                style={styles.packCta}
+              >
+                <Text style={styles.packCtaText}>
+                  {t("settings.packCta", {
+                    name: t("regions.list.eu-ce.name"),
+                    mb: REGIONS.find((r) => r.id === "eu-ce")!.size,
+                  })}
+                </Text>
+              </Pressable>
+            </View>
+          )}
+          <Text style={[styles.sectionLabel, { paddingHorizontal: 12, paddingTop: 10 }]}>
+            {t("settings.regionsBand")}
+          </Text>
           <View style={{ padding: 10, gap: 8 }}>
             {REGIONS.map((region) => {
               const status = regions[region.id];
+              const available = AVAILABLE_REGION_IDS.has(region.id);
               const isInstalled = status === "installed";
+              const isActive = isInstalled && activeRegion === region.id;
               const isDownloading = typeof status === "object";
               const downloadPct = isDownloading
                 ? (status as { downloading: number }).downloading
@@ -514,15 +552,27 @@ export function Settings() {
               return (
                 <Pressable
                   key={region.id}
+                  disabled={!available}
                   onPress={() => {
                     if (isDownloading) return;
-                    if (isInstalled) {
+                    if (isActive) {
                       go("region", { id: region.id });
+                    } else if (isInstalled) {
+                      setActiveRegion(region.id);
+                      showToast({
+                        text: t("settings.regionSwitched", { name: t(`regions.list.${region.id}.name`) }),
+                        icon: region.emoji,
+                        bg: PB.green,
+                      });
                     } else {
                       startDownload(region);
                     }
                   }}
-                  style={styles.regionRow}
+                  style={[
+                    styles.regionRow,
+                    isActive && { borderWidth: 3, backgroundColor: region.color + "44" },
+                    !available && { opacity: 0.45 },
+                  ]}
                 >
                   {isDownloading && (
                     <View
@@ -554,14 +604,16 @@ export function Settings() {
                             pct: Math.floor(downloadPct),
                             mb: region.size,
                           })
-                        : `${t(`regions.list.${region.id}.sub`)} · ${region.size} MB`}
+                        : available
+                          ? `${t(`regions.list.${region.id}.sub`)} · ${region.size} MB`
+                          : t("settings.regionSoonSub")}
                     </Text>
                   </View>
                   <View
                     style={[
                       styles.regionStatus,
                       {
-                        backgroundColor: isInstalled
+                        backgroundColor: isActive
                           ? PB.green
                           : isDownloading
                             ? PB.yellow
@@ -572,12 +624,16 @@ export function Settings() {
                     <Text
                       style={[
                         styles.regionStatusText,
-                        { color: isInstalled ? PB.cream : PB.ink },
+                        { color: isActive ? PB.cream : PB.ink },
                       ]}
                     >
-                      {isInstalled
-                        ? t("settings.regionInstalled")
-                        : isDownloading
+                      {!available
+                        ? t("settings.regionSoon")
+                        : isActive
+                          ? t("settings.regionActive")
+                          : isInstalled
+                            ? t("settings.regionUse")
+                            : isDownloading
                           ? `${Math.floor(downloadPct)}%`
                           : t("settings.regionGet")}
                     </Text>
@@ -587,6 +643,70 @@ export function Settings() {
             })}
             <Text style={styles.regionFoot}>{t("settings.regionFoot")}</Text>
           </View>
+        </Sticker>
+
+        <Sticker bg={PB.paper} style={{ padding: 10 }}>
+          <SettingToggle
+            icon="📳"
+            color={PB.yellow}
+            label={t("settings.haptics.label")}
+            desc={profile.hapticsOn ? t("settings.haptics.on") : t("settings.haptics.off")}
+            value={profile.hapticsOn}
+            onChange={(v) => {
+              setProfile({ hapticsOn: v });
+              if (v) haptics.success(); // a taste of what you just switched on
+            }}
+          />
+        </Sticker>
+
+        <Sticker bg={PB.paper} style={{ padding: 0 }}>
+          <View style={[styles.bandHeader, { backgroundColor: PB.orange }]}>
+            <Text style={{ fontSize: 26 }}>🎯</Text>
+            <View style={{ flex: 1, minWidth: 0 }}>
+              <Text style={styles.bandTitle}>{t("settings.minConf.title")}</Text>
+              <Text style={styles.bandSub}>{t("settings.minConf.sub")}</Text>
+            </View>
+          </View>
+          <View style={styles.langGrid}>
+            {([20, 33, 50, 70] as const).map((pct) => {
+              const active = profile.minConfidence === pct;
+              return (
+                <Pressable
+                  key={pct}
+                  onPress={() => {
+                    haptics.select();
+                    setProfile({ minConfidence: pct });
+                  }}
+                  accessibilityRole="radio"
+                  accessibilityState={{ selected: active }}
+                  style={[
+                    styles.langCell,
+                    {
+                      backgroundColor: active ? PB.green : PB.cream,
+                      shadowOffset: active ? { width: 2, height: 2 } : { width: 1.5, height: 1.5 },
+                    },
+                  ]}
+                >
+                  <View style={{ flex: 1, minWidth: 0 }}>
+                    <Text style={[styles.langNative, { color: active ? PB.cream : PB.ink }]}>
+                      {pct}%
+                    </Text>
+                    <Text
+                      style={[
+                        styles.langLabel,
+                        { color: active ? PB.cream : PB.ink, opacity: active ? 0.85 : 0.55 },
+                      ]}
+                    >
+                      {t(`settings.minConf.l${pct}`)}
+                    </Text>
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
+          <Text style={[styles.regionFoot, { paddingHorizontal: 14, paddingBottom: 12 }]}>
+            {t("settings.minConf.foot")}
+          </Text>
         </Sticker>
 
         <Sticker bg={PB.paper} style={{ padding: 0 }}>
@@ -605,7 +725,10 @@ export function Settings() {
               return (
                 <Pressable
                   key={L.id}
-                  onPress={() => setLanguage(L.id as LangId)}
+                  onPress={() => {
+                    haptics.select();
+                    setLanguage(L.id as LangId);
+                  }}
                   style={[
                     styles.langCell,
                     {
@@ -939,6 +1062,20 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 99,
   },
+  packCta: {
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    backgroundColor: PB.yellow,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    borderRadius: 14,
+    alignItems: "center",
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 2, height: 2 },
+  },
+  packCtaText: { fontSize: 14, fontWeight: "800", color: PB.ink },
   regionMetaText: { fontSize: 10, fontWeight: "800", color: PB.ink },
   regionRow: {
     flexDirection: "row",

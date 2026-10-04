@@ -1,0 +1,2 @@
+/help /support 301
+/help/* /support/:splat 301

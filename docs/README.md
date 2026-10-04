@@ -11,6 +11,7 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 | [[handoff]] | **Start here locally** — what to run on your Mac to finish the app: simulator, iPhone, map spike, Cloudflare, store. |
 | [[architecture]] | App map — folders, native modules, network touchpoints, top-level diagram. |
 | [[ml-roadmap]] | On-device ML plan — MVP, full training, deferred placeholders. The master "what's next". |
+| [[../NOTICE|NOTICE]] | Licences of the models, photos and icons (the MIT `LICENSE` covers code only). |
 | [[deployment]] | Shipping to iOS TestFlight & Google Play via EAS — build profiles, credentials, submit config. |
 | [[i18n]] | i18n architecture — bundled JSON packs, `t()` helper, remote OTA pack manifest, App Store notes. |
 | [[modules/responsive-layout-shell]] | Global centered app-shell with `maxWidth` so all screens render cleanly on larger displays. |
@@ -18,11 +19,16 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 | [[modules/crash-reporting]] | Opt-in Sentry wrapper — toggle, DSN config, graceful degradation, what we send. |
 | [[modules/backend-adapter]] | Backend adapter seam — mock today, Cloudflare Workers tomorrow. Schemas, hooks, privacy gating. |
 | [[modules/offline-map]] | Offline 2D map — MapLibre Native + local PMTiles packs, sticker style, download-once flow. |
+| [[modules/backup-restore]] | Manual file backup and restore: what's in it, the optional online key, how restore merges. |
+| [[modules/species-facts]] | Habitat, size, range and diet tiles on the species card: data sources and rebuild steps. |
+| [[modules/ui-performance]] | What keeps the UI fast: batched store saves, hydration gate, kept tabs, model/header caches, map pins as a layer. |
 | [[modules/species-icons]] | Photo-based sticker icons per species — how they are made (attention map + SAM), shipped as one atlas with the pack, emoji fallback. |
 | [[decisions/001-crash-reporting-opt-in]] | ADR — why crash reporting is opt-in and why Sentry. |
 | [[decisions/002-backend-adapter-seam]] | ADR — single adapter seam for leaderboard / friends / feed, targeting Cloudflare Workers. |
 | [[decisions/004-remove-cloud-gemini]] | ADR — why the cloud Gemini fallback was removed; what scan and chat do instead. |
 | [[decisions/005-gemma-4-only-chat]] | ADR — chat runs only on Gemma 4 E2B (Apache 2.0); no scripted fallback, no web chat; alternatives considered. |
+| [[decisions/006-fresh-start-no-seed-data]] | ADR — new installs start empty; no invented people; one source for model/version/region facts. |
+| [[decisions/007-download-integrity]] | ADR — every download goes to a `.part` file and is checked against a size/MD5 pinned in the pack JSON; the chat model is pinned to a Hugging Face commit. |
 | [[decisions/003-offline-map-maplibre-pmtiles]] | ADR — why an offline MapLibre + PMTiles map instead of Leaflet or the globe. |
 
 ## Conventions

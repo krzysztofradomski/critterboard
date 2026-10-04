@@ -43,11 +43,11 @@ flowchart TB
 | Path | Role |
 |---|---|
 | `App.tsx` / `index.ts` | Boot: language seeding, region-pack hydrate + refresh, i18n pack sync, crash reporting, streak notification. |
-| `src/navigation/` | Type-safe route table + a Zustand-backed stack router (no react-navigation). |
+| `src/navigation/` | Type-safe route table + a Zustand-backed stack router (no react-navigation). Home, Dex and Me stay mounted after a visit; nothing renders until the store has loaded ([[modules/ui-performance]]). |
 | `src/screens/` | One file per screen. Native `Map.tsx` uses the offline MapLibre map ([[modules/offline-map]]); `Map.web.tsx` still uses the globe. |
 | `src/map/` | Offline map style + map-pack download helper. |
 | `src/components/` | Shared UI ("sticker" design language, tokens in `src/tokens/pb.ts`). |
-| `src/store/` | Single persisted Zustand store: profile, catches, dex, quests, installed packs, backend id. |
+| `src/store/` | Single persisted Zustand store: profile, catches, dex, quests, installed packs, backend id. Saves are batched (≤1 write per 500 ms, flushed on background; [[modules/ui-performance]]). |
 | `src/ai/` | Vision + chat seams. Chat is wrapped in regex guardrails (`guardrails.ts`: length, secrets, injection, prompt leakage, PII), the same on every platform. Flags in `src/ai/index.ts`. |
 | `src/backend/` | Backend adapter seam, see [[modules/backend-adapter]]. |
 | `src/data/` | Static seeds (bugs, sightings, quests, badges, regions) + region-pack loader. |
@@ -55,7 +55,7 @@ flowchart TB
 | `worker/` | Cloudflare Worker (`critterboard-api`), D1 schema, wrangler config. Deployed on its own, not bundled into the app. |
 | `packs/` | Region-pack manifest + pack JSON, served from `raw.githubusercontent.com`. |
 | `training/`, `tools/training-ui/` | Python pipelines for the vision model and persona LoRAs. |
-| `website/` | Static landing page (currently configured for Netlify). |
+| `website/` | Landing page at critterboard.app: static page + a tiny Cloudflare Worker for the waitlist (see [[deployment]]). |
 | `evals/` | Evalite chat evals. |
 
 ## Native surface (what forces a dev client)
@@ -65,7 +65,6 @@ These modules have native code, so the app **cannot run in Expo Go** and needs a
 - `react-native-executorch` (vision; its podspec pins iOS **17.0**)
 - `llama.rn` (on-device LLM; postinstall downloads `rnllama.xcframework`)
 - `@maplibre/maplibre-react-native` (offline map)
-- `expo-gl` + `three` (legacy Map globe, to be removed after the spike)
 - `@sentry/react-native`, `expo-camera`, `expo-location`, `expo-notifications`, `expo-image-picker`, Reanimated/Worklets
 
 ## Network touchpoints
@@ -74,9 +73,9 @@ Everything below is optional. Without it the app degrades to bundled or mock beh
 
 | Call | When | Source |
 |---|---|---|
-| Region pack + `.pte` model + species icon atlas ([[modules/species-icons]]) | User installs a pack; refreshed on boot (model only if its URL changed) | `packs/manifest.json` → GitHub raw / Releases |
+| Region pack + `.pte` model + species icon atlas ([[modules/species-icons]]) | User installs a pack; refreshed on boot (model only if its URL or pinned MD5 changed). Every file is checked against the size/MD5 pinned in the pack JSON ([[decisions/007-download-integrity]]) | `packs/manifest.json` → GitHub raw / Releases |
 | Translation packs | Boot, best-effort | `src/i18n/loader.ts` |
 | Map pack (PMTiles) | Once, when the Map tab first opens (spike: `EXPO_PUBLIC_MAP_PACK_URL`) | `src/map/mapPack.ts` |
-| Gemma 4 E2B GGUF (3.1 GB) | User turns on chat in Settings | Hugging Face (`unsloth/gemma-4-E2B-it-GGUF`) |
+| Gemma 4 E2B GGUF (3.1 GB) | User turns on chat in Settings | Hugging Face (`unsloth/gemma-4-E2B-it-GGUF`), pinned to one commit and checked for its exact size |
 | Cloudflare Worker | `profile.networkOn` **and** `EXPO_PUBLIC_BACKEND_URL` set | `src/backend/cloudflare.ts` |
 | Sentry | `profile.crashReportingOn` **and** DSN set | `src/lib/crashReporting.ts` |

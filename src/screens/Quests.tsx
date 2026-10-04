@@ -51,6 +51,7 @@ export function Quests() {
 
   return (
     <View style={styles.root}>
+      <ScrollView contentContainerStyle={styles.scroll}>
       <View style={styles.header}>
         <View style={styles.headTop}>
           <View style={styles.headCopy}>
@@ -86,7 +87,6 @@ export function Quests() {
       </View>
 
       <View style={styles.list}>
-        <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
           <Text style={styles.section}>
             {t("quests.daily", { h: hoursToReset })}
           </Text>
@@ -141,11 +141,11 @@ export function Quests() {
                   ]}
                 >
                   <Text style={{ fontSize: 30 }}>
-                    {b.unlocked ? b.icon : "?"}
+                    {b.unlocked || !b.hidden ? b.icon : "?"}
                   </Text>
                 </View>
                 <Text numberOfLines={1} style={styles.badgeName}>
-                  {b.unlocked
+                  {b.unlocked || !b.hidden
                     ? t(`badges.items.${b.id}.name`)
                     : t("badges.uncaughtName")}
                 </Text>
@@ -158,8 +158,8 @@ export function Quests() {
             onToggle={() => setCompletedOpen((v) => !v)}
             items={completedQuests}
           />
-        </ScrollView>
       </View>
+      </ScrollView>
 
       <QuestDialog
         quest={openQuest}
@@ -194,8 +194,20 @@ export function Quests() {
 }
 
 const styles = StyleSheet.create({
-  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.red },
-  header: { paddingTop: 112, paddingHorizontal: 16, paddingBottom: 14 },
+  root: { ...StyleSheet.absoluteFill, backgroundColor: PB.cream },
+  // Everything scrolls beneath the floating sub-tabs (top) and tab bar (bottom).
+  scroll: { paddingTop: 112, paddingHorizontal: 14, paddingBottom: 130 },
+  header: {
+    padding: 16,
+    backgroundColor: PB.red,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    borderRadius: 20,
+    shadowColor: PB.ink,
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    shadowOffset: { width: 3, height: 3 },
+  },
   headTop: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -259,17 +271,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 3, height: 3 },
   },
   xpFill: { height: "100%", backgroundColor: PB.yellow, borderRadius: 99 },
-  list: {
-    flex: 1,
-    backgroundColor: PB.cream,
-    borderTopLeftRadius: 26,
-    borderTopRightRadius: 26,
-    borderColor: PB.ink,
-    borderWidth: 2.5,
-    borderBottomWidth: 0,
-    padding: 14,
-    marginBottom: 120,
-  },
+  list: { marginTop: 18 },
   section: {
     fontSize: 13,
     fontWeight: "800",

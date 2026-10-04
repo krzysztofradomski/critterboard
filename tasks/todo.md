@@ -10,6 +10,81 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 > Local runbook for everything below: [[docs/handoff]].
 
+## Now — Shared sightings overlay (2026-10-03)
+
+Decided: exact locations (blurring could put a bug in a neighbour's garden), anonymous sightings (species + date, no name), last 12 months, ~100 nearest.
+
+- [x] Worker: `GET /v1/sightings/nearby?lat&lng` → ≤100 nearest catches by other players with stored coordinates, last 365 days, no user ids; index on catches(lat, lng); smoke test
+- [x] App: `fetchNearbySightings` in the adapter (Cloudflare + mock returning none); viewer position rounded to ~1 km
+- [x] App: `profile.sightingsOn` toggle in Brains (off by default, needs Network); 4 languages
+- [x] Map: second pin layer for others' sightings, tap → card (species, when, View insect); fetched on Map visits, cached ~10 min
+- [x] Network off with "Keep, hidden" also clears stored locations (it switches sharing off, so they must not stay visible)
+- [x] Texts: locShare strings say catches appear anonymously on nearby players' maps; name hint no longer promises "shared sightings"; privacy + support pages (4 languages); docs
+- [ ] Deploy: `cd worker && npx wrangler d1 execute critterboard --remote --command "CREATE INDEX IF NOT EXISTS idx_catches_lat ON catches(lat, lng) WHERE lat IS NOT NULL;"`, then `npx wrangler deploy`; redeploy the website (privacy + support pages)
+
+- [x] Prompts when switching on "Show others' sightings" (sends your ~1 km location) and crash reports (what goes to Sentry); switching off never asks, nothing is lost (4 languages)
+- [x] Also: Result adds to the Dex only after a scan (has a confidence); from a sighting or a region sample an uncaught species shows "Hunt →" (region samples could be "caught" by tapping before)
+
+## Now — UI performance (review 2026-10-02)
+
+- [x] 1 Persist: coalesced store write (≤1 per 500 ms, in order, flushed when the app leaves the foreground); no writes before hydration
+- [x] 2 Chat: save the user's message on send and the reply when it ends, not per token; memo bubbles; no animated scroll per token
+- [x] 3 Scan: vision model cached across visits, freed 60 s after Scan is left; reloads on a new file or label map
+- [x] 4 Router memo + Toast reads its own state
+- [x] 5 Latin name → species index
+- [x] 6 Map: PMTiles header cached by the installed-map check (style built once); catch pins as a GeoJSON symbol layer (`assets/map/pin-catch.png`); `PixelBug` removed
+- [x] 7 Cold start: `hydrated` flag, Router renders nothing until the store is loaded
+- [x] 8 Home, Dex, Me stay mounted after a visit (opacity 0, no touches, hidden from a11y); route params via `RouteContext`
+- [x] Low: `streakSummary` (one freeze replay); day-aware memos
+- [x] Low: `bugName` uses `lookupFor` (no dev warning per pack species)
+- [x] Low: Scan animation loops stopped on unmount
+- [x] Low: region pack JSON in `documents/packs/<id>.json`, old AsyncStorage copy migrated on first read
+- [x] Dependencies: Dependabot alerts (77 open on main)
+
+**Review (2026-10-03):** `pnpm run check` (typecheck + 395 tests, was 384; new: coalesced writer, streakSummary vs helpers, pack file migration). Release build on the iOS simulator: cold start goes straight to Home, Dex keeps its scroll across tab switches, Me sub-tabs switch, toast shows, a guide change survives background + kill + relaunch. Not checked on a device: the map pin layers (no region pack on the simulator) and chat streaming (needs the 3.1 GB model). Not done: `expo-image` for Dex icons (measure first). Docs: [[docs/modules/ui-performance]].
+
+**Dependencies:** worker `wrangler` 4.141 → 4.147 (`undici` 7.29.1, `npm audit` 0, smoke passes). App: `eas-cli` 24.10, `expo-updates` 57.0.24, same-major `pnpm.overrides` for tooling-only transitive packages; `pnpm audit` 71 → 5. Left: `node-forge` (no fix exists), `uuid` 7/8 → 11, `ts-deepmerge` 6 → 8, `diff` (major bumps inside `eas-cli`/`@expo` internals; all build tooling, none in the app bundle). Training (`training/local`): pillow, anyio, hydra-core, urllib3 bumped (export → `.pte` → runtime smoke passes); `torch` 2.13 and `setuptools` 83 blocked: executorch 1.3.1's runtime fails to load against torch 2.13 (noted in the lock).
+
+## Done — Networking safety fixes (review 2026-10-02)
+
+- [x] 1 Global leaderboard cache never includes a hidden caller (one visible-only builder, shared with cron)
+- [x] 2 Suggested friends: only visible users, no made-up "shared bugs" reason
+- [x] 3 New users start hidden; a rejected name still applies visibility/country (hiding always works)
+- [x] 4 Deleting online data rotates the device identity (no squatting/lockout)
+- [x] 5 Account deletion also purges feeds of people the user followed
+- [x] 6 Model download: `.part` + HTTP status + rename, one shared download helper
+- [x] 7 Checksums: MD5 + size pinned in the pack JSON (model, map, icons); chat model pinned to a HF commit + size
+- [x] 8 PMTiles completeness check from the header's section offsets
+- [x] 9 Unknown species ids score 0 XP
+- [x] 10 Single catch upload validated like the batch (time window, finite coords)
+- [x] 11 Follow: target must exist, notify only on a new follow, inbox keeps one follow event per actor
+- [x] 12 Profile input validation + safe JSON parsing everywhere
+- [x] 13 Workers Rate Limiting bindings (auth per IP, API per user); weekly leaderboard cached in KV
+- [x] Low: icon ids from the pack must be species ids (no path in a file name)
+- [x] Low: catch pins snapped to a ~700 m grid cell instead of a per-catch random offset (no averaging attack)
+- [x] Low: API client 15 s request timeout; concurrent first calls share one login
+- [x] Low: failed hide / location removal is owed and retried at launch
+
+**Review (2026-10-03):** all 13 done. Checks: `pnpm run check` (typecheck + 384 tests, was 367) and `cd worker && npm run smoke` (local `wrangler dev`, every server rule end to end; it fails on the old worker at the hidden-user check). Not changed: users who registered before this fix and never synced a profile keep `leaderboard_visible = 1` (indistinguishable from opted-in users); events from a user they had already unfollowed before deleting stay in that person's feed (no record of the link). Deploy: `cd worker && npx wrangler deploy` (rate-limit bindings are in `wrangler.toml`); push `packs/eu-ce.json` with the pinned checksums.
+
+
+## Now — Licensing and pipeline audit
+
+Findings from the audit of the committed model and training pipeline. The model host is still undecided (user is thinking), so `eu-1k-commercial-v1.pte` stays in git for now.
+
+- [x] Split by photographer across all species: `training/vision/splits.py`, used by `select_commercial.py` and `select_species.py` (`--test-frac` / `--val-frac` replace `--test` / `--val`); checked on synthetic data: no photographer in two splits
+- [x] Delete `packs/models/eu-ce-v3.pte` (trained on NC/ND/SA photos + ImageNet-1k weights); run reports kept, marked not licensed for reuse
+- [x] `LICENSE` (MIT, code only), `NOTICE.md` (model, photo, icon and chat-model terms), `license` in `package.json`, README wording
+- [x] Model card and vision README: per-species split disclosed, test score called slightly optimistic
+- [x] `training/vision/requirements.txt` (executorch 1.0.1 pinned; other versions of the shipped run were not recorded)
+- [ ] Retrain `eu-1k-commercial-v1` on the photographer-grouped split (~9.5 h on 4 CPUs) and re-measure the `.pte`; save `pip freeze` with the run
+- [ ] Decide where the model lives (R2 / Releases / Hugging Face / stays in git). `packs/eu-ce.json` `modelUrl` points at `raw.githubusercontent.com/.../main/`, so the app needs the repo public. Then `.gitignore` `*.pte`, bump the pack version
+- [x] Weights licence: Apache-2.0 + required attribution (`NOTICE.md`)
+- [ ] Lawyer review before commercial launch
+- [ ] Old `eu-ce-v3.pte` is still in git history; rewrite history or start a clean public repo if the repo goes public
+
+---
+
 ## Now — Chat: Gemma 4 E2B only
 
 Decision (user): use Gemma 4 for all cases; disable chat when it isn't installed. See [[docs/decisions/005-gemma-4-only-chat]].
@@ -136,7 +211,7 @@ Deliberately held back: Babel 8 (`babel-preset-expo` is on Babel 7), SDK-pinned 
 **After the spike**
 - [ ] Add `mapUrl` / `mapVersion` to region packs; download with the species + model pack
 - [ ] Optional "save my area" high-zoom download (`OfflineManager.createPack` or a second extract)
-- [ ] Remove `react-cartoon-planet`, `three`, `@types/three`, `expo-gl`, the `.geojson` Metro ext, `CartoonPlanetGlobe.*`, `Map.web.tsx`
+- [x] Remove `react-cartoon-planet`, `three`, `@types/three`, `expo-gl`, the `.geojson` Metro ext, `CartoonPlanetGlobe.*`, `Map.web.tsx`
 - [ ] "© OpenStreetMap contributors" on the map + in `CreditsDialog`
 - [ ] Docs: `docs/modules/offline-map.md` + ADR 003
 
@@ -596,3 +671,50 @@ These need either a backend or a substantial change and are explicitly **not** o
 5. After a batch lands, summarize in a "Review" section here and link the commit hash.
 
 Lessons learned mid-task go in [[tasks/lessons]].
+
+## Fresh-start & honesty pass (2026-10-01, from simulator testing)
+
+Reported: seeded user data on a new install, fake people/leaderboard/credits, packs listed that don't exist, model naming mixed up, location not detected, slow map tiles, hero tag always "Legendary".
+
+**A. Fresh start (no seeded user data)**
+- [x] Store starts empty: dex, catchLog, activityLog, quest progress, followed; profile name empty until onboarding asks for it
+- [x] Drop seed data: `CAUGHT_IDS`, `buildSeedCatchLog`, `INITIAL_FOLLOWED`, `COMPLETED_QUESTS` seed rows, quest template progress
+- [x] Home / Quests / Dex / Streak / Activity render sane empty states
+- [x] Map: drop demo `SIGHTINGS`; show only the user's own pins, real count in the header, empty-state card
+
+**B. Fake people and rankings**
+- [x] Credits: remove invented team; fix "made by three people" copy in all 4 locales
+- [x] Leaderboard / Friends / PersonModal: no synthetic LEADERS or profiles; empty states; mock backend must not invent people
+
+**C. Models and packs naming**
+- [x] One user-facing name for the vision model (single source), real id only in licences
+- [x] "Species Database" card: decide what it really is (pack data vs model) and fix or remove
+- [x] Regions in Settings: only packs present in `packs/manifest.json` are enabled, others greyed out + "coming soon"
+
+**D. Map and home**
+- [x] Location: ask permission when sharing is turned on, then detect; clear "why private" state
+- [x] Tile loading: first Map open downloads the 17 MB pack with no feedback; now shows progress/errors. Still open: TestFlight builds have no `EXPO_PUBLIC_MAP_PACK_URL`, so need a hosted pack (R2) before the map has tiles
+- [x] Home hero: rotate rarity tags as a preview instead of a fixed Legendary
+
+**E. Audit** — other hardcoded demo numbers/copy (e.g. "320 ms", "0.4 mi"), logic and UX issues found on the way
+
+**Verify**: typecheck, vitest, simulator walkthrough on a wiped install.
+
+## Device feedback round (Oct 2026)
+- [x] Scan: gallery button (drop pre-permission, `mediaTypes: ['images']`, toast on failure)
+- [x] Scan: guide hint card fades after 6 s instead of always showing
+- [x] Confidence floor (default 33%, Brains: 20/33/50/70) — below it nothing can reach the Dex
+- [x] Species facts: habitat, size/family, range, diet for pack species (tools/facts, docs/modules/species-facts.md) + Wikipedia link
+- [x] Result screen: dead ↗ removed
+- [x] Dex / Quests / Ranks: whole page scrolls under the floating menus, header as a card
+- [x] Level curve 300·(L−1)^1.7 (L2 ≈ three catches)
+- [ ] Verify on device: scan gallery on a real phone, layouts, pack v10 sync
+
+## Online data controls (Oct 2026)
+- [x] Network-off no longer leaves a visible profile: prompt keep-hidden / delete
+- [x] `DELETE /v1/account`, `DELETE /v1/catches/locations`, "Delete my online data" button; wipe deletes online data first
+- [x] Location sharing off clears stored coordinates; false "public map" text removed
+- [x] Existing-catch upload (opt-in) with progress, retry outbox (`src/backend/sync.ts`), `SyncPanel`
+- [x] Server-computed XP from the species table; idempotent catch ids
+- [x] Privacy page updated (in-app deletion)
+- [ ] Verify the Brains UI + prompts on a device with Network on

@@ -18,7 +18,8 @@
       "retry": "Erneut",
       "ok": "OK",
       "open": "Öffnen",
-      "level": "Stufe"
+      "level": "Stufe",
+      "delete": "Löschen"
     },
     "tabs": {
       "home": "Start",
@@ -36,21 +37,20 @@
       "title": "Critterboard",
       "tagline": "jeden Käfer erkennen · offline · mit Stil",
       "snap": "📷 INSEKT KNIPSEN",
-      "sassyId": "🤖 FRECHE ID",
+      "identify": "🔍 BESTIMME ES",
       "buildDex": "🏆 BAU DEINEN DEX",
       "pickGuide": "WÄHLE DEINEN GUIDE",
       "startHunting": "Auf die Jagd →",
       "legal": "✓ kein Konto · ✓ kein Internet · ✓ kein Geld",
-      "legalOnline": "✓ kein Konto · ✓ mit Internet · ✓ kein Geld"
+      "legalOnline": "✓ kein Konto · ✓ mit Internet · ✓ kein Geld",
+      "namePrompt": "WIE SOLLEN WIR DICH NENNEN?",
+      "haveBackup": "Eine Sicherung? Wiederherstellen"
     },
     "home": {
       "streakPill": "{days}-Tage-Serie",
       "bugOfDay": "INSEKT DES TAGES",
-      "bugOfDayName": "Mondspinner 🌙",
-      "legendary": "★★★★★ LEGENDÄR",
       "hunt": "JAGD →",
-      "bugOfDayDesc": "Fang heute einen für",
-      "bugOfDayXp": " +500 XP ",
+      "bugOfDayDesc": "Fang heute einen für ",
       "bugOfDayDescTail": " und ein glänzendes Abzeichen.",
       "yourWeek": "Deine Woche",
       "daysToBadge": "Noch {n} Tage bis zum Abzeichen",
@@ -60,10 +60,11 @@
         "xp": "XP",
         "rank": "RANG"
       },
-      "bugOfDayXpAmount": " +{xp} XP ",
+      "bugOfDayXpAmount": " +{xp} XP ",
       "recentFinds": "Zuletzt gefangen"
     },
     "scan": {
+      "galleryFailed": "Fotos konnten nicht geöffnet werden. Versuch es nochmal.",
       "analyzing": "ANALYSIERE…",
       "scanning": "OFFLINE · SCANNE",
       "permissionTitle": "Kamerazugriff",
@@ -73,17 +74,28 @@
       "focus": "Fokus",
       "matching": "vergleiche…",
       "needPackTitle": "Artenpaket holen",
-      "needPackBody": "Die Bestimmung läuft auf deinem Handy. Installiere einmal das Paket Mitteleuropa (1.000 Arten, ca. 89 MB), um loszulegen.",
+      "needPackBody": "Die Bestimmung läuft auf deinem Handy. Installiere einmal das Paket Mitteleuropa (1.000 Arten und die Offline-Karte, ca. 145 MB), um loszulegen.",
       "needPackCta": "Artenpakete öffnen",
-      "modelNotReady": "Das Artenmodell lädt noch. Versuch es gleich noch einmal."
+      "modelNotReady": "Das Artenmodell lädt noch. Versuch es gleich noch einmal.",
+      "modelFetching": "Modell wird geladen… {pct}%",
+      "modelLoading": "Modell wird geladen…",
+      "tipsTitle": "Foto-Tipps",
+      "tipsSub": "Bessere Fotos, bessere Treffer.",
+      "tipsGotIt": "Verstanden"
     },
     "result": {
       "headTitle": "IDENTIFIZIERT!",
       "confidence": "SICHERHEIT",
+      "removeFromDex": "Aus dem Dex entfernen",
+      "removeTitle": "Aus dem Dex entfernen?",
+      "removeBody": "Entfernt {name} samt Fotos und Kartenpins von diesem Handy. Quest-Fortschritt und bereits verdiente XP bleiben. Du kannst es später erneut fangen.",
+      "removeCta": "Entfernen",
       "alreadyInDex": "Schon im Dex ✓",
       "addToDex": "Zum Dex hinzufügen 📔",
       "askCta": "FRAG {name} →",
-      "caughtToast": "Gefangen! +{xp} XP · {tier}"
+      "caughtToast": "Gefangen! +{xp} XP · {tier}",
+      "tooUnsure": "Zu unsicher zum Hinzufügen (ab {min}%). Versuch ein anderes Foto.",
+      "readMore": "Mehr auf Wikipedia ↗"
     },
     "facts": {
       "habitat": "Lebensraum",
@@ -127,23 +139,70 @@
         "leaves": "Blätter",
         "nighttime": "Nachts",
         "nectar": "Nektar"
+      },
+      "family": "Familie",
+      "region": {
+        "EUROPE": "Europa",
+        "NORTH_AMERICA": "Nordamerika",
+        "ASIA": "Asien",
+        "AFRICA": "Afrika",
+        "OCEANIA": "Ozeanien",
+        "LATIN_AMERICA": "Lateinamerika"
+      },
+      "habitatOf": {
+        "flowery": "Wiesen, Gärten, Waldränder",
+        "water": "Teiche, Seen, langsame Bäche",
+        "grassland": "Grasland und Wiesen",
+        "vegetation": "Sträucher, Pflanzen und Boden",
+        "leaflitter": "Laubstreu und Boden",
+        "dry_sunny": "Warme, trockene, sonnige Orte",
+        "crevices": "Feuchte Ritzen, Rinde, Gebäude",
+        "damp_woods": "Feuchte Wälder und schattiges Unterholz",
+        "deadwood": "Wälder und Totholz",
+        "ground": "Boden, Laubstreu, unter Steinen",
+        "plants": "Pflanzen, Sträucher und Bäume"
+      },
+      "dietOf": {
+        "lepi": "Raupen fressen Blätter; Falter trinken Nektar",
+        "predator": "Jagt andere Insekten",
+        "predator_flying": "Jagt fliegende Insekten",
+        "aphid_eaters": "Meist Blattläuse",
+        "sap": "Pflanzensaft",
+        "nectar_pollen": "Nektar und Pollen",
+        "wasp": "Insekten, Nektar und Süßes",
+        "omnivore_ant": "Fast alles: Insekten, Honigtau, Samen",
+        "gall": "Larven leben in Pflanzengallen",
+        "parasitoid": "Larven fressen andere Insekten oder Spinnen",
+        "leaves": "Blätter und Pflanzengewebe",
+        "grass": "Gräser und Blätter",
+        "plants_insects": "Pflanzen und kleine Insekten",
+        "wood": "Larven fressen Holz; Käfer trinken Saft oder Pollen",
+        "beetle_mixed": "Dung, Pflanzen, Pollen oder Obst, je nach Art",
+        "pollen": "Pollen und Blütenblätter",
+        "detritus": "Faulende Pflanzenreste und Abfälle",
+        "spiders": "Fängt Insekten mit Netz oder aus dem Hinterhalt",
+        "harvestman": "Kleine Wirbellose und Totes",
+        "blood": "Blut von Tieren",
+        "hoverfly": "Nektar und Pollen; Larven fressen oft Blattläuse",
+        "nonfeeding": "Erwachsene fressen kaum; Larven leben im Wasser",
+        "scavenge": "Tote Insekten und Fallobst",
+        "varied": "Je nach Art verschieden"
       }
     },
     "disambiguate": {
       "headTitle": "NICHT GANZ SICHER",
-      "lowConfidence": "GERINGE SICHERHEIT · 62%",
-      "shotMeta": "📷 1/250s · verwackelt",
+      "lowConfidence": "GERINGE SICHERHEIT · {pct}%",
       "topCandidates": "TOP-KANDIDATEN",
       "tapToConfirm": "tippen zum Bestätigen",
       "askForHelp": "{name} um Hilfe fragen →",
       "noneOfThese": "Keines davon",
       "thisMystery": "diesem mysteriösen Insekt",
-      "foot": "ID lief komplett auf dem Gerät · 320 ms · kein Foto verließ dein Telefon"
+      "foot": "ID lief komplett auf dem Gerät · kein Foto verließ dein Telefon"
     },
     "noMatch": {
       "headTitle": "KEIN TREFFER",
       "heroTitle": "Konnte das nicht bestimmen.",
-      "heroSub": "BugNet v3 lieferte alle Kandidaten unter 15%.",
+      "heroSub": "{model} lieferte alle Kandidaten unter 15%.",
       "tryThis": "PROBIER DAS",
       "tip": {
         "lightTitle": "Mehr Licht",
@@ -193,6 +252,9 @@
         "body": "Deine Guides laufen komplett auf diesem Handy mit Googles Modell {model}: einmaliger Download von {size} GB (WLAN empfohlen). Nichts, was du schreibst, verlässt das Gerät.",
         "errorBody": "Der Download von {model} wurde nicht abgeschlossen. Prüfe Verbindung und freien Speicher ({size} GB) und versuche es in den Einstellungen erneut.",
         "busyBody": "Der Chat öffnet sich, sobald das Modell bereit ist. Du kannst die App solange weiter nutzen.",
+        "ejectedTitle": "{model} ist ausgeworfen",
+        "ejectedBody": "Das Modell liegt noch auf dem Handy, ist aber nicht geladen und braucht keinen Speicher. Lade es, um zu chatten.",
+        "loadCta": "Modell laden",
         "loadingTitle": "{model} wird geweckt…",
         "downloadingTitle": "{model} wird geladen… {pct}%",
         "webTitle": "Der Chat läuft in der Handy-App",
@@ -200,7 +262,9 @@
         "cta": "Einstellungen öffnen",
         "ramTitle": "Chat ist auf diesem Handy nicht verfügbar",
         "ramBody": "Die Guides laufen auf {model}, das ein Handy mit mindestens 4 GB Arbeitsspeicher braucht. Alles andere in Critterboard funktioniert wie gewohnt."
-      }
+      },
+      "deleteTitle": "Nachricht löschen",
+      "deleteBody": "Diese Nachricht aus dem Gespräch entfernen?"
     },
     "activity": {
       "title": "Summen",
@@ -214,33 +278,6 @@
       "emptyTitle": "Grillen.",
       "emptySub": "Hier ist noch nichts.",
       "newBadge": "NEU",
-      "item": {
-        "a1Title": "antqueen mochte deinen Monarchen",
-        "a1Sub": "vor 2 Std. · Brooklyn-Cluster",
-        "a1Cta": "Sichtung ansehen",
-        "a2Title": "Gemma 4 E2B zur Installation bereit",
-        "a2Sub": "Neue Witze. Gleicher Vibe. 240 MB.",
-        "a2Cta": "Aktualisieren",
-        "a3Title": "4-Tage-Serie! Brich sie nicht ab",
-        "a3Sub": "Fang heute ein Insekt. Auch eine Schwebfliege zählt.",
-        "a3Cta": "Scan öffnen",
-        "a4Title": "Du hast bug_dad_42 überholt",
-        "a4Sub": "Du bist #6 auf der globalen Rangliste.",
-        "a4Cta": "Rangliste",
-        "a5Title": "Quest erfüllt: 3 Bestäuber",
-        "a5Sub": "+75 XP. Belohnung freigeschaltet.",
-        "a5Cta": "Einlösen",
-        "a6Title": "mothwhisperer hat einen Mondspinner gefangen",
-        "a6Sub": "420 m von dir · vor 6 Std.",
-        "a6Cta": "Auf Karte ansehen",
-        "a7Title": "Regionalpaket: Nordosten NA",
-        "a7Sub": "Neuer Saisonindex synchronisiert (+38 Arten).",
-        "a7Cta": "Paket ansehen",
-        "a8Title": "wingedfren antwortete in deinem Schwebfliegen-Thread",
-        "a8Sub": "\"Ziemlich sicher eine Marmalade — Flügelbänder.\"",
-        "a8Cta": "Chat öffnen",
-        "a8Topic": "Schwebfliegen"
-      },
       "kind": {
         "catchTitle": "{name} gefangen",
         "catchSub": "+{xp} XP · {when}",
@@ -274,8 +311,6 @@
       }
     },
     "friends": {
-      "title": "Naturkundige",
-      "sub": "Wem du folgst · deren Insekten",
       "tab": {
         "following": "Folge ich",
         "followers": "Folgen mir",
@@ -285,7 +320,7 @@
       "following": "✓ Folge ich",
       "ago": "vor {when}",
       "emptyTitle": "Noch niemand hier.",
-      "emptySub": "Schau im Reiter Vorgeschlagen nach Naturkundigen wie dir."
+      "emptySub": "Freunde und Vorschläge erscheinen, sobald andere Naturforscher dabei sind."
     },
     "person": {
       "rank": "RANG #{rank}",
@@ -348,26 +383,42 @@
     },
     "leaderboard": {
       "title": "Rangliste",
-      "sub": "Reset in 3T 14h · 482k Trainer",
+      "sub": "Nur freiwillig. Nur Name und XP.",
       "tab": {
         "global": "Global",
         "weekly": "Wöchentlich",
         "friends": "Freunde"
       },
-      "meta": "{country} · Stufe 12",
+      "stats": "Lvl {lvl} · {n} Arten",
+      "statsWeek": "{n} Arten diese Woche",
+      "meta": "{country}",
       "hiddenTitle": "Du bist in der Rangliste versteckt",
       "hiddenDesc": "Aktiviere \"In Rangliste anzeigen\", um zu erscheinen.",
-      "fix": "FIX →"
+      "fix": "FIX →",
+      "emptyTitle": "Noch keine Gegner",
+      "emptySub": "Die Rangliste füllt sich, sobald andere mitmachen. Bis dahin bist nur du dabei."
     },
     "map": {
-      "locName": "Brooklyn, NY",
-      "locNamePrivate": "Privater Standort",
-      "locSub": "{n} Sichtungen · letzte 30 Tage",
-      "sightings": "{n}× Sichtungen",
-      "distance": "0,6 km",
-      "where": "Prospect Park · vor 2 Tagen",
+      "locName": "Deine Karte",
+      "locSub": "Pins auf deiner Karte: {n}",
       "hunt": "JAGD →",
-      "pinRemove": "Pin entfernen"
+      "pinRemove": "Pin entfernen",
+      "emptyTitle": "Noch keine Pins",
+      "emptySub": "Fang einen Käfer mit aktiviertem Standort, dann erscheint er hier.",
+      "zoomIn": "Vergrößern",
+      "zoomOut": "Verkleinern",
+      "lockedTitle": "Karte ist aus",
+      "noRegionSub": "Die Offline-Karte gehört zu einem Regionalpaket. Installiere eines unter Brains, dann wird die Karte freigeschaltet.",
+      "noRegionCta": "Brains öffnen",
+      "unavailableSub": "{name} hat noch keine Offline-Karte.",
+      "needsDownloadSub": "Lade die Karte {name} ({mb} MB) für die Offline-Nutzung.",
+      "downloadCta": "↓ Karte laden · {mb} MB",
+      "downloadingSub": "Karte wird geladen… {pct}%",
+      "errorSub": "Karte konnte nicht geladen werden. Prüfe die Verbindung und versuche es erneut.",
+      "retryCta": "Erneut versuchen",
+      "sightingSub": "In der Nähe gesichtet · {when}",
+      "stackOf": "{n} von {total}",
+      "viewInsect": "Insekt ansehen →"
     },
     "permissions": {
       "title": "Drei kurze Fragen.",
@@ -399,7 +450,7 @@
         "location": {
           "title": "Standort",
           "desc": "Bessere Verbreitungsfilter — das Modell weiß, was in der Nähe lebt.",
-          "b1": "Stadt-Genauigkeit (~5 km)",
+          "b1": "Markiert deine Fänge auf deiner Karte",
           "b2": "Bleibt auf dem Gerät, wenn du nichts teilst",
           "b3": "Jederzeit deaktivierbar"
         },
@@ -498,19 +549,16 @@
       "items": {
         "b1": {
           "name": "Erster Fang",
-          "earned": "12. Apr",
           "desc": "Deine allererste ID. Willkommen im Club — jeder Naturkundige hat dieses Abzeichen vorne im Notizbuch.",
           "crit": "Bestimme dein erstes Insekt."
         },
         "b2": {
           "name": "Serie 3",
-          "earned": "4. Mai",
           "desc": "Drei Tage Aufmerksamkeit am Stück. Anfangen ist schwer; morgen wieder aufzutauchen ist schwerer.",
           "crit": "Bestimme mindestens ein Insekt an drei Tagen in Folge."
         },
         "b3": {
           "name": "Nachteule",
-          "earned": "9. Mai",
           "desc": "Du gingst mit Taschenlampe in die Nacht und fandst etwas, das zurückschaute. Die Motten salutieren.",
           "crit": "Bestimme ein Insekt zwischen 21 und 4 Uhr."
         },
@@ -520,9 +568,9 @@
           "crit": "Bestimme 10 verschiedene Bestäuber."
         },
         "b5": {
-          "name": "Splitter",
-          "desc": "Du erkennst eine Schwebfliege von einer Wespe auf zwanzig Schritt. Lumper fürchten dich.",
-          "crit": "Unterscheide 5 Nachahmer-Arten korrekt."
+          "name": "Fotograf",
+          "desc": "Ohne Foto war es nicht da. Du dokumentierst deine Funde.",
+          "crit": "Fange 10 Insekten mit Foto."
         },
         "b6": {
           "name": "Zenturio",
@@ -530,16 +578,63 @@
           "crit": "Erreiche insgesamt 100 Bestimmungen."
         },
         "b7": {
-          "name": "???",
-          "desc": "Gesperrt. Mach weiter und es zeigt sich von selbst.",
-          "crit": "Versteckt, bis du es verdienst."
+          "name": "Frühaufsteher",
+          "desc": "Du warst auf, bevor der Tau trocknete. Die besten Insekten haben frühe Zeiten.",
+          "crit": "Fange ein Insekt zwischen 4 und 8 Uhr."
         },
         "b8": {
-          "name": "???",
-          "desc": "Gesperrt. Mach weiter und es zeigt sich von selbst.",
-          "crit": "Versteckt, bis du es verdienst."
+          "name": "Legendenjäger",
+          "desc": "Du hast ein Tier gefunden, von dem die meisten nur lesen. Rahme das Foto ein.",
+          "crit": "Fange eine legendäre Art."
+        },
+        "b9": {
+          "name": "Käfer-Fan",
+          "desc": "Glänzend, gepanzert und überall. Du hast einen Typ.",
+          "crit": "Fange 5 verschiedene Käfer."
+        },
+        "b10": {
+          "name": "Flügelsammler",
+          "desc": "Schuppen, Flügel und ein Auge fürs richtige Timing.",
+          "crit": "Fange 5 verschiedene Schmetterlinge."
+        },
+        "b11": {
+          "name": "Dex-Starter",
+          "desc": "Das Notizbuch ist offiziell eröffnet.",
+          "crit": "Fange 10 verschiedene Arten."
+        },
+        "b12": {
+          "name": "Dex-Kenner",
+          "desc": "Fünfzig Arten und die Seiten füllen sich schön.",
+          "crit": "Fange 50 verschiedene Arten."
+        },
+        "b13": {
+          "name": "Wochenkämpfer",
+          "desc": "Eine ganze Woche Aufmerksamkeit. Die Insekten haben es bemerkt.",
+          "crit": "Erreiche eine 7-Tage-Serie."
+        },
+        "b14": {
+          "name": "Eiserne Gewohnheit",
+          "desc": "Dreißig Tage. Das ist kein Hobby mehr, das ist ein Lebensstil.",
+          "crit": "Erreiche eine 30-Tage-Serie."
+        },
+        "b15": {
+          "name": "Kartograf",
+          "desc": "Deine Karte sieht langsam aus wie ein echtes Feldbuch.",
+          "crit": "Fange 5 Insekten mit Standort."
+        },
+        "b16": {
+          "name": "Dreierpack",
+          "desc": "Drei Funde vor dem Abendessen. Produktiver Nachmittag.",
+          "crit": "Fange 3 Insekten an einem Tag."
+        },
+        "b17": {
+          "name": "Seltener Fund",
+          "desc": "Nicht jeder entdeckt so etwas. Du schon.",
+          "crit": "Fange eine seltene (oder seltenere) Art."
         }
-      }
+      },
+      "hiddenDesc": "Gesperrt. Jage weiter, dann zeigt sich dieses Abzeichen von selbst.",
+      "hiddenCrit": "Verborgen, bis du es verdienst."
     },
     "notify": {
       "streak": {
@@ -565,7 +660,8 @@
       },
       "freezeTitle": "Serien-Frostschilde",
       "freezeDesc": "Wird automatisch an einem verpassten Tag genutzt, damit die Serie überlebt. Einer alle 7 Tage.",
-      "keepAlive": "📷 Serie am Leben halten"
+      "keepAlive": "📷 Serie am Leben halten",
+      "noStreak": "Noch keine Serie."
     },
     "settings": {
       "title": "Hirn auf dem Gerät",
@@ -576,7 +672,7 @@
       "profileSafe": "Keine Daten verlassen dein Gerät.",
       "displayName": "ANZEIGENAME",
       "namePlaceholder": "dein Trainer-Name",
-      "nameHint": "In Rangliste und geteilten Sichtungen sichtbar.",
+      "nameHint": "In der Rangliste und für Freunde sichtbar.",
       "nameOffensive": "Dieser Name ist nicht erlaubt. Bitte wähle einen anderen.",
       "privacy": "PRIVATSPHÄRE",
       "networkLabel": "Netzwerkzugriff",
@@ -586,20 +682,19 @@
       "boardOn": "XP und Name erscheinen global.",
       "boardNeeds": "Erfordert Netzwerkzugriff.",
       "locShareLabel": "Sichtungsorte teilen",
-      "locShareOn": "Pins erscheinen auf der öffentlichen Karte (±500m Unschärfe).",
+      "locShareOn": "Deine Fänge erscheinen mit Art und Datum, aber ohne deinen Namen, auf den Karten von Spielern in der Nähe.",
       "locShareOff": "Deine Karte bleibt auf diesem Gerät.",
+      "sightingsLabel": "Sichtungen anderer zeigen",
+      "sightingsOn": "Fänge anderer Spieler in der Nähe erscheinen auf deiner Karte. Dafür wird dein Standort gesendet, auf etwa 1 km gerundet.",
+      "sightingsOff": "Nur deine eigenen Pins auf der Karte.",
       "crashLabel": "Absturzberichte senden",
       "crashOn": "Anonyme Diagnosen helfen uns, Bugs zu beheben.",
       "crashOff": "Keine Absturzdaten verlassen dein Gerät.",
       "crashNeeds": "Erfordert Netzwerkzugriff.",
       "model": {
-        "bugNet": "BugNet v3",
-        "bugNetMeta": "Vision · 88 MB · 1.000 Arten",
         "larva": "{model} (Q4)",
         "larvaMeta": "Chat-Modell · {size} GB · {state}",
         "larvaInstalled": "installiert",
-        "species": "Artendatenbank",
-        "speciesMeta": "Fakten & Habitate · 88 MB · v2026.04",
         "ready": "BEREIT",
         "downloading": "↓ {pct}%",
         "loading": "LADEN",
@@ -610,9 +705,11 @@
         "larvaPhoneOnly": "nur in der Handy-App",
         "phoneOnly": "NUR HANDY",
         "larvaTooLittleRam": "braucht 4 GB Arbeitsspeicher",
-        "notSupported": "NICHT UNTERSTÜTZT"
+        "notSupported": "NICHT UNTERSTÜTZT",
+        "visionMeta": "{id} · {mb} MB · {n} Arten",
+        "noPack": "KEIN PAKET"
       },
-      "regionsBand": "Regionalpakete",
+      "regionsBand": "Regionalpakete · eines aktiv",
       "regionsSub": "Verbessert ID-Genauigkeit dort, wo du tatsächlich bist.",
       "regionMeta": "{installed}/{total} · {mb} MB",
       "regionInstalled": "✓ AUF GERÄT",
@@ -626,7 +723,7 @@
       "helpTile": "Hilfe & Info",
       "helpSub": "FAQ · Datenexport",
       "creditsTitle": "Für immer kostenlos. Keine Werbung. Kein Tracking.",
-      "creditsSub": "Mit Liebe von 3 Leuten gebaut, die wirklich Käfer mögen.",
+      "creditsSub": "Mit Liebe gebaut für Leute, die Käfer mögen.",
       "viewCredits": "CREDITS ANSEHEN →",
       "guideToast": "Guide: {name}",
       "localLlmLabel": "Chat auf dem Gerät ({model})",
@@ -634,13 +731,91 @@
       "localLlmOff": "Aus: Chat ist deaktiviert. Einschalten, um {model} zu laden ({size} GB, WLAN empfohlen).",
       "localLlmNoWeb": "Der Chat braucht die iPhone- oder Android-App.",
       "localLlmError": "Download fehlgeschlagen. Zum erneuten Versuch einschalten ({size} GB).",
+      "localLlmEjected": "Chat-Modell ist ausgeworfen: Es bleibt auf dem Handy, belegt aber keinen Speicher.",
+      "localLlmEject": "Aus dem Speicher auswerfen (Datei behalten)",
+      "localLlmLoad": "In den Speicher laden",
       "localLlmDeleteTitle": "Chat ausschalten?",
       "localLlmDeleteBody": "Damit wird {model} vom Handy gelöscht und {size} GB werden frei. Der Chat bleibt aus, bis du das Modell erneut lädst.",
       "localLlmDeleteCta": "Modell löschen",
       "localLlmTooLittleRam": "Braucht ein Handy mit mindestens 4 GB Arbeitsspeicher.",
       "localLlmLowRamTitle": "Auf einem 4-GB-Handy laden?",
       "localLlmLowRamBody": "Dieses Handy hat etwa 4 GB Arbeitsspeicher. {model} belegt beim Chatten etwa 3 GB, daher können Antworten langsam sein und die App kann sich schließen, wenn andere Apps offen sind. Der Download ist {size} GB groß.",
-      "localLlmLowRamCta": "Trotzdem laden"
+      "localLlmLowRamCta": "Trotzdem laden",
+      "regionSoon": "BALD",
+      "regionSoonSub": "Kommt bald",
+      "regionActive": "● AKTIV",
+      "regionUse": "NUTZEN",
+      "regionSwitched": "BugNet nutzt jetzt {name}",
+      "packCta": "↓ {name} laden · {mb} MB",
+      "packHint": "BugNet braucht ein Regionalpaket, um Insekten zu erkennen. Modell, Artenliste und Offline-Karte werden zusammen geladen.",
+      "mapDownloadFailed": "Das Paket ist installiert, aber die Karte wurde nicht geladen. Versuche es erneut im Karten-Tab.",
+      "memoryBand": "Gesprächsspeicher",
+      "memorySub": "Lokal gespeichert für kontextbezogene Antworten.",
+      "memoryThreadsMeta": "{n} Gespräche gespeichert",
+      "memoryEntriesMeta": "{n} Einträge im Speicher",
+      "memoryClearCta": "Gespeicherte Gespräche löschen",
+      "memoryClearConfirmCta": "Zum Bestätigen erneut tippen",
+      "memoryClearToast": "Gesprächsspeicher gelöscht",
+      "packDownloadFailed": "{name} konnte nicht geladen werden",
+      "minConf": {
+        "title": "Trefferschwelle",
+        "sub": "Scans unter dieser Sicherheit können nicht in den Dex aufgenommen werden.",
+        "l20": "Locker",
+        "l33": "Ausgewogen",
+        "l50": "Streng",
+        "l70": "Sehr streng",
+        "foot": "Höher heißt weniger falsche Treffer, aber öfter „kein Treffer“."
+      },
+      "sync": {
+        "upToDate": "Alle {n} Fänge sind online",
+        "nothingYet": "Noch nichts hochgeladen",
+        "uploading": "Lade hoch {done} / {total}…",
+        "failed": "{n} Fänge konnten nicht hochgeladen werden. Sie sind sicher auf deinem Telefon.",
+        "retry": "Erneut",
+        "older": "{n} frühere Fänge sind noch nicht online.",
+        "upload": "Hochladen",
+        "notNow": "Nicht jetzt",
+        "cancel": "Abbrechen",
+        "delete": "Meine Online-Daten löschen",
+        "deleted": "Online-Daten gelöscht",
+        "deleteFailed": "Server nicht erreichbar. Versuch es, wenn du online bist.",
+        "deleteConfirmTitle": "Online-Daten löschen?",
+        "deleteConfirmBody": "Entfernt dein Profil, hochgeladene Fänge, Follows und Ranglisteneintrag von unserem Server. Dein Dex auf diesem Telefon bleibt.",
+        "offTitle": "Netzwerk ausschalten?",
+        "offBody": "Dein Profil und deine Fänge liegen noch auf unserem Server. Behalten (in Ranglisten versteckt) oder löschen?",
+        "offKeep": "Behalten, versteckt",
+        "offDelete": "Online-Daten löschen",
+        "hideFailed": "Dein Profil konnte online noch nicht versteckt werden. Die App versucht es beim nächsten Start erneut.",
+        "olderPromptTitle": "{n} frühere Fänge hochladen?",
+        "olderPromptBody": "Freunde und Ranglisten kennen nur Fänge, die bei eingeschaltetem Netzwerk entstanden. Orte werden nur gesendet, wenn du sie teilst.",
+        "locationsCleared": "Gespeicherte Orte entfernt",
+        "locationsClearFailed": "Gespeicherte Orte konnten noch nicht entfernt werden. Die App versucht es beim nächsten Start erneut."
+      },
+      "confirm": {
+        "networkTitle": "Online gehen?",
+        "networkBody": "Critterboard funktioniert komplett offline. Mit eingeschaltetem Netzwerk sendet es deinen Anzeigenamen, deine gefangenen Arten mit Zeiten und (nur wenn du es einschaltest) genaue Fangorte an unseren Server, für Ranglisten und Freunde. Du kannst alles jederzeit wieder löschen.",
+        "networkYes": "Online gehen",
+        "boardTitle": "In der Rangliste zeigen?",
+        "boardBody": "Dein Anzeigename und deine XP sind für alle Spieler in der globalen und wöchentlichen Rangliste sichtbar. Du kannst dich jederzeit wieder verstecken.",
+        "boardYes": "Zeig mich",
+        "locTitle": "Fangorte teilen?",
+        "locBody": "Jeder neue Fang wird mit seinem genauen Ort hochgeladen und erscheint ohne deinen Namen auf den Karten von Spielern in der Nähe, die Sichtungen anzeigen. Wenn du das ausschaltest, werden die gespeicherten Orte entfernt.",
+        "locYes": "Teilen",
+        "locOffTitle": "Orte nicht mehr teilen?",
+        "locOffBody": "Das löscht auch die bereits auf unserem Server gespeicherten Fangorte. Deine eigene Karte auf diesem Telefon bleibt unverändert.",
+        "locOffYes": "Beenden und löschen",
+        "sightingsTitle": "Sichtungen anderer zeigen?",
+        "sightingsBody": "Jedes Mal, wenn du die Karte öffnest, wird dein Standort, auf etwa 1 km gerundet, an unseren Server gesendet, um Sichtungen in der Nähe zu finden. Er wird nicht gespeichert.",
+        "sightingsYes": "Zeigen",
+        "crashTitle": "Absturzberichte senden?",
+        "crashBody": "Wenn die App abstürzt, sendet sie den Fehler, dein Telefonmodell, die Systemversion und die App-Version an Sentry, unseren Absturzdienst. Kein Name, keine Fotos, Fänge oder Orte.",
+        "crashYes": "Senden"
+      },
+      "haptics": {
+        "label": "Vibration",
+        "on": "Taps, Schalter und Tabs geben ein kleines Brummen.",
+        "off": "Keine Vibration."
+      }
     },
     "regions": {
       "list": {
@@ -701,12 +876,12 @@
             "oth": "Andere"
           },
           "why": {
-            "mona": "ikonischer Wanderer",
-            "lhoc": "Hochsommer-Schlupf",
-            "drag": "Stammgast am Biberteich",
-            "fire": "Juni–Juli in der Dämmerung",
             "lady": "weit verbreitet",
-            "walk": "Eiche / Hickory"
+            "peac": "Gartenbesucher",
+            "swal": "Art offener Wiesen",
+            "stag": "Zeiger für alte Wälder",
+            "hcat": "häufiger Bestäuber",
+            "bdam": "Süßwasser-Uferzone"
           },
           "notes": [
             "Salzmarschen-Arten höher gewichtet als der Binnen-Durchschnitt.",
@@ -725,56 +900,104 @@
             "oth": "Andere"
           },
           "why": {
-            "rhin": "Monsun-Flüge",
-            "mant": "häufig am Straßenrand",
             "lady": "weit verbreitet",
-            "cica": "Wüstenchor",
-            "walk": "Mesquite-Strauch",
-            "mona": "Frühlingskorridor"
+            "buff": "weit verbreitete Hummel",
+            "rchf": "schillernder Blütenbesucher",
+            "tort": "Brennnessel- & Gartenart",
+            "brim": "früher Frühlingsflieger",
+            "harl": "invasiv, aber unverwechselbar"
           },
           "notes": [
             "Heimische Bienenfauna im Vergleich zu Honigbienen überrepräsentiert.",
             "Wüstenameisen-Taxonomie im Fluss — Sicherheit bei 92% gedeckelt."
           ]
+        },
+        "eu-ce": {
+          "tagline": "Gärten, Wiesen, Waldränder.",
+          "fam": {
+            "lep": "Schmetterlinge (Lepidoptera)",
+            "hym": "Hautflügler (Bienen & Wespen)",
+            "col": "Käfer (Coleoptera)",
+            "hem": "Wanzen (Hemiptera)",
+            "odo": "Libellen (Odonata)",
+            "oth": "Andere"
+          },
+          "why": {
+            "peac": "unverwechselbare Augenflecken",
+            "swal": "größter europäischer Tagfalter",
+            "stag": "in der EU & UK geschützt",
+            "lady": "bekanntester Käfer",
+            "hcat": "wichtiger Bestäuber",
+            "bdam": "häufige Libelle am Wasser"
+          },
+          "notes": [
+            "1.000 Arten aus Gärten, Wiesen und Wäldern in Mittel- und Westeuropa.",
+            "BugNet: ein Bildmodell, trainiert mit iNaturalist-Fotos (CC BY / CC0).",
+            "Funktioniert nach dem Download komplett offline: Modell, Artenliste, Icons und Karte."
+          ]
         }
       }
     },
     "bugs": {
-      "mona": {
-        "name": "Monarchfalter"
-      },
-      "rhin": {
-        "name": "Nashornkäfer"
-      },
       "hcat": {
         "name": "Honigbiene"
-      },
-      "mant": {
-        "name": "Gottesanbeterin"
       },
       "lady": {
         "name": "Siebenpunkt-Marienkäfer"
       },
-      "drag": {
-        "name": "Große Königslibelle"
+      "buff": {
+        "name": "Dunkle Erdhummel"
       },
-      "lhoc": {
-        "name": "Mondspinner"
+      "gbee": {
+        "name": "Gartenhummel"
       },
-      "fire": {
-        "name": "Gemeines Leuchtkäferchen"
+      "wasp": {
+        "name": "Gemeine Wespe"
       },
-      "cica": {
-        "name": "Periodische Zikade"
+      "horn": {
+        "name": "Europäische Hornisse"
       },
-      "hwsp": {
-        "name": "Haus-Feldwespe"
+      "harl": {
+        "name": "Asiatischer Marienkäfer"
       },
-      "walk": {
-        "name": "Stabschrecke"
+      "stag": {
+        "name": "Hirschkäfer"
       },
-      "atla": {
-        "name": "Atlasspinner"
+      "rchf": {
+        "name": "Goldglänzender Rosenkäfer"
+      },
+      "gshb": {
+        "name": "Grüne Stinkwanze"
+      },
+      "bdam": {
+        "name": "Hufeisen-Azurjungfer"
+      },
+      "brim": {
+        "name": "Zitronenfalter"
+      },
+      "peac": {
+        "name": "Tagpfauenauge"
+      },
+      "lwhi": {
+        "name": "Großer Kohlweißling"
+      },
+      "swhi": {
+        "name": "Kleiner Kohlweißling"
+      },
+      "orng": {
+        "name": "Aurorafalter"
+      },
+      "radm": {
+        "name": "Admiral"
+      },
+      "tort": {
+        "name": "Kleiner Fuchs"
+      },
+      "pntl": {
+        "name": "Distelfalter"
+      },
+      "swal": {
+        "name": "Schwalbenschwanz"
       }
     },
     "personas": {
@@ -786,7 +1009,7 @@
           "intro": "\"Oh super, noch ein Trainer. Lass mich alles stehen lassen.\"",
           "scanTip": "Ja ja, fokussier die Kamera. Ich bin eine KI, kein Magier.",
           "analyzing": "Kneife die Augen zusammen. Dräng nicht.",
-          "streak": "\"Drei Tage am Stück. Dein Therapeut muss begeistert sein.\"",
+          "streak": "\"Immer wieder auftauchen. Dein Therapeut muss begeistert sein.\"",
           "chatHello": "Ja? Was jetzt?",
           "topicHello": "Also reden wir jetzt über {topic}? Schön.",
           "common": "\"Ein {name}. Ja. Hast du mich wirklich dafür gebraucht?\"",
@@ -813,7 +1036,7 @@
           "intro": "\"Willkommen. Lass dir Zeit — wir lernen gemeinsam.\"",
           "scanTip": "Halte die Kamera ruhig. Keine Eile. Das Insekt wartet.",
           "analyzing": "Untersuche sorgfältig. Einen Moment bitte.",
-          "streak": "\"Vier wunderbare Tage Aufmerksamkeit. Gut gemacht.\"",
+          "streak": "\"Tag für Tag Aufmerksamkeit. Gut gemacht.\"",
           "chatHello": "Hallo, Freund. Was hast du heute gefunden?",
           "topicHello": "Ah, der {topic}. Eine schöne Wahl zum Studieren. Wo fangen wir an?",
           "common": "\"Ein {name}. Ein freundlicher häufiger Besucher — der Käfer, der dich genaues Hinsehen lehrt.\"",
@@ -833,14 +1056,14 @@
         ]
       },
       "maywind": {
-        "name": "R.A. Maywind",
+        "name": "Assistent Mai",
         "title": "gemma-4 · neugierig",
         "blurb": "Witzig. Fröhlich. Liebt jedes Insekt.",
         "lines": {
           "intro": "\"Hi hi! Notizbuch bereit, Stiefel geschnürt — los, suchen wir ein Tierchen!\"",
           "scanTip": "Ooh ooh — zeig das Objektiv hin! Ich LIEBE diesen Teil.",
           "analyzing": "Datenbank-Abgleich läuft — das ist der spaßige Part!",
-          "streak": "\"Vier Tage am Stück! Du absolute Legende!\"",
+          "streak": "\"Tag für Tag! Du absolute Legende!\"",
           "chatHello": "Hi! Was schauen wir uns heute an? Erzähl alles.",
           "topicHello": "Ooh, ein {topic}! Tolle Wahl. Frag mich alles!",
           "common": "\"Ein {name}! Klassischer Liebling. Zehn von zehn, würde wieder bestimmen.\"",
@@ -848,7 +1071,7 @@
         },
         "uncertain": "Ooh, ein Rätsel! Ich hab's auf drei eingegrenzt. Hilf mir wählen!",
         "noMatch": "Hmm! Leer ausgegangen. Neuer Winkel, mehr Licht — und wir packen das!",
-        "streakSass": "VIER TAGE! Morgen sind's fünf — du schaffst das!",
+        "streakSass": "EINE SERIE! Morgen geht's weiter — du schaffst das!",
         "badgeLocked": "Ooh, das hier ist GROSSARTIG — du wirst es lieben, das freizuschalten!",
         "badgeEarned": "JA! Schau dich an! Das kommt ins Notizbuch!",
         "canned": [
@@ -861,6 +1084,7 @@
       }
     },
     "help": {
+      "webLabel": "Vollständige Hilfeseite auf critterboard.app öffnen",
       "title": "Hilfe & Info",
       "sub": "FAQ, Kontakt, deine Daten.",
       "section": "FAQ",
@@ -871,7 +1095,7 @@
         },
         "faq2": {
           "q": "Warum ist meine ID-Sicherheit niedrig?",
-          "a": "Meist eines von dreien: Das Foto ist unscharf, das Insekt füllt weniger als 1/4 des Bildes oder du bist außerhalb eines installierten Regionalpakets. Versuch einen engeren Ausschnitt, mehr Licht und ein Seitenprofil."
+          "a": "Meist eines von dreien: Das Foto ist unscharf, das Insekt füllt weniger als 1/4 des Bildes oder du bist außerhalb eines installierten Regionalpakets. Scans unter deiner Trefferschwelle (Hirn, standardmäßig 33 %) können gar nicht hinzugefügt werden. Versuch einen engeren Ausschnitt, mehr Licht und ein Seitenprofil."
         },
         "faq3": {
           "q": "Wie funktionieren Serien-Frostschilde?",
@@ -887,7 +1111,15 @@
         },
         "faq6": {
           "q": "Wie lösche ich meine Daten?",
-          "a": "Scroll runter zu \"Alles löschen.\" Das vernichtet deinen Dex, Sichtungen, Einstellungen und Modelle auf dem Gerät. Follower und Ranglisteneinträge auch. Kein Zurück."
+          "a": "Alles auf diesem Telefon: scroll runter zu „Alles löschen“. Das entfernt Dex, Sichtungen, Einstellungen und Modelle und löscht vorher deine Online-Daten. Nur online: im Hirn gibt es „Meine Online-Daten löschen“. Kein Zurück."
+        },
+        "faq7": {
+          "q": "Kann ich meine Daten auf ein neues Telefon mitnehmen?",
+          "a": "Ja. Nutze hier „Meine Daten sichern (Datei)“, bewahre die Datei in Dateien oder iCloud Drive auf und wähle auf dem neuen Telefon „Aus Sicherung wiederherstellen“ (oder auf dem ersten Bildschirm nach einer Neuinstallation). Das fügt Dex, Fänge, Quests und Einstellungen hinzu; Fotos und Chatverlauf sind nicht enthalten."
+        },
+        "faq8": {
+          "q": "Woher stammen Lebensraum, Größe, Verbreitung und Nahrung?",
+          "a": "Lebensraum und Nahrung sind typisch für die Familie der Art. Die Größe stammt aus Wikipedia, die Verbreitung aus GBIF-Meldungen, daher zeigen einige Arten statt der Größe die Familie. „Mehr auf Wikipedia“ öffnet den ganzen Artikel."
         }
       },
       "contactTitle": "Kontaktiere uns",
@@ -919,53 +1151,59 @@
         "wipeDesc": "Dex, Sichtungen, Modelle, Einstellungen. Kein Zurück.",
         "wipeCta": "Löschen",
         "wipeConfirmCta": "Nochmal tippen zum Bestätigen",
-        "wipeToast": "Löschung in Warteschlange — App neu starten."
+        "wipeToast": "Löschung in Warteschlange — App neu starten.",
+        "wipeOnlineFailed": "Deine Online-Daten konnten nicht gelöscht werden, daher wurde nichts gelöscht. Verbinde dich und versuch es erneut.",
+        "backupTitle": "Meine Daten sichern (Datei)",
+        "backupDesc": "Dex, Fänge, Quests und Einstellungen in einer Datei. Bewahre sie in Dateien oder iCloud Drive auf.",
+        "backupCta": "Sichern",
+        "restoreTitle": "Aus Sicherung wiederherstellen",
+        "restoreDesc": "Fügt eine Sicherungsdatei diesem Telefon hinzu. Nichts wird gelöscht.",
+        "restoreCta": "Wiederherstellen"
       },
       "appName": "Critterboard",
-      "appBuild": "v1.4.0 · Build 2026.05 · MIT-Lizenz",
-      "appSpecOn": "iOS 16+ · 312 MB auf Disk · Netzwerk AN",
-      "appSpecOff": "iOS 16+ · 312 MB auf Disk · komplett offline"
+      "appBuild": "v{version} · MIT-Lizenz",
+      "appSpecOn": "iOS 17+ · Netzwerk AN",
+      "appSpecOff": "iOS 17+ · komplett offline",
+      "backup": {
+        "keyTitle": "Online-Schlüssel einschließen?",
+        "keyBody": "Der Schlüssel erhält deine Rangliste und Freunde nach einer Neuinstallation. Jeder mit der Datei könnte online als du auftreten, also nimm ihn nur auf, wenn du die Datei privat hältst.",
+        "keyWith": "Schlüssel einschließen",
+        "keyWithout": "Weglassen",
+        "readFailed": "Die Datei konnte nicht gelesen werden.",
+        "invalid": "Das ist keine Critterboard-Sicherung.",
+        "restoreTitle": "Diese Sicherung wiederherstellen?",
+        "restoreBody": "{species} Arten und {catches} Fänge (Sicherung vom {date}) werden diesem Telefon hinzugefügt. Nichts wird gelöscht.",
+        "restoreYes": "Wiederherstellen",
+        "restored": "Wiederhergestellt · {n} Fänge",
+        "regionHint": "Lade dein Regionalpaket im Hirn erneut herunter.",
+        "identityHint": "Dein Online-Profil ist zurück. Schalte im Hirn das Netzwerk ein, um es zu nutzen."
+      }
     },
     "credits": {
-      "build": "v1.4.0 · Build 2026.05",
-      "intro": "Gemacht von drei Leuten, die Insekten ernsthaft cool finden. Kein VC-Geld, keine Werbung, kein Tracking, kein Konto. Nur Insekten und ein Telefon.",
+      "build": "v{version}",
+      "intro": "Gemacht von einem unabhängigen Entwickler, der Insekten ernsthaft cool findet. Kein VC-Geld, keine Werbung, kein Tracking, kein Konto. Nur Insekten und ein Telefon.",
       "section": {
-        "team": "Das Team",
         "models": "Modelle auf dem Gerät",
         "data": "Daten & Dank"
       },
-      "team": {
-        "mira": {
-          "name": "Mira Ostrov",
-          "role": "Design & Illustration"
-        },
-        "theo": {
-          "name": "Theo Bramble",
-          "role": "iOS-Entwicklung"
-        },
-        "junie": {
-          "name": "Junie Halverson",
-          "role": "ML & Modelle auf dem Gerät"
-        }
-      },
       "models": {
         "bugnet": {
-          "name": "BugNet v3",
-          "role": "Vision · 88 MB · 1.000 Arten"
+          "name": "BugNet",
+          "role": "Vision · {id} · {mb} MB · {n} Arten"
         },
         "larva": {
           "name": "Gemma 4 E2B",
           "role": "Chat · 3,1 GB · Q4_K_M · Apache 2.0"
         },
         "variants": {
-          "name": "Maywind / Snail",
+          "name": "Mai / Schnecke",
           "role": "Personas: System-Prompts auf Gemma 4"
         }
       },
       "data": {
         "iNat": {
           "name": "iNaturalist",
-          "role": "Referenzbilder (CC-BY-NC)"
+          "role": "Trainings- & Referenzfotos (CC0 / CC BY)"
         },
         "gbif": {
           "name": "GBIF",
@@ -973,12 +1211,23 @@
         },
         "beta": {
           "name": "Jeder Beta-Tester",
-          "role": "Feldgetestet in 14 Städten"
+          "role": "Danke für die Fehlermeldungen"
         }
       },
       "contactTitle": "Einen Bug-Bug gefunden?",
       "contactEmail": "hello@critterboard.app",
       "footer": "Alle Verarbeitung läuft auf deinem Gerät.\nKeine Daten verlassen dieses Telefon. Versprochen.\n© 2026 Critterboard · Open Source unter MIT-Lizenz"
+    },
+    "openSource": {
+      "title": "Open-Source-Bibliotheken",
+      "sub": "Von Critterboard verwendete Fremdbibliotheken",
+      "models": "Modelle auf dem Gerät",
+      "modelsSub": "Artbestimmung und Chat: Quellen und Lizenzen",
+      "runtime": "Laufzeit-Abhängigkeiten",
+      "runtimeSub": "{n} Pakete in der App enthalten",
+      "dev": "Entwicklungs-Abhängigkeiten",
+      "devSub": "{n} Pakete für Tooling und Build",
+      "footer": "Tippe auf ein Paket, um eine Google-Suche zu öffnen."
     }
   }
 }

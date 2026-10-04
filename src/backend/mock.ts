@@ -297,6 +297,22 @@ export const mockAdapter: BackendAdapter = {
     lastProfile = snapshot;
   },
 
+  async publishCatches(_catches: PublishCatchInput[]) {
+    /* the mock keeps nothing */
+  },
+
+  async clearLocations() {
+    /* the mock keeps nothing */
+  },
+
+  async deleteAccount() {
+    /* the mock keeps nothing */
+  },
+
+  async fetchNearbySightings(_lat: number, _lng: number) {
+    return []; // no invented people (ADR 006), so no invented sightings either
+  },
+
   async publishCatch(_input: PublishCatchInput) {
     await delay(40);
     // The mock has nothing durable to write — the local store already

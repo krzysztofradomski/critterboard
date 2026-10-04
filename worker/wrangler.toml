@@ -1,6 +1,9 @@
 name = "critterboard-api"
 main = "src/index.ts"
-compatibility_date = "2024-09-23"
+compatibility_date = "2025-09-01"
+
+[observability]
+enabled = true
 
 # After cloning, run these once to provision real IDs, then replace the
 # placeholder strings below:
@@ -16,11 +19,11 @@ compatibility_date = "2024-09-23"
 [[d1_databases]]
 binding = "DB"
 database_name = "critterboard"
-database_id = "replace-with-output-of-wrangler-d1-create"
+database_id = "f4394676-b3d7-44fc-8480-c62708b9958a"
 
 [[kv_namespaces]]
 binding = "LEADERBOARD"
-id = "replace-with-output-of-wrangler-kv-create"
+id = "a1e478e448894a7fa03a960adf5656ba"
 
 [[durable_objects.bindings]]
 name = "FEED_INBOX"
@@ -28,7 +31,7 @@ class_name = "FeedInbox"
 
 [[migrations]]
 tag = "v1"
-new_classes = ["FeedInbox"]
+new_sqlite_classes = ["FeedInbox"] # SQLite-backed DOs are required on the free plan
 
 # JWT_SECRET is a Workers secret (never put real values in wrangler.toml).
 # Add it with: wrangler secret put JWT_SECRET
@@ -36,3 +39,15 @@ new_classes = ["FeedInbox"]
 
 [triggers]
 crons = ["*/5 * * * *"]
+
+# Workers Rate Limiting (per Cloudflare location, counted atomically, no KV writes).
+# namespace_id is any number unique within the account.
+[[ratelimits]]
+name = "AUTH_LIMITER" # POST /v1/auth, per client IP
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }
+
+[[ratelimits]]
+name = "API_LIMITER" # every authenticated call, per user (a 2000-catch backfill is 40 calls)
+namespace_id = "1002"
+simple = { limit = 120, period = 60 }

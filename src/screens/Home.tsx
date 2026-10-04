@@ -17,6 +17,7 @@ import {
 } from "@/lib/useStreak";
 import { usePersona } from "@/personas/hooks";
 import { PB } from "@/tokens/pb";
+import { latestPhotoFor } from "@/lib/streak";
 import { useAppStore } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
 
@@ -27,6 +28,7 @@ export function Home() {
   const { go } = useNav();
   const persona = useAppStore((s) => s.persona);
   const dexSize = useAppStore((s) => s.dex.size);
+  const catchLog = useAppStore((s) => s.catchLog);
   const P = usePersona(persona);
   const t = useT();
 
@@ -48,7 +50,12 @@ export function Home() {
    */
   const streakAtRisk =
     streakDays >= 1 && !week.some((c) => c.isToday && c.caught);
-  const personaLine = streakAtRisk ? P.streakSass : P.lines.streak;
+  // No streak yet (new user, or it lapsed): greet instead of praising.
+  const personaLine = streakAtRisk
+    ? P.streakSass
+    : streakDays >= 1
+      ? P.lines.streak
+      : P.lines.intro;
   const personaStickerBg = streakAtRisk ? PB.red : PB.yellow;
   const personaTextColor = streakAtRisk ? PB.cream : PB.ink;
 
@@ -83,8 +90,11 @@ export function Home() {
         >
           <View style={styles.heroImage}>
             <CameraScene />
+            <View style={styles.heroBug} pointerEvents="none">
+              <BugIcon bug={todayBug} size={150} />
+            </View>
             <View style={styles.legendaryBadge}>
-              <Text style={styles.legendaryText}>{t("home.legendary")}</Text>
+              <Text style={styles.legendaryText}>{`${todayBug.tier} ${t(`dex.filter.${todayBug.rarity}`).toUpperCase()}`}</Text>
             </View>
             <View style={styles.huntBadge}>
               <Text style={styles.huntText}>{t("home.hunt")}</Text>
@@ -144,16 +154,23 @@ export function Home() {
                 return (
                   <Pressable
                     key={id}
-                    onPress={() => go("result", { id })}
+                    onPress={() => {
+                      const photoUri = latestPhotoFor(catchLog, id);
+                      go("result", photoUri ? { id, photoUri } : { id });
+                    }}
                     style={[styles.recentTile, { backgroundColor: bug.color }]}
                   >
-                    <BugIcon bug={bug} size={46} />
+                    <BugIcon bug={bug} size={56} />
                     <Text numberOfLines={1} style={styles.recentName}>
                       {bugName(language, id).split(" ")[0]}
                     </Text>
                   </Pressable>
                 );
               })}
+              {/* Four equal slots: one or two finds keep tile size instead of stretching to the full row. */}
+              {Array.from({ length: Math.max(0, 4 - recentIds.length) }, (_, i) => (
+                <View key={`empty-${i}`} style={styles.recentSlot} />
+              ))}
             </View>
           </View>
         )}
@@ -195,7 +212,7 @@ export function Home() {
             },
             {
               k: t("home.stat.rank"),
-              v: `#${rank}`,
+              v: rank === null ? "–" : `#${rank}`,
               c: PB.purple,
               route: "leaderboard" as const,
             },
@@ -298,6 +315,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     color: PB.cream,
   },
+  heroBug: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center" },
   xpInline: { backgroundColor: PB.yellow, color: PB.ink, fontWeight: "800" },
   weekHead: {
     flexDirection: "row",
@@ -387,6 +405,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 6,
   },
+  recentSlot: { flex: 1, aspectRatio: 1 },
   recentName: {
     marginTop: 4,
     fontSize: 10,

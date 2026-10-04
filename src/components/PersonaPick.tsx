@@ -5,6 +5,7 @@ import { PB } from '@/tokens/pb';
 import { usePersona } from '@/personas/hooks';
 import type { PersonaId } from '@/personas';
 import { useAppStore } from '@/store/useAppStore';
+import { haptics } from '@/lib/haptics';
 
 export function PersonaPick({ pid, compact }: { pid: PersonaId; compact?: boolean }) {
   const setPersona = useAppStore((s) => s.setPersona);
@@ -32,7 +33,10 @@ export function PersonaPick({ pid, compact }: { pid: PersonaId; compact?: boolea
 
   return (
     <Pressable
-      onPress={() => setPersona(pid)}
+      onPress={() => {
+        haptics.select();
+        setPersona(pid);
+      }}
       style={[
         styles.row,
         {

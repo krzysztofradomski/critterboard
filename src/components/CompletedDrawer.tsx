@@ -51,7 +51,7 @@ export function CompletedDrawer({
           <Text style={[styles.chevText, { transform: [{ rotate: open ? '180deg' : '0deg' }] }]}>⌄</Text>
         </View>
       </Pressable>
-      {open && (
+      {open && items.length > 0 && (
         <View style={styles.list}>
           {items.map((it) => {
             const isReal = it.completedAt !== undefined;

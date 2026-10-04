@@ -9,8 +9,8 @@
  * camera capture failed silently fall back to undefined.
  *
  * `lat` / `lng` (when present) come from `expo-location` at catch time,
- * gated on `profile.locationShareOn`. Drives the user's pins on the
- * Map screen. Both fields are optional and travel together.
+ * whenever the OS location permission is granted (private, on-device).
+ * Drives the user's pins on the Map screen. Both fields are optional and travel together.
  */
 export type CatchEvent = {
   id: string;
@@ -166,8 +166,10 @@ export function currentStreak(
 ): number {
   const buckets = bucketByLocalDay(events);
   if (buckets.size === 0) return 0;
-  const { spent } = computeFreezeState(events, now);
+  return streakFrom(buckets, computeFreezeState(events, now).spent, now);
+}
 
+function streakFrom(buckets: Map<string, number>, spent: Set<string>, now: number): number {
   let startOffset = 0;
   const todayCaught = buckets.has(dayKeyOffset(now, 0));
   const ydayCaught = buckets.has(dayKeyOffset(now, 1));
@@ -192,8 +194,10 @@ export function bestStreak(
 ): number {
   const caught = bucketByLocalDay(events);
   if (caught.size === 0) return 0;
-  const { spent } = computeFreezeState(events, now);
+  return bestFrom(caught, computeFreezeState(events, now).spent);
+}
 
+function bestFrom(caught: Map<string, number>, spent: Set<string>): number {
   // Combine caught + freeze-spent into one sorted day list.
   const days = new Set<string>([...caught.keys(), ...spent]);
   const sorted = Array.from(days).sort();
@@ -212,6 +216,30 @@ export function bestStreak(
     }
   }
   return best;
+}
+
+/**
+ * Current + best streak, total catches and banked freezes in one pass: the freeze replay walks
+ * every day since the first catch, and the streak/best/freeze helpers each ran it on their own.
+ */
+export function streakSummary(
+  events: CatchEvent[],
+  now: number = Date.now(),
+): { current: number; best: number; total: number; freezes: number } {
+  const buckets = bucketByLocalDay(events);
+  if (buckets.size === 0) return { current: 0, best: 0, total: events.length, freezes: 0 };
+  const { spent, available } = computeFreezeState(events, now);
+  return {
+    current: streakFrom(buckets, spent, now),
+    best: bestFrom(buckets, spent),
+    total: events.length,
+    freezes: available,
+  };
+}
+
+/** Local `YYYY-MM-DD` of `now`: a memo dependency so day-based values roll over at midnight. */
+export function todayKey(now: number = Date.now()): string {
+  return dayKey(now);
 }
 
 /** All-time catch count. */
@@ -247,62 +275,6 @@ export function calendarGrid(
       freeze: spent.has(key),
       isToday: i === 0,
     });
-  }
-  return out;
-}
-
-// ──────────────────────────────────────────────────────────────────────────
-// Seeded "history" so first-run UI doesn't look empty
-// ──────────────────────────────────────────────────────────────────────────
-
-/**
- * The pattern the prototype's Streak.tsx hard-coded — 35 days, 1 = caught,
- * 0 = missed, 2 = freeze used. Rebuilding catchLog from this preserves
- * the prototype's "Day 4 on fire" feel as the first-run state.
- *
- * Freeze-marked days (`2`) become real missed days in the seed log —
- * the freeze-replay above derives the protection without needing a
- * second source of truth.
- */
-const SEED_PATTERN: ReadonlyArray<0 | 1 | 2> = [
-  1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0, 1, 1, 0, 0, 1,
-  1, 1, 1, 1, 1, 1, 1, 0, 0,
-];
-
-const SEED_IDS = [
-  "hcat",
-  "lady",
-  "buff",
-  "brim",
-  "tort",
-  "wasp",
-  "peac",
-  "radm",
-  "swhi",
-  "gshb",
-  "bdam",
-  "orng",
-];
-
-/**
- * Build the seeded catch log that the store starts with. Each "caught"
- * day in `SEED_PATTERN` becomes one event, cycling through bug ids.
- */
-export function buildSeedCatchLog(now: number = Date.now()): CatchEvent[] {
-  const out: CatchEvent[] = [];
-  const total = SEED_PATTERN.length;
-  let idIdx = 0;
-  for (let i = 0; i < total; i++) {
-    const v = SEED_PATTERN[i];
-    if (v === 1) {
-      const daysAgo = total - 1 - i;
-      const d = new Date(now);
-      d.setDate(d.getDate() - daysAgo);
-      // Anchor at noon so DST flips can't push the event into the
-      // neighbouring day.
-      d.setHours(12, 0, 0, 0);
-      out.push({ id: SEED_IDS[idIdx++ % SEED_IDS.length]!, at: d.getTime() });
-    }
   }
   return out;
 }

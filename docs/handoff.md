@@ -10,12 +10,12 @@ What to run locally to finish Critterboard, in order. Everything below assumes t
 
 | Area | State on `main` | Needs you |
 |---|---|---|
-| Build | Typecheck + 294 tests pass; iOS/Android/web JS bundles build; `expo prebuild` works | First real Xcode build |
+| Build | Typecheck + 395 tests pass; iOS Release build runs in the Simulator (2026-10-03); dev builds tested on an iPhone | Android device run |
 | Vision | 1,000-species model `eu-1k-commercial-v1` (pack `eu-ce` v5) live: 78.2% top-1 / 90.1% top-3 on held-out photos; licence-clean for commercial use; downloads on pack install | On-device check (load time, latency) |
 | Species icons | Photo-based sticker icon for all 1,000 pack species (one 9.1 MB file, split on the phone; emoji fallback). Checked only in a headless browser | Phone check (§3) |
-| Map | Offline MapLibre + PMTiles spike behind `USE_OFFLINE_MAP` (native); web still uses the globe | Make a map pack and look at it |
+| Map | Offline MapLibre + PMTiles map of Europe (56 MB), part of the `eu-ce` pack, downloaded on demand; catch pins as a map layer | Check pins on a phone with geotagged catches |
 | Chat | Gemma 4 E2B (Apache 2.0) via `llama.rn`, 3.1 GB download from Settings. Without it chat is disabled (no scripted replies, no web chat); regex guardrails (ADR 005) | Download, speed and memory check (§3) |
-| Backend | Worker code ready, **not deployed**; app uses mock data until `EXPO_PUBLIC_BACKEND_URL` is set | Cloudflare account steps |
+| Backend | Live at `critterboard-api.stronginarm.workers.dev` since 2026-10-02 (§5); URL baked into every EAS profile | Custom domain (optional) |
 | Store | EAS profiles ready; `submit.production` placeholders unfilled | Apple / Play accounts |
 
 ---
@@ -102,10 +102,10 @@ The simulator's on-device ML may be slow or unsupported. Treat vision/LLM speed 
 ## 4. Offline map spike
 
 ```bash
-tools/map/extract.sh --sizes 19.79,49.97,20.22,50.13        # size per zoom level (Kraków example)
-tools/map/extract.sh krakow 19.79,49.97,20.22,50.13 14      # → tools/map/out/krakow.pmtiles
+tools/map/extract.sh --sizes 19.79,49.97,20.22,50.13        # size per zoom level
+tools/map/extract.sh europe -25,34,45,72 7      # → tools/map/out/europe.pmtiles (~56 MB)
 python3 -m http.server 8787 --directory tools/map/out        # keep running
-echo 'EXPO_PUBLIC_MAP_PACK_URL=http://localhost:8787/krakow.pmtiles' >> .env
+echo 'EXPO_PUBLIC_MAP_PACK_URL=http://localhost:8787/europe.pmtiles' >> .env
 pnpm ios:sim
 ```
 
@@ -117,6 +117,8 @@ pnpm ios:sim
 **Send back:** a screenshot and the `--sizes` output. Those decide the zoom levels for region packs.
 
 ## 5. Cloudflare backend
+
+> **Deployed 2026-10-02** to `https://critterboard-api.stronginarm.workers.dev` (D1 `critterboard`, KV `LEADERBOARD`, `JWT_SECRET` set, Durable Object on SQLite). Smoke-tested live: auth, profile, follow, catch, leaderboard, friends, feed. The URL is baked into every EAS profile via `EXPO_PUBLIC_BACKEND_URL`. The rest of this section is how it was provisioned.
 
 The code is ready; the account resources aren't. From `worker/`:
 

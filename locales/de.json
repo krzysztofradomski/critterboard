@@ -1,0 +1,7 @@
+{
+  "NSCameraUsageDescription": "Critterboard nutzt die Kamera, um Insekten direkt auf dem Gerät zu bestimmen. Fotos verlassen dein Telefon nie.",
+  "NSPhotoLibraryUsageDescription": "Wähle ein vorhandenes Foto eines Insekts, um es auf dem Gerät zu bestimmen. Deine Mediathek wird nie hochgeladen.",
+  "NSLocationWhenInUseUsageDescription": "Optional. Zentriert deine Karte auf dich und bevorzugt Arten in deiner Nähe. Bleibt auf deinem Telefon, solange du nichts teilst.",
+  "NSLocationAlwaysAndWhenInUseUsageDescription": "Optional. Zentriert deine Karte auf dich und bevorzugt Arten in deiner Nähe. Bleibt auf deinem Telefon, solange du nichts teilst.",
+  "NSLocationAlwaysUsageDescription": "Optional. Zentriert deine Karte auf dich und bevorzugt Arten in deiner Nähe. Bleibt auf deinem Telefon, solange du nichts teilst."
+}

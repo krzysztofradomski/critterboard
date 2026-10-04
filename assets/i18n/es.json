@@ -18,7 +18,8 @@
       "retry": "Reintentar",
       "ok": "OK",
       "open": "Abrir",
-      "level": "nivel"
+      "level": "nivel",
+      "delete": "Eliminar"
     },
     "tabs": {
       "home": "Inicio",
@@ -36,21 +37,20 @@
       "title": "Critterboard",
       "tagline": "id cualquier bicho · sin conexión · con estilo",
       "snap": "📷 FOTOGRAFÍA UN BICHO",
-      "sassyId": "🤖 ID CON SALERO",
+      "identify": "🔍 IDENTIFÍCALO",
       "buildDex": "🏆 CONSTRUYE TU DEX",
       "pickGuide": "ELIGE TU GUÍA",
       "startHunting": "A cazar →",
       "legal": "✓ sin cuenta · ✓ sin internet · ✓ sin $$",
-      "legalOnline": "✓ sin cuenta · ✓ con internet · ✓ sin $$"
+      "legalOnline": "✓ sin cuenta · ✓ con internet · ✓ sin $$",
+      "namePrompt": "¿CÓMO TE LLAMAMOS?",
+      "haveBackup": "¿Tienes una copia? Restáurala"
     },
     "home": {
       "streakPill": "racha de {days} días",
       "bugOfDay": "BICHO DEL DÍA",
-      "bugOfDayName": "Polilla Luna 🌙",
-      "legendary": "★★★★★ LEGENDARIO",
       "hunt": "CAZAR →",
-      "bugOfDayDesc": "Captura uno hoy por",
-      "bugOfDayXp": " +500 XP ",
+      "bugOfDayDesc": "Captura uno hoy por ",
       "bugOfDayDescTail": " y una insignia brillante.",
       "yourWeek": "Tu semana",
       "daysToBadge": "{n} días para la insignia",
@@ -60,10 +60,11 @@
         "xp": "XP",
         "rank": "PUESTO"
       },
-      "bugOfDayXpAmount": " +{xp} XP ",
+      "bugOfDayXpAmount": " +{xp} XP ",
       "recentFinds": "Capturas recientes"
     },
     "scan": {
+      "galleryFailed": "No se pudieron abrir tus fotos. Inténtalo de nuevo.",
       "analyzing": "ANALIZANDO…",
       "scanning": "SIN RED · ESCANEANDO",
       "permissionTitle": "Acceso a la cámara",
@@ -73,17 +74,28 @@
       "focus": "enfoque",
       "matching": "buscando coincidencia…",
       "needPackTitle": "Descarga el paquete de especies",
-      "needPackBody": "La identificación funciona en tu teléfono. Instala una vez el paquete Europa Central (1.000 especies, unos 89 MB) para empezar a escanear.",
+      "needPackBody": "La identificación funciona en tu teléfono. Instala una vez el paquete Europa Central (1.000 especies y el mapa sin conexión, unos 145 MB) para empezar a escanear.",
       "needPackCta": "Abrir paquetes de especies",
-      "modelNotReady": "El modelo de especies aún se está cargando. Inténtalo de nuevo en un momento."
+      "modelNotReady": "El modelo de especies aún se está cargando. Inténtalo de nuevo en un momento.",
+      "modelFetching": "Descargando modelo… {pct}%",
+      "modelLoading": "Cargando modelo…",
+      "tipsTitle": "Consejos para la foto",
+      "tipsSub": "Mejores fotos, mejores resultados.",
+      "tipsGotIt": "Entendido"
     },
     "result": {
       "headTitle": "¡IDENTIFICADO!",
       "confidence": "CONFIANZA",
+      "removeFromDex": "Quitar del Dex",
+      "removeTitle": "¿Quitar del Dex?",
+      "removeBody": "Quita {name} con sus fotos y marcadores del mapa de este móvil. El progreso de misiones y la XP ya ganada se conservan. Puedes volver a capturarlo.",
+      "removeCta": "Quitar",
       "alreadyInDex": "Ya en tu Dex ✓",
       "addToDex": "Añadir al Dex 📔",
       "askCta": "PREGUNTA A {name} →",
-      "caughtToast": "¡Capturado! +{xp} XP · {tier}"
+      "caughtToast": "¡Capturado! +{xp} XP · {tier}",
+      "tooUnsure": "Demasiado dudoso para añadir (mínimo {min}%). Prueba otra foto.",
+      "readMore": "Más en Wikipedia ↗"
     },
     "facts": {
       "habitat": "Hábitat",
@@ -127,23 +139,70 @@
         "leaves": "Hojas",
         "nighttime": "Nocturno",
         "nectar": "Néctar"
+      },
+      "family": "Familia",
+      "region": {
+        "EUROPE": "Europa",
+        "NORTH_AMERICA": "Norteamérica",
+        "ASIA": "Asia",
+        "AFRICA": "África",
+        "OCEANIA": "Oceanía",
+        "LATIN_AMERICA": "Latinoamérica"
+      },
+      "habitatOf": {
+        "flowery": "Prados, jardines, bordes de bosque",
+        "water": "Estanques, lagos, arroyos lentos",
+        "grassland": "Pastizales y praderas",
+        "vegetation": "Arbustos, plantas y suelo",
+        "leaflitter": "Hojarasca y suelo",
+        "dry_sunny": "Lugares cálidos, secos y soleados",
+        "crevices": "Grietas húmedas, corteza, edificios",
+        "damp_woods": "Bosques húmedos y sotobosque sombrío",
+        "deadwood": "Bosques y madera muerta",
+        "ground": "Suelo, hojarasca, bajo piedras",
+        "plants": "Plantas, arbustos y árboles"
+      },
+      "dietOf": {
+        "lepi": "Las orugas comen hojas; los adultos, néctar",
+        "predator": "Caza otros insectos",
+        "predator_flying": "Caza insectos voladores",
+        "aphid_eaters": "Sobre todo pulgones",
+        "sap": "Savia de plantas",
+        "nectar_pollen": "Néctar y polen",
+        "wasp": "Insectos, néctar y cosas dulces",
+        "omnivore_ant": "Casi todo: insectos, melaza, semillas",
+        "gall": "Las larvas viven en agallas de plantas",
+        "parasitoid": "Las larvas se alimentan de otros insectos o arañas",
+        "leaves": "Hojas y tejido vegetal",
+        "grass": "Hierbas y hojas",
+        "plants_insects": "Plantas e insectos pequeños",
+        "wood": "Las larvas comen madera; los adultos, savia o polen",
+        "beetle_mixed": "Estiércol, plantas, polen o fruta, según la especie",
+        "pollen": "Polen y pétalos",
+        "detritus": "Restos vegetales en descomposición",
+        "spiders": "Atrapa insectos con tela o al acecho",
+        "harvestman": "Pequeños invertebrados y materia muerta",
+        "blood": "Sangre de animales",
+        "hoverfly": "Néctar y polen; las larvas suelen comer pulgones",
+        "nonfeeding": "Los adultos casi no comen; las larvas viven en el agua",
+        "scavenge": "Insectos muertos y fruta caída",
+        "varied": "Varía según la especie"
       }
     },
     "disambiguate": {
       "headTitle": "NO MUY SEGURO",
-      "lowConfidence": "POCA CONFIANZA · 62%",
-      "shotMeta": "📷 1/250s · borroso",
+      "lowConfidence": "POCA CONFIANZA · {pct}%",
       "topCandidates": "MEJORES CANDIDATOS",
       "tapToConfirm": "pulsa para confirmar",
       "askForHelp": "Pide ayuda a {name} →",
       "noneOfThese": "Ninguno de estos",
       "thisMystery": "este bicho misterioso",
-      "foot": "ID ejecutada en el dispositivo · 320 ms · ninguna foto salió del teléfono"
+      "foot": "ID ejecutada en el dispositivo · ninguna foto salió del teléfono"
     },
     "noMatch": {
       "headTitle": "SIN COINCIDENCIA",
       "heroTitle": "No pude identificar este.",
-      "heroSub": "BugNet v3 devolvió todos los candidatos por debajo del 15%.",
+      "heroSub": "{model} devolvió todos los candidatos por debajo del 15%.",
       "tryThis": "PRUEBA ESTO",
       "tip": {
         "lightTitle": "Más luz",
@@ -193,6 +252,9 @@
         "body": "Tus guías funcionan por completo en este teléfono con el modelo {model} de Google: una descarga única de {size} GB (se recomienda Wi-Fi). Nada de lo que escribes sale del dispositivo.",
         "errorBody": "La descarga de {model} no terminó. Revisa tu conexión y el espacio libre ({size} GB) y vuelve a intentarlo en Ajustes.",
         "busyBody": "El chat se abrirá en cuanto el modelo esté listo. Mientras tanto puedes seguir usando la app.",
+        "ejectedTitle": "{model} está expulsado",
+        "ejectedBody": "El modelo sigue en el móvil pero no está cargado, así que no usa memoria. Cárgalo para chatear.",
+        "loadCta": "Cargar modelo",
         "loadingTitle": "Despertando a {model}…",
         "downloadingTitle": "Descargando {model}… {pct}%",
         "webTitle": "El chat funciona en la app del teléfono",
@@ -200,7 +262,9 @@
         "cta": "Abrir Ajustes",
         "ramTitle": "El chat no está disponible en este teléfono",
         "ramBody": "Los guías funcionan con {model}, que necesita un teléfono con al menos 4 GB de memoria. El resto de Critterboard funciona con normalidad."
-      }
+      },
+      "deleteTitle": "Eliminar mensaje",
+      "deleteBody": "¿Quitar este mensaje de la conversación?"
     },
     "activity": {
       "title": "Zumbido",
@@ -214,33 +278,6 @@
       "emptyTitle": "Grillos.",
       "emptySub": "Aún no hay nada aquí.",
       "newBadge": "NUEVO",
-      "item": {
-        "a1Title": "A antqueen le gustó tu Monarca",
-        "a1Sub": "hace 2 h · grupo Brooklyn",
-        "a1Cta": "Ver avistamiento",
-        "a2Title": "Gemma 4 E2B lista para instalar",
-        "a2Sub": "Chistes nuevos. Mismo rollo. 240 MB.",
-        "a2Cta": "Actualizar",
-        "a3Title": "¡Racha de 4 días! No la rompas",
-        "a3Sub": "Captura un bicho hoy. Aunque sea un sírfido.",
-        "a3Cta": "Abrir escaneo",
-        "a4Title": "Superaste a bug_dad_42",
-        "a4Sub": "Eres el #6 del ranking global.",
-        "a4Cta": "Ranking",
-        "a5Title": "Misión completa: 3 polinizadores",
-        "a5Sub": "+75 XP. Recompensa desbloqueada.",
-        "a5Cta": "Reclamar",
-        "a6Title": "mothwhisperer atrapó una Polilla Luna",
-        "a6Sub": "a 420 m de ti · hace 6 h",
-        "a6Cta": "Ver en mapa",
-        "a7Title": "Pack regional: Nordeste NA",
-        "a7Sub": "Nuevo índice de temporada sincronizado (+38 especies).",
-        "a7Cta": "Ver pack",
-        "a8Title": "wingedfren respondió en tu hilo de sírfidos",
-        "a8Sub": "\"Casi seguro un Marmalade — bandas en las alas.\"",
-        "a8Cta": "Abrir chat",
-        "a8Topic": "Sírfidos"
-      },
       "kind": {
         "catchTitle": "{name} capturado",
         "catchSub": "+{xp} XP · {when}",
@@ -274,8 +311,6 @@
       }
     },
     "friends": {
-      "title": "Naturalistas",
-      "sub": "A quién sigues · sus bichos",
       "tab": {
         "following": "Siguiendo",
         "followers": "Seguidores",
@@ -285,7 +320,7 @@
       "following": "✓ Siguiendo",
       "ago": "hace {when}",
       "emptyTitle": "Aún no hay nadie.",
-      "emptySub": "Mira la pestaña Sugeridos para encontrar naturalistas como tú."
+      "emptySub": "Los amigos y las sugerencias aparecerán cuando se unan otros naturalistas."
     },
     "person": {
       "rank": "PUESTO #{rank}",
@@ -348,26 +383,42 @@
     },
     "leaderboard": {
       "title": "Ranking",
-      "sub": "Resetea en 3d 14h · 482k entrenadores",
+      "sub": "Solo si quieres. Solo nombre y XP.",
       "tab": {
         "global": "Global",
         "weekly": "Semanal",
         "friends": "Amigos"
       },
-      "meta": "{country} · nivel 12",
+      "stats": "Nv {lvl} · {n} especies",
+      "statsWeek": "{n} especies esta semana",
+      "meta": "{country}",
       "hiddenTitle": "Estás oculto en el ranking",
       "hiddenDesc": "Activa \"Mostrarme en el ranking\" para aparecer.",
-      "fix": "ARREGLAR →"
+      "fix": "ARREGLAR →",
+      "emptyTitle": "Aún no hay rivales",
+      "emptySub": "El ranking se llenará cuando se unan otros. Por ahora solo estás tú."
     },
     "map": {
-      "locName": "Brooklyn, NY",
-      "locNamePrivate": "Ubicación privada",
-      "locSub": "{n} avistamientos · últimos 30 días",
-      "sightings": "{n}× avistamientos",
-      "distance": "0,6 km",
-      "where": "Prospect Park · hace 2 días",
+      "locName": "Tu mapa",
+      "locSub": "Pines en tu mapa: {n}",
       "hunt": "CAZAR →",
-      "pinRemove": "Eliminar pin"
+      "pinRemove": "Eliminar pin",
+      "emptyTitle": "Aún no hay pines",
+      "emptySub": "Atrapa un bicho con la ubicación activada y aparecerá aquí.",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar",
+      "lockedTitle": "El mapa está apagado",
+      "noRegionSub": "El mapa sin conexión viene con un pack regional. Instala uno en Brains y se desbloquea.",
+      "noRegionCta": "Abrir Brains",
+      "unavailableSub": "{name} aún no tiene mapa sin conexión.",
+      "needsDownloadSub": "Descarga el mapa de {name} ({mb} MB) para usarlo sin conexión.",
+      "downloadCta": "↓ Descargar mapa · {mb} MB",
+      "downloadingSub": "Descargando el mapa… {pct}%",
+      "errorSub": "No se pudo descargar el mapa. Revisa tu conexión e inténtalo de nuevo.",
+      "retryCta": "Reintentar",
+      "sightingSub": "Visto cerca · {when}",
+      "stackOf": "{n} de {total}",
+      "viewInsect": "Ver insecto →"
     },
     "permissions": {
       "title": "Tres preguntas rápidas.",
@@ -399,7 +450,7 @@
         "location": {
           "title": "Ubicación",
           "desc": "Mejor filtrado por rango — el modelo sabe qué vive cerca.",
-          "b1": "Difuminado a nivel ciudad (~5 km)",
+          "b1": "Marca tus capturas en tu propio mapa",
           "b2": "Permanece en el dispositivo si no compartes",
           "b3": "Desactivable en cualquier momento"
         },
@@ -498,19 +549,16 @@
       "items": {
         "b1": {
           "name": "Primera Captura",
-          "earned": "12 abr",
           "desc": "Tu primerísima ID. Bienvenido al club — todo naturalista la lleva al inicio de su libreta.",
           "crit": "Identifica tu primer bicho."
         },
         "b2": {
           "name": "Racha 3",
-          "earned": "4 may",
           "desc": "Tres días seguidos prestando atención. Lo difícil es empezar; lo más difícil, aparecer mañana.",
           "crit": "Identifica al menos un bicho tres días seguidos."
         },
         "b3": {
           "name": "Búho Nocturno",
-          "earned": "9 may",
           "desc": "Saliste al oscurecer con linterna y algo te devolvió la mirada. Las polillas te saludan.",
           "crit": "Identifica un bicho entre las 21:00 y las 4:00."
         },
@@ -520,9 +568,9 @@
           "crit": "Identifica 10 polinizadores distintos."
         },
         "b5": {
-          "name": "Divisor",
-          "desc": "Distingues un sírfido de una avispa a veinte pasos. Los unificadores te temen.",
-          "crit": "Distingue correctamente 5 especies mimicas."
+          "name": "Fotógrafo",
+          "desc": "Sin foto no cuenta. Guardas pruebas de tus hallazgos.",
+          "crit": "Atrapa 10 bichos con foto."
         },
         "b6": {
           "name": "Centurión",
@@ -530,16 +578,63 @@
           "crit": "Llega a 100 identificaciones totales."
         },
         "b7": {
-          "name": "???",
-          "desc": "Bloqueada. Sigue cazando y se revelará.",
-          "crit": "Oculta hasta que la ganes."
+          "name": "Madrugador",
+          "desc": "Estabas despierto antes de que se secara el rocío. Los mejores bichos madrugan.",
+          "crit": "Atrapa un bicho entre las 4 y las 8."
         },
         "b8": {
-          "name": "???",
-          "desc": "Bloqueada. Sigue cazando y se revelará.",
-          "crit": "Oculta hasta que la ganes."
+          "name": "Cazador de leyendas",
+          "desc": "Encontraste una criatura de la que la mayoría solo lee. Enmarca esa foto.",
+          "crit": "Atrapa una especie legendaria."
+        },
+        "b9": {
+          "name": "Fiebre de escarabajos",
+          "desc": "Brillantes, blindados y por todas partes. Ya tienes tu tipo.",
+          "crit": "Atrapa 5 escarabajos distintos."
+        },
+        "b10": {
+          "name": "Coleccionista de alas",
+          "desc": "Escamas, alas y buen ojo para el momento.",
+          "crit": "Atrapa 5 mariposas distintas."
+        },
+        "b11": {
+          "name": "Dex inicial",
+          "desc": "El cuaderno queda oficialmente abierto.",
+          "crit": "Atrapa 10 especies distintas."
+        },
+        "b12": {
+          "name": "Erudito del Dex",
+          "desc": "Cincuenta especies y las páginas se llenan bien.",
+          "crit": "Atrapa 50 especies distintas."
+        },
+        "b13": {
+          "name": "Guerrero semanal",
+          "desc": "Una semana entera prestando atención. Los bichos lo notaron.",
+          "crit": "Alcanza una racha de 7 días."
+        },
+        "b14": {
+          "name": "Hábito de hierro",
+          "desc": "Treinta días. Ya no es un hobby, es un estilo de vida.",
+          "crit": "Alcanza una racha de 30 días."
+        },
+        "b15": {
+          "name": "Cartógrafo",
+          "desc": "Tu mapa ya parece un cuaderno de campo de verdad.",
+          "crit": "Atrapa 5 bichos con ubicación."
+        },
+        "b16": {
+          "name": "Triplete",
+          "desc": "Tres hallazgos antes de cenar. Tarde productiva.",
+          "crit": "Atrapa 3 bichos en un día."
+        },
+        "b17": {
+          "name": "Hallazgo raro",
+          "desc": "No todos ven uno de estos. Tú sí.",
+          "crit": "Atrapa una especie rara (o más rara)."
         }
-      }
+      },
+      "hiddenDesc": "Bloqueada. Sigue cazando y esta se revelará sola.",
+      "hiddenCrit": "Oculta hasta que la consigas."
     },
     "notify": {
       "streak": {
@@ -565,7 +660,8 @@
       },
       "freezeTitle": "Congeladores de racha",
       "freezeDesc": "Se usan solos en un día perdido para que la racha siga. Ganas uno cada 7 días.",
-      "keepAlive": "📷 Mantén la racha viva"
+      "keepAlive": "📷 Mantén la racha viva",
+      "noStreak": "Aún sin racha."
     },
     "settings": {
       "title": "Cerebro en el dispositivo",
@@ -576,7 +672,7 @@
       "profileSafe": "Cero datos salen del dispositivo.",
       "displayName": "NOMBRE EN PANTALLA",
       "namePlaceholder": "tu apodo de entrenador",
-      "nameHint": "Visible en el ranking y avistamientos compartidos.",
+      "nameHint": "Visible en el ranking y para tus amigos.",
       "nameOffensive": "Este nombre no está permitido. Por favor elige otro.",
       "privacy": "PRIVACIDAD",
       "networkLabel": "Acceso a la red",
@@ -586,20 +682,19 @@
       "boardOn": "Tu XP y nombre aparecen globalmente.",
       "boardNeeds": "Requiere acceso a la red.",
       "locShareLabel": "Compartir ubicaciones de avistamientos",
-      "locShareOn": "Pines añadidos al mapa público (±500m de difuminado).",
+      "locShareOn": "Tus capturas aparecen, con especie y fecha pero sin tu nombre, en los mapas de jugadores cercanos.",
       "locShareOff": "Tu mapa permanece privado en este dispositivo.",
+      "sightingsLabel": "Mostrar avistamientos de otros",
+      "sightingsOn": "Las capturas de otros jugadores cercanos aparecen en tu mapa. Para encontrarlas se envía tu ubicación, redondeada a 1 km aprox.",
+      "sightingsOff": "Solo tus propias chinchetas en el mapa.",
       "crashLabel": "Enviar informes de errores",
       "crashOn": "Los diagnósticos anónimos nos ayudan a arreglar bugs.",
       "crashOff": "No sale ningún dato de errores de tu dispositivo.",
       "crashNeeds": "Requiere acceso a la red.",
       "model": {
-        "bugNet": "BugNet v3",
-        "bugNetMeta": "Visión · 88 MB · 1.000 especies",
         "larva": "{model} (Q4)",
         "larvaMeta": "Modelo de chat · {size} GB · {state}",
         "larvaInstalled": "instalado",
-        "species": "Base de Especies",
-        "speciesMeta": "Datos y hábitats · 88 MB · v2026.04",
         "ready": "LISTO",
         "downloading": "↓ {pct}%",
         "loading": "CARGANDO",
@@ -610,9 +705,11 @@
         "larvaPhoneOnly": "solo en la app del teléfono",
         "phoneOnly": "SOLO MÓVIL",
         "larvaTooLittleRam": "necesita 4 GB de memoria",
-        "notSupported": "NO COMPATIBLE"
+        "notSupported": "NO COMPATIBLE",
+        "visionMeta": "{id} · {mb} MB · {n} especies",
+        "noPack": "SIN PACK"
       },
-      "regionsBand": "Packs regionales",
+      "regionsBand": "Packs regionales · uno activo",
       "regionsSub": "Mejoran la precisión donde de verdad estás.",
       "regionMeta": "{installed}/{total} · {mb} MB",
       "regionInstalled": "✓ EN DISPOSIT.",
@@ -626,7 +723,7 @@
       "helpTile": "Ayuda y acerca de",
       "helpSub": "FAQ · exportar datos",
       "creditsTitle": "Gratis para siempre. Sin anuncios. Sin rastreo.",
-      "creditsSub": "Hecho con cariño por 3 personas a las que de verdad les gustan los escarabajos.",
+      "creditsSub": "Hecho con cariño para quienes aman los escarabajos.",
       "viewCredits": "VER CRÉDITOS →",
       "guideToast": "Guía: {name}",
       "localLlmLabel": "Chat en el dispositivo ({model})",
@@ -634,13 +731,91 @@
       "localLlmOff": "Desactivado: el chat no está disponible. Actívalo para descargar {model} ({size} GB, se recomienda Wi-Fi).",
       "localLlmNoWeb": "El chat necesita la app de iPhone o Android.",
       "localLlmError": "La descarga falló. Actívalo para intentarlo de nuevo ({size} GB).",
+      "localLlmEjected": "El modelo de chat está expulsado: sigue en el móvil pero no usa memoria.",
+      "localLlmEject": "Expulsar de la memoria (conservar el archivo)",
+      "localLlmLoad": "Cargar en la memoria",
       "localLlmDeleteTitle": "¿Desactivar el chat?",
       "localLlmDeleteBody": "Esto borra {model} del teléfono y libera {size} GB. El chat seguirá desactivado hasta que lo descargues de nuevo.",
       "localLlmDeleteCta": "Borrar modelo",
       "localLlmTooLittleRam": "Necesita un teléfono con al menos 4 GB de memoria.",
       "localLlmLowRamTitle": "¿Descargar en un teléfono de 4 GB?",
       "localLlmLowRamBody": "Este teléfono tiene unos 4 GB de memoria. {model} usa unos 3 GB mientras chateas, así que las respuestas pueden ser lentas y la app puede cerrarse si hay otras apps abiertas. La descarga es de {size} GB.",
-      "localLlmLowRamCta": "Descargar igualmente"
+      "localLlmLowRamCta": "Descargar igualmente",
+      "regionSoon": "PRONTO",
+      "regionSoonSub": "Próximamente",
+      "regionActive": "● ACTIVO",
+      "regionUse": "USAR",
+      "regionSwitched": "BugNet ahora usa {name}",
+      "packCta": "↓ Descargar {name} · {mb} MB",
+      "packHint": "BugNet necesita un pack regional para identificar bichos. El modelo, la lista de especies y el mapa sin conexión se descargan juntos.",
+      "mapDownloadFailed": "El pack está instalado, pero el mapa no se descargó. Reinténtalo desde la pestaña Mapa.",
+      "memoryBand": "Memoria de conversaciones",
+      "memorySub": "Guardada en el dispositivo para respuestas con contexto.",
+      "memoryThreadsMeta": "{n} conversaciones guardadas",
+      "memoryEntriesMeta": "{n} entradas en la memoria",
+      "memoryClearCta": "Borrar conversaciones guardadas",
+      "memoryClearConfirmCta": "Pulsa de nuevo para confirmar",
+      "memoryClearToast": "Memoria de conversaciones borrada",
+      "packDownloadFailed": "No se pudo descargar {name}",
+      "minConf": {
+        "title": "Umbral de coincidencia",
+        "sub": "Los escaneos por debajo de esta confianza no se pueden añadir al Dex.",
+        "l20": "Flexible",
+        "l33": "Equilibrado",
+        "l50": "Estricto",
+        "l70": "Muy estricto",
+        "foot": "Más alto significa menos errores, pero más «sin coincidencia»."
+      },
+      "sync": {
+        "upToDate": "Las {n} capturas están en línea",
+        "nothingYet": "Aún no se ha subido nada",
+        "uploading": "Subiendo {done} / {total}…",
+        "failed": "No se pudieron subir {n} capturas. Están a salvo en tu teléfono.",
+        "retry": "Reintentar",
+        "older": "{n} capturas anteriores no están en línea.",
+        "upload": "Subir",
+        "notNow": "Ahora no",
+        "cancel": "Cancelar",
+        "delete": "Borrar mis datos en línea",
+        "deleted": "Datos en línea borrados",
+        "deleteFailed": "No se pudo contactar con el servidor. Inténtalo cuando tengas conexión.",
+        "deleteConfirmTitle": "¿Borrar tus datos en línea?",
+        "deleteConfirmBody": "Elimina de nuestro servidor tu perfil, las capturas subidas, a quién sigues y tu entrada en el ranking. Tu Dex en este teléfono se queda.",
+        "offTitle": "¿Desactivar la red?",
+        "offBody": "Tu perfil y tus capturas siguen en nuestro servidor. ¿Conservarlos (ocultos en los rankings) o borrarlos?",
+        "offKeep": "Conservar, oculto",
+        "offDelete": "Borrar datos en línea",
+        "hideFailed": "Todavía no se pudo ocultar tu perfil en línea. La app lo intentará de nuevo la próxima vez que se abra.",
+        "olderPromptTitle": "¿Subir tus {n} capturas anteriores?",
+        "olderPromptBody": "Los amigos y los rankings solo conocen las capturas hechas con la red activada. Las ubicaciones solo se envían si las compartes.",
+        "locationsCleared": "Ubicaciones guardadas eliminadas",
+        "locationsClearFailed": "Todavía no se pudieron eliminar las ubicaciones guardadas. La app lo intentará de nuevo la próxima vez que se abra."
+      },
+      "confirm": {
+        "networkTitle": "¿Conectarte?",
+        "networkBody": "Critterboard funciona totalmente sin conexión. Al activar la red enviará a nuestro servidor tu nombre visible, las especies capturadas con su hora y (solo si lo activas) la ubicación exacta de las capturas, para rankings y amigos. Puedes borrarlo todo cuando quieras.",
+        "networkYes": "Conectar",
+        "boardTitle": "¿Mostrarte en el ranking?",
+        "boardBody": "Tu nombre visible y tu XP serán visibles para todos los jugadores en los rankings global y semanal. Puedes volver a ocultarte cuando quieras.",
+        "boardYes": "Mostrarme",
+        "locTitle": "¿Compartir ubicaciones de capturas?",
+        "locBody": "Cada captura nueva se subirá con su ubicación exacta y aparecerá, sin tu nombre, en los mapas de jugadores cercanos que muestran avistamientos. Al desactivarlo se eliminan las ubicaciones guardadas.",
+        "locYes": "Compartir",
+        "locOffTitle": "¿Dejar de compartir ubicaciones?",
+        "locOffBody": "Esto también borra las ubicaciones de capturas ya guardadas en nuestro servidor. Tu propio mapa en este teléfono no cambia.",
+        "locOffYes": "Dejar y borrar",
+        "sightingsTitle": "¿Mostrar avistamientos de otros?",
+        "sightingsBody": "Cada vez que abres el Mapa, tu ubicación redondeada a 1 km aprox. se envía a nuestro servidor para encontrar avistamientos cercanos. No se guarda.",
+        "sightingsYes": "Mostrar",
+        "crashTitle": "¿Enviar informes de errores?",
+        "crashBody": "Si la app falla, envía el error, el modelo del teléfono, la versión del sistema y la de la app a Sentry, nuestro servicio de errores. Sin nombre, fotos, capturas ni ubicación.",
+        "crashYes": "Enviar"
+      },
+      "haptics": {
+        "label": "Vibración",
+        "on": "Toques, interruptores y pestañas dan una pequeña vibración.",
+        "off": "Sin vibración."
+      }
     },
     "regions": {
       "list": {
@@ -701,12 +876,12 @@
             "oth": "Otros"
           },
           "why": {
-            "mona": "migrante icónico",
-            "lhoc": "emergencia de pleno verano",
-            "drag": "habitual de lagunas de castor",
-            "fire": "junio–julio al atardecer",
             "lady": "muy extendido",
-            "walk": "roble / nogal"
+            "peac": "visitante de jardines",
+            "swal": "especie de prados abiertos",
+            "stag": "indicador de bosque antiguo",
+            "hcat": "polinizador común",
+            "bdam": "orilla de agua dulce"
           },
           "notes": [
             "Especies de marisma con mayor peso que la media interior.",
@@ -725,56 +900,104 @@
             "oth": "Otros"
           },
           "why": {
-            "rhin": "vuelos del monzón",
-            "mant": "frecuente al borde de la carretera",
             "lady": "muy extendida",
-            "cica": "coro del desierto",
-            "walk": "arbusto de mesquite",
-            "mona": "corredor de primavera"
+            "buff": "abejorro muy extendido",
+            "rchf": "visitante iridiscente de flores",
+            "tort": "ortigas y especie de jardín",
+            "brim": "volador de principios de primavera",
+            "harl": "invasora pero inconfundible"
           },
           "notes": [
             "Fauna de abejas nativas sobremuestreada frente a abejas melíferas.",
             "Taxonomía de hormigas del desierto en flujo — confianza limitada al 92%."
           ]
+        },
+        "eu-ce": {
+          "tagline": "Jardines, prados y bordes de bosque.",
+          "fam": {
+            "lep": "Lepidópteros (mariposas y polillas)",
+            "hym": "Himenópteros (abejas y avispas)",
+            "col": "Coleópteros (escarabajos)",
+            "hem": "Hemípteros (chinches)",
+            "odo": "Odonatos (libélulas y caballitos del diablo)",
+            "oth": "Otros"
+          },
+          "why": {
+            "peac": "alas con ocelos inconfundibles",
+            "swal": "la mariposa más grande de Europa",
+            "stag": "especie protegida en la UE y el Reino Unido",
+            "lady": "el escarabajo más conocido",
+            "hcat": "polinizador esencial",
+            "bdam": "caballito del diablo común junto al agua"
+          },
+          "notes": [
+            "1.000 especies de jardines, prados y bosques de Europa central y occidental.",
+            "BugNet: un modelo de visión entrenado con fotos de iNaturalist (CC BY / CC0).",
+            "Funciona sin conexión una vez descargado: modelo, lista de especies, iconos y mapa."
+          ]
         }
       }
     },
     "bugs": {
-      "mona": {
-        "name": "Mariposa Monarca"
-      },
-      "rhin": {
-        "name": "Escarabajo Rinoceronte"
-      },
       "hcat": {
         "name": "Abeja Melífera"
-      },
-      "mant": {
-        "name": "Mantis Religiosa"
       },
       "lady": {
         "name": "Mariquita de Siete Puntos"
       },
-      "drag": {
-        "name": "Libélula Emperador"
+      "buff": {
+        "name": "Abejorro común"
       },
-      "lhoc": {
-        "name": "Polilla Luna"
+      "gbee": {
+        "name": "Abejorro de jardín"
       },
-      "fire": {
-        "name": "Luciérnaga Común"
+      "wasp": {
+        "name": "Avispa común"
       },
-      "cica": {
-        "name": "Cigarra Periódica"
+      "horn": {
+        "name": "Avispón europeo"
       },
-      "hwsp": {
-        "name": "Avispa Papelera"
+      "harl": {
+        "name": "Mariquita arlequín"
       },
-      "walk": {
-        "name": "Insecto Palo"
+      "stag": {
+        "name": "Ciervo volante"
       },
-      "atla": {
-        "name": "Polilla Atlas"
+      "rchf": {
+        "name": "Cetonia dorada"
+      },
+      "gshb": {
+        "name": "Chinche verde"
+      },
+      "bdam": {
+        "name": "Caballito del diablo azul"
+      },
+      "brim": {
+        "name": "Limonera"
+      },
+      "peac": {
+        "name": "Mariposa pavo real"
+      },
+      "lwhi": {
+        "name": "Blanca de la col"
+      },
+      "swhi": {
+        "name": "Blanquita de la col"
+      },
+      "orng": {
+        "name": "Aurora"
+      },
+      "radm": {
+        "name": "Vanesa atalanta"
+      },
+      "tort": {
+        "name": "Ortiguera"
+      },
+      "pntl": {
+        "name": "Vanesa de los cardos"
+      },
+      "swal": {
+        "name": "Macaón"
       }
     },
     "personas": {
@@ -786,7 +1009,7 @@
           "intro": "\"Genial, otra entrenadora. Déjame soltarlo todo.\"",
           "scanTip": "Sí sí, enfoca la cámara. Soy una IA, no maga.",
           "analyzing": "Entornando los ojos. No me metas prisa.",
-          "streak": "\"Tres días seguidos. Tu terapeuta estará encantado.\"",
+          "streak": "\"Apareciendo una y otra vez. Tu terapeuta estará encantado.\"",
           "chatHello": "¿Sí? ¿Qué ahora?",
           "topicHello": "¿Así que ahora hablamos del {topic}? Vale.",
           "common": "\"Es una {name}. Sí. ¿De verdad me necesitabas para esto?\"",
@@ -813,7 +1036,7 @@
           "intro": "\"Bienvenido. Tómate tu tiempo — aprenderemos juntos.\"",
           "scanTip": "Sostén la cámara firme. No hay prisa. El bicho espera.",
           "analyzing": "Examinando con cuidado. Un momento, por favor.",
-          "streak": "\"Cuatro días maravillosos de atención. Bien hecho.\"",
+          "streak": "\"Día tras día prestando atención. Bien hecho.\"",
           "chatHello": "Hola, amigo. ¿Qué has encontrado hoy?",
           "topicHello": "Ah, el {topic}. Buen tema. ¿Por dónde empezamos?",
           "common": "\"Una {name}. Una visita común muy querida — del tipo que enseña a mirar de cerca.\"",
@@ -833,14 +1056,14 @@
         ]
       },
       "maywind": {
-        "name": "R.A. Maywind",
+        "name": "Asistente Mayo",
         "title": "gemma-4 · curiosa",
         "blurb": "Ingeniosa. Alegre. Adora cada bicho.",
         "lines": {
           "intro": "\"¡Hola hola! Libreta lista, botas atadas — ¡a buscar bichos!\"",
           "scanTip": "¡Ooh ooh — apunta esa lente! ME ENCANTA esta parte.",
           "analyzing": "Cruzando la base — ¡esta es la parte divertida!",
-          "streak": "\"¡Cuatro días seguidos! ¡Eres una leyenda!\"",
+          "streak": "\"¡Día tras día! ¡Eres una leyenda!\"",
           "chatHello": "¡Hola! ¿Qué miramos hoy? Cuéntamelo todo.",
           "topicHello": "¡Ooh, un {topic}! Genial elección. ¡Pregúntame lo que sea!",
           "common": "\"¡Una {name}! Clásica favorita. Diez sobre diez, la identificaría de nuevo.\"",
@@ -848,7 +1071,7 @@
         },
         "uncertain": "¡Ooh, un puzle! Lo reduje a tres. ¡Ayúdame a elegir!",
         "noMatch": "¡Hmm! Salió vacío. ¡Otro ángulo, más luz y lo clavamos!",
-        "streakSass": "¡CUATRO DÍAS! Mañana son cinco — ¡tú puedes!",
+        "streakSass": "¡UNA RACHA! Mañana sigue — ¡tú puedes!",
         "badgeLocked": "¡Ooh, esta es GENIAL — te va a encantar desbloquearla!",
         "badgeEarned": "¡SÍ! ¡Mírate! ¡Va a la libreta!",
         "canned": [
@@ -861,6 +1084,7 @@
       }
     },
     "help": {
+      "webLabel": "Abrir la página de ayuda completa en critterboard.app",
       "title": "Ayuda y acerca de",
       "sub": "FAQ, contacto, tus datos.",
       "section": "FAQ",
@@ -871,7 +1095,7 @@
         },
         "faq2": {
           "q": "¿Por qué tengo poca confianza en la ID?",
-          "a": "Suele ser una de tres: foto borrosa, el bicho ocupa menos de 1/4 del encuadre, o estás fuera de un pack regional instalado. Prueba con un encuadre más cerrado, más luz y un perfil lateral."
+          "a": "Suele ser una de tres: foto borrosa, el bicho ocupa menos de 1/4 del encuadre, o estás fuera de un pack regional instalado. Los escaneos por debajo de tu umbral de coincidencia (Cerebro, 33 % por defecto) no se pueden añadir. Prueba con un encuadre más cerrado, más luz y un perfil lateral."
         },
         "faq3": {
           "q": "¿Cómo funcionan los congeladores de racha?",
@@ -887,7 +1111,15 @@
         },
         "faq6": {
           "q": "¿Cómo borro mis datos?",
-          "a": "Baja hasta \"Borrar todo.\" Elimina tu dex, avistamientos, ajustes y modelos en el dispositivo. También seguidores y entradas de ranking. No hay deshacer."
+          "a": "Todo en este teléfono: baja hasta «Borrar todo». Elimina tu dex, avistamientos, ajustes y modelos, y antes borra tus datos en línea. Solo en línea: en Cerebro está «Borrar mis datos en línea». No hay deshacer."
+        },
+        "faq7": {
+          "q": "¿Puedo llevar mis datos a un teléfono nuevo?",
+          "a": "Sí. Usa aquí «Copia de seguridad (archivo)», guarda el archivo en Archivos o iCloud Drive y en el teléfono nuevo elige «Restaurar una copia» (o en la primera pantalla tras reinstalar). Añade tu dex, capturas, misiones y ajustes; las fotos y el historial de chat no se incluyen."
+        },
+        "faq8": {
+          "q": "¿De dónde salen el hábitat, el tamaño, la distribución y la dieta?",
+          "a": "El hábitat y la dieta son típicos de la familia de la especie. El tamaño viene de Wikipedia y la distribución de registros de GBIF, así que algunas especies muestran la familia en lugar del tamaño. «Más en Wikipedia» abre el artículo completo."
         }
       },
       "contactTitle": "Ponte en contacto",
@@ -919,53 +1151,59 @@
         "wipeDesc": "Dex, avistamientos, modelos, ajustes. Sin deshacer.",
         "wipeCta": "Borrar",
         "wipeConfirmCta": "Pulsa otra vez para confirmar",
-        "wipeToast": "Borrado en cola — reinicia la app."
+        "wipeToast": "Borrado en cola — reinicia la app.",
+        "wipeOnlineFailed": "No se pudieron borrar tus datos en línea, así que no se borró nada. Conéctate e inténtalo de nuevo.",
+        "backupTitle": "Copia de seguridad (archivo)",
+        "backupDesc": "Dex, capturas, misiones y ajustes en un archivo. Guárdalo en Archivos o iCloud Drive.",
+        "backupCta": "Guardar",
+        "restoreTitle": "Restaurar una copia",
+        "restoreDesc": "Añade un archivo de copia a este teléfono. No se borra nada.",
+        "restoreCta": "Restaurar"
       },
       "appName": "Critterboard",
-      "appBuild": "v1.4.0 · build 2026.05 · licencia MIT",
-      "appSpecOn": "iOS 16+ · 312 MB en disco · red ACTIVADA",
-      "appSpecOff": "iOS 16+ · 312 MB en disco · totalmente offline"
+      "appBuild": "v{version} · licencia MIT",
+      "appSpecOn": "iOS 17+ · red ACTIVADA",
+      "appSpecOff": "iOS 17+ · totalmente offline",
+      "backup": {
+        "keyTitle": "¿Incluir tu clave en línea?",
+        "keyBody": "La clave conserva tu ranking y tus amigos si reinstalas. Cualquiera con el archivo podría actuar como tú en línea, así que inclúyela solo si mantendrás el archivo privado.",
+        "keyWith": "Incluir clave",
+        "keyWithout": "Omitir",
+        "readFailed": "No se pudo leer ese archivo.",
+        "invalid": "Eso no es una copia de Critterboard.",
+        "restoreTitle": "¿Restaurar esta copia?",
+        "restoreBody": "{species} especies y {catches} capturas (copia del {date}) se añadirán a este teléfono. No se borra nada.",
+        "restoreYes": "Restaurar",
+        "restored": "Restaurado · {n} capturas",
+        "regionHint": "Vuelve a descargar tu pack regional en Cerebro.",
+        "identityHint": "Tu perfil en línea ha vuelto. Activa la red en Cerebro para usarlo."
+      }
     },
     "credits": {
-      "build": "v1.4.0 · build 2026.05",
-      "intro": "Hecho por tres personas que de verdad piensan que los bichos molan. Sin dinero de VC, sin anuncios, sin rastreo, sin cuenta. Solo bichos y un teléfono.",
+      "build": "v{version}",
+      "intro": "Hecho por un desarrollador independiente que de verdad piensa que los bichos molan. Sin dinero de VC, sin anuncios, sin rastreo, sin cuenta. Solo bichos y un teléfono.",
       "section": {
-        "team": "El equipo",
         "models": "Modelos en el dispositivo",
         "data": "Datos y agradecimientos"
       },
-      "team": {
-        "mira": {
-          "name": "Mira Ostrov",
-          "role": "Diseño e ilustración"
-        },
-        "theo": {
-          "name": "Theo Bramble",
-          "role": "Ingeniería iOS"
-        },
-        "junie": {
-          "name": "Junie Halverson",
-          "role": "ML y modelos en dispositivo"
-        }
-      },
       "models": {
         "bugnet": {
-          "name": "BugNet v3",
-          "role": "Visión · 88 MB · 1.000 especies"
+          "name": "BugNet",
+          "role": "Visión · {id} · {mb} MB · {n} especies"
         },
         "larva": {
           "name": "Gemma 4 E2B",
           "role": "Chat · 3,1 GB · Q4_K_M · Apache 2.0"
         },
         "variants": {
-          "name": "Maywind / Snail",
+          "name": "Mayo / Caracol",
           "role": "Personajes: prompts de sistema sobre Gemma 4"
         }
       },
       "data": {
         "iNat": {
           "name": "iNaturalist",
-          "role": "Imágenes de referencia (CC-BY-NC)"
+          "role": "Fotos de entrenamiento y referencia (CC0 / CC BY)"
         },
         "gbif": {
           "name": "GBIF",
@@ -973,12 +1211,23 @@
         },
         "beta": {
           "name": "Todo beta tester",
-          "role": "Probado en campo en 14 ciudades"
+          "role": "Gracias por reportar errores"
         }
       },
       "contactTitle": "¿Encontraste un bicho de software?",
       "contactEmail": "hello@critterboard.app",
       "footer": "Todo el procesamiento ocurre en tu dispositivo.\nNingún dato sale de este teléfono. Lo prometemos.\n© 2026 Critterboard · código abierto MIT"
+    },
+    "openSource": {
+      "title": "Bibliotecas de código abierto",
+      "sub": "Dependencias de terceros que usa Critterboard",
+      "models": "Modelos en el dispositivo",
+      "modelsSub": "Identificación y chat: fuentes y licencias",
+      "runtime": "Dependencias de ejecución",
+      "runtimeSub": "{n} paquetes incluidos en la app",
+      "dev": "Dependencias de desarrollo",
+      "devSub": "{n} paquetes usados en herramientas y compilación",
+      "footer": "Pulsa un paquete para abrir una búsqueda en Google."
     }
   }
 }

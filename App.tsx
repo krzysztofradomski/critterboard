@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import "@/lib/initExecutorch";
-import { StyleSheet, View } from "react-native";
+import { AppState, StyleSheet, View } from "react-native";
 
 import { useBackendIdentityBridge, useSyncProfile } from "@/backend/hooks";
+import { settleOwedCleanups, syncCatches } from "@/backend/sync";
 import { Toast } from "@/components/Toast";
 import { hydrateCachedPacks, syncRemotePacks, isKnownLang } from "@/i18n";
 import * as FileSystem from "expo-file-system/legacy";
@@ -16,10 +17,9 @@ import {
 } from "@/lib/crashReporting";
 import { syncStreakNudge } from "@/lib/notify";
 import { PB } from "@/tokens/pb";
-import { useAppStore } from "@/store/useAppStore";
+import { flushPersistedState, useAppStore } from "@/store/useAppStore";
 
 export default function App() {
-  const toast = useAppStore((s) => s.toast);
   const catchLog = useAppStore((s) => s.catchLog);
   const persona = useAppStore((s) => s.persona);
   const language = useAppStore((s) => s.language);
@@ -35,6 +35,25 @@ export default function App() {
   // Push profile changes (name, leaderboard visibility, location share)
   // to the Cloudflare Worker whenever they change. Gated on networkOn.
   useSyncProfile();
+
+  // Catches that missed the server (offline, killed app) go up as soon as Network is on.
+  const networkOn = useAppStore((s) => s.profile.networkOn);
+  useEffect(() => {
+    if (networkOn) void syncCatches();
+  }, [networkOn]);
+
+  // Store writes are batched (see useAppStore): save the latest state before the OS may kill us.
+  useEffect(() => {
+    const sub = AppState.addEventListener("change", (next) => {
+      if (next !== "active") void flushPersistedState();
+    });
+    return () => sub.remove();
+  }, []);
+
+  // A hide or location removal that failed offline is owed: retry it once per launch.
+  useEffect(() => {
+    void settleOwedCleanups();
+  }, []);
 
   // On first launch, seed the language from the device locale so users
   // with a supported language don't have to visit Settings manually.
@@ -110,7 +129,7 @@ export default function App() {
         <View style={styles.root}>
           <StatusBar style="dark" />
           <Router />
-          <Toast toast={toast} />
+          <Toast />
         </View>
       </View>
     </SafeAreaProvider>

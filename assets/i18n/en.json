@@ -18,7 +18,8 @@
       "retry": "Retry",
       "ok": "OK",
       "open": "Open",
-      "level": "level"
+      "level": "level",
+      "delete": "Delete"
     },
     "tabs": {
       "home": "Home",
@@ -36,21 +37,20 @@
       "title": "Critterboard",
       "tagline": "id any bug · stay offline · be smug",
       "snap": "📷 SNAP A BUG",
-      "sassyId": "🤖 GET A SASSY ID",
+      "identify": "🔍 IDENTIFY IT",
       "buildDex": "🏆 BUILD YOUR DEX",
       "pickGuide": "PICK YOUR GUIDE",
       "startHunting": "Start hunting →",
       "legal": "✓ no account · ✓ no internet · ✓ no $$",
-      "legalOnline": "✓ no account · ✓ with internet · ✓ no $$"
+      "legalOnline": "✓ no account · ✓ with internet · ✓ no $$",
+      "namePrompt": "WHAT SHOULD WE CALL YOU?",
+      "haveBackup": "Have a backup? Restore it"
     },
     "home": {
       "streakPill": "{days}-day streak",
       "bugOfDay": "BUG OF THE DAY",
-      "bugOfDayName": "Luna Moth 🌙",
-      "legendary": "★★★★★ LEGENDARY",
       "hunt": "HUNT →",
-      "bugOfDayDesc": "Catch one today for",
-      "bugOfDayXp": " +500 XP ",
+      "bugOfDayDesc": "Catch one today for ",
       "bugOfDayDescTail": " and a shiny badge.",
       "yourWeek": "Your week",
       "daysToBadge": "{n} days till badge",
@@ -60,10 +60,11 @@
         "xp": "XP",
         "rank": "RANK"
       },
-      "bugOfDayXpAmount": " +{xp} XP ",
+      "bugOfDayXpAmount": " +{xp} XP ",
       "recentFinds": "Recent finds"
     },
     "scan": {
+      "galleryFailed": "Couldn't open your photos. Try again.",
       "analyzing": "ANALYZING…",
       "scanning": "OFFLINE · SCANNING",
       "permissionTitle": "Camera access",
@@ -73,17 +74,28 @@
       "focus": "focus",
       "matching": "matching…",
       "needPackTitle": "Get the species pack",
-      "needPackBody": "Bug ID runs on your phone. Install the Central Europe pack (1,000 species, ~89 MB) once to start scanning.",
+      "needPackBody": "Bug ID runs on your phone. Install the Central Europe pack (1,000 species and the offline map, ~145 MB) once to start scanning.",
       "needPackCta": "Open species packs",
-      "modelNotReady": "The species model is still loading. Try again in a moment."
+      "modelNotReady": "The species model is still loading. Try again in a moment.",
+      "modelFetching": "Fetching model… {pct}%",
+      "modelLoading": "Loading model…",
+      "tipsTitle": "Photo tips",
+      "tipsSub": "Better photos, better matches.",
+      "tipsGotIt": "Got it"
     },
     "result": {
       "headTitle": "IDENTIFIED!",
       "confidence": "CONFIDENCE",
+      "removeFromDex": "Remove from Dex",
+      "removeTitle": "Remove from Dex?",
+      "removeBody": "Removes {name} with its photos and map pins from this phone. Quest progress and XP you already earned stay. You can catch it again later.",
+      "removeCta": "Remove",
       "alreadyInDex": "Already in your Dex ✓",
       "addToDex": "Add to Dex 📔",
       "askCta": "ASK {name} →",
-      "caughtToast": "Caught! +{xp} XP · {tier}"
+      "caughtToast": "Caught! +{xp} XP · {tier}",
+      "tooUnsure": "Too unsure to add (needs {min}%+). Try another photo.",
+      "readMore": "Read more on Wikipedia ↗"
     },
     "facts": {
       "habitat": "Habitat",
@@ -127,23 +139,70 @@
         "leaves": "Leaves",
         "nighttime": "Nighttime",
         "nectar": "Nectar"
+      },
+      "family": "Family",
+      "region": {
+        "EUROPE": "Europe",
+        "NORTH_AMERICA": "N. America",
+        "ASIA": "Asia",
+        "AFRICA": "Africa",
+        "OCEANIA": "Oceania",
+        "LATIN_AMERICA": "Latin America"
+      },
+      "habitatOf": {
+        "flowery": "Meadows, gardens, woodland edges",
+        "water": "Ponds, lakes, slow streams",
+        "grassland": "Grassland and meadows",
+        "vegetation": "Shrubs, plants and ground",
+        "leaflitter": "Leaf litter and soil",
+        "dry_sunny": "Warm, dry, sunny places",
+        "crevices": "Damp crevices, bark, buildings",
+        "damp_woods": "Damp woods and shady undergrowth",
+        "deadwood": "Woodland and dead wood",
+        "ground": "Soil, leaf litter, under stones",
+        "plants": "Plants, shrubs and trees"
+      },
+      "dietOf": {
+        "lepi": "Caterpillars eat leaves; adults sip nectar",
+        "predator": "Hunts other insects",
+        "predator_flying": "Hunts flying insects",
+        "aphid_eaters": "Mostly aphids",
+        "sap": "Plant sap",
+        "nectar_pollen": "Nectar and pollen",
+        "wasp": "Insects, nectar and sweet things",
+        "omnivore_ant": "Almost anything: insects, honeydew, seeds",
+        "gall": "Larvae live inside plant galls",
+        "parasitoid": "Larvae feed on other insects or spiders",
+        "leaves": "Leaves and plant tissue",
+        "grass": "Grasses and leaves",
+        "plants_insects": "Plants and small insects",
+        "wood": "Larvae eat wood; adults sip sap or pollen",
+        "beetle_mixed": "Dung, plants, pollen or fruit, by species",
+        "pollen": "Pollen and petals",
+        "detritus": "Decaying plant matter and scraps",
+        "spiders": "Catches insects with a web or ambush",
+        "harvestman": "Small invertebrates and dead matter",
+        "blood": "Blood of animals",
+        "hoverfly": "Nectar and pollen; larvae often eat aphids",
+        "nonfeeding": "Adults barely feed; larvae live in water",
+        "scavenge": "Dead insects and fallen fruit",
+        "varied": "Varies by species"
       }
     },
     "disambiguate": {
       "headTitle": "NOT QUITE SURE",
-      "lowConfidence": "LOW CONFIDENCE · 62%",
-      "shotMeta": "📷 1/250s · blurry",
+      "lowConfidence": "LOW CONFIDENCE · {pct}%",
       "topCandidates": "TOP CANDIDATES",
       "tapToConfirm": "tap to confirm",
       "askForHelp": "Ask {name} for help →",
       "noneOfThese": "None of these",
       "thisMystery": "this mystery bug",
-      "foot": "ID ran fully on-device · 320 ms · no photo left your phone"
+      "foot": "ID ran fully on-device · no photo left your phone"
     },
     "noMatch": {
       "headTitle": "NO MATCH",
       "heroTitle": "Couldn't ID this one.",
-      "heroSub": "BugNet v3 returned all candidates below 15%.",
+      "heroSub": "{model} returned all candidates below 15%.",
       "tryThis": "TRY THIS",
       "tip": {
         "lightTitle": "Brighter light",
@@ -193,6 +252,9 @@
         "body": "Your guides run entirely on this phone with Google's {model} model: a one-time {size} GB download (Wi-Fi recommended). Nothing you type leaves the device.",
         "errorBody": "The {model} download didn't finish. Check your connection and free space ({size} GB), then try again in Settings.",
         "busyBody": "Chat opens as soon as the model is ready. You can keep using the app meanwhile.",
+        "ejectedTitle": "{model} is ejected",
+        "ejectedBody": "The model is still on your phone but not loaded, so it uses no memory. Load it to chat.",
+        "loadCta": "Load model",
         "loadingTitle": "Waking up {model}…",
         "downloadingTitle": "Downloading {model}… {pct}%",
         "webTitle": "Chat runs in the phone app",
@@ -200,7 +262,9 @@
         "cta": "Open Settings",
         "ramTitle": "Chat isn't available on this phone",
         "ramBody": "The guides run on {model}, which needs a phone with at least 4 GB of memory. Everything else in Critterboard works as usual."
-      }
+      },
+      "deleteTitle": "Delete message",
+      "deleteBody": "Remove this message from the conversation?"
     },
     "activity": {
       "title": "Buzz",
@@ -214,33 +278,6 @@
       "emptyTitle": "Crickets.",
       "emptySub": "Nothing here yet.",
       "newBadge": "NEW",
-      "item": {
-        "a1Title": "antqueen liked your Monarch",
-        "a1Sub": "2 hr ago · Brooklyn cluster",
-        "a1Cta": "View sighting",
-        "a2Title": "Gemma 4 E2B ready to install",
-        "a2Sub": "New jokes. Same vibe. 240 MB.",
-        "a2Cta": "Update",
-        "a3Title": "4-day streak! Don't break it",
-        "a3Sub": "Catch one bug today. Even a hoverfly.",
-        "a3Cta": "Open scan",
-        "a4Title": "You passed bug_dad_42",
-        "a4Sub": "You're #6 on the global board.",
-        "a4Cta": "Leaderboard",
-        "a5Title": "Quest complete: 3 pollinators",
-        "a5Sub": "+75 XP. Reward unlocked.",
-        "a5Cta": "Claim",
-        "a6Title": "mothwhisperer caught a Luna Moth",
-        "a6Sub": "420 m from you · 6 hr ago",
-        "a6Cta": "View on map",
-        "a7Title": "Regional pack: Northeast NA",
-        "a7Sub": "New seasonal index synced (+38 species).",
-        "a7Cta": "View pack",
-        "a8Title": "wingedfren replied to your hoverfly thread",
-        "a8Sub": "\"Pretty sure that's a Marmalade — wing bands.\"",
-        "a8Cta": "Open chat",
-        "a8Topic": "Hoverflies"
-      },
       "kind": {
         "catchTitle": "Caught {name}",
         "catchSub": "+{xp} XP · {when}",
@@ -274,8 +311,6 @@
       }
     },
     "friends": {
-      "title": "Naturalists",
-      "sub": "People you follow · their bugs",
       "tab": {
         "following": "Following",
         "followers": "Followers",
@@ -284,8 +319,8 @@
       "follow": "+ Follow",
       "following": "✓ Following",
       "ago": "{when} ago",
-      "emptyTitle": "No one here yet.",
-      "emptySub": "Check the Suggested tab to find naturalists like you."
+      "emptyTitle": "Nobody here yet.",
+      "emptySub": "Friends and suggestions show up once other naturalists join."
     },
     "person": {
       "rank": "RANK #{rank}",
@@ -348,27 +383,42 @@
     },
     "leaderboard": {
       "title": "Leaderboard",
-      "sub": "Resets in 3d 14h · 482k trainers",
+      "sub": "Opt-in only. Just a name and your XP.",
       "tab": {
         "global": "Global",
         "weekly": "Weekly",
         "friends": "Friends"
       },
-      "meta": "{country} · level 12",
+      "stats": "Lv {lvl} · {n} species",
+      "statsWeek": "{n} species this week",
+      "meta": "{country}",
       "hiddenTitle": "You are hidden from rankings",
       "hiddenDesc": "Turn on \"Show me on leaderboard\" to appear.",
-      "fix": "FIX →"
+      "fix": "FIX →",
+      "emptyTitle": "Nobody to race yet",
+      "emptySub": "Rankings fill up once other trainers join. For now it is just you."
     },
     "map": {
-      "locName": "Brooklyn, NY",
-      "locNamePrivate": "Private location",
-      "locSub": "{n} sightings · last 30 days",
-      "sightings": "{n}× sightings",
-      "distance": "0.4 mi",
-      "where": "Prospect Park · 2 days ago",
+      "locName": "Your map",
+      "locSub": "Pins on your map: {n}",
       "hunt": "HUNT →",
       "pinRemove": "Remove pin",
-      "viewInsect": "View insect →"
+      "stackOf": "{n} of {total}",
+      "viewInsect": "View insect →",
+      "sightingSub": "Spotted nearby · {when}",
+      "emptyTitle": "No pins yet",
+      "emptySub": "Catch a bug with location on and it lands here.",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "lockedTitle": "Map is off",
+      "noRegionSub": "The offline map comes with a regional pack. Install one in Brains and the map unlocks.",
+      "noRegionCta": "Open Brains",
+      "unavailableSub": "{name} has no offline map yet.",
+      "needsDownloadSub": "Download the {name} map ({mb} MB) to use it offline.",
+      "downloadCta": "↓ Download map · {mb} MB",
+      "downloadingSub": "Downloading the map… {pct}%",
+      "errorSub": "Couldn't download the map. Check your connection and try again.",
+      "retryCta": "Try again"
     },
     "permissions": {
       "title": "Three quick asks.",
@@ -400,7 +450,7 @@
         "location": {
           "title": "Location",
           "desc": "Better range filtering — the model knows what lives near you.",
-          "b1": "City-level fuzz (~5 km)",
+          "b1": "Pins your catches on your own map",
           "b2": "Stays on device unless you share",
           "b3": "Toggle off any time"
         },
@@ -499,19 +549,16 @@
       "items": {
         "b1": {
           "name": "First Catch",
-          "earned": "Apr 12",
           "desc": "Your very first ID. Welcome to the club — every naturalist has this one tucked in the front of their notebook.",
           "crit": "Identify your first bug."
         },
         "b2": {
           "name": "Streak 3",
-          "earned": "May 04",
           "desc": "Three days of paying attention in a row. The hard part is starting; the harder part is showing up tomorrow.",
           "crit": "ID at least one bug, three days running."
         },
         "b3": {
           "name": "Night Owl",
-          "earned": "May 09",
           "desc": "You went out after dark with a flashlight and found something looking back. Moths salute you.",
           "crit": "Identify a bug between 9pm and 4am."
         },
@@ -521,9 +568,9 @@
           "crit": "Identify 10 different pollinators."
         },
         "b5": {
-          "name": "Splitter",
-          "desc": "You can tell a hoverfly from a wasp at twenty paces. Lumpers fear you.",
-          "crit": "Correctly distinguish 5 mimic species."
+          "name": "Photographer",
+          "desc": "Pictures or it didn't happen. You keep photographic evidence of your finds.",
+          "crit": "Catch 10 bugs with a photo."
         },
         "b6": {
           "name": "Centurion",
@@ -531,16 +578,63 @@
           "crit": "Reach 100 total identifications."
         },
         "b7": {
-          "name": "???",
-          "desc": "Locked. Keep hunting and this one will reveal itself.",
-          "crit": "Hidden until you earn it."
+          "name": "Early Bird",
+          "desc": "You were up before the dew dried. The best bugs keep early hours.",
+          "crit": "Catch a bug between 4am and 8am."
         },
         "b8": {
-          "name": "???",
-          "desc": "Locked. Keep hunting and this one will reveal itself.",
-          "crit": "Hidden until you earn it."
+          "name": "Legend Hunter",
+          "desc": "You found a creature most people only read about. Frame that photo.",
+          "crit": "Catch a legendary species."
+        },
+        "b9": {
+          "name": "Beetle Mania",
+          "desc": "Shiny, armoured and everywhere. You have developed a type.",
+          "crit": "Catch 5 different beetles."
+        },
+        "b10": {
+          "name": "Wing Collector",
+          "desc": "Scales, wings and a good eye for timing.",
+          "crit": "Catch 5 different butterflies."
+        },
+        "b11": {
+          "name": "Dex Starter",
+          "desc": "The notebook is officially open for business.",
+          "crit": "Catch 10 different species."
+        },
+        "b12": {
+          "name": "Dex Scholar",
+          "desc": "Fifty species in and the pages are filling up nicely.",
+          "crit": "Catch 50 different species."
+        },
+        "b13": {
+          "name": "Week Warrior",
+          "desc": "A full week of paying attention. The bugs noticed.",
+          "crit": "Reach a 7-day streak."
+        },
+        "b14": {
+          "name": "Iron Habit",
+          "desc": "Thirty days. This is no longer a hobby; it is a lifestyle.",
+          "crit": "Reach a 30-day streak."
+        },
+        "b15": {
+          "name": "Cartographer",
+          "desc": "Your map is starting to look like a real field journal.",
+          "crit": "Catch 5 bugs with a location pinned."
+        },
+        "b16": {
+          "name": "Triple Play",
+          "desc": "Three finds before dinner. Productive afternoon.",
+          "crit": "Catch 3 bugs in one day."
+        },
+        "b17": {
+          "name": "Rare Find",
+          "desc": "Not everyone spots one of these. You did.",
+          "crit": "Catch a rare (or rarer) species."
         }
-      }
+      },
+      "hiddenDesc": "Locked. Keep hunting and this one will reveal itself.",
+      "hiddenCrit": "Hidden until you earn it."
     },
     "notify": {
       "streak": {
@@ -566,7 +660,8 @@
       },
       "freezeTitle": "Streak Freezes",
       "freezeDesc": "Auto-uses on a missed day so your streak survives. Earn one every 7 days.",
-      "keepAlive": "📷 Keep the streak alive"
+      "keepAlive": "📷 Keep the streak alive",
+      "noStreak": "No streak yet."
     },
     "settings": {
       "title": "On-device Brains",
@@ -577,7 +672,7 @@
       "profileSafe": "Zero data leaves your device.",
       "displayName": "DISPLAY NAME",
       "namePlaceholder": "your trainer name",
-      "nameHint": "Shown on the leaderboard and shared sightings.",
+      "nameHint": "Shown on the leaderboard and to friends.",
       "nameOffensive": "This name isn't allowed. Please choose another.",
       "privacy": "PRIVACY",
       "networkLabel": "Network access",
@@ -587,20 +682,19 @@
       "boardOn": "Your XP & name appear globally.",
       "boardNeeds": "Requires network access.",
       "locShareLabel": "Share spotting locations",
-      "locShareOn": "Pins added to the public map (±500m fuzz).",
+      "locShareOn": "Your catches appear, with species and date but not your name, on nearby players' maps.",
       "locShareOff": "Your map stays private to this device.",
+      "sightingsLabel": "Show others' sightings",
+      "sightingsOn": "Nearby catches from other players appear on your map. Finding them sends your location, rounded to about 1 km.",
+      "sightingsOff": "Only your own pins on the map.",
       "crashLabel": "Send crash reports",
       "crashOn": "Anonymous diagnostics help us fix bugs.",
       "crashOff": "No crash data leaves your device.",
       "crashNeeds": "Requires network access.",
       "model": {
-        "bugNet": "BugNet v3",
-        "bugNetMeta": "Vision · 88 MB · 1,000 species",
         "larva": "{model} (Q4)",
         "larvaMeta": "Chat model · {size} GB · {state}",
         "larvaInstalled": "installed",
-        "species": "Species Database",
-        "speciesMeta": "Facts & habitats · 88 MB · v2026.04",
         "ready": "READY",
         "downloading": "↓ {pct}%",
         "loading": "LOADING",
@@ -611,13 +705,15 @@
         "larvaPhoneOnly": "phone app only",
         "phoneOnly": "PHONE ONLY",
         "larvaTooLittleRam": "needs 4 GB of memory",
-        "notSupported": "NOT SUPPORTED"
+        "notSupported": "NOT SUPPORTED",
+        "visionMeta": "{id} · {mb} MB · {n} species",
+        "noPack": "NO PACK"
       },
       "localLlmLabel": "On-device chat ({model})",
       "localLlmOn": "Chat runs on your device with {model}. Private & offline.",
       "localLlmOff": "Off: chat is disabled. Turn on to download {model} ({size} GB, Wi-Fi recommended).",
       "localLlmNoWeb": "Chat needs the iPhone or Android app.",
-      "regionsBand": "Regional packs",
+      "regionsBand": "Regional packs · one active at a time",
       "regionsSub": "Boosts ID accuracy where you actually are.",
       "regionMeta": "{installed}/{total} · {mb} MB",
       "regionInstalled": "✓ ON DEVICE",
@@ -638,17 +734,88 @@
       "helpTile": "Help & About",
       "helpSub": "FAQ · data export",
       "creditsTitle": "Free forever. No ads. No tracking.",
-      "creditsSub": "Built with love by 3 people who really like beetles.",
+      "creditsSub": "Built with love for people who really like beetles.",
       "viewCredits": "VIEW CREDITS →",
       "guideToast": "Guide: {name}",
       "localLlmError": "Download failed. Turn on to try again ({size} GB).",
+      "localLlmEjected": "Chat model is ejected: it stays on your phone but is not using memory.",
+      "localLlmEject": "Eject from memory (keep the file)",
+      "localLlmLoad": "Load into memory",
       "localLlmDeleteTitle": "Turn off chat?",
       "localLlmDeleteBody": "This deletes {model} from your phone and frees {size} GB. Chat stays disabled until you download it again.",
       "localLlmDeleteCta": "Delete model",
       "localLlmTooLittleRam": "Needs a phone with at least 4 GB of memory.",
       "localLlmLowRamTitle": "Download on a 4 GB phone?",
       "localLlmLowRamBody": "This phone has about 4 GB of memory. {model} uses about 3 GB while you chat, so replies may be slow and the app may close if other apps are open. The download is {size} GB.",
-      "localLlmLowRamCta": "Download anyway"
+      "localLlmLowRamCta": "Download anyway",
+      "regionSoon": "SOON",
+      "regionSoonSub": "Coming soon",
+      "regionActive": "● ACTIVE",
+      "regionUse": "USE",
+      "regionSwitched": "BugNet now uses {name}",
+      "packCta": "↓ Download {name} · {mb} MB",
+      "packHint": "BugNet needs a region pack to identify bugs. The model, species list and offline map download together.",
+      "mapDownloadFailed": "The pack is installed, but its map didn't download. Retry from the Map tab.",
+      "packDownloadFailed": "Failed to download {name}",
+      "minConf": {
+        "title": "Match threshold",
+        "sub": "Scans below this confidence can't be added to your Dex.",
+        "l20": "Lenient",
+        "l33": "Balanced",
+        "l50": "Strict",
+        "l70": "Very strict",
+        "foot": "Higher means fewer wrong IDs, but more \"no match\"."
+      },
+      "sync": {
+        "upToDate": "All {n} catches are online",
+        "nothingYet": "Nothing uploaded yet",
+        "uploading": "Uploading {done} / {total}…",
+        "failed": "Couldn't upload {n} catches. They're safe on your phone.",
+        "retry": "Retry",
+        "older": "{n} earlier catches aren't online yet.",
+        "upload": "Upload",
+        "notNow": "Not now",
+        "cancel": "Cancel",
+        "delete": "Delete my online data",
+        "deleted": "Online data deleted",
+        "deleteFailed": "Couldn't reach the server. Try again when you're online.",
+        "deleteConfirmTitle": "Delete your online data?",
+        "deleteConfirmBody": "Removes your profile, uploaded catches, follows and ranking entry from our server. Your Dex on this phone stays.",
+        "offTitle": "Turn off Network?",
+        "offBody": "Your profile and catches are still on our server. Keep them (hidden from rankings) or delete them?",
+        "offKeep": "Keep, hidden",
+        "offDelete": "Delete online data",
+        "hideFailed": "Couldn't hide your profile online yet. The app will try again next time it starts.",
+        "olderPromptTitle": "Upload your {n} earlier catches?",
+        "olderPromptBody": "Friends and rankings only know about catches made while Network is on. Locations are only sent if you share them.",
+        "locationsCleared": "Stored locations removed",
+        "locationsClearFailed": "Couldn't remove stored locations yet. The app will try again next time it starts."
+      },
+      "confirm": {
+        "networkTitle": "Go online?",
+        "networkBody": "Critterboard works fully offline. Turning Network on lets it send your display name, your caught species with times, and (only if you switch it on) exact catch locations to our server, for rankings and friends. You can delete all of it again at any time.",
+        "networkYes": "Go online",
+        "boardTitle": "Show you on the leaderboard?",
+        "boardBody": "Your display name and XP become visible to every player in the global and weekly rankings. You can hide yourself again at any time.",
+        "boardYes": "Show me",
+        "locTitle": "Share catch locations?",
+        "locBody": "Each new catch is uploaded with its exact location and appears, without your name, on the maps of players nearby who show sightings. You can switch this off to remove the stored locations.",
+        "locYes": "Share",
+        "locOffTitle": "Stop sharing locations?",
+        "locOffBody": "This also deletes the catch locations already stored on our server. Your own map on this phone is not affected.",
+        "locOffYes": "Stop and delete",
+        "sightingsTitle": "Show others' sightings?",
+        "sightingsBody": "Each time you open the Map, your location, rounded to about 1 km, is sent to our server to find nearby sightings. It isn't stored.",
+        "sightingsYes": "Show them",
+        "crashTitle": "Send crash reports?",
+        "crashBody": "When the app crashes, it sends the error, your phone model, system version and app version to Sentry, our crash service. No name, photos, catches or location.",
+        "crashYes": "Send reports"
+      },
+      "haptics": {
+        "label": "Vibration",
+        "on": "Taps, toggles and tabs give a small buzz.",
+        "off": "No vibration."
+      }
     },
     "regions": {
       "list": {
@@ -711,15 +878,15 @@
           "why": {
             "peac": "unmistakeable eyespot wings",
             "swal": "largest European butterfly",
-            "stag": "UK & EU protected species",
+            "stag": "protected species in the EU & UK",
             "lady": "most recognised beetle",
             "hcat": "essential pollinator",
             "bdam": "common waterside damselfly"
           },
           "notes": [
-            "Demo pack — 20 Central European species.",
-            "MobileNetV3-Small, trained on iNaturalist photos.",
-            "Activate native model: set USE_NATIVE_VISION=true in src/ai/index.ts."
+            "1,000 species from gardens, meadows and woodland across Central and Western Europe.",
+            "BugNet: a vision model fine-tuned on iNaturalist photos (CC BY / CC0).",
+            "Works fully offline once downloaded: model, species list, icons and map."
           ]
         },
         "na-ne": {
@@ -842,7 +1009,7 @@
           "intro": "\"Oh great, another trainer. Let me drop everything.\"",
           "scanTip": "Yeah yeah, focus the camera. I'm an AI, not a magician.",
           "analyzing": "Squinting. Don't rush me.",
-          "streak": "\"Three days in a row. Your therapist must be thrilled.\"",
+          "streak": "\"Showing up again and again. Your therapist must be thrilled.\"",
           "chatHello": "Yes? What now?",
           "topicHello": "So we're talking about the {topic} now? Fine.",
           "common": "\"It's a {name}. Yes. You really needed me for this?\"",
@@ -869,7 +1036,7 @@
           "intro": "\"Welcome. Take your time — we'll learn together.\"",
           "scanTip": "Steady the camera. There is no rush. The bug is waiting.",
           "analyzing": "Examining carefully. One moment, please.",
-          "streak": "\"Four wonderful days of paying attention. Well done.\"",
+          "streak": "\"Day after day of paying attention. Well done.\"",
           "chatHello": "Hello, friend. What did you find today?",
           "topicHello": "Ah, the {topic}. A fine choice to study. Where shall we begin?",
           "common": "\"A {name}. A lovely common visitor — the kind of bug that teaches you to look closely.\"",
@@ -896,7 +1063,7 @@
           "intro": "\"Hi hi! Notebook ready, boots laced — let's find a critter!\"",
           "scanTip": "Ooh ooh — point that lens! I LOVE this part.",
           "analyzing": "Cross-checking the database — this is the fun bit!",
-          "streak": "\"Four days in a row! You absolute legend!\"",
+          "streak": "\"Day after day! You absolute legend!\"",
           "chatHello": "Hi! What are we looking at today? Tell me everything.",
           "topicHello": "Ooh, a {topic}! Brilliant pick. Ask me anything!",
           "common": "\"A {name}! Classic crowd-pleaser. Ten out of ten, would identify again.\"",
@@ -904,7 +1071,7 @@
         },
         "uncertain": "Ooh, a puzzle! I narrowed it to three. Help me pick!",
         "noMatch": "Hmm! Came up empty. New angle, brighter light, and we'll nail it!",
-        "streakSass": "FOUR DAYS! Tomorrow makes five — you've got this!",
+        "streakSass": "A STREAK! Tomorrow keeps it going — you've got this!",
         "badgeLocked": "Ooh, this one's GREAT — you're gonna love unlocking it!",
         "badgeEarned": "YES! Look at you! I'm putting this in the notebook!",
         "canned": [
@@ -917,6 +1084,7 @@
       }
     },
     "help": {
+      "webLabel": "Open the full help page on critterboard.app",
       "title": "Help & About",
       "sub": "FAQ, contact, your data.",
       "section": "FAQ",
@@ -927,7 +1095,7 @@
         },
         "faq2": {
           "q": "Why is my ID confidence low?",
-          "a": "Usually one of three things: the photo is blurry, the bug fills less than 1/4 of the frame, or you're outside an installed regional pack. Try a closer crop, brighter light, and a side profile."
+          "a": "Usually one of three things: the photo is blurry, the bug fills less than 1/4 of the frame, or you're outside an installed regional pack. Scans under your match threshold (Brains, 33% by default) can't be added at all. Try a closer crop, brighter light, and a side profile."
         },
         "faq3": {
           "q": "How do streak freezes work?",
@@ -943,7 +1111,15 @@
         },
         "faq6": {
           "q": "How do I delete my data?",
-          "a": "Scroll down to \"Wipe everything.\" It nukes your dex, sightings, settings, and on-device models. Followers and leaderboard entries go too. There is no undo."
+          "a": "Everything on this phone: scroll down to \"Wipe everything\". It removes your dex, sightings, settings and on-device models, and deletes your online data first. Online only: Brains has \"Delete my online data\". There is no undo."
+        },
+        "faq7": {
+          "q": "Can I move my data to a new phone?",
+          "a": "Yes. Use \"Back up my data (file)\" here, keep the file in Files or iCloud Drive, then \"Restore from a backup\" on the new phone (or on the first screen after a reinstall). It adds your dex, catches, quests and settings; photos and chat history aren't included."
+        },
+        "faq8": {
+          "q": "Where do habitat, size, range and diet come from?",
+          "a": "Habitat and diet are typical for the species' family. Size comes from Wikipedia and range from GBIF records, so a few species show the family instead of a size. \"Read more on Wikipedia\" opens the full article."
         }
       },
       "contactTitle": "Get in touch",
@@ -975,39 +1151,45 @@
         "wipeDesc": "Dex, sightings, models, settings. No undo.",
         "wipeCta": "Wipe",
         "wipeConfirmCta": "Tap again to confirm",
-        "wipeToast": "Wipe queued — restart the app."
+        "wipeToast": "Wipe queued — restart the app.",
+        "wipeOnlineFailed": "Couldn't delete your online data, so nothing was wiped. Connect and try again.",
+        "backupTitle": "Back up my data (file)",
+        "backupDesc": "Dex, catches, quests and settings in one file. Keep it in Files or iCloud Drive.",
+        "backupCta": "Back up",
+        "restoreTitle": "Restore from a backup",
+        "restoreDesc": "Adds a backup file to this phone. Nothing is deleted.",
+        "restoreCta": "Restore"
       },
       "appName": "Critterboard",
-      "appBuild": "v1.4.0 · build 2026.05 · MIT-licensed",
-      "appSpecOn": "iOS 16+ · 312 MB on disk · network ON",
-      "appSpecOff": "iOS 16+ · 312 MB on disk · fully offline"
+      "appBuild": "v{version} · MIT-licensed",
+      "appSpecOn": "iOS 17+ · network ON",
+      "appSpecOff": "iOS 17+ · fully offline",
+      "backup": {
+        "keyTitle": "Include your online key?",
+        "keyBody": "The key keeps your ranking and friends if you reinstall. Anyone with the file could act as you online, so only include it if you will keep the file private.",
+        "keyWith": "Include key",
+        "keyWithout": "Leave it out",
+        "readFailed": "Couldn't read that file.",
+        "invalid": "That isn't a Critterboard backup.",
+        "restoreTitle": "Restore this backup?",
+        "restoreBody": "{species} species and {catches} catches (backup from {date}) will be added to this phone. Nothing is deleted.",
+        "restoreYes": "Restore",
+        "restored": "Restored · {n} catches",
+        "regionHint": "Download your region pack again in Brains.",
+        "identityHint": "Your online profile is back. Turn Network on in Brains to use it."
+      }
     },
     "credits": {
-      "build": "v1.4.0 · build 2026.05",
-      "intro": "Made by three people who genuinely think bugs are cool. No VC money, no ads, no tracking, no account. Just bugs and a phone.",
+      "build": "v{version}",
+      "intro": "Made by an independent developer who genuinely thinks bugs are cool. No VC money, no ads, no tracking, no account. Just bugs and a phone.",
       "section": {
-        "team": "The team",
         "models": "On-device models",
         "data": "Data & thanks"
       },
-      "team": {
-        "mira": {
-          "name": "Mira Ostrov",
-          "role": "Design & illustration"
-        },
-        "theo": {
-          "name": "Theo Bramble",
-          "role": "iOS engineering"
-        },
-        "junie": {
-          "name": "Junie Halverson",
-          "role": "ML & on-device models"
-        }
-      },
       "models": {
         "bugnet": {
-          "name": "BugNet v3",
-          "role": "Vision · 88 MB · 1,000 species"
+          "name": "BugNet",
+          "role": "Vision · {id} · {mb} MB · {n} species"
         },
         "larva": {
           "name": "Gemma 4 E2B",
@@ -1021,7 +1203,7 @@
       "data": {
         "iNat": {
           "name": "iNaturalist",
-          "role": "Reference imagery (CC-BY-NC)"
+          "role": "Training & reference photos (CC0 / CC BY)"
         },
         "gbif": {
           "name": "GBIF",
@@ -1029,12 +1211,23 @@
         },
         "beta": {
           "name": "Every beta tester",
-          "role": "Field-tested in 14 cities"
+          "role": "Thanks for the bug reports"
         }
       },
       "contactTitle": "Found a bug bug?",
       "contactEmail": "hello@critterboard.app",
       "footer": "All processing happens on your device.\nNo data leaves this phone. We promise.\n© 2026 Critterboard · MIT-licensed open source"
+    },
+    "openSource": {
+      "title": "Open source libraries",
+      "sub": "Third-party dependencies used by Critterboard",
+      "models": "On-device models",
+      "modelsSub": "Species ID and chat: sources and licences",
+      "runtime": "Runtime dependencies",
+      "runtimeSub": "{n} packages bundled with the app",
+      "dev": "Development dependencies",
+      "devSub": "{n} packages used in tooling/build",
+      "footer": "Tap any package row to open a Google search."
     }
   }
 }

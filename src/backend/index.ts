@@ -37,6 +37,7 @@ export {
   type LeaderboardScope,
   type ProfileSnapshot,
   type PublishCatchInput,
+  type Sighting,
   type Relation,
   type SuggestionReason,
   type UserId,

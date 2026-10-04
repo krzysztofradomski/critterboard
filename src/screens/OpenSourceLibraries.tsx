@@ -2,7 +2,9 @@ import React from 'react';
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { IconBtn } from '@/components/IconBtn';
+import { useT } from '@/i18n/helpers';
 import { Sticker } from '@/components/Sticker';
+import { VISION_MODEL_LABEL } from '@/data/visionModel';
 import { useNav } from '@/store/useNav';
 import { PB } from '@/tokens/pb';
 
@@ -66,7 +68,7 @@ const REPO = 'https://github.com/krzysztofradomski/critterboard/blob/main';
  */
 const MODEL_CREDITS: readonly { name: string; detail: string; url: string }[] = [
   {
-    name: 'Species model: eu-1k-commercial-v1',
+    name: `Species model: ${VISION_MODEL_LABEL}`,
     detail: 'Fine-tuned for insects by Critterboard. Model card, sources, accuracy',
     url: `${REPO}/training/vision/results/commercial-1k-v1/MODEL_CARD.md`,
   },
@@ -93,13 +95,14 @@ const MODEL_CREDITS: readonly { name: string; detail: string; url: string }[] = 
 ];
 
 function ModelCreditsSection() {
+  const t = useT();
   return (
     <Sticker bg={PB.paper} style={{ padding: 0 }}>
       <View style={styles.sectionHeader}>
         <Text style={{ fontSize: 24 }}>🐞</Text>
         <View style={{ flex: 1 }}>
-          <Text style={styles.sectionTitle}>On-device models</Text>
-          <Text style={styles.sectionSub}>Species ID and chat: sources and licences</Text>
+          <Text style={styles.sectionTitle}>{t('openSource.models')}</Text>
+          <Text style={styles.sectionSub}>{t('openSource.modelsSub')}</Text>
         </View>
       </View>
       <View style={styles.sectionBody}>
@@ -126,10 +129,12 @@ function ModelCreditsSection() {
 }
 
 function DependencySection({
+  icon,
   title,
   subtitle,
   libs,
 }: {
+  icon: string;
   title: string;
   subtitle: string;
   libs: readonly Library[];
@@ -137,7 +142,7 @@ function DependencySection({
   return (
     <Sticker bg={PB.paper} style={{ padding: 0 }}>
       <View style={styles.sectionHeader}>
-        <Text style={{ fontSize: 24 }}>{title === 'Runtime dependencies' ? '📦' : '🛠️'}</Text>
+        <Text style={{ fontSize: 24 }}>{icon}</Text>
         <View style={{ flex: 1 }}>
           <Text style={styles.sectionTitle}>{title}</Text>
           <Text style={styles.sectionSub}>{subtitle}</Text>
@@ -170,30 +175,33 @@ function DependencySection({
 
 export function OpenSourceLibraries() {
   const { back } = useNav();
+  const t = useT();
 
   return (
     <View style={styles.root}>
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
         <View style={{ flex: 1 }}>
-          <Text style={styles.title}>Open source libraries</Text>
-          <Text style={styles.sub}>Third-party dependencies used by Critterboard</Text>
+          <Text style={styles.title}>{t('openSource.title')}</Text>
+          <Text style={styles.sub}>{t('openSource.sub')}</Text>
         </View>
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll}>
         <ModelCreditsSection />
         <DependencySection
-          title="Runtime dependencies"
-          subtitle={`${RUNTIME_LIBRARIES.length} packages bundled with the app`}
+          icon="📦"
+          title={t('openSource.runtime')}
+          subtitle={t('openSource.runtimeSub', { n: RUNTIME_LIBRARIES.length })}
           libs={RUNTIME_LIBRARIES}
         />
         <DependencySection
-          title="Development dependencies"
-          subtitle={`${DEV_LIBRARIES.length} packages used in tooling/build`}
+          icon="🛠️"
+          title={t('openSource.dev')}
+          subtitle={t('openSource.devSub', { n: DEV_LIBRARIES.length })}
           libs={DEV_LIBRARIES}
         />
-        <Text style={styles.footer}>Tap any package row to open a Google search.</Text>
+        <Text style={styles.footer}>{t('openSource.footer')}</Text>
       </ScrollView>
     </View>
   );

@@ -34,6 +34,7 @@ import type {
   LeaderboardScope,
   ProfileSnapshot,
   PublishCatchInput,
+  Sighting,
   UserId,
 } from '@/backend/types';
 
@@ -65,6 +66,24 @@ export interface BackendAdapter {
    * await fan-out — fire-and-forget after the local write.
    */
   publishCatch(input: PublishCatchInput): Promise<void>;
+
+  /**
+   * Upload up to 100 earlier catches. Idempotent (a catch is keyed by species + time) and
+   * silent: followers are not notified about old catches.
+   */
+  publishCatches(catches: PublishCatchInput[]): Promise<void>;
+
+  /** Remove the stored coordinates of every catch this user uploaded. */
+  clearLocations(): Promise<void>;
+
+  /** Delete this user and everything stored for them (profile, catches, follows, feed). */
+  deleteAccount(): Promise<void>;
+
+  /**
+   * Up to ~100 other players' shared catches nearest to a point, from the last 12 months
+   * (anonymous: species, spot, date). The point is rounded to ~1 km before it is sent.
+   */
+  fetchNearbySightings(lat: number, lng: number): Promise<Sighting[]>;
 
   /**
    * Fetch one page of a leaderboard scope. `'friends'` is computed

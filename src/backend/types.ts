@@ -56,6 +56,8 @@ export type LeaderboardEntry = {
   country?: CountryCode;
   /** Total XP for the scope. For `'weekly'` this is the week's delta only. */
   xp: number;
+  /** Distinct species caught (within the week, for `'weekly'`). Absent from older servers. */
+  catches?: number;
   /** 1-indexed rank within the returned page's scope. */
   rank: number;
   /**
@@ -208,15 +210,24 @@ export type FeedPage = {
  * computing XP — the client never sends an authoritative XP delta, only
  * the underlying action. This keeps anti-cheat in one place.
  */
+/** Another player's shared catch, for the map overlay. Anonymous: no user id or name. */
+export type Sighting = {
+  bugId: string;
+  lat: number;
+  lng: number;
+  /** Catch time (epoch ms). */
+  at: number;
+};
+
 export type PublishCatchInput = {
   /** Matches an `id` in `src/data/bugs.ts`. */
   bugId: string;
   /** Client-side capture timestamp (epoch ms). */
   at: number;
   /**
-   * Coarse GPS for "nearby catches" feed event. Only sent when the
-   * user has `locationShareOn`. Caller is responsible for honouring
-   * the toggle — the adapter trusts the value as-is.
+   * Exact GPS, shown (without who caught it) in other players' shared sightings overlay. Only sent
+   * when the user has `locationShareOn`. Caller is responsible for honouring the toggle; the
+   * adapter trusts the value as-is.
    */
   lat?: number;
   lng?: number;

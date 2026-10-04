@@ -5,13 +5,14 @@ import {
   xpFromDex,
   xpFromClaimedQuests,
   levelFromXp,
+  xpToReach,
   formatXp,
   rankFromXp,
   maxXp,
 } from '@/lib/level';
 
-// Level thresholds: (L-1)² × 100
-// L1=0, L2=100, L3=400, L4=900, L5=1600
+// Level thresholds: 300 × (L-1)^1.7, rounded to 10
+// L1=0, L2=300, L3=970, L4=1940, L5=3170
 
 describe('levelFromXp (U-L-*)', () => {
   it('U-L-01: 0 XP → level 1', () => {
@@ -19,31 +20,31 @@ describe('levelFromXp (U-L-*)', () => {
     expect(info.level).toBe(1);
     expect(info.xp).toBe(0);
     expect(info.into).toBe(0);
-    expect(info.nextAt).toBe(100);
+    expect(info.nextAt).toBe(300);
   });
 
   it('U-L-02: exact threshold XP → level up', () => {
-    // 100 XP → exactly level 2
-    const info = levelFromXp(100);
+    // 300 XP → exactly level 2
+    const info = levelFromXp(300);
     expect(info.level).toBe(2);
     expect(info.into).toBe(0); // no progress into level 3
-    expect(info.nextAt).toBe(400);
+    expect(info.nextAt).toBe(970);
   });
 
   it('U-L-03: XP just below threshold stays at same level', () => {
-    // 99 XP → still level 1
-    const info = levelFromXp(99);
+    // 299 XP → still level 1
+    const info = levelFromXp(299);
     expect(info.level).toBe(1);
   });
 
   it('U-L-04: large XP → correct high level', () => {
-    // 50000 XP → level = floor(sqrt(50000/100)) + 1 = floor(22.36) + 1 = 23
+    // 50000 XP is past the L21 threshold (48,850) and short of L22
     const info = levelFromXp(50000);
-    expect(info.level).toBe(23);
+    expect(info.level).toBe(21);
   });
 
   it('U-L-05: into and span produce a progress ratio in [0, 1]', () => {
-    for (const xp of [0, 50, 99, 100, 250, 399, 400, 1000, 9999]) {
+    for (const xp of [0, 50, 299, 300, 969, 970, 1000, 9999]) {
       const info = levelFromXp(xp);
       const ratio = info.into / info.span;
       expect(ratio).toBeGreaterThanOrEqual(0);
@@ -59,8 +60,7 @@ describe('levelFromXp (U-L-*)', () => {
 
   it('span equals nextAt - prevAt', () => {
     const info = levelFromXp(250);
-    const prevAt = (info.level - 1) * (info.level - 1) * 100;
-    expect(info.span).toBe(info.nextAt - prevAt);
+    expect(info.span).toBe(info.nextAt - xpToReach(info.level));
   });
 });
 

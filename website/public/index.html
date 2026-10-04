@@ -1,0 +1,1530 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Critterboard — find a bug, snap it, collect it</title>
+    <meta
+      name="description"
+      content="A free, open-source game where you hunt for real insects and build your own collection. Your phone identifies them, no internet or sign-up needed. Coming soon to iOS and Android."
+    />
+    <meta
+      property="og:title"
+      content="Critterboard — find a bug, snap it, collect it"
+    />
+    <meta
+      property="og:description"
+      content="A free, open-source game where you hunt for real insects and build your own collection. Your phone identifies them, no internet or sign-up needed. Coming soon to iOS and Android."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --y: #f5c840;
+        --yd: #e0b020;
+        --cr: #fdf6e3;
+        --bk: #1a1209;
+        --gn: #3d9a4f;
+        --bl: #3b6fd4;
+        --pu: #7b4fc4;
+        --rd: #d94040;
+        --bd: 2.5px solid var(--bk);
+        --sh: 4px 4px 0 var(--bk);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--y);
+        color: var(--bk);
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1120px;
+        margin-inline: auto;
+        padding-inline: clamp(16px, 4vw, 32px);
+      }
+
+      /* noise */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 999;
+        opacity: 0.35;
+      }
+
+      /* ── NAV ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--y);
+        border-bottom: var(--bd);
+        padding-block: 12px;
+      }
+      nav .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--bk);
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.35rem;
+        font-weight: 700;
+      }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: var(--rd);
+        border: var(--bd);
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        box-shadow: var(--sh);
+      }
+
+      .nav-r {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .mit {
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.4px;
+        background: var(--bk);
+        color: var(--y);
+        padding: 4px 11px;
+        border-radius: 100px;
+        text-decoration: none;
+        transition: opacity 0.15s;
+      }
+      .mit:hover {
+        opacity: 0.8;
+      }
+
+      .nav-btn {
+        font-family: "Fredoka", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        background: var(--bk);
+        color: var(--y);
+        border: var(--bd);
+        border-radius: 100px;
+        padding: 8px 20px;
+        text-decoration: none;
+        cursor: pointer;
+        box-shadow: var(--sh);
+        transition:
+          transform 0.1s,
+          box-shadow 0.1s;
+      }
+      .nav-btn:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0 var(--bk);
+      }
+      .nav-btn:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0 var(--bk);
+      }
+
+      /* ── LANGUAGE SWITCH ── */
+      .lang-switch {
+        position: relative;
+      }
+      .lang-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: transparent;
+        border: 2px solid var(--bk);
+        border-radius: 100px;
+        padding: 6px 12px;
+        font-family: "Fredoka", sans-serif;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--bk);
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+      }
+      .lang-btn:hover {
+        background: var(--bk);
+        color: var(--y);
+      }
+      .lang-caret {
+        font-size: 0.7rem;
+        line-height: 1;
+        transition: transform 0.2s;
+      }
+      .lang-btn[aria-expanded="true"] .lang-caret {
+        transform: rotate(180deg);
+      }
+      .lang-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        list-style: none;
+        margin: 0;
+        padding: 6px;
+        background: var(--cr);
+        border: var(--bd);
+        border-radius: 14px;
+        box-shadow: var(--sh);
+        z-index: 50;
+        min-width: 160px;
+      }
+      .lang-menu[hidden] {
+        display: none;
+      }
+      .lang-menu li {
+        list-style: none;
+      }
+      .lang-menu button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        background: transparent;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.9rem;
+        color: var(--bk);
+        cursor: pointer;
+      }
+      .lang-menu button:hover,
+      .lang-menu button[aria-current="true"] {
+        background: var(--y);
+      }
+
+      /* ── HERO ── */
+      .hero {
+        min-height: calc(100vh - 61px);
+        padding-block: 60px 80px;
+      }
+      .hero .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 40px;
+      }
+
+      /* left */
+      .hero-l {
+        animation: up 0.55s ease both;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: var(--cr);
+        border: var(--bd);
+        border-radius: 100px;
+        padding: 5px 14px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.4px;
+        text-transform: uppercase;
+        box-shadow: var(--sh);
+        margin-bottom: 26px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        background: var(--gn);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      h1 {
+        font-family: "Fredoka", sans-serif;
+        font-size: clamp(3rem, 5.5vw, 5.2rem);
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -1px;
+        margin-bottom: 20px;
+      }
+
+      .sub {
+        font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+        opacity: 0.6;
+        margin-bottom: 36px;
+        line-height: 1.6;
+      }
+
+      /* email */
+      .form {
+        display: flex;
+        max-width: 420px;
+        margin-bottom: 22px;
+      }
+      .inp {
+        flex: 1;
+        padding: 13px 18px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 1rem;
+        border: var(--bd);
+        border-right: none;
+        border-radius: 12px 0 0 12px;
+        background: var(--cr);
+        color: var(--bk);
+        outline: none;
+      }
+      .inp:focus {
+        background: #fff;
+      }
+      .inp::placeholder {
+        opacity: 0.45;
+      }
+      .sub-btn {
+        font-family: "Fredoka", sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 13px 20px;
+        white-space: nowrap;
+        background: var(--bk);
+        color: var(--y);
+        border: var(--bd);
+        border-radius: 0 12px 12px 0;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .sub-btn:hover {
+        background: var(--gn);
+      }
+
+      .honeypot-field {
+        position: absolute;
+        left: -9999px;
+        overflow: hidden;
+      }
+      .note {
+        font-size: 0.75rem;
+        opacity: 0.45;
+        margin-bottom: 22px;
+      }
+      .privacy-note {
+        font-size: 0.72rem;
+        opacity: 0.4;
+        margin-top: -16px;
+        margin-bottom: 16px;
+        max-width: 420px;
+      }
+
+      .promises {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .tag {
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 5px 13px;
+        border: var(--bd);
+        border-radius: 100px;
+        background: var(--cr);
+        box-shadow: 3px 3px 0 var(--bk);
+      }
+
+      /* right – screenshots */
+      .hero-r {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        animation: up 0.55s 0.15s ease both;
+      }
+
+      .screens {
+        position: relative;
+        width: 100%;
+        max-width: 460px;
+        aspect-ratio: 5 / 4;
+        margin: 0 auto;
+      }
+
+      .sc {
+        position: absolute;
+        width: 44%;
+        height: auto;
+        border-radius: 30px;
+        border: 3px solid var(--bk);
+        box-shadow: 6px 6px 0 var(--bk);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease,
+          z-index 0s;
+        cursor: pointer;
+        will-change: transform;
+      }
+      .sc:hover {
+        transform: rotate(0deg) scale(1.06) translateY(-8px) !important;
+        box-shadow: 12px 12px 0 var(--bk);
+        z-index: 10 !important;
+      }
+
+      /* fan of four: home front and centre, map left, brains right, quests peeking behind */
+      .sc-1 {
+        top: 14%;
+        left: 0;
+        transform: rotate(-9deg);
+        z-index: 2;
+        animation: fa 7s ease-in-out infinite;
+      }
+      .sc-2 {
+        top: 0;
+        left: 28%;
+        transform: rotate(1deg) scale(1.05);
+        z-index: 4;
+        animation: fb 8.5s ease-in-out infinite;
+      }
+      .sc-3 {
+        top: 14%;
+        right: 0;
+        transform: rotate(9deg);
+        z-index: 2;
+        animation: fc 6.5s ease-in-out infinite;
+      }
+      .sc-4 {
+        top: -7%;
+        left: 12%;
+        transform: rotate(-4deg);
+        z-index: 1;
+        animation: fd 9s ease-in-out infinite;
+      }
+
+      /* ── ZEROES GRID ── */
+      .zeroes {
+        border-top: var(--bd);
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .zero-card {
+        background: var(--bk);
+        padding: 36px 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 6px;
+      }
+      .zero-title {
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.6rem;
+        font-weight: 700;
+        line-height: 1.1;
+        color: var(--y);
+      }
+      .zero-card--full .zero-title {
+        color: var(--gn);
+      }
+      .zero-desc {
+        font-size: 0.8rem;
+        color: var(--y);
+        opacity: 0.55;
+        line-height: 1.45;
+        margin-top: 2px;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        background: var(--y);
+        border-top: var(--bd);
+        padding-block: 24px;
+      }
+      footer .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+      .ft-logo {
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .ft-links {
+        display: flex;
+        gap: 24px;
+      }
+      .ft-links a {
+        font-size: 0.82rem;
+        color: var(--bk);
+        opacity: 0.55;
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+      .ft-links a:hover {
+        opacity: 1;
+      }
+      .ft-links .gh-star {
+        opacity: 0.85;
+        font-weight: 600;
+      }
+      footer p {
+        font-size: 0.75rem;
+        opacity: 0.35;
+      }
+
+      /* success */
+      .success {
+        display: none;
+        background: var(--gn);
+        color: #fff;
+        border: var(--bd);
+        border-radius: 12px;
+        padding: 12px 22px;
+        max-width: 420px;
+        font-family: "Fredoka", sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        box-shadow: var(--sh);
+      }
+
+      /* ── ANIMATIONS ── */
+      @keyframes up {
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.4;
+          transform: scale(0.8);
+        }
+      }
+      @keyframes fa {
+        0%,
+        100% {
+          transform: rotate(-8deg) translateY(0);
+        }
+        50% {
+          transform: rotate(-8deg) translateY(-10px);
+        }
+      }
+      @keyframes fb {
+        0%,
+        100% {
+          transform: rotate(1deg) scale(1.05) translateY(0);
+        }
+        50% {
+          transform: rotate(1deg) scale(1.05) translateY(-14px);
+        }
+      }
+      @keyframes fd {
+        0%,
+        100% {
+          transform: rotate(-4deg) translateY(0);
+        }
+        50% {
+          transform: rotate(-4deg) translateY(-6px);
+        }
+      }
+      @keyframes fc {
+        0%,
+        100% {
+          transform: rotate(8deg) translateY(0);
+        }
+        50% {
+          transform: rotate(8deg) translateY(-8px);
+        }
+      }
+
+      /* ── TECH SECTION ── */
+      .tech {
+        background: var(--bk);
+        border-top: var(--bd);
+        padding-block: 72px;
+      }
+      .tech .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: start;
+      }
+      .tech-label {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+        color: var(--y);
+        opacity: 0.55;
+        margin-bottom: 14px;
+      }
+      .tech-h2 {
+        font-family: "Fredoka", sans-serif;
+        font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+        font-weight: 700;
+        color: #fff;
+        line-height: 1.1;
+        margin-bottom: 20px;
+      }
+      .tech-body {
+        font-size: 0.92rem;
+        color: var(--y);
+        opacity: 0.6;
+        line-height: 1.75;
+      }
+      .tech-body + .tech-body {
+        margin-top: 14px;
+      }
+      .tech-specs {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .spec-card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1.5px solid rgba(255, 255, 255, 0.09);
+        border-radius: 14px;
+        padding: 18px 20px;
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+      }
+      .spec-icon {
+        font-size: 1.35rem;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .spec-title {
+        font-family: "Fredoka", sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--y);
+        display: block;
+        margin-bottom: 4px;
+      }
+      .spec-desc {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.4);
+        line-height: 1.55;
+      }
+
+      /* ── MODEL DOWNLOAD CALLOUT ── */
+      .model-dl {
+        background: var(--cr);
+        border-top: var(--bd);
+        border-bottom: var(--bd);
+        padding-block: 40px;
+      }
+      .model-dl .container {
+        display: flex;
+        align-items: flex-start;
+        gap: 24px;
+      }
+      .model-dl-icon {
+        font-size: 2.4rem;
+        flex-shrink: 0;
+        line-height: 1;
+        margin-top: 2px;
+      }
+      .model-dl-title {
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--bk);
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .model-dl-badge {
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        background: var(--bk);
+        color: var(--y);
+        padding: 3px 10px;
+        border-radius: 100px;
+      }
+      .model-dl-body {
+        font-size: 0.88rem;
+        color: var(--bk);
+        opacity: 0.65;
+        line-height: 1.7;
+        max-width: 700px;
+      }
+
+      .model-dl + .model-dl {
+        border-top: 0;
+      }
+
+      /* ── CITIZEN SCIENCE BANNER ── */
+      .science {
+        background: var(--bk);
+        border-top: var(--bd);
+        padding-block: 36px;
+      }
+      .science .container {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+      }
+      .science-icon {
+        font-size: 2rem;
+        flex-shrink: 0;
+      }
+      .science-copy {
+        flex: 1;
+      }
+      .science-title {
+        font-family: "Fredoka", sans-serif;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 5px;
+      }
+      .science-body {
+        font-size: 0.85rem;
+        color: var(--y);
+        opacity: 0.6;
+        line-height: 1.65;
+      }
+      .science-badge {
+        flex-shrink: 0;
+        text-decoration: none;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.7px;
+        text-transform: uppercase;
+        background: var(--gn);
+        color: #fff;
+        padding: 7px 16px;
+        border-radius: 100px;
+        border: var(--bd);
+        white-space: nowrap;
+      }
+
+      a.science-badge:hover {
+        background: var(--y);
+        color: var(--bk);
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 768px) {
+        .container {
+          max-width: 520px;
+        }
+
+        .hero {
+          min-height: auto;
+          padding-block: 40px 52px;
+        }
+        .hero .container {
+          grid-template-columns: 1fr;
+          text-align: center;
+          gap: 36px;
+        }
+        .hero-r {
+          order: -1;
+        }
+
+        /* fan triptych scales down responsively via % units;
+           just tighten the chrome for small screens */
+        .screens {
+          max-width: 340px;
+          margin-bottom: 64px; /* the tall phone cards overflow the 5:4 box */
+        }
+        .sc {
+          border-radius: 22px;
+          border-width: 2px;
+          box-shadow: 4px 4px 0 var(--bk);
+        }
+
+        .promises {
+          justify-content: center;
+        }
+        .form,
+        .success,
+        .privacy-note {
+          margin-inline: auto;
+        }
+        .form {
+          flex-direction: column;
+        }
+        .inp {
+          border-right: var(--bd);
+          border-radius: 12px;
+          margin-bottom: 8px;
+        }
+        .sub-btn {
+          border-radius: 12px;
+        }
+        .zeroes {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .zero-card--full {
+          grid-column: 1 / -1;
+        }
+        .mit {
+          display: none;
+        }
+        .tech {
+          padding-block: 52px;
+        }
+        .tech .container {
+          grid-template-columns: 1fr;
+          gap: 36px;
+        }
+        .model-dl {
+          padding-block: 36px;
+        }
+        .model-dl .container {
+          flex-direction: column;
+          gap: 14px;
+        }
+        .science {
+          padding-block: 36px;
+        }
+        .science .container {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 16px;
+        }
+        .science-badge {
+          align-self: flex-start;
+        }
+        footer .container {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        h1 {
+          font-size: clamp(2.1rem, 11vw, 2.75rem);
+        }
+        .logo {
+          font-size: 1.1rem;
+          gap: 8px;
+        }
+        .logo-icon {
+          width: 30px;
+          height: 30px;
+          font-size: 15px;
+        }
+        .zero-card {
+          padding: 28px 12px;
+        }
+        .zero-title {
+          font-size: 1.3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="container">
+      <a href="#" class="logo">
+        <div class="logo-icon">🪲</div>
+        Critterboard
+      </a>
+      <div class="nav-r">
+        <div class="lang-switch">
+          <button
+            class="lang-btn"
+            id="lang-btn"
+            type="button"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            aria-label="Language"
+            data-i18n-aria-label="lang_label"
+          >
+            <span id="lang-current">EN</span>
+            <span class="lang-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="lang-menu" id="lang-menu" role="listbox" hidden>
+            <li>
+              <button type="button" role="option" data-lang="en">
+                🇬🇧 English
+              </button>
+            </li>
+            <li>
+              <button type="button" role="option" data-lang="pl">
+                🇵🇱 Polski
+              </button>
+            </li>
+            <li>
+              <button type="button" role="option" data-lang="es">
+                🇪🇸 Español
+              </button>
+            </li>
+            <li>
+              <button type="button" role="option" data-lang="de">
+                🇩🇪 Deutsch
+              </button>
+            </li>
+          </ul>
+        </div>
+        <a
+          href="https://github.com/krzysztofradomski/critterboard"
+          target="_blank"
+          rel="noopener"
+          class="mit"
+          data-i18n="nav_mit"
+          >Open source (MIT)</a
+        >
+      </div>
+      </div>
+    </nav>
+
+    <section class="hero" id="notify">
+      <div class="container">
+      <div class="hero-l">
+        <div class="pill">
+          <div class="dot"></div>
+          <span data-i18n="pill">Coming soon to iOS &amp; Android</span>
+        </div>
+        <h1>
+          <span data-i18n="h1_l1">Find a bug.</span><br />
+          <span data-i18n="h1_l2">Snap it.</span><br />
+          <span data-i18n="h1_l3">Collect it.</span>
+        </h1>
+        <p class="sub">
+          <span data-i18n="sub_l1"
+            >A free game where you hunt for real insects and build your own collection. Your phone identifies them, even with no signal.</span
+          ><br />
+          <span data-i18n="sub_l2">No cloud, no sign-up, no cost.</span>
+        </p>
+
+        <form
+          class="form"
+          id="form"
+          name="waitlist"
+        >
+          <p class="honeypot-field">
+            <label>Don't fill this out: <input name="bot-field" /></label>
+          </p>
+          <input
+            class="inp"
+            type="email"
+            name="email"
+            placeholder="Your email"
+            data-i18n-placeholder="email_ph"
+            required
+          />
+          <button class="sub-btn" type="submit" data-i18n="submit">Join the beta 🪲</button>
+        </form>
+        <p class="privacy-note" data-i18n="privacy_note">We only store your email address and the date you signed up. Nothing else.</p>
+        <div class="success" id="ok" data-i18n="success">🎉 You're on the list. We'll email you when the beta opens.</div>
+        <p class="note" data-i18n="note">The beta opens in Europe first.</p>
+
+        <div class="promises">
+          <span class="tag" data-i18n="tag_acc">✓ no sign-up</span>
+          <span class="tag" data-i18n="tag_net">✓ works offline</span>
+          <span class="tag" data-i18n="tag_cost">✓ free</span>
+          <span class="tag" data-i18n="tag_track">✓ no tracking</span>
+          <span class="tag" data-i18n="tag_mit">✓ MIT license</span>
+        </div>
+      </div>
+
+      <div class="hero-r">
+        <div class="screens">
+          <img class="sc sc-1" src="/img/screens/en-map.webp" data-shot="map" width="540" height="1174" alt="" data-i18n-alt="alt_map" />
+          <img class="sc sc-2" src="/img/screens/en-home.webp" data-shot="home" width="540" height="1174" alt="" data-i18n-alt="alt_home" />
+          <img class="sc sc-3" src="/img/screens/en-brains.webp" data-shot="brains" width="540" height="1174" alt="" data-i18n-alt="alt_brains" />
+          <img class="sc sc-4" src="/img/screens/en-quests.webp" data-shot="quests" width="540" height="1174" alt="" data-i18n-alt="alt_quests" />
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <div class="zeroes">
+      <div class="zero-card">
+        <strong class="zero-title" data-i18n="z1_t">No cloud</strong>
+        <span class="zero-desc" data-i18n="z1_d"
+          >Your phone identifies the bugs, not some server.</span
+        >
+      </div>
+      <div class="zero-card">
+        <strong class="zero-title" data-i18n="z2_t">No tracking</strong>
+        <span class="zero-desc" data-i18n="z2_d"
+          >Your photos stay on your phone.</span
+        >
+      </div>
+      <div class="zero-card">
+        <strong class="zero-title" data-i18n="z3_t">No sign-up</strong>
+        <span class="zero-desc" data-i18n="z3_d"
+          >Install it and go bug hunting.</span
+        >
+      </div>
+      <div class="zero-card">
+        <strong class="zero-title" data-i18n="z4_t">Free</strong>
+        <span class="zero-desc" data-i18n="z4_d"
+          >Open source, under the MIT license.</span
+        >
+      </div>
+      <div class="zero-card zero-card--full">
+        <strong class="zero-title" data-i18n="z5_t">Addictive</strong>
+        <span class="zero-desc" data-i18n="z5_d"
+          >XP, streaks, quests, an offline map of everything you've found, and optional rankings.</span
+        >
+      </div>
+    </div>
+
+    <!-- ── TECH SECTION ── -->
+    <section class="tech" id="tech">
+      <div class="container">
+      <div class="tech-l">
+        <p class="tech-label" data-i18n="tech_label">How it works</p>
+        <h2 class="tech-h2" data-i18n="tech_h2">A field guide in your pocket.</h2>
+        <p class="tech-body" data-i18n="tech_p1">Critterboard uses a small AI model that runs on your phone. Photos are never uploaded anywhere, so it works just as well deep in the woods as it does at home.</p>
+        <p class="tech-body" data-i18n="tech_p2">Each region gets its own model, trained only on the species you're likely to find there. That keeps it small and accurate.</p>
+      </div>
+      <div class="tech-specs">
+        <div class="spec-card">
+          <span class="spec-icon">🧠</span>
+          <div>
+            <span class="spec-title" data-i18n="spec1_t"
+              >Small and fast</span
+            >
+            <span class="spec-desc" data-i18n="spec1_d"
+              >Runs smoothly on everyday phones, not just the latest flagships.</span
+            >
+          </div>
+        </div>
+        <div class="spec-card">
+          <span class="spec-icon">🗺️</span>
+          <div>
+            <span class="spec-title" data-i18n="spec3_t"
+              >One pack per region</span
+            >
+            <span class="spec-desc" data-i18n="spec3_d"
+              >Each pack covers one region's insects, so it stays small and knows the species you'll actually see.</span
+            >
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- ── MODEL DOWNLOAD CALLOUT ── -->
+    <div class="model-dl">
+      <div class="container">
+      <span class="model-dl-icon">📦</span>
+      <div>
+        <p class="model-dl-title">
+          <span data-i18n="dl_title"
+            >Download once, before you go</span
+          >
+          <span class="model-dl-badge">145 MB</span>
+        </p>
+        <p class="model-dl-body" data-i18n="dl_body">Download the Central Europe pack once, ideally at home on Wi-Fi: 88 MB for the species-recognition model and 56 MB for the offline map of Europe. After that, Critterboard works without a connection: in the woods, in a meadow, or anywhere with no signal.</p>
+      </div>
+      </div>
+    </div>
+
+    <!-- ── OPTIONAL COMPETITION CALLOUT ── -->
+    <div class="model-dl">
+      <div class="container">
+      <span class="model-dl-icon">🏆</span>
+      <div>
+        <p class="model-dl-title">
+          <span data-i18n="cp_title">Want a little competition? It's optional</span>
+          <span class="model-dl-badge" data-i18n="cp_badge">OFF BY DEFAULT</span>
+        </p>
+        <p class="model-dl-body" data-i18n="cp_body">Switch on the network and you can join the global and weekly rankings, follow friends and see what they find. There's still no account, and you can hide yourself or delete everything you've put online whenever you like. Play fully offline and nothing ever leaves your phone.</p>
+      </div>
+      </div>
+    </div>
+
+    <!-- ── CITIZEN SCIENCE BANNER ── -->
+    <div class="science">
+      <div class="container">
+      <span class="science-icon">🔬</span>
+      <div class="science-copy">
+        <p class="science-title" data-i18n="sci_title">Your finds can help science</p>
+        <p class="science-body" data-i18n="sci_body">Export your sightings in Darwin Core, the format used by GBIF and research institutions around the world.</p>
+      </div>
+      <a
+        href="https://www.gbif.org"
+        target="_blank"
+        rel="noopener"
+        class="science-badge"
+        data-i18n="sci_badge"
+        >GBIF-compatible</a>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+      <div class="ft-logo">🪲 Critterboard</div>
+      <p data-i18n="ft_tag">Free · Open source (MIT) · Coming soon</p>
+      <div class="ft-links">
+        <a
+          href="https://github.com/krzysztofradomski/critterboard"
+          target="_blank"
+          rel="noopener"
+          class="gh-star"
+          data-i18n="gh_star"
+          >★ Star on GitHub</a
+        >
+        <a href="mailto:hello@critterboard.app" data-i18n="ft_contact"
+          >Contact</a
+        >
+        <a href="/support/" data-page="support" data-i18n="ft_support">Support</a>
+        <a href="/privacy/" data-page="privacy" data-i18n="ft_privacy">Privacy</a>
+        <a href="/terms/" data-page="terms" data-i18n="ft_terms">Terms</a>
+      </div>
+      </div>
+    </footer>
+
+    <script>
+      // ── i18n ──────────────────────────────────────────────────────────────
+      const I18N = {
+        en: {
+          _label: "EN",
+          title: "Critterboard — find a bug, snap it, collect it",
+          meta_desc:
+            "A free, open-source game where you hunt for real insects and build your own collection. Your phone identifies them, no internet or sign-up needed. Coming soon to iOS and Android.",
+          nav_mit: "Open source (MIT)",
+          pill: "Coming soon to iOS & Android",
+          h1_l1: "Find a bug.",
+          h1_l2: "Snap it.",
+          h1_l3: "Collect it.",
+          sub_l1:
+            "A free game where you hunt for real insects and build your own collection. Your phone identifies them, even with no signal.",
+          sub_l2: "No cloud, no sign-up, no cost.",
+          email_ph: "Your email",
+          submit: "Join the beta 🪲",
+          success: "🎉 You're on the list. We'll email you when the beta opens.",
+          err: "That didn't work. Try again? 🐛",
+          note: "The beta opens in Europe first.",
+          tag_acc: "✓ no sign-up",
+          tag_net: "✓ works offline",
+          tag_cost: "✓ free",
+          tag_track: "✓ no tracking",
+          tag_mit: "✓ MIT license",
+          z1_t: "No cloud",
+          z1_d: "Your phone identifies the bugs, not some server.",
+          z2_t: "No tracking",
+          z2_d: "Your photos stay on your phone.",
+          z3_t: "No sign-up",
+          z3_d: "Install it and go bug hunting.",
+          z4_t: "Free",
+          z4_d: "Open source, under the MIT license.",
+          z5_t: "Addictive",
+          z5_d: "XP, streaks, quests, an offline map of everything you've found, and optional rankings.",
+          ft_tag: "Free · Open source (MIT) · Coming soon",
+          ft_contact: "Contact",
+          ft_support: "Support",
+          ft_privacy: "Privacy",
+          ft_terms: "Terms",
+          gh_star: "★ Star on GitHub",
+          tech_label: "How it works",
+          tech_h2: "A field guide in your pocket.",
+          tech_p1:
+            "Critterboard uses a small AI model that runs on your phone. Photos are never uploaded anywhere, so it works just as well deep in the woods as it does at home.",
+          tech_p2:
+            "Each region gets its own model, trained only on the species you're likely to find there. That keeps it small and accurate.",
+          spec1_t: "Small and fast",
+          spec1_d:
+            "Runs smoothly on everyday phones, not just the latest flagships.",
+          spec3_t: "One pack per region",
+          spec3_d:
+            "Each pack covers one region's insects, so it stays small and knows the species you'll actually see.",
+          dl_title: "Download once, before you go",
+          dl_body:
+            "Download the AI pack for your region once, ideally at home on Wi-Fi. After that, Critterboard works without a connection: in the woods, in a meadow, or anywhere with no signal.",
+          cp_title: "Want a little competition? It's optional",
+          cp_badge: "OFF BY DEFAULT",
+          cp_body:
+            "Switch on the network and you can join the global and weekly rankings, follow friends and see what they find. There's still no account, and you can hide yourself or delete everything you've put online whenever you like. Play fully offline and nothing ever leaves your phone.",
+          sci_title: "Your finds can help science",
+          sci_body:
+            "Export your sightings in Darwin Core, the format used by GBIF and research institutions around the world.",
+          sci_badge: "GBIF-compatible",
+          privacy_note:
+            "We only store your email address and the date you signed up. Nothing else.",
+          alt_home: "Home screen with the bug of the day",
+          alt_brains: "Choosing the on-device AI models",
+          alt_map: "Map of Europe, working offline",
+          alt_quests: "Quests and badges",
+          lang_label: "Language",
+        },
+        pl: {
+          _label: "PL",
+          title: "Critterboard: złap robala na gimbala – albo z rąsi",
+          meta_desc:
+            "Darmowa gra open source, w której polujesz na prawdziwe owady i budujesz własną kolekcję. Telefon sam je rozpozna, bez internetu i bez rejestracji. Wkrótce na iOS i Androida.",
+          nav_mit: "Open source (MIT)",
+          pill: "Wkrótce na iOS i Androida",
+          h1_l1: "Złap robala",
+          h1_l2: "na gimbala",
+          h1_l3: "– albo z rąsi.",
+          sub_l1:
+            "Darmowa gra, w której polujesz na prawdziwe owady i budujesz własną kolekcję. Telefon sam je rozpozna, nawet bez zasięgu.",
+          sub_l2: "Bez chmury, bez konta, bez płacenia.",
+          email_ph: "Twój adres e-mail",
+          submit: "Dołącz do bety 🪲",
+          success: "🎉 Jesteś na liście. Napiszemy, gdy ruszy beta.",
+          err: "Nie udało się zapisać. Spróbuj jeszcze raz 🐛",
+          note: "Beta rusza najpierw w Europie.",
+          tag_acc: "✓ bez rejestracji",
+          tag_net: "✓ działa bez internetu",
+          tag_cost: "✓ za darmo",
+          tag_track: "✓ bez śledzenia",
+          tag_mit: "✓ licencja MIT",
+          z1_t: "Bez chmury",
+          z1_d: "Owady rozpoznaje Twój telefon, a nie jakiś serwer.",
+          z2_t: "Bez śledzenia",
+          z2_d: "Twoje zdjęcia zostają w telefonie.",
+          z3_t: "Bez rejestracji",
+          z3_d: "Instalujesz i ruszasz na łowy.",
+          z4_t: "Za darmo",
+          z4_d: "Otwarty kod na licencji MIT.",
+          z5_t: "Wciąga",
+          z5_d: "Zbierasz XP, pilnujesz passy, robisz zadania, każde znalezisko ląduje na mapie offline, a jeśli chcesz, możesz się ścigać w rankingach.",
+          ft_tag: "Za darmo · Open source (MIT) · Wkrótce",
+          ft_contact: "Kontakt",
+          ft_support: "Pomoc",
+          ft_privacy: "Prywatność",
+          ft_terms: "Warunki",
+          gh_star: "★ Daj gwiazdkę na GitHubie",
+          tech_label: "Jak to działa",
+          tech_h2: "Atlas owadów w kieszeni.",
+          tech_p1:
+            "Critterboard korzysta z małego modelu AI, który działa w telefonie. Zdjęcia nigdzie nie są wysyłane, więc w środku lasu aplikacja działa tak samo jak w domu.",
+          tech_p2:
+            "Każdy region ma własny model, który zna tylko gatunki, jakie naprawdę możesz tam spotkać. Dzięki temu jest mały i skuteczny.",
+          spec1_t: "Mały i szybki",
+          spec1_d:
+            "Śmiga na zwykłych telefonach, nie tylko na flagowcach.",
+          spec3_t: "Jeden pakiet na region",
+          spec3_d:
+            "Każdy pakiet obejmuje owady jednego regionu, więc jest lekki i zna gatunki, które faktycznie spotkasz.",
+          dl_title: "Pobierz raz, przed wyjściem w teren",
+          dl_body:
+            "Pakiet Europy Środkowej pobierasz tylko raz – najlepiej w domu, przez Wi-Fi: 88 MB to model rozpoznawania gatunków, 56 MB to mapa Europy offline. Potem Critterboard działa bez internetu: w lesie, na łące i wszędzie tam, gdzie nie ma zasięgu.",
+          cp_title: "Masz ochotę na rywalizację? To opcjonalne",
+          cp_badge: "DOMYŚLNIE WYŁĄCZONE",
+          cp_body:
+            "Włącz sieć, a dołączysz do rankingu globalnego i tygodniowego, zaobserwujesz znajomych i zobaczysz, co znajdują. Nadal bez konta, a w każdej chwili możesz się ukryć albo usunąć wszystko, co trafiło online. Graj w pełni offline, a nic nie opuści twojego telefonu.",
+          sci_title: "Twoje obserwacje przydadzą się naukowcom",
+          sci_body:
+            "Wyeksportujesz je w formacie Darwin Core – tym samym, którego używają GBIF i instytucje naukowe na całym świecie.",
+          sci_badge: "Zgodny z GBIF",
+          privacy_note:
+            "Zapisujemy tylko Twój adres e-mail i datę zapisu. Nic więcej.",
+          alt_home: "Ekran główny z owadem dnia",
+          alt_brains: "Wybór modeli AI w telefonie",
+          alt_map: "Mapa Europy działająca offline",
+          alt_quests: "Zadania i odznaki",
+          lang_label: "Język",
+        },
+        es: {
+          _label: "ES",
+          title: "Critterboard — caza bichos con el móvil",
+          meta_desc:
+            "Un juego gratis y de código abierto en el que sales a cazar insectos de verdad y montas tu propia colección. El móvil los reconoce solo, sin internet y sin registro. Muy pronto en iOS y Android.",
+          nav_mit: "Código abierto (MIT)",
+          pill: "Muy pronto en iOS y Android",
+          h1_l1: "Caza bichos",
+          h1_l2: "con el móvil.",
+          h1_l3: "",
+          sub_l1:
+            "Un juego gratis en el que sales a cazar insectos de verdad y montas tu propia colección. El móvil los reconoce solo, incluso sin cobertura.",
+          sub_l2: "Sin nube, sin registro, sin pagar nada.",
+          email_ph: "Tu correo electrónico",
+          submit: "Únete a la beta 🪲",
+          success: "🎉 Ya estás en la lista. Te escribiremos cuando abra la beta.",
+          err: "No se ha podido guardar. ¿Lo intentas otra vez? 🐛",
+          note: "La beta abre primero en Europa.",
+          tag_acc: "✓ sin registro",
+          tag_net: "✓ funciona sin conexión",
+          tag_cost: "✓ gratis",
+          tag_track: "✓ sin rastreo",
+          tag_mit: "✓ licencia MIT",
+          z1_t: "Sin nube",
+          z1_d: "Los bichos los reconoce tu móvil, no un servidor.",
+          z2_t: "Sin rastreo",
+          z2_d: "Tus fotos se quedan en tu móvil.",
+          z3_t: "Sin registro",
+          z3_d: "Instálala y sal a cazar bichos.",
+          z4_t: "Gratis",
+          z4_d: "Y de código abierto, con licencia MIT.",
+          z5_t: "Engancha",
+          z5_d: "Gana XP, mantén tu racha, completa misiones y mira todo lo que has encontrado en un mapa sin conexión y, si quieres, compite en rankings.",
+          ft_tag: "Gratis · Código abierto (MIT) · Muy pronto",
+          ft_contact: "Contacto",
+          ft_support: "Soporte",
+          ft_privacy: "Privacidad",
+          ft_terms: "Términos",
+          gh_star: "★ Danos una estrella en GitHub",
+          tech_label: "Cómo funciona",
+          tech_h2: "Una guía de campo de bolsillo.",
+          tech_p1:
+            "Critterboard usa un pequeño modelo de IA instalado en tu móvil. Las fotos no se suben a ningún sitio, así que funciona igual en mitad del monte que en casa.",
+          tech_p2:
+            "Hay un modelo para cada región, entrenado solo con las especies que de verdad puedes encontrar allí. Por eso ocupa poco y acierta mucho.",
+          spec1_t: "Ligero y rápido",
+          spec1_d:
+            "Va fluido en móviles normales, no solo en los de gama alta.",
+          spec3_t: "Un paquete por región",
+          spec3_d:
+            "Cada paquete cubre los insectos de una región, así que ocupa poco y conoce las especies que vas a ver de verdad.",
+          dl_title: "Descarga el paquete antes de salir",
+          dl_body:
+            "Descarga el paquete de Europa Central una sola vez, mejor en casa y con wifi: 88 MB del modelo de reconocimiento de especies y 56 MB del mapa de Europa sin conexión. A partir de ahí, Critterboard funciona sin conexión: en el bosque, en el campo o donde no haya cobertura.",
+          cp_title: "¿Te apetece algo de competición? Es opcional",
+          cp_badge: "DESACTIVADO POR DEFECTO",
+          cp_body:
+            "Activa la red y podrás entrar en los rankings global y semanal, seguir a amigos y ver lo que encuentran. Sigue sin haber cuenta, y puedes ocultarte o borrar todo lo que hayas subido cuando quieras. Juega totalmente sin conexión y nada saldrá de tu teléfono.",
+          sci_title: "Tus hallazgos sirven a la ciencia",
+          sci_body:
+            "Exporta tus observaciones en Darwin Core, el formato que usan GBIF y centros de investigación de todo el mundo.",
+          sci_badge: "Compatible con GBIF",
+          privacy_note:
+            "Solo guardamos tu correo electrónico y la fecha en que te apuntaste. Nada más.",
+          alt_home: "Pantalla de inicio con el bicho del día",
+          alt_brains: "Elección de los modelos de IA del móvil",
+          alt_map: "Mapa de Europa sin conexión",
+          alt_quests: "Misiones e insignias",
+          lang_label: "Idioma",
+        },
+        de: {
+          _label: "DE",
+          title: "Critterboard – Krabbler finden, knipsen, sammeln",
+          meta_desc:
+            "Ein kostenloses Open-Source-Spiel: Du gehst auf Insektenjagd und baust deine eigene Sammlung auf. Dein Handy bestimmt die Tiere selbst – ohne Internet und ohne Anmeldung. Bald für iOS und Android.",
+          nav_mit: "Open Source (MIT)",
+          pill: "Bald für iOS & Android",
+          h1_l1: "Krabbler finden.",
+          h1_l2: "Knipsen.",
+          h1_l3: "Sammeln.",
+          sub_l1:
+            "Ein kostenloses Spiel: Du gehst auf Insektenjagd und baust deine eigene Sammlung auf. Dein Handy bestimmt die Tiere selbst – auch ohne Netz.",
+          sub_l2: "Keine Cloud, keine Anmeldung, keine Kosten.",
+          email_ph: "Deine E-Mail-Adresse",
+          submit: "Zur Beta anmelden 🪲",
+          success: "🎉 Du stehst auf der Liste. Wir melden uns, sobald die Beta startet.",
+          err: "Das hat nicht geklappt. Nochmal versuchen? 🐛",
+          note: "Die Beta startet zuerst in Europa.",
+          tag_acc: "✓ ohne Anmeldung",
+          tag_net: "✓ funktioniert offline",
+          tag_cost: "✓ kostenlos",
+          tag_track: "✓ kein Tracking",
+          tag_mit: "✓ MIT-Lizenz",
+          z1_t: "Keine Cloud",
+          z1_d: "Dein Handy erkennt die Insekten, nicht irgendein Server.",
+          z2_t: "Kein Tracking",
+          z2_d: "Deine Fotos bleiben auf deinem Handy.",
+          z3_t: "Ohne Anmeldung",
+          z3_d: "Installieren und direkt losziehen.",
+          z4_t: "Kostenlos",
+          z4_d: "Und Open Source unter MIT-Lizenz.",
+          z5_t: "Macht süchtig",
+          z5_d: "XP sammeln, Serie halten, Quests erledigen, alle Funde auf einer Offline-Karte sehen und, wenn du magst, in Ranglisten antreten.",
+          ft_tag: "Kostenlos · Open Source (MIT) · Bald verfügbar",
+          ft_contact: "Kontakt",
+          ft_support: "Support",
+          ft_privacy: "Datenschutz",
+          ft_terms: "Bedingungen",
+          gh_star: "★ Gib uns einen Stern auf GitHub",
+          tech_label: "So funktioniert's",
+          tech_h2: "Ein Bestimmungsbuch für die Hosentasche.",
+          tech_p1:
+            "Critterboard nutzt ein kleines KI-Modell, das direkt auf deinem Handy läuft. Fotos werden nie hochgeladen – deshalb klappt das mitten im Wald genauso gut wie zu Hause.",
+          tech_p2:
+            "Für jede Region gibt es ein eigenes Modell, trainiert nur auf die Arten, die dir dort wirklich begegnen. So bleibt es klein und treffsicher.",
+          spec1_t: "Klein und schnell",
+          spec1_d:
+            "Läuft flüssig auf ganz normalen Handys, nicht nur auf Flaggschiffen.",
+          spec3_t: "Ein Paket pro Region",
+          spec3_d:
+            "Jedes Paket deckt die Insekten einer Region ab. So bleibt es klein und kennt die Arten, die du wirklich siehst.",
+          dl_title: "Einmal laden, bevor du losziehst",
+          dl_body:
+            "Lade das Mitteleuropa-Paket einmal herunter, am besten zu Hause im WLAN: 88 MB für das Modell zur Artenerkennung und 56 MB für die Offline-Karte von Europa. Danach funktioniert Critterboard ohne Verbindung – im Wald, auf der Wiese und überall, wo es keinen Empfang gibt.",
+          cp_title: "Lust auf ein bisschen Wettbewerb? Optional",
+          cp_badge: "STANDARDMÄSSIG AUS",
+          cp_body:
+            "Schalte das Netzwerk ein, dann kannst du bei den globalen und wöchentlichen Ranglisten mitmachen, Freunden folgen und sehen, was sie finden. Es gibt weiterhin kein Konto, und du kannst dich jederzeit verstecken oder alles löschen, was du online gestellt hast. Spiel komplett offline, und nichts verlässt dein Telefon.",
+          sci_title: "Deine Funde helfen der Forschung",
+          sci_body:
+            "Exportiere deine Beobachtungen im Darwin-Core-Format, das auch GBIF und Forschungseinrichtungen weltweit nutzen.",
+          sci_badge: "GBIF-kompatibel",
+          privacy_note:
+            "Wir speichern nur deine E-Mail-Adresse und das Anmeldedatum. Sonst nichts.",
+          alt_home: "Startbildschirm mit dem Insekt des Tages",
+          alt_brains: "Auswahl der KI-Modelle auf dem Handy",
+          alt_map: "Europakarte, die offline funktioniert",
+          alt_quests: "Quests und Abzeichen",
+          lang_label: "Sprache",
+        },
+      };
+
+      const SUPPORTED = Object.keys(I18N);
+      const STORAGE_KEY = "cb-lang";
+
+      function detectLang() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored && SUPPORTED.includes(stored)) return stored;
+        const nav = (navigator.language || "en").slice(0, 2).toLowerCase();
+        return SUPPORTED.includes(nav) ? nav : "en";
+      }
+
+      function applyLang(lang) {
+        const dict = I18N[lang] || I18N.en;
+        document.documentElement.lang = lang;
+        document.title = dict.title;
+        document.querySelectorAll("img[data-shot]").forEach((el) => {
+          el.src = `/img/screens/${lang}-${el.dataset.shot}.webp`;
+        });
+        document.querySelectorAll("a[data-page]").forEach((el) => {
+          el.href = `/${el.dataset.page}/${lang === "en" ? "" : lang + "/"}`;
+        });
+        const md = document.querySelector('meta[name="description"]');
+        if (md) md.setAttribute("content", dict.meta_desc);
+        const ogT = document.querySelector('meta[property="og:title"]');
+        if (ogT) ogT.setAttribute("content", dict.title);
+        const ogD = document.querySelector('meta[property="og:description"]');
+        if (ogD) ogD.setAttribute("content", dict.meta_desc);
+
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          if (dict[key] != null) el.textContent = dict[key];
+        });
+        for (const attr of ["placeholder", "alt", "aria-label"]) {
+          document.querySelectorAll(`[data-i18n-${attr}]`).forEach((el) => {
+            const key = el.getAttribute(`data-i18n-${attr}`);
+            if (dict[key] != null) el.setAttribute(attr, dict[key]);
+          });
+        }
+
+        const cur = document.getElementById("lang-current");
+        if (cur) cur.textContent = dict._label;
+        document.querySelectorAll("#lang-menu [data-lang]").forEach((btn) => {
+          btn.setAttribute(
+            "aria-current",
+            btn.getAttribute("data-lang") === lang ? "true" : "false",
+          );
+        });
+        try {
+          localStorage.setItem(STORAGE_KEY, lang);
+        } catch {}
+      }
+
+      // ── language toggle ──────────────────────────────────────────────────
+      (function setupLangSwitch() {
+        const btn = document.getElementById("lang-btn");
+        const menu = document.getElementById("lang-menu");
+        if (!btn || !menu) return;
+
+        const close = () => {
+          menu.hidden = true;
+          btn.setAttribute("aria-expanded", "false");
+        };
+        const open = () => {
+          menu.hidden = false;
+          btn.setAttribute("aria-expanded", "true");
+        };
+
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          menu.hidden ? open() : close();
+        });
+        menu.addEventListener("click", (e) => {
+          const t = e.target.closest("[data-lang]");
+          if (!t) return;
+          applyLang(t.getAttribute("data-lang"));
+          close();
+        });
+        document.addEventListener("click", (e) => {
+          if (!menu.hidden && !e.target.closest(".lang-switch")) close();
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") close();
+        });
+      })();
+
+      applyLang(detectLang());
+
+      // ── form ─────────────────────────────────────────────────────────────
+      document.getElementById("form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const btn = form.querySelector("button");
+        const email = form.querySelector("input[type=email]").value;
+        const botField = form.querySelector("input[name=bot-field]").value;
+        btn.textContent = "...";
+        btn.disabled = true;
+        let ok = false;
+        try {
+          const res = await fetch("/api/waitlist", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ "bot-field": botField, email }).toString(),
+          });
+          ok = res.ok;
+        } catch {}
+        if (!ok) {
+          btn.textContent = (I18N[document.documentElement.lang] || I18N.en).err;
+          btn.disabled = false;
+          return;
+        }
+        form.style.display = "none";
+        document.getElementById("ok").style.display = "block";
+      });
+    </script>
+  </body>
+</html>

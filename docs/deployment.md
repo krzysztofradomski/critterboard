@@ -171,3 +171,29 @@ Or add a non-secret `env` block per profile in `eas.json`. Keep real keys out of
 - [ ] `google-service-account.json` present locally (Android), git-ignored
 - [ ] EAS env vars (`eas env:create`) set for any `EXPO_PUBLIC_*` the app needs at runtime
 - [ ] `pnpm run check` is green
+
+## Landing page (critterboard.app)
+
+`website/public/index.html` is a single self-contained page. The Cloudflare
+Worker `critterboard-site` (`website/wrangler.jsonc`) serves it as a static
+asset on the `critterboard.app` custom domain. No build step.
+
+The support, privacy and terms pages (`/support/`, `/privacy/`, `/terms/`, each with `/pl/`, `/de/`, `/es/` variants) are generated, not hand-edited: edit `tools/website/gen_site.py` (support) or `tools/website/legal_content.py` (privacy, terms) and run `python3 tools/website/gen_site.py`. The generated pages reuse the landing page's own header, footer and base CSS (read from `website/public/index.html` at generation time), so change those there and regenerate. Support's photo tips, FAQ and contact text are read from `assets/i18n/*.json`, so the site matches the app. The app's ↗ button on the Help screen opens `/support/` in the UI language, and `_redirects` sends the old `/help` URLs there. Keep the privacy copy true to the code (what the worker stores, what the app sends) whenever either changes.
+
+`website/worker.js` only handles `POST /api/waitlist`, the email form. It stores
+`email -> ISO date` in the `WAITLIST` KV namespace (nothing else, per the page's
+privacy note). Bots filling the hidden `bot-field` get a 204 and are dropped.
+
+```bash
+cd website && npx wrangler deploy        # deploy
+npx wrangler dev                         # local, uses a local KV
+npx wrangler kv key list --binding WAITLIST --remote   # read the waitlist
+```
+
+Cloudflare manages the apex DNS record for the custom domain; don't add A/CNAME
+records for `critterboard.app` by hand, or the next deploy fails with
+"already has externally managed DNS records".
+
+### Landing page screenshots
+
+`website/public/img/screens/<lang>-<home|map|quests|brains>.webp` (4 screens x 4 languages) are real simulator captures. Retake them from a **Release** build (no Expo dev button): `npx expo run:ios --configuration Release --no-bundler`, set the status bar with `xcrun simctl status_bar <udid> override --time 9:41 --batteryState charged --batteryLevel 100`, capture with `xcrun simctl io <udid> screenshot`, then `cwebp -q 80 -resize 540 0`. The landing page swaps them with the language switcher (`data-shot` attributes).

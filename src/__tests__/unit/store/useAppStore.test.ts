@@ -6,7 +6,7 @@ vi.mock('zustand/middleware', async (importOriginal) => {
   return { ...mod, persist: (fn: unknown) => fn };
 });
 
-import { useAppStore } from '@/store/useAppStore';
+import { createCoalescedWriter, pruneActivity, useAppStore } from '@/store/useAppStore';
 
 const BASE_STATE = {
   stack: [{ name: 'home' as const, params: undefined }],
@@ -20,6 +20,9 @@ const BASE_STATE = {
     leaderboardOn: true,
     locationShareOn: false,
     crashReportingOn: false,
+    minConfidence: 33,
+    hapticsOn: true,
+    sightingsOn: false,
   },
   hasOnboarded: false,
   toast: null,
@@ -368,5 +371,135 @@ describe('removeMessageFromThread (U-ST-rm-*)', () => {
     useAppStore.getState().removeMessageFromThread('ts-thread', 0);
     const updatedAt = useAppStore.getState().chatThreads['ts-thread']?.updatedAt ?? 0;
     expect(updatedAt).toBeGreaterThanOrEqual(before);
+  });
+});
+
+// ──────────────────────────────────────────────────────────────────────────
+// Regional packs: one active region at a time
+// ──────────────────────────────────────────────────────────────────────────
+
+describe('active region', () => {
+  const reset = () =>
+    useAppStore.setState({
+      installedRegions: [],
+      activeRegion: null,
+      activeLabelMap: {},
+      installedPackVersions: {},
+    });
+
+  it('installing a region activates it and applies its label map', () => {
+    reset();
+    useAppStore.getState().installRegion('eu-ce', { a: 0 }, 5);
+    const s = useAppStore.getState();
+    expect(s.activeRegion).toBe('eu-ce');
+    expect(s.activeLabelMap).toEqual({ a: 0 });
+  });
+
+  it('a newly installed region replaces the active one; only one is active', () => {
+    reset();
+    useAppStore.getState().installRegion('eu-ce', { a: 0 }, 5);
+    useAppStore.getState().installRegion('eu-uk', { b: 1 }, 1);
+    const s = useAppStore.getState();
+    expect(s.installedRegions).toEqual(['eu-ce', 'eu-uk']);
+    expect(s.activeRegion).toBe('eu-uk');
+    expect(s.activeLabelMap).toEqual({ b: 1 });
+  });
+
+  it('refreshing a non-active region leaves the active one alone', () => {
+    reset();
+    useAppStore.getState().installRegion('eu-ce', { a: 0 }, 5);
+    useAppStore.getState().installRegion('eu-uk', { b: 1 }, 1);
+    useAppStore.getState().installRegion('eu-ce', { a: 9 }, 6);
+    const s = useAppStore.getState();
+    expect(s.activeRegion).toBe('eu-uk');
+    expect(s.activeLabelMap).toEqual({ b: 1 });
+    expect(s.installedPackVersions['eu-ce']).toBe(6);
+  });
+
+  it('uninstalling the only region clears the active region', () => {
+    reset();
+    useAppStore.getState().installRegion('eu-ce', { a: 0 }, 5);
+    useAppStore.getState().uninstallRegion('eu-ce');
+    const s = useAppStore.getState();
+    expect(s.activeRegion).toBeNull();
+    expect(s.activeLabelMap).toEqual({});
+  });
+
+  it('setActiveRegion ignores regions that are not installed', () => {
+    reset();
+    useAppStore.getState().setActiveRegion('na-ne');
+    expect(useAppStore.getState().activeRegion).toBeNull();
+  });
+});
+
+// ──────────────────────────────────────────────────────────────────────────
+// Backend identity: the secret that proves ownership of the public user id
+// ──────────────────────────────────────────────────────────────────────────
+
+describe('backend secret', () => {
+  it('is 64 hex chars (32 random bytes)', () => {
+    expect(useAppStore.getState().backendSecret).toMatch(/^[0-9a-f]{64}$/);
+  });
+
+  it('wipeAll rotates both the id and the secret', async () => {
+    useAppStore.setState({ backendUserId: 'old-id', backendSecret: 'a'.repeat(64) });
+    await useAppStore.getState().wipeAll();
+    const s = useAppStore.getState();
+    expect(s.backendUserId).not.toBe('old-id');
+    expect(s.backendSecret).not.toBe('a'.repeat(64));
+    expect(s.backendSecret).toMatch(/^[0-9a-f]{64}$/);
+  });
+});
+
+describe('pruneActivity', () => {
+  const now = 100 * 24 * 3600 * 1000;
+  const catchAt = (i: number, at: number) => ({ id: `c${i}`, kind: 'catch' as const, at, bugId: 'lady' });
+
+  it('keeps only the newest guide switch, drops entries older than 30 days and caps the list', () => {
+    const log = [
+      { id: 'p1', kind: 'persona' as const, at: now - 1000, personaId: 'larva' as const },
+      { id: 'p2', kind: 'persona' as const, at: now - 2000, personaId: 'snail' as const },
+      ...Array.from({ length: 40 }, (_, i) => catchAt(i, now - 10_000 - i)),
+      catchAt(99, now - 31 * 24 * 3600 * 1000),
+    ];
+    const out = pruneActivity(log, now);
+    expect(out.filter((e) => e.kind === 'persona')).toHaveLength(1);
+    expect(out.find((e) => e.id === 'p1')).toBeDefined();
+    expect(out.find((e) => e.id === 'c99')).toBeUndefined();
+    expect(out).toHaveLength(30);
+  });
+});
+
+describe('createCoalescedWriter', () => {
+  it('writes only the latest value once per window, in order, and flush/cancel work', async () => {
+    vi.useFakeTimers();
+    try {
+      const written: number[] = [];
+      let release: () => void = () => {};
+      const w = createCoalescedWriter(async (v: number) => {
+        // The first write is slow: a later one must still land after it.
+        if (v === 3) await new Promise<void>((r) => (release = r));
+        written.push(v);
+      }, 500);
+
+      w.schedule(1);
+      w.schedule(2);
+      w.schedule(3);
+      expect(written).toEqual([]);
+      await vi.advanceTimersByTimeAsync(500); // window ends → write(3) starts, blocks
+      w.schedule(4);
+      const flushed = w.flush(); // queued behind the slow write
+      release();
+      await flushed;
+      expect(written).toEqual([3, 4]);
+
+      w.schedule(5);
+      w.cancel();
+      await vi.advanceTimersByTimeAsync(1000);
+      await w.flush();
+      expect(written).toEqual([3, 4]);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

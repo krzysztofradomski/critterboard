@@ -4,6 +4,7 @@ const env = vi.hoisted(() => ({
   files: new Set<string>(),
   deleted: [] as string[],
   status: 200,
+  size: 3_106_738_272,
   loadFails: false,
   loaded: null as string | null,
   mem: 6 * 1024 ** 3 as number | null,
@@ -19,11 +20,15 @@ vi.mock('expo-device', () => ({
 
 vi.mock('expo-file-system/legacy', () => ({
   documentDirectory: 'file:///docs/',
-  getInfoAsync: vi.fn(async (p: string) => ({ exists: env.files.has(p) })),
+  getInfoAsync: vi.fn(async (p: string) => ({ exists: env.files.has(p), size: env.size })),
   makeDirectoryAsync: vi.fn(async () => undefined),
   deleteAsync: vi.fn(async (p: string) => {
     env.deleted.push(p);
     env.files.delete(p);
+  }),
+  moveAsync: vi.fn(async ({ from, to }: { from: string; to: string }) => {
+    env.files.delete(from);
+    env.files.add(to);
   }),
   createDownloadResumable: vi.fn(
     (_url: string, path: string, _o: unknown, onProgress: (p: object) => void) => ({
@@ -61,9 +66,20 @@ describe('chatModel', () => {
     env.files.clear();
     env.deleted = [];
     env.status = 200;
+    env.size = 3_106_738_272;
     env.loadFails = false;
     env.loaded = null;
     env.mem = 6 * 1024 ** 3;
+  });
+
+  it('discards a download of the wrong size (cut off, or not the pinned file)', async () => {
+    env.size = 1_000;
+    const m = await fresh();
+    await m.initChatModel();
+    await m.downloadChatModel();
+    expect(m.chatModelState().status).toBe('error');
+    expect(env.files.size).toBe(0);
+    expect(env.loaded).toBeNull();
   });
 
   it('sorts phones into memory tiers', async () => {
@@ -147,5 +163,19 @@ describe('chatModel', () => {
     expect(env.loaded).toBeNull();
     expect(env.files.has(PATH)).toBe(false);
     expect(m.chatModelState().status).toBe('absent');
+  });
+
+  it('eject frees memory but keeps the file, init does not reload it, load brings it back', async () => {
+    env.files.add(PATH);
+    const m = await fresh();
+    await m.initChatModel();
+    await m.ejectChatModel();
+    expect(env.loaded).toBeNull();
+    expect(env.files.has(PATH)).toBe(true);
+    expect(m.chatModelState().status).toBe('ejected');
+    await m.initChatModel();
+    expect(m.chatModelState().status).toBe('ejected');
+    await m.loadChatModel();
+    expect(m.chatModelState().status).toBe('ready');
   });
 });

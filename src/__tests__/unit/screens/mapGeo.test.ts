@@ -1,34 +1,24 @@
 import { describe, expect, it } from "vitest";
 
-import { findBug } from "@/data/bugs";
-import { SIGHTINGS } from "@/data/sightings";
 import type { CatchEvent } from "@/lib/streak";
-import { altitudeToZoom, buildGlobeMarkers, buildUserPins } from "@/screens/mapGeo";
-
-describe("demo sightings map to real species", () => {
-  it("every sighting bugId resolves to a real bug", () => {
-    for (const s of SIGHTINGS) {
-      expect(findBug(s.bugId), `sighting bugId "${s.bugId}"`).toBeDefined();
-    }
-  });
-});
+import { altitudeToZoom, buildGlobeMarkers, buildUserPins, minZoomForBounds, pinsNear } from "@/screens/mapGeo";
 
 describe("buildGlobeMarkers", () => {
-  const center = { lat: 50, lng: 15 };
+  it("starts empty: no invented sightings, only the user's own pins", () => {
+    const { markers, meta } = buildGlobeMarkers([], null);
+    expect(markers).toEqual([]);
+    expect(meta.size).toBe(0);
+  });
 
-  it("colours each sighting marker by its species and records bugId in meta", () => {
-    const { markers, meta } = buildGlobeMarkers(center, [], null);
-
-    SIGHTINGS.forEach((s, index) => {
-      const bug = findBug(s.bugId)!;
-      const id = `sighting-${index}`;
-      const marker = markers.find((m) => m.id === id);
-
-      expect(marker, id).toBeDefined();
-      expect(marker!.color).toBe(bug.color);
-      expect(marker!.icon).toBe(bug.emoji);
-      expect(meta.get(id)).toEqual({ kind: "sighting", index, bugId: s.bugId });
-    });
+  it("adds a pin per catch and a 'you' marker when the location is known", () => {
+    const pins = buildUserPins(
+      [{ id: "lady", at: 1, lat: 50, lng: 15 }],
+      { lat: 50, lng: 15 },
+      () => "Ladybird",
+    );
+    const { markers, meta } = buildGlobeMarkers(pins, { lat: 51, lng: 16 });
+    expect(markers.map((m) => m.id)).toEqual([pins[0]!.id, "you"]);
+    expect(meta.get(pins[0]!.id)).toEqual({ kind: "user", pin: pins[0] });
   });
 });
 
@@ -53,5 +43,38 @@ describe("altitudeToZoom", () => {
     expect(altitudeToZoom(1_000, 50)).toBeGreaterThan(altitudeToZoom(10_000, 50));
     expect(altitudeToZoom(1e12, 0)).toBe(1);
     expect(altitudeToZoom(0.001, 0)).toBe(20);
+  });
+});
+
+describe('minZoomForBounds', () => {
+  const europe = { minLng: -25, minLat: 34, maxLng: 45, maxLat: 72 };
+
+  it('is the zoom at which the pack fills the viewport', () => {
+    const z = minZoomForBounds(europe, 402, 874);
+    // A 402 x 874 pt screen is taller than wide, so the 38° of latitude decides it.
+    expect(z).toBeGreaterThan(2.5);
+    expect(z).toBeLessThan(4);
+    // One step wider than that zoom would show the empty margin; at z the world strip is >= the screen.
+    const worldPx = 512 * 2 ** z;
+    expect(worldPx * ((europe.maxLng - europe.minLng) / 360)).toBeGreaterThanOrEqual(402);
+  });
+
+  it('needs less zoom on a smaller viewport', () => {
+    expect(minZoomForBounds(europe, 200, 300)).toBeLessThan(minZoomForBounds(europe, 402, 874));
+  });
+});
+
+describe("pinsNear", () => {
+  it("groups pins at the same spot, newest first, and leaves far ones out", () => {
+    const pins = buildUserPins(
+      [
+        { id: "lady", at: 1, lat: 50, lng: 15 },
+        { id: "mona", at: 2, lat: 50.0001, lng: 15.0001 },
+        { id: "lady", at: 3, lat: 51, lng: 15 },
+      ],
+      { lat: 50, lng: 15 },
+      () => "x",
+    );
+    expect(pinsNear(pins, pins[0]!).map((p) => p.at)).toEqual([2, 1]);
   });
 });

@@ -1,0 +1,12 @@
+// Landing page: static assets + worker.js for the waitlist form (POST /api/waitlist).
+// Deploy: cd website && npx wrangler deploy
+{
+  "name": "critterboard-site",
+  "main": "worker.js",
+  "compatibility_date": "2026-09-30",
+  "assets": { "directory": "./public", "binding": "ASSETS" },
+  "kv_namespaces": [
+    { "binding": "WAITLIST", "id": "60df3797d657433c8f0d3576b851c5ec" }
+  ],
+  "routes": [{ "pattern": "critterboard.app", "custom_domain": true }]
+}

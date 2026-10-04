@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, type StyleProp, type ViewStyle } from 'react-native';
 
 import { PB } from '@/tokens/pb';
+import { haptics } from '@/lib/haptics';
 
 export type BtnProps = {
   children: React.ReactNode;
@@ -33,7 +34,10 @@ export function Btn({
   return (
     <Pressable
       disabled={disabled}
-      onPress={disabled ? undefined : onPress}
+      onPress={disabled ? undefined : () => {
+        haptics.tap();
+        onPress?.();
+      }}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
       style={[

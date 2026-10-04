@@ -1,29 +1,26 @@
-import type { Marker } from "react-cartoon-planet";
-
 import { findBug } from "@/data/bugs";
-import { SIGHTINGS } from "@/data/sightings";
 import type { CatchEvent } from "@/lib/streak";
 import { PB } from "@/tokens/pb";
 
-const USER_PIN_SCALE_PCT_PER_KM = 5;
-const PIN_X_CENTER = 46;
-const PIN_Y_CENTER = 52;
-
-// react-cartoon-planet sizes markers relative to a ~0.024 reference radius
-// (globe radius is 1). Values near 1 render as Earth-sized cream blobs, so keep
-// every marker in the library's intended 0.02–0.03 band.
-const SIGHTING_MARKER_SIZE = 0.024;
-const USER_PIN_MARKER_SIZE = 0.026;
-const YOU_MARKER_SIZE = 0.02;
+/** A pin on the map. `icon` is an emoji; `color` is the pin background. */
+export type Marker = {
+  id: string;
+  label: string;
+  lat: number;
+  lng: number;
+  icon?: string;
+  color?: string;
+  shape?: "icon" | "orb";
+};
 
 /** Fallback map focus when the user has no location and no catches yet. */
 const EUROPE_CENTER = { lat: 50, lng: 15 };
 // Continental framing for the Europe fallback (shows the continent + coastlines
 // + surrounding seas, not a green inland patch).
 const EUROPE_VIEW_ALT_M = 6_000_000;
-// Regional framing once we know the user's actual spot — close enough to read
-// the area, far enough to keep geographic context.
-const REGIONAL_ALT_M = 2_000_000;
+// Framing once we know the user's actual spot: roughly a city (zoom ~11.7),
+// since an offline pack has street-level detail, not continent-scale context.
+export const LOCAL_VIEW_ALT_M = 12_000;
 
 export type UserPinData = {
   id: string;
@@ -36,9 +33,7 @@ export type UserPinData = {
   lng: number;
 };
 
-export type MapMarkerMeta =
-  | { kind: "sighting"; index: number; bugId: string }
-  | { kind: "user"; pin: UserPinData };
+export type MapMarkerMeta = { kind: "user"; pin: UserPinData };
 
 export type MapInitialView = {
   lng: number;
@@ -61,7 +56,7 @@ function haversineMeters(
   return 6_371_000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-/** Altitude that frames a marker group in view (mirrors react-cartoon-planet clustering). */
+/** Altitude that frames a marker group in view . */
 function frameAltitudeM(
   markers: Array<{ lng: number; lat: number }>,
   centerLng: number,
@@ -94,11 +89,11 @@ export function resolveInitialMapView(
   }
 
   if (you) {
-    return { lng: you.lng, lat: you.lat, altM: REGIONAL_ALT_M };
+    return { lng: you.lng, lat: you.lat, altM: LOCAL_VIEW_ALT_M };
   }
 
   if (mapLocation) {
-    return { lng: mapLocation.lng, lat: mapLocation.lat, altM: REGIONAL_ALT_M };
+    return { lng: mapLocation.lng, lat: mapLocation.lat, altM: LOCAL_VIEW_ALT_M };
   }
 
   // No computed location yet — start on the predefined centre of Europe rather
@@ -119,49 +114,23 @@ export function altitudeToZoom(altM: number, lat: number): number {
   return Math.min(20, Math.max(1, zoom));
 }
 
-export function critterboardEarthMap(
-  base: import("react-cartoon-planet").PlanetMapDefinition,
-  url: string,
-): import("react-cartoon-planet").PlanetMapDefinition {
-  return {
-    ...base,
-    url,
-    atmosphereStrength: 0,
+/**
+ * Lowest zoom at which a viewport of `widthPt` x `heightPt` is still entirely inside `bounds`
+ * (MapLibre's world is 512 px wide at zoom 0). Zooming out further would show the empty margin.
+ */
+export function minZoomForBounds(
+  bounds: { minLng: number; minLat: number; maxLng: number; maxLat: number },
+  widthPt: number,
+  heightPt: number,
+): number {
+  const mercY = (lat: number) => {
+    const clamped = Math.max(-85, Math.min(85, lat));
+    return 0.5 - Math.log(Math.tan(Math.PI / 4 + (clamped * Math.PI) / 360)) / (2 * Math.PI);
   };
-}
-
-export function project(
-  lat: number,
-  lng: number,
-  centerLat: number,
-  centerLng: number,
-): { x: number; y: number } {
-  const kmPerDegLat = 111;
-  const kmPerDegLng = 111 * Math.cos((centerLat * Math.PI) / 180);
-  const dxKm = (lng - centerLng) * kmPerDegLng;
-  const dyKm = (lat - centerLat) * kmPerDegLat;
-  const x = PIN_X_CENTER + dxKm * USER_PIN_SCALE_PCT_PER_KM;
-  const y = PIN_Y_CENTER - dyKm * USER_PIN_SCALE_PCT_PER_KM;
-  return {
-    x: Math.max(4, Math.min(96, x)),
-    y: Math.max(4, Math.min(96, y)),
-  };
-}
-
-export function unproject(
-  xPct: number,
-  yPct: number,
-  centerLat: number,
-  centerLng: number,
-): { lat: number; lng: number } {
-  const kmPerDegLat = 111;
-  const kmPerDegLng = 111 * Math.cos((centerLat * Math.PI) / 180);
-  const dxKm = (xPct - PIN_X_CENTER) / USER_PIN_SCALE_PCT_PER_KM;
-  const dyKm = (PIN_Y_CENTER - yPct) / USER_PIN_SCALE_PCT_PER_KM;
-  return {
-    lat: centerLat + dyKm / kmPerDegLat,
-    lng: centerLng + dxKm / kmPerDegLng,
-  };
+  const lngFrac = Math.max(1e-6, (bounds.maxLng - bounds.minLng) / 360);
+  const latFrac = Math.max(1e-6, Math.abs(mercY(bounds.minLat) - mercY(bounds.maxLat)));
+  const z = Math.max(Math.log2(widthPt / (512 * lngFrac)), Math.log2(heightPt / (512 * latFrac)));
+  return Math.ceil(z * 10) / 10;
 }
 
 export function resolveMapCenter(
@@ -197,31 +166,19 @@ export function buildUserPins(
     });
 }
 
+/** Pins close enough to `pin` to hide behind it (~50 m), newest first; always includes `pin`. */
+export function pinsNear(pins: UserPinData[], pin: UserPinData, radiusDeg = 0.0005): UserPinData[] {
+  return pins
+    .filter((p) => Math.abs(p.lat - pin.lat) <= radiusDeg && Math.abs(p.lng - pin.lng) <= radiusDeg)
+    .sort((a, b) => b.at - a.at);
+}
+
 export function buildGlobeMarkers(
-  center: { lat: number; lng: number },
   userPins: UserPinData[],
   mapLocation: { lat: number; lng: number } | null,
 ): { markers: Marker[]; meta: Map<string, MapMarkerMeta> } {
   const markers: Marker[] = [];
   const meta = new Map<string, MapMarkerMeta>();
-
-  SIGHTINGS.forEach((sp, index) => {
-    const bug = findBug(sp.bugId);
-    const { lat, lng } = unproject(sp.x, sp.y, center.lat, center.lng);
-    const id = `sighting-${index}`;
-    markers.push({
-      id,
-      label: bug?.name ?? sp.bugId,
-      lat,
-      lng,
-      icon: bug?.emoji ?? "🐛",
-      shape: "icon",
-      // Colour the pin by its species so sightings read as distinct on the globe.
-      color: bug?.color ?? PB.cream,
-      size: SIGHTING_MARKER_SIZE,
-    });
-    meta.set(id, { kind: "sighting", index, bugId: sp.bugId });
-  });
 
   for (const pin of userPins) {
     markers.push({
@@ -232,7 +189,6 @@ export function buildGlobeMarkers(
       icon: pin.emoji,
       shape: "icon",
       color: PB.purple,
-      size: USER_PIN_MARKER_SIZE,
     });
     meta.set(pin.id, { kind: "user", pin });
   }
@@ -245,7 +201,6 @@ export function buildGlobeMarkers(
       lng: mapLocation.lng,
       shape: "orb",
       color: PB.red,
-      size: YOU_MARKER_SIZE,
     });
   }
 

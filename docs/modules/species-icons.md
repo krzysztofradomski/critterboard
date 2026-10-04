@@ -48,7 +48,7 @@ sequenceDiagram
   App->>App: register file URIs → BugIcon re-renders
 ```
 
-- The pack JSON's `icons` block holds the atlas URL, an icon version and each bug's `[offset, length]`. One file keeps the download to a single request.
+- The pack JSON's `icons` block holds the atlas URL, an icon version and each bug's `[offset, length]`. One file keeps the download to a single request. The atlas is checked against the size/MD5 pinned in the same block ([[../decisions/007-download-integrity]]), and only ids that look like species ids (`a-z`, `0-9`, `-`) are written, since they become file names.
 - **Install** (Settings) fetches icons after the model. **Boot** registers icons already on disk, or fetches them if missing. **Pack update** re-fetches icons only if their version changed and skips the model if its URL didn't change (v5 adds icons, not a new model).
 - **Uninstall** deletes the folder. Web has no pack install, so it shows emoji.
 - Everything is best-effort: any failure leaves the emoji fallback.

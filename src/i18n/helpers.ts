@@ -4,6 +4,7 @@ import { findBug } from '@/data/bugs';
 import { useAppStore } from '@/store/useAppStore';
 
 import { t, type LangId } from './index';
+import { lookupFor } from './translate';
 
 /**
  * React hook returning a `t()` function bound to the current language.
@@ -23,10 +24,13 @@ export function useT(): (key: string, vars?: Record<string, string | number>) =>
  * they're conventionally Latin everywhere; only the vernacular varies.
  */
 export function bugName(lang: LangId, bugId: string): string {
-  const key = `bugs.${bugId}.name`;
-  const name = t(lang, key);
-  // Region-pack species may not have translations yet: use the pack's name.
-  return name === key ? (findBug(bugId)?.name ?? bugId) : name;
+  // Bundled species are translated in the i18n packs. Not a `t()` call: that warns in dev for
+  // each of the ~1,000 pack species, which have no key, and made Dex sluggish in dev builds.
+  const name = lookupFor(lang, `bugs.${bugId}.name`);
+  if (name !== undefined) return name;
+  // Region-pack species: the pack's per-language name, else its English name.
+  const bug = findBug(bugId);
+  return (lang !== 'en' && bug?.names?.[lang]) || bug?.name || bugId;
 }
 
 /**

@@ -2,6 +2,7 @@ import { validateStyleMin } from "@maplibre/maplibre-gl-style-spec";
 import { describe, expect, it } from "vitest";
 
 import {
+  GLYPHS_PLACEHOLDER,
   MAP_SOURCE_ID,
   OSM_ATTRIBUTION,
   buildStickerStyle,
@@ -19,7 +20,19 @@ describe("buildStickerStyle", () => {
     const style = buildStickerStyle(null);
     expect(validateStyleMin(style as never)).toEqual([]);
     expect(style.sources).toEqual({});
-    expect(style.layers.map((l) => l.id)).toEqual(["background"]);
+    expect(style.layers.map((l) => l.id)).toEqual(["background", "background_nodata"]);
+  });
+
+  it("marks coverage: sea inside the pack bounds, no-data background outside", () => {
+    const bounds = { minLng: 19.79, minLat: 49.97, maxLng: 20.22, maxLat: 50.13 };
+    const style = buildStickerStyle(TILES, bounds);
+    expect(validateStyleMin(style as never)).toEqual([]);
+    const ids = style.layers.map((l) => l.id);
+    expect(ids.indexOf("coverage_sea")).toBeGreaterThan(ids.indexOf("background_nodata"));
+    expect(ids.indexOf("coverage_sea")).toBeLessThan(ids.indexOf("earth"));
+    expect(style.layers.find((l) => l.id === "background")).toMatchObject({
+      paint: { "background-color": "#e6d9bd" },
+    });
   });
 
   it("reads only the local PMTiles source and credits OSM", () => {
@@ -34,11 +47,17 @@ describe("buildStickerStyle", () => {
     }
   });
 
-  it("needs no network assets: no glyphs, sprites or symbol layers", () => {
+  it("needs no network assets: no glyphs, sprites or text labels", () => {
     const style = buildStickerStyle(TILES);
-    expect(style.glyphs).toBeUndefined();
+    // A local placeholder only: native needs *a* glyphs entry for symbol layers, but we draw no text.
+    expect(style.glyphs).toBe(GLYPHS_PLACEHOLDER);
+    expect(style.glyphs?.startsWith("file:")).toBe(true);
     expect(style.sprite).toBeUndefined();
-    expect(style.layers.some((l) => l.type === "symbol")).toBe(false);
+    // Icons come from bundled <Images>; text would need glyph downloads.
+    const text = style.layers.filter(
+      (l) => l.type === "symbol" && "text-field" in (l.layout ?? {}),
+    );
+    expect(text).toEqual([]);
   });
 
   it("has unique layer ids", () => {

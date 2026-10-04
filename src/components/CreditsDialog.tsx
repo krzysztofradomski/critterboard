@@ -1,13 +1,18 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { PB } from '@/tokens/pb';
 import { IconBtn } from '@/components/IconBtn';
 import { ModalShell } from '@/components/ModalShell';
 import { useT } from '@/i18n/helpers';
+import { VISION_MODEL } from '@/data/visionModel';
+import appJson from '../../app.json';
 
-type CreditEntry = { key: string; emoji: string; color: string };
-type CreditSection = { sectionKey: 'team' | 'models' | 'data'; items: CreditEntry[] };
+type CreditEntry = { key: string; emoji: string; color: string; url: string };
+type CreditSection = { sectionKey: 'models' | 'data'; items: CreditEntry[] };
+
+const EMAIL = 'hello@critterboard.app';
+const REPO = 'https://github.com/krzysztofradomski/critterboard/blob/main';
 
 /**
  * Static credits structure. Names + roles come from translation packs:
@@ -15,27 +20,19 @@ type CreditSection = { sectionKey: 'team' | 'models' | 'data'; items: CreditEntr
  */
 const CREDITS: CreditSection[] = [
   {
-    sectionKey: 'team',
-    items: [
-      { key: 'mira',  emoji: '🎨', color: PB.pink },
-      { key: 'theo',  emoji: '📱', color: PB.blue },
-      { key: 'junie', emoji: '🧠', color: PB.purple },
-    ],
-  },
-  {
     sectionKey: 'models',
     items: [
-      { key: 'bugnet',   emoji: '👁️', color: PB.blue },
-      { key: 'larva',    emoji: '🤖', color: PB.pink },
-      { key: 'variants', emoji: '🌼', color: PB.yellow },
+      { key: 'bugnet',   emoji: '👁️', color: PB.blue,   url: `${REPO}/training/vision/results/commercial-1k-v1/MODEL_CARD.md` },
+      { key: 'larva',    emoji: '🤖', color: PB.pink,   url: 'https://huggingface.co/google/gemma-4-E2B-it' },
+      { key: 'variants', emoji: '🌼', color: PB.yellow, url: `${REPO}/src/personas/index.ts` },
     ],
   },
   {
     sectionKey: 'data',
     items: [
-      { key: 'iNat', emoji: '🌿', color: PB.green },
-      { key: 'gbif', emoji: '🗺️', color: PB.green },
-      { key: 'beta', emoji: '✨', color: PB.orange },
+      { key: 'iNat', emoji: '🌿', color: PB.green, url: 'https://www.inaturalist.org' },
+      { key: 'gbif', emoji: '🗺️', color: PB.green, url: 'https://www.gbif.org' },
+      { key: 'beta', emoji: '✨', color: PB.orange, url: `mailto:${EMAIL}` },
     ],
   },
 ];
@@ -56,7 +53,7 @@ export function CreditsDialog({
         </View>
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text style={styles.title}>{t('help.appName')}</Text>
-          <Text style={styles.sub}>{t('credits.build')}</Text>
+          <Text style={styles.sub}>{t('credits.build', { version: appJson.expo.version })}</Text>
         </View>
         <IconBtn onPress={onClose} size={32} fs={14} bg={PB.cream}>✕</IconBtn>
       </View>
@@ -73,7 +70,12 @@ export function CreditsDialog({
             </Text>
             <View style={{ gap: 8 }}>
               {section.items.map((p) => (
-                <View key={p.key} style={styles.itemRow}>
+                <Pressable
+                  key={p.key}
+                  style={styles.itemRow}
+                  onPress={() => void Linking.openURL(p.url)}
+                  accessibilityRole="link"
+                >
                   <View style={[styles.itemIcon, { backgroundColor: p.color }]}>
                     <Text style={{ fontSize: 18 }}>{p.emoji}</Text>
                   </View>
@@ -82,19 +84,28 @@ export function CreditsDialog({
                       {t(`credits.${section.sectionKey}.${p.key}.name`)}
                     </Text>
                     <Text style={styles.itemRole}>
-                      {t(`credits.${section.sectionKey}.${p.key}.role`)}
+                      {t(`credits.${section.sectionKey}.${p.key}.role`, {
+                        id: VISION_MODEL.id,
+                        mb: VISION_MODEL.sizeMb,
+                        n: VISION_MODEL.species.toLocaleString(),
+                      })}
                     </Text>
                   </View>
-                </View>
+                  <Text style={styles.itemLink}>↗</Text>
+                </Pressable>
               ))}
             </View>
           </View>
         ))}
 
-        <View style={styles.contactBox}>
+        <Pressable
+          style={styles.contactBox}
+          onPress={() => void Linking.openURL(`mailto:${EMAIL}`)}
+          accessibilityRole="link"
+        >
           <Text style={styles.contactTitle}>{t('credits.contactTitle')}</Text>
           <Text style={styles.contactEmail}>{t('credits.contactEmail')}</Text>
-        </View>
+        </Pressable>
 
         <Text style={styles.footer}>{t('credits.footer')}</Text>
       </ScrollView>
@@ -164,6 +175,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   itemName: { fontSize: 14, fontWeight: '800', color: PB.ink, lineHeight: 15 },
+  itemLink: { fontSize: 16, fontWeight: '800', color: PB.ink },
   itemRole: { fontSize: 12, color: PB.ink, opacity: 0.7, fontWeight: '600', marginTop: 2 },
   contactBox: {
     marginTop: 18,

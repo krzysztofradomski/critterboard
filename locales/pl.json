@@ -1,0 +1,7 @@
+{
+  "NSCameraUsageDescription": "Critterboard używa aparatu, by rozpoznawać owady na urządzeniu. Zdjęcia nigdy nie opuszczają telefonu.",
+  "NSPhotoLibraryUsageDescription": "Wybierz istniejące zdjęcie owada, by rozpoznać go na urządzeniu. Nigdy nie wysyłamy Twojej biblioteki.",
+  "NSLocationWhenInUseUsageDescription": "Opcjonalnie. Wyśrodkowuje mapę na Tobie i wybiera gatunki z okolicy. Zostaje na telefonie, dopóki nie zdecydujesz się jej udostępnić.",
+  "NSLocationAlwaysAndWhenInUseUsageDescription": "Opcjonalnie. Wyśrodkowuje mapę na Tobie i wybiera gatunki z okolicy. Zostaje na telefonie, dopóki nie zdecydujesz się jej udostępnić.",
+  "NSLocationAlwaysUsageDescription": "Opcjonalnie. Wyśrodkowuje mapę na Tobie i wybiera gatunki z okolicy. Zostaje na telefonie, dopóki nie zdecydujesz się jej udostępnić."
+}
