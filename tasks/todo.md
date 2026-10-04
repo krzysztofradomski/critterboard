@@ -221,7 +221,8 @@ Deliberately held back: Babel 8 (`babel-preset-expo` is on Babel 7), SDK-pinned 
 - [ ] `wrangler secret put JWT_SECRET`; bump `compatibility_date`; enable `[observability]`
 - [ ] Custom domain `api.critterboard.app` (move DNS for `critterboard.app` to Cloudflare)
 - [ ] Set `EXPO_PUBLIC_BACKEND_URL` via `eas env:create` for preview/production + local `.env`
-- [ ] Optional: landing page Netlify → Workers static assets; packs/model → R2; GitHub Action deploy with `CLOUDFLARE_API_TOKEN`
+- [x] Landing page on Workers static assets with a `/api/waitlist` KV endpoint (`website/worker.js`); Netlify config removed
+- [ ] Optional: packs/model → R2; GitHub Action deploy with `CLOUDFLARE_API_TOKEN`
 
 ---
 
