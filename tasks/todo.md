@@ -97,6 +97,7 @@ Decision (user): use Gemma 4 for all cases; disable chat when it isn't installed
 - [x] Strings in en/pl/de/es; tests for the message builder and the model lifecycle
 - [x] Memory tiers via `expo-device`: ≥ 6 GB class downloads directly, 4 GB class confirms first, smaller phones can't chat
 - [x] Chat header: icon-only clear button, one-line name and status (was wrapping "Prof. Larva" over three lines)
+- [x] Cleanup: Llama 3.2 / Gemma 3 leftovers in `training/`, `tools/training-ui/`, `assets/models/`, docs; persona LoRA pipeline retargeted to Gemma 4 E2B (untested, not shipped)
 - [ ] Phone check: download without a login, load time, speed, memory tiers (6 GB / 4 GB / 3 GB iPhones), tone in 4 languages ([[docs/handoff]] §3)
 
 ## Now — Remove cloud Gemini; photo-based species icons
@@ -220,7 +221,8 @@ Deliberately held back: Babel 8 (`babel-preset-expo` is on Babel 7), SDK-pinned 
 - [ ] `wrangler secret put JWT_SECRET`; bump `compatibility_date`; enable `[observability]`
 - [ ] Custom domain `api.critterboard.app` (move DNS for `critterboard.app` to Cloudflare)
 - [ ] Set `EXPO_PUBLIC_BACKEND_URL` via `eas env:create` for preview/production + local `.env`
-- [ ] Optional: landing page Netlify → Workers static assets; packs/model → R2; GitHub Action deploy with `CLOUDFLARE_API_TOKEN`
+- [x] Landing page on Workers static assets with a `/api/waitlist` KV endpoint (`website/worker.js`); Netlify config removed
+- [ ] Optional: packs/model → R2; GitHub Action deploy with `CLOUDFLARE_API_TOKEN`
 
 ---
 

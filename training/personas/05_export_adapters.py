@@ -9,8 +9,9 @@ Output:
   exported/snail.gguf
   exported/maywind.gguf
 
-Copy these into ../../assets/models/ and flip USE_LLAMA_RN=true in
-src/ai/index.ts.
+The app does not load adapters yet: llamaRnRuntime (src/ai/llm.ts) needs
+llama.rn's LoRA API wired up, and the adapters need hosting like the chat
+model (they are downloaded, not bundled).
 
 Usage:
     # one-time: clone llama.cpp somewhere convenient
@@ -87,9 +88,8 @@ def main():
     print(f"\n{'─' * 50}")
     print(f"Done. {len(produced)} GGUF adapter(s) in {EXPORT_DIR}\n")
     print("Next:")
-    print(f"  cp {EXPORT_DIR}/*.gguf ../../assets/models/")
-    print( "  edit src/ai/index.ts → USE_LLAMA_RN = true")
-    print( "  add llama.rn to package.json")
+    print( "  wire adapter loading into llamaRnRuntime (src/ai/llm.ts)")
+    print( "  host the adapters next to the chat model and download them in-app")
 
 
 if __name__ == "__main__":

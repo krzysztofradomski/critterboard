@@ -12,17 +12,6 @@ Every step here maps to either a file in `training/` (Python) or a file in `src/
 
 ---
 
-## Temporary cloud POC (pre-track)
-
-Before Track 2's on-device Llama integration, chat now has a cloud proof-of-concept adapter:
-
-- **Removed (Sep 2026, ADR 004).** The cloud Gemini POC is gone; vision and chat are on-device only.
-- Prompt includes live user context + insect dataset so the model answers in Critterboard terms.
-
-This is explicitly transitional. The target architecture is still fully on-device LLM inference.
-
----
-
 ## Track 1 — MVP (week 1)
 
 > **Goal:** A user can point the camera at a ladybird, hit shutter, and `Result` shows "Seven-spot Ladybird · 94%". No cloud. Same prototype visuals.
@@ -173,7 +162,7 @@ Why Gemma 4 E2B (replacing Gemma 3 1B):
 - Much stronger multilingual output (140+ languages; the app ships in EN/PL/DE/ES).
 - No smaller Gemma 4 exists. Smaller non-Gemma options lacked Polish or had licence or quality issues (see ADR 005).
 
-*Historical:* LoRA adapters per persona were planned on top of Gemma 3 1B (`training/personas/`); none ship, and the pipeline would need retargeting to Gemma 4 E2B. The planned "lite mode" mock fallback for low-RAM phones was dropped: chat is simply unavailable when the model can't load.
+*Historical:* LoRA adapters per persona were planned on top of a 1B model (`training/personas/`); none ship. The pipeline now targets Gemma 4 E2B but is untested on it, and the app has no adapter loading yet. The planned "lite mode" mock fallback for low-RAM phones was dropped: chat is simply unavailable when the model can't load.
 
 ### 2.3  Persona-aware streaming chat
 
@@ -224,7 +213,7 @@ training/
     requirements.txt
   kaggle/
     insect_classifier_training.ipynb          # vision: full EU run, T4 x2
-  personas/                                   # Gemma-3-1B-IT LoRA per persona
+  personas/                                   # per-persona LoRA on Gemma 4 E2B (not shipped)
     README.md
     examples/{larva,snail,maywind}.jsonl
     01_seed_examples.py … 05_export_adapters.py
