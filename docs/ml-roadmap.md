@@ -256,7 +256,7 @@ docs/
 | 1 · `react-native-executorch` wired into `Scan.tsx` | ✅ done — activate by setting `MODEL_SOURCE` + `USE_NATIVE_VISION = true` |
 | 1 · Generate real `.pte` from iNaturalist-trained weights | ⏳ pending — run `04_export.py --pte` after `pip install executorch` |
 | 1 · Bench shutter → Result round-trip on device | ⏳ pending |
-| 2 · Commercial 1,000-species model (`eu-1k-commercial-v1`) | ✅ done and shipped as pack `eu-ce` v4 — ViT-S/16 (Apache 2.0), CC0/CC-BY photos only, 78.2% top-1 / 90.1% top-3; see its MODEL_CARD |
+| 2 · Commercial 1,000-species model (`eu-1k-commercial-v1`) | ✅ done and shipped as pack `eu-ce` v4 — ViT-S/16 (Apache 2.0), CC0/CC-BY photos only, 78.2% top-1 / 90.1% top-3. Re-exported at 256 px for pack v11 (model v5): 80.5% / 92.2%, same weights; see its MODEL_CARD |
 | 2 · 200-species EU model (`eu-ce` v3) | ⛔ retired — ConvNeXt-nano, 83.7% top-1. Trained on NC/ND/SA photos and ImageNet-1k weights, so the file was deleted; see `NOTICE.md` |
 | 2 · Photographer-grouped split | ✅ scripts fixed (`training/vision/splits.py`); ⏳ retrain `eu-1k-commercial-v1` on it for an honest test score |
 | 2 · `llama.rn` integration | ✅ Gemma 4 E2B, phone check pending |

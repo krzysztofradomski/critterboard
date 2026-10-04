@@ -1,7 +1,7 @@
 /**
  * Square crops of a scan photo for the classifier.
  *
- * The model squashes whatever it gets to 224×224. Fed a whole 12 MP frame, a bug inside the
+ * The model squashes whatever it gets to its input size (256×256). Fed a whole 12 MP frame, a bug inside the
  * reticle ends up a few dozen pixels wide on a busy background, which is far from the tightly
  * framed iNaturalist photos it was trained on. So Scan classifies square crops centred on the
  * reticle at a few sizes and averages the scores: the tight crop sees detail, the wider ones keep
@@ -17,7 +17,7 @@ export type Reticle = { cx: number; cy: number; side: number };
 
 /** Crop sides as multiples of the reticle; the last crop is always the photo's full short side. */
 const RETICLE_SCALES = [1, 1.6];
-/** Crops are downscaled before saving: the model only needs 224 px and small files decode fast. */
+/** Crops are downscaled before saving: the model only needs 256 px and small files decode fast. */
 const CROP_PX = 320;
 
 /**

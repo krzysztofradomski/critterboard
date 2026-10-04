@@ -38,14 +38,14 @@ training/vision/stream_photos.sh
 
 ## Results — eu-1k-commercial-v1 (Sep 2026)
 
-A commercially usable 1,000-species model, **used by the app since pack `eu-ce` v4**. Built from CC0 + CC-BY photos only, on Google's Apache-2.0 ViT-S/16 AugReg weights. Full details, licence obligations and residual risks are in [`results/commercial-1k-v1/MODEL_CARD.md`](results/commercial-1k-v1/MODEL_CARD.md).
+A commercially usable 1,000-species model, **used by the app since pack `eu-ce` v4**, exported at 256 px since pack v11 (model v5). Built from CC0 + CC-BY photos only, on Google's Apache-2.0 ViT-S/16 AugReg weights. Full details, licence obligations and residual risks are in [`results/commercial-1k-v1/MODEL_CARD.md`](results/commercial-1k-v1/MODEL_CARD.md).
 
 | | |
 |---|---|
 | Species | 1,000 (939 insects, 61 arachnids); 74.4% of European observations |
 | Data | 243,202 CC0/CC-BY photos by 5,551 photographers; 202k / 15.5k / 25.3k split by photographer |
-| **Test top-1 / top-3** | **78.2% / 90.1%**, measured on the exported `.pte` at 224 px over 25,338 photos. Slightly optimistic: split per species, not per photographer (see model card) |
-| File | `packs/models/eu-1k-commercial-v1.pte`, fp32, 88.4 MB |
+| **Test top-1 / top-3** | **78.2% / 90.1%**, measured on the exported `.pte` at 224 px over 25,338 photos. Slightly optimistic: split per species, not per photographer (see model card). **80.5% / 92.2%** for the 256 px export, on 4,994 of those photos (model card, "Input size") |
+| File | `packs/models/eu-1k-commercial-v1-256.pte`, fp32, 88.5 MB (in the app). The 224 px `eu-1k-commercial-v1.pte` is kept for rollback |
 
 Pipeline for this variant: `stream_commercial_photos.sh`, then `select_commercial.py --top 1000 --min-photos 100 --per-species 250` (the shipped model used the older per-species split, see the model card), then `download.py --short-side 224`, `train.py` (resumable), `export.py` and `credits.py`.
 

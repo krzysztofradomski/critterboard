@@ -17,19 +17,27 @@ from pathlib import Path
 
 import timm
 import torch
-from timm.layers import set_fused_attn
+from timm.layers import resample_abs_pos_embed, set_fused_attn
 from torch.utils.data import DataLoader
 
 from train import Photos, eval_tf, load_species
 
 
-def build(arch, ckpt, n_cls):
+def build(arch, ckpt, n_cls, size=224):
     # Explicit matmul + softmax attention (same maths as the fused kernel):
     # XNNPACK delegates bmm/softmax, whereas the fused SDPA op decomposes into
     # where/eq/logical_not ops that stay on the portable kernels.
     set_fused_attn(False)
-    model = timm.create_model(arch, num_classes=n_cls)
-    model.load_state_dict(torch.load(ckpt, map_location="cpu"))
+    is_vit = arch.startswith("vit")
+    model = timm.create_model(arch, num_classes=n_cls, **({"img_size": size} if is_vit else {}))
+    state = torch.load(ckpt, map_location="cpu", weights_only=True)
+    if is_vit and state["pos_embed"].shape != model.pos_embed.shape:
+        # Exporting at a size other than the trained one: resample the position grid once,
+        # the same maths timm's dynamic_img_size uses at run time.
+        state["pos_embed"] = resample_abs_pos_embed(
+            state["pos_embed"], new_size=model.patch_embed.grid_size,
+            num_prefix_tokens=model.num_prefix_tokens)
+    model.load_state_dict(state)
     return model.eval()
 
 
@@ -100,7 +108,7 @@ def main():
     torch.set_num_threads(4)
 
     species = load_species(args.data)
-    model = build(args.arch, args.ckpt, len(species))
+    model = build(args.arch, args.ckpt, len(species), args.size)
     example = torch.randn(1, 3, args.size, args.size)
     test_loader = DataLoader(Photos(args.data, "test", species, eval_tf(args.size)),
                              batch_size=64, shuffle=bool(args.limit))

@@ -11,7 +11,7 @@ What to run locally to finish Critterboard, in order. Everything below assumes t
 | Area | State on `main` | Needs you |
 |---|---|---|
 | Build | Typecheck + 395 tests pass; iOS Release build runs in the Simulator (2026-10-03); dev builds tested on an iPhone | Android device run |
-| Vision | 1,000-species model `eu-1k-commercial-v1` (pack `eu-ce` v5) live: 78.2% top-1 / 90.1% top-3 on held-out photos; licence-clean for commercial use; downloads on pack install | On-device check (load time, latency) |
+| Vision | 1,000-species model `eu-1k-commercial-v1`, 256 px export (pack `eu-ce` v11, model v5) live: 80.5% top-1 / 92.2% top-3 on held-out photos; Scan classifies 3 reticle crops; licence-clean for commercial use; downloads on pack install | On-device check (load time, latency) |
 | Species icons | Photo-based sticker icon for all 1,000 pack species (one 9.1 MB file, split on the phone; emoji fallback). Checked only in a headless browser | Phone check (§3) |
 | Map | Offline MapLibre + PMTiles map of Europe (56 MB), part of the `eu-ce` pack, downloaded on demand; catch pins as a map layer | Check pins on a phone with geotagged catches |
 | Chat | Gemma 4 E2B (Apache 2.0) via `llama.rn`, 3.1 GB download from Settings. Without it chat is disabled (no scripted replies, no web chat); regex guardrails (ADR 005) | Download, speed and memory check (§3) |

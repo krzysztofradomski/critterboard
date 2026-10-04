@@ -1,14 +1,14 @@
 {
   "id": "eu-ce",
-  "version": 10,
+  "version": 11,
   "mapUrl": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/maps/europe.pmtiles",
   "mapBytes": 55624156,
   "mapMd5": "ddba235fc14911cbb519a40eec19771f",
   "mapVersion": 1,
-  "modelUrl": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/models/eu-1k-commercial-v1.pte",
-  "modelBytes": 88411168,
-  "modelMd5": "93b48d484ec9d6fa8bf6859c82c5c202",
-  "modelVersion": 4,
+  "modelUrl": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/models/eu-1k-commercial-v1-256.pte",
+  "modelBytes": 88503328,
+  "modelMd5": "a84dcffee119e008defde3b40bd7daec",
+  "modelVersion": 5,
   "bugs": [
     {
       "id": "harl",
