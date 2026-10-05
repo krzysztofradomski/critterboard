@@ -1,10 +1,17 @@
 # Everyday species people meet at home or in the garden, always included in
 # the species list whatever their observation rank. Research-grade counts
 # undersell these: they are hard to confirm from photos, so few observations
-# reach research grade. They are cosmopolitan, so stream_obs.sh takes their
+# reach research grade. Most are cosmopolitan, so stream_obs.sh takes their
 # observations worldwide, not just from Europe. One Latin name per line.
 # A species with too few CC0/CC-BY photos is still dropped by
 # select_commercial.py (--min-photos); it prints which ones.
+#
+# Names and photo counts checked on iNaturalist (Oct 2026). Left out, under
+# 100 usable photos worldwide: thrips (Frankliniella occidentalis, Thrips
+# tabaci), onion fly (Delia antiqua), carrot fly (Chamaepsila rosae), flea
+# beetles (Phyllotreta), Tetramorium ants. Fruit fly has ~150: expect it weak.
+# Showy garden species (ladybirds, hoverflies, shield bugs, chafers, garden
+# spider) rank in on their own.
 
 # Flies
 Drosophila melanogaster
@@ -46,3 +53,14 @@ Steatoda nobilis
 Parasteatoda tepidariorum
 # Other indoor regulars
 Forficula auricularia
+# Garden: sap-suckers, pests and ants of beds and lawns
+Aphis fabae
+Myzus persicae
+Macrosiphum rosae
+Brevicoryne brassicae
+Trialeurodes vaporariorum
+Crioceris asparagi
+Tipula oleracea
+Euura ribesii
+Myrmica rubra
+Lasius flavus
