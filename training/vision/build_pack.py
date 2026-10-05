@@ -103,7 +103,8 @@ def main():
         emoji, color = ORDER_STYLE.get(s["order"], ("🐛", "#8a7a5a"))
         if s["family"] == "Coccinellidae":
             emoji, color = "🐞", "#d72638"
-        r, xp, tier = rarity(int(s["obs_count"]))
+        # Household species are everyday catches, whatever their observation count.
+        r, xp, tier = rarity(10**9 if s.get("forced") == "1" else int(s["obs_count"]))
         bugs.append({
             # No established English name → show the Latin name.
             "id": slug(latin), "name": names.get(latin, latin), "latin": latin,

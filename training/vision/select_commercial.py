@@ -42,9 +42,9 @@ def main():
     species = list(csv.DictReader((args.data / "species.csv").open()))
     by_species = defaultdict(lambda: defaultdict(list))  # taxon -> observer -> rows
     for line in (out / "cand.tsv").open():
-        photo_id, ext, lic, uuid, observer, taxon = line.rstrip("\n").split("\t")
+        photo_id, ext, lic, uuid, observer, taxon, grade = line.rstrip("\n").split("\t")
         if lic in ALLOWED:
-            by_species[taxon][observer].append((photo_id, ext, lic, uuid))
+            by_species[taxon][observer].append((grade != "research", photo_id, ext, lic, uuid))
 
     # 1. Pick photos per species (observer-capped), in observation-rank order.
     chosen = []  # (species row, picked)
@@ -52,15 +52,20 @@ def main():
         taxon = s["taxon_id"]
         observers = list(by_species[taxon])
         rng.shuffle(observers)
+        # Research grade first (the labels are confirmed); needs-ID photos only top up.
+        observers.sort(key=lambda o: min(by_species[taxon][o])[0])
         picked = []
         for o in observers:
             rows = by_species[taxon][o]
             rng.shuffle(rows)
-            picked += [(r, o) for r in rows[: args.max_per_observer]]
+            rows.sort(key=lambda r: r[0])
+            picked += [(r[1:], o) for r in rows[: args.max_per_observer]]
             if len(picked) >= args.per_species:
                 break
         picked = picked[: args.per_species]
         if len(picked) < args.min_photos:
+            if s.get("forced") == "1":
+                print(f"forced species dropped, {len(picked)} photos: {s['latin']}")
             continue
         chosen.append((s, picked))
         if args.top and len(chosen) >= args.top:

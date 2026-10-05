@@ -1,12 +1,19 @@
 """Pick the most-observed European insect/arachnid species and sample photos.
 
+Ranked by research-grade + needs-ID observations: research grade alone undercounts
+species that are common but hard to confirm from photos (house flies, ants,
+mosquitoes). Photos are sampled research grade first. The app's original species
+and household_species.txt are always included, listed first so a later top-N
+cut (select_commercial.py) keeps them.
+
 Input (built by stream_obs.sh / stream_photos.sh from the iNaturalist AWS Open
 Data dumps, see README.md):
   taxa.tsv      taxon_id, ancestry, rank_level, rank, name, active
-  eu_obs.tsv    obs_uuid, observer_id, species_id   (research grade, Europe bbox)
+  eu_obs.tsv    obs_uuid, observer_id, species_id, quality_grade   (Europe bbox;
+                household species worldwide)
 
 Output:
-  species.csv   class index order: taxon_id, latin, class, order, family, obs_count
+  species.csv   class index order: taxon_id, latin, class, order, family, obs_count, forced
   sampled.tsv   obs_uuid, taxon_id, split   (train / val / test, grouped by observer)
 
 Usage:
@@ -30,6 +37,11 @@ FORCE_INCLUDE = [
     "Vanessa cardui", "Vanessa atalanta", "Anthocharis cardamines",
     "Gonepteryx rhamni", "Aglais urticae", "Pieris brassicae", "Pieris rapae",
     "Papilio machaon", "Enallagma cyathigerum",
+]
+HOUSEHOLD = [
+    line.strip()
+    for line in (Path(__file__).parent / "household_species.txt").read_text().splitlines()
+    if line.strip() and not line.startswith("#")
 ]
 
 
@@ -74,26 +86,29 @@ def main():
     obs_by_species = defaultdict(list)
     with (args.data / "eu_obs.tsv").open() as f:
         for line in f:
-            uuid, observer, sid = line.rstrip("\n").split("\t")
+            uuid, observer, sid, grade = line.rstrip("\n").split("\t")
             counts[sid] += 1
-            obs_by_species[sid].append((uuid, observer))
+            obs_by_species[sid].append((uuid, observer, grade == "research"))
 
-    forced = [by_name[n] for n in FORCE_INCLUDE]
-    missing = [n for n in FORCE_INCLUDE if by_name.get(n) not in counts]
+    force_names = list(dict.fromkeys(FORCE_INCLUDE + HOUSEHOLD))
+    missing = [n for n in force_names if by_name.get(n) not in counts]
     if missing:
-        raise SystemExit(f"forced species with no European observations: {missing}")
+        raise SystemExit(f"forced species with no observations (check the Latin name): {missing}")
+    forced = [by_name[n] for n in force_names]
 
     chosen = list(dict.fromkeys(forced + [sid for sid, _ in counts.most_common()]))
     chosen = chosen[: max(args.top, len(forced))]
-    chosen.sort(key=lambda sid: -counts[sid])
+    # Forced first (a later top-N cut keeps them), then by observation count.
+    forced_set = set(forced)
+    chosen.sort(key=lambda sid: (sid not in forced_set, -counts[sid]))
 
     with (args.data / "species.csv").open("w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["taxon_id", "latin", "class", "order", "family", "obs_count"])
+        w.writerow(["taxon_id", "latin", "class", "order", "family", "obs_count", "forced"])
         for sid in chosen:
             lin = lineage(sid, by_id)
             w.writerow([sid, by_id[sid][2], lin.get("class", ""), lin.get("order", ""),
-                        lin.get("family", ""), counts[sid]])
+                        lin.get("family", ""), counts[sid], int(sid in forced_set)])
 
     # Sample observations: cap per observer (diversity), then split by observer
     # globally (hash of observer id), so no photographer appears in both train
@@ -101,15 +116,17 @@ def main():
     with (args.data / "sampled.tsv").open("w") as out:
         for sid in chosen:
             by_observer = defaultdict(list)
-            for uuid, observer in obs_by_species[sid]:
-                by_observer[observer].append(uuid)
+            for uuid, observer, research in obs_by_species[sid]:
+                by_observer[observer].append((not research, uuid))
             observers = list(by_observer)
             rng.shuffle(observers)
+            observers.sort(key=lambda o: min(by_observer[o])[0])  # observers with research grade first
             picked = []  # (uuid, observer)
             for o in observers:
                 uuids = by_observer[o]
                 rng.shuffle(uuids)
-                picked += [(u, o) for u in uuids[: args.max_per_observer]]
+                uuids.sort(key=lambda t: t[0])  # research grade first (stable: still shuffled within)
+                picked += [(u, o) for _, u in uuids[: args.max_per_observer]]
                 if len(picked) >= args.per_species:
                     break
             picked = picked[: args.per_species]
@@ -119,8 +136,9 @@ def main():
                 out.write(f"{u}\t{sid}\t{split_of[o]}\n")
 
     total = sum(counts[s] for s in chosen)
-    print(f"{len(chosen)} species, {total:,} European research-grade observations")
-    print(f"least observed: {by_id[chosen[-1]][2]} ({counts[chosen[-1]]:,})")
+    print(f"{len(chosen)} species ({len(forced)} forced), {total:,} research-grade + needs-ID observations")
+    least = min(chosen, key=counts.__getitem__)
+    print(f"least observed: {by_id[least][2]} ({counts[least]:,})")
 
 
 if __name__ == "__main__":

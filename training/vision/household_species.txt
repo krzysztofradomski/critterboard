@@ -1,0 +1,48 @@
+# Everyday species people meet at home or in the garden, always included in
+# the species list whatever their observation rank. Research-grade counts
+# undersell these: they are hard to confirm from photos, so few observations
+# reach research grade. They are cosmopolitan, so stream_obs.sh takes their
+# observations worldwide, not just from Europe. One Latin name per line.
+# A species with too few CC0/CC-BY photos is still dropped by
+# select_commercial.py (--min-photos); it prints which ones.
+
+# Flies
+Drosophila melanogaster
+Musca domestica
+Fannia canicularis
+Calliphora vicina
+Lucilia sericata
+Stomoxys calcitrans
+Clogmia albipunctata
+# Mosquitoes
+Culex pipiens
+Aedes albopictus
+Culiseta annulata
+# Cockroaches
+Blattella germanica
+Blatta orientalis
+Periplaneta americana
+# Stored-food and fabric pests
+Tineola bisselliella
+Plodia interpunctella
+Stegobium paniceum
+Anthrenus verbasci
+# Silverfish
+Lepisma saccharinum
+Ctenolepisma longicaudatum
+# Ants
+Lasius niger
+Monomorium pharaonis
+# Biters
+Cimex lectularius
+Ctenocephalides felis
+Ixodes ricinus
+# House spiders
+Pholcus phalangioides
+Tegenaria domestica
+Eratigena atrica
+Steatoda grossa
+Steatoda nobilis
+Parasteatoda tepidariorum
+# Other indoor regulars
+Forficula auricularia
