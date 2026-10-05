@@ -935,7 +935,14 @@
             "Native-bee fauna oversampled vs. honey bees.",
             "Desert ant taxonomy still in flux — confidence capped at 92%."
           ]
-        }
+        },
+        "update": "⬇ Update model ({mb} MB)",
+        "updating": "Updating · {pct}%",
+        "updated": "Model updated",
+        "updateFailed": "Update failed. The current model still works.",
+        "removeTitle": "Remove this pack?",
+        "removeBody": "Deletes the model, species list and offline map from this phone ({mb} MB). Your catches stay. You can download it again in Settings.",
+        "removeCta": "Remove"
       }
     },
     "bugs": {

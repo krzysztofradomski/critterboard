@@ -935,7 +935,14 @@
             "BugNet: ein Bildmodell, trainiert mit iNaturalist-Fotos (CC BY / CC0).",
             "Funktioniert nach dem Download komplett offline: Modell, Artenliste, Icons und Karte."
           ]
-        }
+        },
+        "update": "⬇ Modell aktualisieren ({mb} MB)",
+        "updating": "Aktualisierung · {pct}%",
+        "updated": "Modell aktualisiert",
+        "updateFailed": "Aktualisierung fehlgeschlagen. Das aktuelle Modell funktioniert weiter.",
+        "removeTitle": "Paket entfernen?",
+        "removeBody": "Löscht Modell, Artenliste und Offline-Karte von diesem Telefon ({mb} MB). Deine Funde bleiben. Du kannst es in den Einstellungen erneut laden.",
+        "removeCta": "Entfernen"
       }
     },
     "bugs": {

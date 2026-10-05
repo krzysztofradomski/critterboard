@@ -41,7 +41,7 @@ export function Disambiguate() {
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
         <Text style={styles.title}>{t('disambiguate.headTitle')}</Text>
-        <IconBtn fs={14}>↗</IconBtn>
+        <View style={{ width: 38 }} />
       </View>
 
       <ScrollView contentContainerStyle={{ paddingHorizontal: 14, paddingVertical: 12 }}>

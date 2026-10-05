@@ -18,6 +18,7 @@ import {
   isPackOutdated,
   needsModelDownload,
   syncInstalledPacks,
+  updatePack,
   type RegionPack,
 } from '@/data/regionPacks';
 
@@ -145,5 +146,33 @@ describe('needsModelDownload', () => {
     expect(await needsModelDownload('/docs/', pack, pack)).toBe(true);
     modelOnDisk.exists = true;
     expect(await needsModelDownload('/docs/', null, pack)).toBe(true);
+  });
+});
+
+describe('updatePack', () => {
+  const pack: RegionPack = {
+    id: 'eu-ce', version: 3, modelUrl: 'https://example.com/v3.pte', modelVersion: 3, bugs: [], labelMap: {},
+  };
+
+  it('shares one download between concurrent calls (boot sync + Update button)', async () => {
+    const fetchSpy = vi.fn().mockResolvedValue({ ok: true, json: async () => pack });
+    globalThis.fetch = fetchSpy as unknown as typeof fetch;
+
+    const [a, b] = await Promise.all([
+      updatePack('/docs/', 'eu-ce', 'https://example.com/eu-ce.json'),
+      updatePack('/docs/', 'eu-ce', 'https://example.com/eu-ce.json'),
+    ]);
+
+    expect(a).toEqual(pack);
+    expect(b).toBe(a);
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('can run again after a failure', async () => {
+    globalThis.fetch = vi.fn().mockResolvedValueOnce({ ok: false }) as unknown as typeof fetch;
+    await expect(updatePack('/docs/', 'eu-ce', 'u')).rejects.toThrow();
+
+    globalThis.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => pack }) as unknown as typeof fetch;
+    await expect(updatePack('/docs/', 'eu-ce', 'u')).resolves.toEqual(pack);
   });
 });

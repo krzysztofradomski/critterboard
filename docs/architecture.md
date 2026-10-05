@@ -73,7 +73,7 @@ Everything below is optional. Without it the app degrades to bundled or mock beh
 
 | Call | When | Source |
 |---|---|---|
-| Region pack + `.pte` model + species icon atlas ([[modules/species-icons]]) | User installs a pack; refreshed on boot (model only if its URL or pinned MD5 changed). Every file is checked against the size/MD5 pinned in the pack JSON ([[decisions/007-download-integrity]]) | `packs/manifest.json` → GitHub raw / Releases |
+| Region pack + `.pte` model + species icon atlas ([[modules/species-icons]]) | User installs a pack; refreshed on boot (model only if its URL or pinned MD5 changed), or by hand with **Update model** on the region screen, which appears when the manifest has a newer pack. Both go through `updatePack`, which shares one download if they overlap. **Remove pack** on the same screen deletes the model, pack, icons and map; Settings downloads it again. Every file is checked against the size/MD5 pinned in the pack JSON ([[decisions/007-download-integrity]]) | `packs/manifest.json` → GitHub raw / Releases |
 | Translation packs | Boot, best-effort | `src/i18n/loader.ts` |
 | Map pack (PMTiles) | Once, when the Map tab first opens (spike: `EXPO_PUBLIC_MAP_PACK_URL`) | `src/map/mapPack.ts` |
 | Gemma 4 E2B GGUF (3.1 GB) | User turns on chat in Settings | Hugging Face (`unsloth/gemma-4-E2B-it-GGUF`), pinned to one commit and checked for its exact size |

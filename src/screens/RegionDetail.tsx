@@ -1,15 +1,21 @@
-import React from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import * as FileSystem from 'expo-file-system/legacy';
 
 import { BugIcon } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { findBug } from '@/data/bugs';
-import { REGION_DETAILS } from '@/data/regions';
+import { REGION_DETAILS, REGIONS } from '@/data/regions';
+import { removePackIcons } from '@/data/bugIcons';
+import {
+  fetchPackManifest, getModelPath, isPackOutdated, removeCachedPack, updatePack,
+} from '@/data/regionPacks';
+import { removeMapPack } from '@/map/mapPack';
 import { useT, useBugName } from '@/i18n/helpers';
 import { PB } from '@/tokens/pb';
-import { useCurrentRoute } from '@/store/useAppStore';
+import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
 export function RegionDetail() {
@@ -19,6 +25,63 @@ export function RegionDetail() {
   const regionId = (route.params as { id?: string } | undefined)?.id ?? 'na-ne';
   const r = REGION_DETAILS[regionId] ?? REGION_DETAILS['na-ne']!;
   const maxCount = Math.max(...r.families.map((f) => f.count));
+  const installed = useAppStore((s) => s.installedRegions.includes(r.id));
+  const installedVersion = useAppStore((s) => s.installedPackVersions[r.id]);
+  const installRegion = useAppStore((s) => s.installRegion);
+  const uninstallRegion = useAppStore((s) => s.uninstallRegion);
+  const showToast = useAppStore((s) => s.showToast);
+  const region = REGIONS.find((x) => x.id === r.id);
+  const modelMb = region ? region.size - region.mapSize : r.size;
+  // Newer pack in the manifest: its URL. Updating: download progress 0–100.
+  const [updateUrl, setUpdateUrl] = useState<string | null>(null);
+  const [updatePct, setUpdatePct] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!installed) return;
+    let live = true;
+    void fetchPackManifest().then((m) => {
+      const entry = m?.packs[r.id];
+      if (live && entry && isPackOutdated(installedVersion, entry.version)) setUpdateUrl(entry.url);
+    });
+    return () => {
+      live = false;
+    };
+  }, [installed, installedVersion, r.id]);
+
+  const update = async () => {
+    const dir = FileSystem.documentDirectory;
+    if (!updateUrl || !dir || updatePct !== null) return;
+    setUpdatePct(0);
+    try {
+      const pack = await updatePack(dir, r.id, updateUrl, (pct) => setUpdatePct(Math.floor(pct)));
+      installRegion(r.id, pack.labelMap, pack.version);
+      setUpdateUrl(null);
+      showToast({ text: t('regions.detail.updated'), icon: r.emoji, bg: PB.green });
+    } catch {
+      showToast({ text: t('regions.detail.updateFailed'), bg: '#e53935' });
+    } finally {
+      setUpdatePct(null);
+    }
+  };
+
+  const remove = () =>
+    Alert.alert(t('regions.detail.removeTitle'), t('regions.detail.removeBody', { mb: r.size }), [
+      { text: t('common.cancel'), style: 'cancel' },
+      {
+        text: t('regions.detail.removeCta'),
+        style: 'destructive',
+        onPress: () => {
+          uninstallRegion(r.id);
+          void removeCachedPack(r.id);
+          void removePackIcons(FileSystem.documentDirectory, r.id);
+          void removeMapPack(r.id);
+          if (FileSystem.documentDirectory) {
+            void FileSystem.deleteAsync(getModelPath(FileSystem.documentDirectory, r.id), { idempotent: true });
+          }
+          go('settings');
+        },
+      },
+    ]);
 
   return (
     <View style={styles.root}>
@@ -26,7 +89,7 @@ export function RegionDetail() {
         <View style={styles.headRow}>
           <IconBtn onPress={back} bg={PB.cream}>←</IconBtn>
           <Text style={styles.headLabel}>{t('regions.detail.headLabel')}</Text>
-          <IconBtn bg={PB.cream} fs={14}>↗</IconBtn>
+          <View style={{ width: 38 }} />
         </View>
         <View style={styles.heroRow}>
           <View style={styles.heroEmoji}>
@@ -103,9 +166,18 @@ export function RegionDetail() {
           <Text style={styles.noteFoot}>{t('regions.detail.foot', { date: r.updated })}</Text>
         </Sticker>
 
-        <Btn full bg={PB.red} color={PB.cream} onPress={() => go('settings')}>
-          {t('regions.detail.remove', { mb: r.size })}
-        </Btn>
+        {installed && updateUrl && (
+          <Btn full bg={PB.green} color={PB.cream} onPress={update}>
+            {updatePct === null
+              ? t('regions.detail.update', { mb: modelMb })
+              : t('regions.detail.updating', { pct: updatePct })}
+          </Btn>
+        )}
+        {installed && (
+          <Btn full bg={PB.red} color={PB.cream} onPress={remove}>
+            {t('regions.detail.remove', { mb: r.size })}
+          </Btn>
+        )}
       </ScrollView>
     </View>
   );

@@ -23,7 +23,7 @@ export function NoMatch() {
       <View style={styles.head}>
         <IconBtn onPress={back}>←</IconBtn>
         <Text style={styles.title}>{t('noMatch.headTitle')}</Text>
-        <IconBtn fs={14}>↗</IconBtn>
+        <View style={{ width: 38 }} />
       </View>
 
       <ScrollView contentContainerStyle={{ paddingHorizontal: 14, paddingVertical: 12, paddingBottom: 30 }}>

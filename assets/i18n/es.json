@@ -935,7 +935,14 @@
             "BugNet: un modelo de visión entrenado con fotos de iNaturalist (CC BY / CC0).",
             "Funciona sin conexión una vez descargado: modelo, lista de especies, iconos y mapa."
           ]
-        }
+        },
+        "update": "⬇ Actualizar modelo ({mb} MB)",
+        "updating": "Actualizando · {pct}%",
+        "updated": "Modelo actualizado",
+        "updateFailed": "La actualización falló. El modelo actual sigue funcionando.",
+        "removeTitle": "¿Quitar este paquete?",
+        "removeBody": "Borra el modelo, la lista de especies y el mapa sin conexión de este teléfono ({mb} MB). Tus capturas se quedan. Puedes volver a descargarlo en Ajustes.",
+        "removeCta": "Quitar"
       }
     },
     "bugs": {

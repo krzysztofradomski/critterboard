@@ -17,12 +17,12 @@ import { SettingToggle } from "@/components/SettingToggle";
 import { SyncPanel } from "@/components/SyncPanel";
 import { useOnlineActions } from "@/backend/useOnlineActions";
 import { Sticker } from "@/components/Sticker";
-import { ensurePackIcons, removePackIcons } from "@/data/bugIcons";
+import { ensurePackIcons } from "@/data/bugIcons";
 import { AVAILABLE_REGION_IDS, REGIONS, type Region, type RegionStatus } from "@/data/regions";
 import { VISION_MODEL } from "@/data/visionModel";
-import { downloadMapPack, removeMapPack, resolveMapUrl } from "@/map/mapPack";
+import { downloadMapPack, resolveMapUrl } from "@/map/mapPack";
 import {
-  cachePackData, downloadPackModel, getModelPath, PACK_MANIFEST_URL, removeCachedPack,
+  cachePackData, downloadPackModel, PACK_MANIFEST_URL,
   type PackManifest, type RegionPack,
 } from "@/data/regionPacks";
 import { Btn } from "@/components/Btn";
@@ -73,7 +73,6 @@ export function Settings() {
   const activeRegion = useAppStore((s) => s.activeRegion);
   const setActiveRegion = useAppStore((s) => s.setActiveRegion);
   const installRegion = useAppStore((s) => s.installRegion);
-  const uninstallRegion = useAppStore((s) => s.uninstallRegion);
   const P = usePersona(persona);
   const t = useT();
 
@@ -90,6 +89,18 @@ export function Settings() {
     ),
   );
   const packDownloadHandles = useRef<Record<string, FileSystem.DownloadResumable | null>>({});
+
+  // A pack removed on the region screen (this screen stays mounted underneath).
+  useEffect(() => {
+    setRegions((prev) =>
+      Object.fromEntries(
+        Object.entries(prev).map(([id, st]) => [
+          id,
+          typeof st === 'object' ? st : installedRegions.includes(id) ? 'installed' : 'available',
+        ]),
+      ),
+    );
+  }, [installedRegions]);
 
   useEffect(() => {
     setNameDraft(profile.name);
@@ -131,21 +142,7 @@ export function Settings() {
     const status = regions[region.id];
     if (typeof status === "object") return; // already in progress
 
-    if (status === "installed") {
-      // Uninstall: remove from store, clear AsyncStorage, delete model file.
-      uninstallRegion(region.id);
-      void removeCachedPack(region.id);
-      void removePackIcons(FileSystem.documentDirectory, region.id);
-      void removeMapPack(region.id);
-      if (FileSystem.documentDirectory) {
-        void FileSystem.deleteAsync(
-          getModelPath(FileSystem.documentDirectory, region.id),
-          { idempotent: true },
-        );
-      }
-      setRegions((r) => ({ ...r, [region.id]: "available" }));
-      return;
-    }
+    if (status === "installed") return; // removed from the region screen
 
     setRegions((r) => ({ ...r, [region.id]: { downloading: 0 } }));
 

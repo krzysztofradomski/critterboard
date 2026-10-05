@@ -204,6 +204,36 @@ export function isPackOutdated(
 
 export type PackUpdate = { id: string; pack: RegionPack };
 
+const updating = new Map<string, Promise<RegionPack>>();
+
+/**
+ * Refresh one installed pack from its URL: pack JSON, the model (only if it
+ * changed) and icons. The new model is swapped in only once complete, so a
+ * failed update leaves the old one working. Concurrent calls for the same pack
+ * (boot sync + the Update button) share one download.
+ */
+export function updatePack(
+  documentDirectory: string,
+  id: string,
+  url: string,
+  onProgress?: (pct: number) => void,
+): Promise<RegionPack> {
+  const running = updating.get(id);
+  if (running) return running;
+  const job = (async () => {
+    const pack = await fetchPack(url);
+    if (!pack) throw new Error(`pack fetch failed: ${id}`);
+    if (await needsModelDownload(documentDirectory, getPackData(id), pack)) {
+      await downloadPackModel(documentDirectory, pack, onProgress);
+    }
+    await cachePackData(pack); // overwrite cached JSON + merge bugs
+    await ensurePackIcons(documentDirectory, pack);
+    return pack;
+  })().finally(() => updating.delete(id));
+  updating.set(id, job);
+  return job;
+}
+
 /**
  * Best-effort boot-time refresh. For each installed region whose manifest
  * version is newer than the installed one, re-download the pack JSON, the
@@ -228,15 +258,7 @@ export async function syncInstalledPacks(opts: {
     const entry = manifest.packs[id];
     if (!entry || !isPackOutdated(installedVersions[id], entry.version)) continue;
     try {
-      const pack = await fetchPack(entry.url);
-      if (!pack) continue;
-      const previous = getPackData(id);
-      if (await needsModelDownload(documentDirectory, previous, pack)) {
-        await downloadPackModel(documentDirectory, pack);
-      }
-      await cachePackData(pack); // overwrite cached JSON + merge bugs
-      await ensurePackIcons(documentDirectory, pack);
-      onUpdated({ id, pack });
+      onUpdated({ id, pack: await updatePack(documentDirectory, id, entry.url) });
     } catch {
       // best-effort: leave the existing installed version untouched
     }

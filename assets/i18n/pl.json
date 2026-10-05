@@ -935,7 +935,14 @@
             "BugNet: model wizyjny wytrenowany na zdjęciach z iNaturalist (CC BY / CC0).",
             "Po pobraniu działa w pełni offline: model, lista gatunków, ikony i mapa."
           ]
-        }
+        },
+        "update": "⬇ Zaktualizuj model ({mb} MB)",
+        "updating": "Aktualizacja · {pct}%",
+        "updated": "Model zaktualizowany",
+        "updateFailed": "Aktualizacja nie powiodła się. Obecny model nadal działa.",
+        "removeTitle": "Usunąć ten pakiet?",
+        "removeBody": "Usuwa model, listę gatunków i mapę offline z telefonu ({mb} MB). Twoje znaleziska zostają. Możesz pobrać go ponownie w Ustawieniach.",
+        "removeCta": "Usuń"
       }
     },
     "bugs": {
