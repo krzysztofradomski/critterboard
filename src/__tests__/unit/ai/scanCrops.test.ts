@@ -2,7 +2,9 @@ import { describe, expect, it, vi } from 'vitest';
 
 vi.mock('expo-image-manipulator', () => ({}));
 
-import { cropRects, meanScores, reticleInPhoto, squareAround } from '@/ai/scanCrops';
+import {
+  combineScores, cropRects, meanScores, reticleInPhoto, squareAround, tapRects, tileRects,
+} from '@/ai/scanCrops';
 
 describe('scanCrops geometry', () => {
   it('maps the reticle into a photo the preview fills like CSS cover', () => {
@@ -37,5 +39,40 @@ describe('scanCrops geometry', () => {
     expect(m.a).toBeCloseTo(0.6);
     expect(m.b).toBeCloseTo(0.35);
     expect(m.c).toBeCloseTo(0.05);
+  });
+
+  it('maps a tap on a gallery photo shown whole (contain), letterboxed above and below', () => {
+    // 393×852 view, 4000×3000 photo: width fits (scale 393/4000), bands above and below.
+    const scale = 393 / 4000;
+    const band = (852 - 3000 * scale) / 2;
+    const p = reticleInPhoto({ width: 4000, height: 3000 }, { width: 393, height: 852 }, { cx: 393 / 2, cy: band + 10, side: 0 }, 'contain');
+    expect(p.cx).toBeCloseTo(2000);
+    expect(p.cy).toBeCloseTo(10 / scale);
+  });
+
+  it('crops around a tap at fruit-fly to butterfly sizes, inside the photo', () => {
+    const rects = tapRects({ width: 3000, height: 4000 }, 2950, 100);
+    expect(rects.map((r) => r.width)).toEqual([360, 750, 1500]);
+    for (const r of rects) {
+      expect(r.originX + r.width).toBeLessThanOrEqual(3000);
+      expect(r.originY).toBeGreaterThanOrEqual(0);
+    }
+  });
+
+  it('tiles the search area in a 3×3 grid that spans it edge to edge', () => {
+    const rects = tileRects({ width: 3000, height: 4000 }, { cx: 1500, cy: 1840, side: 1000 });
+    expect(rects).toHaveLength(9);
+    expect(rects.every((r) => r.width === 400)).toBe(true);
+    expect(Math.min(...rects.map((r) => r.originX))).toBe(1000);
+    expect(Math.max(...rects.map((r) => r.originX + r.width))).toBe(2000);
+    expect(Math.min(...rects.map((r) => r.originY))).toBe(1340);
+    expect(Math.max(...rects.map((r) => r.originY + r.height))).toBe(2340);
+  });
+
+  it('keeps the most confident crop of each group, then averages the groups', () => {
+    const tiles = [{ a: 0.3, b: 0.3 }, { a: 0.1, b: 0.9 }];   // tile 2 found the bug
+    const m = combineScores([tiles, [{ a: 0.5, b: 0.5 }], []]);
+    expect(m.a).toBeCloseTo(0.3);
+    expect(m.b).toBeCloseTo(0.7);
   });
 });

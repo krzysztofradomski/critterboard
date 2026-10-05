@@ -87,25 +87,36 @@ Anything slower than 250 ms feels laggy and is treated as a bug.
 
 Done without Kaggle: `training/vision/` streams the iNaturalist open-data dumps, fine-tunes ConvNeXt-nano on a CPU and exports an XNNPACK `.pte`. Result: 200 species, 83.7% top-1 / 94.0% top-3. Full write-up in `training/vision/README.md`. The Kaggle notebook below stays as the GPU route for 1000+ species.
 
-#### Scan preprocessing: crops, not the whole frame *(Oct 2026)*
+#### Scan preprocessing: tap to mark, auto search, crops *(Oct 2026)*
 
 Phone tests showed busy backgrounds and damaged bugs were hard to identify. A main cause: the whole 12 MP photo was squashed to 224×224, so a bug inside the reticle ended up a few dozen pixels wide. That is far from the tightly framed iNaturalist photos the model learned from.
 
-`src/ai/scanCrops.ts` now feeds the model square crops instead:
+`src/ai/scanCrops.ts` now feeds the model square crops instead. After the shot (or a gallery pick) the photo stays on screen for 5 s with **Tap the bug**:
 
-- **Camera:** three squares centred on the reticle, at 1× and 1.6× the reticle size plus the photo's full short side.
-- **Gallery:** the untouched photo plus the same three squares, centred on the photo.
-- **Averaging:** `useExecutorchClassifier().classify` runs each crop in turn and averages the softmax scores.
+- **Tapped:** three squares around the tap, at 12%, 25% and 50% of the photo's short side (fruit fly to butterfly). The most confident one wins, since the tap says where the bug is but not how big.
+- **Not tapped** (5 s, or the shutter again): auto search. A 3×3 grid of tiles, each 0.4× the reticle, finds a small bug anywhere in it. The most confident tile is averaged with three squares centred on the reticle (1×, 1.6× and the full short side), which keep big bugs whole. Gallery picks search the photo centre and also add the untouched photo.
+- **Combining:** crops come in groups. `useExecutorchClassifier().classify` keeps the most confident crop of each group and averages the groups (`combineScores`).
 
 ```mermaid
 flowchart LR
-  P[photo] --> M[expo-image-manipulator<br/>applies EXIF orientation] --> C1[1× reticle] & C2[1.6× reticle] & C3[full short side]
-  C1 & C2 & C3 --> X[ExecuTorch ×3] --> A[mean of softmax] --> R[top-3]
+  P[photo, frozen on screen] -->|tap| T[3 squares around the tap] --> B1[most confident] --> R[top-3]
+  P -->|5 s, no tap| G[3×3 tiles over the reticle] --> B2[most confident tile]
+  P -->|5 s, no tap| C[1× · 1.6× · full short side]
+  B2 & C --> A[mean] --> R
 ```
 
+**Measured** on synthetic shots: iNat photos pasted onto busy backgrounds, scored with the 256 px `.pte` and the app's resize, 160 shots per row:
+
+| Strategy | Bug about reticle size, top-1 / top-3 | Fruit-fly-sized bug, top-1 / top-3 |
+|---|---|---|
+| Reticle crops only (before) | 51.9% / 71.9% | 5.0% / 8.8% |
+| Tap, most confident crop | 58.8% / 79.4% | 48.1% / 63.7% |
+| Auto search (best tile + reticle crops) | 51.9% / 74.4% | 26.9% / 35.0% |
+
 - **EXIF:** OpenCV's `imread` in react-native-executorch already applies EXIF orientation. The crops come out of the manipulator upright anyway.
-- **Capture setting:** Scan no longer passes `skipProcessing`. With processing on, iOS crops the photo to the preview, so the on-screen reticle maps straight onto the photo.
-- **Cost:** about 3× inference time (~250 ms), hidden inside the 2.2 s analysing hold.
+- **Capture setting:** Scan doesn't pass `skipProcessing`. With processing on, iOS crops the photo to the preview, so the on-screen reticle and a tap on the frozen photo map straight onto it (`fit: 'cover'`; gallery photos are shown whole, `fit: 'contain'`).
+- **Cost:** tapped, 3 inferences; auto search, 12 (about 1.3 s on a phone, mostly inside the 2.2 s analysing hold).
+- **Physical limit:** without a macro lens, a phone captures a fruit fly at about 100 px at best. Enough for "fruit fly", not for telling *Drosophila* species apart.
 
 #### Kaggle route (still valid for bigger runs) ⟶ `training/kaggle/insect_classifier_training.ipynb`
 

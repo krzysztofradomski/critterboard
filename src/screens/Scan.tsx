@@ -1,13 +1,13 @@
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, PanResponder, Platform, Pressable, StyleSheet, Text, View, type GestureResponderEvent, type LayoutChangeEvent } from 'react-native';
+import { Animated, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, type GestureResponderEvent, type LayoutChangeEvent } from 'react-native';
 
 import * as FileSystem from 'expo-file-system/legacy';
 import { vision, USE_NATIVE_VISION, useExecutorchClassifier, type Candidate } from '@/ai';
 import { getModelPath } from '@/data/regionPacks';
 import { selectScanClassifier } from '@/ai/scanClassifier';
-import { scanCrops } from '@/ai/scanCrops';
+import { scanCrops, type Aim } from '@/ai/scanCrops';
 import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
@@ -21,7 +21,13 @@ import { PB } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
-type Phase = 'aim' | 'flash' | 'analyzing';
+// mark: the photo is frozen on screen for the user to tap the bug; untapped, auto search runs.
+type Phase = 'aim' | 'flash' | 'mark' | 'analyzing';
+type Shot = { uri: string; fromCamera: boolean };
+type Point = { x: number; y: number };
+
+/** Seconds to tap the bug before auto search takes over. */
+const MARK_SECONDS = 5;
 
 const ZOOM_PER_LN = 0.36;
 /** Reticle size (pt) and centre height (fraction of the screen). The classifier crops around it. */
@@ -71,6 +77,9 @@ export function Scan() {
   const cameraRef = useRef<CameraView | null>(null);
 
   const [phase, setPhase] = useState<Phase>('aim');
+  const [shot, setShot] = useState<Shot | null>(null);
+  const [markLeft, setMarkLeft] = useState(MARK_SECONDS);
+  const [tapPoint, setTapPoint] = useState<Point | null>(null);
   const [tipsOpen, setTipsOpen] = useState(false);
   // The guide's hint is a greeting, not a status: show it on arrival, then get out of the way.
   const [tipVisible, setTipVisible] = useState(true);
@@ -152,7 +161,7 @@ export function Scan() {
    * spread. Holds the analysing animation for ~2 s so the UX feels
    * deliberate even when inference is sub-100 ms.
    */
-  const classifyAndRoute = (photoUri: string | null, fromCamera: boolean) => {
+  const classifyAndRoute = (photoUri: string | null, fromCamera: boolean, tap: Point | null = null) => {
     if (photoUri) setLastPhotoUri(photoUri);
     const startedAt = Date.now();
     void (async () => {
@@ -170,10 +179,15 @@ export function Scan() {
           setPhase('aim');
           return;
         }
-        // Classify crops around the reticle (camera) or the photo centre (gallery), not the
-        // whole frame squashed to 224 px. The web mock ignores the frame.
-        const aim = fromCamera && view.width > 0
-          ? { view, reticle: { cx: view.width / 2, cy: view.height * RETICLE_TOP, side: RETICLE } }
+        // Classify crops around the tap, or search the reticle (camera) / photo centre (gallery),
+        // not the whole frame squashed to the model input. The web mock ignores the frame.
+        const aim: Aim | undefined = view.width > 0
+          ? {
+              view,
+              fit: fromCamera ? 'cover' : 'contain',
+              ...(fromCamera ? { reticle: { cx: view.width / 2, cy: view.height * RETICLE_TOP, side: RETICLE } } : {}),
+              ...(tap ? { tap } : {}),
+            }
           : undefined;
         const frame = photoUri && !isWeb ? await scanCrops(photoUri, aim) : photoUri;
         candidates = await classifyFn(frame, { hint, topK: 3 });
@@ -222,7 +236,40 @@ export function Scan() {
     })();
   };
 
+  /** Freeze the photo and wait for a tap on the bug (web: the mock classifier needs no aim). */
+  const startMark = (next: Shot) => {
+    setShot(next);
+    setTapPoint(null);
+    setMarkLeft(MARK_SECONDS);
+    setPhase('mark');
+  };
+
+  /** Classify the frozen photo: around the tapped point, or auto search when `tap` is null. */
+  const analyse = (tap: Point | null) => {
+    if (phase !== 'mark' || !shot) return;
+    haptics.tap();
+    setTapPoint(tap);
+    setPhase('analyzing');
+    classifyAndRoute(shot.uri, shot.fromCamera, tap);
+  };
+
+  // Count down while marking; at zero, auto search.
+  useEffect(() => {
+    if (phase !== 'mark') return;
+    if (markLeft <= 0) {
+      analyse(null);
+      return;
+    }
+    const id = setTimeout(() => setMarkLeft((s) => s - 1), 1000);
+    return () => clearTimeout(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, markLeft]);
+
   const shutter = async () => {
+    if (phase === 'mark') {
+      analyse(null); // shutter again: don't wait, search now
+      return;
+    }
     if (phase !== 'aim') return;
     if (needsPack) {
       haptics.warning();
@@ -232,7 +279,6 @@ export function Scan() {
     setFlash(true);
     setPhase('flash');
     setTimeout(() => setFlash(false), 180);
-    setTimeout(() => setPhase('analyzing'), 220);
 
     // Snap a real photo if the camera is mounted; fall back to a null URI
     // (the mock classifier doesn't care) when running on simulator/web.
@@ -247,6 +293,11 @@ export function Scan() {
     } catch {
       photoUri = null;
     }
+    if (photoUri && !isWeb) {
+      startMark({ uri: photoUri, fromCamera: true });
+      return;
+    }
+    setPhase('analyzing');
     classifyAndRoute(photoUri, true);
   };
 
@@ -267,6 +318,10 @@ export function Scan() {
       if (result.canceled || !result.assets?.length) return;
       const photoUri = result.assets[0]?.uri ?? null;
       haptics.tap();
+      if (photoUri && !isWeb) {
+        startMark({ uri: photoUri, fromCamera: false });
+        return;
+      }
       setPhase('analyzing');
       classifyAndRoute(photoUri, false);
     } catch {
@@ -302,7 +357,23 @@ export function Scan() {
         <CameraScene />
       )}
 
-      {zoom > 0.01 && (
+      {shot && (phase === 'mark' || phase === 'analyzing') && (
+        // The frozen photo, shown as the preview showed it (camera) or whole (gallery), so a
+        // tap maps onto the photo (scanCrops' `fit`).
+        <Pressable
+          style={[StyleSheet.absoluteFill, styles.markLayer]}
+          onPress={(e) => analyse({ x: e.nativeEvent.locationX, y: e.nativeEvent.locationY })}
+          accessibilityLabel={t('scan.markPrompt', { s: markLeft })}
+        >
+          <Image
+            source={{ uri: shot.uri }}
+            style={StyleSheet.absoluteFill}
+            resizeMode={shot.fromCamera ? 'cover' : 'contain'}
+          />
+        </Pressable>
+      )}
+
+      {zoom > 0.01 && phase === 'aim' && (
         // Zoomed in: a tap goes back to the full view.
         <View style={styles.zoomWrap} pointerEvents="box-none">
           <Pressable onPress={() => setZoom(0)} style={styles.zoomChip}>
@@ -312,19 +383,22 @@ export function Scan() {
       )}
 
       {phase === 'analyzing' && <View style={styles.tint} />}
+      {tapPoint && <View pointerEvents="none" style={[styles.tapRing, { left: tapPoint.x - 36, top: tapPoint.y - 36 }]} />}
       {flash && <View style={styles.flash} />}
 
       <View style={styles.topbar}>
-        <IconBtn onPress={back} size={42} fs={18}>✕</IconBtn>
+        <IconBtn onPress={phase === 'mark' ? () => { setShot(null); setPhase('aim'); } : back} size={42} fs={18}>✕</IconBtn>
         <View
           style={[
             styles.statusPill,
-            { backgroundColor: phase === 'analyzing' ? PB.yellow : PB.green },
+            { backgroundColor: phase === 'analyzing' || phase === 'mark' ? PB.yellow : PB.green },
           ]}
         >
           <Animated.View style={[styles.dot, { opacity: pulse }]} />
-          <Text style={[styles.statusText, { color: phase === 'analyzing' ? PB.ink : PB.cream }]}>
-            {phase === 'analyzing' ? t('scan.analyzing') : t('scan.scanning')}
+          <Text style={[styles.statusText, { color: phase === 'analyzing' || phase === 'mark' ? PB.ink : PB.cream }]}>
+            {phase === 'mark'
+              ? t('scan.markPrompt', { s: markLeft })
+              : phase === 'analyzing' ? t('scan.analyzing') : t('scan.scanning')}
           </Text>
         </View>
         <View style={{ width: 42 }} />
@@ -368,6 +442,7 @@ export function Scan() {
         </View>
       )}
 
+      {phase !== 'mark' && !tapPoint && (
       <Animated.View
         style={[
           styles.reticle,
@@ -389,8 +464,9 @@ export function Scan() {
           </Text>
         </View>
       </Animated.View>
+      )}
 
-      {(tipVisible || phase === 'analyzing') && (
+      {phase !== 'mark' && (tipVisible || phase === 'analyzing') && (
       <View style={styles.tipWrap}>
         <Sticker bg={PB.cream} rotate={-1.5} style={{ paddingVertical: 10, paddingHorizontal: 12 }}>
           <View style={styles.tipRow}>
@@ -474,6 +550,16 @@ const styles = StyleSheet.create({
   },
   permissionTitle: { fontFamily: undefined, fontSize: 18, fontWeight: '800', color: PB.ink },
   permissionDesc: { marginTop: 6, fontSize: 13, color: PB.ink, opacity: 0.75, lineHeight: 18 },
+  markLayer: { backgroundColor: PB.ink },
+  tapRing: {
+    position: 'absolute',
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    borderWidth: 4,
+    borderStyle: 'dashed',
+    borderColor: PB.pink,
+  },
   reticle: {
     position: 'absolute',
     left: '50%',

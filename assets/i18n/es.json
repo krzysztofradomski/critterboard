@@ -81,7 +81,8 @@
       "modelLoading": "Cargando modelo…",
       "tipsTitle": "Consejos para la foto",
       "tipsSub": "Mejores fotos, mejores resultados.",
-      "tipsGotIt": "Entendido"
+      "tipsGotIt": "Entendido",
+      "markPrompt": "Toca el bicho · auto en {s} s"
     },
     "result": {
       "headTitle": "¡IDENTIFICADO!",

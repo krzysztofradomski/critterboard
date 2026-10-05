@@ -16,7 +16,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { ClassificationModule } from 'react-native-executorch';
 
 import { SCIENTIFIC_TO_BUG_ID } from '@/ai/classMap';
-import { meanScores } from '@/ai/scanCrops';
+import { combineScores } from '@/ai/scanCrops';
 import { findBugByLatin } from '@/data/bugs';
 import type { Candidate, ClassifyOptions, VisionFrame } from '@/ai/vision';
 
@@ -175,11 +175,16 @@ export function useExecutorchClassifier(config: ExecutorchClassifierConfig): Exe
     async (frame: VisionFrame, opts?: ClassifyOptions): Promise<Candidate[]> => {
       if (!moduleRef.current || !isReady) return [];
       const topK = opts?.topK ?? 3;
-      // Several crops of one photo (see scanCrops) are classified one after another and averaged.
-      const frames = (Array.isArray(frame) ? frame : [frame]) as string[];
-      const maps: Record<string, number>[] = [];
-      for (const f of frames) maps.push(await moduleRef.current.forward(f) as Record<string, number>);
-      return Object.entries(meanScores(maps))
+      // Crops of one photo in groups (see scanCrops): the most confident crop of each group,
+      // averaged. A plain URI or a flat list (each crop its own group) work too.
+      const groups = (Array.isArray(frame) ? frame : [frame]).map((g) => (Array.isArray(g) ? g : [g])) as string[][];
+      const scores: Record<string, number>[][] = [];
+      for (const g of groups) {
+        const maps: Record<string, number>[] = [];
+        for (const f of g) maps.push(await moduleRef.current.forward(f) as Record<string, number>);
+        scores.push(maps);
+      }
+      return Object.entries(combineScores(scores))
         .sort(([, a], [, b]) => b - a)
         .flatMap(([label, confidence]) => {
           const bugId = labelToBugId(label);

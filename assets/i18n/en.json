@@ -81,7 +81,8 @@
       "modelLoading": "Loading model…",
       "tipsTitle": "Photo tips",
       "tipsSub": "Better photos, better matches.",
-      "tipsGotIt": "Got it"
+      "tipsGotIt": "Got it",
+      "markPrompt": "Tap the bug · auto in {s}s"
     },
     "result": {
       "headTitle": "IDENTIFIED!",

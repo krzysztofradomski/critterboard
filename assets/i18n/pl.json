@@ -81,7 +81,8 @@
       "modelLoading": "Ładowanie modelu…",
       "tipsTitle": "Wskazówki do zdjęcia",
       "tipsSub": "Lepsze zdjęcia, trafniejsze wyniki.",
-      "tipsGotIt": "Jasne"
+      "tipsGotIt": "Jasne",
+      "markPrompt": "Dotknij owada · auto za {s} s"
     },
     "result": {
       "headTitle": "ROZPOZNANO!",

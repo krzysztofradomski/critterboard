@@ -81,7 +81,8 @@
       "modelLoading": "Modell wird geladen…",
       "tipsTitle": "Foto-Tipps",
       "tipsSub": "Bessere Fotos, bessere Treffer.",
-      "tipsGotIt": "Verstanden"
+      "tipsGotIt": "Verstanden",
+      "markPrompt": "Tippe auf das Insekt · auto in {s} s"
     },
     "result": {
       "headTitle": "IDENTIFIZIERT!",
