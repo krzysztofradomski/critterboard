@@ -46,7 +46,7 @@ if stage 2_select_species; then "$PY" "$HERE/select_species.py" --data "$DATA" -
 if stage 3_stream_photos; then "$HERE/stream_commercial_photos.sh"; done_ 3_stream_photos; fi
 if stage 4_select_commercial; then
   (cd "$DATA" && "$PY" "$HERE/select_commercial.py" --data . --top 1000 --min-photos 100 \
-     --per-species 250 --test 25 --val 15) | tee "$RUN/select_commercial.log"
+     --per-species 250) | tee "$RUN/select_commercial.log"
   done_ 4_select_commercial
 fi
 if stage 5_download; then

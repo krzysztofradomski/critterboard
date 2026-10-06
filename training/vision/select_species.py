@@ -69,7 +69,7 @@ def lineage(tid, by_id):
 
 
 def main():
-    ap = argparse.ArgumentParser()
+    ap = argparse.ArgumentParser(allow_abbrev=False)  # a misspelt flag must not silently match another
     ap.add_argument("--data", type=Path, required=True)
     ap.add_argument("--top", type=int, default=200)
     ap.add_argument("--per-species", type=int, default=400)

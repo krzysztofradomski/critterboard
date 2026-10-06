@@ -26,7 +26,7 @@ ALLOWED = {"CC0", "CC-BY"}
 
 
 def main():
-    ap = argparse.ArgumentParser()
+    ap = argparse.ArgumentParser(allow_abbrev=False)  # a misspelt flag must not silently match another
     ap.add_argument("--data", type=Path, required=True)
     ap.add_argument("--top", type=int, default=0, help="keep the first N species (by observation rank) with enough photos; 0 = all")
     ap.add_argument("--min-photos", type=int, default=0, help="skip species with fewer usable photos")
