@@ -2,7 +2,8 @@
 
 - Weights come from timm's GitHub release assets (Hugging Face may be blocked):
   pass --weights /path/to/file.pth.
-- bf16 autocast on CPU (fast on AMX / AVX512-BF16 hardware).
+- Runs on CUDA, Apple GPUs (MPS) or CPU (--device, default auto). bf16 autocast on
+  CPU/CUDA (fast on AMX / AVX512-BF16 hardware); fp32 on MPS.
 - Progressive resizing: early epochs at a lower resolution, last ones at --size.
 - Eval squashes the whole photo to size×size, exactly like the app
   (react-native-executorch resizes the frame to the model input, no crop).
@@ -13,6 +14,7 @@ Usage:
 """
 
 import argparse
+import contextlib
 import csv
 import json
 import math
@@ -29,6 +31,30 @@ from torchvision import transforms as T
 
 MEAN = (0.485, 0.456, 0.406)
 STD = (0.229, 0.224, 0.225)
+
+
+def pick_device(name: str = "auto") -> torch.device:
+    """auto = CUDA if present, else an Apple-silicon GPU (MPS), else CPU."""
+    if name != "auto":
+        return torch.device(name)
+    if torch.cuda.is_available():
+        return torch.device("cuda")
+    if getattr(torch.backends, "mps", None) is not None and torch.backends.mps.is_available():
+        return torch.device("mps")
+    return torch.device("cpu")
+
+
+def autocast(device: torch.device):
+    """bf16 autocast on CPU/CUDA, as eu-1k-commercial-v1 was trained. MPS runs fp32:
+    mixed precision there would need a gradient scaler and is untested here."""
+    if device.type in ("cpu", "cuda"):
+        return torch.autocast(device.type, dtype=torch.bfloat16)
+    return contextlib.nullcontext()
+
+
+def cpu_state(model):
+    """state_dict as CPU tensors, so checkpoints load on any machine."""
+    return {k: v.detach().cpu() for k, v in model.state_dict().items()}
 
 
 def load_species(data: Path):
@@ -104,14 +130,14 @@ def eval_tf(size):
 
 
 @torch.no_grad()
-def evaluate(model, loader):
+def evaluate(model, loader, device=torch.device("cpu")):
     model.eval()
     top1 = top3 = n = 0
     per_class = {}
     for x, y in loader:
-        with torch.autocast("cpu", dtype=torch.bfloat16):
-            logits = model(x.contiguous(memory_format=torch.channels_last))
-        pred = logits.float().topk(3, dim=1).indices
+        with autocast(device):
+            logits = model(x.to(device).contiguous(memory_format=torch.channels_last))
+        pred = logits.float().topk(3, dim=1).indices.cpu()
         hit1 = pred[:, 0] == y
         top1 += hit1.sum().item()
         top3 += (pred == y[:, None]).any(1).sum().item()
@@ -137,6 +163,7 @@ def main():
     ap.add_argument("--wd", type=float, default=0.05)
     ap.add_argument("--workers", type=int, default=3)
     ap.add_argument("--threads", type=int, default=4)
+    ap.add_argument("--device", default="auto", help="auto (cuda > mps > cpu), cuda, mps or cpu")
     ap.add_argument("--limit-steps", type=int, default=0, help="benchmark: stop after N steps")
     ap.add_argument("--max-per-class", type=int, default=0, help="pilot runs: cap train images per class")
     ap.add_argument("--drop-path", type=float, default=0.0, help="stochastic depth rate")
@@ -153,6 +180,8 @@ def main():
 
     torch.set_num_threads(args.threads)
     torch.manual_seed(0)
+    device = pick_device(args.device)
+    print(f"device: {device}", flush=True)
     args.out.mkdir(parents=True, exist_ok=True)
 
     species = load_species(args.data)
@@ -171,7 +200,7 @@ def main():
         kept, fresh = warm_start(model, args.init, args.init_labels, [s["latin"] for s in species])
         print(f"warm start from {args.init}: {kept} classifier rows carried over, {fresh} new species",
               flush=True)
-    model = model.to(memory_format=torch.channels_last)
+    model = model.to(memory_format=torch.channels_last).to(device)
 
     val = Photos(args.data, "val", species, eval_tf(args.size))
     val_loader = DataLoader(val, batch_size=128, num_workers=args.workers)
@@ -205,7 +234,7 @@ def main():
 
     def save_last(epoch, step_in_epoch):
         tmp = args.out / "last.pth.tmp"
-        torch.save({"model": model.state_dict(), "opt": opt.state_dict(), "history": history,
+        torch.save({"model": cpu_state(model), "opt": opt.state_dict(), "history": history,
                     "best": best, "steps_done": steps_done, "epoch": epoch,
                     "step_in_epoch": step_in_epoch}, tmp)
         os.replace(tmp, last)
@@ -235,7 +264,8 @@ def main():
             for g, lr in zip(opt.param_groups, base_lrs):
                 g["lr"] = lr * scale
 
-            with torch.autocast("cpu", dtype=torch.bfloat16):
+            x, y = x.to(device, non_blocking=True), y.to(device, non_blocking=True)
+            with autocast(device):
                 loss = loss_fn(model(x.contiguous(memory_format=torch.channels_last)), y)
             opt.zero_grad(set_to_none=True)
             loss.backward()
@@ -254,7 +284,7 @@ def main():
             if step_in_epoch % args.ckpt_every == 0:
                 save_last(epoch, step_in_epoch)
 
-        top1, top3, _ = evaluate(model, val_loader)
+        top1, top3, _ = evaluate(model, val_loader, device)
         rec = {"epoch": epoch, "size": size, "loss": loss_sum / max(1, seen), "val_top1": top1,
                "val_top3": top3, "minutes": (time.time() - t0) / 60}
         history.append(rec)
@@ -262,13 +292,13 @@ def main():
         (args.out / "history.json").write_text(json.dumps(history, indent=1))
         if top1 >= best:
             best = top1
-            torch.save(model.state_dict(), args.out / "best.pth")
+            torch.save(cpu_state(model), args.out / "best.pth")
         save_last(epoch + 1, 0)
 
     # Final: best checkpoint on the held-out test split.
     model.load_state_dict(torch.load(args.out / "best.pth", map_location="cpu"))
     test = Photos(args.data, "test", species, eval_tf(args.size))
-    top1, top3, per_class = evaluate(model, DataLoader(test, batch_size=128, num_workers=args.workers))
+    top1, top3, per_class = evaluate(model, DataLoader(test, batch_size=128, num_workers=args.workers), device)
     worst = sorted(per_class.items(), key=lambda kv: kv[1][0] / kv[1][1])[:15]
     report = {
         "arch": args.arch, "classes": n_cls, "size": args.size,

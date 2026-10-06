@@ -19,17 +19,17 @@ import timm
 import torch
 from torch.utils.data import DataLoader
 
-from train import Photos, eval_tf, load_species
+from train import Photos, autocast, eval_tf, load_species, pick_device
 
 
 @torch.no_grad()
-def predictions(model, loader):
-    model.eval()
+def predictions(model, loader, device=torch.device("cpu")):
+    model.eval().to(device)
     top3, labels = [], []
     for x, y in loader:
-        with torch.autocast("cpu", dtype=torch.bfloat16):
-            logits = model(x)
-        top3.append(logits.float().topk(3, dim=1).indices)
+        with autocast(device):
+            logits = model(x.to(device))
+        top3.append(logits.float().topk(3, dim=1).indices.cpu())
         labels.append(y)
     return torch.cat(top3), torch.cat(labels)
 
@@ -63,8 +63,10 @@ def main():
     ap.add_argument("--prev-ckpt", type=Path)
     ap.add_argument("--prev-labels", type=Path, help="labels.csv of the previous model")
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--device", default="auto", help="auto (cuda > mps > cpu), cuda, mps or cpu")
     args = ap.parse_args()
     torch.set_num_threads(4)
+    device = pick_device(args.device)
 
     species = load_species(args.data)
     latin = [s["latin"] for s in species]
@@ -76,7 +78,7 @@ def main():
     carried = torch.tensor([n in set(prev_latin) for n in latin])
 
     loader = DataLoader(Photos(args.data, "test", species, eval_tf(args.size)), batch_size=64, num_workers=2)
-    top3, y = predictions(load(args.arch, args.ckpt, len(species), args.size), loader)
+    top3, y = predictions(load(args.arch, args.ckpt, len(species), args.size), loader, device)
     report = {
         "size": args.size,
         "all": scores(top3, y, torch.ones_like(y, dtype=torch.bool)),
@@ -90,7 +92,7 @@ def main():
 
     if args.prev_ckpt and prev_latin:
         # Previous model on the carried-over species' test photos, labels mapped by name.
-        prev_top3, _ = predictions(load(args.arch, args.prev_ckpt, len(prev_latin), args.size), loader)
+        prev_top3, _ = predictions(load(args.arch, args.prev_ckpt, len(prev_latin), args.size), loader, device)
         to_new = torch.tensor([latin.index(n) if n in latin else -1 for n in prev_latin])
         report["previous_on_carried_over"] = scores(to_new[prev_top3], y, carried[y])
 

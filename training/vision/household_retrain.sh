@@ -15,6 +15,9 @@
 #   WEIGHTS  Google ViT-S/16 AugReg .npz (downloaded here if missing), SHA-256 545815b4…
 #   PY       python with torch, timm, executorch==1.0.1, pillow (default: python3)
 #   BACKUP   1 = push last.pth to branch retrain-household-ckpt every 3 h (ckpt_backup.sh)
+#   DEVICE   auto (default: CUDA, else Apple GPU via MPS, else CPU), cuda, mps or cpu
+#   BATCH    training batch size (default 48, the recipe's); lower it if the GPU runs
+#            out of memory (e.g. 24 on a 16 GB Mac)
 # Needs: curl, gzip, mawk (macOS: brew install mawk coreutils).
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -77,8 +80,8 @@ if stage 7_train; then
   "$PY" "$HERE/train.py" --data "$DATA/commercial" --arch vit_small_patch16_224 \
     --weights "$WEIGHTS" --out "$RUN" \
     --init "$INIT" --init-labels "$HERE/results/commercial-1k-v1/labels.csv" \
-    --epochs 5 --start-size 160 --size 256 --batch 48 --workers 2 --lr 3e-4 \
-    --drop-path 0.1 --ckpt-every 100 2>&1 | tee -a "$RUN/train.log"
+    --epochs 5 --start-size 160 --size 256 --batch "${BATCH:-48}" --workers 2 --lr 3e-4 \
+    --drop-path 0.1 --ckpt-every 100 --device "${DEVICE:-auto}" 2>&1 | tee -a "$RUN/train.log"
   done_ 7_train
 fi
 if stage 8_export; then

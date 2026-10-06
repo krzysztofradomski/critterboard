@@ -53,7 +53,9 @@ DATA=~/vdata1k RUN=~/runs/vits_household_v2 INIT=~/ckpt/best.pth BACKUP=1 \
 - **Warm start:** `train.py --init best.pth --init-labels results/commercial-1k-v1/labels.csv` loads every weight except the classifier, then copies the old classifier rows over by Latin name. Carried-over species keep their row; new ones start fresh. Tested in `test_warm_start.py`.
   - Don't pass the old checkpoint as `--weights`: with exactly 1,000 classes, timm keeps its head as is, and the rows would point at the wrong species.
 - **Recipe:** 5 epochs at 160 → 192 → 224 → 256 → 256 px, lr 3e-4, drop-path 0.1, batch 48, bf16, label smoothing 0.1. About 14 h on 4 x86 cores with AMX.
-  - It's slower on Apple-silicon CPUs, since `train.py` has no MPS path.
+  - **Devices:** `train.py --device auto` (the default) uses CUDA, else an Apple-silicon GPU through PyTorch's MPS backend, else the CPU. `DEVICE=` overrides it in `household_retrain.sh`. MLX isn't needed.
+  - On MPS it trains in fp32 rather than bf16. If the Mac runs out of memory, lower the batch (`BATCH=24`). The MPS path hasn't been timed on real Apple hardware yet.
+  - Checkpoints load with `map_location="cpu"`, so a run can move between machines (CPU, CUDA, Mac) and resume.
   - It saves a resumable `last.pth` every 100 steps.
 - **Backups:** with `BACKUP=1`, `ckpt_backup.sh` pushes `last.pth` every 3 h to the single-commit branch `retrain-household-ckpt`.
   - The file is ~265 MB, so it goes up as 90 MB parts plus a SHA-256.
