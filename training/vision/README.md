@@ -36,6 +36,36 @@ training/vision/stream_photos.sh
     --pack packs/eu-ce.json --version 3 --model-url <url>
 ```
 
+## Household and garden retrain (in progress, Oct 2026)
+
+Adds 41 home and garden species (`household_species.txt`: flies, mosquitoes, cockroaches, ants, aphids, whitefly, house spiders…), taken worldwide, and ranks species by research-grade + needs-ID observations. It warm-starts from `eu-1k-commercial-v1`.
+
+```bash
+# best.pth from release ckpt-eu-1k-commercial-v1 (weights only, ViT-S/16, 1,000 classes)
+DATA=~/vdata1k RUN=~/runs/vits_household_v2 INIT=~/ckpt/best.pth BACKUP=1 \
+  training/vision/household_retrain.sh
+```
+
+- **`household_retrain.sh`** runs the whole pipeline, then exports at 256 px. Each stage leaves a marker in `$DATA/.household_stages`, so after an interruption you re-run the same command: finished stages are skipped and `train.py` resumes from `last.pth`.
+  - The script checks the SHA-256 of `INIT` and of the Google base weights, and downloads the base weights if they're missing.
+  - Reusing an earlier run's `DATA` keeps its downloaded photos. Photos the new selection drops are deleted (stage 6).
+  - **Dropped forced species**, with their photo counts, are listed in `$RUN/select_commercial.log`.
+- **Warm start:** `train.py --init best.pth --init-labels results/commercial-1k-v1/labels.csv` loads every weight except the classifier, then copies the old classifier rows over by Latin name. Carried-over species keep their row; new ones start fresh. Tested in `test_warm_start.py`.
+  - Don't pass the old checkpoint as `--weights`: with exactly 1,000 classes, timm keeps its head as is, and the rows would point at the wrong species.
+- **Recipe:** 5 epochs at 160 → 192 → 224 → 256 → 256 px, lr 3e-4, drop-path 0.1, batch 48, bf16, label smoothing 0.1. About 14 h on 4 x86 cores with AMX.
+  - It's slower on Apple-silicon CPUs, since `train.py` has no MPS path.
+  - It saves a resumable `last.pth` every 100 steps.
+- **Backups:** with `BACKUP=1`, `ckpt_backup.sh` pushes `last.pth` every 3 h to the single-commit branch `retrain-household-ckpt`.
+  - The file is ~265 MB, so it goes up as 90 MB parts plus a SHA-256.
+  - To restore: `cat last.pth.part-* > last.pth`, check the checksum, then put it in `$RUN`.
+- **Scoring:** `score_groups.py --data $DATA/commercial --ckpt $RUN/best.pth --size 256 --prev-ckpt <v1 best.pth> --prev-labels results/commercial-1k-v1/labels.csv --out $RUN/groups_256.json` gives test top-1/top-3:
+  - overall;
+  - for carried-over species, together with v1's score on the same photos;
+  - for new species;
+  - for forced species, also per species.
+
+  v1's reference at 256 px: 80.5% top-1 / 92.2% top-3.
+
 ## Results — eu-1k-commercial-v1 (Sep 2026)
 
 A commercially usable 1,000-species model, **used by the app since pack `eu-ce` v4**, exported at 256 px since pack v11 (model v5). Built from CC0 + CC-BY photos only, on Google's Apache-2.0 ViT-S/16 AugReg weights. Full details, licence obligations and residual risks are in [`results/commercial-1k-v1/MODEL_CARD.md`](results/commercial-1k-v1/MODEL_CARD.md).
