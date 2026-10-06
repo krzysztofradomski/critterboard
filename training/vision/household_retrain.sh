@@ -28,6 +28,9 @@ PY="${PY:-python3}"
 WEIGHTS="${WEIGHTS:-$DATA/vit_small_augreg_i21k_in1k_224.npz}"
 WEIGHTS_URL=https://storage.googleapis.com/vit_models/augreg/S_16-i21k-300ep-lr_0.001-aug_light1-wd_0.03-do_0.0-sd_0.0--imagenet2012-steps_20k-lr_0.03-res_224.npz
 export DATA
+# MPS has no backward for the antialiased bicubic resize timm applies to the 14x14 position
+# embedding at every size but 224 px; this runs just that tiny op on the CPU (no-op elsewhere).
+export PYTORCH_ENABLE_MPS_FALLBACK=1
 MARK="$DATA/.household_stages"
 mkdir -p "$DATA" "$RUN" "$MARK"
 
