@@ -37,6 +37,38 @@ def load_species(data: Path):
     return rows
 
 
+def head_row_map(old_latin, new_latin):
+    """(new_row, old_row) for every species in both label lists, matched by Latin name."""
+    old = {name: i for i, name in enumerate(old_latin)}
+    return [(i, old[name]) for i, name in enumerate(new_latin) if name in old]
+
+
+@torch.no_grad()
+def copy_head_rows(new_w, new_b, old_w, old_b, pairs):
+    """Copy classifier rows in place: carried-over species keep their old row."""
+    for new_i, old_i in pairs:
+        new_w[new_i] = old_w[old_i]
+        new_b[new_i] = old_b[old_i]
+
+
+def warm_start(model, ckpt: Path, labels_csv: Path, new_latin):
+    """Load every weight from a previous checkpoint except the classifier, then copy
+    the old classifier rows into the new one by Latin name. New species keep their
+    fresh initialisation. Returns (carried-over count, new-species count)."""
+    state = torch.load(ckpt, map_location="cpu", weights_only=True)
+    cls = model.pretrained_cfg.get("classifier", "head")
+    old_w, old_b = state.pop(f"{cls}.weight"), state.pop(f"{cls}.bias")
+    missing, unexpected = model.load_state_dict(state, strict=False)
+    assert not unexpected and set(missing) == {f"{cls}.weight", f"{cls}.bias"}, (missing, unexpected)
+    with labels_csv.open() as f:
+        old_latin = [r["latin"] for r in sorted(csv.DictReader(f), key=lambda r: int(r["index"]))]
+    assert len(old_latin) == old_w.shape[0], "labels.csv does not match the checkpoint's classifier"
+    pairs = head_row_map(old_latin, new_latin)
+    head = model.get_classifier()
+    copy_head_rows(head.weight, head.bias, old_w, old_b, pairs)
+    return len(pairs), len(new_latin) - len(pairs)
+
+
 class Photos(Dataset):
     def __init__(self, data: Path, split: str, species, tf, max_per_class: int = 0):
         self.tf = tf
@@ -110,7 +142,14 @@ def main():
     ap.add_argument("--drop-path", type=float, default=0.0, help="stochastic depth rate")
     ap.add_argument("--ckpt-every", type=int, default=400,
                     help="save a resumable checkpoint (out/last.pth) every N steps")
+    ap.add_argument("--init", type=Path,
+                    help="warm start: a previous run's best.pth (state_dict). Everything but the "
+                         "classifier is loaded; classifier rows are carried over by Latin name")
+    ap.add_argument("--init-labels", type=Path,
+                    help="labels.csv (index, taxon_id, latin) giving the class order of --init")
     args = ap.parse_args()
+    if bool(args.init) != bool(args.init_labels):
+        ap.error("--init and --init-labels go together")
 
     torch.set_num_threads(args.threads)
     torch.manual_seed(0)
@@ -125,6 +164,13 @@ def main():
         args.arch, pretrained=True, num_classes=n_cls,
         pretrained_cfg_overlay=dict(file=str(args.weights)), drop_path_rate=args.drop_path, **extra,
     )
+    # --weights still builds the model (and is the fallback base). Don't pass a previous
+    # 1,000-class run as --weights: with the same class count timm keeps its head as is,
+    # and the rows would point at the wrong species. Use --init for that.
+    if args.init and not (args.out / "last.pth").exists():
+        kept, fresh = warm_start(model, args.init, args.init_labels, [s["latin"] for s in species])
+        print(f"warm start from {args.init}: {kept} classifier rows carried over, {fresh} new species",
+              flush=True)
     model = model.to(memory_format=torch.channels_last)
 
     val = Photos(args.data, "val", species, eval_tf(args.size))
