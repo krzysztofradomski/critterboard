@@ -1,0 +1,88 @@
+{
+ "arch": "vit_small_patch16_224",
+ "classes": 1000,
+ "size": 256,
+ "train_images": 208505,
+ "val_images": 14984,
+ "test_images": 24561,
+ "test_top1": 0.8326208216277838,
+ "test_top3": 0.9304588575383739,
+ "best_val_top1": 0.8250133475707421,
+ "worst_classes": [
+  {
+   "latin": "Coenagrion hastulatum",
+   "top1": 0.3333333333333333,
+   "n": 21
+  },
+  {
+   "latin": "Sympetrum striolatum",
+   "top1": 0.358974358974359,
+   "n": 39
+  },
+  {
+   "latin": "Calliptamus barbarus",
+   "top1": 0.375,
+   "n": 24
+  },
+  {
+   "latin": "Chorthippus biguttulus",
+   "top1": 0.375,
+   "n": 16
+  },
+  {
+   "latin": "Chorthippus albomarginatus",
+   "top1": 0.4,
+   "n": 20
+  },
+  {
+   "latin": "Pieris rapae",
+   "top1": 0.42424242424242425,
+   "n": 33
+  },
+  {
+   "latin": "Pseudochorthippus parallelus",
+   "top1": 0.42857142857142855,
+   "n": 28
+  },
+  {
+   "latin": "Ischnura graellsii",
+   "top1": 0.4375,
+   "n": 16
+  },
+  {
+   "latin": "Lasius emarginatus",
+   "top1": 0.4375,
+   "n": 16
+  },
+  {
+   "latin": "Zygaena trifolii",
+   "top1": 0.44,
+   "n": 25
+  },
+  {
+   "latin": "Erythromma lindenii",
+   "top1": 0.4444444444444444,
+   "n": 18
+  },
+  {
+   "latin": "Larinioides sclopetarius",
+   "top1": 0.45454545454545453,
+   "n": 11
+  },
+  {
+   "latin": "Neuroterus quercusbaccarum",
+   "top1": 0.47058823529411764,
+   "n": 17
+  },
+  {
+   "latin": "Helicoverpa armigera",
+   "top1": 0.47058823529411764,
+   "n": 17
+  },
+  {
+   "latin": "Tettigonia viridissima",
+   "top1": 0.47619047619047616,
+   "n": 21
+  }
+ ]
+}
