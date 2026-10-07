@@ -121,11 +121,14 @@ def main():
     assert len(set(ids)) == len(ids), "duplicate bug ids"
     assert sorted(label_map.values()) == list(range(len(labels))), "labelMap must be 0..N-1"
 
+    # Everything else (map, icons, checksums) carries over; the model version only moves with
+    # the model, so installed apps don't re-download an unchanged model. Re-pin checksums
+    # afterwards (tools/packs/pin_checksums.py).
     pack = {
-        "id": old["id"],
+        **old,
         "version": args.version,
         "modelUrl": args.model_url,
-        "modelVersion": args.version,
+        "modelVersion": old.get("modelVersion", 0) + (args.model_url != old.get("modelUrl")),
         "bugs": bugs,
         "labelMap": label_map,
     }

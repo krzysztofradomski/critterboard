@@ -209,7 +209,8 @@ def main():
 
     by_taxon = {}
     for line in (args.data / "cand.tsv").open():
-        pid, ext, lic, _uuid, observer, tax = line.rstrip("\n").split("\t")
+        # cand.tsv may carry more columns (e.g. quality grade) after these six.
+        pid, ext, lic, _uuid, observer, tax = line.rstrip("\n").split("\t")[:6]
         if tax in idx and lic in ("CC0", "CC-BY"):
             by_taxon.setdefault(tax, []).append((pid, ext, lic, observer))
 
