@@ -1,0 +1,9 @@
+forced species dropped, 99 photos: Cimex lectularius
+forced species dropped, 75 photos: Myzus persicae
+forced species dropped, 68 photos: Monomorium pharaonis
+forced species dropped, 79 photos: Drosophila melanogaster
+split (photos): {'test': 24561, 'train': 208510, 'val': 14986}
+248,057 photos for 1000 species (CC0 + CC-BY only)
+fewest: Ischnura graellsii (117), Athetis hospes (126), Watsonalla uncinula (128), Euura ribesii (129), Ctenocephalides felis (152), Trialeurodes vaporariorum (155), Agrochola lychnidis (156), Cyclophora puppillaria (161), Coenagrion hastulatum (176), Parnassius mnemosyne (189)
+species below 100 photos: 0
+deepest rank used: 1005 of 1500 candidates

@@ -1,0 +1,12 @@
+Skipping import of cpp extensions due to incompatible torch version 2.9.1 for torchao version 0.14.0         Please see GitHub issue #2919 for more info
+W1007 08:20:42.089000 59883 torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+/Users/krzysztofradomski/mlenv/lib/python3.12/site-packages/torchao/quantization/quant_api.py:2402: SyntaxWarning: invalid escape sequence '\.'
+  * regex for module names, must start with `re:`, e.g. `re:language\.layers\..+\.q_proj`,
+[program.cpp:154] InternalConsistency verification requested but not available
+{
+ "pte": "model_fp32.pte",
+ "mb": 88.5,
+ "test_top1": 0.8326208216277838,
+ "test_top3": 0.9304588575383739,
+ "host_ms_per_image": 90.8
+}

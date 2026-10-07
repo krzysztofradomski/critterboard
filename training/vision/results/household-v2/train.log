@@ -1,0 +1,546 @@
+device: mps
+warm start from /Users/krzysztofradomski/ckpt/best.pth: 896 classifier rows carried over, 104 new species
+Traceback (most recent call last):
+  File "/Users/krzysztofradomski/code/critterboard-retrain/training/vision/train.py", line 316, in <module>
+    main()
+  File "/Users/krzysztofradomski/code/critterboard-retrain/training/vision/train.py", line 271, in main
+    loss.backward()
+  File "/Users/krzysztofradomski/mlenv/lib/python3.12/site-packages/torch/_tensor.py", line 625, in backward
+    torch.autograd.backward(
+  File "/Users/krzysztofradomski/mlenv/lib/python3.12/site-packages/torch/autograd/__init__.py", line 354, in backward
+    _engine_run_backward(
+  File "/Users/krzysztofradomski/mlenv/lib/python3.12/site-packages/torch/autograd/graph.py", line 841, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NotImplementedError: The operator 'aten::_upsample_bicubic2d_aa_backward.grad_input' is not currently implemented for the MPS device. If you want this op to be considered for addition please comment on https://github.com/pytorch/pytorch/issues/141287 and mention use-case, that resulted in missing op as well as commit hash 5811a8d7da873dd699ff6687092c225caffcf1bb. As a temporary fix, you can set the environment variable `PYTORCH_ENABLE_MPS_FALLBACK=1` to use the CPU as a fallback for this op. WARNING: this will be slower than running natively on MPS.
+device: mps
+warm start from /Users/krzysztofradomski/ckpt/best.pth: 896 classifier rows carried over, 104 new species
+/Users/krzysztofradomski/mlenv/lib/python3.12/site-packages/torch/autograd/graph.py:841: UserWarning: The operator 'aten::_upsample_bicubic2d_aa_backward.grad_input' is not currently supported on the MPS backend and will fall back to run on the CPU. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/aten/src/ATen/mps/MPSFallback.mm:15.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+  ep0 step50/21715 size160 loss 3.044 49.5 img/s
+  ep0 step100/21715 size160 loss 3.073 56.4 img/s
+  ep0 step150/21715 size160 loss 3.055 58.9 img/s
+  ep0 step200/21715 size160 loss 3.054 60.5 img/s
+  ep0 step250/21715 size160 loss 3.049 61.3 img/s
+  ep0 step300/21715 size160 loss 3.058 62.0 img/s
+  ep0 step350/21715 size160 loss 3.046 62.3 img/s
+  ep0 step400/21715 size160 loss 3.039 62.7 img/s
+  ep0 step450/21715 size160 loss 3.029 62.9 img/s
+  ep0 step500/21715 size160 loss 3.023 63.2 img/s
+  ep0 step550/21715 size160 loss 3.021 63.3 img/s
+  ep0 step600/21715 size160 loss 3.018 63.5 img/s
+  ep0 step650/21715 size160 loss 3.012 63.6 img/s
+  ep0 step700/21715 size160 loss 3.002 63.8 img/s
+  ep0 step750/21715 size160 loss 2.995 63.8 img/s
+  ep0 step800/21715 size160 loss 2.987 63.9 img/s
+  ep0 step850/21715 size160 loss 2.977 64.0 img/s
+  ep0 step900/21715 size160 loss 2.968 64.1 img/s
+  ep0 step950/21715 size160 loss 2.957 64.1 img/s
+  ep0 step1000/21715 size160 loss 2.949 64.2 img/s
+  ep0 step1050/21715 size160 loss 2.940 64.2 img/s
+  ep0 step1100/21715 size160 loss 2.932 64.3 img/s
+  ep0 step1150/21715 size160 loss 2.922 64.3 img/s
+  ep0 step1200/21715 size160 loss 2.915 64.3 img/s
+  ep0 step1250/21715 size160 loss 2.911 64.4 img/s
+  ep0 step1300/21715 size160 loss 2.902 64.4 img/s
+  ep0 step1350/21715 size160 loss 2.896 64.4 img/s
+  ep0 step1400/21715 size160 loss 2.891 64.5 img/s
+  ep0 step1450/21715 size160 loss 2.884 64.5 img/s
+  ep0 step1500/21715 size160 loss 2.879 64.5 img/s
+  ep0 step1550/21715 size160 loss 2.876 64.5 img/s
+  ep0 step1600/21715 size160 loss 2.872 64.5 img/s
+  ep0 step1650/21715 size160 loss 2.869 64.5 img/s
+  ep0 step1700/21715 size160 loss 2.866 64.6 img/s
+  ep0 step1750/21715 size160 loss 2.863 64.6 img/s
+  ep0 step1800/21715 size160 loss 2.862 64.6 img/s
+  ep0 step1850/21715 size160 loss 2.861 64.6 img/s
+  ep0 step1900/21715 size160 loss 2.859 64.6 img/s
+  ep0 step1950/21715 size160 loss 2.857 64.6 img/s
+  ep0 step2000/21715 size160 loss 2.856 64.7 img/s
+  ep0 step2050/21715 size160 loss 2.855 64.7 img/s
+  ep0 step2100/21715 size160 loss 2.855 64.7 img/s
+  ep0 step2150/21715 size160 loss 2.855 64.7 img/s
+  ep0 step2200/21715 size160 loss 2.855 64.7 img/s
+  ep0 step2250/21715 size160 loss 2.856 64.7 img/s
+  ep0 step2300/21715 size160 loss 2.857 64.7 img/s
+  ep0 step2350/21715 size160 loss 2.856 64.7 img/s
+  ep0 step2400/21715 size160 loss 2.856 64.8 img/s
+  ep0 step2450/21715 size160 loss 2.855 64.8 img/s
+  ep0 step2500/21715 size160 loss 2.856 64.8 img/s
+  ep0 step2550/21715 size160 loss 2.856 64.8 img/s
+  ep0 step2600/21715 size160 loss 2.856 64.8 img/s
+  ep0 step2650/21715 size160 loss 2.858 64.8 img/s
+  ep0 step2700/21715 size160 loss 2.858 64.8 img/s
+  ep0 step2750/21715 size160 loss 2.859 64.8 img/s
+  ep0 step2800/21715 size160 loss 2.859 64.8 img/s
+  ep0 step2850/21715 size160 loss 2.860 64.8 img/s
+  ep0 step2900/21715 size160 loss 2.862 64.8 img/s
+  ep0 step2950/21715 size160 loss 2.861 64.8 img/s
+  ep0 step3000/21715 size160 loss 2.862 64.8 img/s
+  ep0 step3050/21715 size160 loss 2.862 64.8 img/s
+  ep0 step3100/21715 size160 loss 2.863 64.8 img/s
+  ep0 step3150/21715 size160 loss 2.863 64.8 img/s
+  ep0 step3200/21715 size160 loss 2.864 64.8 img/s
+  ep0 step3250/21715 size160 loss 2.864 64.8 img/s
+  ep0 step3300/21715 size160 loss 2.864 64.9 img/s
+  ep0 step3350/21715 size160 loss 2.865 64.9 img/s
+  ep0 step3400/21715 size160 loss 2.864 64.9 img/s
+  ep0 step3450/21715 size160 loss 2.864 64.9 img/s
+  ep0 step3500/21715 size160 loss 2.864 64.9 img/s
+  ep0 step3550/21715 size160 loss 2.863 64.9 img/s
+  ep0 step3600/21715 size160 loss 2.863 64.9 img/s
+  ep0 step3650/21715 size160 loss 2.864 64.9 img/s
+  ep0 step3700/21715 size160 loss 2.865 64.9 img/s
+  ep0 step3750/21715 size160 loss 2.865 64.9 img/s
+  ep0 step3800/21715 size160 loss 2.865 64.9 img/s
+  ep0 step3850/21715 size160 loss 2.866 64.9 img/s
+  ep0 step3900/21715 size160 loss 2.866 64.9 img/s
+  ep0 step3950/21715 size160 loss 2.866 64.9 img/s
+  ep0 step4000/21715 size160 loss 2.867 64.9 img/s
+  ep0 step4050/21715 size160 loss 2.866 64.9 img/s
+  ep0 step4100/21715 size160 loss 2.866 64.9 img/s
+  ep0 step4150/21715 size160 loss 2.867 64.9 img/s
+  ep0 step4200/21715 size160 loss 2.866 64.9 img/s
+  ep0 step4250/21715 size160 loss 2.867 64.9 img/s
+  ep0 step4300/21715 size160 loss 2.867 64.9 img/s
+{"epoch": 0, "size": 160, "loss": 2.867255000345668, "val_top1": 0.6560998398291511, "val_top3": 0.8270154831820609, "minutes": 56.876292967796324}
+  ep1 step4350/21715 size192 loss 2.496 17.7 img/s
+  ep1 step4400/21715 size192 loss 2.603 38.0 img/s
+  ep1 step4450/21715 size192 loss 2.597 40.8 img/s
+  ep1 step4500/21715 size192 loss 2.596 42.1 img/s
+  ep1 step4550/21715 size192 loss 2.589 42.7 img/s
+  ep1 step4600/21715 size192 loss 2.598 43.2 img/s
+  ep1 step4650/21715 size192 loss 2.600 43.3 img/s
+  ep1 step4700/21715 size192 loss 2.603 43.0 img/s
+  ep1 step4750/21715 size192 loss 2.598 42.8 img/s
+  ep1 step4800/21715 size192 loss 2.599 43.0 img/s
+  ep1 step4850/21715 size192 loss 2.603 43.0 img/s
+  ep1 step4900/21715 size192 loss 2.600 43.1 img/s
+  ep1 step4950/21715 size192 loss 2.603 42.4 img/s
+  ep1 step5000/21715 size192 loss 2.599 42.1 img/s
+  ep1 step5050/21715 size192 loss 2.599 42.2 img/s
+  ep1 step5100/21715 size192 loss 2.601 42.3 img/s
+  ep1 step5150/21715 size192 loss 2.601 42.4 img/s
+  ep1 step5200/21715 size192 loss 2.605 42.5 img/s
+  ep1 step5250/21715 size192 loss 2.606 42.6 img/s
+  ep1 step5300/21715 size192 loss 2.605 42.7 img/s
+  ep1 step5350/21715 size192 loss 2.602 42.8 img/s
+  ep1 step5400/21715 size192 loss 2.604 42.8 img/s
+  ep1 step5450/21715 size192 loss 2.602 42.9 img/s
+  ep1 step5500/21715 size192 loss 2.602 43.0 img/s
+  ep1 step5550/21715 size192 loss 2.603 43.0 img/s
+  ep1 step5600/21715 size192 loss 2.606 43.1 img/s
+  ep1 step5650/21715 size192 loss 2.607 43.1 img/s
+  ep1 step5700/21715 size192 loss 2.610 43.1 img/s
+  ep1 step5750/21715 size192 loss 2.608 43.2 img/s
+  ep1 step5800/21715 size192 loss 2.611 43.2 img/s
+  ep1 step5850/21715 size192 loss 2.612 43.2 img/s
+  ep1 step5900/21715 size192 loss 2.612 43.3 img/s
+  ep1 step5950/21715 size192 loss 2.613 43.3 img/s
+  ep1 step6000/21715 size192 loss 2.614 43.3 img/s
+  ep1 step6050/21715 size192 loss 2.614 43.3 img/s
+  ep1 step6100/21715 size192 loss 2.615 43.4 img/s
+  ep1 step6150/21715 size192 loss 2.615 43.4 img/s
+  ep1 step6200/21715 size192 loss 2.615 43.4 img/s
+  ep1 step6250/21715 size192 loss 2.616 43.4 img/s
+  ep1 step6300/21715 size192 loss 2.615 43.4 img/s
+  ep1 step6350/21715 size192 loss 2.616 43.4 img/s
+  ep1 step6400/21715 size192 loss 2.617 43.4 img/s
+  ep1 step6450/21715 size192 loss 2.616 43.4 img/s
+  ep1 step6500/21715 size192 loss 2.615 43.5 img/s
+  ep1 step6550/21715 size192 loss 2.615 43.5 img/s
+  ep1 step6600/21715 size192 loss 2.615 43.5 img/s
+  ep1 step6650/21715 size192 loss 2.616 43.5 img/s
+  ep1 step6700/21715 size192 loss 2.616 43.5 img/s
+  ep1 step6750/21715 size192 loss 2.617 43.5 img/s
+  ep1 step6800/21715 size192 loss 2.617 43.5 img/s
+  ep1 step6850/21715 size192 loss 2.615 43.6 img/s
+  ep1 step6900/21715 size192 loss 2.615 43.6 img/s
+  ep1 step6950/21715 size192 loss 2.614 43.6 img/s
+  ep1 step7000/21715 size192 loss 2.614 43.6 img/s
+  ep1 step7050/21715 size192 loss 2.615 43.6 img/s
+  ep1 step7100/21715 size192 loss 2.616 43.6 img/s
+  ep1 step7150/21715 size192 loss 2.615 43.6 img/s
+  ep1 step7200/21715 size192 loss 2.614 43.7 img/s
+  ep1 step7250/21715 size192 loss 2.613 43.7 img/s
+  ep1 step7300/21715 size192 loss 2.612 43.7 img/s
+  ep1 step7350/21715 size192 loss 2.611 43.7 img/s
+  ep1 step7400/21715 size192 loss 2.611 43.7 img/s
+  ep1 step7450/21715 size192 loss 2.611 43.7 img/s
+  ep1 step7500/21715 size192 loss 2.611 43.7 img/s
+  ep1 step7550/21715 size192 loss 2.611 43.7 img/s
+  ep1 step7600/21715 size192 loss 2.611 43.7 img/s
+  ep1 step7650/21715 size192 loss 2.609 43.8 img/s
+  ep1 step7700/21715 size192 loss 2.609 43.8 img/s
+  ep1 step7750/21715 size192 loss 2.608 43.8 img/s
+  ep1 step7800/21715 size192 loss 2.607 43.8 img/s
+  ep1 step7850/21715 size192 loss 2.606 43.8 img/s
+  ep1 step7900/21715 size192 loss 2.605 43.8 img/s
+  ep1 step7950/21715 size192 loss 2.604 43.8 img/s
+  ep1 step8000/21715 size192 loss 2.603 43.8 img/s
+  ep1 step8050/21715 size192 loss 2.601 43.8 img/s
+  ep1 step8100/21715 size192 loss 2.600 43.8 img/s
+  ep1 step8150/21715 size192 loss 2.599 43.8 img/s
+  ep1 step8200/21715 size192 loss 2.599 43.8 img/s
+  ep1 step8250/21715 size192 loss 2.599 43.9 img/s
+  ep1 step8300/21715 size192 loss 2.598 43.9 img/s
+  ep1 step8350/21715 size192 loss 2.599 43.9 img/s
+  ep1 step8400/21715 size192 loss 2.598 43.9 img/s
+  ep1 step8450/21715 size192 loss 2.597 43.9 img/s
+  ep1 step8500/21715 size192 loss 2.597 43.9 img/s
+  ep1 step8550/21715 size192 loss 2.596 43.9 img/s
+  ep1 step8600/21715 size192 loss 2.595 43.9 img/s
+  ep1 step8650/21715 size192 loss 2.595 43.9 img/s
+{"epoch": 1, "size": 192, "loss": 2.5947944326332686, "val_top1": 0.726708489054992, "val_top3": 0.8672584089695675, "minutes": 82.59904358386993}
+  ep2 step8700/21715 size224 loss 2.361 20.2 img/s
+  ep2 step8750/21715 size224 loss 2.325 28.5 img/s
+  ep2 step8800/21715 size224 loss 2.333 30.0 img/s
+  ep2 step8850/21715 size224 loss 2.324 30.7 img/s
+  ep2 step8900/21715 size224 loss 2.325 31.0 img/s
+  ep2 step8950/21715 size224 loss 2.322 31.3 img/s
+  ep2 step9000/21715 size224 loss 2.322 31.4 img/s
+  ep2 step9050/21715 size224 loss 2.319 31.5 img/s
+  ep2 step9100/21715 size224 loss 2.323 31.6 img/s
+  ep2 step9150/21715 size224 loss 2.324 31.7 img/s
+  ep2 step9200/21715 size224 loss 2.322 31.7 img/s
+  ep2 step9250/21715 size224 loss 2.317 31.8 img/s
+  ep2 step9300/21715 size224 loss 2.319 31.8 img/s
+  ep2 step9350/21715 size224 loss 2.317 31.9 img/s
+  ep2 step9400/21715 size224 loss 2.317 31.9 img/s
+  ep2 step9450/21715 size224 loss 2.320 31.9 img/s
+  ep2 step9500/21715 size224 loss 2.320 31.9 img/s
+  ep2 step9550/21715 size224 loss 2.317 32.0 img/s
+  ep2 step9600/21715 size224 loss 2.322 32.0 img/s
+  ep2 step9650/21715 size224 loss 2.323 32.0 img/s
+  ep2 step9700/21715 size224 loss 2.324 32.0 img/s
+  ep2 step9750/21715 size224 loss 2.321 32.0 img/s
+  ep2 step9800/21715 size224 loss 2.324 32.0 img/s
+  ep2 step9850/21715 size224 loss 2.319 32.1 img/s
+  ep2 step9900/21715 size224 loss 2.319 32.1 img/s
+  ep2 step9950/21715 size224 loss 2.317 32.1 img/s
+  ep2 step10000/21715 size224 loss 2.317 32.1 img/s
+  ep2 step10050/21715 size224 loss 2.318 32.1 img/s
+  ep2 step10100/21715 size224 loss 2.317 32.1 img/s
+  ep2 step10150/21715 size224 loss 2.316 32.1 img/s
+  ep2 step10200/21715 size224 loss 2.314 32.1 img/s
+  ep2 step10250/21715 size224 loss 2.314 32.1 img/s
+  ep2 step10300/21715 size224 loss 2.313 32.1 img/s
+  ep2 step10350/21715 size224 loss 2.311 32.1 img/s
+  ep2 step10400/21715 size224 loss 2.309 32.1 img/s
+  ep2 step10450/21715 size224 loss 2.310 32.1 img/s
+  ep2 step10500/21715 size224 loss 2.310 32.1 img/s
+  ep2 step10550/21715 size224 loss 2.309 32.1 img/s
+  ep2 step10600/21715 size224 loss 2.309 32.1 img/s
+  ep2 step10650/21715 size224 loss 2.308 32.2 img/s
+  ep2 step10700/21715 size224 loss 2.307 32.2 img/s
+  ep2 step10750/21715 size224 loss 2.307 32.2 img/s
+  ep2 step10800/21715 size224 loss 2.305 32.2 img/s
+  ep2 step10850/21715 size224 loss 2.305 32.2 img/s
+  ep2 step10900/21715 size224 loss 2.305 32.2 img/s
+  ep2 step10950/21715 size224 loss 2.305 32.2 img/s
+  ep2 step11000/21715 size224 loss 2.305 32.2 img/s
+  ep2 step11050/21715 size224 loss 2.304 32.2 img/s
+  ep2 step11100/21715 size224 loss 2.303 32.2 img/s
+  ep2 step11150/21715 size224 loss 2.301 32.2 img/s
+  ep2 step11200/21715 size224 loss 2.302 32.2 img/s
+  ep2 step11250/21715 size224 loss 2.302 32.2 img/s
+  ep2 step11300/21715 size224 loss 2.301 32.2 img/s
+  ep2 step11350/21715 size224 loss 2.301 32.2 img/s
+  ep2 step11400/21715 size224 loss 2.299 32.2 img/s
+  ep2 step11450/21715 size224 loss 2.299 32.2 img/s
+  ep2 step11500/21715 size224 loss 2.299 32.2 img/s
+  ep2 step11550/21715 size224 loss 2.298 32.2 img/s
+  ep2 step11600/21715 size224 loss 2.298 32.2 img/s
+  ep2 step11650/21715 size224 loss 2.297 32.2 img/s
+  ep2 step11700/21715 size224 loss 2.297 32.2 img/s
+  ep2 step11750/21715 size224 loss 2.295 32.2 img/s
+  ep2 step11800/21715 size224 loss 2.295 32.2 img/s
+  ep2 step11850/21715 size224 loss 2.294 32.2 img/s
+  ep2 step11900/21715 size224 loss 2.293 32.2 img/s
+  ep2 step11950/21715 size224 loss 2.291 32.2 img/s
+  ep2 step12000/21715 size224 loss 2.290 32.2 img/s
+  ep2 step12050/21715 size224 loss 2.288 32.2 img/s
+  ep2 step12100/21715 size224 loss 2.287 32.2 img/s
+  ep2 step12150/21715 size224 loss 2.286 32.2 img/s
+  ep2 step12200/21715 size224 loss 2.285 32.2 img/s
+  ep2 step12250/21715 size224 loss 2.285 32.2 img/s
+  ep2 step12300/21715 size224 loss 2.283 32.2 img/s
+  ep2 step12350/21715 size224 loss 2.283 32.2 img/s
+  ep2 step12400/21715 size224 loss 2.282 32.2 img/s
+  ep2 step12450/21715 size224 loss 2.281 32.2 img/s
+  ep2 step12500/21715 size224 loss 2.280 32.2 img/s
+  ep2 step12550/21715 size224 loss 2.279 32.2 img/s
+  ep2 step12600/21715 size224 loss 2.279 32.2 img/s
+  ep2 step12650/21715 size224 loss 2.277 32.2 img/s
+  ep2 step12700/21715 size224 loss 2.276 32.2 img/s
+  ep2 step12750/21715 size224 loss 2.275 32.2 img/s
+  ep2 step12800/21715 size224 loss 2.274 32.2 img/s
+  ep2 step12850/21715 size224 loss 2.273 32.2 img/s
+  ep2 step12900/21715 size224 loss 2.272 32.2 img/s
+  ep2 step12950/21715 size224 loss 2.270 32.2 img/s
+  ep2 step13000/21715 size224 loss 2.269 32.2 img/s
+{"epoch": 2, "size": 224, "loss": 2.26823269914653, "val_top1": 0.7800987720234918, "val_top3": 0.8990923651895355, "minutes": 111.22297289768855}
+  ep3 step13050/21715 size256 loss 2.129 17.4 img/s
+  ep3 step13100/21715 size256 loss 2.038 21.5 img/s
+  ep3 step13150/21715 size256 loss 2.036 22.4 img/s
+  ep3 step13200/21715 size256 loss 2.019 22.7 img/s
+  ep3 step13250/21715 size256 loss 2.022 22.9 img/s
+  ep3 step13300/21715 size256 loss 2.021 23.1 img/s
+  ep3 step13350/21715 size256 loss 2.020 23.2 img/s
+  ep3 step13400/21715 size256 loss 2.026 23.3 img/s
+  ep3 step13450/21715 size256 loss 2.029 23.4 img/s
+  ep3 step13500/21715 size256 loss 2.024 23.4 img/s
+  ep3 step13550/21715 size256 loss 2.020 23.4 img/s
+  ep3 step13600/21715 size256 loss 2.018 23.5 img/s
+  ep3 step13650/21715 size256 loss 2.024 23.5 img/s
+  ep3 step13700/21715 size256 loss 2.025 23.5 img/s
+  ep3 step13750/21715 size256 loss 2.024 23.6 img/s
+  ep3 step13800/21715 size256 loss 2.025 23.6 img/s
+  ep3 step13850/21715 size256 loss 2.023 23.6 img/s
+  ep3 step13900/21715 size256 loss 2.024 23.6 img/s
+  ep3 step13950/21715 size256 loss 2.025 23.6 img/s
+  ep3 step14000/21715 size256 loss 2.026 23.6 img/s
+  ep3 step14050/21715 size256 loss 2.026 23.6 img/s
+  ep3 step14100/21715 size256 loss 2.025 23.6 img/s
+  ep3 step14150/21715 size256 loss 2.024 23.7 img/s
+  ep3 step14200/21715 size256 loss 2.023 23.7 img/s
+  ep3 step14250/21715 size256 loss 2.023 23.7 img/s
+  ep3 step14300/21715 size256 loss 2.024 23.7 img/s
+  ep3 step14350/21715 size256 loss 2.024 23.7 img/s
+  ep3 step14400/21715 size256 loss 2.023 23.7 img/s
+  ep3 step14450/21715 size256 loss 2.022 23.7 img/s
+  ep3 step14500/21715 size256 loss 2.022 23.7 img/s
+  ep3 step14550/21715 size256 loss 2.021 23.7 img/s
+  ep3 step14600/21715 size256 loss 2.020 23.7 img/s
+  ep3 step14650/21715 size256 loss 2.017 23.7 img/s
+  ep3 step14700/21715 size256 loss 2.016 23.7 img/s
+  ep3 step14750/21715 size256 loss 2.017 23.7 img/s
+  ep3 step14800/21715 size256 loss 2.016 23.7 img/s
+  ep3 step14850/21715 size256 loss 2.016 23.7 img/s
+  ep3 step14900/21715 size256 loss 2.016 23.7 img/s
+  ep3 step14950/21715 size256 loss 2.017 23.7 img/s
+  ep3 step15000/21715 size256 loss 2.015 23.7 img/s
+  ep3 step15050/21715 size256 loss 2.015 23.7 img/s
+  ep3 step15100/21715 size256 loss 2.015 23.7 img/s
+  ep3 step15150/21715 size256 loss 2.014 23.7 img/s
+  ep3 step15200/21715 size256 loss 2.012 23.7 img/s
+  ep3 step15250/21715 size256 loss 2.011 23.7 img/s
+  ep3 step15300/21715 size256 loss 2.011 23.7 img/s
+  ep3 step15350/21715 size256 loss 2.010 23.7 img/s
+  ep3 step15400/21715 size256 loss 2.010 23.7 img/s
+  ep3 step15450/21715 size256 loss 2.008 23.7 img/s
+  ep3 step15500/21715 size256 loss 2.008 23.7 img/s
+  ep3 step15550/21715 size256 loss 2.008 23.7 img/s
+  ep3 step15600/21715 size256 loss 2.007 23.7 img/s
+  ep3 step15650/21715 size256 loss 2.008 23.7 img/s
+  ep3 step15700/21715 size256 loss 2.006 23.8 img/s
+  ep3 step15750/21715 size256 loss 2.005 23.8 img/s
+  ep3 step15800/21715 size256 loss 2.005 23.8 img/s
+  ep3 step15850/21715 size256 loss 2.004 23.8 img/s
+  ep3 step15900/21715 size256 loss 2.004 23.8 img/s
+  ep3 step15950/21715 size256 loss 2.004 23.8 img/s
+  ep3 step16000/21715 size256 loss 2.003 23.8 img/s
+  ep3 step16050/21715 size256 loss 2.002 23.8 img/s
+  ep3 step16100/21715 size256 loss 2.002 23.8 img/s
+  ep3 step16150/21715 size256 loss 2.001 23.8 img/s
+  ep3 step16200/21715 size256 loss 2.000 23.8 img/s
+  ep3 step16250/21715 size256 loss 1.999 23.8 img/s
+  ep3 step16300/21715 size256 loss 1.999 23.8 img/s
+  ep3 step16350/21715 size256 loss 1.999 23.8 img/s
+  ep3 step16400/21715 size256 loss 1.998 23.8 img/s
+  ep3 step16450/21715 size256 loss 1.997 23.8 img/s
+  ep3 step16500/21715 size256 loss 1.996 23.8 img/s
+  ep3 step16550/21715 size256 loss 1.996 23.8 img/s
+  ep3 step16600/21715 size256 loss 1.996 23.8 img/s
+  ep3 step16650/21715 size256 loss 1.995 23.8 img/s
+  ep3 step16700/21715 size256 loss 1.995 23.8 img/s
+  ep3 step16750/21715 size256 loss 1.995 23.8 img/s
+  ep3 step16800/21715 size256 loss 1.994 23.8 img/s
+  ep3 step16850/21715 size256 loss 1.994 23.8 img/s
+  ep3 step16900/21715 size256 loss 1.993 23.8 img/s
+  ep3 step16950/21715 size256 loss 1.992 23.8 img/s
+  ep3 step17000/21715 size256 loss 1.992 23.8 img/s
+  ep3 step17050/21715 size256 loss 1.991 23.8 img/s
+  ep3 step17100/21715 size256 loss 1.990 23.8 img/s
+  ep3 step17150/21715 size256 loss 1.989 23.8 img/s
+  ep3 step17200/21715 size256 loss 1.989 23.8 img/s
+  ep3 step17250/21715 size256 loss 1.988 23.8 img/s
+  ep3 step17300/21715 size256 loss 1.988 23.8 img/s
+  ep3 step17350/21715 size256 loss 1.988 23.8 img/s
+{"epoch": 3, "size": 256, "loss": 1.986946280200773, "val_top1": 0.8164041644420715, "val_top3": 0.9199145755472504, "minutes": 149.67425233125687}
+  ep4 step17400/21715 size256 loss 1.913 16.0 img/s
+  ep4 step17450/21715 size256 loss 1.899 20.3 img/s
+  ep4 step17500/21715 size256 loss 1.869 21.5 img/s
+  ep4 step17550/21715 size256 loss 1.855 22.2 img/s
+  ep4 step17600/21715 size256 loss 1.854 22.5 img/s
+  ep4 step17650/21715 size256 loss 1.861 22.7 img/s
+  ep4 step17700/21715 size256 loss 1.859 22.9 img/s
+  ep4 step17750/21715 size256 loss 1.858 23.0 img/s
+  ep4 step17800/21715 size256 loss 1.856 23.1 img/s
+  ep4 step17850/21715 size256 loss 1.858 23.2 img/s
+  ep4 step17900/21715 size256 loss 1.861 23.3 img/s
+  ep4 step17950/21715 size256 loss 1.861 23.3 img/s
+  ep4 step18000/21715 size256 loss 1.864 23.4 img/s
+  ep4 step18050/21715 size256 loss 1.862 23.4 img/s
+  ep4 step18100/21715 size256 loss 1.863 23.4 img/s
+  ep4 step18150/21715 size256 loss 1.861 23.5 img/s
+  ep4 step18200/21715 size256 loss 1.861 23.5 img/s
+  ep4 step18250/21715 size256 loss 1.862 23.5 img/s
+  ep4 step18300/21715 size256 loss 1.865 23.5 img/s
+  ep4 step18350/21715 size256 loss 1.865 23.5 img/s
+  ep4 step18400/21715 size256 loss 1.866 23.5 img/s
+  ep4 step18450/21715 size256 loss 1.865 23.6 img/s
+  ep4 step18500/21715 size256 loss 1.864 23.6 img/s
+  ep4 step18550/21715 size256 loss 1.862 23.6 img/s
+  ep4 step18600/21715 size256 loss 1.861 23.6 img/s
+  ep4 step18650/21715 size256 loss 1.860 23.6 img/s
+  ep4 step18700/21715 size256 loss 1.860 23.6 img/s
+  ep4 step18750/21715 size256 loss 1.860 23.6 img/s
+  ep4 step18800/21715 size256 loss 1.861 23.6 img/s
+  ep4 step18850/21715 size256 loss 1.861 23.6 img/s
+  ep4 step18900/21715 size256 loss 1.861 23.6 img/s
+  ep4 step18950/21715 size256 loss 1.861 23.6 img/s
+  ep4 step19000/21715 size256 loss 1.859 23.6 img/s
+  ep4 step19050/21715 size256 loss 1.857 23.7 img/s
+  ep4 step19100/21715 size256 loss 1.857 23.7 img/s
+  ep4 step19150/21715 size256 loss 1.857 23.7 img/s
+  ep4 step19200/21715 size256 loss 1.857 23.7 img/s
+  ep4 step19250/21715 size256 loss 1.858 23.7 img/s
+  ep4 step19300/21715 size256 loss 1.859 23.7 img/s
+  ep4 step19350/21715 size256 loss 1.857 23.7 img/s
+  ep4 step19400/21715 size256 loss 1.857 23.7 img/s
+  ep4 step19450/21715 size256 loss 1.858 23.7 img/s
+  ep4 step19500/21715 size256 loss 1.857 23.7 img/s
+  ep4 step19550/21715 size256 loss 1.858 23.7 img/s
+  ep4 step19600/21715 size256 loss 1.857 23.7 img/s
+  ep4 step19650/21715 size256 loss 1.857 23.7 img/s
+  ep4 step19700/21715 size256 loss 1.856 23.7 img/s
+  ep4 step19750/21715 size256 loss 1.856 23.7 img/s
+  ep4 step19800/21715 size256 loss 1.856 23.7 img/s
+  ep4 step19850/21715 size256 loss 1.855 23.7 img/s
+  ep4 step19900/21715 size256 loss 1.855 23.7 img/s
+  ep4 step19950/21715 size256 loss 1.855 23.7 img/s
+  ep4 step20000/21715 size256 loss 1.855 23.7 img/s
+  ep4 step20050/21715 size256 loss 1.855 23.7 img/s
+  ep4 step20100/21715 size256 loss 1.856 23.7 img/s
+  ep4 step20150/21715 size256 loss 1.856 23.7 img/s
+  ep4 step20200/21715 size256 loss 1.856 23.7 img/s
+  ep4 step20250/21715 size256 loss 1.856 23.7 img/s
+  ep4 step20300/21715 size256 loss 1.856 23.7 img/s
+  ep4 step20350/21715 size256 loss 1.856 23.7 img/s
+  ep4 step20400/21715 size256 loss 1.856 23.7 img/s
+  ep4 step20450/21715 size256 loss 1.856 23.7 img/s
+  ep4 step20500/21715 size256 loss 1.855 23.7 img/s
+  ep4 step20550/21715 size256 loss 1.856 23.7 img/s
+  ep4 step20600/21715 size256 loss 1.856 23.7 img/s
+  ep4 step20650/21715 size256 loss 1.856 23.7 img/s
+  ep4 step20700/21715 size256 loss 1.856 23.7 img/s
+  ep4 step20750/21715 size256 loss 1.855 23.7 img/s
+  ep4 step20800/21715 size256 loss 1.855 23.7 img/s
+  ep4 step20850/21715 size256 loss 1.854 23.7 img/s
+  ep4 step20900/21715 size256 loss 1.854 23.7 img/s
+  ep4 step20950/21715 size256 loss 1.854 23.7 img/s
+  ep4 step21000/21715 size256 loss 1.853 23.7 img/s
+  ep4 step21050/21715 size256 loss 1.853 23.7 img/s
+  ep4 step21100/21715 size256 loss 1.853 23.7 img/s
+  ep4 step21150/21715 size256 loss 1.853 23.7 img/s
+  ep4 step21200/21715 size256 loss 1.853 23.7 img/s
+  ep4 step21250/21715 size256 loss 1.852 23.7 img/s
+  ep4 step21300/21715 size256 loss 1.853 23.7 img/s
+  ep4 step21350/21715 size256 loss 1.853 23.7 img/s
+  ep4 step21400/21715 size256 loss 1.852 23.7 img/s
+  ep4 step21450/21715 size256 loss 1.852 23.7 img/s
+  ep4 step21500/21715 size256 loss 1.852 23.7 img/s
+  ep4 step21550/21715 size256 loss 1.852 23.7 img/s
+  ep4 step21600/21715 size256 loss 1.852 23.7 img/s
+  ep4 step21650/21715 size256 loss 1.853 23.7 img/s
+  ep4 step21700/21715 size256 loss 1.852 23.7 img/s
+{"epoch": 4, "size": 256, "loss": 1.8518596179414504, "val_top1": 0.8250133475707421, "val_top3": 0.922650827549386, "minutes": 149.96607164939243}
+{
+ "arch": "vit_small_patch16_224",
+ "classes": 1000,
+ "size": 256,
+ "train_images": 208505,
+ "val_images": 14984,
+ "test_images": 24561,
+ "test_top1": 0.8326208216277838,
+ "test_top3": 0.9304588575383739,
+ "best_val_top1": 0.8250133475707421,
+ "worst_classes": [
+  {
+   "latin": "Coenagrion hastulatum",
+   "top1": 0.3333333333333333,
+   "n": 21
+  },
+  {
+   "latin": "Sympetrum striolatum",
+   "top1": 0.358974358974359,
+   "n": 39
+  },
+  {
+   "latin": "Calliptamus barbarus",
+   "top1": 0.375,
+   "n": 24
+  },
+  {
+   "latin": "Chorthippus biguttulus",
+   "top1": 0.375,
+   "n": 16
+  },
+  {
+   "latin": "Chorthippus albomarginatus",
+   "top1": 0.4,
+   "n": 20
+  },
+  {
+   "latin": "Pieris rapae",
+   "top1": 0.42424242424242425,
+   "n": 33
+  },
+  {
+   "latin": "Pseudochorthippus parallelus",
+   "top1": 0.42857142857142855,
+   "n": 28
+  },
+  {
+   "latin": "Ischnura graellsii",
+   "top1": 0.4375,
+   "n": 16
+  },
+  {
+   "latin": "Lasius emarginatus",
+   "top1": 0.4375,
+   "n": 16
+  },
+  {
+   "latin": "Zygaena trifolii",
+   "top1": 0.44,
+   "n": 25
+  },
+  {
+   "latin": "Erythromma lindenii",
+   "top1": 0.4444444444444444,
+   "n": 18
+  },
+  {
+   "latin": "Larinioides sclopetarius",
+   "top1": 0.45454545454545453,
+   "n": 11
+  },
+  {
+   "latin": "Neuroterus quercusbaccarum",
+   "top1": 0.47058823529411764,
+   "n": 17
+  },
+  {
+   "latin": "Helicoverpa armigera",
+   "top1": 0.47058823529411764,
+   "n": 17
+  },
+  {
+   "latin": "Tettigonia viridissima",
+   "top1": 0.47619047619047616,
+   "n": 21
+  }
+ ]
+}
