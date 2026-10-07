@@ -31,6 +31,8 @@ export DATA
 # MPS has no backward for the antialiased bicubic resize timm applies to the 14x14 position
 # embedding at every size but 224 px; this runs just that tiny op on the CPU (no-op elsewhere).
 export PYTORCH_ENABLE_MPS_FALLBACK=1
+# export.py lowers to XNNPACK, which runs `flatc` from PATH; a venv ships it next to its python.
+case "$PY" in */*) PATH="$(dirname "$PY"):$PATH" ;; esac
 MARK="$DATA/.household_stages"
 mkdir -p "$DATA" "$RUN" "$MARK"
 
