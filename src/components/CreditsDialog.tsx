@@ -22,7 +22,7 @@ const CREDITS: CreditSection[] = [
   {
     sectionKey: 'models',
     items: [
-      { key: 'bugnet',   emoji: '👁️', color: PB.blue,   url: `${REPO}/training/vision/results/commercial-1k-v1/MODEL_CARD.md` },
+      { key: 'bugnet',   emoji: '👁️', color: PB.blue,   url: `${REPO}/training/vision/results/household-v3/MODEL_CARD.md` },
       { key: 'larva',    emoji: '🤖', color: PB.pink,   url: 'https://huggingface.co/google/gemma-4-E2B-it' },
       { key: 'variants', emoji: '🌼', color: PB.yellow, url: `${REPO}/src/personas/index.ts` },
     ],

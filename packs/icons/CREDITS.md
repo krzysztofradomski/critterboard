@@ -1,10 +1,10 @@
-# Species icon credits — `eu-ce` icons v1
+# Species icon credits — `eu-ce` icons v2
 
 Each icon is a cartoon drawn from one iNaturalist photo (cut out, colours flattened,
 outlined). Photos are CC0 unless marked CC-BY 4.0; CC-BY photos are adapted and
 credited below as the licence requires (https://creativecommons.org/licenses/by/4.0/).
 
-1000 icons: 1000 from CC0 photos, 0 from CC-BY photos.
+1108 icons: 1108 from CC0 photos, 0 from CC-BY photos.
 
 | Species | Photo | Licence | Photographer |
 |---|---|---|---|
@@ -12,6 +12,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Abraxas sylvata* | [301569386](https://www.inaturalist.org/photos/301569386) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Abrostola tripartita* | [203701372](https://www.inaturalist.org/photos/203701372) | CC0 | relet ([llreletll](https://www.inaturalist.org/people/llreletll)) |
 | *Acanthosoma haemorrhoidale* | [400971023](https://www.inaturalist.org/photos/400971023) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
+| *Aceria cephalonea* | [372928951](https://www.inaturalist.org/photos/372928951) | CC0 | Alana Wheat ([alanawheat](https://www.inaturalist.org/people/alanawheat)) |
 | *Aceria erinea* | [687960134](https://www.inaturalist.org/photos/687960134) | CC0 | Rob Acton-Campbell ([robcrewshole](https://www.inaturalist.org/people/robcrewshole)) |
 | *Acherontia atropos* | [553226902](https://www.inaturalist.org/photos/553226902) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Acleris variegana* | [312656357](https://www.inaturalist.org/photos/312656357) | CC0 | Ross McCallum ([ross291](https://www.inaturalist.org/people/ross291)) |
@@ -30,6 +31,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Adela reaumurella* | [380055935](https://www.inaturalist.org/photos/380055935) | CC0 | mattnewnham ([mattnewnham](https://www.inaturalist.org/people/mattnewnham)) |
 | *Adelphocoris lineolatus* | [298323585](https://www.inaturalist.org/photos/298323585) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Adscita statices* | [206015526](https://www.inaturalist.org/photos/206015526) | CC0 | Jane Kirkegaard ([janekirkegaard](https://www.inaturalist.org/people/janekirkegaard)) |
+| *Aedes albopictus* | [242659384](https://www.inaturalist.org/photos/242659384) | CC0 | Evelyn Lazzaretti 🏳️‍⚧️ ([wafflemaster135](https://www.inaturalist.org/people/wafflemaster135)) |
 | *Aedia leucomelas* | [423759743](https://www.inaturalist.org/photos/423759743) | CC0 | Harukano ([harukano](https://www.inaturalist.org/people/harukano)) |
 | *Aegosoma scabricorne* | [572597346](https://www.inaturalist.org/photos/572597346) | CC0 | Boza48 ([boza49](https://www.inaturalist.org/people/boza49)) |
 | *Aelia acuminata* | [366412343](https://www.inaturalist.org/photos/366412343) | CC0 | Alexis_lsu ([alexis_loiseau](https://www.inaturalist.org/people/alexis_loiseau)) |
@@ -68,8 +70,13 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Alosterna tabacicolor* | [677323911](https://www.inaturalist.org/photos/677323911) | CC0 | Ellyne Geurts ([ellyne](https://www.inaturalist.org/people/ellyne)) |
 | *Alsophila aescularia* | [116754047](https://www.inaturalist.org/photos/116754047) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Alucita hexadactyla* | [531642486](https://www.inaturalist.org/photos/531642486) | CC0 | Chris Raper ([chrisrap](https://www.inaturalist.org/people/chrisrap)) |
+| *Amara aenea* | [633155047](https://www.inaturalist.org/photos/633155047) | CC0 | Liviu Chiriac ([liviu_c](https://www.inaturalist.org/people/liviu_c)) |
 | *Amata phegea* | [42157816](https://www.inaturalist.org/photos/42157816) | CC0 | Dario Taraborelli ([radrat](https://www.inaturalist.org/people/radrat)) |
+| *Amaurobius ferox* | [674008998](https://www.inaturalist.org/photos/674008998) | CC0 | jpuf ([jpuf](https://www.inaturalist.org/people/jpuf)) |
+| *Amblyptilia acanthadactyla* | [223432694](https://www.inaturalist.org/photos/223432694) | CC0 | Darrel Watts ([darrel_watts](https://www.inaturalist.org/people/darrel_watts)) |
+| *Amblyteles armatorius* | [704049716](https://www.inaturalist.org/photos/704049716) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
 | *Ameles spallanzania* | [201886648](https://www.inaturalist.org/photos/201886648) | CC0 | Felix Puff ([puffi_thebikingnaturalist](https://www.inaturalist.org/people/puffi_thebikingnaturalist)) |
+| *Ammophila sabulosa* | [143659394](https://www.inaturalist.org/photos/143659394) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Amphimallon solstitiale* | [139695793](https://www.inaturalist.org/photos/139695793) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Amphipyra pyramidea* | [415118005](https://www.inaturalist.org/photos/415118005) | CC0 | Milan Keršláger ([milankerslager](https://www.inaturalist.org/people/milankerslager)) |
 | *Amphipyra tragopoginis* | [47254257](https://www.inaturalist.org/photos/47254257) | CC0 | Anna ([aromatisse](https://www.inaturalist.org/people/aromatisse)) |
@@ -81,9 +88,12 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Anax imperator* | [216832814](https://www.inaturalist.org/photos/216832814) | CC0 | Sam King Gamblin ([sam692](https://www.inaturalist.org/people/sam692)) |
 | *Anax parthenope* | [425032815](https://www.inaturalist.org/photos/425032815) | CC0 | Luksi_457 ([luksi_457](https://www.inaturalist.org/people/luksi_457)) |
 | *Andrena cineraria* | [281750426](https://www.inaturalist.org/photos/281750426) | CC0 | Dmitry Semigradsky ([dmitry_semigradsky](https://www.inaturalist.org/people/dmitry_semigradsky)) |
+| *Andrena flavipes* | [365995465](https://www.inaturalist.org/photos/365995465) | CC0 | Mathew Robinson ([twig777](https://www.inaturalist.org/people/twig777)) |
 | *Andrena fulva* | [275394555](https://www.inaturalist.org/photos/275394555) | CC0 | Jessica Alvey ([yonderly](https://www.inaturalist.org/people/yonderly)) |
 | *Andrena haemorrhoa* | [501721014](https://www.inaturalist.org/photos/501721014) | CC0 | hhkaaks ([hhkaaks](https://www.inaturalist.org/people/hhkaaks)) |
 | *Andrena hattorfiana* | [311505044](https://www.inaturalist.org/photos/311505044) | CC0 | Carsten Hestbech ([carstenhestbech](https://www.inaturalist.org/people/carstenhestbech)) |
+| *Andrena nitida* | [200922849](https://www.inaturalist.org/photos/200922849) | CC0 | empressmoth ([empressmoth](https://www.inaturalist.org/people/empressmoth)) |
+| *Andrena scotica* | [382457816](https://www.inaturalist.org/photos/382457816) | CC0 | Pennyinsole ([pennyinsole](https://www.inaturalist.org/people/pennyinsole)) |
 | *Andrena vaga* | [599585488](https://www.inaturalist.org/photos/599585488) | CC0 | Hubert Sztyler ([chimpers](https://www.inaturalist.org/people/chimpers)) |
 | *Andricus foecundatrix* | [404520989](https://www.inaturalist.org/photos/404520989) | CC0 | Kian Hayles-Cotton ([kh-c](https://www.inaturalist.org/people/kh-c)) |
 | *Andricus kollari* | [104121447](https://www.inaturalist.org/photos/104121447) | CC0 | Stephen James McWilliam ([steve_mcwilliam](https://www.inaturalist.org/people/steve_mcwilliam)) |
@@ -96,6 +106,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Anthidium florentinum* | [539194105](https://www.inaturalist.org/photos/539194105) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
 | *Anthidium manicatum* | [399760750](https://www.inaturalist.org/photos/399760750) | CC0 | Lisa Bennington ([lisabennington](https://www.inaturalist.org/people/lisabennington)) |
 | *Anthocharis cardamines* | [486749060](https://www.inaturalist.org/photos/486749060) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
+| *Anthocoris nemorum* | [250844241](https://www.inaturalist.org/photos/250844241) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Anthophila fabriciana* | [244272196](https://www.inaturalist.org/photos/244272196) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Anthophora plumipes* | [188258147](https://www.inaturalist.org/photos/188258147) | CC0 | Ross Mounce ([rmounce](https://www.inaturalist.org/people/rmounce)) |
 | *Anthrax anthrax* | [79431136](https://www.inaturalist.org/photos/79431136) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
@@ -105,6 +116,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Apatura ilia* | [528879202](https://www.inaturalist.org/photos/528879202) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
 | *Apatura iris* | [207369184](https://www.inaturalist.org/photos/207369184) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Aphantopus hyperantus* | [704174255](https://www.inaturalist.org/photos/704174255) | CC0 | Rachel Webster ([rachel467](https://www.inaturalist.org/people/rachel467)) |
+| *Aphis fabae* | [283001844](https://www.inaturalist.org/photos/283001844) | CC0 | Morten Rosenvold Villadsen ([morten66](https://www.inaturalist.org/people/morten66)) |
 | *Aphomia sociella* | [213550969](https://www.inaturalist.org/photos/213550969) | CC0 | Sarah Adamson ([sauciepepper](https://www.inaturalist.org/people/sauciepepper)) |
 | *Aphrophora alni* | [437271089](https://www.inaturalist.org/photos/437271089) | CC0 | Sander ([sleeplessf0x](https://www.inaturalist.org/people/sleeplessf0x)) |
 | *Apis mellifera* | [121762064](https://www.inaturalist.org/photos/121762064) | CC0 | Jean-Paul Boerekamps ([jeanpaulboerekamps](https://www.inaturalist.org/people/jeanpaulboerekamps)) |
@@ -116,6 +128,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Araneus angulatus* | [105990439](https://www.inaturalist.org/photos/105990439) | CC0 | Manuel Cardeñosa ([manuelcardenosa](https://www.inaturalist.org/people/manuelcardenosa)) |
 | *Araneus diadematus* | [423755120](https://www.inaturalist.org/photos/423755120) | CC0 | Nick Blewden ([nick88](https://www.inaturalist.org/people/nick88)) |
 | *Araneus quadratus* | [251851078](https://www.inaturalist.org/photos/251851078) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
+| *Araniella cucurbitina* | [137179013](https://www.inaturalist.org/photos/137179013) | CC0 | agosti ([agosti](https://www.inaturalist.org/people/agosti)) |
 | *Araschnia levana* | [352551271](https://www.inaturalist.org/photos/352551271) | CC0 | hhkaaks ([hhkaaks](https://www.inaturalist.org/people/hhkaaks)) |
 | *Archips podana* | [208681865](https://www.inaturalist.org/photos/208681865) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Archips xylosteana* | [291946969](https://www.inaturalist.org/photos/291946969) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
@@ -136,6 +149,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Aspitates ochrearia* | [192113925](https://www.inaturalist.org/photos/192113925) | CC0 | Cyril Buslaitue ([cyril10](https://www.inaturalist.org/people/cyril10)) |
 | *Atethmia centrago* | [428055392](https://www.inaturalist.org/photos/428055392) | CC0 | Margit Kildevang ([margitkildevang](https://www.inaturalist.org/people/margitkildevang)) |
 | *Athalia rosae* | [410749540](https://www.inaturalist.org/photos/410749540) | CC0 | Stuart ([sturuss](https://www.inaturalist.org/people/sturuss)) |
+| *Athetis hospes* | [437804561](https://www.inaturalist.org/photos/437804561) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Athous haemorrhoidalis* | [344289390](https://www.inaturalist.org/photos/344289390) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Atolmis rubricollis* | [397859860](https://www.inaturalist.org/photos/397859860) | CC0 | Tobias Schönberg ([tobiasschnberg](https://www.inaturalist.org/people/tobiasschnberg)) |
 | *Autographa gamma* | [700528188](https://www.inaturalist.org/photos/700528188) | CC0 | Steffen Burkhardt ([steffen_burkhardt](https://www.inaturalist.org/people/steffen_burkhardt)) |
@@ -147,6 +161,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Biston betularia* | [403580411](https://www.inaturalist.org/photos/403580411) | CC0 | Jean-Paul Boerekamps ([jeanpaulboerekamps](https://www.inaturalist.org/people/jeanpaulboerekamps)) |
 | *Biston strataria* | [262054792](https://www.inaturalist.org/photos/262054792) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Blatta orientalis* | [569362782](https://www.inaturalist.org/photos/569362782) | CC0 | ks1v ([andrewkiselev](https://www.inaturalist.org/people/andrewkiselev)) |
+| *Blattella germanica* | [725012186](https://www.inaturalist.org/photos/725012186) | CC0 | Damien Wallace ([damienxw](https://www.inaturalist.org/people/damienxw)) |
 | *Boloria dia* | [629951512](https://www.inaturalist.org/photos/629951512) | CC0 | Liviu Chiriac ([liviu_c](https://www.inaturalist.org/people/liviu_c)) |
 | *Boloria euphrosyne* | [400346080](https://www.inaturalist.org/photos/400346080) | CC0 | uusijani ([uusijani](https://www.inaturalist.org/people/uusijani)) |
 | *Boloria selene* | [679603664](https://www.inaturalist.org/photos/679603664) | CC0 | Derrin McGowan ([dermcg](https://www.inaturalist.org/people/dermcg)) |
@@ -164,15 +179,19 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Bombus vestalis* | [275386294](https://www.inaturalist.org/photos/275386294) | CC0 | Mathew Robinson ([twig777](https://www.inaturalist.org/people/twig777)) |
 | *Bombylius major* | [119292511](https://www.inaturalist.org/photos/119292511) | CC0 | Ross Mounce ([rmounce](https://www.inaturalist.org/people/rmounce)) |
 | *Brachytron pratense* | [280258139](https://www.inaturalist.org/photos/280258139) | CC0 | empressmoth ([empressmoth](https://www.inaturalist.org/people/empressmoth)) |
+| *Brassicogethes aeneus* | [365935319](https://www.inaturalist.org/photos/365935319) | CC0 | empressmoth ([empressmoth](https://www.inaturalist.org/people/empressmoth)) |
 | *Brenthis daphne* | [688619637](https://www.inaturalist.org/photos/688619637) | CC0 | Teresa Prandi ([teresa649](https://www.inaturalist.org/people/teresa649)) |
 | *Brenthis ino* | [446631461](https://www.inaturalist.org/photos/446631461) | CC0 | Philip Precey ([philip_precey](https://www.inaturalist.org/people/philip_precey)) |
+| *Brevicoryne brassicae* | [276958002](https://www.inaturalist.org/photos/276958002) | CC0 | Alexis_lsu ([alexis_loiseau](https://www.inaturalist.org/people/alexis_loiseau)) |
 | *Brintesia circe* | [321288168](https://www.inaturalist.org/photos/321288168) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
 | *Bryophila domestica* | [146555745](https://www.inaturalist.org/photos/146555745) | CC0 | Stephen James McWilliam ([steve_mcwilliam](https://www.inaturalist.org/people/steve_mcwilliam)) |
 | *Bryopsis muralis* | [102626283](https://www.inaturalist.org/photos/102626283) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
+| *Byturus ochraceus* | [656231303](https://www.inaturalist.org/photos/656231303) | CC0 | Kian Hayles-Cotton ([kh-c](https://www.inaturalist.org/people/kh-c)) |
 | *Cabera exanthemata* | [421103357](https://www.inaturalist.org/photos/421103357) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Cabera pusaria* | [687873072](https://www.inaturalist.org/photos/687873072) | CC0 | Jason Thompson ([durhambirder](https://www.inaturalist.org/people/durhambirder)) |
 | *Cacyreus marshalli* | [411556052](https://www.inaturalist.org/photos/411556052) | CC0 | Ross Mounce ([rmounce](https://www.inaturalist.org/people/rmounce)) |
 | *Callimorpha dominula* | [667937503](https://www.inaturalist.org/photos/667937503) | CC0 | Stephen James McWilliam ([steve_mcwilliam](https://www.inaturalist.org/people/steve_mcwilliam)) |
+| *Calliphora vicina* | [465572964](https://www.inaturalist.org/photos/465572964) | CC0 | eth ([eth](https://www.inaturalist.org/people/eth)) |
 | *Calliptamus barbarus* | [561336223](https://www.inaturalist.org/photos/561336223) | CC0 | elodie8162 ([elodie8162](https://www.inaturalist.org/people/elodie8162)) |
 | *Calliptamus italicus* | [687817335](https://www.inaturalist.org/photos/687817335) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
 | *Callistege mi* | [390910616](https://www.inaturalist.org/photos/390910616) | CC0 | Harukano ([harukano](https://www.inaturalist.org/people/harukano)) |
@@ -225,6 +244,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Cerambyx scopolii* | [345218712](https://www.inaturalist.org/photos/345218712) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Cerapteryx graminis* | [153495476](https://www.inaturalist.org/photos/153495476) | CC0 | Ben Deed ([ben_deed](https://www.inaturalist.org/people/ben_deed)) |
 | *Ceratomegilla notata* | [135319832](https://www.inaturalist.org/photos/135319832) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
+| *Cerceris rybyensis* | [85252081](https://www.inaturalist.org/photos/85252081) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Cercopis intermedia* | [37681003](https://www.inaturalist.org/photos/37681003) | CC0 | Crebassa Jason ([crebassa](https://www.inaturalist.org/people/crebassa)) |
 | *Cercopis vulnerata* | [18341292](https://www.inaturalist.org/photos/18341292) | CC0 | Paul Braun ([paul_luap](https://www.inaturalist.org/people/paul_luap)) |
 | *Ceriagrion tenellum* | [542153500](https://www.inaturalist.org/photos/542153500) | CC0 | Jean-Paul Boerekamps ([jeanpaulboerekamps](https://www.inaturalist.org/people/jeanpaulboerekamps)) |
@@ -249,9 +269,11 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Chrysochraon dispar* | [564076782](https://www.inaturalist.org/photos/564076782) | CC0 | Hubert Sztyler ([chimpers](https://www.inaturalist.org/people/chimpers)) |
 | *Chrysolina americana* | [197454292](https://www.inaturalist.org/photos/197454292) | CC0 | empressmoth ([empressmoth](https://www.inaturalist.org/people/empressmoth)) |
 | *Chrysolina bankii* | [572768251](https://www.inaturalist.org/photos/572768251) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
+| *Chrysolina herbacea* | [571376358](https://www.inaturalist.org/photos/571376358) | CC0 | Victoria Zorko ([ametasoma](https://www.inaturalist.org/people/ametasoma)) |
 | *Chrysolina polita* | [436645135](https://www.inaturalist.org/photos/436645135) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Chrysomela populi* | [239515884](https://www.inaturalist.org/photos/239515884) | CC0 | Harukano ([harukano](https://www.inaturalist.org/people/harukano)) |
 | *Chrysopa perla* | [198028573](https://www.inaturalist.org/photos/198028573) | CC0 | Liubov Ilminska ([liubov_ilminska](https://www.inaturalist.org/people/liubov_ilminska)) |
+| *Chrysoperla carnea* | [526528507](https://www.inaturalist.org/photos/526528507) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Chrysoteuchia culmella* | [139185509](https://www.inaturalist.org/photos/139185509) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Chrysotoxum bicinctum* | [535110154](https://www.inaturalist.org/photos/535110154) | CC0 | Kian Hayles-Cotton ([kh-c](https://www.inaturalist.org/people/kh-c)) |
 | *Cicada orni* | [415270355](https://www.inaturalist.org/photos/415270355) | CC0 | Giuliano Parpaglioni ([giuliano652](https://www.inaturalist.org/people/giuliano652)) |
@@ -259,7 +281,9 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Cicindela campestris* | [63858827](https://www.inaturalist.org/photos/63858827) | CC0 | Johannes ([jobangles](https://www.inaturalist.org/people/jobangles)) |
 | *Cicindela hybrida* | [207137270](https://www.inaturalist.org/photos/207137270) | CC0 | Margit Kildevang ([margitkildevang](https://www.inaturalist.org/people/margitkildevang)) |
 | *Cilix glaucata* | [260349967](https://www.inaturalist.org/photos/260349967) | CC0 | Morten DD Hansen ([mortenddhansen](https://www.inaturalist.org/people/mortenddhansen)) |
+| *Cimex lectularius* | [589997406](https://www.inaturalist.org/photos/589997406) | CC0 | saintaardvark ([saintaardvark](https://www.inaturalist.org/people/saintaardvark)) |
 | *Clepsis consimilana* | [317157225](https://www.inaturalist.org/photos/317157225) | CC0 | Stephen James McWilliam ([steve_mcwilliam](https://www.inaturalist.org/people/steve_mcwilliam)) |
+| *Cloeon dipterum* | [149362323](https://www.inaturalist.org/photos/149362323) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Clogmia albipunctata* | [93354110](https://www.inaturalist.org/photos/93354110) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Closterotomus biclavatus* | [392262075](https://www.inaturalist.org/photos/392262075) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
 | *Closterotomus norwegicus* | [250391103](https://www.inaturalist.org/photos/250391103) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
@@ -297,11 +321,18 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Crambus perlella* | [529700841](https://www.inaturalist.org/photos/529700841) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Craniophora ligustri* | [48615640](https://www.inaturalist.org/photos/48615640) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Crematogaster scutellaris* | [149589641](https://www.inaturalist.org/photos/149589641) | CC0 | Nico ([oecophylla](https://www.inaturalist.org/people/oecophylla)) |
+| *Crepidodera aurata* | [138918883](https://www.inaturalist.org/photos/138918883) | CC0 | Jean-Paul Boerekamps ([jeanpaulboerekamps](https://www.inaturalist.org/people/jeanpaulboerekamps)) |
+| *Crioceris asparagi* | [402332848](https://www.inaturalist.org/photos/402332848) | CC0 | Brighton Lee ([meaningful_name](https://www.inaturalist.org/people/meaningful_name)) |
 | *Crocallis elinguaria* | [216412594](https://www.inaturalist.org/photos/216412594) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Crocothemis erythraea* | [253111168](https://www.inaturalist.org/photos/253111168) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Cryphia algae* | [419347949](https://www.inaturalist.org/photos/419347949) | CC0 | birdwoodquest ([birdwoodquest](https://www.inaturalist.org/people/birdwoodquest)) |
+| *Cryptocephalus sericeus* | [404653506](https://www.inaturalist.org/photos/404653506) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
 | *Cteniopus sulphureus* | [685596658](https://www.inaturalist.org/photos/685596658) | CC0 | Cyril Poissonnet ([cyrilpoissonnet](https://www.inaturalist.org/people/cyrilpoissonnet)) |
+| *Ctenocephalides felis* | [524808669](https://www.inaturalist.org/photos/524808669) | CC0 | Nonbinary-Naturalist ([nonbinary-naturalist](https://www.inaturalist.org/people/nonbinary-naturalist)) |
+| *Ctenolepisma longicaudatum* | [461063297](https://www.inaturalist.org/photos/461063297) | CC0 | Lutra lutra ([sudenkorentoko](https://www.inaturalist.org/people/sudenkorentoko)) |
 | *Cucullia verbasci* | [684103792](https://www.inaturalist.org/photos/684103792) | CC0 | NENP_StBartsNewbury ([nenp_stbartsnewbury](https://www.inaturalist.org/people/nenp_stbartsnewbury)) |
+| *Culex pipiens* | [634193222](https://www.inaturalist.org/photos/634193222) | CC0 | Andrew Deacon ([andrewdeacon](https://www.inaturalist.org/people/andrewdeacon)) |
+| *Culiseta annulata* | [251013635](https://www.inaturalist.org/photos/251013635) | CC0 | tracks73 ([tracks73](https://www.inaturalist.org/people/tracks73)) |
 | *Cupido minimus* | [405046502](https://www.inaturalist.org/photos/405046502) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
 | *Curculio glandium* | [131226501](https://www.inaturalist.org/photos/131226501) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
 | *Cyaniris semiargus* | [562756452](https://www.inaturalist.org/photos/562756452) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
@@ -329,6 +360,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Deraeocoris flavilinea* | [518399210](https://www.inaturalist.org/photos/518399210) | CC0 | Stephan Kleinfelder ([stephankleinfelder](https://www.inaturalist.org/people/stephankleinfelder)) |
 | *Deraeocoris lutescens* | [500097950](https://www.inaturalist.org/photos/500097950) | CC0 | Ellyne Geurts ([ellyne](https://www.inaturalist.org/people/ellyne)) |
 | *Deraeocoris ruber* | [681597417](https://www.inaturalist.org/photos/681597417) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
+| *Dermacentor reticulatus* | [445404821](https://www.inaturalist.org/photos/445404821) | CC0 | Dmitry Semigradsky ([dmitry_semigradsky](https://www.inaturalist.org/people/dmitry_semigradsky)) |
 | *Diachrysia chrysitis* | [224156309](https://www.inaturalist.org/photos/224156309) | CC0 | empressmoth ([empressmoth](https://www.inaturalist.org/people/empressmoth)) |
 | *Diacrisia sannio* | [688917026](https://www.inaturalist.org/photos/688917026) | CC0 | Margit Kildevang ([margitkildevang](https://www.inaturalist.org/people/margitkildevang)) |
 | *Diaea dorsata* | [589777837](https://www.inaturalist.org/photos/589777837) | CC0 | Ilkka Kaita-aho ([kaitaaho](https://www.inaturalist.org/people/kaitaaho)) |
@@ -336,21 +368,25 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Diaphora mendica* | [265863881](https://www.inaturalist.org/photos/265863881) | CC0 | Niklas Wahlberg ([niklasw](https://www.inaturalist.org/people/niklasw)) |
 | *Diarsia rubi* | [317294236](https://www.inaturalist.org/photos/317294236) | CC0 | Darrel Watts ([darrel_watts](https://www.inaturalist.org/people/darrel_watts)) |
 | *Dicranopalpus ramosus* | [88077546](https://www.inaturalist.org/photos/88077546) | CC0 | Floris Vanderhaeghe ([florisvdh](https://www.inaturalist.org/people/florisvdh)) |
+| *Dilophus febrilis* | [502693368](https://www.inaturalist.org/photos/502693368) | CC0 | Mathew Robinson ([twig777](https://www.inaturalist.org/people/twig777)) |
 | *Dinoptera collaris* | [381015347](https://www.inaturalist.org/photos/381015347) | CC0 | Alexis_lsu ([alexis_loiseau](https://www.inaturalist.org/people/alexis_loiseau)) |
 | *Dioctria hyalipennis* | [389962355](https://www.inaturalist.org/photos/389962355) | CC0 | OlleHanna ([ollehanna](https://www.inaturalist.org/people/ollehanna)) |
+| *Dioryctria abietella* | [683869085](https://www.inaturalist.org/photos/683869085) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Diplolepis rosae* | [21716103](https://www.inaturalist.org/photos/21716103) | CC0 | ivan_humljani ([ivan_humljani](https://www.inaturalist.org/people/ivan_humljani)) |
 | *Distoleon tetragrammicus* | [528508620](https://www.inaturalist.org/photos/528508620) | CC0 | yak90 ([yak90](https://www.inaturalist.org/people/yak90)) |
 | *Diurnea fagella* | [356270971](https://www.inaturalist.org/photos/356270971) | CC0 | Claude Pepin ([cpepin](https://www.inaturalist.org/people/cpepin)) |
 | *Dolichoderus quadripunctatus* | [501912328](https://www.inaturalist.org/photos/501912328) | CC0 | Timotej Velkov ([timotej2](https://www.inaturalist.org/people/timotej2)) |
 | *Dolichovespula media* | [284551701](https://www.inaturalist.org/photos/284551701) | CC0 | Arne Holgersson ([arneholgersson](https://www.inaturalist.org/people/arneholgersson)) |
+| *Dolichovespula saxonica* | [655639190](https://www.inaturalist.org/photos/655639190) | CC0 | danielarah ([danielarah](https://www.inaturalist.org/people/danielarah)) |
 | *Dolycoris baccarum* | [390385689](https://www.inaturalist.org/photos/390385689) | CC0 | Dennis Chanter ([dennis-chanter](https://www.inaturalist.org/people/dennis-chanter)) |
 | *Dorcus parallelipipedus* | [657511424](https://www.inaturalist.org/photos/657511424) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Drepana falcataria* | [388240501](https://www.inaturalist.org/photos/388240501) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
+| *Drosophila melanogaster* | [26722879](https://www.inaturalist.org/photos/26722879) | CC0 | Jesse Rorabaugh ([glmory](https://www.inaturalist.org/people/glmory)) |
 | *Dryophilocoris flavoquadrimaculatus* | [379308362](https://www.inaturalist.org/photos/379308362) | CC0 | Stefan Adlesgruber ([stefan41626](https://www.inaturalist.org/people/stefan41626)) |
 | *Dypterygia scabriuscula* | [516720070](https://www.inaturalist.org/photos/516720070) | CC0 | Анастасия Апушкина ([racoon_4852](https://www.inaturalist.org/people/racoon_4852)) |
 | *Dysgonia algira* | [666978320](https://www.inaturalist.org/photos/666978320) | CC0 | Peter Alfrey ([peteralfrey](https://www.inaturalist.org/people/peteralfrey)) |
 | *Dysstroma truncata* | [206185214](https://www.inaturalist.org/photos/206185214) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
-| *Ebrechtella tricuspidata* | [651295948](https://www.inaturalist.org/photos/651295948) | CC0 | matthieu_trg ([matthieu_trg](https://www.inaturalist.org/people/matthieu_trg)) |
+| *Ebrechtella tricuspidata* | [651295948](https://www.inaturalist.org/photos/651295948) | CC0 | Matthieu Trotignon ([matthieu_trg](https://www.inaturalist.org/people/matthieu_trg)) |
 | *Ecliptopera silaceata* | [218035456](https://www.inaturalist.org/photos/218035456) | CC0 | samrdavies ([samrdavies](https://www.inaturalist.org/people/samrdavies)) |
 | *Ectobius lapponicus* | [507447075](https://www.inaturalist.org/photos/507447075) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
 | *Ectobius sylvestris* | [488449713](https://www.inaturalist.org/photos/488449713) | CC0 | Ilkka Kaita-aho ([kaitaaho](https://www.inaturalist.org/people/kaitaaho)) |
@@ -370,6 +406,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Ematurga atomaria* | [664332676](https://www.inaturalist.org/photos/664332676) | CC0 | Christian Ledergerber ([diverdin_ch](https://www.inaturalist.org/people/diverdin_ch)) |
 | *Emmelia trabealis* | [106121919](https://www.inaturalist.org/photos/106121919) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Emmelina monodactyla* | [309083399](https://www.inaturalist.org/photos/309083399) | CC0 | Chris Raper ([chrisrap](https://www.inaturalist.org/people/chrisrap)) |
+| *Empis livida* | [683732323](https://www.inaturalist.org/photos/683732323) | CC0 | corcan ([corcan](https://www.inaturalist.org/people/corcan)) |
 | *Empis tessellata* | [652044808](https://www.inaturalist.org/photos/652044808) | CC0 | Kian Hayles-Cotton ([kh-c](https://www.inaturalist.org/people/kh-c)) |
 | *Empusa pennata* | [38630050](https://www.inaturalist.org/photos/38630050) | CC0 | Romain Sabroux ([rosab](https://www.inaturalist.org/people/rosab)) |
 | *Enallagma cyathigerum* | [526236302](https://www.inaturalist.org/photos/526236302) | CC0 | Charles Joynson ([cjoynson](https://www.inaturalist.org/people/cjoynson)) |
@@ -378,6 +415,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Endrosis sarcitrella* | [158334661](https://www.inaturalist.org/photos/158334661) | CC0 | nmnmnm ([nmnmnm](https://www.inaturalist.org/people/nmnmnm)) |
 | *Ennomos alniaria* | [421253372](https://www.inaturalist.org/photos/421253372) | CC0 | Chris Raper ([chrisrap](https://www.inaturalist.org/people/chrisrap)) |
 | *Ennomos fuscantaria* | [558467491](https://www.inaturalist.org/photos/558467491) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
+| *Enoplognatha ovata* | [215434198](https://www.inaturalist.org/photos/215434198) | CC0 | Liubov Ilminska ([liubov_ilminska](https://www.inaturalist.org/people/liubov_ilminska)) |
 | *Ephemera danica* | [201203415](https://www.inaturalist.org/photos/201203415) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
 | *Ephippiger diurnus* | [153257787](https://www.inaturalist.org/photos/153257787) | CC0 | peresol ([peresol](https://www.inaturalist.org/people/peresol)) |
 | *Epiphyas postvittana* | [378922791](https://www.inaturalist.org/photos/378922791) | CC0 | Stephen James McWilliam ([steve_mcwilliam](https://www.inaturalist.org/people/steve_mcwilliam)) |
@@ -386,6 +424,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Episyrphus balteatus* | [357661776](https://www.inaturalist.org/photos/357661776) | CC0 | hhkaaks ([hhkaaks](https://www.inaturalist.org/people/hhkaaks)) |
 | *Erannis defoliaria* | [660809563](https://www.inaturalist.org/photos/660809563) | CC0 | Sarah Adamson ([sauciepepper](https://www.inaturalist.org/people/sauciepepper)) |
 | *Eratigena atrica* | [270728559](https://www.inaturalist.org/photos/270728559) | CC0 | Jan Herr ([janherr](https://www.inaturalist.org/people/janherr)) |
+| *Eratigena duellica* | [411308904](https://www.inaturalist.org/photos/411308904) | CC0 | potatosoup ([potatosoup](https://www.inaturalist.org/people/potatosoup)) |
 | *Erebia aethiops* | [149146288](https://www.inaturalist.org/photos/149146288) | CC0 | judybaxter ([judybaxter](https://www.inaturalist.org/people/judybaxter)) |
 | *Erebia euryale* | [89044916](https://www.inaturalist.org/photos/89044916) | CC0 | Andra Waagmeester ([andrawaag](https://www.inaturalist.org/people/andrawaag)) |
 | *Erebia ligea* | [150513314](https://www.inaturalist.org/photos/150513314) | CC0 | Norrland ([norrland](https://www.inaturalist.org/people/norrland)) |
@@ -412,8 +451,10 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Eupeodes corollae* | [142294252](https://www.inaturalist.org/photos/142294252) | CC0 | Ilkka Kaita-aho ([kaitaaho](https://www.inaturalist.org/people/kaitaaho)) |
 | *Eupeodes luniger* | [641888448](https://www.inaturalist.org/photos/641888448) | CC0 | Sarah Adamson ([sauciepepper](https://www.inaturalist.org/people/sauciepepper)) |
 | *Euphydryas aurinia* | [446585486](https://www.inaturalist.org/photos/446585486) | CC0 | Philip Precey ([philip_precey](https://www.inaturalist.org/people/philip_precey)) |
+| *Eupithecia abbreviata* | [361494392](https://www.inaturalist.org/photos/361494392) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Eupithecia centaureata* | [396378730](https://www.inaturalist.org/photos/396378730) | CC0 | Niklas Wahlberg ([niklasw](https://www.inaturalist.org/people/niklasw)) |
 | *Eupithecia icterata* | [230180376](https://www.inaturalist.org/photos/230180376) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
+| *Eupithecia vulgata* | [673808478](https://www.inaturalist.org/photos/673808478) | CC0 | Jason Thompson ([durhambirder](https://www.inaturalist.org/people/durhambirder)) |
 | *Euplagia quadripunctaria* | [317018270](https://www.inaturalist.org/photos/317018270) | CC0 | Colin Wilson ([colinwilson1](https://www.inaturalist.org/people/colinwilson1)) |
 | *Euplexia lucipara* | [405287694](https://www.inaturalist.org/photos/405287694) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Euproctis chrysorrhoea* | [504905565](https://www.inaturalist.org/photos/504905565) | CC0 | Vanessa Bremerich ([vinca_b](https://www.inaturalist.org/people/vinca_b)) |
@@ -426,14 +467,17 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Euthrix potatoria* | [148691632](https://www.inaturalist.org/photos/148691632) | CC0 | Darrel Watts ([darrel_watts](https://www.inaturalist.org/people/darrel_watts)) |
 | *Euthystira brachyptera* | [315326821](https://www.inaturalist.org/photos/315326821) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
 | *Euura proxima* | [673943979](https://www.inaturalist.org/photos/673943979) | CC0 | Anne Taylor ([at54](https://www.inaturalist.org/people/at54)) |
+| *Euura ribesii* | [400574846](https://www.inaturalist.org/photos/400574846) | CC0 | fletma ([fletma](https://www.inaturalist.org/people/fletma)) |
 | *Evarcha arcuata* | [394375670](https://www.inaturalist.org/photos/394375670) | CC0 | Liubov Ilminska ([liubov_ilminska](https://www.inaturalist.org/people/liubov_ilminska)) |
 | *Evarcha jucunda* | [211798563](https://www.inaturalist.org/photos/211798563) | CC0 | Pietro Maiorana Montes ([pietromaiorana](https://www.inaturalist.org/people/pietromaiorana)) |
 | *Everes argiades* | [204609272](https://www.inaturalist.org/photos/204609272) | CC0 | Federico Del Barba ([federicodelbarba](https://www.inaturalist.org/people/federicodelbarba)) |
 | *Exochomus quadripustulatus* | [179500697](https://www.inaturalist.org/photos/179500697) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Exosoma lusitanicum* | [660565702](https://www.inaturalist.org/photos/660565702) | CC0 | michael_martinez64 ([michael_martinez64](https://www.inaturalist.org/people/michael_martinez64)) |
+| *Fannia canicularis* | [143569063](https://www.inaturalist.org/photos/143569063) | CC0 | Arn Rytter Jensen ([arnrytterjensen](https://www.inaturalist.org/people/arnrytterjensen)) |
 | *Fasta fastuosa* | [344430731](https://www.inaturalist.org/photos/344430731) | CC0 | hhkaaks ([hhkaaks](https://www.inaturalist.org/people/hhkaaks)) |
 | *Favonius quercus* | [446109442](https://www.inaturalist.org/photos/446109442) | CC0 | Philip Precey ([philip_precey](https://www.inaturalist.org/people/philip_precey)) |
 | *Forficula auricularia* | [447752306](https://www.inaturalist.org/photos/447752306) | CC0 | Stephan Kleinfelder ([stephankleinfelder](https://www.inaturalist.org/people/stephankleinfelder)) |
+| *Formica rufa* | [188099662](https://www.inaturalist.org/photos/188099662) | CC0 | Philipp Hoenle ([myrmecophil](https://www.inaturalist.org/people/myrmecophil)) |
 | *Galeruca tanaceti* | [349634261](https://www.inaturalist.org/photos/349634261) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Gastrophysa viridula* | [202944472](https://www.inaturalist.org/photos/202944472) | CC0 | Neil Clark ([neil173](https://www.inaturalist.org/people/neil173)) |
 | *Gaurotes virginea* | [279411363](https://www.inaturalist.org/photos/279411363) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
@@ -456,12 +500,14 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Gymnoscelis rufifasciata* | [117585328](https://www.inaturalist.org/photos/117585328) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Habrosyne pyritoides* | [693877564](https://www.inaturalist.org/photos/693877564) | CC0 | Stephen James McWilliam ([steve_mcwilliam](https://www.inaturalist.org/people/steve_mcwilliam)) |
 | *Hada plebeja* | [395657270](https://www.inaturalist.org/photos/395657270) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
+| *Haematopota pluvialis* | [543888398](https://www.inaturalist.org/photos/543888398) | CC0 | Norrland ([norrland](https://www.inaturalist.org/people/norrland)) |
 | *Halictus scabiosae* | [259311636](https://www.inaturalist.org/photos/259311636) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Halyomorpha halys* | [433042511](https://www.inaturalist.org/photos/433042511) | CC0 | Paul Braun ([paul_luap](https://www.inaturalist.org/people/paul_luap)) |
 | *Halyzia sedecimguttata* | [133778879](https://www.inaturalist.org/photos/133778879) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
 | *Hamearis lucina* | [411399095](https://www.inaturalist.org/photos/411399095) | CC0 | Victoria Zorko ([ametasoma](https://www.inaturalist.org/people/ametasoma)) |
 | *Harmonia axyridis* | [455491437](https://www.inaturalist.org/photos/455491437) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Harmonia quadripunctata* | [220941785](https://www.inaturalist.org/photos/220941785) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
+| *Harpalus affinis* | [358519688](https://www.inaturalist.org/photos/358519688) | CC0 | Ellyne Geurts ([ellyne](https://www.inaturalist.org/people/ellyne)) |
 | *Harpalus rufipes* | [220627869](https://www.inaturalist.org/photos/220627869) | CC0 | Hanka Sokolová ([hanka_sokolova](https://www.inaturalist.org/people/hanka_sokolova)) |
 | *Harpocera thoracica* | [71745300](https://www.inaturalist.org/photos/71745300) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
 | *Hedya nubiferana* | [401046800](https://www.inaturalist.org/photos/401046800) | CC0 | drtimk ([drtimk](https://www.inaturalist.org/people/drtimk)) |
@@ -476,9 +522,11 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Hemithea aestivaria* | [262578468](https://www.inaturalist.org/photos/262578468) | CC0 | Morten DD Hansen ([mortenddhansen](https://www.inaturalist.org/people/mortenddhansen)) |
 | *Hermetia illucens* | [322735951](https://www.inaturalist.org/photos/322735951) | CC0 | Marino Linić ([marinolinic](https://www.inaturalist.org/people/marinolinic)) |
 | *Hesperia comma* | [86534507](https://www.inaturalist.org/photos/86534507) | CC0 | Federico Del Barba ([federicodelbarba](https://www.inaturalist.org/people/federicodelbarba)) |
+| *Heterotoma planicornis* | [292331318](https://www.inaturalist.org/photos/292331318) | CC0 | Alexis_lsu ([alexis_loiseau](https://www.inaturalist.org/people/alexis_loiseau)) |
 | *Hierodula transcaucasica* | [163478825](https://www.inaturalist.org/photos/163478825) | CC0 | Francesco Cecere ([francescocecere](https://www.inaturalist.org/people/francescocecere)) |
 | *Himacerus apterus* | [142390313](https://www.inaturalist.org/photos/142390313) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
 | *Himacerus mirmicoides* | [556541960](https://www.inaturalist.org/photos/556541960) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
+| *Hipparchia fagi* | [448003072](https://www.inaturalist.org/photos/448003072) | CC0 | Philip Precey ([philip_precey](https://www.inaturalist.org/people/philip_precey)) |
 | *Hipparchia fidia* | [417411106](https://www.inaturalist.org/photos/417411106) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
 | *Hipparchia semele* | [31341263](https://www.inaturalist.org/photos/31341263) | CC0 | Simon Tonge ([simontonge](https://www.inaturalist.org/people/simontonge)) |
 | *Hipparchia statilinus* | [417411092](https://www.inaturalist.org/photos/417411092) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
@@ -488,6 +536,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Holocnemus pluchei* | [417250518](https://www.inaturalist.org/photos/417250518) | CC0 | Hybodus ([weckogecko](https://www.inaturalist.org/people/weckogecko)) |
 | *Homoeosoma sinuella* | [411318666](https://www.inaturalist.org/photos/411318666) | CC0 | Jean-Paul Boerekamps ([jeanpaulboerekamps](https://www.inaturalist.org/people/jeanpaulboerekamps)) |
 | *Hoplodrina ambigua* | [507195853](https://www.inaturalist.org/photos/507195853) | CC0 | Jean-Paul Boerekamps ([jeanpaulboerekamps](https://www.inaturalist.org/people/jeanpaulboerekamps)) |
+| *Hoplodrina blanda* | [532783773](https://www.inaturalist.org/photos/532783773) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
 | *Hoplodrina octogenaria* | [681400098](https://www.inaturalist.org/photos/681400098) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Hydraecia micacea* | [425418261](https://www.inaturalist.org/photos/425418261) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
 | *Hydriomena furcata* | [540850977](https://www.inaturalist.org/photos/540850977) | CC0 | Ellyne Geurts ([ellyne](https://www.inaturalist.org/people/ellyne)) |
@@ -515,6 +564,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Iphiclides podalirius* | [421210376](https://www.inaturalist.org/photos/421210376) | CC0 | Giuliano Parpaglioni ([giuliano652](https://www.inaturalist.org/people/giuliano652)) |
 | *Iris oratoria* | [653797262](https://www.inaturalist.org/photos/653797262) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
 | *Ischnura elegans* | [674031904](https://www.inaturalist.org/photos/674031904) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
+| *Ischnura graellsii* | [589805856](https://www.inaturalist.org/photos/589805856) | CC0 | Ellyne Geurts ([ellyne](https://www.inaturalist.org/people/ellyne)) |
 | *Ischnura pumilio* | [563091413](https://www.inaturalist.org/photos/563091413) | CC0 | Istvan Sipos ([istvan1983](https://www.inaturalist.org/people/istvan1983)) |
 | *Isoaeschna isoceles* | [228244735](https://www.inaturalist.org/photos/228244735) | CC0 | Simon Tonge ([simontonge](https://www.inaturalist.org/people/simontonge)) |
 | *Isodontia mexicana* | [546832673](https://www.inaturalist.org/photos/546832673) | CC0 | luckilucki ([luckilucki](https://www.inaturalist.org/people/luckilucki)) |
@@ -532,6 +582,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Lampides boeticus* | [586796849](https://www.inaturalist.org/photos/586796849) | CC0 | Kaze 719 ([kazenature](https://www.inaturalist.org/people/kazenature)) |
 | *Lampyris noctiluca* | [131284998](https://www.inaturalist.org/photos/131284998) | CC0 | Steve Milsom ([piestuff](https://www.inaturalist.org/people/piestuff)) |
 | *Laothoe populi* | [314906387](https://www.inaturalist.org/photos/314906387) | CC0 | Paolo Giampaoletti ([paologiampaoletti](https://www.inaturalist.org/people/paologiampaoletti)) |
+| *Larinioides cornutus* | [429737831](https://www.inaturalist.org/photos/429737831) | CC0 | eth ([eth](https://www.inaturalist.org/people/eth)) |
 | *Larinioides sclopetarius* | [99775313](https://www.inaturalist.org/photos/99775313) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
 | *Larinus turbinatus* | [538550814](https://www.inaturalist.org/photos/538550814) | CC0 | Alexis_lsu ([alexis_loiseau](https://www.inaturalist.org/people/alexis_loiseau)) |
 | *Lasiocampa quercus* | [523112934](https://www.inaturalist.org/photos/523112934) | CC0 | Stephan Kleinfelder ([stephankleinfelder](https://www.inaturalist.org/people/stephankleinfelder)) |
@@ -539,10 +590,13 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Lasiommata maera* | [46092076](https://www.inaturalist.org/photos/46092076) | CC0 | anbalemans ([anbalemans](https://www.inaturalist.org/people/anbalemans)) |
 | *Lasiommata megera* | [147283349](https://www.inaturalist.org/photos/147283349) | CC0 | Norrland ([norrland](https://www.inaturalist.org/people/norrland)) |
 | *Lasius emarginatus* | [180225622](https://www.inaturalist.org/photos/180225622) | CC0 | Federico Del Barba ([federicodelbarba](https://www.inaturalist.org/people/federicodelbarba)) |
+| *Lasius flavus* | [198348713](https://www.inaturalist.org/photos/198348713) | CC0 | Liubov Ilminska ([liubov_ilminska](https://www.inaturalist.org/people/liubov_ilminska)) |
 | *Lasius fuliginosus* | [532777036](https://www.inaturalist.org/photos/532777036) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
+| *Lasius niger* | [674898762](https://www.inaturalist.org/photos/674898762) | CC0 | Nico ([oecophylla](https://www.inaturalist.org/people/oecophylla)) |
 | *Laspeyria flexula* | [287810367](https://www.inaturalist.org/photos/287810367) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Leiobunum rotundum* | [415785599](https://www.inaturalist.org/photos/415785599) | CC0 | Alexis_lsu ([alexis_loiseau](https://www.inaturalist.org/people/alexis_loiseau)) |
 | *Lepisma saccharinum* | [485686819](https://www.inaturalist.org/photos/485686819) | CC0 | Stephan Kleinfelder ([stephankleinfelder](https://www.inaturalist.org/people/stephankleinfelder)) |
+| *Leptidea sinapis* | [556593307](https://www.inaturalist.org/photos/556593307) | CC0 | Simon Tonge ([simontonge](https://www.inaturalist.org/people/simontonge)) |
 | *Leptinotarsa decemlineata* | [211560139](https://www.inaturalist.org/photos/211560139) | CC0 | Adam Juźwiak ([adam_juzwiak](https://www.inaturalist.org/people/adam_juzwiak)) |
 | *Leptoglossus occidentalis* | [235980665](https://www.inaturalist.org/photos/235980665) | CC0 | tikitu ([tikitu](https://www.inaturalist.org/people/tikitu)) |
 | *Leptophyes albovittata* | [197227250](https://www.inaturalist.org/photos/197227250) | CC0 | Liubov Ilminska ([liubov_ilminska](https://www.inaturalist.org/people/liubov_ilminska)) |
@@ -564,6 +618,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Lilioceris lilii* | [127400579](https://www.inaturalist.org/photos/127400579) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Limenitis camilla* | [244265106](https://www.inaturalist.org/photos/244265106) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Limenitis reducta* | [662637086](https://www.inaturalist.org/photos/662637086) | CC0 | Maurice Hoffmann ([maurice133](https://www.inaturalist.org/people/maurice133)) |
+| *Linyphia triangularis* | [50160814](https://www.inaturalist.org/photos/50160814) | CC0 | tim-f ([tim-f](https://www.inaturalist.org/people/tim-f)) |
 | *Liocoris tripustulatus* | [648262882](https://www.inaturalist.org/photos/648262882) | CC0 | Aleksandra Pogorzelska ([apogeum](https://www.inaturalist.org/people/apogeum)) |
 | *Liophloeus tessulatus* | [388665058](https://www.inaturalist.org/photos/388665058) | CC0 | Sarah Adamson ([sauciepepper](https://www.inaturalist.org/people/sauciepepper)) |
 | *Lithosia quadra* | [580105152](https://www.inaturalist.org/photos/580105152) | CC0 | Paul Round ([paulround1985](https://www.inaturalist.org/people/paulround1985)) |
@@ -574,6 +629,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Lomographa temerata* | [685223389](https://www.inaturalist.org/photos/685223389) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Loxostege sticticalis* | [522664698](https://www.inaturalist.org/photos/522664698) | CC0 | Leo ([leo_goo](https://www.inaturalist.org/people/leo_goo)) |
 | *Lucanus cervus* | [551244375](https://www.inaturalist.org/photos/551244375) | CC0 | Nico ([oecophylla](https://www.inaturalist.org/people/oecophylla)) |
+| *Lucilia sericata* | [85823424](https://www.inaturalist.org/photos/85823424) | CC0 | Nathan Oldridge ([chemistnate](https://www.inaturalist.org/people/chemistnate)) |
 | *Luperina testacea* | [551750636](https://www.inaturalist.org/photos/551750636) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Lycaena alciphron* | [278460985](https://www.inaturalist.org/photos/278460985) | CC0 | Thomas M ([thomas_des_bois](https://www.inaturalist.org/people/thomas_des_bois)) |
 | *Lycaena dispar* | [666375825](https://www.inaturalist.org/photos/666375825) | CC0 | Konrad J. Hammerl ([konsch9](https://www.inaturalist.org/people/konsch9)) |
@@ -584,6 +640,8 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Lycia hirtaria* | [488202235](https://www.inaturalist.org/photos/488202235) | CC0 | Magnus L. Johnson ([acanthephyra](https://www.inaturalist.org/people/acanthephyra)) |
 | *Lygaeus equestris* | [90584668](https://www.inaturalist.org/photos/90584668) | CC0 | Niklas Wahlberg ([niklasw](https://www.inaturalist.org/people/niklasw)) |
 | *Lygistopterus sanguineus* | [148967293](https://www.inaturalist.org/photos/148967293) | CC0 | Alexis_lsu ([alexis_loiseau](https://www.inaturalist.org/people/alexis_loiseau)) |
+| *Lygus pratensis* | [489275556](https://www.inaturalist.org/photos/489275556) | CC0 | Alexis_lsu ([alexis_loiseau](https://www.inaturalist.org/people/alexis_loiseau)) |
+| *Lygus rugulipennis* | [409335045](https://www.inaturalist.org/photos/409335045) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
 | *Lymantria dispar* | [696275877](https://www.inaturalist.org/photos/696275877) | CC0 | Niklas Wahlberg ([niklasw](https://www.inaturalist.org/people/niklasw)) |
 | *Lymantria monacha* | [150393170](https://www.inaturalist.org/photos/150393170) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Lyristes plebejus* | [84026803](https://www.inaturalist.org/photos/84026803) | CC0 | tikitu ([tikitu](https://www.inaturalist.org/people/tikitu)) |
@@ -593,14 +651,16 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Macdunnoughia confusa* | [503735681](https://www.inaturalist.org/photos/503735681) | CC0 | Chris Raper ([chrisrap](https://www.inaturalist.org/people/chrisrap)) |
 | *Macroglossum stellatarum* | [225480684](https://www.inaturalist.org/photos/225480684) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Macrophya montana* | [279672871](https://www.inaturalist.org/photos/279672871) | CC0 | Alexis_lsu ([alexis_loiseau](https://www.inaturalist.org/people/alexis_loiseau)) |
+| *Macrosiphum rosae* | [68096648](https://www.inaturalist.org/photos/68096648) | CC0 | Anne Parsons ([truthseqr](https://www.inaturalist.org/people/truthseqr)) |
 | *Macrothylacia rubi* | [154697787](https://www.inaturalist.org/photos/154697787) | CC0 | peresol ([peresol](https://www.inaturalist.org/people/peresol)) |
 | *Malachius bipustulatus* | [249227080](https://www.inaturalist.org/photos/249227080) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
+| *Malacosoma castrensis* | [734898436](https://www.inaturalist.org/photos/734898436) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Malacosoma neustria* | [250743467](https://www.inaturalist.org/photos/250743467) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Mamestra brassicae* | [196796721](https://www.inaturalist.org/photos/196796721) | CC0 | drtimk ([drtimk](https://www.inaturalist.org/people/drtimk)) |
 | *Mangora acalypha* | [254074635](https://www.inaturalist.org/photos/254074635) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Maniola jurtina* | [83780893](https://www.inaturalist.org/photos/83780893) | CC0 | blathers ([blathers](https://www.inaturalist.org/people/blathers)) |
 | *Mantis religiosa* | [326306169](https://www.inaturalist.org/photos/326306169) | CC0 | Paolo Giampaoletti ([paologiampaoletti](https://www.inaturalist.org/people/paologiampaoletti)) |
-| *Marpissa muscosa* | [651799183](https://www.inaturalist.org/photos/651799183) | CC0 | matthieu_trg ([matthieu_trg](https://www.inaturalist.org/people/matthieu_trg)) |
+| *Marpissa muscosa* | [651799183](https://www.inaturalist.org/photos/651799183) | CC0 | Matthieu Trotignon ([matthieu_trg](https://www.inaturalist.org/people/matthieu_trg)) |
 | *Meconema meridionale* | [563762400](https://www.inaturalist.org/photos/563762400) | CC0 | TerranuX ([terranux](https://www.inaturalist.org/people/terranux)) |
 | *Meconema thalassinum* | [536464627](https://www.inaturalist.org/photos/536464627) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Mecostethus parapleurus* | [93814379](https://www.inaturalist.org/photos/93814379) | CC0 | dbmhartley ([danielhartley](https://www.inaturalist.org/people/danielhartley)) |
@@ -608,24 +668,29 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Melanargia lachesis* | [681599276](https://www.inaturalist.org/photos/681599276) | CC0 | Crebassa Jason ([crebassa](https://www.inaturalist.org/people/crebassa)) |
 | *Melanchra persicariae* | [698232978](https://www.inaturalist.org/photos/698232978) | CC0 | Niklas Wahlberg ([niklasw](https://www.inaturalist.org/people/niklasw)) |
 | *Melanocoryphus albomaculatus* | [130462712](https://www.inaturalist.org/photos/130462712) | CC0 | Alexis_lsu ([alexis_loiseau](https://www.inaturalist.org/people/alexis_loiseau)) |
+| *Melanostoma mellinum* | [141726612](https://www.inaturalist.org/photos/141726612) | CC0 | Jean-Paul Boerekamps ([jeanpaulboerekamps](https://www.inaturalist.org/people/jeanpaulboerekamps)) |
 | *Melanostoma scalare* | [368887805](https://www.inaturalist.org/photos/368887805) | CC0 | empressmoth ([empressmoth](https://www.inaturalist.org/people/empressmoth)) |
 | *Meliscaeva auricollis* | [402030116](https://www.inaturalist.org/photos/402030116) | CC0 | Kian Hayles-Cotton ([kh-c](https://www.inaturalist.org/people/kh-c)) |
 | *Melitaea athalia* | [216293261](https://www.inaturalist.org/photos/216293261) | CC0 | Norrland ([norrland](https://www.inaturalist.org/people/norrland)) |
+| *Melitaea celadussa* | [284542653](https://www.inaturalist.org/photos/284542653) | CC0 | Teresa Prandi ([teresa649](https://www.inaturalist.org/people/teresa649)) |
 | *Melitaea cinxia* | [21951907](https://www.inaturalist.org/photos/21951907) | CC0 | Anna C ([anna_c56](https://www.inaturalist.org/people/anna_c56)) |
 | *Melitaea diamina* | [688917371](https://www.inaturalist.org/photos/688917371) | CC0 | Margit Kildevang ([margitkildevang](https://www.inaturalist.org/people/margitkildevang)) |
 | *Melitaea didyma* | [209804166](https://www.inaturalist.org/photos/209804166) | CC0 | Teresa Prandi ([teresa649](https://www.inaturalist.org/people/teresa649)) |
 | *Melitaea phoebe* | [433964509](https://www.inaturalist.org/photos/433964509) | CC0 | Teresa Prandi ([teresa649](https://www.inaturalist.org/people/teresa649)) |
+| *Mellinus arvensis* | [143971862](https://www.inaturalist.org/photos/143971862) | CC0 | goldfjnch ([goldfjnch](https://www.inaturalist.org/people/goldfjnch)) |
 | *Meloe proscarabaeus* | [483866984](https://www.inaturalist.org/photos/483866984) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Meloe violaceus* | [251289369](https://www.inaturalist.org/photos/251289369) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Melolontha melolontha* | [509551121](https://www.inaturalist.org/photos/509551121) | CC0 | Maynard Case ([maynardcase](https://www.inaturalist.org/people/maynardcase)) |
 | *Menemerus semilimbatus* | [690433235](https://www.inaturalist.org/photos/690433235) | CC0 | Mathieu Basille ([mbasille](https://www.inaturalist.org/people/mbasille)) |
 | *Menophra abruptaria* | [133080822](https://www.inaturalist.org/photos/133080822) | CC0 | Colin Wilson ([colinwilson1](https://www.inaturalist.org/people/colinwilson1)) |
 | *Merodon equestris* | [399215226](https://www.inaturalist.org/photos/399215226) | CC0 | Joe Carmichael ([regexj](https://www.inaturalist.org/people/regexj)) |
+| *Mesapamea secalis* | [713623154](https://www.inaturalist.org/photos/713623154) | CC0 | empressmoth ([empressmoth](https://www.inaturalist.org/people/empressmoth)) |
 | *Mesembrina meridiana* | [550973552](https://www.inaturalist.org/photos/550973552) | CC0 | Katie Harrison ([katie931](https://www.inaturalist.org/people/katie931)) |
 | *Mesoligia furuncula* | [88985285](https://www.inaturalist.org/photos/88985285) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Messor barbarus* | [678901688](https://www.inaturalist.org/photos/678901688) | CC0 | Alex Hindley ([allyhi](https://www.inaturalist.org/people/allyhi)) |
 | *Metcalfa pruinosa* | [409938498](https://www.inaturalist.org/photos/409938498) | CC0 | Danijel Ostović ([danijelostovi](https://www.inaturalist.org/people/danijelostovi)) |
 | *Metellina merianae* | [7567144](https://www.inaturalist.org/photos/7567144) | CC0 | Wouter Koch ([wouterkoch](https://www.inaturalist.org/people/wouterkoch)) |
+| *Metellina segmentata* | [314895868](https://www.inaturalist.org/photos/314895868) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
 | *Micrommata ligurina* | [102591965](https://www.inaturalist.org/photos/102591965) | CC0 | peresol ([peresol](https://www.inaturalist.org/people/peresol)) |
 | *Micrommata virescens* | [433397832](https://www.inaturalist.org/photos/433397832) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
 | *Mikiola fagi* | [45343329](https://www.inaturalist.org/photos/45343329) | CC0 | anbalemans ([anbalemans](https://www.inaturalist.org/people/anbalemans)) |
@@ -638,23 +703,31 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Mitopus morio* | [37720091](https://www.inaturalist.org/photos/37720091) | CC0 | Mike Youdale ([ekim8](https://www.inaturalist.org/people/ekim8)) |
 | *Moma alpium* | [677310106](https://www.inaturalist.org/photos/677310106) | CC0 | Ellyne Geurts ([ellyne](https://www.inaturalist.org/people/ellyne)) |
 | *Monochamus galloprovincialis* | [411001679](https://www.inaturalist.org/photos/411001679) | CC0 | Pyry Toivonen ([pyrytoivonen](https://www.inaturalist.org/people/pyrytoivonen)) |
+| *Monomorium pharaonis* | [607335437](https://www.inaturalist.org/photos/607335437) | CC0 | Sinaloa Silvestre ([mar_y_sierra_silvestre](https://www.inaturalist.org/people/mar_y_sierra_silvestre)) |
 | *Mononychus punctumalbum* | [256898152](https://www.inaturalist.org/photos/256898152) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Morimus asper* | [396989132](https://www.inaturalist.org/photos/396989132) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
 | *Mormo maura* | [244839568](https://www.inaturalist.org/photos/244839568) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
+| *Musca domestica* | [570201230](https://www.inaturalist.org/photos/570201230) | CC0 | Melody Dunning ([foggyroses](https://www.inaturalist.org/people/foggyroses)) |
 | *Myathropa florea* | [141726211](https://www.inaturalist.org/photos/141726211) | CC0 | Jean-Paul Boerekamps ([jeanpaulboerekamps](https://www.inaturalist.org/people/jeanpaulboerekamps)) |
 | *Mylabris quadripunctata* | [78879047](https://www.inaturalist.org/photos/78879047) | CC0 | Anna C ([anna_c56](https://www.inaturalist.org/people/anna_c56)) |
 | *Mylabris variabilis* | [550213778](https://www.inaturalist.org/photos/550213778) | CC0 | Дима Орлов ([microvipera](https://www.inaturalist.org/people/microvipera)) |
 | *Myrmeleotettix maculatus* | [232783210](https://www.inaturalist.org/photos/232783210) | CC0 | Fabian Battiege ([faba84](https://www.inaturalist.org/people/faba84)) |
+| *Myrmica rubra* | [85837487](https://www.inaturalist.org/photos/85837487) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
 | *Mystacides longicornis* | [326229713](https://www.inaturalist.org/photos/326229713) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
 | *Mythimna albipuncta* | [420118309](https://www.inaturalist.org/photos/420118309) | CC0 | Ellyne Geurts ([ellyne](https://www.inaturalist.org/people/ellyne)) |
 | *Mythimna ferrago* | [693930754](https://www.inaturalist.org/photos/693930754) | CC0 | Jason Thompson ([durhambirder](https://www.inaturalist.org/people/durhambirder)) |
+| *Mythimna impura* | [702142656](https://www.inaturalist.org/photos/702142656) | CC0 | Adam Birch ([birch182](https://www.inaturalist.org/people/birch182)) |
 | *Mythimna pallens* | [295555488](https://www.inaturalist.org/photos/295555488) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Mythimna vitellina* | [561375262](https://www.inaturalist.org/photos/561375262) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
+| *Myzus persicae* | [34617778](https://www.inaturalist.org/photos/34617778) | CC0 | Jesse Rorabaugh ([glmory](https://www.inaturalist.org/people/glmory)) |
 | *Nagusta goedelii* | [262022849](https://www.inaturalist.org/photos/262022849) | CC0 | Harukano ([harukano](https://www.inaturalist.org/people/harukano)) |
+| *Nebria brevicollis* | [229167695](https://www.inaturalist.org/photos/229167695) | CC0 | Jessica Alvey ([yonderly](https://www.inaturalist.org/people/yonderly)) |
 | *Nemobius sylvestris* | [383528911](https://www.inaturalist.org/photos/383528911) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Nemophora degeerella* | [674064683](https://www.inaturalist.org/photos/674064683) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
+| *Nemophora metallica* | [532992047](https://www.inaturalist.org/photos/532992047) | CC0 | Pennyinsole ([pennyinsole](https://www.inaturalist.org/people/pennyinsole)) |
 | *Neoscona adianta* | [248333386](https://www.inaturalist.org/photos/248333386) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Nepa cinerea* | [408126505](https://www.inaturalist.org/photos/408126505) | CC0 | Harukano ([harukano](https://www.inaturalist.org/people/harukano)) |
+| *Nephrotoma appendiculata* | [279636586](https://www.inaturalist.org/photos/279636586) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Neriene montana* | [376162906](https://www.inaturalist.org/photos/376162906) | CC0 | Kian Hayles-Cotton ([kh-c](https://www.inaturalist.org/people/kh-c)) |
 | *Neuroterus anthracinus* | [559830763](https://www.inaturalist.org/photos/559830763) | CC0 | Sarah Adamson ([sauciepepper](https://www.inaturalist.org/people/sauciepepper)) |
 | *Neuroterus numismalis* | [330557667](https://www.inaturalist.org/photos/330557667) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
@@ -683,18 +756,23 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Oecanthus pellucens* | [559287965](https://www.inaturalist.org/photos/559287965) | CC0 | Stuart ([sturuss](https://www.inaturalist.org/people/sturuss)) |
 | *Oedemera femorata* | [288851442](https://www.inaturalist.org/photos/288851442) | CC0 | Nico ([oecophylla](https://www.inaturalist.org/people/oecophylla)) |
 | *Oedemera flavipes* | [149643058](https://www.inaturalist.org/photos/149643058) | CC0 | Nico ([oecophylla](https://www.inaturalist.org/people/oecophylla)) |
+| *Oedemera lurida* | [383680705](https://www.inaturalist.org/photos/383680705) | CC0 | Kian Hayles-Cotton ([kh-c](https://www.inaturalist.org/people/kh-c)) |
 | *Oedemera nobilis* | [256902029](https://www.inaturalist.org/photos/256902029) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Oedemera podagrariae* | [448214638](https://www.inaturalist.org/photos/448214638) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
+| *Oedemera virescens* | [487934764](https://www.inaturalist.org/photos/487934764) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Oedipoda caerulescens* | [155385128](https://www.inaturalist.org/photos/155385128) | CC0 | Christian Kahle ([christiansw](https://www.inaturalist.org/people/christiansw)) |
 | *Oenopia conglobata* | [64326208](https://www.inaturalist.org/photos/64326208) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
 | *Oiceoptoma thoracicum* | [345835446](https://www.inaturalist.org/photos/345835446) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Olethreutes arcuella* | [202980793](https://www.inaturalist.org/photos/202980793) | CC0 | Christian Kahle ([christiansw](https://www.inaturalist.org/people/christiansw)) |
+| *Oligia latruncula* | [285796714](https://www.inaturalist.org/photos/285796714) | CC0 | Stephen James McWilliam ([steve_mcwilliam](https://www.inaturalist.org/people/steve_mcwilliam)) |
+| *Oligia strigilis* | [203457790](https://www.inaturalist.org/photos/203457790) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Olios argelasius* | [38399347](https://www.inaturalist.org/photos/38399347) | CC0 | Crebassa Jason ([crebassa](https://www.inaturalist.org/people/crebassa)) |
 | *Omocestus rufipes* | [661610648](https://www.inaturalist.org/photos/661610648) | CC0 | Paolo Giampaoletti ([paologiampaoletti](https://www.inaturalist.org/people/paologiampaoletti)) |
 | *Omocestus viridulus* | [148722711](https://www.inaturalist.org/photos/148722711) | CC0 | tracypurcellcopland ([tracypurcellcopland](https://www.inaturalist.org/people/tracypurcellcopland)) |
 | *Oncocera semirubella* | [52090146](https://www.inaturalist.org/photos/52090146) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Onychogomphus forcipatus* | [302709357](https://www.inaturalist.org/photos/302709357) | CC0 | Scott Edmunds ([scottedmunds](https://www.inaturalist.org/people/scottedmunds)) |
 | *Onychogomphus uncatus* | [46707332](https://www.inaturalist.org/photos/46707332) | CC0 | Joan C. Hinojosa ([joan_carles](https://www.inaturalist.org/people/joan_carles)) |
+| *Opatrum sabulosum* | [273270017](https://www.inaturalist.org/photos/273270017) | CC0 | monkeyjodey ([monkeyjodey](https://www.inaturalist.org/people/monkeyjodey)) |
 | *Operophtera brumata* | [249525449](https://www.inaturalist.org/photos/249525449) | CC0 | Quentin Groom ([qgroom](https://www.inaturalist.org/people/qgroom)) |
 | *Opilio canestrinii* | [257481876](https://www.inaturalist.org/photos/257481876) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Opisthograptis luteolata* | [421102517](https://www.inaturalist.org/photos/421102517) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
@@ -718,6 +796,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Oxythyrea funesta* | [594416753](https://www.inaturalist.org/photos/594416753) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Palomena prasina* | [696716334](https://www.inaturalist.org/photos/696716334) | CC0 | Piermario Maculan ([pilmar](https://www.inaturalist.org/people/pilmar)) |
 | *Palpita vitrealis* | [99440884](https://www.inaturalist.org/photos/99440884) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
+| *Pandemis heparana* | [212903060](https://www.inaturalist.org/photos/212903060) | CC0 | Munster Mad ([munstermad](https://www.inaturalist.org/people/munstermad)) |
 | *Panorpa communis* | [295013054](https://www.inaturalist.org/photos/295013054) | CC0 | Ilkka Kaita-aho ([kaitaaho](https://www.inaturalist.org/people/kaitaaho)) |
 | *Panorpa germanica* | [79101248](https://www.inaturalist.org/photos/79101248) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
 | *Panorpa vulgaris* | [109911610](https://www.inaturalist.org/photos/109911610) | CC0 | Jean-Paul Boerekamps ([jeanpaulboerekamps](https://www.inaturalist.org/people/jeanpaulboerekamps)) |
@@ -727,6 +806,8 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Paracorymbia maculicornis* | [447649311](https://www.inaturalist.org/photos/447649311) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Parapoynx stratiotata* | [416209066](https://www.inaturalist.org/photos/416209066) | CC0 | birdwoodquest ([birdwoodquest](https://www.inaturalist.org/people/birdwoodquest)) |
 | *Pararge aegeria* | [152234460](https://www.inaturalist.org/photos/152234460) | CC0 | Norrland ([norrland](https://www.inaturalist.org/people/norrland)) |
+| *Parasteatoda tepidariorum* | [600915350](https://www.inaturalist.org/photos/600915350) | CC0 | Brighton Lee ([meaningful_name](https://www.inaturalist.org/people/meaningful_name)) |
+| *Pardosa amentata* | [646360067](https://www.inaturalist.org/photos/646360067) | CC0 | Maggie Tester ([maggiejulip](https://www.inaturalist.org/people/maggiejulip)) |
 | *Parnassius apollo* | [247408960](https://www.inaturalist.org/photos/247408960) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Parnassius mnemosyne* | [396989096](https://www.inaturalist.org/photos/396989096) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
 | *Pasiphila rectangulata* | [289866847](https://www.inaturalist.org/photos/289866847) | CC0 | Chris Raper ([chrisrap](https://www.inaturalist.org/people/chrisrap)) |
@@ -737,6 +818,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Peribatodes rhomboidaria* | [229367130](https://www.inaturalist.org/photos/229367130) | CC0 | Stephen James McWilliam ([steve_mcwilliam](https://www.inaturalist.org/people/steve_mcwilliam)) |
 | *Peridea anceps* | [627299382](https://www.inaturalist.org/photos/627299382) | CC0 | Cyril Poissonnet ([cyrilpoissonnet](https://www.inaturalist.org/people/cyrilpoissonnet)) |
 | *Peridroma saucia* | [478145123](https://www.inaturalist.org/photos/478145123) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
+| *Periplaneta americana* | [111106015](https://www.inaturalist.org/photos/111106015) | CC0 | Adam Kranz ([megachile](https://www.inaturalist.org/people/megachile)) |
 | *Perizoma alchemillata* | [142288270](https://www.inaturalist.org/photos/142288270) | CC0 | Tomas Pocius ([tomasp](https://www.inaturalist.org/people/tomasp)) |
 | *Petrophora chlorosata* | [656476473](https://www.inaturalist.org/photos/656476473) | CC0 | Jason Thompson ([durhambirder](https://www.inaturalist.org/people/durhambirder)) |
 | *Pezotettix giornae* | [554730298](https://www.inaturalist.org/photos/554730298) | CC0 | Paolo Giampaoletti ([paologiampaoletti](https://www.inaturalist.org/people/paologiampaoletti)) |
@@ -752,6 +834,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Philaenus spumarius* | [551225283](https://www.inaturalist.org/photos/551225283) | CC0 | Jean-Paul Boerekamps ([jeanpaulboerekamps](https://www.inaturalist.org/people/jeanpaulboerekamps)) |
 | *Philaeus chrysops* | [64953429](https://www.inaturalist.org/photos/64953429) | CC0 | tikitu ([tikitu](https://www.inaturalist.org/people/tikitu)) |
 | *Philanthus triangulum* | [592405841](https://www.inaturalist.org/photos/592405841) | CC0 | Hubert Sztyler ([chimpers](https://www.inaturalist.org/people/chimpers)) |
+| *Philodromus cespitum* | [507247457](https://www.inaturalist.org/photos/507247457) | CC0 | Ilkka Kaita-aho ([kaitaaho](https://www.inaturalist.org/people/kaitaaho)) |
 | *Philodromus dispar* | [505236129](https://www.inaturalist.org/photos/505236129) | CC0 | matteo cicciu ([matteocicciu21](https://www.inaturalist.org/people/matteocicciu21)) |
 | *Philodromus margaritatus* | [377246226](https://www.inaturalist.org/photos/377246226) | CC0 | OlleHanna ([ollehanna](https://www.inaturalist.org/people/ollehanna)) |
 | *Phlogophora meticulosa* | [313829625](https://www.inaturalist.org/photos/313829625) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
@@ -771,10 +854,11 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Pieris napi* | [524119561](https://www.inaturalist.org/photos/524119561) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
 | *Pieris rapae* | [545093673](https://www.inaturalist.org/photos/545093673) | CC0 | Eli ([elimadmartigan](https://www.inaturalist.org/people/elimadmartigan)) |
 | *Piezodorus lituratus* | [682907910](https://www.inaturalist.org/photos/682907910) | CC0 | Stephan Kleinfelder ([stephankleinfelder](https://www.inaturalist.org/people/stephankleinfelder)) |
+| *Pimpla rufipes* | [322567175](https://www.inaturalist.org/photos/322567175) | CC0 | John Kenrick Gibson ([johngibson139](https://www.inaturalist.org/people/johngibson139)) |
 | *Pisaura mirabilis* | [655865355](https://www.inaturalist.org/photos/655865355) | CC0 | Alana Wheat ([alanawheat](https://www.inaturalist.org/people/alanawheat)) |
 | *Plagiognathus arbustorum* | [405799161](https://www.inaturalist.org/photos/405799161) | CC0 | Kian Hayles-Cotton ([kh-c](https://www.inaturalist.org/people/kh-c)) |
 | *Plagodis dolabraria* | [260348573](https://www.inaturalist.org/photos/260348573) | CC0 | Morten DD Hansen ([mortenddhansen](https://www.inaturalist.org/people/mortenddhansen)) |
-| *Planuncus tingitanus* | [691966692](https://www.inaturalist.org/photos/691966692) | CC0 | matthieu_trg ([matthieu_trg](https://www.inaturalist.org/people/matthieu_trg)) |
+| *Planuncus tingitanus* | [691966692](https://www.inaturalist.org/photos/691966692) | CC0 | Matthieu Trotignon ([matthieu_trg](https://www.inaturalist.org/people/matthieu_trg)) |
 | *Platycheirus albimanus* | [634323203](https://www.inaturalist.org/photos/634323203) | CC0 | Charles Joynson ([cjoynson](https://www.inaturalist.org/people/cjoynson)) |
 | *Platycleis albopunctata* | [431183632](https://www.inaturalist.org/photos/431183632) | CC0 | Susan Williams ([susaninxite](https://www.inaturalist.org/people/susaninxite)) |
 | *Platycnemis latipes* | [287907132](https://www.inaturalist.org/photos/287907132) | CC0 | José Antonio León Mangado ([sololeon](https://www.inaturalist.org/people/sololeon)) |
@@ -785,6 +869,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Plodia interpunctella* | [397693286](https://www.inaturalist.org/photos/397693286) | CC0 | Ellyne Geurts ([ellyne](https://www.inaturalist.org/people/ellyne)) |
 | *Plutella xylostella* | [89389394](https://www.inaturalist.org/photos/89389394) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Polistes dominula* | [558892439](https://www.inaturalist.org/photos/558892439) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
+| *Polistes nimpha* | [281749940](https://www.inaturalist.org/photos/281749940) | CC0 | Dmitry Semigradsky ([dmitry_semigradsky](https://www.inaturalist.org/people/dmitry_semigradsky)) |
 | *Polydrusus formosus* | [391650467](https://www.inaturalist.org/photos/391650467) | CC0 | Dennis Chanter ([dennis-chanter](https://www.inaturalist.org/people/dennis-chanter)) |
 | *Polygonia c-album* | [277611557](https://www.inaturalist.org/photos/277611557) | CC0 | Charlie Farrell ([charliefarrell2](https://www.inaturalist.org/people/charliefarrell2)) |
 | *Polyommatus amandus* | [682770825](https://www.inaturalist.org/photos/682770825) | CC0 | Karen Stevnbak Andersen ([karenstevnbak](https://www.inaturalist.org/people/karenstevnbak)) |
@@ -806,14 +891,17 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Pseudopanthera macularia* | [41453487](https://www.inaturalist.org/photos/41453487) | CC0 | preinzi ([preinzi](https://www.inaturalist.org/people/preinzi)) |
 | *Pseudovadonia livida* | [164769999](https://www.inaturalist.org/photos/164769999) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Psilothrix viridicoerulea* | [267158234](https://www.inaturalist.org/photos/267158234) | CC0 | Nico ([oecophylla](https://www.inaturalist.org/people/oecophylla)) |
+| *Psyche casta* | [448671155](https://www.inaturalist.org/photos/448671155) | CC0 | Philip Precey ([philip_precey](https://www.inaturalist.org/people/philip_precey)) |
 | *Psyllobora vigintiduopunctata* | [571794823](https://www.inaturalist.org/photos/571794823) | CC0 | elodie8162 ([elodie8162](https://www.inaturalist.org/people/elodie8162)) |
 | *Pterophorus pentadactyla* | [678191153](https://www.inaturalist.org/photos/678191153) | CC0 | Beki Amanda ([ba69577](https://www.inaturalist.org/people/ba69577)) |
+| *Pterostichus madidus* | [632608488](https://www.inaturalist.org/photos/632608488) | CC0 | Charles Joynson ([cjoynson](https://www.inaturalist.org/people/cjoynson)) |
 | *Pterostoma palpina* | [682003564](https://www.inaturalist.org/photos/682003564) | CC0 | Cyril Poissonnet ([cyrilpoissonnet](https://www.inaturalist.org/people/cyrilpoissonnet)) |
 | *Ptilodon capucina* | [538383455](https://www.inaturalist.org/photos/538383455) | CC0 | Sara Steeles-Yates ([saramountpleasantfarm](https://www.inaturalist.org/people/saramountpleasantfarm)) |
 | *Pyralis farinalis* | [212909858](https://www.inaturalist.org/photos/212909858) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Pyrausta aurata* | [144625258](https://www.inaturalist.org/photos/144625258) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Pyrausta despicata* | [93853292](https://www.inaturalist.org/photos/93853292) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Pyrausta purpuralis* | [409615847](https://www.inaturalist.org/photos/409615847) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
+| *Pyrgus armoricanus* | [436611614](https://www.inaturalist.org/photos/436611614) | CC0 | Teresa Prandi ([teresa649](https://www.inaturalist.org/people/teresa649)) |
 | *Pyrgus malvae* | [386515968](https://www.inaturalist.org/photos/386515968) | CC0 | Margit Kildevang ([margitkildevang](https://www.inaturalist.org/people/margitkildevang)) |
 | *Pyrgus malvoides* | [76105792](https://www.inaturalist.org/photos/76105792) | CC0 | Joan C. Hinojosa ([joan_carles](https://www.inaturalist.org/people/joan_carles)) |
 | *Pyrochroa coccinea* | [506793203](https://www.inaturalist.org/photos/506793203) | CC0 | Margherita Ferraiuolo ([margherita_bg](https://www.inaturalist.org/people/margherita_bg)) |
@@ -827,6 +915,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Regiscolia maculata* | [698297994](https://www.inaturalist.org/photos/698297994) | CC0 | Svitlana Kyiak ([svitlana-kyiak](https://www.inaturalist.org/people/svitlana-kyiak)) |
 | *Rhabdomiris striatellus* | [382960976](https://www.inaturalist.org/photos/382960976) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
 | *Rhagio scolopaceus* | [285926765](https://www.inaturalist.org/photos/285926765) | CC0 | Sarah Adamson ([sauciepepper](https://www.inaturalist.org/people/sauciepepper)) |
+| *Rhagio tringarius* | [218604685](https://www.inaturalist.org/photos/218604685) | CC0 | Rob Wallace ([rbwallace](https://www.inaturalist.org/people/rbwallace)) |
 | *Rhagium bifasciatum* | [279058494](https://www.inaturalist.org/photos/279058494) | CC0 | hdobserver ([hdobserver](https://www.inaturalist.org/people/hdobserver)) |
 | *Rhagium inquisitor* | [226910597](https://www.inaturalist.org/photos/226910597) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Rhagium mordax* | [425581810](https://www.inaturalist.org/photos/425581810) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
@@ -836,6 +925,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Rhodometra sacraria* | [331008528](https://www.inaturalist.org/photos/331008528) | CC0 | José Antonio León Mangado ([sololeon](https://www.inaturalist.org/people/sololeon)) |
 | *Rhopalus subrufus* | [375022744](https://www.inaturalist.org/photos/375022744) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Rhynchophorus ferrugineus* | [286138826](https://www.inaturalist.org/photos/286138826) | CC0 | Gustavo Ciacco ([gustavociacco](https://www.inaturalist.org/people/gustavociacco)) |
+| *Rhynocoris iracundus* | [294918667](https://www.inaturalist.org/photos/294918667) | CC0 | elonicera ([elonicera](https://www.inaturalist.org/people/elonicera)) |
 | *Rhyparochromus vulgaris* | [63825984](https://www.inaturalist.org/photos/63825984) | CC0 | Peter Gabler ([peter_gabler](https://www.inaturalist.org/people/peter_gabler)) |
 | *Rilaena triangularis* | [287162643](https://www.inaturalist.org/photos/287162643) | CC0 | Nicolás Tamargo ([reosarevok](https://www.inaturalist.org/people/reosarevok)) |
 | *Rivula sericealis* | [392565414](https://www.inaturalist.org/photos/392565414) | CC0 | Stephen Gasson ([stephen6309](https://www.inaturalist.org/people/stephen6309)) |
@@ -859,13 +949,16 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Scolia hirta* | [22143850](https://www.inaturalist.org/photos/22143850) | CC0 | Anna C ([anna_c56](https://www.inaturalist.org/people/anna_c56)) |
 | *Scoliopteryx libatrix* | [323932482](https://www.inaturalist.org/photos/323932482) | CC0 | John Kenrick Gibson ([johngibson139](https://www.inaturalist.org/people/johngibson139)) |
 | *Scolitantides orion* | [71535337](https://www.inaturalist.org/photos/71535337) | CC0 | Federico Del Barba ([federicodelbarba](https://www.inaturalist.org/people/federicodelbarba)) |
+| *Scoparia ambigualis* | [691826373](https://www.inaturalist.org/photos/691826373) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Scopula imitaria* | [213593344](https://www.inaturalist.org/photos/213593344) | CC0 | Stephen James McWilliam ([steve_mcwilliam](https://www.inaturalist.org/people/steve_mcwilliam)) |
 | *Scopula immorata* | [223068685](https://www.inaturalist.org/photos/223068685) | CC0 | Liubov Ilminska ([liubov_ilminska](https://www.inaturalist.org/people/liubov_ilminska)) |
 | *Scopula marginepunctata* | [523117206](https://www.inaturalist.org/photos/523117206) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Scopula ornata* | [438418369](https://www.inaturalist.org/photos/438418369) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Scopula rubiginata* | [311309904](https://www.inaturalist.org/photos/311309904) | CC0 | Jean-Paul Boerekamps ([jeanpaulboerekamps](https://www.inaturalist.org/people/jeanpaulboerekamps)) |
+| *Scotophaeus blackwalli* | [305019565](https://www.inaturalist.org/photos/305019565) | CC0 | Stuart ([sturuss](https://www.inaturalist.org/people/sturuss)) |
 | *Scotopteryx chenopodiata* | [85822557](https://www.inaturalist.org/photos/85822557) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
 | *Scytodes thoracica* | [277516367](https://www.inaturalist.org/photos/277516367) | CC0 | Fabian Graubereich ([fabian_graubereich](https://www.inaturalist.org/people/fabian_graubereich)) |
+| *Segestria florentina* | [198495624](https://www.inaturalist.org/photos/198495624) | CC0 | Marino Linić ([marinolinic](https://www.inaturalist.org/people/marinolinic)) |
 | *Selenia dentaria* | [216415023](https://www.inaturalist.org/photos/216415023) | CC0 | rhinojw ([rhinojw](https://www.inaturalist.org/people/rhinojw)) |
 | *Selenia tetralunaria* | [516208362](https://www.inaturalist.org/photos/516208362) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
 | *Serica brunnea* | [293363997](https://www.inaturalist.org/photos/293363997) | CC0 | Stephan Kleinfelder ([stephankleinfelder](https://www.inaturalist.org/people/stephankleinfelder)) |
@@ -878,6 +971,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Sitona lineatus* | [241050250](https://www.inaturalist.org/photos/241050250) | CC0 | Ruebezahl ([ruebezahl](https://www.inaturalist.org/people/ruebezahl)) |
 | *Smerinthus ocellata* | [673471369](https://www.inaturalist.org/photos/673471369) | CC0 | popcappi ([popcappi](https://www.inaturalist.org/people/popcappi)) |
 | *Sphaerophoria scripta* | [257254324](https://www.inaturalist.org/photos/257254324) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
+| *Sphecodes albilabris* | [556914202](https://www.inaturalist.org/photos/556914202) | CC0 | kis ([kislund](https://www.inaturalist.org/people/kislund)) |
 | *Sphex funerarius* | [697226369](https://www.inaturalist.org/photos/697226369) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
 | *Sphinx ligustri* | [686997708](https://www.inaturalist.org/photos/686997708) | CC0 | birdwoodquest ([birdwoodquest](https://www.inaturalist.org/people/birdwoodquest)) |
 | *Sphinx pinastri* | [691303297](https://www.inaturalist.org/photos/691303297) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
@@ -896,6 +990,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Steatoda nobilis* | [692835927](https://www.inaturalist.org/photos/692835927) | CC0 | Gregory Wheeler ([gwheelereb](https://www.inaturalist.org/people/gwheelereb)) |
 | *Steatoda triangulosa* | [681756160](https://www.inaturalist.org/photos/681756160) | CC0 | Ellyne Geurts ([ellyne](https://www.inaturalist.org/people/ellyne)) |
 | *Stegania trimaculata* | [412821949](https://www.inaturalist.org/photos/412821949) | CC0 | José Antonio León Mangado ([sololeon](https://www.inaturalist.org/people/sololeon)) |
+| *Stegobium paniceum* | [322257416](https://www.inaturalist.org/photos/322257416) | CC0 | Stephan Kleinfelder ([stephankleinfelder](https://www.inaturalist.org/people/stephankleinfelder)) |
 | *Stenobothrus lineatus* | [566215750](https://www.inaturalist.org/photos/566215750) | CC0 | Pia Stermann ([pia_stermann](https://www.inaturalist.org/people/pia_stermann)) |
 | *Stenodema laevigata* | [90789986](https://www.inaturalist.org/photos/90789986) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
 | *Stenopterus rufus* | [291662077](https://www.inaturalist.org/photos/291662077) | CC0 | Matej Otruba ([elbichito](https://www.inaturalist.org/people/elbichito)) |
@@ -907,7 +1002,10 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Stictocephala bisonia* | [560350909](https://www.inaturalist.org/photos/560350909) | CC0 | Gabriel Mayrhofer ([gabrielmayrhofer](https://www.inaturalist.org/people/gabrielmayrhofer)) |
 | *Stictoleptura cordigera* | [536116333](https://www.inaturalist.org/photos/536116333) | CC0 | Gerry Tissier ([gerry70](https://www.inaturalist.org/people/gerry70)) |
 | *Stictoleptura rubra* | [149832339](https://www.inaturalist.org/photos/149832339) | CC0 | Sag Ich Nicht ([sag_ich_nicht](https://www.inaturalist.org/people/sag_ich_nicht)) |
+| *Stictopleurus punctatonervosus* | [222170963](https://www.inaturalist.org/photos/222170963) | CC0 | Aleksandra Pogorzelska ([apogeum](https://www.inaturalist.org/people/apogeum)) |
+| *Stigmella aurella* | [602529358](https://www.inaturalist.org/photos/602529358) | CC0 | Richard Fuller ([rich_fuller](https://www.inaturalist.org/people/rich_fuller)) |
 | *Stomorhina lunata* | [337881839](https://www.inaturalist.org/photos/337881839) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
+| *Stomoxys calcitrans* | [350327934](https://www.inaturalist.org/photos/350327934) | CC0 | Sinaloa Silvestre ([mar_y_sierra_silvestre](https://www.inaturalist.org/people/mar_y_sierra_silvestre)) |
 | *Subcoccinella vigintiquatuorpunctata* | [374171290](https://www.inaturalist.org/photos/374171290) | CC0 | Rob Carmier ([rocarmi](https://www.inaturalist.org/people/rocarmi)) |
 | *Sympecma fusca* | [431023012](https://www.inaturalist.org/photos/431023012) | CC0 | Jean-Paul Boerekamps ([jeanpaulboerekamps](https://www.inaturalist.org/people/jeanpaulboerekamps)) |
 | *Sympetrum danae* | [76814451](https://www.inaturalist.org/photos/76814451) | CC0 | Elin Pierce ([elinpierce](https://www.inaturalist.org/people/elinpierce)) |
@@ -924,8 +1022,11 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Syritta pipiens* | [308021319](https://www.inaturalist.org/photos/308021319) | CC0 | Nico ([oecophylla](https://www.inaturalist.org/people/oecophylla)) |
 | *Syromastus rhombeus* | [294593362](https://www.inaturalist.org/photos/294593362) | CC0 | monkeyjodey ([monkeyjodey](https://www.inaturalist.org/people/monkeyjodey)) |
 | *Syrphus ribesii* | [129320717](https://www.inaturalist.org/photos/129320717) | CC0 | Jean-Paul Boerekamps ([jeanpaulboerekamps](https://www.inaturalist.org/people/jeanpaulboerekamps)) |
+| *Tabanus sudeticus* | [406158729](https://www.inaturalist.org/photos/406158729) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
 | *Tachina fera* | [311042165](https://www.inaturalist.org/photos/311042165) | CC0 | Colin Wilson ([colinwilson1](https://www.inaturalist.org/people/colinwilson1)) |
 | *Tachystola acroxantha* | [505141705](https://www.inaturalist.org/photos/505141705) | CC0 | Stephen James McWilliam ([steve_mcwilliam](https://www.inaturalist.org/people/steve_mcwilliam)) |
+| *Tegenaria domestica* | [352193199](https://www.inaturalist.org/photos/352193199) | CC0 | saintaardvark ([saintaardvark](https://www.inaturalist.org/people/saintaardvark)) |
+| *Tetragnatha extensa* | [656107749](https://www.inaturalist.org/photos/656107749) | CC0 | Charles Joynson ([cjoynson](https://www.inaturalist.org/people/cjoynson)) |
 | *Tetrix subulata* | [280717162](https://www.inaturalist.org/photos/280717162) | CC0 | Christian Kahle ([christiansw](https://www.inaturalist.org/people/christiansw)) |
 | *Tettigonia cantans* | [46835252](https://www.inaturalist.org/photos/46835252) | CC0 | relet ([llreletll](https://www.inaturalist.org/people/llreletll)) |
 | *Tettigonia viridissima* | [306721996](https://www.inaturalist.org/photos/306721996) | CC0 | Matthias Tautz ([matthias_tautz](https://www.inaturalist.org/people/matthias_tautz)) |
@@ -942,10 +1043,14 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Thymelicus sylvestris* | [82326821](https://www.inaturalist.org/photos/82326821) | CC0 | slow_walker ([slow_walker](https://www.inaturalist.org/people/slow_walker)) |
 | *Timandra comae* | [223434588](https://www.inaturalist.org/photos/223434588) | CC0 | Darrel Watts ([darrel_watts](https://www.inaturalist.org/people/darrel_watts)) |
 | *Timarcha tenebricosa* | [293959352](https://www.inaturalist.org/photos/293959352) | CC0 | L.Montfort ([dragonfly_sunflower](https://www.inaturalist.org/people/dragonfly_sunflower)) |
+| *Tineola bisselliella* | [398177545](https://www.inaturalist.org/photos/398177545) | CC0 | Stephan Kleinfelder ([stephankleinfelder](https://www.inaturalist.org/people/stephankleinfelder)) |
+| *Tipula oleracea* | [385319514](https://www.inaturalist.org/photos/385319514) | CC0 | kristinpiston ([kristinpiston](https://www.inaturalist.org/people/kristinpiston)) |
 | *Tipula paludosa* | [236030625](https://www.inaturalist.org/photos/236030625) | CC0 | Jonathan Hughes ([jonnyecology](https://www.inaturalist.org/people/jonnyecology)) |
 | *Tipula vernalis* | [507717969](https://www.inaturalist.org/photos/507717969) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
+| *Tolmerus atricapillus* | [146636634](https://www.inaturalist.org/photos/146636634) | CC0 | Olly Morgan ([olly_morgan](https://www.inaturalist.org/people/olly_morgan)) |
 | *Tortrix viridana* | [295549614](https://www.inaturalist.org/photos/295549614) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Trachea atriplicis* | [293680623](https://www.inaturalist.org/photos/293680623) | CC0 | Line Kramp ([line132](https://www.inaturalist.org/people/line132)) |
+| *Trialeurodes vaporariorum* | [574415897](https://www.inaturalist.org/photos/574415897) | CC0 | Emily Langdon-Lassagne ([ethologist](https://www.inaturalist.org/people/ethologist)) |
 | *Trichius fasciatus* | [82703802](https://www.inaturalist.org/photos/82703802) | CC0 | Tero Linjama ([terolinjama](https://www.inaturalist.org/people/terolinjama)) |
 | *Trichius gallicus* | [203313856](https://www.inaturalist.org/photos/203313856) | CC0 | Ina Siebert ([aimnair](https://www.inaturalist.org/people/aimnair)) |
 | *Trichodes alvearius* | [202204396](https://www.inaturalist.org/photos/202204396) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
@@ -974,6 +1079,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Vespula germanica* | [188306958](https://www.inaturalist.org/photos/188306958) | CC0 | Paul Braun ([paul_luap](https://www.inaturalist.org/people/paul_luap)) |
 | *Vespula vulgaris* | [330967643](https://www.inaturalist.org/photos/330967643) | CC0 | Lisa Phipps ([nethercotelisa](https://www.inaturalist.org/people/nethercotelisa)) |
 | *Vibidia duodecimguttata* | [87736198](https://www.inaturalist.org/photos/87736198) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
+| *Villa hottentotta* | [734282288](https://www.inaturalist.org/photos/734282288) | CC0 | Piermario Maculan ([pilmar](https://www.inaturalist.org/people/pilmar)) |
 | *Volucella bombylans* | [80255220](https://www.inaturalist.org/photos/80255220) | CC0 | Nicolás Tamargo ([reosarevok](https://www.inaturalist.org/people/reosarevok)) |
 | *Volucella inanis* | [226812138](https://www.inaturalist.org/photos/226812138) | CC0 | Jens Ullenius ([jensu](https://www.inaturalist.org/people/jensu)) |
 | *Volucella pellucens* | [150892538](https://www.inaturalist.org/photos/150892538) | CC0 | Nick Blewden ([nick88](https://www.inaturalist.org/people/nick88)) |
@@ -985,6 +1091,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Xanthorhoe ferrugata* | [150617187](https://www.inaturalist.org/photos/150617187) | CC0 | relet ([llreletll](https://www.inaturalist.org/people/llreletll)) |
 | *Xanthorhoe fluctuata* | [502621867](https://www.inaturalist.org/photos/502621867) | CC0 | Magnus L. Johnson ([acanthephyra](https://www.inaturalist.org/people/acanthephyra)) |
 | *Xanthorhoe montanata* | [87634642](https://www.inaturalist.org/photos/87634642) | CC0 | Wouter Koch ([wouterkoch](https://www.inaturalist.org/people/wouterkoch)) |
+| *Xanthorhoe spadicearia* | [497861798](https://www.inaturalist.org/photos/497861798) | CC0 | Niklas Wahlberg ([niklasw](https://www.inaturalist.org/people/niklasw)) |
 | *Xestia baja* | [88984937](https://www.inaturalist.org/photos/88984937) | CC0 | Andreas Manz ([amzamz](https://www.inaturalist.org/people/amzamz)) |
 | *Xestia c-nigrum* | [290466739](https://www.inaturalist.org/photos/290466739) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Xestia triangulum* | [146583959](https://www.inaturalist.org/photos/146583959) | CC0 | Stephen James McWilliam ([steve_mcwilliam](https://www.inaturalist.org/people/steve_mcwilliam)) |
@@ -993,6 +1100,7 @@ credited below as the licence requires (https://creativecommons.org/licenses/by/
 | *Xylocopa violacea* | [262195798](https://www.inaturalist.org/photos/262195798) | CC0 | Jacqueline Jeanne ([jacqueline_jeanne](https://www.inaturalist.org/people/jacqueline_jeanne)) |
 | *Xylota segnis* | [579647411](https://www.inaturalist.org/photos/579647411) | CC0 | hhkaaks ([hhkaaks](https://www.inaturalist.org/people/hhkaaks)) |
 | *Xysticus ulmi* | [487482062](https://www.inaturalist.org/photos/487482062) | CC0 | Patrick Le Mao ([patricklm35](https://www.inaturalist.org/people/patricklm35)) |
+| *Yponomeuta cagnagella* | [507946627](https://www.inaturalist.org/photos/507946627) | CC0 | Charles Joynson ([cjoynson](https://www.inaturalist.org/people/cjoynson)) |
 | *Yponomeuta evonymella* | [682567402](https://www.inaturalist.org/photos/682567402) | CC0 | Matthew Wilkinson ([matthewwilkinson](https://www.inaturalist.org/people/matthewwilkinson)) |
 | *Zelus renardii* | [447375573](https://www.inaturalist.org/photos/447375573) | CC0 | MadMagpie ([madmagpie](https://www.inaturalist.org/people/madmagpie)) |
 | *Zerynthia polyxena* | [472290692](https://www.inaturalist.org/photos/472290692) | CC0 | mnt99york ([mnt99york](https://www.inaturalist.org/people/mnt99york)) |

@@ -38,7 +38,9 @@ training/vision/stream_photos.sh
 
 ## Results — eu-1k-commercial-v1 (Sep 2026)
 
-A commercially usable 1,000-species model, **used by the app since pack `eu-ce` v4**, exported at 256 px since pack v11 (model v5). Built from CC0 + CC-BY photos only, on Google's Apache-2.0 ViT-S/16 AugReg weights. Full details, licence obligations and residual risks are in [`results/commercial-1k-v1/MODEL_CARD.md`](results/commercial-1k-v1/MODEL_CARD.md).
+> **Replaced in the app by `eu-1k-household-v3`** (1,004 species incl. 41 home and garden ones, 82.8% top-1) **since pack `eu-ce` v13 (model v6)**: [`results/household-v3/MODEL_CARD.md`](results/household-v3/MODEL_CARD.md). Its training scripts and run files are on the branch `household-v2-results`.
+
+A commercially usable 1,000-species model, used by the app from pack `eu-ce` v4 to v12, exported at 256 px since pack v11 (model v5). Built from CC0 + CC-BY photos only, on Google's Apache-2.0 ViT-S/16 AugReg weights. Full details, licence obligations and residual risks are in [`results/commercial-1k-v1/MODEL_CARD.md`](results/commercial-1k-v1/MODEL_CARD.md).
 
 | | |
 |---|---|

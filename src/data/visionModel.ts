@@ -6,9 +6,9 @@
  */
 export const VISION_MODEL = {
   name: 'BugNet',
-  id: 'eu-1k-commercial-v1',
+  id: 'eu-1k-household-v3',
   sizeMb: 88,
-  species: 1000,
+  species: 1004,
 } as const;
 
 /** Name + exact model id, for places that cite the model (exports, licences). */

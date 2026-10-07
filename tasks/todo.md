@@ -745,4 +745,5 @@ Reported: seeded user data on a new install, fake people/leaderboard/credits, pa
 - [x] Scan: a tap on the live preview snaps and searches around the tap at once; shutter and gallery auto search at once (no 5 s mark step)
 - [x] Open source libraries: list read from package.json (was stale: Expo 52 versions, ~15 packages missing), plus ExecuTorch / XNNPACK and llama.cpp notices
 - [x] Model household-v3: 1,004 species (+ bed bug, fruit fly, green peach aphid, pharaoh ant), fine-tuned from household-v2 on branch `household-v2-results` (82.8% top-1; the 4 new 44.7%)
-- [ ] Verify tap-to-snap on a real phone (the simulator has no camera)
+- [x] Pack eu-ce v13 published: model eu-1k-household-v3 (model v6), 108 new species with names, facts and icons (icons v2)
+- [ ] Verify on a phone: tap-to-focus, 1× lens, live guess + auto snap (VisionCamera; the simulator has no camera)

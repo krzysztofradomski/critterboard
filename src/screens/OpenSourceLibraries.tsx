@@ -33,7 +33,7 @@ const DEV_LIBRARIES = toLibraries(pkg.devDependencies);
 const REPO = 'https://github.com/krzysztofradomski/critterboard/blob/main';
 
 /**
- * Licence notices for the on-device models: species ID (eu-1k-commercial-v1),
+ * Licence notices for the on-device models: species ID (eu-1k-household-v3),
  * species icons and the chat model (Gemma 4 E2B, Apache 2.0).
  * Apache 2.0 asks for the licence + a notice with redistributed weights;
  * CC BY asks for credit to the photographers whose photos trained it
@@ -43,12 +43,12 @@ const MODEL_CREDITS: readonly { name: string; detail: string; url: string }[] = 
   {
     name: `Species model: ${VISION_MODEL_LABEL}`,
     detail: 'Fine-tuned for insects by Critterboard. Model card, sources, accuracy',
-    url: `${REPO}/training/vision/results/commercial-1k-v1/MODEL_CARD.md`,
+    url: `${REPO}/training/vision/results/household-v3/MODEL_CARD.md`,
   },
   {
-    name: 'Training photos: 5,551 iNaturalist contributors',
+    name: 'Training photos: 7,101 iNaturalist contributors',
     detail: 'CC BY 4.0 / CC0. Photos used for training only; full credits list',
-    url: `${REPO}/training/vision/results/commercial-1k-v1/ATTRIBUTION.md`,
+    url: `${REPO}/training/vision/results/household-v3/ATTRIBUTION.md`,
   },
   {
     name: 'Base weights: Google Vision Transformer (AugReg)',

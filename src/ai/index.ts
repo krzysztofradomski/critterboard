@@ -19,7 +19,7 @@ import { localLlmChatAdapter, type ChatAdapter } from '@/ai/chatAdapter';
 import { withGuardrails } from '@/ai/guardrails';
 
 // The .pte is NOT bundled — Settings → Regional packs downloads the file named
-// in packs/eu-ce.json → modelUrl (e.g. packs/models/eu-1k-commercial-v1.pte).
+// in packs/eu-ce.json → modelUrl (e.g. packs/models/eu-1k-household-v3-256.pte).
 export const USE_NATIVE_VISION = true;
 
 /** Web-preview fallback only; native builds never classify with the mock. */

@@ -155,6 +155,14 @@
   ],
   "title": "Adscita statices"
  },
+ "Aedes albopictus": {
+  "kind": "length",
+  "size_mm": [
+   10.0,
+   10.0
+  ],
+  "title": "Aedes albopictus"
+ },
  "Aedia leucomelas": {
   "kind": "wingspan",
   "size_mm": [
@@ -442,6 +450,11 @@
   ],
   "title": "Alucita hexadactyla"
  },
+ "Amara aenea": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Amara aenea"
+ },
  "Amata phegea": {
   "kind": "wingspan",
   "size_mm": [
@@ -450,6 +463,30 @@
   ],
   "title": "Nine-spotted moth"
  },
+ "Amaurobius ferox": {
+  "kind": "length",
+  "size_mm": [
+   11.0,
+   16.0
+  ],
+  "title": "Amaurobius ferox"
+ },
+ "Amblyptilia acanthadactyla": {
+  "kind": "wingspan",
+  "size_mm": [
+   17.0,
+   23.0
+  ],
+  "title": "Amblyptilia acanthadactyla"
+ },
+ "Amblyteles armatorius": {
+  "kind": "length",
+  "size_mm": [
+   12.0,
+   16.0
+  ],
+  "title": "Amblyteles armatorius"
+ },
  "Ameles spallanzania": {
   "kind": "length",
   "size_mm": [
@@ -457,6 +494,14 @@
    40.0
   ],
   "title": "Ameles spallanzania"
+ },
+ "Ammophila sabulosa": {
+  "kind": "length",
+  "size_mm": [
+   15.0,
+   25.0
+  ],
+  "title": "Ammophila sabulosa"
  },
  "Amphimallon solstitiale": {
   "kind": "length",
@@ -555,6 +600,14 @@
   ],
   "title": "Andrena hattorfiana"
  },
+ "Andrena scotica": {
+  "kind": "length",
+  "size_mm": [
+   14.0,
+   14.0
+  ],
+  "title": "Andrena scotica"
+ },
  "Andrena vaga": {
   "kind": "length",
   "size_mm": [
@@ -631,6 +684,14 @@
   "size_mm": null,
   "title": "Anthocharis cardamines"
  },
+ "Anthocoris nemorum": {
+  "kind": "length",
+  "size_mm": [
+   3.0,
+   4.0
+  ],
+  "title": "Common flowerbug"
+ },
  "Anthophila fabriciana": {
   "kind": "wingspan",
   "size_mm": [
@@ -702,6 +763,11 @@
    42.0
   ],
   "title": "Ringlet"
+ },
+ "Aphis fabae": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Black bean aphid"
  },
  "Aphomia sociella": {
   "kind": "wingspan",
@@ -781,6 +847,11 @@
    17.0
   ],
   "title": "Araneus quadratus"
+ },
+ "Araniella cucurbitina": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Araniella cucurbitina"
  },
  "Araschnia levana": {
   "kind": null,
@@ -930,6 +1001,14 @@
   ],
   "title": "Athalia rosae"
  },
+ "Athetis hospes": {
+  "kind": "wingspan",
+  "size_mm": [
+   26.0,
+   30.0
+  ],
+  "title": "Athetis hospes"
+ },
  "Athous haemorrhoidalis": {
   "kind": "length",
   "size_mm": [
@@ -1011,6 +1090,14 @@
    12.0
   ],
   "title": "Oriental cockroach"
+ },
+ "Blattella germanica": {
+  "kind": "length",
+  "size_mm": [
+   11.0,
+   16.0
+  ],
+  "title": "German cockroach"
  },
  "Boloria dia": {
   "kind": "length",
@@ -1142,6 +1229,14 @@
   ],
   "title": "Hairy dragonfly"
  },
+ "Brassicogethes aeneus": {
+  "kind": "length",
+  "size_mm": [
+   2.0,
+   3.0
+  ],
+  "title": "Brassicogethes aeneus"
+ },
  "Brenthis daphne": {
   "kind": null,
   "size_mm": null,
@@ -1151,6 +1246,11 @@
   "kind": null,
   "size_mm": null,
   "title": "Brenthis ino"
+ },
+ "Brevicoryne brassicae": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Brevicoryne brassicae"
  },
  "Brintesia circe": {
   "kind": "wingspan",
@@ -1167,6 +1267,14 @@
    30.0
   ],
   "title": "Marbled beauty"
+ },
+ "Byturus ochraceus": {
+  "kind": "length",
+  "size_mm": [
+   4.0,
+   4.6
+  ],
+  "title": "Byturus ochraceus"
  },
  "Cabera exanthemata": {
   "kind": "wingspan",
@@ -1199,6 +1307,14 @@
    55.0
   ],
   "title": "Scarlet tiger moth"
+ },
+ "Calliphora vicina": {
+  "kind": "length",
+  "size_mm": [
+   10.0,
+   11.0
+  ],
+  "title": "Calliphora vicina"
  },
  "Calliptamus barbarus": {
   "kind": null,
@@ -1557,6 +1673,14 @@
   ],
   "title": "Cerapteryx graminis"
  },
+ "Cerceris rybyensis": {
+  "kind": "length",
+  "size_mm": [
+   8.0,
+   12.0
+  ],
+  "title": "Cerceris rybyensis"
+ },
  "Cercopis vulnerata": {
   "kind": "length",
   "size_mm": [
@@ -1704,6 +1828,14 @@
   ],
   "title": "Chrysolina bankii"
  },
+ "Chrysolina herbacea": {
+  "kind": "length",
+  "size_mm": [
+   8.0,
+   10.0
+  ],
+  "title": "Chrysolina herbacea"
+ },
  "Chrysolina polita": {
   "kind": null,
   "size_mm": null,
@@ -1724,6 +1856,11 @@
    12.0
   ],
   "title": "Chrysopa perla"
+ },
+ "Chrysoperla carnea": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Chrysoperla carnea"
  },
  "Chrysoteuchia culmella": {
   "kind": "wingspan",
@@ -1778,6 +1915,11 @@
   ],
   "title": "Cilix glaucata"
  },
+ "Cimex lectularius": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Cimex lectularius"
+ },
  "Clepsis consimilana": {
   "kind": "wingspan",
   "size_mm": [
@@ -1785,6 +1927,11 @@
    19.0
   ],
   "title": "Clepsis consimilana"
+ },
+ "Cloeon dipterum": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Cloeon dipterum"
  },
  "Clogmia albipunctata": {
   "kind": "length",
@@ -2053,6 +2200,22 @@
   ],
   "title": "Crematogaster scutellaris"
  },
+ "Crepidodera aurata": {
+  "kind": "length",
+  "size_mm": [
+   2.5,
+   2.5
+  ],
+  "title": "Crepidodera aurata"
+ },
+ "Crioceris asparagi": {
+  "kind": "length",
+  "size_mm": [
+   6.0,
+   6.0
+  ],
+  "title": "Common asparagus beetle"
+ },
  "Crocallis elinguaria": {
   "kind": "wingspan",
   "size_mm": [
@@ -2077,6 +2240,14 @@
   ],
   "title": "Cryphia algae"
  },
+ "Cryptocephalus sericeus": {
+  "kind": "length",
+  "size_mm": [
+   6.0,
+   7.0
+  ],
+  "title": "Cryptocephalus sericeus"
+ },
  "Cteniopus sulphureus": {
   "kind": "length",
   "size_mm": [
@@ -2085,6 +2256,19 @@
   ],
   "title": "Cteniopus sulphureus"
  },
+ "Ctenocephalides felis": {
+  "kind": "length",
+  "size_mm": [
+   1.0,
+   2.0
+  ],
+  "title": "Cat flea"
+ },
+ "Ctenolepisma longicaudatum": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Ctenolepisma longicaudatum"
+ },
  "Cucullia verbasci": {
   "kind": "length",
   "size_mm": [
@@ -2092,6 +2276,16 @@
    48.0
   ],
   "title": "Mullein moth"
+ },
+ "Culex pipiens": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Culex pipiens"
+ },
+ "Culiseta annulata": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Culiseta annulata"
  },
  "Cupido minimus": {
   "kind": "wingspan",
@@ -2286,6 +2480,14 @@
   ],
   "title": "Deraeocoris ruber"
  },
+ "Dermacentor reticulatus": {
+  "kind": "length",
+  "size_mm": [
+   4.2,
+   4.8
+  ],
+  "title": "Dermacentor reticulatus"
+ },
  "Diachrysia chrysitis": {
   "kind": "wingspan",
   "size_mm": [
@@ -2331,6 +2533,11 @@
   ],
   "title": "Dicranopalpus ramosus"
  },
+ "Dilophus febrilis": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Dilophus febrilis"
+ },
  "Dinoptera collaris": {
   "kind": "length",
   "size_mm": [
@@ -2343,6 +2550,14 @@
   "kind": null,
   "size_mm": null,
   "title": "Dioctria hyalipennis"
+ },
+ "Dioryctria abietella": {
+  "kind": "wingspan",
+  "size_mm": [
+   27.0,
+   33.0
+  ],
+  "title": "Dioryctria abietella"
  },
  "Diplolepis rosae": {
   "kind": "length",
@@ -2381,6 +2596,14 @@
   ],
   "title": "Median wasp"
  },
+ "Dolichovespula saxonica": {
+  "kind": "length",
+  "size_mm": [
+   15.0,
+   19.0
+  ],
+  "title": "Dolichovespula saxonica"
+ },
  "Dolycoris baccarum": {
   "kind": "length",
   "size_mm": [
@@ -2404,6 +2627,14 @@
    35.0
   ],
   "title": "Drepana falcataria"
+ },
+ "Drosophila melanogaster": {
+  "kind": "length",
+  "size_mm": [
+   2.5,
+   2.5
+  ],
+  "title": "Drosophila melanogaster"
  },
  "Dypterygia scabriuscula": {
   "kind": "wingspan",
@@ -2583,6 +2814,11 @@
   ],
   "title": "Emmelina monodactyla"
  },
+ "Empis livida": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Empis livida"
+ },
  "Empis tessellata": {
   "kind": "wingspan",
   "size_mm": [
@@ -2644,6 +2880,14 @@
   ],
   "title": "Ennomos fuscantaria"
  },
+ "Enoplognatha ovata": {
+  "kind": "length",
+  "size_mm": [
+   6.0,
+   6.0
+  ],
+  "title": "Enoplognatha ovata"
+ },
  "Ephemera danica": {
   "kind": "length",
   "size_mm": [
@@ -2696,6 +2940,11 @@
    15.0
   ],
   "title": "Eratigena atrica"
+ },
+ "Eratigena duellica": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Eratigena duellica"
  },
  "Erebia aethiops": {
   "kind": "wingspan",
@@ -2887,6 +3136,14 @@
   ],
   "title": "Marsh fritillary"
  },
+ "Eupithecia abbreviata": {
+  "kind": "wingspan",
+  "size_mm": [
+   19.0,
+   22.0
+  ],
+  "title": "Brindled pug"
+ },
  "Eupithecia centaureata": {
   "kind": "wingspan",
   "size_mm": [
@@ -2902,6 +3159,14 @@
    24.0
   ],
   "title": "Tawny speckled pug"
+ },
+ "Eupithecia vulgata": {
+  "kind": "wingspan",
+  "size_mm": [
+   18.0,
+   21.0
+  ],
+  "title": "Common pug"
  },
  "Euplagia quadripunctaria": {
   "kind": "wingspan",
@@ -3027,6 +3292,14 @@
   ],
   "title": "Exosoma lusitanicum"
  },
+ "Fannia canicularis": {
+  "kind": "length",
+  "size_mm": [
+   4.0,
+   6.0
+  ],
+  "title": "Lesser house fly"
+ },
  "Fasta fastuosa": {
   "kind": "length",
   "size_mm": [
@@ -3047,6 +3320,14 @@
    15.0
   ],
   "title": "Forficula auricularia"
+ },
+ "Formica rufa": {
+  "kind": "length",
+  "size_mm": [
+   4.5,
+   9.0
+  ],
+  "title": "Formica rufa"
  },
  "Galeruca tanaceti": {
   "kind": "length",
@@ -3200,6 +3481,14 @@
   ],
   "title": "Hada plebeja"
  },
+ "Haematopota pluvialis": {
+  "kind": "wingspan",
+  "size_mm": [
+   5.0,
+   11.5
+  ],
+  "title": "Common horse fly"
+ },
  "Halictus scabiosae": {
   "kind": null,
   "size_mm": null,
@@ -3244,6 +3533,14 @@
    6.0
   ],
   "title": "Harmonia quadripunctata"
+ },
+ "Harpalus affinis": {
+  "kind": "length",
+  "size_mm": [
+   8.5,
+   12.0
+  ],
+  "title": "Harpalus affinis"
  },
  "Harpalus rufipes": {
   "kind": null,
@@ -3351,6 +3648,14 @@
   ],
   "title": "Hesperia comma"
  },
+ "Heterotoma planicornis": {
+  "kind": "length",
+  "size_mm": [
+   4.6,
+   5.3
+  ],
+  "title": "Heterotoma planicornis"
+ },
  "Hierodula transcaucasica": {
   "kind": null,
   "size_mm": null,
@@ -3371,6 +3676,14 @@
    8.0
   ],
   "title": "Himacerus mirmicoides"
+ },
+ "Hipparchia fagi": {
+  "kind": "wingspan",
+  "size_mm": [
+   66.0,
+   76.0
+  ],
+  "title": "Hipparchia fagi"
  },
  "Hipparchia fidia": {
   "kind": "wingspan",
@@ -3431,6 +3744,14 @@
    34.0
   ],
   "title": "Hoplodrina ambigua"
+ },
+ "Hoplodrina blanda": {
+  "kind": "wingspan",
+  "size_mm": [
+   31.0,
+   35.0
+  ],
+  "title": "Hoplodrina blanda"
  },
  "Hoplodrina octogenaria": {
   "kind": "wingspan",
@@ -3761,6 +4082,14 @@
   ],
   "title": "Poplar hawkmoth"
  },
+ "Larinioides cornutus": {
+  "kind": "length",
+  "size_mm": [
+   6.0,
+   14.0
+  ],
+  "title": "Larinioides cornutus"
+ },
  "Larinioides sclopetarius": {
   "kind": "length",
   "size_mm": [
@@ -3811,6 +4140,14 @@
   "size_mm": null,
   "title": "Lasius emarginatus"
  },
+ "Lasius flavus": {
+  "kind": "length",
+  "size_mm": [
+   7.0,
+   9.0
+  ],
+  "title": "Yellow meadow ant"
+ },
  "Lasius fuliginosus": {
   "kind": "length",
   "size_mm": [
@@ -3818,6 +4155,11 @@
    6.0
   ],
   "title": "Lasius fuliginosus"
+ },
+ "Lasius niger": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Black garden ant"
  },
  "Laspeyria flexula": {
   "kind": "wingspan",
@@ -3839,6 +4181,14 @@
    10.0
   ],
   "title": "Silverfish"
+ },
+ "Leptidea sinapis": {
+  "kind": "wingspan",
+  "size_mm": [
+   36.0,
+   44.0
+  ],
+  "title": "Leptidea sinapis"
  },
  "Leptinotarsa decemlineata": {
   "kind": "length",
@@ -3990,6 +4340,14 @@
   ],
   "title": "Limenitis reducta"
  },
+ "Linyphia triangularis": {
+  "kind": "length",
+  "size_mm": [
+   6.0,
+   6.0
+  ],
+  "title": "Linyphia triangularis"
+ },
  "Liocoris tripustulatus": {
   "kind": "length",
   "size_mm": [
@@ -4067,6 +4425,14 @@
   ],
   "title": "Lucanus cervus"
  },
+ "Lucilia sericata": {
+  "kind": "length",
+  "size_mm": [
+   10.0,
+   14.0
+  ],
+  "title": "Common green bottle fly"
+ },
  "Luperina testacea": {
   "kind": "wingspan",
   "size_mm": [
@@ -4138,6 +4504,22 @@
   ],
   "title": "Lygistopterus sanguineus"
  },
+ "Lygus pratensis": {
+  "kind": "length",
+  "size_mm": [
+   6.1,
+   7.3
+  ],
+  "title": "Lygus pratensis"
+ },
+ "Lygus rugulipennis": {
+  "kind": "length",
+  "size_mm": [
+   5.0,
+   6.0
+  ],
+  "title": "Lygus rugulipennis"
+ },
  "Lymantria dispar": {
   "kind": null,
   "size_mm": null,
@@ -4201,6 +4583,14 @@
   ],
   "title": "Macrophya montana"
  },
+ "Macrosiphum rosae": {
+  "kind": "length",
+  "size_mm": [
+   3.6,
+   3.6
+  ],
+  "title": "Macrosiphum rosae"
+ },
  "Macrothylacia rubi": {
   "kind": "wingspan",
   "size_mm": [
@@ -4216,6 +4606,14 @@
    7.0
   ],
   "title": "Malachius bipustulatus"
+ },
+ "Malacosoma castrensis": {
+  "kind": "length",
+  "size_mm": [
+   13.0,
+   16.0
+  ],
+  "title": "Malacosoma castrense"
  },
  "Malacosoma neustria": {
   "kind": null,
@@ -4306,6 +4704,14 @@
   ],
   "title": "Melanocoryphus albomaculatus"
  },
+ "Melanostoma mellinum": {
+  "kind": "wingspan",
+  "size_mm": [
+   7.0,
+   7.0
+  ],
+  "title": "Melanostoma mellinum"
+ },
  "Melanostoma scalare": {
   "kind": "length",
   "size_mm": [
@@ -4329,6 +4735,14 @@
    47.0
   ],
   "title": "Heath fritillary"
+ },
+ "Melitaea celadussa": {
+  "kind": "wingspan",
+  "size_mm": [
+   40.0,
+   40.0
+  ],
+  "title": "Melitaea nevadensis"
  },
  "Melitaea cinxia": {
   "kind": "wingspan",
@@ -4361,6 +4775,11 @@
    50.0
   ],
   "title": "Melitaea phoebe"
+ },
+ "Mellinus arvensis": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Mellinus arvensis"
  },
  "Meloe proscarabaeus": {
   "kind": null,
@@ -4407,6 +4826,11 @@
   ],
   "title": "Merodon equestris"
  },
+ "Mesapamea secalis": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Mesapamea secalis"
+ },
  "Mesembrina meridiana": {
   "kind": "length",
   "size_mm": [
@@ -4440,6 +4864,14 @@
   "kind": null,
   "size_mm": null,
   "title": "Metellina merianae"
+ },
+ "Metellina segmentata": {
+  "kind": "length",
+  "size_mm": [
+   4.0,
+   6.0
+  ],
+  "title": "Metellina segmentata"
  },
  "Micrommata ligurina": {
   "kind": "length",
@@ -4528,6 +4960,14 @@
   "size_mm": null,
   "title": "Monochamus galloprovincialis"
  },
+ "Monomorium pharaonis": {
+  "kind": "length",
+  "size_mm": [
+   2.9,
+   4.5
+  ],
+  "title": "Pharaoh ant"
+ },
  "Morimus asper": {
   "kind": "length",
   "size_mm": [
@@ -4543,6 +4983,14 @@
    65.0
   ],
   "title": "Mormo maura"
+ },
+ "Musca domestica": {
+  "kind": "length",
+  "size_mm": [
+   8.0,
+   8.0
+  ],
+  "title": "Housefly"
  },
  "Myathropa florea": {
   "kind": "length",
@@ -4565,6 +5013,14 @@
   "size_mm": null,
   "title": "Myrmeleotettix maculatus"
  },
+ "Myrmica rubra": {
+  "kind": "length",
+  "size_mm": [
+   3.5,
+   5.5
+  ],
+  "title": "Myrmica rubra"
+ },
  "Mythimna albipuncta": {
   "kind": "wingspan",
   "size_mm": [
@@ -4580,6 +5036,14 @@
    44.0
   ],
   "title": "Mythimna ferrago"
+ },
+ "Mythimna impura": {
+  "kind": "wingspan",
+  "size_mm": [
+   31.0,
+   38.0
+  ],
+  "title": "Mythimna impura"
  },
  "Mythimna pallens": {
   "kind": "wingspan",
@@ -4597,6 +5061,14 @@
   ],
   "title": "Mythimna vitellina"
  },
+ "Myzus persicae": {
+  "kind": "length",
+  "size_mm": [
+   0.6,
+   0.6
+  ],
+  "title": "Myzus persicae"
+ },
  "Nagusta goedelii": {
   "kind": "length",
   "size_mm": [
@@ -4604,6 +5076,14 @@
    16.3
   ],
   "title": "Nagusta goedelii"
+ },
+ "Nebria brevicollis": {
+  "kind": "length",
+  "size_mm": [
+   4.0,
+   4.0
+  ],
+  "title": "Nebria brevicollis"
  },
  "Nemobius sylvestris": {
   "kind": null,
@@ -4618,6 +5098,14 @@
   ],
   "title": "Longhorn moth"
  },
+ "Nemophora metallica": {
+  "kind": "wingspan",
+  "size_mm": [
+   15.0,
+   20.0
+  ],
+  "title": "Nemophora metallica"
+ },
  "Neoscona adianta": {
   "kind": "length",
   "size_mm": [
@@ -4630,6 +5118,14 @@
   "kind": null,
   "size_mm": null,
   "title": "Nepa cinerea"
+ },
+ "Nephrotoma appendiculata": {
+  "kind": "wingspan",
+  "size_mm": [
+   13.0,
+   15.0
+  ],
+  "title": "Nephrotoma appendiculata"
  },
  "Neriene montana": {
   "kind": "length",
@@ -4832,6 +5328,14 @@
   ],
   "title": "Oedemera flavipes"
  },
+ "Oedemera lurida": {
+  "kind": "length",
+  "size_mm": [
+   5.0,
+   7.0
+  ],
+  "title": "Oedemera lurida"
+ },
  "Oedemera nobilis": {
   "kind": null,
   "size_mm": null,
@@ -4870,6 +5374,22 @@
    18.0
   ],
   "title": "Olethreutes arcuella"
+ },
+ "Oligia latruncula": {
+  "kind": "wingspan",
+  "size_mm": [
+   24.0,
+   27.0
+  ],
+  "title": "Oligia latruncula"
+ },
+ "Oligia strigilis": {
+  "kind": "wingspan",
+  "size_mm": [
+   24.0,
+   29.0
+  ],
+  "title": "Marbled minor"
  },
  "Olios argelasius": {
   "kind": null,
@@ -5076,6 +5596,14 @@
   ],
   "title": "Palpita vitrealis"
  },
+ "Pandemis heparana": {
+  "kind": "wingspan",
+  "size_mm": [
+   16.0,
+   24.0
+  ],
+  "title": "Pandemis heparana"
+ },
  "Panorpa communis": {
   "kind": "length",
   "size_mm": [
@@ -5133,6 +5661,22 @@
    51.0
   ],
   "title": "Speckled wood (butterfly)"
+ },
+ "Parasteatoda tepidariorum": {
+  "kind": "length",
+  "size_mm": [
+   6.0,
+   6.0
+  ],
+  "title": "Parasteatoda tepidariorum"
+ },
+ "Pardosa amentata": {
+  "kind": "length",
+  "size_mm": [
+   5.0,
+   5.0
+  ],
+  "title": "Pardosa amentata"
  },
  "Parnassius apollo": {
   "kind": "wingspan",
@@ -5207,6 +5751,14 @@
    0.3
   ],
   "title": "Peridroma saucia"
+ },
+ "Periplaneta americana": {
+  "kind": "length",
+  "size_mm": [
+   40.0,
+   40.0
+  ],
+  "title": "American cockroach"
  },
  "Perizoma alchemillata": {
   "kind": null,
@@ -5318,6 +5870,14 @@
   "kind": null,
   "size_mm": null,
   "title": "European beewolf"
+ },
+ "Philodromus cespitum": {
+  "kind": "length",
+  "size_mm": [
+   3.5,
+   5.0
+  ],
+  "title": "Philodromus cespitum"
  },
  "Philodromus dispar": {
   "kind": "length",
@@ -5462,6 +6022,14 @@
   ],
   "title": "Piezodorus lituratus"
  },
+ "Pimpla rufipes": {
+  "kind": "length",
+  "size_mm": [
+   15.0,
+   15.0
+  ],
+  "title": "Pimpla rufipes"
+ },
  "Pisaura mirabilis": {
   "kind": null,
   "size_mm": null,
@@ -5547,6 +6115,11 @@
   "kind": null,
   "size_mm": null,
   "title": "European paper wasp"
+ },
+ "Polistes nimpha": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Polistes nimpha"
  },
  "Polydrusus formosus": {
   "kind": "length",
@@ -5699,6 +6272,14 @@
   ],
   "title": "Psilothrix viridicoerulea"
  },
+ "Psyche casta": {
+  "kind": "wingspan",
+  "size_mm": [
+   12.0,
+   15.0
+  ],
+  "title": "Psyche casta"
+ },
  "Psyllobora vigintiduopunctata": {
   "kind": "length",
   "size_mm": [
@@ -5714,6 +6295,14 @@
    34.0
   ],
   "title": "Pterophorus pentadactyla"
+ },
+ "Pterostichus madidus": {
+  "kind": "length",
+  "size_mm": [
+   14.0,
+   20.0
+  ],
+  "title": "Pterostichus madidus"
  },
  "Pterostoma palpina": {
   "kind": "wingspan",
@@ -5759,6 +6348,14 @@
    20.0
   ],
   "title": "Pyrausta purpuralis"
+ },
+ "Pyrgus armoricanus": {
+  "kind": "wingspan",
+  "size_mm": [
+   24.0,
+   28.0
+  ],
+  "title": "Oberthür's grizzled skipper"
  },
  "Pyrgus malvae": {
   "kind": null,
@@ -5849,6 +6446,14 @@
   ],
   "title": "Rhagio scolopaceus"
  },
+ "Rhagio tringarius": {
+  "kind": "length",
+  "size_mm": [
+   8.0,
+   14.0
+  ],
+  "title": "Rhagio tringarius"
+ },
  "Rhagium bifasciatum": {
   "kind": "length",
   "size_mm": [
@@ -5917,6 +6522,11 @@
    40.0
   ],
   "title": "Rhynchophorus ferrugineus"
+ },
+ "Rhynocoris iracundus": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Rhynocoris iracundus"
  },
  "Rhyparochromus vulgaris": {
   "kind": null,
@@ -6078,6 +6688,14 @@
   "size_mm": null,
   "title": "Scolitantides orion"
  },
+ "Scoparia ambigualis": {
+  "kind": "wingspan",
+  "size_mm": [
+   15.0,
+   22.0
+  ],
+  "title": "Scoparia ambigualis"
+ },
  "Scopula imitaria": {
   "kind": "wingspan",
   "size_mm": [
@@ -6118,6 +6736,14 @@
   ],
   "title": "Scopula rubiginata"
  },
+ "Scotophaeus blackwalli": {
+  "kind": "length",
+  "size_mm": [
+   9.0,
+   9.0
+  ],
+  "title": "Scotophaeus blackwalli"
+ },
  "Scotopteryx chenopodiata": {
   "kind": "wingspan",
   "size_mm": [
@@ -6130,6 +6756,14 @@
   "kind": null,
   "size_mm": null,
   "title": "Scytodes thoracica"
+ },
+ "Segestria florentina": {
+  "kind": "length",
+  "size_mm": [
+   22.0,
+   22.0
+  ],
+  "title": "Segestria florentina"
  },
  "Selenia dentaria": {
   "kind": "wingspan",
@@ -6215,6 +6849,14 @@
    12.0
   ],
   "title": "Sphaerophoria scripta"
+ },
+ "Sphecodes albilabris": {
+  "kind": "length",
+  "size_mm": [
+   11.0,
+   14.0
+  ],
+  "title": "Sphecodes albilabris"
  },
  "Sphex funerarius": {
   "kind": "length",
@@ -6354,6 +6996,14 @@
   ],
   "title": "Stegania trimaculata"
  },
+ "Stegobium paniceum": {
+  "kind": "length",
+  "size_mm": [
+   3.5,
+   3.5
+  ],
+  "title": "Drugstore beetle"
+ },
  "Stenobothrus lineatus": {
   "kind": null,
   "size_mm": null,
@@ -6428,6 +7078,22 @@
   ],
   "title": "Stictoleptura rubra"
  },
+ "Stictopleurus punctatonervosus": {
+  "kind": "length",
+  "size_mm": [
+   6.5,
+   9.0
+  ],
+  "title": "Stictopleurus punctatonervosus"
+ },
+ "Stigmella aurella": {
+  "kind": "wingspan",
+  "size_mm": [
+   6.0,
+   7.0
+  ],
+  "title": "Stigmella aurella"
+ },
  "Stomorhina lunata": {
   "kind": "wingspan",
   "size_mm": [
@@ -6435,6 +7101,14 @@
    9.0
   ],
   "title": "Stomorhina lunata"
+ },
+ "Stomoxys calcitrans": {
+  "kind": "length",
+  "size_mm": [
+   6.0,
+   8.0
+  ],
+  "title": "Stable fly"
  },
  "Subcoccinella vigintiquatuorpunctata": {
   "kind": "length",
@@ -6546,6 +7220,14 @@
   "size_mm": null,
   "title": "Syrphus ribesii"
  },
+ "Tabanus sudeticus": {
+  "kind": "length",
+  "size_mm": [
+   20.0,
+   25.0
+  ],
+  "title": "Tabanus sudeticus"
+ },
  "Tachina fera": {
   "kind": "wingspan",
   "size_mm": [
@@ -6561,6 +7243,22 @@
    15.0
   ],
   "title": "Tachystola acroxantha"
+ },
+ "Tegenaria domestica": {
+  "kind": "length",
+  "size_mm": [
+   11.5,
+   11.5
+  ],
+  "title": "Tegenaria domestica"
+ },
+ "Tetragnatha extensa": {
+  "kind": "length",
+  "size_mm": [
+   11.0,
+   11.0
+  ],
+  "title": "Tetragnatha extensa"
  },
  "Tetrix subulata": {
   "kind": "length",
@@ -6684,6 +7382,22 @@
   ],
   "title": "Bloody-nosed beetle"
  },
+ "Tineola bisselliella": {
+  "kind": "wingspan",
+  "size_mm": [
+   6.0,
+   7.0
+  ],
+  "title": "Tineola bisselliella"
+ },
+ "Tipula oleracea": {
+  "kind": "length",
+  "size_mm": [
+   18.0,
+   28.0
+  ],
+  "title": "Tipula oleracea"
+ },
  "Tipula paludosa": {
   "kind": "length",
   "size_mm": [
@@ -6696,6 +7410,11 @@
   "kind": null,
   "size_mm": null,
   "title": "Tipula vernalis"
+ },
+ "Tolmerus atricapillus": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Machimus atricapillus"
  },
  "Tortrix viridana": {
   "kind": "wingspan",
@@ -6712,6 +7431,14 @@
    42.0
   ],
   "title": "Trachea atriplicis"
+ },
+ "Trialeurodes vaporariorum": {
+  "kind": "length",
+  "size_mm": [
+   1.0,
+   2.0
+  ],
+  "title": "Greenhouse whitefly"
  },
  "Trichius fasciatus": {
   "kind": "length",
@@ -6972,6 +7699,11 @@
   ],
   "title": "Silver-ground carpet"
  },
+ "Xanthorhoe spadicearia": {
+  "kind": null,
+  "size_mm": null,
+  "title": "Xanthorhoe spadicearia"
+ },
  "Xestia baja": {
   "kind": "wingspan",
   "size_mm": [
@@ -7032,6 +7764,14 @@
    4.0
   ],
   "title": "Xysticus ulmi"
+ },
+ "Yponomeuta cagnagella": {
+  "kind": "wingspan",
+  "size_mm": [
+   19.0,
+   26.0
+  ],
+  "title": "Yponomeuta cagnagella"
  },
  "Yponomeuta evonymella": {
   "kind": "wingspan",

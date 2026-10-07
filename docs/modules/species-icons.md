@@ -36,6 +36,12 @@ flowchart LR
 - Typical rejects: a caterpillar instead of the adult, a shapeless blob (fuzzy bumblebees and mining bees are the weakest group), or a flower/leaf kept in the cut-out.
 - Kept on purpose: galls and leaf mines (that's what people see of gall wasps, gall mites and leaf miners), and caterpillars for species usually met as larvae (e.g. pine processionary, lackey, goat moth).
 
+### Icons v2 (pack v13, Oct 2026)
+
+- 108 new icons for the species the household model added, drawn with that model; the 1,000 v1 icons are unchanged (cut from the v1 atlas, so `make_icons.py` skipped them). All 1,108 from **CC0** photos.
+- Review: 16 of 108 rejected in the first pass (shapeless blobs, a crane fly's wings, a moth on its flower), 3 of those again. Kept on purpose: aphid colonies on a stem, a gooseberry sawfly larva on its leaf, ermine-moth webs, a bagworm case and a paper-wasp nest.
+- `build_icon_atlas.py` needs `selection.csv` rows for every icon: the v1 rows were rebuilt from `packs/icons/CREDITS.md` (logins → ids via the iNaturalist `observers.csv`).
+
 ## Delivery with the pack
 
 ```mermaid

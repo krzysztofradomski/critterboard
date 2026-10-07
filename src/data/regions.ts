@@ -65,14 +65,14 @@ export const REGION_DETAILS: Record<string, RegionDetail> = {
   'eu-ce': {
     id: 'eu-ce',
     emoji: '🌿', color: PB.green,
-    species: 1000, size: 145, version: 'v2026.09b', updated: 'Sep 27, 2026',
+    species: 1004, size: 145, version: 'v2026.10', updated: 'Oct 8, 2026',
     families: [
-      { key: 'lep', count: 453, color: PB.purple },
-      { key: 'col', count: 157, color: PB.green  },
-      { key: 'hem', count: 83,  color: PB.blue   },
-      { key: 'hym', count: 66,  color: PB.yellow },
-      { key: 'odo', count: 55,  color: PB.red    },
-      { key: 'oth', count: 186, color: PB.orange },
+      { key: 'lep', count: 435, color: PB.purple },
+      { key: 'col', count: 148, color: PB.green  },
+      { key: 'hem', count: 85,  color: PB.blue   },
+      { key: 'hym', count: 76,  color: PB.yellow },
+      { key: 'odo', count: 48,  color: PB.red    },
+      { key: 'oth', count: 212, color: PB.orange },
     ],
     samples: [
       { id: 'peac', whyKey: 'peac' },
