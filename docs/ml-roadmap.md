@@ -118,6 +118,7 @@ flowchart LR
 - **Cost:** tapped, 3 inferences; auto search, 12 (about 1.3 s on a phone, mostly inside the 2.2 s analysing hold).
 - **Focus:** a tap calls `focusTo()` on that point and snaps once focus settles (0.8 s at most): continuous autofocus tends to pick the leaf behind a small bug. expo-camera couldn't do this (no focus point on iOS; a fixed metering point on Android).
 - **Lens:** Scan keeps the multi-lens back camera, so iPhones can switch to the ultra-wide for macro up close, and starts it at the main lens (its first switch-over zoom factor).
+- **Live guess** (`src/ai/useLiveGuess.ts`): every 0.5 s a preview frame is cropped to the reticle, turned upright, resized to 256 px and classified; Scan shows the top guess under the reticle (from 30%) and snaps by itself when the same species scores 85% or more twice in a row. It doesn't use react-native-executorch's `runOnFrame`, which classifies the whole frame squashed (the approach that lost small bugs). The crop runs on VisionCamera's async runner; the RGB bytes go to the JS thread, where the photo search also runs, so a photo waits for a guess in flight.
 - **Physical limit:** without a macro lens, a phone captures a fruit fly at about 100 px at best. Enough for "fruit fly", not for telling *Drosophila* species apart.
 
 #### Kaggle route (still valid for bigger runs) ⟶ `training/kaggle/insect_classifier_training.ipynb`

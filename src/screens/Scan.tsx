@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, type GestureResponderEvent, type LayoutChangeEvent } from 'react-native';
+import { Animated, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions, type GestureResponderEvent, type LayoutChangeEvent } from 'react-native';
 import {
   Camera,
   useCameraDevice,
@@ -21,7 +21,8 @@ import { IconBtn } from '@/components/IconBtn';
 import { PhotoTipsDialog } from '@/components/PhotoTipsDialog';
 import { Sticker } from '@/components/Sticker';
 import { TabBar } from '@/components/TabBar';
-import { useT } from '@/i18n/helpers';
+import { useLiveGuess } from '@/ai/useLiveGuess';
+import { bugName, useT } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
 import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
@@ -32,6 +33,10 @@ type Phase = 'aim' | 'flash' | 'analyzing';
 type Shot = { uri: string; fromCamera: boolean };
 type Point = { x: number; y: number };
 
+/** Live guess: shown from this confidence; snaps on its own when the same species stays this sure. */
+const LIVE_SHOW = 0.3;
+const AUTO_SNAP = 0.85;
+const AUTO_SNAP_STREAK = 2;
 /** Pinch-zoom ceiling, as a multiple of the 1× lens. */
 const MAX_ZOOM = 10;
 /** Longest wait (ms) for focus on the tapped point before snapping anyway. */
@@ -63,6 +68,8 @@ function oneX(device: CameraDevice): number {
 export function Scan() {
   const { go, back } = useNav();
   const persona = useAppStore((s) => s.persona);
+  const language = useAppStore((s) => s.language);
+  const screen = useWindowDimensions();
   const setLastPhotoUri = useAppStore((s) => s.setLastPhotoUri);
   const minConfidence = useAppStore((s) => s.profile.minConfidence);
   const P = usePersona(persona);
@@ -110,6 +117,19 @@ export function Scan() {
     return () => clearTimeout(id);
   }, []);
   const [flash, setFlash] = useState(false);
+  // Live guesses from the preview, cropped to the reticle (the root fills the window).
+  const live = useLiveGuess({
+    enabled: phase === 'aim' && !!device && permission.hasPermission && executorch.isReady,
+    classify: executorch.classify,
+    cameraRef,
+    reticle: {
+      x: screen.width / 2 - RETICLE / 2,
+      y: screen.height * RETICLE_TOP - RETICLE / 2,
+      width: RETICLE,
+      height: RETICLE,
+    },
+  });
+  const liveGuess = live.guess && live.guess.confidence >= LIVE_SHOW ? live.guess : null;
   // Screen size, to find the reticle in the photo. The preview fills this view.
   const view = useRef({ width: 0, height: 0 }).current;
   const onLayout = (e: LayoutChangeEvent) => Object.assign(view, e.nativeEvent.layout);
@@ -122,6 +142,8 @@ export function Scan() {
   const maxZoom = device ? Math.min(MAX_ZOOM, device.maxZoom / base) : 1;
   const gesture = useRef({ startDist: 0, startZoom: 1, zoom: 1, min: 1, max: 1, pinched: false, onTap: (_p: Point) => {} }).current;
   Object.assign(gesture, { zoom, min: minZoom, max: maxZoom });
+  // A zoom changes what the reticle covers: map it onto the camera again.
+  useEffect(() => live.onPreviewStarted(), [zoom, live.onPreviewStarted]);
   const gestureResponder = useRef(
     PanResponder.create({
       // Buttons sit deeper and claim their touches first; every other touch on the screen is the
@@ -196,6 +218,8 @@ export function Scan() {
     void (async () => {
       let candidates: Candidate[] = [];
       try {
+        // The model runs one input at a time: let a live guess in flight finish first.
+        await live.idle();
         const classifyFn = selectScanClassifier({
           useNativeVision: USE_NATIVE_VISION,
           executorch,
@@ -314,6 +338,23 @@ export function Scan() {
     setPhase('analyzing');
     classifyAndRoute(photoUri, true);
   };
+  // The same species, sure enough, on consecutive live guesses: snap it without a tap.
+  const streak = useRef({ bugId: '', count: 0 }).current;
+  useEffect(() => {
+    const g = live.guess;
+    if (!g || g.confidence < AUTO_SNAP) {
+      streak.count = 0;
+      return;
+    }
+    streak.count = g.bugId === streak.bugId ? streak.count + 1 : 1;
+    streak.bugId = g.bugId;
+    if (streak.count >= AUTO_SNAP_STREAK) {
+      streak.count = 0;
+      void shutter(null);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [live.guess]);
+
   // Taps on the top bar or the shutter row / tab bar background aren't aimed at a bug.
   gesture.onTap = (p) => {
     if (p.y > TOP_BAR_BOTTOM && p.y < view.height - CONTROLS_HEIGHT) void shutter(p);
@@ -365,7 +406,8 @@ export function Scan() {
           ref={cameraRef}
           style={StyleSheet.absoluteFill}
           device={device}
-          outputs={[photoOutput]}
+          outputs={[photoOutput, live.frameOutput]}
+          onPreviewStarted={live.onPreviewStarted}
           // Paused while the frozen photo is analysed.
           isActive={phase !== 'analyzing'}
           zoom={base * zoom}
@@ -476,6 +518,17 @@ export function Scan() {
           </Text>
         </View>
       </Animated.View>
+      )}
+
+      {liveGuess && phase === 'aim' && (
+        // The live top guess, under the reticle.
+        <View style={styles.liveWrap} pointerEvents="none">
+          <View style={styles.liveChip}>
+            <Text style={styles.liveText} numberOfLines={1}>
+              {bugName(language, liveGuess.bugId)} · {Math.round(liveGuess.confidence * 100)}%
+            </Text>
+          </View>
+        </View>
       )}
 
       {(tipVisible || phase === 'analyzing') && (
@@ -594,6 +647,24 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   focusTagText: { fontSize: 11, fontWeight: '800', color: PB.ink },
+  liveWrap: {
+    position: 'absolute',
+    left: 24,
+    right: 24,
+    top: `${RETICLE_TOP * 100}%`,
+    marginTop: RETICLE / 2 + 14,
+    alignItems: 'center',
+  },
+  liveChip: {
+    maxWidth: '100%',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    backgroundColor: PB.cream,
+    borderColor: PB.ink,
+    borderWidth: 2.5,
+    borderRadius: 99,
+  },
+  liveText: { fontSize: 13, fontWeight: '800', color: PB.ink },
   tipWrap: { position: 'absolute', bottom: 222, left: 12, right: 12, zIndex: 10 },
   tipRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   tipAvatar: {
