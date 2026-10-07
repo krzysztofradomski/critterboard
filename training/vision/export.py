@@ -105,6 +105,7 @@ def main():
     ap.add_argument("--calib-batches", type=int, default=16)
     ap.add_argument("--limit", type=int, default=0, help="smoke test: score only N test images")
     args = ap.parse_args()
+    args.out.mkdir(parents=True, exist_ok=True)
     torch.set_num_threads(4)
 
     species = load_species(args.data)
