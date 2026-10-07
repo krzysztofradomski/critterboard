@@ -1,7 +1,14 @@
-import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, type GestureResponderEvent, type LayoutChangeEvent } from 'react-native';
+import {
+  Camera,
+  useCameraDevice,
+  useCameraPermission,
+  usePhotoOutput,
+  type CameraDevice,
+  type CameraRef,
+} from 'react-native-vision-camera';
 
 import * as FileSystem from 'expo-file-system/legacy';
 import { vision, USE_NATIVE_VISION, useExecutorchClassifier, type Candidate } from '@/ai';
@@ -25,7 +32,10 @@ type Phase = 'aim' | 'flash' | 'analyzing';
 type Shot = { uri: string; fromCamera: boolean };
 type Point = { x: number; y: number };
 
-const ZOOM_PER_LN = 0.36;
+/** Pinch-zoom ceiling, as a multiple of the 1× lens. */
+const MAX_ZOOM = 10;
+/** Longest wait (ms) for focus on the tapped point before snapping anyway. */
+const FOCUS_WAIT_MS = 800;
 /** A touch that moves less than this (pt) is a tap, not a drag. */
 const TAP_SLOP = 10;
 /** Bottom of the top bar and height of the shutter row + tab bar (pt): taps there don't snap. */
@@ -38,6 +48,16 @@ const RETICLE_TOP = 0.46;
 function touchDistance(e: GestureResponderEvent): number {
   const [a, b] = e.nativeEvent.touches;
   return a && b ? Math.hypot(a.pageX - b.pageX, a.pageY - b.pageY) : 0;
+}
+
+/**
+ * The device zoom factor that looks like the usual 1× camera. A multi-lens ("virtual") back camera
+ * that includes the ultra-wide starts at the ultra-wide (factor 1); the main lens takes over at
+ * the first switch-over factor. Keeping the virtual device lets iPhones switch to macro up close.
+ */
+function oneX(device: CameraDevice): number {
+  const hasUltraWide = device.physicalDevices.some((d) => d.type === 'ultra-wide-angle');
+  return hasUltraWide && device.zoomLensSwitchFactors.length ? device.zoomLensSwitchFactors[0]! : device.minZoom;
 }
 
 export function Scan() {
@@ -74,8 +94,10 @@ export function Scan() {
     USE_NATIVE_VISION && !isWeb && !!activeRegionId && !executorch.isReady && !executorch.error;
   const showToast = useAppStore((s) => s.showToast);
 
-  const [permission, requestPermission] = useCameraPermissions();
-  const cameraRef = useRef<CameraView | null>(null);
+  const permission = useCameraPermission();
+  const device = useCameraDevice('back');
+  const photoOutput = usePhotoOutput({ qualityPrioritization: 'balanced' });
+  const cameraRef = useRef<CameraRef | null>(null);
 
   const [phase, setPhase] = useState<Phase>('aim');
   const [shot, setShot] = useState<Shot | null>(null);
@@ -92,13 +114,14 @@ export function Scan() {
   const view = useRef({ width: 0, height: 0 }).current;
   const onLayout = (e: LayoutChangeEvent) => Object.assign(view, e.nativeEvent.layout);
 
-  // Tap the preview to snap and search around that spot; pinch to zoom. expo-camera's zoom is
-  // 0..1 of the lens range; on iOS it is exponential (min × (max/min)^zoom), so adding
-  // ln(scale) × ZOOM_PER_LN keeps a pinch feeling the same at every zoom level.
-  // ZOOM_PER_LN ≈ 1 / ln(max/min) for a typical ~16× range.
-  const [zoom, setZoom] = useState(0);
-  const gesture = useRef({ startDist: 0, startZoom: 0, zoom: 0, pinched: false, onTap: (_p: Point) => {} }).current;
-  gesture.zoom = zoom;
+  // Tap the preview to focus there, snap and search around that spot; pinch to zoom. `zoom` is a
+  // multiple of the 1× lens, so a pinch scales it by the fingers' spread at any zoom level.
+  const [zoom, setZoom] = useState(1);
+  const base = device ? oneX(device) : 1;
+  const minZoom = device ? device.minZoom / base : 1;
+  const maxZoom = device ? Math.min(MAX_ZOOM, device.maxZoom / base) : 1;
+  const gesture = useRef({ startDist: 0, startZoom: 1, zoom: 1, min: 1, max: 1, pinched: false, onTap: (_p: Point) => {} }).current;
+  Object.assign(gesture, { zoom, min: minZoom, max: maxZoom });
   const gestureResponder = useRef(
     PanResponder.create({
       // Buttons sit deeper and claim their touches first; every other touch on the screen is the
@@ -120,8 +143,8 @@ export function Scan() {
           gesture.startZoom = gesture.zoom;
           return;
         }
-        const next = gesture.startZoom + Math.log(dist / gesture.startDist) * ZOOM_PER_LN;
-        setZoom(Math.min(1, Math.max(0, next)));
+        const next = gesture.startZoom * (dist / gesture.startDist);
+        setZoom(Math.min(gesture.max, Math.max(gesture.min, next)));
       },
       onPanResponderRelease: (_e, g) => {
         gesture.startDist = 0;
@@ -260,20 +283,27 @@ export function Scan() {
       return;
     }
     haptics.tap();
-    setFlash(true);
     setPhase('flash');
+    setTapPoint(tap);
+
+    // Focus on the tapped bug first (continuous autofocus likes the leaf behind a small one), but
+    // never hold the shot for long: a focus that can't settle still beats a missed bug.
+    if (tap && device?.supportsFocusMetering) {
+      await Promise.race([
+        cameraRef.current?.focusTo(tap).catch(() => undefined),
+        new Promise((resolve) => setTimeout(resolve, FOCUS_WAIT_MS)),
+      ]);
+    }
+    setFlash(true);
     setTimeout(() => setFlash(false), 180);
 
-    // Snap a real photo if the camera is mounted; fall back to a null URI
-    // (the mock classifier doesn't care) when running on simulator/web.
+    // Snap a real photo if the camera is running; fall back to a null URI (the mock classifier
+    // doesn't care) on a simulator, which has no camera. The photo is the whole sensor frame; the
+    // preview shows it `cover`ed, which is how scanCrops maps the reticle and the tap onto it.
     let photoUri: string | null = null;
     try {
-      const result = await cameraRef.current?.takePictureAsync({
-        // No skipProcessing: processing crops the photo to the preview (so the reticle maps onto
-        // it) and records its true orientation. Raw sensor output can come back rotated.
-        quality: 0.85,
-      });
-      photoUri = result?.uri ?? null;
+      const file = device ? await photoOutput.capturePhotoToFile({ enableShutterSound: false }, {}) : null;
+      photoUri = file ? `file://${file.filePath}` : null;
     } catch {
       photoUri = null;
     }
@@ -320,26 +350,26 @@ export function Scan() {
 
   /**
    * Permission states:
-   *   - permission is null on first render (hook still bootstrapping)
-   *   - granted: show real camera
-   *   - denied + canAskAgain: show prompt CTA
-   *   - denied + !canAskAgain: explain how to enable in Settings
+   *   - granted: show real camera (a simulator has no camera device: the drawn scene stands in)
+   *   - not asked yet: show prompt CTA
+   *   - denied: explain how to enable in Settings
    */
-  const cameraReady = permission?.granted;
+  const cameraReady = permission.hasPermission;
 
   return (
     // Tap and pinch handlers on the root: touches bubble up through ancestors only, so a sibling
     // layer under the overlays (focus box, tip card) would never see them.
     <View style={styles.root} onLayout={onLayout} {...(cameraReady ? gestureResponder.panHandlers : {})}>
-      {cameraReady ? (
-        <CameraView
-          ref={(ref) => {
-            cameraRef.current = ref;
-          }}
+      {cameraReady && device ? (
+        <Camera
+          ref={cameraRef}
           style={StyleSheet.absoluteFill}
-          facing="back"
-          mute
-          zoom={zoom}
+          device={device}
+          outputs={[photoOutput]}
+          // Paused while the frozen photo is analysed.
+          isActive={phase !== 'analyzing'}
+          zoom={base * zoom}
+          resizeMode="cover"
         />
       ) : (
         <CameraScene />
@@ -357,10 +387,10 @@ export function Scan() {
         </View>
       )}
 
-      {zoom > 0.01 && phase === 'aim' && (
-        // Zoomed in: a tap goes back to the full view.
+      {Math.abs(zoom - 1) > 0.01 && phase === 'aim' && (
+        // Zoomed in (or out to the ultra-wide): a tap goes back to 1×.
         <View style={styles.zoomWrap} pointerEvents="box-none">
-          <Pressable onPress={() => setZoom(0)} style={styles.zoomChip}>
+          <Pressable onPress={() => setZoom(1)} style={styles.zoomChip}>
             <Text style={styles.zoomText}>↺ 1×</Text>
           </Pressable>
         </View>
@@ -386,15 +416,15 @@ export function Scan() {
         <View style={{ width: 42 }} />
       </View>
 
-      {!cameraReady && permission && !needsPack && (
+      {!cameraReady && !needsPack && (
         <View style={styles.permissionCard}>
           <Sticker bg={PB.cream} rotate={-1} style={{ padding: 16 }}>
             <Text style={styles.permissionTitle}>{t('scan.permissionTitle')}</Text>
             <Text style={styles.permissionDesc}>
-              {permission.canAskAgain ? t('scan.permissionAsk') : t('scan.permissionDenied')}
+              {permission.canRequestPermission ? t('scan.permissionAsk') : t('scan.permissionDenied')}
             </Text>
-            {permission.canAskAgain && (
-              <Btn full bg={PB.ink} color={PB.yellow} onPress={requestPermission} style={{ marginTop: 12 }}>
+            {permission.canRequestPermission && (
+              <Btn full bg={PB.ink} color={PB.yellow} onPress={() => void permission.requestPermission()} style={{ marginTop: 12 }}>
                 {t('scan.allowCamera')}
               </Btn>
             )}

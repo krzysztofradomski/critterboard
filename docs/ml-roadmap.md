@@ -91,7 +91,7 @@ Done without Kaggle: `training/vision/` streams the iNaturalist open-data dumps,
 
 Phone tests showed busy backgrounds and damaged bugs were hard to identify. A main cause: the whole 12 MP photo was squashed to 224×224, so a bug inside the reticle ended up a few dozen pixels wide. That is far from the tightly framed iNaturalist photos the model learned from.
 
-`src/ai/scanCrops.ts` now feeds the model square crops instead. **Tapping the bug on the live preview** takes the photo and searches around the tap at once. The shutter button and gallery picks auto search straight away. (An earlier version froze the photo for 5 s to be tapped; phone tests found the wait annoying.)
+`src/ai/scanCrops.ts` now feeds the model square crops instead. **Tapping the bug on the live preview** focuses the camera there, takes the photo and searches around the tap at once. The shutter button and gallery picks auto search straight away. (An earlier version froze the photo for 5 s to be tapped; phone tests found the wait annoying.)
 
 - **Tapped (tap to snap):** three squares around the tap, at 12%, 25% and 50% of the photo's short side (fruit fly to butterfly). The most confident one wins, since the tap says where the bug is but not how big.
 - **Shutter or gallery:** auto search. A 3×3 grid of tiles, each 0.4× the reticle, finds a small bug anywhere in it. The most confident tile is averaged with three squares centred on the reticle (1×, 1.6× and the full short side), which keep big bugs whole. Gallery picks search the photo centre and also add the untouched photo.
@@ -114,9 +114,10 @@ flowchart LR
 | Auto search (best tile + reticle crops) | 51.9% / 74.4% | 26.9% / 35.0% |
 
 - **EXIF:** OpenCV's `imread` in react-native-executorch already applies EXIF orientation. The crops come out of the manipulator upright anyway.
-- **Capture setting:** Scan doesn't pass `skipProcessing`. With processing on, iOS crops the photo to the preview, so the on-screen reticle and a tap on the preview map straight onto it (`fit: 'cover'`; gallery photos are shown whole, `fit: 'contain'`).
+- **Camera:** VisionCamera v5 (since Oct 2026; expo-camera before). The photo is the whole sensor frame and the preview shows it `cover`ed, so the on-screen reticle and a tap map onto the photo with `fit: 'cover'` (gallery photos are shown whole, `fit: 'contain'`).
 - **Cost:** tapped, 3 inferences; auto search, 12 (about 1.3 s on a phone, mostly inside the 2.2 s analysing hold).
-- **Focus:** expo-camera can't focus on a chosen point (iOS only exposes the focus mode; Android's metering point is fixed), so the tap aims the crops and the camera's continuous autofocus does the focusing.
+- **Focus:** a tap calls `focusTo()` on that point and snaps once focus settles (0.8 s at most): continuous autofocus tends to pick the leaf behind a small bug. expo-camera couldn't do this (no focus point on iOS; a fixed metering point on Android).
+- **Lens:** Scan keeps the multi-lens back camera, so iPhones can switch to the ultra-wide for macro up close, and starts it at the main lens (its first switch-over zoom factor).
 - **Physical limit:** without a macro lens, a phone captures a fruit fly at about 100 px at best. Enough for "fruit fly", not for telling *Drosophila* species apart.
 
 #### Kaggle route (still valid for bigger runs) ⟶ `training/kaggle/insect_classifier_training.ipynb`
