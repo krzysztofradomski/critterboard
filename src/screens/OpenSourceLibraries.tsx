@@ -7,6 +7,7 @@ import { Sticker } from '@/components/Sticker';
 import { VISION_MODEL_LABEL } from '@/data/visionModel';
 import { useNav } from '@/store/useNav';
 import { PB } from '@/tokens/pb';
+import pkg from '../../package.json';
 
 type Library = {
   name: string;
@@ -23,39 +24,11 @@ async function openPackageSearch(packageName: string): Promise<void> {
   await Linking.openURL(packageSearchUrl(packageName));
 }
 
-const RUNTIME_LIBRARIES: readonly Library[] = [
-  { name: '@expo/metro-runtime', version: '~4.0.1' },
-  { name: '@react-native-async-storage/async-storage', version: '1.23.1' },
-  { name: '@sentry/react-native', version: '~6.3.0' },
-  { name: 'expo', version: '~52.0.0' },
-  { name: 'expo-asset', version: '~11.0.5' },
-  { name: 'expo-camera', version: '~16.0.18' },
-  { name: 'expo-file-system', version: '~18.0.12' },
-  { name: 'expo-haptics', version: '~14.0.1' },
-  { name: 'expo-image-picker', version: '~16.0.6' },
-  { name: 'expo-location', version: '~18.0.10' },
-  { name: 'expo-notifications', version: '~0.29.14' },
-  { name: 'expo-sharing', version: '~13.0.1' },
-  { name: 'expo-status-bar', version: '~2.0.0' },
-  { name: 'react', version: '18.3.1' },
-  { name: 'react-dom', version: '18.3.1' },
-  { name: 'react-native', version: '0.76.5' },
-  { name: 'react-native-gesture-handler', version: '~2.20.2' },
-  { name: 'react-native-reanimated', version: '~3.16.1' },
-  { name: 'react-native-safe-area-context', version: '4.12.0' },
-  { name: 'react-native-screens', version: '~4.4.0' },
-  { name: 'react-native-svg', version: '15.8.0' },
-  { name: 'react-native-web', version: '~0.19.13' },
-  { name: 'zustand', version: '^5.0.2' },
-];
-
-const DEV_LIBRARIES: readonly Library[] = [
-  { name: '@babel/core', version: '^7.25.2' },
-  { name: '@types/react', version: '~18.3.12' },
-  { name: 'babel-plugin-module-resolver', version: '^5.0.3' },
-  { name: 'babel-preset-expo', version: '~12.0.0' },
-  { name: 'typescript', version: '~5.3.3' },
-];
+// Read from package.json at build time, so the list can't fall behind the real dependencies.
+const toLibraries = (deps: Record<string, string> = {}): readonly Library[] =>
+  Object.entries(deps).map(([name, version]) => ({ name, version }));
+const RUNTIME_LIBRARIES = toLibraries(pkg.dependencies);
+const DEV_LIBRARIES = toLibraries(pkg.devDependencies);
 
 const REPO = 'https://github.com/krzysztofradomski/critterboard/blob/main';
 
@@ -81,6 +54,16 @@ const MODEL_CREDITS: readonly { name: string; detail: string; url: string }[] = 
     name: 'Base weights: Google Vision Transformer (AugReg)',
     detail: '© Google, Apache License 2.0. Modified: fine-tuned',
     url: `${REPO}/packs/models/LICENSE-google-vit-apache-2.0.txt`,
+  },
+  {
+    name: 'Model runtime: PyTorch ExecuTorch',
+    detail: '© Meta Platforms, BSD 3-Clause. Runs the species model on your phone with the XNNPACK kernels (© Google, BSD 3-Clause), via react-native-executorch (Software Mansion, MIT)',
+    url: 'https://github.com/pytorch/executorch',
+  },
+  {
+    name: 'Chat runtime: llama.cpp',
+    detail: '© the ggml authors, MIT. Runs the chat model on your phone, via llama.rn (MIT)',
+    url: 'https://github.com/ggml-org/llama.cpp',
   },
   {
     name: 'Chat model: Google Gemma 4 E2B',
