@@ -1,0 +1,5 @@
+split (photos): {'test': 24599, 'train': 208769, 'val': 15010}
+248,378 photos for 1004 species (CC0 + CC-BY only)
+fewest: Monomorium pharaonis (68), Myzus persicae (75), Drosophila melanogaster (79), Cimex lectularius (99), Ischnura graellsii (117), Athetis hospes (126), Watsonalla uncinula (128), Euura ribesii (129), Ctenocephalides felis (152), Trialeurodes vaporariorum (155)
+species below 100 photos: 4
+deepest rank used: 1005 of 1500 candidates

@@ -1,0 +1,179 @@
+device: mps
+warm start from /Users/krzysztofradomski/code/critterboard-retrain/training/vision/results/household-v2/best.pth: 1000 classifier rows carried over, 4 new species
+/Users/krzysztofradomski/mlenv/lib/python3.12/site-packages/torch/autograd/graph.py:841: UserWarning: The operator 'aten::_upsample_bicubic2d_aa_backward.grad_input' is not currently supported on the MPS backend and will fall back to run on the CPU. This may have performance implications. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/aten/src/ATen/mps/MPSFallback.mm:15.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+  ep0 step50/4349 size256 loss 1.856 18.0 img/s
+  ep0 step100/4349 size256 loss 1.852 19.8 img/s
+  ep0 step150/4349 size256 loss 1.836 20.3 img/s
+  ep0 step200/4349 size256 loss 1.828 20.4 img/s
+  ep0 step250/4349 size256 loss 1.824 20.3 img/s
+  ep0 step300/4349 size256 loss 1.822 18.0 img/s
+  ep0 step350/4349 size256 loss 1.828 15.5 img/s
+  ep0 step400/4349 size256 loss 1.827 14.7 img/s
+  ep0 step450/4349 size256 loss 1.832 13.9 img/s
+  ep0 step500/4349 size256 loss 1.837 13.2 img/s
+  ep0 step550/4349 size256 loss 1.835 13.1 img/s
+  ep0 step600/4349 size256 loss 1.838 13.5 img/s
+  ep0 step650/4349 size256 loss 1.837 14.0 img/s
+  ep0 step700/4349 size256 loss 1.841 14.4 img/s
+  ep0 step750/4349 size256 loss 1.844 14.8 img/s
+  ep0 step800/4349 size256 loss 1.846 15.2 img/s
+  ep0 step850/4349 size256 loss 1.846 15.5 img/s
+  ep0 step900/4349 size256 loss 1.849 15.8 img/s
+  ep0 step950/4349 size256 loss 1.849 16.1 img/s
+  ep0 step1000/4349 size256 loss 1.849 16.4 img/s
+  ep0 step1050/4349 size256 loss 1.849 16.0 img/s
+  ep0 step1100/4349 size256 loss 1.850 15.7 img/s
+  ep0 step1150/4349 size256 loss 1.852 15.4 img/s
+  ep0 step1200/4349 size256 loss 1.852 15.3 img/s
+  ep0 step1250/4349 size256 loss 1.853 14.8 img/s
+  ep0 step1300/4349 size256 loss 1.855 14.4 img/s
+  ep0 step1350/4349 size256 loss 1.857 14.0 img/s
+  ep0 step1400/4349 size256 loss 1.858 13.8 img/s
+  ep0 step1450/4349 size256 loss 1.857 13.6 img/s
+  ep0 step1500/4349 size256 loss 1.859 13.5 img/s
+  ep0 step1550/4349 size256 loss 1.860 13.3 img/s
+  ep0 step1600/4349 size256 loss 1.861 13.1 img/s
+  ep0 step1650/4349 size256 loss 1.861 13.0 img/s
+  ep0 step1700/4349 size256 loss 1.862 12.9 img/s
+  ep0 step1750/4349 size256 loss 1.863 12.9 img/s
+  ep0 step1800/4349 size256 loss 1.864 13.0 img/s
+  ep0 step1850/4349 size256 loss 1.866 13.2 img/s
+  ep0 step1900/4349 size256 loss 1.868 13.3 img/s
+  ep0 step1950/4349 size256 loss 1.868 13.5 img/s
+  ep0 step2000/4349 size256 loss 1.869 13.7 img/s
+  ep0 step2050/4349 size256 loss 1.870 13.8 img/s
+  ep0 step2100/4349 size256 loss 1.871 13.9 img/s
+  ep0 step2150/4349 size256 loss 1.873 14.1 img/s
+  ep0 step2200/4349 size256 loss 1.874 14.2 img/s
+  ep0 step2250/4349 size256 loss 1.876 14.3 img/s
+  ep0 step2300/4349 size256 loss 1.878 14.5 img/s
+  ep0 step2350/4349 size256 loss 1.879 14.6 img/s
+  ep0 step2400/4349 size256 loss 1.880 14.7 img/s
+  ep0 step2450/4349 size256 loss 1.880 14.8 img/s
+  ep0 step2500/4349 size256 loss 1.881 15.0 img/s
+  ep0 step2550/4349 size256 loss 1.883 15.1 img/s
+  ep0 step2600/4349 size256 loss 1.884 15.2 img/s
+  ep0 step2650/4349 size256 loss 1.884 15.3 img/s
+  ep0 step2700/4349 size256 loss 1.885 15.4 img/s
+  ep0 step2750/4349 size256 loss 1.886 15.5 img/s
+  ep0 step2800/4349 size256 loss 1.887 15.6 img/s
+  ep0 step2850/4349 size256 loss 1.887 15.7 img/s
+  ep0 step2900/4349 size256 loss 1.888 15.8 img/s
+  ep0 step2950/4349 size256 loss 1.890 15.9 img/s
+  ep0 step3000/4349 size256 loss 1.890 16.0 img/s
+  ep0 step3050/4349 size256 loss 1.891 16.1 img/s
+  ep0 step3100/4349 size256 loss 1.890 16.1 img/s
+  ep0 step3150/4349 size256 loss 1.891 16.2 img/s
+  ep0 step3200/4349 size256 loss 1.891 16.3 img/s
+  ep0 step3250/4349 size256 loss 1.891 16.4 img/s
+  ep0 step3300/4349 size256 loss 1.891 16.5 img/s
+  ep0 step3350/4349 size256 loss 1.891 16.6 img/s
+  ep0 step3400/4349 size256 loss 1.892 16.6 img/s
+  ep0 step3450/4349 size256 loss 1.893 16.7 img/s
+  ep0 step3500/4349 size256 loss 1.891 16.8 img/s
+  ep0 step3550/4349 size256 loss 1.891 16.9 img/s
+  ep0 step3600/4349 size256 loss 1.891 16.9 img/s
+  ep0 step3650/4349 size256 loss 1.890 17.0 img/s
+  ep0 step3700/4349 size256 loss 1.890 17.1 img/s
+  ep0 step3750/4349 size256 loss 1.890 17.1 img/s
+  ep0 step3800/4349 size256 loss 1.890 17.2 img/s
+  ep0 step3850/4349 size256 loss 1.890 17.3 img/s
+  ep0 step3900/4349 size256 loss 1.889 17.3 img/s
+  ep0 step3950/4349 size256 loss 1.889 17.4 img/s
+  ep0 step4000/4349 size256 loss 1.889 17.5 img/s
+  ep0 step4050/4349 size256 loss 1.888 17.5 img/s
+  ep0 step4100/4349 size256 loss 1.888 17.6 img/s
+  ep0 step4150/4349 size256 loss 1.887 17.6 img/s
+  ep0 step4200/4349 size256 loss 1.887 17.7 img/s
+  ep0 step4250/4349 size256 loss 1.887 17.7 img/s
+  ep0 step4300/4349 size256 loss 1.887 17.8 img/s
+{"epoch": 0, "size": 256, "loss": 1.8863232997292128, "val_top1": 0.8205623667377399, "val_top3": 0.9203091684434968, "minutes": 198.35808953841527}
+{
+ "arch": "vit_small_patch16_224",
+ "classes": 1004,
+ "size": 256,
+ "train_images": 208764,
+ "val_images": 15008,
+ "test_images": 24599,
+ "test_top1": 0.8281637464937599,
+ "test_top3": 0.9306069352412699,
+ "best_val_top1": 0.8205623667377399,
+ "worst_classes": [
+  {
+   "latin": "Monomorium pharaonis",
+   "top1": 0.0,
+   "n": 6
+  },
+  {
+   "latin": "Coenagrion hastulatum",
+   "top1": 0.14285714285714285,
+   "n": 21
+  },
+  {
+   "latin": "Pseudochorthippus parallelus",
+   "top1": 0.35714285714285715,
+   "n": 28
+  },
+  {
+   "latin": "Zygaena filipendulae",
+   "top1": 0.37037037037037035,
+   "n": 27
+  },
+  {
+   "latin": "Myzus persicae",
+   "top1": 0.375,
+   "n": 8
+  },
+  {
+   "latin": "Chorthippus biguttulus",
+   "top1": 0.375,
+   "n": 16
+  },
+  {
+   "latin": "Tettigonia viridissima",
+   "top1": 0.38095238095238093,
+   "n": 21
+  },
+  {
+   "latin": "Erythromma lindenii",
+   "top1": 0.3888888888888889,
+   "n": 18
+  },
+  {
+   "latin": "Chorthippus albomarginatus",
+   "top1": 0.4,
+   "n": 20
+  },
+  {
+   "latin": "Calliptamus barbarus",
+   "top1": 0.4166666666666667,
+   "n": 24
+  },
+  {
+   "latin": "Argynnis aglaja",
+   "top1": 0.43333333333333335,
+   "n": 30
+  },
+  {
+   "latin": "Ischnura graellsii",
+   "top1": 0.4375,
+   "n": 16
+  },
+  {
+   "latin": "Lasius emarginatus",
+   "top1": 0.4375,
+   "n": 16
+  },
+  {
+   "latin": "Zygaena trifolii",
+   "top1": 0.44,
+   "n": 25
+  },
+  {
+   "latin": "Aeshna cyanea",
+   "top1": 0.4444444444444444,
+   "n": 18
+  }
+ ]
+}

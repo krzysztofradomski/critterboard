@@ -68,6 +68,23 @@ DATA=~/vdata1k RUN=~/runs/vits_household_v2 INIT=~/ckpt/best.pth BACKUP=1 \
 
   v1's reference at 256 px: 80.5% top-1 / 92.2% top-3.
 
+## Results — household v2 and v3 (Oct 2026)
+
+**v2** (`results/household-v2/`): `household_retrain.sh`, warm-started from eu-1k-commercial-v1; 1,000 species, 37 of the 41 household species (4 had under 100 CC0/CC-BY photos). Trained on an M1 (MPS, fp32, batch 48) in 9 h 10 min.
+
+**v3** (`results/household-v3/`): `household_finetune.sh` adds those 4 (bed bug, fruit fly, green peach aphid, pharaoh ant; 68–99 photos, `--min-photos-forced 60`) as 1,004 classes, by fine-tuning v2 for one epoch at 256 px (lr 1e-4) instead of retraining. Every other species keeps exactly its v2 photos and split, so v3 and v2 are scored on the same test photos.
+
+| Test, 256 px | v2 | v3 |
+|---|---|---|
+| All species (exported `.pte`) | 83.3% / 93.0% (24,561 photos) | 82.8% / 93.1% (24,599) |
+| Carried-over species, same photos | 83.3% / 93.0% | 82.9% / 93.1% |
+| Forced (household + app) species | 77.9% / 90.3% (57) | 77.5% top-1 on the same 57; 76.6% / 89.3% with the 4 new |
+| The 4 new species (38 photos) | — | 44.7% / 71.1% |
+
+- v1 (eu-1k-commercial-v1) scores 80.8% / 91.7% on v2's carried-over test photos.
+- New species, top-1: fruit fly 6/7, bed bug 8/17, green peach aphid 3/8, pharaoh ant 0/6 (4/6 in the top 3). Too few photos to train them well, and too few to measure them precisely.
+- v3 costs v2's other species 0.4 points top-1. A full 1,004-class retrain (~10 h here) is the alternative if that matters.
+
 ## Results — eu-1k-commercial-v1 (Sep 2026)
 
 A commercially usable 1,000-species model, **used by the app since pack `eu-ce` v4**, exported at 256 px since pack v11 (model v5). Built from CC0 + CC-BY photos only, on Google's Apache-2.0 ViT-S/16 AugReg weights. Full details, licence obligations and residual risks are in [`results/commercial-1k-v1/MODEL_CARD.md`](results/commercial-1k-v1/MODEL_CARD.md).

@@ -30,6 +30,8 @@ def main():
     ap.add_argument("--data", type=Path, required=True)
     ap.add_argument("--top", type=int, default=0, help="keep the first N species (by observation rank) with enough photos; 0 = all")
     ap.add_argument("--min-photos", type=int, default=0, help="skip species with fewer usable photos")
+    ap.add_argument("--min-photos-forced", type=int, default=None,
+                    help="lower minimum for forced (household) species; default: --min-photos")
     ap.add_argument("--per-species", type=int, default=400)
     ap.add_argument("--max-per-observer", type=int, default=3)
     ap.add_argument("--test-frac", type=float, default=0.10, help="share of photographers held out for test")
@@ -63,8 +65,10 @@ def main():
             if len(picked) >= args.per_species:
                 break
         picked = picked[: args.per_species]
-        if len(picked) < args.min_photos:
-            if s.get("forced") == "1":
+        forced = s.get("forced") == "1"
+        min_photos = args.min_photos_forced if forced and args.min_photos_forced is not None else args.min_photos
+        if len(picked) < min_photos:
+            if forced:
                 print(f"forced species dropped, {len(picked)} photos: {s['latin']}")
             continue
         chosen.append((s, picked))

@@ -1,0 +1,88 @@
+{
+ "arch": "vit_small_patch16_224",
+ "classes": 1004,
+ "size": 256,
+ "train_images": 208764,
+ "val_images": 15008,
+ "test_images": 24599,
+ "test_top1": 0.8281637464937599,
+ "test_top3": 0.9306069352412699,
+ "best_val_top1": 0.8205623667377399,
+ "worst_classes": [
+  {
+   "latin": "Monomorium pharaonis",
+   "top1": 0.0,
+   "n": 6
+  },
+  {
+   "latin": "Coenagrion hastulatum",
+   "top1": 0.14285714285714285,
+   "n": 21
+  },
+  {
+   "latin": "Pseudochorthippus parallelus",
+   "top1": 0.35714285714285715,
+   "n": 28
+  },
+  {
+   "latin": "Zygaena filipendulae",
+   "top1": 0.37037037037037035,
+   "n": 27
+  },
+  {
+   "latin": "Myzus persicae",
+   "top1": 0.375,
+   "n": 8
+  },
+  {
+   "latin": "Chorthippus biguttulus",
+   "top1": 0.375,
+   "n": 16
+  },
+  {
+   "latin": "Tettigonia viridissima",
+   "top1": 0.38095238095238093,
+   "n": 21
+  },
+  {
+   "latin": "Erythromma lindenii",
+   "top1": 0.3888888888888889,
+   "n": 18
+  },
+  {
+   "latin": "Chorthippus albomarginatus",
+   "top1": 0.4,
+   "n": 20
+  },
+  {
+   "latin": "Calliptamus barbarus",
+   "top1": 0.4166666666666667,
+   "n": 24
+  },
+  {
+   "latin": "Argynnis aglaja",
+   "top1": 0.43333333333333335,
+   "n": 30
+  },
+  {
+   "latin": "Ischnura graellsii",
+   "top1": 0.4375,
+   "n": 16
+  },
+  {
+   "latin": "Lasius emarginatus",
+   "top1": 0.4375,
+   "n": 16
+  },
+  {
+   "latin": "Zygaena trifolii",
+   "top1": 0.44,
+   "n": 25
+  },
+  {
+   "latin": "Aeshna cyanea",
+   "top1": 0.4444444444444444,
+   "n": 18
+  }
+ ]
+}
