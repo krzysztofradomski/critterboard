@@ -71,7 +71,7 @@
       "permissionAsk": "Pozwól Critterboardowi zobaczyć owada. Zdjęcia nie opuszczają telefonu.",
       "permissionDenied": "Aparat zablokowany. Włącz w Ustawienia → Critterboard → Aparat.",
       "allowCamera": "Zezwól aparatowi",
-      "focus": "ostrość",
+      "tapToSnap": "dotknij owada, by zrobić zdjęcie",
       "matching": "dopasowuję…",
       "needPackTitle": "Pobierz paczkę gatunków",
       "needPackBody": "Rozpoznawanie działa na Twoim telefonie. Zainstaluj raz paczkę Europa Środkowa (1000 gatunków i mapa offline, ok. 145 MB), aby zacząć skanować.",
@@ -81,8 +81,7 @@
       "modelLoading": "Ładowanie modelu…",
       "tipsTitle": "Wskazówki do zdjęcia",
       "tipsSub": "Lepsze zdjęcia, trafniejsze wyniki.",
-      "tipsGotIt": "Jasne",
-      "markPrompt": "Dotknij owada · auto za {s} s"
+      "tipsGotIt": "Jasne"
     },
     "result": {
       "headTitle": "ROZPOZNANO!",

@@ -71,7 +71,7 @@
       "permissionAsk": "Tap allow to let Critterboard see the bug. Photos never leave your device.",
       "permissionDenied": "Camera was denied. Enable it in Settings → Critterboard → Camera.",
       "allowCamera": "Allow camera",
-      "focus": "focus",
+      "tapToSnap": "tap the bug to snap",
       "matching": "matching…",
       "needPackTitle": "Get the species pack",
       "needPackBody": "Bug ID runs on your phone. Install the Central Europe pack (1,000 species and the offline map, ~145 MB) once to start scanning.",
@@ -81,8 +81,7 @@
       "modelLoading": "Loading model…",
       "tipsTitle": "Photo tips",
       "tipsSub": "Better photos, better matches.",
-      "tipsGotIt": "Got it",
-      "markPrompt": "Tap the bug · auto in {s}s"
+      "tipsGotIt": "Got it"
     },
     "result": {
       "headTitle": "IDENTIFIED!",

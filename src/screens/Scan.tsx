@@ -21,15 +21,16 @@ import { PB } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
-// mark: the photo is frozen on screen for the user to tap the bug; untapped, auto search runs.
-type Phase = 'aim' | 'flash' | 'mark' | 'analyzing';
+type Phase = 'aim' | 'flash' | 'analyzing';
 type Shot = { uri: string; fromCamera: boolean };
 type Point = { x: number; y: number };
 
-/** Seconds to tap the bug before auto search takes over. */
-const MARK_SECONDS = 5;
-
 const ZOOM_PER_LN = 0.36;
+/** A touch that moves less than this (pt) is a tap, not a drag. */
+const TAP_SLOP = 10;
+/** Bottom of the top bar and height of the shutter row + tab bar (pt): taps there don't snap. */
+const TOP_BAR_BOTTOM = 96;
+const CONTROLS_HEIGHT = 210;
 /** Reticle size (pt) and centre height (fraction of the screen). The classifier crops around it. */
 const RETICLE = 220;
 const RETICLE_TOP = 0.46;
@@ -78,7 +79,6 @@ export function Scan() {
 
   const [phase, setPhase] = useState<Phase>('aim');
   const [shot, setShot] = useState<Shot | null>(null);
-  const [markLeft, setMarkLeft] = useState(MARK_SECONDS);
   const [tapPoint, setTapPoint] = useState<Point | null>(null);
   const [tipsOpen, setTipsOpen] = useState(false);
   // The guide's hint is a greeting, not a status: show it on arrival, then get out of the way.
@@ -92,38 +92,44 @@ export function Scan() {
   const view = useRef({ width: 0, height: 0 }).current;
   const onLayout = (e: LayoutChangeEvent) => Object.assign(view, e.nativeEvent.layout);
 
-  // Pinch to zoom. expo-camera's zoom is 0..1 of the lens range; on iOS it is exponential
-  // (min × (max/min)^zoom), so adding ln(scale) × ZOOM_PER_LN keeps a pinch feeling the same at
-  // every zoom level. ZOOM_PER_LN ≈ 1 / ln(max/min) for a typical ~16× range.
+  // Tap the preview to snap and search around that spot; pinch to zoom. expo-camera's zoom is
+  // 0..1 of the lens range; on iOS it is exponential (min × (max/min)^zoom), so adding
+  // ln(scale) × ZOOM_PER_LN keeps a pinch feeling the same at every zoom level.
+  // ZOOM_PER_LN ≈ 1 / ln(max/min) for a typical ~16× range.
   const [zoom, setZoom] = useState(0);
-  const pinch = useRef({ startDist: 0, startZoom: 0, zoom: 0 }).current;
-  pinch.zoom = zoom;
-  const pinchResponder = useRef(
+  const gesture = useRef({ startDist: 0, startZoom: 0, zoom: 0, pinched: false, onTap: (_p: Point) => {} }).current;
+  gesture.zoom = zoom;
+  const gestureResponder = useRef(
     PanResponder.create({
-      // Only two-finger touches: single taps fall through to the camera and buttons.
-      onStartShouldSetPanResponder: (e) => e.nativeEvent.touches.length === 2,
+      // Buttons sit deeper and claim their touches first; every other touch on the screen is the
+      // camera's, overlays like the reticle included (sibling layers under them would never see it).
+      onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: (e) => e.nativeEvent.touches.length === 2,
       onPanResponderGrant: (e) => {
-        pinch.startDist = touchDistance(e);
-        pinch.startZoom = pinch.zoom;
+        gesture.pinched = false;
+        gesture.startDist = touchDistance(e);
+        gesture.startZoom = gesture.zoom;
       },
       onPanResponderMove: (e) => {
         const dist = touchDistance(e);
         if (!dist) return;
+        gesture.pinched = true;
         // A second finger that lands after the grant starts the pinch here.
-        if (!pinch.startDist) {
-          pinch.startDist = dist;
-          pinch.startZoom = pinch.zoom;
+        if (!gesture.startDist) {
+          gesture.startDist = dist;
+          gesture.startZoom = gesture.zoom;
           return;
         }
-        const next = pinch.startZoom + Math.log(dist / pinch.startDist) * ZOOM_PER_LN;
+        const next = gesture.startZoom + Math.log(dist / gesture.startDist) * ZOOM_PER_LN;
         setZoom(Math.min(1, Math.max(0, next)));
       },
-      onPanResponderRelease: () => {
-        pinch.startDist = 0;
+      onPanResponderRelease: (_e, g) => {
+        gesture.startDist = 0;
+        // The root fills the screen, so page coordinates are view coordinates.
+        if (!gesture.pinched && Math.hypot(g.dx, g.dy) < TAP_SLOP) gesture.onTap({ x: g.x0, y: g.y0 });
       },
       onPanResponderTerminate: () => {
-        pinch.startDist = 0;
+        gesture.startDist = 0;
       },
     }),
   ).current;
@@ -176,6 +182,8 @@ export function Scan() {
           // Pack installed but the model isn't loaded yet: say so, don't guess.
           haptics.warning();
           showToast({ text: t('scan.modelNotReady'), icon: '⏳', bg: PB.yellow });
+          setShot(null);
+          setTapPoint(null);
           setPhase('aim');
           return;
         }
@@ -236,40 +244,16 @@ export function Scan() {
     })();
   };
 
-  /** Freeze the photo and wait for a tap on the bug (web: the mock classifier needs no aim). */
-  const startMark = (next: Shot) => {
+  /** Freeze the photo on screen and classify it: around `tap`, or auto search when null. */
+  const analyse = (next: Shot, tap: Point | null) => {
     setShot(next);
-    setTapPoint(null);
-    setMarkLeft(MARK_SECONDS);
-    setPhase('mark');
-  };
-
-  /** Classify the frozen photo: around the tapped point, or auto search when `tap` is null. */
-  const analyse = (tap: Point | null) => {
-    if (phase !== 'mark' || !shot) return;
-    haptics.tap();
     setTapPoint(tap);
     setPhase('analyzing');
-    classifyAndRoute(shot.uri, shot.fromCamera, tap);
+    classifyAndRoute(next.uri, next.fromCamera, tap);
   };
 
-  // Count down while marking; at zero, auto search.
-  useEffect(() => {
-    if (phase !== 'mark') return;
-    if (markLeft <= 0) {
-      analyse(null);
-      return;
-    }
-    const id = setTimeout(() => setMarkLeft((s) => s - 1), 1000);
-    return () => clearTimeout(id);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase, markLeft]);
-
-  const shutter = async () => {
-    if (phase === 'mark') {
-      analyse(null); // shutter again: don't wait, search now
-      return;
-    }
+  /** Snap a photo; `tap` (a tap on the preview) aims the search, else the reticle does. */
+  const shutter = async (tap: Point | null = null) => {
     if (phase !== 'aim') return;
     if (needsPack) {
       haptics.warning();
@@ -294,11 +278,15 @@ export function Scan() {
       photoUri = null;
     }
     if (photoUri && !isWeb) {
-      startMark({ uri: photoUri, fromCamera: true });
+      analyse({ uri: photoUri, fromCamera: true }, tap);
       return;
     }
     setPhase('analyzing');
     classifyAndRoute(photoUri, true);
+  };
+  // Taps on the top bar or the shutter row / tab bar background aren't aimed at a bug.
+  gesture.onTap = (p) => {
+    if (p.y > TOP_BAR_BOTTOM && p.y < view.height - CONTROLS_HEIGHT) void shutter(p);
   };
 
   const pickFromGallery = async () => {
@@ -319,7 +307,7 @@ export function Scan() {
       const photoUri = result.assets[0]?.uri ?? null;
       haptics.tap();
       if (photoUri && !isWeb) {
-        startMark({ uri: photoUri, fromCamera: false });
+        analyse({ uri: photoUri, fromCamera: false }, null);
         return;
       }
       setPhase('analyzing');
@@ -340,9 +328,9 @@ export function Scan() {
   const cameraReady = permission?.granted;
 
   return (
-    // Pinch handlers on the root: touches bubble up through ancestors only, so a sibling layer
-    // under the overlays (focus box, tip card) would never see them.
-    <View style={styles.root} onLayout={onLayout} {...(cameraReady ? pinchResponder.panHandlers : {})}>
+    // Tap and pinch handlers on the root: touches bubble up through ancestors only, so a sibling
+    // layer under the overlays (focus box, tip card) would never see them.
+    <View style={styles.root} onLayout={onLayout} {...(cameraReady ? gestureResponder.panHandlers : {})}>
       {cameraReady ? (
         <CameraView
           ref={(ref) => {
@@ -357,20 +345,16 @@ export function Scan() {
         <CameraScene />
       )}
 
-      {shot && (phase === 'mark' || phase === 'analyzing') && (
-        // The frozen photo, shown as the preview showed it (camera) or whole (gallery), so a
-        // tap maps onto the photo (scanCrops' `fit`).
-        <Pressable
-          style={[StyleSheet.absoluteFill, styles.markLayer]}
-          onPress={(e) => analyse({ x: e.nativeEvent.locationX, y: e.nativeEvent.locationY })}
-          accessibilityLabel={t('scan.markPrompt', { s: markLeft })}
-        >
+      {shot && phase === 'analyzing' && (
+        // The frozen photo, shown as the preview showed it (camera) or whole (gallery), so the
+        // tap ring sits where the search looks (scanCrops' `fit`).
+        <View style={[StyleSheet.absoluteFill, styles.shotLayer]} pointerEvents="none">
           <Image
             source={{ uri: shot.uri }}
             style={StyleSheet.absoluteFill}
             resizeMode={shot.fromCamera ? 'cover' : 'contain'}
           />
-        </Pressable>
+        </View>
       )}
 
       {zoom > 0.01 && phase === 'aim' && (
@@ -387,18 +371,16 @@ export function Scan() {
       {flash && <View style={styles.flash} />}
 
       <View style={styles.topbar}>
-        <IconBtn onPress={phase === 'mark' ? () => { setShot(null); setPhase('aim'); } : back} size={42} fs={18}>✕</IconBtn>
+        <IconBtn onPress={back} size={42} fs={18}>✕</IconBtn>
         <View
           style={[
             styles.statusPill,
-            { backgroundColor: phase === 'analyzing' || phase === 'mark' ? PB.yellow : PB.green },
+            { backgroundColor: phase === 'analyzing' ? PB.yellow : PB.green },
           ]}
         >
           <Animated.View style={[styles.dot, { opacity: pulse }]} />
-          <Text style={[styles.statusText, { color: phase === 'analyzing' || phase === 'mark' ? PB.ink : PB.cream }]}>
-            {phase === 'mark'
-              ? t('scan.markPrompt', { s: markLeft })
-              : phase === 'analyzing' ? t('scan.analyzing') : t('scan.scanning')}
+          <Text style={[styles.statusText, { color: phase === 'analyzing' ? PB.ink : PB.cream }]}>
+            {phase === 'analyzing' ? t('scan.analyzing') : t('scan.scanning')}
           </Text>
         </View>
         <View style={{ width: 42 }} />
@@ -442,7 +424,7 @@ export function Scan() {
         </View>
       )}
 
-      {phase !== 'mark' && !tapPoint && (
+      {!tapPoint && (
       <Animated.View
         style={[
           styles.reticle,
@@ -460,13 +442,13 @@ export function Scan() {
       >
         <View style={styles.focusTag}>
           <Text style={styles.focusTagText}>
-            {phase === 'analyzing' ? t('scan.matching') : t('scan.focus')}
+            {phase === 'analyzing' ? t('scan.matching') : t('scan.tapToSnap')}
           </Text>
         </View>
       </Animated.View>
       )}
 
-      {phase !== 'mark' && (tipVisible || phase === 'analyzing') && (
+      {(tipVisible || phase === 'analyzing') && (
       <View style={styles.tipWrap}>
         <Sticker bg={PB.cream} rotate={-1.5} style={{ paddingVertical: 10, paddingHorizontal: 12 }}>
           <View style={styles.tipRow}>
@@ -483,7 +465,7 @@ export function Scan() {
 
       <View style={styles.bottomRow}>
         <IconBtn size={48} fs={22} onPress={pickFromGallery}>🖼️</IconBtn>
-        <Pressable onPress={shutter} style={[styles.shutter, phase !== 'aim' && styles.shutterPressed]}>
+        <Pressable onPress={() => void shutter()} style={[styles.shutter, phase !== 'aim' && styles.shutterPressed]}>
           <View style={styles.shutterInner} />
         </Pressable>
         <IconBtn size={48} fs={22} onPress={() => setTipsOpen(true)} accessibilityLabel={t('scan.tipsTitle')}>💡</IconBtn>
@@ -550,7 +532,7 @@ const styles = StyleSheet.create({
   },
   permissionTitle: { fontFamily: undefined, fontSize: 18, fontWeight: '800', color: PB.ink },
   permissionDesc: { marginTop: 6, fontSize: 13, color: PB.ink, opacity: 0.75, lineHeight: 18 },
-  markLayer: { backgroundColor: PB.ink },
+  shotLayer: { backgroundColor: PB.ink },
   tapRing: {
     position: 'absolute',
     width: 72,

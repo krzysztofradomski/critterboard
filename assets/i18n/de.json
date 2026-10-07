@@ -71,7 +71,7 @@
       "permissionAsk": "Tipp auf Erlauben, damit Critterboard das Insekt sieht. Fotos verlassen dein Gerät nie.",
       "permissionDenied": "Kamera abgelehnt. Aktivieren unter Einstellungen → Critterboard → Kamera.",
       "allowCamera": "Kamera erlauben",
-      "focus": "Fokus",
+      "tapToSnap": "Insekt antippen zum Knipsen",
       "matching": "vergleiche…",
       "needPackTitle": "Artenpaket holen",
       "needPackBody": "Die Bestimmung läuft auf deinem Handy. Installiere einmal das Paket Mitteleuropa (1.000 Arten und die Offline-Karte, ca. 145 MB), um loszulegen.",
@@ -81,8 +81,7 @@
       "modelLoading": "Modell wird geladen…",
       "tipsTitle": "Foto-Tipps",
       "tipsSub": "Bessere Fotos, bessere Treffer.",
-      "tipsGotIt": "Verstanden",
-      "markPrompt": "Tippe auf das Insekt · auto in {s} s"
+      "tipsGotIt": "Verstanden"
     },
     "result": {
       "headTitle": "IDENTIFIZIERT!",
