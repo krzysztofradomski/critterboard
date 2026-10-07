@@ -1,16 +1,22 @@
-"""Merge taxonomy (taxa.json), sizes (wiki_en.json) and rule-based habitat/diet into packs/eu-ce.json.
+"""Merge taxonomy (taxa.json), sizes (wiki_en.json), seasons (season.json), descriptions
+(about.json) and rule-based habitat/diet into packs/eu-ce.json.
 
 Each pack species gets `facts`: {o: order, fa: family, h: habitat key, d: diet key,
-sz: [lo_mm, hi_mm], k: 'l'|'w' (length|wingspan), r: [GBIF regions]}. Habitat and diet are
-*typical for the family/order* (rules below), not species-specific research; size comes from
-the English Wikipedia text and range from GBIF record counts. The pack version is bumped.
-Run after fetch_taxonomy.py and fetch_wiki.py: python3 tools/facts/build_facts.py
+sz: [lo_mm, hi_mm], k: 'l'|'w' (length|wingspan), r: [GBIF regions], m: 12 digits 0-9 (records
+per month in Europe, Jan..Dec, relative to the busiest), ab: {lang: short Wikipedia description}}.
+Habitat and diet are *typical for the family/order* (rules below), not species-specific research;
+size comes from the English Wikipedia text and range and season from GBIF record counts.
+The pack version is bumped.
+Run after fetch_taxonomy.py, fetch_wiki.py, fetch_season.py and fetch_about.py:
+python3 tools/facts/build_facts.py
 """
 import json, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 taxa = json.load(open(ROOT / "tools/facts/taxa.json"))
 wiki = json.load(open(ROOT / "tools/facts/wiki_en.json"))
+season = json.load(open(ROOT / "tools/facts/season.json"))
+about = json.load(open(ROOT / "tools/facts/about.json"))
 pack = json.load(open(ROOT / "packs/eu-ce.json"))
 
 AQUATIC_HEMIPTERA = {"Notonectidae", "Corixidae", "Nepidae", "Gerridae", "Naucoridae", "Pleidae", "Veliidae", "Hydrometridae"}
@@ -88,6 +94,11 @@ for b in pack["bugs"]:
     if sz and sz[0] >= 1.5:  # drops eggs/larvae mis-read as the adult
         f["sz"], f["k"] = sz, "w" if w.get("kind") == "wingspan" else "l"
     if t.get("continents"): f["r"] = t["continents"]
+    months = season.get(b["latin"])
+    if months and sum(months) >= 50:  # a handful of records makes no season
+        top = max(months)
+        f["m"] = "".join(str(round(9 * c / top)) for c in months)
+    if about.get(b["latin"]): f["ab"] = about[b["latin"]]
     if f:
         b["facts"] = f
         n += 1
@@ -95,4 +106,5 @@ for b in pack["bugs"]:
         b.pop("facts", None)
 pack["version"] += 1
 json.dump(pack, open(ROOT / "packs/eu-ce.json", "w"), ensure_ascii=False, indent=2)
-print("species with facts", n, "size", sum(1 for b in pack["bugs"] if "sz" in b.get("facts", {})), "version", pack["version"])
+count = lambda k: sum(1 for b in pack["bugs"] if k in b.get("facts", {}))
+print("species with facts", n, "size", count("sz"), "season", count("m"), "about", count("ab"), "version", pack["version"])

@@ -10,6 +10,27 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 > Local runbook for everything below: [[docs/handoff]].
 
+## Now — Richer species screen (2026-10-06)
+
+Result screen gets more detail. Client-side rules live in `src/data/speciesFacts.ts` (pure, unit-tested); new pack data comes from `tools/facts/` (pack v12).
+
+- [x] 0 Delete dead `FACT_KEYS` (10 of 12 ids don't exist; hcat/lady then use their pack facts) and the `facts.values.*` strings only it used
+- [x] 1 Order › family chip under the Latin name, order in plain words ("Butterflies & moths")
+- [x] 2 "Your catch" card: caught date; "Show on map" when it has coordinates (Map takes an optional focus point)
+- [x] 3 Badges: traits (pollinator, aphid hunter…) + Garden friend / Garden pest (rules by diet, family, curated latin list)
+- [x] 4 Actions: Share (photo + text) as the main button when caught; Remove from Dex becomes a small link
+- [x] 5 Size next to a familiar object (sesame seed … phone), bars to scale
+- [x] 6 When to find it: GBIF records per month in Europe → `facts.m`, 12-bar chart + "peaks Jun–Aug"
+- [x] 7 Short description: Wikipedia intro (2 sentences, en/pl/de/es) built into the pack, offline; "Wikipedia, CC BY-SA" credit
+- [x] 8 Life cycle strip from the order (complete / incomplete metamorphosis, spiders, ticks)
+- [x] 9 Safety badge: stings / bites / irritating hairs / harmless, by family and genus
+- [x] 11 Nearby: "Spotted N× near you" from shared sightings, only with Network + sightings on
+- [x] Habitat/diet tiles say "typical for the family"
+- [x] Texts in en/pl/de/es; tests for every new rule; `docs/modules/species-facts.md`; check in the simulator
+- [ ] Ship pack v12: push `packs/eu-ce.json` + `packs/manifest.json` to main (installed apps pick it up as a pack update; older app versions ignore the new fields)
+
+Review: pack v12 has a season for 998/1000 species and a description for 993 (en 946, de 884, pl 569, es 463; species without an article in the UI language show only the Wikipedia link). Pack JSON 717 KB → 1.25 MB. Checked in the simulator (Release build, pack v12 copied into the app's cache): badges, safety, about, season, size, life cycle, your catch → map focus, share sheet with the photo. Not checked live: "spotted near you" (needs Network + sightings on and other players' catches nearby).
+
 ## Now — Shared sightings overlay (2026-10-03)
 
 Decided: exact locations (blurring could put a bug in a neighbour's garden), anonymous sightings (species + date, no name), last 12 months, ~100 nearest.
@@ -719,3 +740,9 @@ Reported: seeded user data on a new install, fake people/leaderboard/credits, pa
 - [x] Server-computed XP from the species table; idempotent catch ids
 - [x] Privacy page updated (in-app deletion)
 - [ ] Verify the Brains UI + prompts on a device with Network on
+
+## Scan tap-to-snap, licences, model v3 (Oct 2026)
+- [x] Scan: a tap on the live preview snaps and searches around the tap at once; shutter and gallery auto search at once (no 5 s mark step)
+- [x] Open source libraries: list read from package.json (was stale: Expo 52 versions, ~15 packages missing), plus ExecuTorch / XNNPACK and llama.cpp notices
+- [x] Model household-v3: 1,004 species (+ bed bug, fruit fly, green peach aphid, pharaoh ant), fine-tuned from household-v2 on branch `household-v2-results` (82.8% top-1; the 4 new 44.7%)
+- [ ] Verify tap-to-snap on a real phone (the simulator has no camera)

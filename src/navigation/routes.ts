@@ -18,7 +18,8 @@ export type RouteParamMap = {
   result: { id: string; photoUri?: string; conf?: number };
   chat: { topic?: string } | undefined;
   dex: undefined;
-  map: undefined;
+  /** `focus`: open on this point (e.g. a catch from the species card) instead of framing all pins. */
+  map: { focus?: { lat: number; lng: number } } | undefined;
   me: { sub?: MeSub; tab?: 'global' | 'weekly' | 'friends' } | undefined;
   quests: undefined;
   leaderboard: undefined;

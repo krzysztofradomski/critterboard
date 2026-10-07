@@ -1,109 +1,31 @@
 import * as Location from 'expo-location';
 import React from 'react';
-import { Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Platform, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
 
 import { BugIcon } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
 import { CatchPhoto } from '@/components/CatchPhoto';
 import { IconBtn } from '@/components/IconBtn';
+import {
+  Section,
+  SpeciesAbout,
+  SpeciesBadges,
+  SpeciesLifeCycle,
+  SpeciesSeason,
+  SpeciesSize,
+} from '@/components/SpeciesSections';
 import { Sticker } from '@/components/Sticker';
 import { BUGS, findBug } from '@/data/bugs';
-import { factTiles, wikipediaUrl } from '@/data/speciesFacts';
+import { factTiles, orderKey } from '@/data/speciesFacts';
 import { useT, useBugName } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
 import { keepPhoto } from '@/lib/photos';
+import { latestPhotoFor } from '@/lib/streak';
 import { usePersona } from '@/personas/hooks';
 import { PB, RARITY_COLOR } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
-import { usePublishCatch } from '@/backend/hooks';
-
-/**
- * Per-bug fact list keyed by translation pack keys. Resolved on render so
- * a language flip refreshes the labels and the values (e.g. "Meadows"
- * vs. "Łąki") in the same pass.
- */
-const FACT_KEYS: Record<string, Array<[string, string, string]>> = {
-  mona: [
-    ['facts.habitat',  'facts.values.meadows',      PB.green],
-    ['facts.wingspan', 'facts.values.monaWingspan', PB.blue],
-    ['facts.range',    'facts.values.naRange',      PB.purple],
-    ['facts.diet',     'facts.values.milkweed',     PB.red],
-  ],
-  rhin: [
-    ['facts.habitat',  'facts.values.forests',      PB.green],
-    ['facts.size',     'facts.values.rhinSize',     PB.blue],
-    ['facts.range',    'facts.values.tropics',      PB.purple],
-    ['facts.diet',     'facts.values.fruit',        PB.red],
-  ],
-  hcat: [
-    ['facts.habitat',  'facts.values.hives',        PB.green],
-    ['facts.wingspan', 'facts.values.hcatWingspan', PB.blue],
-    ['facts.range',    'facts.values.worldwide',    PB.purple],
-    ['facts.diet',     'facts.values.nectar',       PB.red],
-  ],
-  mant: [
-    ['facts.habitat',  'facts.values.meadows',      PB.green],
-    ['facts.size',     'facts.values.mantSize',     PB.blue],
-    ['facts.range',    'facts.values.worldwide',    PB.purple],
-    ['facts.diet',     'facts.values.insects',      PB.red],
-  ],
-  lady: [
-    ['facts.habitat',  'facts.values.gardens',      PB.green],
-    ['facts.size',     'facts.values.ladySize',     PB.blue],
-    ['facts.range',    'facts.values.worldwide',    PB.purple],
-    ['facts.diet',     'facts.values.aphids',       PB.red],
-  ],
-  drag: [
-    ['facts.habitat',  'facts.values.ponds',        PB.green],
-    ['facts.wingspan', 'facts.values.dragWingspan', PB.blue],
-    ['facts.range',    'facts.values.europe',       PB.purple],
-    ['facts.diet',     'facts.values.insects',      PB.red],
-  ],
-  lhoc: [
-    ['facts.habitat',  'facts.values.forests',      PB.green],
-    ['facts.wingspan', 'facts.values.lhocWingspan', PB.blue],
-    ['facts.range',    'facts.values.naEastRange',  PB.purple],
-    ['facts.active',   'facts.values.nighttime',    PB.red],
-  ],
-  fire: [
-    ['facts.habitat',  'facts.values.meadows',      PB.green],
-    ['facts.size',     'facts.values.fireSize',     PB.blue],
-    ['facts.range',    'facts.values.naRange',      PB.purple],
-    ['facts.active',   'facts.values.nighttime',    PB.red],
-  ],
-  cica: [
-    ['facts.habitat',  'facts.values.forests',      PB.green],
-    ['facts.size',     'facts.values.cicaSize',     PB.blue],
-    ['facts.range',    'facts.values.naEastRange',  PB.purple],
-    ['facts.diet',     'facts.values.sap',          PB.red],
-  ],
-  hwsp: [
-    ['facts.habitat',  'facts.values.eaves',        PB.green],
-    ['facts.size',     'facts.values.hwspSize',     PB.blue],
-    ['facts.range',    'facts.values.worldwide',    PB.purple],
-    ['facts.diet',     'facts.values.nectar',       PB.red],
-  ],
-  walk: [
-    ['facts.habitat',  'facts.values.forests',      PB.green],
-    ['facts.size',     'facts.values.walkSize',     PB.blue],
-    ['facts.range',    'facts.values.worldwide',    PB.purple],
-    ['facts.diet',     'facts.values.leaves',       PB.red],
-  ],
-  atla: [
-    ['facts.habitat',  'facts.values.forests',      PB.green],
-    ['facts.wingspan', 'facts.values.atlaWingspan', PB.blue],
-    ['facts.range',    'facts.values.seAsia',       PB.purple],
-    ['facts.active',   'facts.values.nighttime',    PB.red],
-  ],
-};
-
-const DEFAULT_FACT_KEYS: Array<[string, string, string]> = [
-  ['facts.habitat', 'facts.various', PB.green],
-  ['facts.size',    'facts.unknown', PB.blue],
-  ['facts.range',   'facts.unknown', PB.purple],
-  ['facts.diet',    'facts.unknown', PB.red],
-];
+import { useNearbySightings, usePublishCatch } from '@/backend/hooks';
 
 export function Result() {
   const { go, back } = useNav();
@@ -121,6 +43,8 @@ export function Result() {
   const bug = findBug(id) ?? BUGS[0];
   const t = useT();
   const localizedName = useBugName(bug?.id ?? 'lady');
+  const catchLog = useAppStore((s) => s.catchLog);
+  const nearby = useNearbySightings().filter((x) => x.bugId === id).length;
   if (!bug) return null;
 
   const publishCatch = usePublishCatch();
@@ -129,10 +53,18 @@ export function Result() {
   // Only a fresh scan carries a model confidence; opening a bug from the Dex has none.
   const conf = params?.conf;
   const language = useAppStore((s) => s.language);
-  // Hand-written facts for the bundled species; pack species carry data-driven ones.
-  const handFacts = FACT_KEYS[bug.id];
-  const packTiles = handFacts ? null : factTiles(bug, language, t);
-  const facts = handFacts ?? DEFAULT_FACT_KEYS;
+  const tiles = factTiles(bug, language, t);
+  const order = orderKey(bug);
+  // One catch per species (a re-scan doesn't add another): its date and, when known, its place.
+  const myCatch = alreadyCaught ? catchLog.find((e) => e.id === bug.id) : undefined;
+  // Opened from a map pin or a sighting there's no photo param; show and share the catch's own.
+  const shownPhoto = photoUri ?? (alreadyCaught ? latestPhotoFor(catchLog, bug.id) ?? null : null);
+
+  const share = () => {
+    const message = t('result.shareText', { name: localizedName, latin: bug.latin, emoji: bug.emoji });
+    // iOS shares the photo with the text; Android's share sheet takes text only.
+    void Share.share(Platform.OS === 'ios' && shownPhoto ? { message, url: shownPhoto } : { message }).catch(() => undefined);
+  };
 
   const snarkLine = bug.rarity === 'legendary'
     ? P.lines.legendary(localizedName)
@@ -142,10 +74,6 @@ export function Result() {
     bug.rarity === 'legendary' ? PB.purple : bug.rarity === 'epic' ? PB.pink : PB.orange;
 
   const onAdd = () => {
-    if (alreadyCaught) {
-      go('dex');
-      return;
-    }
     // Defence in depth: the scanner already filters these out.
     if (conf !== undefined && conf < minConfidence) {
       haptics.warning();
@@ -227,7 +155,7 @@ export function Result() {
           <View style={styles.heroImage}>
             {/* The photo, else the species' sticker icon (or its emoji when there is no icon). */}
             <CatchPhoto
-              uri={photoUri}
+              uri={shownPhoto}
               fallback={
                 <View style={styles.heroIcon}>
                   <BugIcon bug={bug} size={168} />
@@ -246,6 +174,12 @@ export function Result() {
           <View style={{ padding: 14 }}>
             <Text style={styles.bugName}>{localizedName}</Text>
             <Text style={styles.bugLatin}>{bug.latin}</Text>
+            {order && (
+              <Text style={styles.taxon}>
+                {t(order)}
+                {bug.facts?.fa ? ` · ${bug.facts.fa}` : ''}
+              </Text>
+            )}
             {conf !== undefined && (
               <>
                 <View style={styles.confRow}>
@@ -259,6 +193,8 @@ export function Result() {
             )}
           </View>
         </Sticker>
+
+        <SpeciesBadges bug={bug} />
 
         <Sticker
           bg={P.cardBg}
@@ -277,51 +213,63 @@ export function Result() {
           </View>
         </Sticker>
 
-        <View style={styles.factGrid}>
-          {packTiles
-            ? packTiles.map((tile) => (
+        <SpeciesAbout bug={bug} lang={language} />
+
+        {tiles && (
+          <>
+            <View style={styles.factGrid}>
+              {tiles.map((tile) => (
                 <View key={tile.label} style={styles.factTile}>
                   <Text style={[styles.factLabel, { color: tile.color }]}>{tile.label.toUpperCase()}</Text>
-                  <Text style={styles.factValueSmall}>{tile.value}</Text>
-                </View>
-              ))
-            : facts.map(([labelKey, valueKey, c]) => (
-                <View key={labelKey} style={styles.factTile}>
-                  <Text style={[styles.factLabel, { color: c }]}>{t(labelKey).toUpperCase()}</Text>
-                  <Text style={styles.factValue}>{t(valueKey)}</Text>
+                  <Text style={styles.factValue}>{tile.value}</Text>
                 </View>
               ))}
-        </View>
-        <Pressable
-          onPress={() => void Linking.openURL(wikipediaUrl(bug, language))}
-          accessibilityRole="link"
-          style={styles.readMore}
-        >
-          <Text style={styles.readMoreText}>{t('result.readMore')}</Text>
-        </Pressable>
+            </View>
+            <Text style={styles.familyNote}>{t('facts.familyNote')}</Text>
+          </>
+        )}
+
+        {myCatch && (
+          <Section title={t('result.yourCatch')} color={PB.red}>
+            <Text style={styles.catchDate}>
+              {t('result.caughtOn', {
+                date: new Intl.DateTimeFormat(language, { day: 'numeric', month: 'long', year: 'numeric' }).format(
+                  new Date(myCatch.at),
+                ),
+              })}
+            </Text>
+            {myCatch.lat !== undefined && myCatch.lng !== undefined && (
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => go('map', { focus: { lat: myCatch.lat!, lng: myCatch.lng! } })}
+                style={{ marginTop: 6 }}
+              >
+                <Text style={styles.linkText}>{t('result.showOnMap')}</Text>
+              </Pressable>
+            )}
+          </Section>
+        )}
+
+        <SpeciesSize bug={bug} lang={language} name={localizedName} />
+        <SpeciesSeason bug={bug} lang={language} nearby={nearby} />
+        <SpeciesLifeCycle bug={bug} />
 
         <View style={{ marginTop: 14 }}>
           {/* Only a scan (which always has a confidence) can add a species. Opened from a
               sighting, a region sample or the like, an uncaught species is something to hunt. */}
           <Btn
             full
-            bg={alreadyCaught ? PB.cream : PB.ink}
-            color={alreadyCaught ? PB.ink : PB.yellow}
+            bg={PB.ink}
+            color={PB.yellow}
             size="lg"
-            onPress={alreadyCaught || conf !== undefined ? onAdd : () => go('scan', { hint: bug.id })}
+            onPress={alreadyCaught ? share : conf !== undefined ? onAdd : () => go('scan', { hint: bug.id })}
           >
-            {alreadyCaught
-              ? t('result.alreadyInDex')
-              : conf !== undefined
-                ? t('result.addToDex')
-                : t('home.hunt')}
+            {alreadyCaught ? t('result.share') : conf !== undefined ? t('result.addToDex') : t('home.hunt')}
           </Btn>
           {alreadyCaught && conf === undefined ? (
-            <Btn
-              full
-              bg={PB.red}
-              color={PB.cream}
-              style={{ marginTop: 10 }}
+            <Pressable
+              accessibilityRole="button"
+              style={styles.removeLink}
               onPress={() =>
                 Alert.alert(t('result.removeTitle'), t('result.removeBody', { name: localizedName }), [
                   { text: t('common.cancel'), style: 'cancel' },
@@ -336,8 +284,8 @@ export function Result() {
                 ])
               }
             >
-              {t('result.removeFromDex')}
-            </Btn>
+              <Text style={styles.removeText}>{t('result.removeFromDex')}</Text>
+            </Pressable>
           ) : null}
         </View>
       </ScrollView>
@@ -417,8 +365,11 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   factLabel: { fontSize: 10, fontWeight: '800', letterSpacing: 0.5 },
-  factValue: { fontSize: 16, fontWeight: '800', color: PB.ink, marginTop: 2 },
-  factValueSmall: { fontSize: 13, fontWeight: '800', color: PB.ink, marginTop: 3, lineHeight: 16 },
-  readMore: { marginTop: 12, alignSelf: 'center', paddingVertical: 6, paddingHorizontal: 12 },
-  readMoreText: { fontSize: 12, fontWeight: '800', color: PB.ink, textDecorationLine: 'underline' },
+  factValue: { fontSize: 13, fontWeight: '800', color: PB.ink, marginTop: 3, lineHeight: 16 },
+  familyNote: { marginTop: 8, fontSize: 11, color: PB.ink, opacity: 0.7, textAlign: 'center' },
+  taxon: { fontSize: 12, fontWeight: '800', color: PB.ink, marginTop: 6 },
+  catchDate: { fontSize: 15, fontWeight: '800', color: PB.ink },
+  linkText: { fontSize: 13, fontWeight: '800', color: PB.ink, textDecorationLine: 'underline' },
+  removeLink: { marginTop: 14, alignSelf: 'center', paddingVertical: 8, paddingHorizontal: 16 },
+  removeText: { fontSize: 13, fontWeight: '800', color: PB.ink, opacity: 0.7, textDecorationLine: 'underline' },
 });

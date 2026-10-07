@@ -17,7 +17,7 @@ import { useGeotaggedCatches } from "@/lib/useStreak";
 import { REGIONS } from "@/data/regions";
 import { useRegionMap } from "@/map/useRegionMap";
 import { PB } from "@/tokens/pb";
-import { useAppStore } from "@/store/useAppStore";
+import { useAppStore, useCurrentRoute } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
 
 import {
@@ -33,6 +33,7 @@ import {
 export function MapScreen() {
   const { go } = useNav();
   const t = useT();
+  const focus = (useCurrentRoute().params as { focus?: { lat: number; lng: number } } | undefined)?.focus;
   const userCatches = useGeotaggedCatches();
   const mapLocation = useAppStore((state) => state.mapLocation);
   const language = useAppStore((state) => state.language);
@@ -81,12 +82,15 @@ export function MapScreen() {
   );
 
   const initialView = useMemo(
-    () => resolveInitialMapView(markers, mapLocation, center),
-    [markers, mapLocation, center],
+    () =>
+      focus
+        ? { lng: focus.lng, lat: focus.lat, altM: LOCAL_VIEW_ALT_M }
+        : resolveInitialMapView(markers, mapLocation, center),
+    [focus, markers, mapLocation, center],
   );
 
-  // The first location fix usually lands after the map is already up.
-  const hadLocation = useRef(mapLocation !== null);
+  // The first location fix usually lands after the map is already up. Not when opened on a focus point.
+  const hadLocation = useRef(mapLocation !== null || focus !== undefined);
   useEffect(() => {
     if (!mapLocation || hadLocation.current) return;
     hadLocation.current = true;

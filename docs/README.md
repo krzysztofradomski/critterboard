@@ -20,7 +20,7 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 | [[modules/backend-adapter]] | Backend adapter seam — mock today, Cloudflare Workers tomorrow. Schemas, hooks, privacy gating. |
 | [[modules/offline-map]] | Offline 2D map — MapLibre Native + local PMTiles packs, sticker style, download-once flow. |
 | [[modules/backup-restore]] | Manual file backup and restore: what's in it, the optional online key, how restore merges. |
-| [[modules/species-facts]] | Habitat, size, range and diet tiles on the species card: data sources and rebuild steps. |
+| [[modules/species-facts]] | Everything on the species card (facts, badges, safety, season, life cycle, description): data sources, app-side rules and rebuild steps. |
 | [[modules/ui-performance]] | What keeps the UI fast: batched store saves, hydration gate, kept tabs, model/header caches, map pins as a layer. |
 | [[modules/species-icons]] | Photo-based sticker icons per species — how they are made (attention map + SAM), shipped as one atlas with the pack, emoji fallback. |
 | [[decisions/001-crash-reporting-opt-in]] | ADR — why crash reporting is opt-in and why Sentry. |

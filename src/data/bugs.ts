@@ -21,7 +21,8 @@ export type Bug = {
   names?: Partial<Record<"pl" | "de" | "es", string>>;
   /**
    * Educational facts for pack species (tools/facts/): order, family, typical habitat and diet
-   * keys, size in mm (k: length or wingspan) and GBIF regions where it is recorded.
+   * keys, size in mm (k: length or wingspan), GBIF regions where it is recorded, records per
+   * month in Europe (m: 12 digits 0–9, Jan..Dec) and a short Wikipedia description per language.
    */
   facts?: {
     o?: string;
@@ -31,6 +32,8 @@ export type Bug = {
     sz?: [number, number];
     k?: "l" | "w";
     r?: string[];
+    m?: string;
+    ab?: Partial<Record<"en" | "pl" | "de" | "es", string>>;
   };
 };
 
