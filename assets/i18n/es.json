@@ -74,7 +74,7 @@
       "tapToSnap": "toca el bicho para la foto",
       "matching": "buscando coincidencia…",
       "needPackTitle": "Descarga el paquete de especies",
-      "needPackBody": "La identificación funciona en tu teléfono. Instala una vez el paquete Europa Central (1.000 especies y el mapa sin conexión, unos 145 MB) para empezar a escanear.",
+      "needPackBody": "La identificación funciona en tu teléfono. Instala una vez el paquete Europa Central (1.000+ especies y el mapa sin conexión, unos 145 MB) para empezar a escanear.",
       "needPackCta": "Abrir paquetes de especies",
       "modelNotReady": "El modelo de especies aún se está cargando. Inténtalo de nuevo en un momento.",
       "modelFetching": "Descargando modelo… {pct}%",
@@ -821,7 +821,7 @@
       "list": {
         "eu-ce": {
           "name": "Europa Central",
-          "sub": "1.000 especies · las más observadas de Europa"
+          "sub": "1.000+ especies · las más observadas de Europa"
         },
         "na-ne": {
           "name": "Nordeste NA",
@@ -931,7 +931,7 @@
             "bdam": "caballito del diablo común junto al agua"
           },
           "notes": [
-            "1.000 especies de jardines, prados y bosques de Europa central y occidental.",
+            "1.000+ especies de jardines, prados y bosques de Europa central y occidental.",
             "BugNet: un modelo de visión entrenado con fotos de iNaturalist (CC BY / CC0).",
             "Funciona sin conexión una vez descargado: modelo, lista de especies, iconos y mapa."
           ]

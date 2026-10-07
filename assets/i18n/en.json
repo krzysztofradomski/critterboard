@@ -74,7 +74,7 @@
       "tapToSnap": "tap the bug to snap",
       "matching": "matching…",
       "needPackTitle": "Get the species pack",
-      "needPackBody": "Bug ID runs on your phone. Install the Central Europe pack (1,000 species and the offline map, ~145 MB) once to start scanning.",
+      "needPackBody": "Bug ID runs on your phone. Install the Central Europe pack (1,000+ species and the offline map, ~145 MB) once to start scanning.",
       "needPackCta": "Open species packs",
       "modelNotReady": "The species model is still loading. Try again in a moment.",
       "modelFetching": "Fetching model… {pct}%",
@@ -821,7 +821,7 @@
       "list": {
         "eu-ce": {
           "name": "Central Europe",
-          "sub": "1,000 species · most-seen in Europe"
+          "sub": "1,000+ species · most-seen in Europe"
         },
         "na-ne": {
           "name": "Northeast NA",
@@ -884,7 +884,7 @@
             "bdam": "common waterside damselfly"
           },
           "notes": [
-            "1,000 species from gardens, meadows and woodland across Central and Western Europe.",
+            "1,000+ species from gardens, meadows and woodland across Central and Western Europe.",
             "BugNet: a vision model fine-tuned on iNaturalist photos (CC BY / CC0).",
             "Works fully offline once downloaded: model, species list, icons and map."
           ]

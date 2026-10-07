@@ -74,7 +74,7 @@
       "tapToSnap": "dotknij owada, by zrobić zdjęcie",
       "matching": "dopasowuję…",
       "needPackTitle": "Pobierz paczkę gatunków",
-      "needPackBody": "Rozpoznawanie działa na Twoim telefonie. Zainstaluj raz paczkę Europa Środkowa (1000 gatunków i mapa offline, ok. 145 MB), aby zacząć skanować.",
+      "needPackBody": "Rozpoznawanie działa na Twoim telefonie. Zainstaluj raz paczkę Europa Środkowa (1000+ gatunków i mapa offline, ok. 145 MB), aby zacząć skanować.",
       "needPackCta": "Otwórz paczki gatunków",
       "modelNotReady": "Model gatunków wciąż się wczytuje. Spróbuj za chwilę.",
       "modelFetching": "Pobieranie modelu… {pct}%",
@@ -821,7 +821,7 @@
       "list": {
         "eu-ce": {
           "name": "Europa Środkowa",
-          "sub": "1 000 gatunków · najczęściej obserwowane w Europie"
+          "sub": "1000+ gatunków · najczęściej obserwowane w Europie"
         },
         "na-ne": {
           "name": "Płn.-wsch. Am. Płn.",
@@ -931,7 +931,7 @@
             "bdam": "pospolita ważka nad wodą"
           },
           "notes": [
-            "1000 gatunków z ogrodów, łąk i lasów Europy Środkowej i Zachodniej.",
+            "1000+ gatunków z ogrodów, łąk i lasów Europy Środkowej i Zachodniej.",
             "BugNet: model wizyjny wytrenowany na zdjęciach z iNaturalist (CC BY / CC0).",
             "Po pobraniu działa w pełni offline: model, lista gatunków, ikony i mapa."
           ]

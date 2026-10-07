@@ -74,7 +74,7 @@
       "tapToSnap": "Insekt antippen zum Knipsen",
       "matching": "vergleiche…",
       "needPackTitle": "Artenpaket holen",
-      "needPackBody": "Die Bestimmung läuft auf deinem Handy. Installiere einmal das Paket Mitteleuropa (1.000 Arten und die Offline-Karte, ca. 145 MB), um loszulegen.",
+      "needPackBody": "Die Bestimmung läuft auf deinem Handy. Installiere einmal das Paket Mitteleuropa (1.000+ Arten und die Offline-Karte, ca. 145 MB), um loszulegen.",
       "needPackCta": "Artenpakete öffnen",
       "modelNotReady": "Das Artenmodell lädt noch. Versuch es gleich noch einmal.",
       "modelFetching": "Modell wird geladen… {pct}%",
@@ -821,7 +821,7 @@
       "list": {
         "eu-ce": {
           "name": "Mitteleuropa",
-          "sub": "1.000 Arten · die meistbeobachteten Europas"
+          "sub": "1.000+ Arten · die meistbeobachteten Europas"
         },
         "na-ne": {
           "name": "Nordosten NA",
@@ -931,7 +931,7 @@
             "bdam": "häufige Libelle am Wasser"
           },
           "notes": [
-            "1.000 Arten aus Gärten, Wiesen und Wäldern in Mittel- und Westeuropa.",
+            "1.000+ Arten aus Gärten, Wiesen und Wäldern in Mittel- und Westeuropa.",
             "BugNet: ein Bildmodell, trainiert mit iNaturalist-Fotos (CC BY / CC0).",
             "Funktioniert nach dem Download komplett offline: Modell, Artenliste, Icons und Karte."
           ]
