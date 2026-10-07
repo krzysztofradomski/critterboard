@@ -54,7 +54,7 @@ DATA=~/vdata1k RUN=~/runs/vits_household_v2 INIT=~/ckpt/best.pth BACKUP=1 \
   - Don't pass the old checkpoint as `--weights`: with exactly 1,000 classes, timm keeps its head as is, and the rows would point at the wrong species.
 - **Recipe:** 5 epochs at 160 → 192 → 224 → 256 → 256 px, lr 3e-4, drop-path 0.1, batch 48, bf16, label smoothing 0.1. About 14 h on 4 x86 cores with AMX.
   - **Devices:** `train.py --device auto` (the default) uses CUDA, else an Apple-silicon GPU through PyTorch's MPS backend, else the CPU. `DEVICE=` overrides it in `household_retrain.sh`. MLX isn't needed.
-  - On MPS it trains in fp32 rather than bf16. If the Mac runs out of memory, lower the batch (`BATCH=24`). On an M1 (16 GB) the household retrain ran at batch 48 in about 8 h 50 min of training (66 → 45 → 32 → 24 img/s at 160 → 256 px; 10.3 GiB of GPU memory at most). The script sets `PYTORCH_ENABLE_MPS_FALLBACK=1`, because MPS has no backward for timm's position-embedding resize.
+  - On MPS it trains in fp32 rather than bf16. If the Mac runs out of memory, lower the batch (`BATCH=24`). On an M1 (16 GB) the household retrain ran at batch 48 in about 9 h 10 min of training (66 → 45 → 32 → 24 img/s at 160 → 256 px; 10.3 GiB of GPU memory at most). The script sets `PYTORCH_ENABLE_MPS_FALLBACK=1`, because MPS has no backward for timm's position-embedding resize.
   - Checkpoints load with `map_location="cpu"`, so a run can move between machines (CPU, CUDA, Mac) and resume.
   - It saves a resumable `last.pth` every 100 steps.
 - **Backups:** with `BACKUP=1`, `ckpt_backup.sh` pushes `last.pth` every 3 h to the single-commit branch `retrain-household-ckpt`.
