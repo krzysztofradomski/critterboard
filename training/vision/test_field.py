@@ -172,6 +172,7 @@ def test_field_nll_combines_crops_like_the_app():
     sm = lambda z: np.exp(z) / np.exp(z).sum()
     expected = -np.log(np.mean([sm(b), sm(c)], axis=0)[0])  # b is more confident than a
     assert np.isclose(calibrate.field_nll(1.0, items, [0]), expected)
+    assert type(calibrate.field_nll(1.0, items, [0])) is float  # goes into temperature.json
 
 
 def test_fit_temperature_field_recovers_overconfidence_on_single_crops():

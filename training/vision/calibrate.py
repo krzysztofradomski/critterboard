@@ -43,7 +43,7 @@ def field_nll(t, items, labels):
     for groups, y in zip(items, labels):
         probs = [[softmax(z / t) for z in g] for g in groups]
         nll -= np.log(max(sc.combine_scores(probs)[y], 1e-12))
-    return nll / len(items)
+    return float(nll / len(items))
 
 
 def fit_temperature_field(items, labels):
