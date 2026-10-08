@@ -41,6 +41,17 @@ def build(arch, ckpt, n_cls, size=224):
     return model.eval()
 
 
+class Scaled(torch.nn.Module):
+    """Logits / T, baked into the .pte: the app's softmax then gives calibrated confidence."""
+
+    def __init__(self, model, t: float):
+        super().__init__()
+        self.model, self.t = model, t
+
+    def forward(self, x):
+        return self.model(x) / self.t
+
+
 def quantize_int8(model, example, calib_loader, n_batches, dynamic=False):
     from executorch.backends.xnnpack.quantizer.xnnpack_quantizer import (
         XNNPACKQuantizer,
@@ -104,12 +115,16 @@ def main():
     ap.add_argument("--int8-dynamic", action="store_true", help="int8 weights for Linear layers only")
     ap.add_argument("--calib-batches", type=int, default=16)
     ap.add_argument("--limit", type=int, default=0, help="smoke test: score only N test images")
+    ap.add_argument("--temperature", type=float, default=1.0,
+                    help="divide the logits by T inside the .pte (calibrate.py fits T)")
     args = ap.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
     torch.set_num_threads(4)
 
     species = load_species(args.data)
     model = build(args.arch, args.ckpt, len(species), args.size)
+    if args.temperature != 1.0:
+        model = Scaled(model, args.temperature).eval()
     example = torch.randn(1, 3, args.size, args.size)
     test_loader = DataLoader(Photos(args.data, "test", species, eval_tf(args.size)),
                              batch_size=64, shuffle=bool(args.limit))
@@ -125,7 +140,8 @@ def main():
     to_pte(model, example, path)
     top1, top3, ms = eval_pte(path, test_loader, args.limit)
     report = {"pte": name, "mb": round(path.stat().st_size / 1e6, 1),
-              "test_top1": top1, "test_top3": top3, "host_ms_per_image": round(ms, 1)}
+              "test_top1": top1, "test_top3": top3, "host_ms_per_image": round(ms, 1),
+              "temperature": args.temperature}
     (args.out / f"{path.stem}_report.json").write_text(json.dumps(report, indent=1))
     print(json.dumps(report, indent=1))
 

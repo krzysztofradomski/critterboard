@@ -5,9 +5,12 @@ import random
 import subprocess
 
 import numpy as np
+import torch
 from PIL import Image
 
+import calibrate
 import download
+import export
 import field_aug as fa
 import field_eval as fe
 import scan_crops as sc
@@ -144,3 +147,17 @@ def test_train_tf_with_field_p_gives_model_input(tmp_path):
     Image.new("RGB", (500, 375), (0, 128, 0)).save(p)
     x = train.train_tf(256, backgrounds=[p], field_p=1.0)(Image.new("RGB", (298, 224), (255, 0, 0)))
     assert tuple(x.shape) == (3, 256, 256)
+
+
+def test_fit_temperature_recovers_overconfidence():
+    torch.manual_seed(0)
+    logits = 3.0 * torch.randn(20000, 10)
+    labels = torch.distributions.Categorical(logits=logits).sample()  # calibrated at T=1 by construction
+    assert 0.9 <= calibrate.fit_temperature(logits, labels) <= 1.1
+    assert 1.8 <= calibrate.fit_temperature(logits * 2.0, labels) <= 2.2  # made 2x too sharp
+
+
+def test_scaled_divides_logits():
+    m = torch.nn.Linear(3, 2)
+    x = torch.randn(1, 3)
+    assert torch.allclose(export.Scaled(m, 2.0)(x), m(x) / 2.0)
