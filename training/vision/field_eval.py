@@ -60,14 +60,18 @@ def softmax(z):
     return e / e.sum()
 
 
-def classify(method, img, rects):
+def crop_logits(method, img, rects):
     import torch
     out = []
     for r in rects:
         x = (np.asarray(app_crop(img, r), np.float32) / 255 - MEAN) / STD
         t = torch.from_numpy(np.ascontiguousarray(x.transpose(2, 0, 1)[None]))
-        out.append(softmax(method.execute([t])[0][0].numpy()))
+        out.append(method.execute([t])[0][0].numpy())
     return out
+
+
+def classify(method, img, rects):
+    return [softmax(z) for z in crop_logits(method, img, rects)]
 
 
 def label_from_name(name, latin_to_idx):
@@ -92,16 +96,17 @@ def cover(bg, size):
     return bg.crop((x, y, x + size[0], y + size[1]))
 
 
-def make_shots(data: Path, latin, n: int):
-    """[(cond, label, shot, tap_xy)] and the search area; deterministic."""
+def make_shots(data: Path, latin, n: int, split="test", backgrounds="test"):
+    """[(cond, label, shot, tap_xy)] and the search area; deterministic. The test uses test
+    photos on test backgrounds; calibrate.py uses val photos on train backgrounds."""
     rng = random.Random(0)
     by_taxon = {}
-    for pid, _ext, _lic, taxon, split in rows_from_credits(CREDITS, data / "species.csv"):
-        if split == "test":
+    for pid, _ext, _lic, taxon, photo_split in rows_from_credits(CREDITS, data / "species.csv"):
+        if photo_split == split:
             by_taxon.setdefault(taxon, []).append(pid)
     with (data / "species.csv").open() as f:
         taxa = [(r["taxon_id"], r["latin"]) for r in csv.DictReader(f)]
-    bgs = sorted((data / "backgrounds/test").glob("*.jpg"))
+    bgs = sorted((data / "backgrounds" / backgrounds).glob("*.jpg"))
     cache = data / "field/photos"
     cache.mkdir(parents=True, exist_ok=True)
     area = sc.reticle_in_photo(CANVAS, sc.APP_VIEW, sc.APP_RETICLE)

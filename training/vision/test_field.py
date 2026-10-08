@@ -161,3 +161,22 @@ def test_scaled_divides_logits():
     m = torch.nn.Linear(3, 2)
     x = torch.randn(1, 3)
     assert torch.allclose(export.Scaled(m, 2.0)(x), m(x) / 2.0)
+
+
+def test_field_nll_combines_crops_like_the_app():
+    # Two groups: the most confident crop of each, then the mean (scan_crops.combine_scores).
+    a = np.array([2.0, 0.0])
+    b = np.array([0.0, 3.0])
+    c = np.array([1.0, 0.0])
+    items = [[[a, b], [c]]]
+    sm = lambda z: np.exp(z) / np.exp(z).sum()
+    expected = -np.log(np.mean([sm(b), sm(c)], axis=0)[0])  # b is more confident than a
+    assert np.isclose(calibrate.field_nll(1.0, items, [0]), expected)
+
+
+def test_fit_temperature_field_recovers_overconfidence_on_single_crops():
+    torch.manual_seed(0)
+    logits = 3.0 * torch.randn(3000, 10)
+    labels = torch.distributions.Categorical(logits=logits).sample()
+    items = [[[z.numpy() * 2.0]] for z in logits]  # one group of one crop each, 2x too sharp
+    assert 1.8 <= calibrate.fit_temperature_field(items, labels.tolist()) <= 2.2
