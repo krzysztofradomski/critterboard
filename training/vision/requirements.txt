@@ -7,7 +7,11 @@
 # The exact timm/torchvision/numpy/pillow versions of the shipped
 # eu-1k-commercial-v1 run were not recorded. On the next training run, save
 # `pip freeze > results/<run>/requirements.lock.txt` next to the other reports.
+# executorch 1.0.1 has wheels for Python 3.10-3.12 only (uv venv --python 3.12 ~/mlenv).
 executorch==1.0.1
+# executorch -> pytorch-tokenizers -> tokenizers: without a floor, uv picks 0.13.3, which has
+# no wheels and fails to build from source.
+tokenizers>=0.21
 timm
 torchvision
 numpy
