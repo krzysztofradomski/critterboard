@@ -10,6 +10,18 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 > Local runbook for everything below: [[docs/handoff]].
 
+## Now — Field-robust vision model v7 (2026-10-08)
+
+Wrong species and low confidence on real iPhone photos: the model learned from tightly framed iNaturalist shots, but the app feeds it small, soft crops on busy backgrounds. Full plan: [[docs/superpowers/plans/2026-10-08-field-robust-vision]]. Kindwise distillation was rejected (cost, top-k only, licence grey area).
+
+- [ ] 1 Port MPS/warm-start training to main; rebuild v3's dataset from `credits.csv.gz`; reproduce 82.8%
+- [ ] 2 Python copy of the app's crop search, pinned to the TypeScript values
+- [ ] 3 Field augmentation + CC0 plant backgrounds
+- [ ] 4 `field_eval.py`: fake phone shots + real-photo side-by-side; v3 baseline
+- [ ] 5 Fine-tune v3 with field shots (2 epochs, overnight)
+- [ ] 6 Temperature calibration baked into the export
+- [ ] 7 Ship gate → pack v14 / model v7, model card, docs
+
 ## Now — Richer species screen (2026-10-06)
 
 Result screen gets more detail. Client-side rules live in `src/data/speciesFacts.ts` (pure, unit-tested); new pack data comes from `tools/facts/` (pack v12).
