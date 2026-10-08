@@ -1,10 +1,13 @@
 """Tests for the field-robust pipeline.  cd training/vision && python -m pytest test_field.py"""
 import csv
 import gzip
+import random
 
 import numpy as np
+from PIL import Image
 
 import download
+import field_aug as fa
 import scan_crops as sc
 
 
@@ -68,3 +71,33 @@ def test_combine_scores_best_of_group_then_mean():
     a = [np.array([0.2, 0.1]), np.array([0.1, 0.7])]
     b = [np.array([0.6, 0.3])]
     assert np.allclose(sc.combine_scores([a, b]), [0.35, 0.5])
+
+
+def test_backgrounds_split_disjoint():
+    ids = [str(i) for i in range(1000)]
+    test = {i for i in ids if fa.bg_split(i) == "test"}
+    assert 150 <= len(test) <= 250                               # ~20%
+    assert test == {i for i in ids if fa.bg_split(i) == "test"}  # deterministic
+
+
+def test_paste_puts_fg_at_side_and_position():
+    bg = Image.new("RGB", (400, 400), (0, 0, 255))
+    fg = Image.new("RGB", (200, 100), (255, 0, 0))
+    out = fa.paste(fg, bg, side=100, xy=(50, 60))
+    assert out.size == (400, 400)
+    assert out.getpixel((100, 85)) == (255, 0, 0)   # centre of the pasted 100x50 photo
+    assert out.getpixel((10, 10)) == (0, 0, 255)    # background untouched
+    assert bg.getpixel((100, 85)) == (0, 0, 255)    # input not modified
+
+
+def test_field_shot_returns_square_of_size(tmp_path):
+    p = tmp_path / "b.jpg"
+    Image.new("RGB", (500, 375), (0, 128, 0)).save(p)
+    shot = fa.FieldShot([p], size=256)(Image.new("RGB", (298, 224), (255, 0, 0)))
+    assert shot.size == (256, 256) and shot.mode == "RGB"
+
+
+def test_degrade_keeps_size_and_mode():
+    out = fa.degrade(Image.new("RGB", (256, 256), (120, 80, 40)), random.Random(0))
+    assert out.size == (256, 256) and out.mode == "RGB"
+
