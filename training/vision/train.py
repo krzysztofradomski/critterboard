@@ -19,6 +19,7 @@ import csv
 import json
 import math
 import os
+import random
 import time
 from pathlib import Path
 
@@ -28,6 +29,8 @@ import torch.nn as nn
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms as T
+
+from field_aug import FieldShot, degrade
 
 MEAN = (0.485, 0.456, 0.406)
 STD = (0.229, 0.224, 0.225)
@@ -114,9 +117,21 @@ class Photos(Dataset):
         return self.tf(Image.open(path).convert("RGB")), label
 
 
-def train_tf(size):
+class Degrade:
+    def __call__(self, img):
+        return degrade(img, random.Random(random.getrandbits(64)))
+
+
+def train_tf(size, backgrounds=(), field_p=0.0):
+    """With backgrounds and field_p > 0, a share of the photos become field shots: pasted
+    small onto a plant background and degraded like the app's phone crops (field_aug.py)."""
+    crop = T.RandomResizedCrop(size, scale=(0.3, 1.0), ratio=(0.6, 1.66))
+    first = [crop] if not (backgrounds and field_p) else [
+        T.RandomChoice([crop, FieldShot(backgrounds, size)], p=[1 - field_p, field_p]),
+        T.RandomApply([Degrade()], p=0.3),  # big bugs in phone crops are soft too
+    ]
     return T.Compose([
-        T.RandomResizedCrop(size, scale=(0.3, 1.0), ratio=(0.6, 1.66)),
+        *first,
         T.RandomHorizontalFlip(),
         T.TrivialAugmentWide(),
         T.ToTensor(),
@@ -167,6 +182,9 @@ def main():
     ap.add_argument("--limit-steps", type=int, default=0, help="benchmark: stop after N steps")
     ap.add_argument("--max-per-class", type=int, default=0, help="pilot runs: cap train images per class")
     ap.add_argument("--drop-path", type=float, default=0.0, help="stochastic depth rate")
+    ap.add_argument("--backgrounds", type=Path,
+                    help="folder of background .jpg for field shots (fetch_backgrounds.py: backgrounds/train)")
+    ap.add_argument("--field-p", type=float, default=0.0, help="share of training photos made into field shots")
     ap.add_argument("--ckpt-every", type=int, default=400,
                     help="save a resumable checkpoint (out/last.pth) every N steps")
     ap.add_argument("--init", type=Path,
@@ -239,12 +257,13 @@ def main():
                     "step_in_epoch": step_in_epoch}, tmp)
         os.replace(tmp, last)
 
+    bgs = sorted(args.backgrounds.glob("*.jpg")) if args.backgrounds else []
     for epoch in range(start_epoch, args.epochs):
         # Progressive resizing: linearly from start-size to size over the first
         # 2/3 of training, then hold at full size (multiples of 32).
         frac = min(1.0, epoch / max(1, math.ceil(args.epochs * 2 / 3) - 1))
         size = int(round((args.start_size + frac * (args.size - args.start_size)) / 32) * 32)
-        train = Photos(args.data, "train", species, train_tf(size), args.max_per_class)
+        train = Photos(args.data, "train", species, train_tf(size, bgs, args.field_p), args.max_per_class)
         # Deterministic per-epoch order so a resumed epoch skips exactly the
         # batches it already trained on.
         order = torch.randperm(len(train), generator=torch.Generator().manual_seed(1000 + epoch))

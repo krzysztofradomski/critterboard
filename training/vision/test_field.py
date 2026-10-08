@@ -11,6 +11,7 @@ import download
 import field_aug as fa
 import field_eval as fe
 import scan_crops as sc
+import train
 
 
 def _write(tmp_path):
@@ -132,3 +133,14 @@ def test_label_from_filename():
     idx = {"Coccinella septempunctata": 5}
     assert fe.label_from_name("Coccinella septempunctata 2.jpg", idx) == 5
     assert fe.label_from_name("IMG_1234.HEIC", idx) is None
+
+
+def test_train_tf_without_backgrounds_is_unchanged():
+    assert type(train.train_tf(256).transforms[0]).__name__ == "RandomResizedCrop"
+
+
+def test_train_tf_with_field_p_gives_model_input(tmp_path):
+    p = tmp_path / "b.jpg"
+    Image.new("RGB", (500, 375), (0, 128, 0)).save(p)
+    x = train.train_tf(256, backgrounds=[p], field_p=1.0)(Image.new("RGB", (298, 224), (255, 0, 0)))
+    assert tuple(x.shape) == (3, 256, 256)
