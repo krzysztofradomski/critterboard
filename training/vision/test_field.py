@@ -2,12 +2,14 @@
 import csv
 import gzip
 import random
+import subprocess
 
 import numpy as np
 from PIL import Image
 
 import download
 import field_aug as fa
+import field_eval as fe
 import scan_crops as sc
 
 
@@ -101,3 +103,32 @@ def test_degrade_keeps_size_and_mode():
     out = fa.degrade(Image.new("RGB", (256, 256), (120, 80, 40)), random.Random(0))
     assert out.size == (256, 256) and out.mode == "RGB"
 
+
+def test_load_upright_applies_exif_rotation(tmp_path):
+    p = tmp_path / "r.jpg"
+    img = Image.new("RGB", (40, 20), (255, 0, 0))
+    exif = img.getexif()
+    exif[0x0112] = 6  # display rotated 90 degrees clockwise
+    img.save(p, exif=exif)
+    assert fe.load_upright(p).size == (20, 40)
+
+
+def test_load_upright_converts_heic(tmp_path):
+    jpg = tmp_path / "a.jpg"
+    Image.new("RGB", (30, 10)).save(jpg)
+    heic = tmp_path / "a.heic"
+    subprocess.run(["sips", "-s", "format", "heic", str(jpg), "--out", str(heic)], check=True, capture_output=True)
+    assert fe.load_upright(heic).size == (30, 10)
+
+
+def test_app_crop_is_model_input_size():
+    img = Image.new("RGB", (3024, 4032))
+    assert fe.app_crop(img, (0, 0, 1000, 1000)).size == (256, 256)
+    assert fe.app_crop(img, (0, 0, 120, 120)).size == (256, 256)    # small crop, upscaled
+    assert fe.app_crop(img, (0, 0, 3024, 4032)).size == (256, 256)  # whole photo, squashed
+
+
+def test_label_from_filename():
+    idx = {"Coccinella septempunctata": 5}
+    assert fe.label_from_name("Coccinella septempunctata 2.jpg", idx) == 5
+    assert fe.label_from_name("IMG_1234.HEIC", idx) is None
