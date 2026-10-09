@@ -14,13 +14,22 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 Wrong species and low confidence on real iPhone photos: the model learned from tightly framed iNaturalist shots, but the app feeds it small, soft crops on busy backgrounds. Full plan: [[docs/superpowers/plans/2026-10-08-field-robust-vision]]. Kindwise distillation was rejected (cost, top-k only, licence grey area).
 
-- [ ] 1 Port MPS/warm-start training to main; rebuild v3's dataset from `credits.csv.gz`; reproduce 82.8%
-- [ ] 2 Python copy of the app's crop search, pinned to the TypeScript values
-- [ ] 3 Field augmentation + CC0 plant backgrounds
-- [ ] 4 `field_eval.py`: fake phone shots + real-photo side-by-side; v3 baseline
-- [ ] 5 Fine-tune v3 with field shots (2 epochs, overnight)
-- [ ] 6 Temperature calibration baked into the export
-- [ ] 7 Ship gate → pack v14 / model v7, model card, docs
+- [x] 1 Port MPS/warm-start training to main; rebuild v3's dataset from `credits.csv.gz`; reproduce 82.8%
+- [x] 2 Python copy of the app's crop search, pinned to the TypeScript values
+- [x] 3 Field augmentation + CC0 plant backgrounds
+- [x] 4 `field_eval.py`: fake phone shots + real-photo side-by-side; v3 baseline
+- [x] 5 Fine-tune v3 with field shots (2 epochs, overnight)
+- [x] 6 Temperature calibration baked into the export
+- [x] 7 Ship gate → pack v14 / model v7, model card, docs
+- [ ] Push `field-v7` to main (pack v14 + model) and the `field-v7-results` branch, once approved
+- [ ] Check on the iPhone: the pack update downloads model v7; compare real photos with `field_eval.py photos`
+- [ ] Follow-up: auto search averages 4 crop groups (`combineScores`), which dilutes confidence (45% mean on big bugs right 78% of the time). Consider best-of-all-crops or a weighted mean, measured with `field_eval.py`
+
+**Review (2026-10-09).** v3's dataset was rebuilt exactly (byte-identical `.pte`, 82.82%). v7 = v3 + 2 epochs with field shots (5 h 51 min on the M1).
+- Clean test: 82.4%.
+- Fake phone shots, v3 → v7: small tapped 22.6 → 46.0%, small auto 14.4 → 33.8%, big auto 74.6 → 78.4%, big tapped 79.8 → 81.2%. When small tapped bugs auto-snap, they're right 95% of the time (was 77%).
+- Calibration: on clean photos it made things worse (sharpening → wrong snaps). Fitted on fake val shots, it gives T = 1.0 for v7, so no temperature ships.
+- The fake shots share v7's training generator, so real photos are the final judge. Model card: `training/vision/results/field-v7/MODEL_CARD.md`.
 
 ## Now — Richer species screen (2026-10-06)
 

@@ -1,0 +1,212 @@
+{
+ "about": "Fake phone shots (field_eval.py synth --n 500): one test photo per species for the first 500 species, pasted at 0.7-1.0x (big) or 0.15-0.25x (small) the iPhone 13 mini reticle onto a held-out CC0 plant background, run through the app's crop search (auto = tiles + centred crops, tap = 3 squares). snap_* = top score >= 0.85 (Scan.tsx AUTO_SNAP).",
+ "models": {
+  "household-v3 (T=1, as shipped in v13)": {
+   "big/auto": {
+    "n": 500,
+    "top1": 0.746,
+    "top3": 0.842,
+    "mean_conf": 0.358485609292984,
+    "snap_rate": 0.016,
+    "snap_precision": 1.0
+   },
+   "big/tap": {
+    "n": 500,
+    "top1": 0.798,
+    "top3": 0.89,
+    "mean_conf": 0.7569230794906616,
+    "snap_rate": 0.47,
+    "snap_precision": 0.9787234042553191
+   },
+   "small/auto": {
+    "n": 500,
+    "top1": 0.144,
+    "top3": 0.21,
+    "mean_conf": 0.15447898209095,
+    "snap_rate": 0.0,
+    "snap_precision": null
+   },
+   "small/tap": {
+    "n": 500,
+    "top1": 0.226,
+    "top3": 0.292,
+    "mean_conf": 0.4289250373840332,
+    "snap_rate": 0.062,
+    "snap_precision": 0.7741935483870968
+   }
+  },
+  "household-v3, T=0.75 (fitted on clean val)": {
+   "big/auto": {
+    "n": 500,
+    "top1": 0.726,
+    "top3": 0.818,
+    "mean_conf": 0.4385148286819458,
+    "snap_rate": 0.036,
+    "snap_precision": 1.0
+   },
+   "big/tap": {
+    "n": 500,
+    "top1": 0.798,
+    "top3": 0.884,
+    "mean_conf": 0.8816794157028198,
+    "snap_rate": 0.732,
+    "snap_precision": 0.9316939890710383
+   },
+   "small/auto": {
+    "n": 500,
+    "top1": 0.124,
+    "top3": 0.194,
+    "mean_conf": 0.23421579599380493,
+    "snap_rate": 0.002,
+    "snap_precision": 1.0
+   },
+   "small/tap": {
+    "n": 500,
+    "top1": 0.224,
+    "top3": 0.28,
+    "mean_conf": 0.6295053362846375,
+    "snap_rate": 0.226,
+    "snap_precision": 0.5221238938053098
+   }
+  },
+  "household-v3, T=1.2 (fitted on fake val shots)": {
+   "big/auto": {
+    "n": 500,
+    "top1": 0.756,
+    "top3": 0.852,
+    "mean_conf": 0.2737194299697876,
+    "snap_rate": 0.0,
+    "snap_precision": null
+   },
+   "big/tap": {
+    "n": 500,
+    "top1": 0.804,
+    "top3": 0.894,
+    "mean_conf": 0.6024444699287415,
+    "snap_rate": 0.146,
+    "snap_precision": 1.0
+   },
+   "small/auto": {
+    "n": 500,
+    "top1": 0.144,
+    "top3": 0.22,
+    "mean_conf": 0.10230205208063126,
+    "snap_rate": 0.0,
+    "snap_precision": null
+   },
+   "small/tap": {
+    "n": 500,
+    "top1": 0.224,
+    "top3": 0.29,
+    "mean_conf": 0.29111558198928833,
+    "snap_rate": 0.016,
+    "snap_precision": 0.875
+   }
+  },
+  "field-v7 (T=1, ships in v14)": {
+   "big/auto": {
+    "n": 500,
+    "top1": 0.784,
+    "top3": 0.89,
+    "mean_conf": 0.44548630714416504,
+    "snap_rate": 0.062,
+    "snap_precision": 1.0
+   },
+   "big/tap": {
+    "n": 500,
+    "top1": 0.812,
+    "top3": 0.9,
+    "mean_conf": 0.7560780048370361,
+    "snap_rate": 0.478,
+    "snap_precision": 0.9874476987447699
+   },
+   "small/auto": {
+    "n": 500,
+    "top1": 0.338,
+    "top3": 0.44,
+    "mean_conf": 0.13721780478954315,
+    "snap_rate": 0.0,
+    "snap_precision": null
+   },
+   "small/tap": {
+    "n": 500,
+    "top1": 0.46,
+    "top3": 0.596,
+    "mean_conf": 0.4779738783836365,
+    "snap_rate": 0.152,
+    "snap_precision": 0.9473684210526315
+   }
+  }
+ },
+ "temperatures": {
+  "household-v3": {
+   "clean_val": {
+    "temperature": 0.75,
+    "nll_before": 0.8183841705322266,
+    "nll_after": 0.7149564027786255
+   },
+   "field_val": {
+    "temperature": 1.2,
+    "fit_on": "field shots, val photos, 1200 predictions",
+    "nll_before": 3.899794816970825,
+    "nll_after": 3.821486473083496,
+    "per_path_best_t": {
+     "big/auto": 0.8,
+     "big/tap": 0.95,
+     "small/auto": 1.45,
+     "small/tap": 1.7
+    }
+   }
+  },
+  "field-v7": {
+   "field_val": {
+    "temperature": 1.0,
+    "fit_on": "field shots, val photos, 1200 predictions",
+    "nll_before": 2.737114667892456,
+    "nll_after": 2.737114667892456,
+    "per_path_best_t": {
+     "big/auto": 0.85,
+     "big/tap": 0.9,
+     "small/auto": 1.1,
+     "small/tap": 1.15
+    }
+   }
+  }
+ },
+ "clean_test": {
+  "household-v3": {
+   "pte": "model_fp32.pte",
+   "mb": 88.5,
+   "test_top1": 0.8282171173002643,
+   "test_top3": 0.9306363081927221,
+   "host_ms_per_image": 114.5,
+   "temperature": 1.0
+  },
+  "field-v7": {
+   "pte": "model_fp32.pte",
+   "mb": 88.5,
+   "test_top1": 0.8243138849359626,
+   "test_top3": 0.9271803212034967,
+   "host_ms_per_image": 94.7,
+   "temperature": 1.0
+  }
+ },
+ "history": [
+  {
+   "epoch": 0,
+   "size": 256,
+   "loss": 3.2301282759805567,
+   "val_top1": 0.7977475676396109,
+   "val_top3": 0.9081700653072105,
+   "minutes": 187.429758477211
+  },
+  {
+   "epoch": 1,
+   "size": 256,
+   "loss": 2.9285992213893035,
+   "val_top1": 0.8192722910835666,
+   "val_top3": 0.9194988671198188,
+   "minutes": 163.3901177684466
+  }
+ ]
+}

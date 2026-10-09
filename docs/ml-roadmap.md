@@ -113,6 +113,25 @@ flowchart LR
 | Tap, most confident crop | 58.8% / 79.4% | 48.1% / 63.7% |
 | Auto search (best tile + reticle crops) | 51.9% / 74.4% | 26.9% / 35.0% |
 
+#### Field-robust model v7 *(Oct 2026)*
+
+Crops alone didn't fix wrong species and low confidence on an iPhone 13 mini: the model had never seen photos like the crops it gets. `eu-1k-field-v7` (pack v14, model v7) is v3 fine-tuned for two epochs with half its training photos turned into **field shots**: pasted small onto CC0 plant backgrounds, then degraded (scaled down and back up, blur, noise, JPEG). See [`training/vision/results/field-v7/MODEL_CARD.md`](../training/vision/results/field-v7/MODEL_CARD.md).
+
+The measurement is now repeatable: `training/vision/field_eval.py synth` builds fake phone shots from held-out photos and backgrounds and runs the real `.pte` through a Python copy of `scanCrops.ts` (`scan_crops.py`, pinned to the TypeScript values by a test). Its generator differs from the one above (photo pasted at 0.7–1.0× or 0.15–0.25× the reticle), so compare within this table only. 500 shots per row:
+
+| Shot | v3 top-1 / top-3 | v7 top-1 / top-3 | v7 right when it snaps (≥ 85%) |
+|---|---|---|---|
+| Big, auto search | 74.6% / 84.2% | **78.4% / 89.0%** | 100% |
+| Big, tapped | 79.8% / 89.0% | **81.2% / 90.0%** | 98.7% |
+| Small, auto search | 14.4% / 21.0% | **33.8% / 44.0%** | (never snaps) |
+| Small, tapped | 22.6% / 29.2% | **46.0% / 59.6%** | 95% (v3: 77%) |
+
+Clean iNaturalist test photos: 82.4% top-1 (v3: 82.8%).
+
+- **Confidence:** v7 needs no temperature. Fitted on fake val shots through the crop search, it comes out at T = 1.0. Fitting on clean photos instead (`calibrate.py` without `--field-pte`) would sharpen v3 (T = 0.75) and make small tapped bugs snap wrongly half the time.
+- **Auto search stays unsure** (45% mean confidence on big bugs that are right 78% of the time). The cause is `combineScores` averaging four groups, of which the wide crops often disagree. That is an app change, not done yet.
+- **Real photos:** `field_eval.py photos --dir <folder> --pte <v3.pte> <v7.pte> --labels labels.csv` runs iPhone photos (HEIC fine) through the app's gallery path and prints both models side by side. Name a file `Genus species 1.heic` to have it scored.
+
 - **EXIF:** OpenCV's `imread` in react-native-executorch already applies EXIF orientation. The crops come out of the manipulator upright anyway.
 - **Camera:** VisionCamera v5 (since Oct 2026; expo-camera before). The photo is the whole sensor frame and the preview shows it `cover`ed, so the on-screen reticle and a tap map onto the photo with `fit: 'cover'` (gallery photos are shown whole, `fit: 'contain'`).
 - **Cost:** tapped, 3 inferences; auto search, 12 (about 1.3 s on a phone, mostly inside the 2.2 s analysing hold).

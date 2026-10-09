@@ -2,6 +2,8 @@
 
 `#ml` `#vision` `#licensing`
 
+> **Replaced in the app by [`eu-1k-field-v7`](../field-v7/MODEL_CARD.md) since pack `eu-ce` v14 (model v7):** the same species and photos, fine-tuned on field shots. It is about twice as accurate on small bugs in fake phone shots.
+
 The successor of [`eu-1k-commercial-v1`](../commercial-1k-v1/MODEL_CARD.md): the same architecture, input and licensing, with **1,004 species** that now include 41 home and garden species (flies, mosquitoes, cockroaches, ants, aphids, house spiders, bed bug, fruit fly…). Like v1 it **can be used in a commercial app**: every training photo is CC0 or CC-BY, and the base weights are Google's Apache-2.0 ViT. This is not legal advice.
 
 | | |

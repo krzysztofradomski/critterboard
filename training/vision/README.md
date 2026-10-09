@@ -36,6 +36,29 @@ training/vision/stream_photos.sh
     --pack packs/eu-ce.json --version 3 --model-url <url>
 ```
 
+## Results — eu-1k-field-v7 (Oct 2026)
+
+In the app since pack `eu-ce` v14 (model v7): [`results/field-v7/MODEL_CARD.md`](results/field-v7/MODEL_CARD.md). It is household-v3 fine-tuned for 2 epochs on its own photos, half of them turned into **field shots** (`field_aug.py`: pasted small onto CC0 plant backgrounds, degraded like the app's phone crops).
+
+- Clean test: 82.4% / 92.7% (v3: 82.8% / 93.1%).
+- Fake phone shots (`field_eval.py`): small bugs, tapped, 46.0% top-1 (v3: 22.6%); small bugs, auto search, 33.8% (v3: 14.4%).
+- Run files are on the branch `field-v7-results`.
+
+```bash
+# Python 3.12 (executorch 1.0.1 has no newer wheels): uv venv --python 3.12 ~/mlenv
+python download.py --data $DATA --credits results/household-v3/credits.csv.gz --short-side 224   # v3's exact photos + split
+python fetch_backgrounds.py --data $DATA                                                         # 799 CC0 plant photos
+python train.py ... --init results/household-v3/best.pth --init-labels results/household-v3/labels.csv \
+    --backgrounds $DATA/backgrounds/train --field-p 0.5 --epochs 2 --start-size 256 --size 256 --lr 1e-4 --device mps
+python export.py --data $DATA --arch vit_small_patch16_224 --ckpt runs/v7/best.pth --out runs/v7 --size 256
+python calibrate.py --data $DATA --arch vit_small_patch16_224 --ckpt runs/v7/best.pth \
+    --out runs/v7/temperature.json --field-pte runs/v7/model_fp32.pte   # T on fake val shots; v7: 1.0
+python field_eval.py synth --data $DATA --pte <v3.pte> runs/v7/model_fp32.pte --labels labels.csv --out field.json
+python field_eval.py photos --dir ~/critterboard-field --pte <v3.pte> runs/v7/model_fp32.pte --labels labels.csv
+```
+
+(`best.pth` of v3 lives on the branch `household-v2-results`: `git show household-v2-results:training/vision/results/household-v3/best.pth > best.pth`.)
+
 ## Results — eu-1k-commercial-v1 (Sep 2026)
 
 > **Replaced in the app by `eu-1k-household-v3`** (1,004 species incl. 41 home and garden ones, 82.8% top-1) **since pack `eu-ce` v13 (model v6)**: [`results/household-v3/MODEL_CARD.md`](results/household-v3/MODEL_CARD.md). Its training scripts and run files are on the branch `household-v2-results`.
