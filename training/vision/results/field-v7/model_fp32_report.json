@@ -1,0 +1,8 @@
+{
+ "pte": "model_fp32.pte",
+ "mb": 88.5,
+ "test_top1": 0.8243138849359626,
+ "test_top3": 0.9271803212034967,
+ "host_ms_per_image": 94.7,
+ "temperature": 1.0
+}

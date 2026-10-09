@@ -1,0 +1,88 @@
+{
+ "arch": "vit_small_patch16_224",
+ "classes": 1004,
+ "size": 256,
+ "train_images": 208628,
+ "val_images": 15006,
+ "test_images": 24595,
+ "test_top1": 0.8243138849359626,
+ "test_top3": 0.9271803212034967,
+ "best_val_top1": 0.8192722910835666,
+ "worst_classes": [
+  {
+   "latin": "Pseudochorthippus parallelus",
+   "top1": 0.32142857142857145,
+   "n": 28
+  },
+  {
+   "latin": "Pyrgus malvoides",
+   "top1": 0.3333333333333333,
+   "n": 9
+  },
+  {
+   "latin": "Lasius emarginatus",
+   "top1": 0.375,
+   "n": 16
+  },
+  {
+   "latin": "Zygaena filipendulae",
+   "top1": 0.4074074074074074,
+   "n": 27
+  },
+  {
+   "latin": "Calliptamus barbarus",
+   "top1": 0.4166666666666667,
+   "n": 24
+  },
+  {
+   "latin": "Pieris rapae",
+   "top1": 0.42424242424242425,
+   "n": 33
+  },
+  {
+   "latin": "Coenagrion hastulatum",
+   "top1": 0.42857142857142855,
+   "n": 21
+  },
+  {
+   "latin": "Orthosia cerasi",
+   "top1": 0.43333333333333335,
+   "n": 30
+  },
+  {
+   "latin": "Sympetrum striolatum",
+   "top1": 0.4358974358974359,
+   "n": 39
+  },
+  {
+   "latin": "Chorthippus biguttulus",
+   "top1": 0.4375,
+   "n": 16
+  },
+  {
+   "latin": "Aeshna cyanea",
+   "top1": 0.4444444444444444,
+   "n": 18
+  },
+  {
+   "latin": "Eratigena atrica",
+   "top1": 0.4482758620689655,
+   "n": 29
+  },
+  {
+   "latin": "Larinioides sclopetarius",
+   "top1": 0.45454545454545453,
+   "n": 11
+  },
+  {
+   "latin": "Oedemera lurida",
+   "top1": 0.4583333333333333,
+   "n": 24
+  },
+  {
+   "latin": "Tettigonia cantans",
+   "top1": 0.46153846153846156,
+   "n": 26
+  }
+ ]
+}

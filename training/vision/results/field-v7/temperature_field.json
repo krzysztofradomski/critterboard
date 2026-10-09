@@ -1,0 +1,12 @@
+{
+ "temperature": 1.0,
+ "fit_on": "field shots, val photos, 1200 predictions",
+ "nll_before": 2.737114667892456,
+ "nll_after": 2.737114667892456,
+ "per_path_best_t": {
+  "big/auto": 0.85,
+  "big/tap": 0.9,
+  "small/auto": 1.1,
+  "small/tap": 1.15
+ }
+}
