@@ -28,6 +28,7 @@ Wrong species and low confidence on real iPhone photos: the model learned from t
 **Review (2026-10-09).** v3's dataset was rebuilt exactly (byte-identical `.pte`, 82.82%). v7 = v3 + 2 epochs with field shots (5 h 51 min on the M1).
 - Clean test: 82.4%.
 - Fake phone shots, v3 → v7: small tapped 22.6 → 46.0%, small auto 14.4 → 33.8%, big auto 74.6 → 78.4%, big tapped 79.8 → 81.2%. When small tapped bugs auto-snap, they're right 95% of the time (was 77%).
+- The final review found the snap metric matched no real app decision, so it was re-measured on the app's own rules. Live guess at 0.85 (1× reticle crop): right 97.9% when it snaps (v3: 96.8%). Straight to Result (≥ 0.7, 0.15 lead): right 95.9–98.8% on big bugs and 87% on small tapped ones (v3: 64%). Thresholds unchanged.
 - Calibration: on clean photos it made things worse (sharpening → wrong snaps). Fitted on fake val shots, it gives T = 1.0 for v7, so no temperature ships.
 - The fake shots share v7's training generator, so real photos are the final judge. Model card: `training/vision/results/field-v7/MODEL_CARD.md`.
 

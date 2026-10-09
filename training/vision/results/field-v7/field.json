@@ -1,5 +1,5 @@
 {
- "about": "Fake phone shots (field_eval.py synth --n 500): one test photo per species for the first 500 species, pasted at 0.7-1.0x (big) or 0.15-0.25x (small) the iPhone 13 mini reticle onto a held-out CC0 plant background, run through the app's crop search (auto = tiles + centred crops, tap = 3 squares). snap_* = top score >= 0.85 (Scan.tsx AUTO_SNAP).",
+ "about": "Fake phone shots (field_eval.py synth --n 500): one test photo per species for the first 500 species, pasted at 0.7-1.0x (big) or 0.15-0.25x (small) the iPhone 13 mini reticle onto a held-out CC0 plant background, run through the app's crop search (auto = tiles + centred crops, tap = 3 squares). snap_* = top score >= 0.85 (Scan.tsx AUTO_SNAP). live = the 1x reticle crop alone (proxy for a live preview guess; the app snaps at >= 0.85 twice in a row). direct_* = Scan.tsx after a shot: straight to Result when top >= 0.7 and 0.15 ahead of the second. The two T-scaled v3 rows predate the live/direct metrics.",
  "models": {
   "household-v3 (T=1, as shipped in v13)": {
    "big/auto": {
@@ -8,7 +8,19 @@
     "top3": 0.842,
     "mean_conf": 0.358485609292984,
     "snap_rate": 0.016,
-    "snap_precision": 1.0
+    "snap_precision": 1.0,
+    "direct_rate": 0.062,
+    "direct_precision": 1.0
+   },
+   "big/live": {
+    "n": 500,
+    "top1": 0.592,
+    "top3": 0.742,
+    "mean_conf": 0.5119378566741943,
+    "snap_rate": 0.186,
+    "snap_precision": 0.967741935483871,
+    "direct_rate": 0.336,
+    "direct_precision": 0.9345238095238095
    },
    "big/tap": {
     "n": 500,
@@ -16,7 +28,9 @@
     "top3": 0.89,
     "mean_conf": 0.7569230794906616,
     "snap_rate": 0.47,
-    "snap_precision": 0.9787234042553191
+    "snap_precision": 0.9787234042553191,
+    "direct_rate": 0.686,
+    "direct_precision": 0.9387755102040817
    },
    "small/auto": {
     "n": 500,
@@ -24,7 +38,19 @@
     "top3": 0.21,
     "mean_conf": 0.15447898209095,
     "snap_rate": 0.0,
-    "snap_precision": null
+    "snap_precision": null,
+    "direct_rate": 0.0,
+    "direct_precision": null
+   },
+   "small/live": {
+    "n": 500,
+    "top1": 0.01,
+    "top3": 0.024,
+    "mean_conf": 0.2268206775188446,
+    "snap_rate": 0.002,
+    "snap_precision": 0.0,
+    "direct_rate": 0.022,
+    "direct_precision": 0.0
    },
    "small/tap": {
     "n": 500,
@@ -32,7 +58,9 @@
     "top3": 0.292,
     "mean_conf": 0.4289250373840332,
     "snap_rate": 0.062,
-    "snap_precision": 0.7741935483870968
+    "snap_precision": 0.7741935483870968,
+    "direct_rate": 0.154,
+    "direct_precision": 0.6363636363636364
    }
   },
   "household-v3, T=0.75 (fitted on clean val)": {
@@ -110,7 +138,19 @@
     "top3": 0.89,
     "mean_conf": 0.44548630714416504,
     "snap_rate": 0.062,
-    "snap_precision": 1.0
+    "snap_precision": 1.0,
+    "direct_rate": 0.168,
+    "direct_precision": 0.9880952380952381
+   },
+   "big/live": {
+    "n": 500,
+    "top1": 0.718,
+    "top3": 0.844,
+    "mean_conf": 0.5978730320930481,
+    "snap_rate": 0.28,
+    "snap_precision": 0.9785714285714285,
+    "direct_rate": 0.424,
+    "direct_precision": 0.9622641509433962
    },
    "big/tap": {
     "n": 500,
@@ -118,7 +158,9 @@
     "top3": 0.9,
     "mean_conf": 0.7560780048370361,
     "snap_rate": 0.478,
-    "snap_precision": 0.9874476987447699
+    "snap_precision": 0.9874476987447699,
+    "direct_rate": 0.684,
+    "direct_precision": 0.9590643274853801
    },
    "small/auto": {
     "n": 500,
@@ -126,7 +168,19 @@
     "top3": 0.44,
     "mean_conf": 0.13721780478954315,
     "snap_rate": 0.0,
-    "snap_precision": null
+    "snap_precision": null,
+    "direct_rate": 0.0,
+    "direct_precision": null
+   },
+   "small/live": {
+    "n": 500,
+    "top1": 0.05,
+    "top3": 0.112,
+    "mean_conf": 0.141330748796463,
+    "snap_rate": 0.004,
+    "snap_precision": 0.5,
+    "direct_rate": 0.01,
+    "direct_precision": 0.6
    },
    "small/tap": {
     "n": 500,
@@ -134,7 +188,9 @@
     "top3": 0.596,
     "mean_conf": 0.4779738783836365,
     "snap_rate": 0.152,
-    "snap_precision": 0.9473684210526315
+    "snap_precision": 0.9473684210526315,
+    "direct_rate": 0.268,
+    "direct_precision": 0.8656716417910447
    }
   }
  },

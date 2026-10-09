@@ -119,12 +119,13 @@ Crops alone didn't fix wrong species and low confidence on an iPhone 13 mini: th
 
 The measurement is now repeatable: `training/vision/field_eval.py synth` builds fake phone shots from held-out photos and backgrounds and runs the real `.pte` through a Python copy of `scanCrops.ts` (`scan_crops.py`, pinned to the TypeScript values by a test). Its generator differs from the one above (photo pasted at 0.7–1.0× or 0.15–0.25× the reticle), so compare within this table only. 500 shots per row:
 
-| Shot | v3 top-1 / top-3 | v7 top-1 / top-3 | v7 right when it snaps (≥ 85%) |
+| Shot | v3 top-1 / top-3 | v7 top-1 / top-3 | Straight to Result (≥ 0.7, 0.15 lead), v3 → v7, right when it does |
 |---|---|---|---|
-| Big, auto search | 74.6% / 84.2% | **78.4% / 89.0%** | 100% |
-| Big, tapped | 79.8% / 89.0% | **81.2% / 90.0%** | 98.7% |
-| Small, auto search | 14.4% / 21.0% | **33.8% / 44.0%** | (never snaps) |
-| Small, tapped | 22.6% / 29.2% | **46.0% / 59.6%** | 95% (v3: 77%) |
+| Big, auto search | 74.6% / 84.2% | **78.4% / 89.0%** | 6% → 17% of shots, 100% → 98.8% |
+| Big, tapped | 79.8% / 89.0% | **81.2% / 90.0%** | 69% → 68%, 93.9% → 95.9% |
+| Small, auto search | 14.4% / 21.0% | **33.8% / 44.0%** | never |
+| Small, tapped | 22.6% / 29.2% | **46.0% / 59.6%** | 15% → 27%, 64% → 87% |
+| Live guess (1× reticle crop), big | 59.2% / 74.2% | **71.8% / 84.4%** | auto-snap at ≥ 0.85: 19% → 28% of frames, right 96.8% → 97.9% |
 
 Clean iNaturalist test photos: 82.4% top-1 (v3: 82.8%).
 

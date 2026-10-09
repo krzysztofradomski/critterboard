@@ -38,15 +38,20 @@ Code: `training/vision/` (`field_aug.py`, `field_eval.py`, `calibrate.py`, `scan
 Each shot goes through a Python copy of `src/ai/scanCrops.ts`:
 - **Auto search:** 3×3 tiles plus 3 centred crops, groups combined as the app does.
 - **Tap:** 3 squares around the bug.
+- **Live:** the 1× reticle crop alone, the closest proxy for a live preview guess.
 
-"Snap" means the top score is ≥ 0.85, the app's `AUTO_SNAP`. All numbers are in [`field.json`](field.json).
+The last column is what the app does after a shot: it goes straight to Result when the top score is ≥ 0.7 and at least 0.15 ahead of the second (`Scan.tsx`). All numbers are in [`field.json`](field.json).
 
-| | v3 top-1 / top-3 | **v7 top-1 / top-3** | v3 → v7 mean conf. | v3 → v7 snap rate (right when snapped) |
+| | v3 top-1 / top-3 | **v7 top-1 / top-3** | v3 → v7 mean conf. | Straight to Result, v3 → v7 (right when it does) |
 |---|---|---|---|---|
-| Big, auto search | 74.6% / 84.2% | **78.4% / 89.0%** | 36% → 45% | 1.6% (100%) → 6.2% (100%) |
-| Big, tapped | 79.8% / 89.0% | **81.2% / 90.0%** | 76% → 76% | 47% (97.9%) → 47.8% (98.7%) |
+| Big, auto search | 74.6% / 84.2% | **78.4% / 89.0%** | 36% → 45% | 6% (100%) → 17% (98.8%) |
+| Big, tapped | 79.8% / 89.0% | **81.2% / 90.0%** | 76% → 76% | 69% (93.9%) → 68% (95.9%) |
 | Small, auto search | 14.4% / 21.0% | **33.8% / 44.0%** | 15% → 14% | 0% → 0% |
-| Small, tapped | 22.6% / 29.2% | **46.0% / 59.6%** | 43% → 48% | 6.2% (77%) → 15.2% (95%) |
+| Small, tapped | 22.6% / 29.2% | **46.0% / 59.6%** | 43% → 48% | 15% (64%) → 27% (87%) |
+
+**Live preview guess** (1× reticle crop; the app auto-snaps at ≥ 0.85 twice in a row):
+- **Big bugs:** 59.2% → **71.8%** top-1. A single frame reaches 0.85 19% → 28% of the time, and is right 96.8% → 97.9% of the time when it does.
+- **Small bugs:** 1% → 5%. They almost never reach the threshold, since a reticle crop leaves a small bug tiny.
 
 **Calibration alone doesn't help.** v3 with a temperature fitted on clean val photos (T = 0.75, sharper) snapped on small tapped bugs that were right only 52% of the time. v3 with a temperature fitted on fake val shots (T = 1.2) had the same accuracy as plain v3 with lower confidence. The gain is from training.
 
@@ -58,7 +63,7 @@ As v3 (see its "Licensing", "Obligations when you ship it" and "Residual risks")
 
 - **The fake shots flatter v7.** They come from the same generator v7 was trained with, though on held-out photos and backgrounds. Real phone photos are the honest test: `field_eval.py photos --dir <folder> --pte <v3> <v7>` compares models side by side.
 - **Auto-search confidence stays low** (45% mean on big bugs, which are right 78% of the time). Most of that comes from the app averaging its crop groups (`combineScores`), not from the model.
-- **Small bugs are still hard:** under half are right even when tapped.
-- **Not simulated:** the live preview guess (reticle crop of a preview frame).
+- **Small bugs are still hard:** under half are right even when tapped. When the app goes straight to Result for a small tapped bug, it is wrong about 1 time in 8 (v3: 1 in 3).
+- **Live preview:** approximated by the 1× reticle crop of the shot. A real preview frame is lower resolution and is not simulated.
 - **Clean photos:** 0.4 points lower top-1 than v3.
 - Look-alike groups remain the hardest, as in v3.
