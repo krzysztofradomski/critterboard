@@ -71,6 +71,8 @@ def test_scan_crops_match_typescript():
         (1621, 1308, 437, 437), (1621, 1636, 437, 437), (1621, 1964, 437, 437)]
     assert sc.crop_rects(img, area) == [(966, 1309, 1092, 1092), (638, 981, 1748, 1748), (0, 343, 3024, 3024)]
     assert sc.tap_rects(img, 100, 4000) == [(0, 3669, 363, 363), (0, 3276, 756, 756), (0, 2520, 1512, 1512)]
+    # Unclamped .5 coordinates: JS Math.round rounds up, Python's round() would give 818/1818.
+    assert sc.tap_rects(img, 1000, 2000) == [(819, 1819, 363, 363), (622, 1622, 756, 756), (244, 1244, 1512, 1512)]
 
 
 def test_combine_scores_best_of_group_then_mean():
@@ -181,3 +183,13 @@ def test_fit_temperature_field_recovers_overconfidence_on_single_crops():
     labels = torch.distributions.Categorical(logits=logits).sample()
     items = [[[z.numpy() * 2.0]] for z in logits]  # one group of one crop each, 2x too sharp
     assert 1.8 <= calibrate.fit_temperature_field(items, labels.tolist()) <= 2.2
+
+
+def test_score_reports_the_apps_direct_to_result_rule():
+    # Scan.tsx: after a shot, go straight to Result when top >= 0.7 and top - second >= 0.15.
+    preds = [np.array([0.80, 0.10, 0.10]),   # direct, right
+             np.array([0.72, 0.60, 0.00]),   # top high but too close to the second: not direct
+             np.array([0.75, 0.05, 0.20])]   # direct, wrong (label 2)
+    r = fe.score(preds, [0, 0, 2])
+    assert np.isclose(r["direct_rate"], 2 / 3)
+    assert np.isclose(r["direct_precision"], 0.5)

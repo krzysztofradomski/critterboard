@@ -28,7 +28,8 @@ from field_aug import paste
 MEAN = np.array([0.485, 0.456, 0.406], np.float32)
 STD = np.array([0.229, 0.224, 0.225], np.float32)
 CANVAS = (1512, 2016)  # half an iPhone 12 MP frame, portrait: the ≤500 px test photos stay sharp
-SNAP = 0.85  # Scan.tsx AUTO_SNAP
+SNAP = 0.85  # Scan.tsx AUTO_SNAP: live preview guesses only (twice in a row)
+DIRECT, MARGIN = 0.7, 0.15  # Scan.tsx: after a shot, straight to Result when top >= 0.7 and 0.15 ahead
 CREDITS = Path(__file__).parent / "results/household-v3/credits.csv.gz"
 
 
@@ -142,10 +143,17 @@ def score(preds, labels):
     conf = preds.max(1)
     hit1 = top3[:, 0] == labels
     snap = conf >= SNAP
+    second = np.sort(preds, 1)[:, -2]
+    direct = (conf >= DIRECT) & (conf - second >= MARGIN)
     return {"n": int(len(labels)), "top1": float(hit1.mean()),
             "top3": float((top3 == labels[:, None]).any(1).mean()),
-            "mean_conf": float(conf.mean()), "snap_rate": float(snap.mean()),
-            "snap_precision": float(hit1[snap].mean()) if snap.any() else None}
+            "mean_conf": float(conf.mean()),
+            # snap_*: the live-guess threshold; meaningful on the "live" path (one reticle crop)
+            "snap_rate": float(snap.mean()),
+            "snap_precision": float(hit1[snap].mean()) if snap.any() else None,
+            # direct_*: what the app does after a shot (auto / tap paths)
+            "direct_rate": float(direct.mean()),
+            "direct_precision": float(hit1[direct].mean()) if direct.any() else None}
 
 
 def synth(args):
@@ -159,6 +167,8 @@ def synth(args):
             tiles = classify(m, shot, sc.tile_rects(CANVAS, area))
             centred = classify(m, shot, sc.crop_rects(CANVAS, area))
             paths = {"auto": sc.combine_scores([tiles] + [[c] for c in centred]),
+                     # closest proxy to a live preview guess: the 1x reticle crop alone
+                     "live": centred[0],
                      "tap": sc.combine_scores([classify(m, shot, sc.tap_rects(CANVAS, *tap))])}
             for path, p in paths.items():
                 preds, labels = acc.setdefault(f"{cond}/{path}", ([], []))
