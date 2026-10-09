@@ -188,6 +188,22 @@ The repo holds the commands. The developer runs them, since they change the Clou
 
 Then an app build (EAS / TestFlight). The feature needs a new app version; older apps never show the switch.
 
+## 8. Additional requests (2026-10-09)
+
+### 8.1 Photo lightbox (feature)
+
+- **Now:** a Dex tile opens the species page (`Result.tsx`) with the latest catch photo (`latestPhotoFor`). The photo can't be opened any bigger.
+- **Wanted:** tapping that photo opens a full-screen lightbox:
+  - pinch to zoom (1×–5×), with focal-point zoom
+  - pan while zoomed, clamped to the image edges
+  - double-tap toggles between 1× and 2.5× at the tapped point
+  - at 1×, a swipe down or the ✕ button closes it
+  - a black background, the photo `contain`-fitted
+  - respects safe areas
+- **Where:** a new `src/components/PhotoLightbox.tsx` (a `Modal` + `react-native-gesture-handler` + `react-native-reanimated`, both already installed; no new dependency). It's used by the photo on Result. Also on the "your catch" card and the Home recent finds, if they show the same photo.
+- **Accessibility:** the photo gets `accessibilityRole="imagebutton"` and the label "Open photo full screen"; the close button is labelled. Strings in en/pl/de/es.
+- **Testing:** a unit test for the clamp/zoom maths (pure helpers: `clampTranslate(scale, view, image)`), plus a simulator check: open, pinch, pan, double-tap, swipe to close.
+
 ## Out of scope
 
 - Species outside the region pack, or free-text labels.
