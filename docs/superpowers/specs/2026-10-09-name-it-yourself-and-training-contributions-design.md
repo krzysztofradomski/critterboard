@@ -204,7 +204,7 @@ Then an app build (EAS / TestFlight). The feature needs a new app version; older
 - **Accessibility:** the photo gets `accessibilityRole="imagebutton"` and the label "Open photo full screen"; the close button is labelled. Strings in en/pl/de/es.
 - **Testing:** a unit test for the clamp/zoom maths (pure helpers: `clampTranslate(scale, view, image)`), plus a simulator check: open, pinch, pan, double-tap, swipe to close.
 
-### 8.2 Smaller, faster chat model (feature; model choice pending)
+### 8.2 Smaller, faster chat model (feature; decided: Qwen)
 
 - **Now:** Gemma 4 E2B Q4_K_M (`src/ai/chatModel.ts`): a 3.1 GB download and about 3 GB of RAM. On a 4 GB phone (iPhone 13 mini) that's at the edge, and slow. ADR 005 chose it for its Apache 2.0 licence and Polish.
 - **Wanted:** a 1–2B instruct model at about 1 GB, run through the same `llama.rn` runtime. All candidates use architectures `llama.rn` already supports.
@@ -216,7 +216,11 @@ Then an app build (EAS / TestFlight). The feature needs a new app version; older
   | SmolLM2 1.7B Instruct | Apache 2.0 | ~1.1 GB | English-first |
   | *(suggested)* Qwen3 1.7B (official, not a merge) | Apache 2.0 | ~1.1 GB | 119, incl. Polish |
 
-- **Recommendation:** Qwen 2.5 1.5B or Qwen3 1.7B. Both are Apache 2.0, like the vision weights, and the strongest multilingual options here. Before choosing, try the four personas' prompts in en/pl/de/es on an iPhone 13 mini and record speed (tokens/s), RAM and reply quality. Llama 3.2's licence brings obligations to pass on, and SmolLM2 would leave Polish and German users with English-quality replies.
+- **Decision (2026-10-11): Qwen.**
+  - Try **Qwen3 1.7B** first, since it lists Polish.
+  - Fall back to **Qwen 2.5 1.5B** if Qwen3 is slower, uses too much memory, or writes worse persona replies on the iPhone 13 mini.
+  - Qwen3's thinking mode must stay off. It's the same `jinja: true` template path as Gemma today: pass `enable_thinking: false` (or the `/no_think` soft switch) and strip any empty `<think></think>` block from replies.
+- **Earlier recommendation:** Qwen 2.5 1.5B or Qwen3 1.7B. Both are Apache 2.0, like the vision weights, and the strongest multilingual options here. Before choosing, try the four personas' prompts in en/pl/de/es on an iPhone 13 mini and record speed (tokens/s), RAM and reply quality. Llama 3.2's licence brings obligations to pass on, and SmolLM2 would leave Polish and German users with English-quality replies.
 - **Where:**
   - `CHAT_MODEL` (filename, pinned Hugging Face revision URL, bytes) in `src/ai/chatModel.ts`.
   - The old filename joins `RETIRED_FILES`, so it's deleted on sight.

@@ -14,7 +14,7 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 | [[outreach/european-naturalists]] | Sourced European insect specialists and creators for expert testing, photo collaboration and audience outreach; accompanying CSV. |
 | [[ml-roadmap]] | On-device ML plan — MVP, full training, deferred placeholders. The master "what's next". |
 | [[articles/vision-pipeline-article]] | Groundwork for a public article on the vision training pipeline: angle, outline, fact sheet, visuals, gaps. |
-| [[articles/vision-pipeline-draft]] | Full draft of that article: "83% on the benchmark, 23% on a fruit fly". |
+| [[articles/vision-pipeline-draft]] | Full draft of that article: "Ready for spring: building on-device insect ID on a laptop". |
 | [[../NOTICE|NOTICE]] | Licences of the models, photos and icons (the MIT `LICENSE` covers code only). |
 | [[deployment]] | Shipping to iOS TestFlight & Google Play via EAS — build profiles, credentials, submit config. |
 | [[i18n]] | i18n architecture — bundled JSON packs, `t()` helper, remote OTA pack manifest, App Store notes. |

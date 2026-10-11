@@ -219,3 +219,5 @@ support a staff-level job search.
    mentioned, frame it as how they led the work.
 3. Before writing anything about the author's role, ask what framing they want if it
    isn't already clear.
+4. Never call the author's statements "your claim" or hand evidence-gathering back to
+   them. If a point needs an example, find it in git history or docs and add it.
