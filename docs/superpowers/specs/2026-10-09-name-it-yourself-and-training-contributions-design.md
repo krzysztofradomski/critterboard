@@ -204,6 +204,66 @@ Then an app build (EAS / TestFlight). The feature needs a new app version; older
 - **Accessibility:** the photo gets `accessibilityRole="imagebutton"` and the label "Open photo full screen"; the close button is labelled. Strings in en/pl/de/es.
 - **Testing:** a unit test for the clamp/zoom maths (pure helpers: `clampTranslate(scale, view, image)`), plus a simulator check: open, pinch, pan, double-tap, swipe to close.
 
+### 8.2 Smaller, faster chat model (feature; model choice pending)
+
+- **Now:** Gemma 4 E2B Q4_K_M (`src/ai/chatModel.ts`): a 3.1 GB download and about 3 GB of RAM. On a 4 GB phone (iPhone 13 mini) that's at the edge, and slow. ADR 005 chose it for its Apache 2.0 licence and Polish.
+- **Wanted:** a 1–2B instruct model at about 1 GB, run through the same `llama.rn` runtime. All candidates use architectures `llama.rn` already supports.
+
+  | Candidate | Licence | Q4_K_M size (approx.) | Languages (official) |
+  |---|---|---|---|
+  | Qwen 2.5 1.5B Instruct | Apache 2.0 | ~1.0 GB | 29+, incl. de/es; Polish not listed |
+  | Llama 3.2 1B Instruct | Llama 3.2 Community Licence (acceptable-use policy, "Built with Llama" notice) | ~0.8 GB | en, de, fr, it, pt, hi, es, th; no Polish |
+  | SmolLM2 1.7B Instruct | Apache 2.0 | ~1.1 GB | English-first |
+  | *(suggested)* Qwen3 1.7B (official, not a merge) | Apache 2.0 | ~1.1 GB | 119, incl. Polish |
+
+- **Recommendation:** Qwen 2.5 1.5B or Qwen3 1.7B. Both are Apache 2.0, like the vision weights, and the strongest multilingual options here. Before choosing, try the four personas' prompts in en/pl/de/es on an iPhone 13 mini and record speed (tokens/s), RAM and reply quality. Llama 3.2's licence brings obligations to pass on, and SmolLM2 would leave Polish and German users with English-quality replies.
+- **Where:**
+  - `CHAT_MODEL` (filename, pinned Hugging Face revision URL, bytes) in `src/ai/chatModel.ts`.
+  - The old filename joins `RETIRED_FILES`, so it's deleted on sight.
+  - `memoryFit` thresholds lowered to match the new RAM need.
+  - The Settings credits entry, the open-source licences screen, and ADR 005 superseded by a new ADR recording the choice and test results.
+  - `docs/ml-roadmap.md` §2.2.
+- **Testing:**
+  - unit tests for `memoryFit` and the `RETIRED_FILES` cleanup
+  - a simulator chat in all four languages
+  - a check on the iPhone 13 mini (load time, tokens/s, no memory kill)
+
+### 8.3 Unload and delete buttons (feature)
+
+- **Now:** Brains already has, for the chat model:
+  - **Unload / Load** (`ejectChatModel` / `loadChatModel`, `Settings.tsx:492`): frees memory, keeps the file.
+  - **Delete** (`deleteChatModel`, `Settings.tsx:479`): unloads and removes the file.
+
+  Whether each shows depends on the model's state. The vision model can only go with its whole region pack (`RegionDetail.tsx`: Remove pack).
+- **Wanted:**
+  - **Chat model:** the model row always shows its state, size on disk and in memory, and the matching actions. While it's downloaded, both **Unload from memory** and **Delete from phone** are available (Delete behind a confirm).
+  - **Vision model:** the same two actions in Region detail.
+    - **Unload** releases the ExecuTorch module (it loads again on the next scan).
+    - **Delete model file** removes the `.pte` but keeps the pack's names, facts, icons and map. Scan then offers "Download model (88 MB)".
+- **Where:** `Settings.tsx`, `RegionDetail.tsx`, `src/ai/executorchVision.ts` (a release hook), the pack model file path helper, i18n en/pl/de/es.
+- **Testing:**
+  - unit tests for the state → actions mapping (a pure helper)
+  - a simulator check: unload, then scan reloads it; delete, then scan offers the download
+
+### 8.4 Check for new versions of downloadable files (feature)
+
+- **Now:**
+  - **Region packs** are updated through `packs/manifest.json`: pack `version`, and `modelVersion`/`modelMd5` per pack.
+  - **Chat model:** its URL and size are compiled into the app, so a new GGUF needs a new app build. There is no "check for updates" action.
+- **Wanted:** one **Check for updates** button in Brains (and a quiet check when Brains opens, if Network is on). It covers every downloadable file: each region pack and its model, icons and map, plus the chat model.
+  - For each file with a newer version it shows "Update available: <name>, <size>". **Update** downloads the new file next to the old one, verifies size and checksum, swaps it in, then deletes the old file. A failed or cancelled update keeps the old file working.
+  - "Up to date" when there's nothing new.
+- **Where:**
+  - `packs/manifest.json` gains a `chat` entry: `{ "id", "filename", "url", "bytes", "sha256", "version", "minRamGb" }`. The app reads the chat model from the manifest, with the compiled `CHAT_MODEL` as the offline fallback for a first install.
+  - `tools/packs/pin_checksums.py` also pins the chat entry. For an external URL (Hugging Face) it downloads the file once to hash it, or reads the hash from a local copy.
+  - A shared `src/lib/updates.ts`: pure. `pendingUpdates(manifest, installed) → Update[]`.
+  - The download/verify/swap code is shared with the existing pack update path.
+  - i18n en/pl/de/es.
+- **Testing:**
+  - `pendingUpdates` unit tests (newer, same, missing, unknown kinds)
+  - swap logic: the old file is kept on a failed verify
+  - simulator: bump a version in a local manifest → Update → the old file is gone
+
 ## Out of scope
 
 - Species outside the region pack, or free-text labels.

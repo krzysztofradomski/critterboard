@@ -184,3 +184,38 @@ wording. Caught only when reading `docs/deployment.md` before deploying.
    output together.
 3. Before any website deploy, regenerate and confirm `git status website/` is clean: output in
    sync with sources.
+
+## Writing about the project: tell what happened, not a pitch
+
+**Session**: vision pipeline article draft (2026-10-11).
+
+The first draft read as AI slop. It sold licensing, "commercially shippable" and a
+deleted-model accuracy comparison that didn't matter, and it implied users ("people use
+it in gardens") when the app has none yet. It also leaned on aphorisms, bold and
+"staff signal" framing.
+
+**Rules:**
+1. Write what actually happened, including the unflattering context (no users yet,
+   summer window missed, spring target). That context often explains the technical
+   choices (no bugs in October → fake phone shots).
+2. Never claim users, usage or impact the project doesn't have.
+3. Cut anything the reader doesn't need for the story, even if it's true and impressive
+   (licensing, comparisons across different setups).
+4. Plain first-person prose: no punchline after each paragraph, no "X, not Y" reveals,
+   bold only where it helps scanning, no meta-commentary on what the reader should infer.
+
+## Writing about the author's work: position them as the lead
+
+**Session**: vision pipeline article, "How it was built" paragraph (2026-10-11).
+
+I wrote "the agents wrote most of the code … my part was deciding what counted as
+working". It reads as the author downplaying their own role, in an article meant to
+support a staff-level job search.
+
+**Rules:**
+1. The author leads; agents are the team or the tools. Describe what the author
+   decided, specified, reviewed and shipped.
+2. Never volunteer a split of credit that diminishes the author. If agent use is
+   mentioned, frame it as how they led the work.
+3. Before writing anything about the author's role, ask what framing they want if it
+   isn't already clear.
