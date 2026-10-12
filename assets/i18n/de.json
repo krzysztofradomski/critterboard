@@ -68,7 +68,7 @@
       "analyzing": "ANALYSIERE…",
       "scanning": "OFFLINE · SCANNE",
       "permissionTitle": "Kamerazugriff",
-      "permissionAsk": "Tipp auf Erlauben, damit Critterboard das Insekt sieht. Fotos verlassen dein Gerät nie.",
+      "permissionAsk": "Tipp auf Erlauben, damit Critterboard das Insekt sieht. Fotos bleiben auf deinem Gerät, außer du teilst selbst eines.",
       "permissionDenied": "Kamera abgelehnt. Aktivieren unter Einstellungen → Critterboard → Kamera.",
       "allowCamera": "Kamera erlauben",
       "tapToSnap": "Insekt antippen zum Knipsen",
@@ -494,7 +494,7 @@
       "items": {
         "camera": {
           "title": "Kamera",
-          "desc": "Insekt knipsen, ID bekommen. Fotos verlassen dein Gerät nie.",
+          "desc": "Insekt knipsen, ID bekommen. Fotos bleiben auf deinem Gerät, außer du teilst selbst eines.",
           "b1": "Nur ML auf dem Gerät",
           "b2": "Kein Cloud-Upload",
           "b3": "Keine Fotometadaten geteilt"
@@ -1178,7 +1178,7 @@
         },
         "faq2": {
           "q": "Warum ist meine ID-Sicherheit niedrig?",
-          "a": "Meist eines von dreien: Das Foto ist unscharf, das Insekt füllt weniger als 1/4 des Bildes oder du bist außerhalb eines installierten Regionalpakets. Scans unter deiner Trefferschwelle (Hirn, standardmäßig 33 %) können gar nicht hinzugefügt werden. Versuch einen engeren Ausschnitt, mehr Licht und ein Seitenprofil."
+          "a": "Meist eines von dreien: Das Foto ist unscharf, das Insekt füllt weniger als 1/4 des Bildes oder du bist außerhalb eines installierten Regionalpakets. Scans unter deiner Trefferschwelle (Hirn, standardmäßig 33 %) können gar nicht hinzugefügt werden. Versuch einen engeren Ausschnitt, mehr Licht und ein Seitenprofil. Liegt es weiter falsch, kannst du es selbst benennen (siehe unten)."
         },
         "faq3": {
           "q": "Wie funktionieren Serien-Frostschilde?",
@@ -1203,6 +1203,14 @@
         "faq8": {
           "q": "Woher stammen Lebensraum, Größe, Verbreitung und Nahrung?",
           "a": "Lebensraum und Nahrung sind typisch für die Familie der Art. Die Größe stammt aus Wikipedia, die Verbreitung aus GBIF-Meldungen, daher zeigen einige Arten statt der Größe die Familie. „Mehr auf Wikipedia“ öffnet den ganzen Artikel."
+        },
+        "faq9": {
+          "q": "Die App hat mein Insekt falsch erkannt. Kann ich das korrigieren?",
+          "a": "Ja. Tippe nach dem Scan auf „Falsch? Selbst benennen“ (oder „Selbst benennen“, wenn nichts passt), suche nach dem deutschen, englischen oder lateinischen Namen, wähle die Art und füge sie hinzu. Sie kommt in deinen Dex, in Aufgaben und Serie, markiert als „von dir benannt“, bringt aber keine XP und wird nicht online geteilt – so kann niemand per Namenseingabe in der Rangliste aufsteigen. Finden lassen sich nur Arten aus deinem installierten Regionspaket."
+        },
+        "faq10": {
+          "q": "Was teilt „Hilf, das Modell zu trainieren“?",
+          "a": "Nichts, bis du es im Hirn einschaltest (braucht Netzwerk). Dann kannst du beim Hinzufügen eines Insekts sein Foto teilen, um das nächste Artenmodell zu trainieren. Gesendet: das Foto (kleiner, ohne Metadaten), die Art, die Vermutungen des Modells und wo das Insekt im Bild ist. Nie gesendet: dein Standort oder Gerätedaten. Fotos stehen unter CC BY 4.0 und werden mit deinem App-Namen genannt. Du kannst jedes Foto zurückhalten, und „Geteilte Fotos löschen“ im Hirn entfernt alle (das Löschen deines Kontos auch). Fotos, die schon in einem veröffentlichten Modell stecken, bleiben darin."
         }
       },
       "contactTitle": "Kontaktiere uns",

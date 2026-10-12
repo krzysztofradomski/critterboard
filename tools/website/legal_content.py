@@ -4,13 +4,13 @@ Each page is (eyebrow, headline, updated-label, intro, [(title, [paragraph | ("u
 Facts here must match the code: see docs/modules/backend-adapter.md and the worker schema.
 """
 UPDATED = "2 October 2026"  # terms
-PRIVACY_UPDATED = "3 October 2026"  # exact shared locations, sightings overlay
+PRIVACY_UPDATED = "12 October 2026"  # training contributions (Help train the model)
 
 PRIVACY = {
 "en": ("YOUR BUGS, YOURS TO KEEP", "Privacy, simply.", f"Last updated: {PRIVACY_UPDATED}",
  "Critterboard is a free bug-identification game. It has no accounts, advertising, purchases or analytics. It works fully offline, and your collection is stored on your phone.",
  [
- ("On your phone", ["Your Dex, sightings, photos, settings and chat history are stored on your device. Identifying a bug and chatting with the guides both run on your phone. Photos you take or pick are never uploaded. They stay on your device until you delete them or wipe the app's data. Your phone's own backup settings may also apply."]),
+ ("On your phone", ["Your Dex, sightings, photos, settings and chat history are stored on your device. Identifying a bug and chatting with the guides both run on your phone. Photos you take or pick are never uploaded, unless you turn on “Help train the model” and share one (below). They stay on your device until you delete them or wipe the app's data. Your phone's own backup settings may also apply."]),
  ("Camera, photos and location", [
    "Critterboard asks for the camera and, if you choose, your photo library to identify a bug. This happens on your phone.",
    "Location is optional. It centres your map and helps prefer nearby species. To show a place name, your phone's system location service may be asked to look up the address of your coordinates; that is handled by Apple under Apple's privacy policy. Your location is not sent to us unless you turn on “Share spotting locations”.",
@@ -26,6 +26,7 @@ PRIVACY = {
    "Your display name and XP are visible to other players only if you choose to appear on the leaderboard or if they follow you. Names are checked against a basic filter.",
    "For security, we briefly count login attempts by IP address (for about a minute) to limit abuse. Cloudflare, our hosting provider, also processes connection data such as your IP address to deliver the service; see Cloudflare's privacy policy.",
  ]),
+ ("Help train the model (off by default)", ["If you turn this on in Brains (it needs the network switch), you can share a photo when you add a bug to your Dex, to train the next species model. Each photo can be held back. A shared photo is sent smaller and without its metadata (no location, no device details), together with the species, the model's guesses and where the bug is in the photo. It is shared under the CC BY 4.0 licence and credited with your in-app name. Photos are stored with Cloudflare. “Delete shared photos” in Brains removes all of them, and so does deleting your online data. Photos already used in a released model stay in that model."]),
  ("Downloads", ["Regional packs, the offline map and the optional chat model are downloaded from hosts such as GitHub and Hugging Face. Like any download, those hosts can see your IP address and the file you request. We do not add any identifier to these requests."]),
  ("Crash reports (off by default)", ["If you turn on crash reports, anonymous diagnostic information about a crash may be sent to our error-reporting provider, Sentry. It does not include your photos. You can turn this off at any time in the app."]),
  ("Deleting your data", [
@@ -38,7 +39,7 @@ PRIVACY = {
 "pl": ("TWOJE OWADY, TWOJE", "Prywatność, po prostu.", "Ostatnia aktualizacja: 3 października 2026",
  "Critterboard to darmowa gra do rozpoznawania owadów. Nie ma kont, reklam, zakupów ani analityki. Działa w pełni offline, a twoja kolekcja jest przechowywana na telefonie.",
  [
- ("Na twoim telefonie", ["Twój Dex, obserwacje, zdjęcia, ustawienia i historia czatu są przechowywane na urządzeniu. Rozpoznawanie owadów i rozmowy z przewodnikami odbywają się na telefonie. Zdjęcia, które robisz lub wybierasz, nigdy nie są wysyłane. Pozostają na urządzeniu, dopóki ich nie usuniesz lub nie wymażesz danych aplikacji. Mogą mieć zastosowanie także ustawienia kopii zapasowej twojego telefonu."]),
+ ("Na twoim telefonie", ["Twój Dex, obserwacje, zdjęcia, ustawienia i historia czatu są przechowywane na urządzeniu. Rozpoznawanie owadów i rozmowy z przewodnikami odbywają się na telefonie. Zdjęcia, które robisz lub wybierasz, nigdy nie są wysyłane, chyba że włączysz „Pomóż uczyć model” i udostępnisz zdjęcie (niżej). Pozostają na urządzeniu, dopóki ich nie usuniesz lub nie wymażesz danych aplikacji. Mogą mieć zastosowanie także ustawienia kopii zapasowej twojego telefonu."]),
  ("Aparat, zdjęcia i lokalizacja", [
    "Critterboard prosi o dostęp do aparatu i, jeśli zechcesz, do biblioteki zdjęć, aby rozpoznać owada. Dzieje się to na telefonie.",
    "Lokalizacja jest opcjonalna. Wyśrodkowuje mapę i pomaga wskazać gatunki z okolicy. Aby pokazać nazwę miejsca, system telefonu może zostać poproszony o ustalenie adresu dla twoich współrzędnych; obsługuje to Apple zgodnie z własną polityką prywatności. Lokalizacja nie jest wysyłana do nas, chyba że włączysz „Udostępniaj miejsca obserwacji”.",
@@ -54,6 +55,7 @@ PRIVACY = {
    "Twoja nazwa i XP są widoczne dla innych graczy tylko wtedy, gdy zdecydujesz się pojawiać w rankingu lub gdy cię obserwują. Nazwy przechodzą podstawowy filtr.",
    "Dla bezpieczeństwa na krótko (ok. minuty) liczymy próby logowania według adresu IP, aby ograniczać nadużycia. Cloudflare, nasz dostawca hostingu, przetwarza też dane połączenia, takie jak adres IP, aby dostarczać usługę; zobacz politykę prywatności Cloudflare.",
  ]),
+ ("Pomóż uczyć model (domyślnie wyłączone)", ["Jeśli włączysz to w Mózgu (wymaga przełącznika sieci), dodając owada do Dexa, możesz udostępnić jego zdjęcie do nauki kolejnego modelu. Każde zdjęcie możesz zatrzymać. Udostępnione zdjęcie jest wysyłane mniejsze i bez metadanych (bez lokalizacji i danych urządzenia), razem z gatunkiem, podpowiedziami modelu i miejscem owada na zdjęciu. Jest udostępniane na licencji CC BY 4.0, podpisane twoim imieniem z aplikacji. Zdjęcia są przechowywane w Cloudflare. „Usuń udostępnione” w Mózgu usuwa wszystkie, tak samo jak usunięcie danych online. Zdjęcia użyte już w wydanym modelu zostają w tym modelu."]),
  ("Pobieranie plików", ["Pakiety regionalne, mapa offline i opcjonalny model czatu są pobierane z serwisów takich jak GitHub i Hugging Face. Jak przy każdym pobieraniu, te serwisy widzą twój adres IP i żądany plik. Do tych żądań nie dodajemy żadnego identyfikatora."]),
  ("Raporty o awariach (domyślnie wyłączone)", ["Jeśli włączysz raporty o awariach, anonimowe dane diagnostyczne o awarii mogą zostać wysłane do naszego dostawcy raportów błędów, Sentry. Nie zawierają twoich zdjęć. Możesz je wyłączyć w aplikacji w dowolnej chwili."]),
  ("Usuwanie danych", [
@@ -66,7 +68,7 @@ PRIVACY = {
 "de": ("DEINE INSEKTEN, DEINE DATEN", "Datenschutz, einfach erklärt.", "Zuletzt aktualisiert: 3. Oktober 2026",
  "Critterboard ist ein kostenloses Spiel zum Bestimmen von Insekten. Es gibt keine Konten, Werbung, Käufe oder Analysen. Es funktioniert komplett offline, und deine Sammlung liegt auf deinem Telefon.",
  [
- ("Auf deinem Telefon", ["Dein Dex, Sichtungen, Fotos, Einstellungen und Chatverlauf werden auf deinem Gerät gespeichert. Die Bestimmung eines Insekts und der Chat mit den Guides laufen auf deinem Telefon. Fotos, die du aufnimmst oder auswählst, werden nie hochgeladen. Sie bleiben auf deinem Gerät, bis du sie löschst oder die App-Daten löschst. Auch die Backup-Einstellungen deines Telefons können gelten."]),
+ ("Auf deinem Telefon", ["Dein Dex, Sichtungen, Fotos, Einstellungen und Chatverlauf werden auf deinem Gerät gespeichert. Die Bestimmung eines Insekts und der Chat mit den Guides laufen auf deinem Telefon. Fotos, die du aufnimmst oder auswählst, werden nie hochgeladen, außer du schaltest „Hilf, das Modell zu trainieren“ ein und teilst eines (unten). Sie bleiben auf deinem Gerät, bis du sie löschst oder die App-Daten löschst. Auch die Backup-Einstellungen deines Telefons können gelten."]),
  ("Kamera, Fotos und Standort", [
    "Critterboard fragt nach der Kamera und, wenn du willst, nach deiner Fotomediathek, um ein Insekt zu bestimmen. Das passiert auf deinem Telefon.",
    "Der Standort ist optional. Er zentriert deine Karte und hilft, Arten in der Nähe zu bevorzugen. Um einen Ortsnamen anzuzeigen, kann der Standortdienst deines Telefons die Adresse zu deinen Koordinaten nachschlagen; das übernimmt Apple nach der eigenen Datenschutzerklärung. Dein Standort wird nicht an uns gesendet, es sei denn, du aktivierst „Sichtungsorte teilen“.",
@@ -82,6 +84,7 @@ PRIVACY = {
    "Dein Anzeigename und deine XP sind für andere Spieler nur sichtbar, wenn du in der Rangliste erscheinen willst oder sie dir folgen. Namen werden mit einem einfachen Filter geprüft.",
    "Zur Sicherheit zählen wir Anmeldeversuche kurz (etwa eine Minute) nach IP-Adresse, um Missbrauch zu begrenzen. Cloudflare, unser Hosting-Anbieter, verarbeitet außerdem Verbindungsdaten wie deine IP-Adresse, um den Dienst auszuliefern; siehe die Datenschutzerklärung von Cloudflare.",
  ]),
+ ("Hilf, das Modell zu trainieren (standardmäßig aus)", ["Wenn du das im Hirn einschaltest (braucht den Netzwerk-Schalter), kannst du beim Hinzufügen eines Insekts zum Dex sein Foto teilen, um das nächste Artenmodell zu trainieren. Jedes Foto kannst du zurückhalten. Ein geteiltes Foto wird kleiner und ohne Metadaten gesendet (kein Standort, keine Gerätedaten), zusammen mit der Art, den Vermutungen des Modells und der Position des Insekts im Bild. Es steht unter der Lizenz CC BY 4.0 und wird mit deinem App-Namen genannt. Fotos werden bei Cloudflare gespeichert. „Geteilte Fotos löschen“ im Hirn entfernt alle, ebenso das Löschen deiner Online-Daten. Fotos, die schon in einem veröffentlichten Modell stecken, bleiben darin."]),
  ("Downloads", ["Regionalpakete, die Offline-Karte und das optionale Chat-Modell werden von Hosts wie GitHub und Hugging Face geladen. Wie bei jedem Download sehen diese Hosts deine IP-Adresse und die angeforderte Datei. Wir fügen diesen Anfragen keine Kennung hinzu."]),
  ("Absturzberichte (standardmäßig aus)", ["Wenn du Absturzberichte einschaltest, können anonyme Diagnosedaten zu einem Absturz an unseren Anbieter für Fehlerberichte, Sentry, gesendet werden. Sie enthalten keine Fotos. Du kannst das in der App jederzeit ausschalten."]),
  ("Deine Daten löschen", [
@@ -94,7 +97,7 @@ PRIVACY = {
 "es": ("TUS BICHOS, TUYOS", "Privacidad, sin rodeos.", "Última actualización: 3 de octubre de 2026",
  "Critterboard es un juego gratuito para identificar bichos. No tiene cuentas, publicidad, compras ni analítica. Funciona totalmente sin conexión y tu colección se guarda en tu teléfono.",
  [
- ("En tu teléfono", ["Tu Dex, avistamientos, fotos, ajustes e historial de chat se guardan en tu dispositivo. Identificar un bicho y charlar con las guías ocurre en tu teléfono. Las fotos que haces o eliges nunca se suben. Permanecen en tu dispositivo hasta que las borres o borres los datos de la app. También pueden aplicarse los ajustes de copia de seguridad de tu teléfono."]),
+ ("En tu teléfono", ["Tu Dex, avistamientos, fotos, ajustes e historial de chat se guardan en tu dispositivo. Identificar un bicho y charlar con las guías ocurre en tu teléfono. Las fotos que haces o eliges nunca se suben, salvo que actives «Ayuda a entrenar el modelo» y compartas una (abajo). Permanecen en tu dispositivo hasta que las borres o borres los datos de la app. También pueden aplicarse los ajustes de copia de seguridad de tu teléfono."]),
  ("Cámara, fotos y ubicación", [
    "Critterboard pide acceso a la cámara y, si quieres, a tu fototeca para identificar un bicho. Esto ocurre en tu teléfono.",
    "La ubicación es opcional. Centra tu mapa y ayuda a priorizar especies cercanas. Para mostrar el nombre de un lugar, se puede pedir al servicio de ubicación del sistema que busque la dirección de tus coordenadas; lo gestiona Apple según su política de privacidad. Tu ubicación no se nos envía salvo que actives «Compartir ubicaciones de avistamientos».",
@@ -110,6 +113,7 @@ PRIVACY = {
    "Tu nombre y tu XP solo son visibles para otros jugadores si decides aparecer en el ranking o si te siguen. Los nombres pasan por un filtro básico.",
    "Por seguridad, contamos brevemente (alrededor de un minuto) los intentos de inicio de sesión por dirección IP para limitar abusos. Cloudflare, nuestro proveedor de alojamiento, también procesa datos de conexión como tu dirección IP para prestar el servicio; consulta su política de privacidad.",
  ]),
+ ("Ayuda a entrenar el modelo (desactivado por defecto)", ["Si lo activas en Cerebro (necesita el interruptor de red), al añadir un bicho a tu Dex puedes compartir su foto para entrenar el próximo modelo de especies. Puedes guardarte cualquier foto. Una foto compartida se envía más pequeña y sin metadatos (sin ubicación ni datos del dispositivo), junto con la especie, lo que creyó el modelo y dónde está el bicho en la foto. Se comparte con licencia CC BY 4.0 y con tu nombre de la app como crédito. Las fotos se guardan en Cloudflare. «Borrar fotos compartidas» en Cerebro las quita todas, igual que borrar tus datos en línea. Las fotos ya usadas en un modelo publicado se quedan en ese modelo."]),
  ("Descargas", ["Los packs regionales, el mapa sin conexión y el modelo de chat opcional se descargan desde servidores como GitHub y Hugging Face. Como en cualquier descarga, esos servidores ven tu dirección IP y el archivo que pides. No añadimos ningún identificador a esas peticiones."]),
  ("Informes de fallos (desactivados por defecto)", ["Si activas los informes de fallos, se puede enviar información de diagnóstico anónima sobre un fallo a nuestro proveedor de informes de errores, Sentry. No incluye tus fotos. Puedes desactivarlo en la app cuando quieras."]),
  ("Borrar tus datos", [

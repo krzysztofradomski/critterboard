@@ -793,3 +793,18 @@ Scope: a few dozen Europe-based insect specialists, photographers and educators 
 **Plan check:** Drafting only. Use Krzysztof as signature; no sender address supplied. No messages sent.
 
 **Review:** Saved `docs/outreach/personal-outreach-42.md`, with every sourced candidate, 42 distinct first messages, contact caveats, subjects and tracking fields. Checked complete roster, unique numbers/names, single ask and website link per body, grounded personalization, and no invented sender address. Sender preference recorded with Apple’s actual iCloud bulk-mail restriction. Docs index updated; no messages sent.
+
+## Now — Spec items 2026-10-09 (2026-10-12)
+
+Plan: [[docs/superpowers/plans/2026-10-12-spec-items]] · spec: [[docs/superpowers/specs/2026-10-09-name-it-yourself-and-training-contributions-design]]
+
+- [x] 0 Worker species list covers all 1,108 pack species (108 earned 0 XP); needs a worker deploy
+- [x] 1 Photo lightbox on the species page (pinch, pan, double tap, swipe down)
+- [x] 2 Unload from memory / Delete from phone for the chat and species models
+- [x] 3 Chat model: Qwen3 1.7B (1.1 GB) instead of Gemma 4 E2B; ADR 008 (weaker on facts in pl/de)
+- [x] 4 Check for updates (packs + chat model via packs/manifest.json)
+- [x] 5 Name it yourself (self-named catches: Dex/quests/streak, no XP, never uploaded)
+- [x] 6 Help train the model (opt-in CC BY sharing; worker R2 + D1; pull script)
+- [x] 7 FAQ, privacy page, README, docs
+- [ ] Deploy the worker (R2 bucket, D1 migration 0001, TRAINING_ADMIN_TOKEN secret), then an app build
+- [ ] Phone check: Qwen3 speed/RAM on the 13 mini; lightbox gestures; Name it yourself; sharing round trip

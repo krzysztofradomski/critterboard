@@ -68,7 +68,7 @@
       "analyzing": "ANALIZUJĘ…",
       "scanning": "OFFLINE · SKANOWANIE",
       "permissionTitle": "Dostęp do aparatu",
-      "permissionAsk": "Pozwól Critterboardowi zobaczyć owada. Zdjęcia nie opuszczają telefonu.",
+      "permissionAsk": "Pozwól Critterboardowi zobaczyć owada. Zdjęcia zostają w telefonie, chyba że sam któreś udostępnisz.",
       "permissionDenied": "Aparat zablokowany. Włącz w Ustawienia → Critterboard → Aparat.",
       "allowCamera": "Zezwól aparatowi",
       "tapToSnap": "dotknij owada, by zrobić zdjęcie",
@@ -494,7 +494,7 @@
       "items": {
         "camera": {
           "title": "Aparat",
-          "desc": "Złap owada, dostań ID. Zdjęcia nie opuszczają telefonu.",
+          "desc": "Złap owada, dostań ID. Zdjęcia zostają w telefonie, chyba że sam któreś udostępnisz.",
           "b1": "ML tylko na urządzeniu",
           "b2": "Brak wysyłki do chmury",
           "b3": "Bez udostępniania metadanych zdjęć"
@@ -1178,7 +1178,7 @@
         },
         "faq2": {
           "q": "Dlaczego mam niską pewność ID?",
-          "a": "Zwykle jedno z trzech: rozmyte zdjęcie, owad zajmuje mniej niż 1/4 kadru lub jesteś poza zainstalowanym pakietem regionalnym. Skanów poniżej progu dopasowania (Mózg, domyślnie 33%) w ogóle nie można dodać. Spróbuj ciaśniejszego kadru, jaśniejszego światła i profilu z boku."
+          "a": "Zwykle jedno z trzech: rozmyte zdjęcie, owad zajmuje mniej niż 1/4 kadru lub jesteś poza zainstalowanym pakietem regionalnym. Skanów poniżej progu dopasowania (Mózg, domyślnie 33%) w ogóle nie można dodać. Spróbuj ciaśniejszego kadru, jaśniejszego światła i profilu z boku. Jeśli dalej się myli, możesz nazwać go sam (zobacz niżej)."
         },
         "faq3": {
           "q": "Jak działają zamrożenia passy?",
@@ -1203,6 +1203,14 @@
         "faq8": {
           "q": "Skąd biorą się siedlisko, rozmiar, zasięg i pokarm?",
           "a": "Siedlisko i pokarm są typowe dla rodziny gatunku. Rozmiar pochodzi z Wikipedii, a zasięg z rekordów GBIF, więc kilka gatunków pokazuje rodzinę zamiast rozmiaru. „Więcej na Wikipedii” otwiera pełny artykuł."
+        },
+        "faq9": {
+          "q": "Aplikacja źle rozpoznała owada. Mogę to poprawić?",
+          "a": "Tak. Po skanie stuknij „To nie to? Nazwij go sam” (albo „Nazwij go sam”, gdy nic nie pasuje), wyszukaj go po polsku, angielsku lub po łacinie, wybierz i dodaj. Trafi do Dexa, zadań i serii, oznaczony jako „nazwany przez ciebie”, ale nie da XP i nie idzie do sieci, więc nikt nie wspina się w rankingu, wpisując nazwy. Można znaleźć tylko gatunki z zainstalowanej paczki regionu."
+        },
+        "faq10": {
+          "q": "Co wysyła „Pomóż uczyć model”?",
+          "a": "Nic, dopóki nie włączysz tego w Mózgu (wymaga Sieci). Wtedy, dodając owada, możesz udostępnić jego zdjęcie do nauki kolejnego modelu. Wysyłamy: zdjęcie (mniejsze, bez metadanych), gatunek, podpowiedzi modelu i miejsce owada na zdjęciu. Nigdy: twojej lokalizacji ani danych telefonu. Zdjęcia są na licencji CC BY 4.0, podpisane twoim imieniem z aplikacji. Każde zdjęcie możesz zatrzymać, a „Usuń udostępnione” w Mózgu usuwa wszystkie (usunięcie konta też). Zdjęcia użyte już w wydanym modelu zostają w tym modelu."
         }
       },
       "contactTitle": "Skontaktuj się",

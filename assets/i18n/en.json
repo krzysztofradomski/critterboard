@@ -68,7 +68,7 @@
       "analyzing": "ANALYZING…",
       "scanning": "OFFLINE · SCANNING",
       "permissionTitle": "Camera access",
-      "permissionAsk": "Tap allow to let Critterboard see the bug. Photos never leave your device.",
+      "permissionAsk": "Tap allow to let Critterboard see the bug. Photos stay on your device unless you choose to share one.",
       "permissionDenied": "Camera was denied. Enable it in Settings → Critterboard → Camera.",
       "allowCamera": "Allow camera",
       "tapToSnap": "tap the bug to snap",
@@ -494,7 +494,7 @@
       "items": {
         "camera": {
           "title": "Camera",
-          "desc": "Snap a bug, get an ID. Photos never leave your device.",
+          "desc": "Snap a bug, get an ID. Photos stay on your device unless you choose to share one.",
           "b1": "On-device ML only",
           "b2": "No cloud upload",
           "b3": "No photo metadata shared"
@@ -1178,7 +1178,7 @@
         },
         "faq2": {
           "q": "Why is my ID confidence low?",
-          "a": "Usually one of three things: the photo is blurry, the bug fills less than 1/4 of the frame, or you're outside an installed regional pack. Scans under your match threshold (Brains, 33% by default) can't be added at all. Try a closer crop, brighter light, and a side profile."
+          "a": "Usually one of three things: the photo is blurry, the bug fills less than 1/4 of the frame, or you're outside an installed regional pack. Scans under your match threshold (Brains, 33% by default) can't be added at all. Try a closer crop, brighter light, and a side profile. If it still gets it wrong, you can name it yourself (see below)."
         },
         "faq3": {
           "q": "How do streak freezes work?",
@@ -1203,6 +1203,14 @@
         "faq8": {
           "q": "Where do habitat, size, range and diet come from?",
           "a": "Habitat and diet are typical for the species' family. Size comes from Wikipedia and range from GBIF records, so a few species show the family instead of a size. \"Read more on Wikipedia\" opens the full article."
+        },
+        "faq9": {
+          "q": "The app got my bug wrong. Can I fix it?",
+          "a": "Yes. After a scan, tap \"Not right? Name it yourself\" (or \"Name it yourself\" when there's no match), search by its English or Latin name, pick it and add it. It joins your Dex, quests and streak, marked \"named by you\", but earns no XP and isn't shared online, so nobody can climb the leaderboard by typing names. Only species in your installed region pack can be found."
+        },
+        "faq10": {
+          "q": "What does \"Help train the model\" share?",
+          "a": "Nothing until you turn it on in Brains (it needs Network). Then, when you add a bug, you can share its photo to train the next species model. Sent: the photo (smaller, without its metadata), the species, the model's guesses and where the bug is in the photo. Never sent: your location or device details. Photos are shared under CC BY 4.0 and credited with your in-app name. You can hold back any photo, and \"Delete shared photos\" in Brains removes them all (so does deleting your account). Photos already used in a released model stay in that model."
         }
       },
       "contactTitle": "Get in touch",

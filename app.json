@@ -22,7 +22,7 @@
       "supportsTablet": false,
       "bundleIdentifier": "app.critterboard.ios",
       "infoPlist": {
-        "NSCameraUsageDescription": "Critterboard uses the camera to identify bugs on-device. Photos never leave your phone.",
+        "NSCameraUsageDescription": "Critterboard uses the camera to identify bugs on-device. Photos stay on your phone unless you choose to share one.",
         "NSPhotoLibraryUsageDescription": "Pick an existing photo of a bug to identify it on-device. We never upload your library.",
         "NSLocationWhenInUseUsageDescription": "Optional. Centres your map on you and prefers species that live near you. Stays on your phone unless you opt in to share.",
         "ITSAppUsesNonExemptEncryption": false

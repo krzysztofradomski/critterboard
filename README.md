@@ -26,13 +26,15 @@
 
 Point the camera at an insect (or pick a photo) and the phone names it. Nothing is uploaded: the species model runs on the device.
 
-- **Scan & ID:** 1,000 Central European insects and spiders, recognised on-device. Unsure results show the top candidates; anything under your confidence floor (default 33%) can't enter the Dex.
+- **Scan & ID:** 1,000+ Central European insects and spiders, recognised on-device. Unsure results show the top candidates; anything under your confidence floor (default 33%) can't enter the Dex. Tap the photo on a species page to zoom in.
+- **Name it yourself:** when the model gets it wrong or finds nothing, search the region's species by name (your language, English or Latin) and add it. It counts for the Dex, quests and streak, but not for the leaderboard.
 - **Dex:** every species as a sticker icon drawn from a real photo, with habitat, size, range and diet. Uncaught species show as silhouettes.
 - **Hunt & level up:** XP per species by rarity, daily and weekly quests, badges, levels and day streaks (with freezes that cover a missed day).
 - **Offline map:** a map of Europe that works with no signal, with your catches as pins, and (if you turn it on) other players' nearby sightings.
-- **Guides:** three personas (snarky Prof. Larva, calm Dr. Snail, cheerful R.A. Maywind) to chat with about what you found, run entirely on the phone by Google's Gemma 4 E2B.
+- **Guides:** three personas (snarky Prof. Larva, calm Dr. Snail, cheerful R.A. Maywind) to chat with about what you found, run entirely on the phone by Qwen3 1.7B (a 1.1 GB download).
 - **4 languages:** English, Polski, Deutsch, Español.
-- **Your data stays yours:** backup and restore to a file, clear scan photos, wipe everything.
+- **Your data stays yours:** backup and restore to a file, clear scan photos, wipe everything. Models can be unloaded from memory or deleted, and Brains checks for newer packs and models.
+- **Help train the model (opt-in):** share labelled photos, without location or metadata, under CC BY 4.0 so the next model gets better on real phone photos. Delete them any time.
 
 ✓ no account · ✓ works offline · ✓ no $$$ · ✓ nothing leaves the phone by default · ✓ MIT licensed code (models, map data and icons: see [`NOTICE.md`](NOTICE.md))
 
@@ -54,10 +56,10 @@ Bug ID and chat always stay on-device. If you turn **Network** on in Brains, the
 
 Status lives in [`tasks/todo.md`](tasks/todo.md), the living checklist of what's shipped and what's next.
 
-- **Vision:** `eu-1k-commercial-v1`, 1,000 European insects and spiders, 78.2% top-1 and 90.1% top-3 on held-out photos. Runs through `react-native-executorch`. Licence-clean for commercial use: trained only on CC0/CC-BY photos on Google's Apache-2.0 base. See [`training/vision/README.md`](training/vision/README.md) and the [model card](training/vision/results/commercial-1k-v1/MODEL_CARD.md).
-- **Chat:** Gemma 4 E2B (Apache 2.0) through `llama.rn`. No scripted fallback and no web chat ([ADR 005](docs/decisions/005-gemma-4-only-chat.md)). Personas are system prompts; a LoRA pipeline for per-persona adapters is in [`training/personas/`](training/personas/), not shipped.
+- **Vision:** `eu-1k-field-v7`, 1,004 European insects and spiders, 82.4% top-1 and 92.7% top-3 on held-out photos, and trained on fake phone shots so small bugs in real photos are found about twice as often as before. Runs through `react-native-executorch`. Licence-clean for commercial use: trained only on CC0/CC-BY photos on Google's Apache-2.0 base. See [`training/vision/README.md`](training/vision/README.md) and the [model card](training/vision/results/field-v7/MODEL_CARD.md).
+- **Chat:** Qwen3 1.7B (Apache 2.0) through `llama.rn`, small enough for 4 GB phones; weaker on facts than the Gemma 4 E2B it replaced ([ADR 008](docs/decisions/008-qwen3-chat-model.md)). No scripted fallback and no web chat. Personas are system prompts; a LoRA pipeline for per-persona adapters is in [`training/personas/`](training/personas/), not shipped.
 - **Map:** MapLibre Native drawing a local PMTiles file in the app's sticker style ([`docs/modules/offline-map.md`](docs/modules/offline-map.md)).
-- **Backend:** live on Cloudflare Workers (D1, KV, a Durable Object), deployed 2 Oct 2026 ([`docs/modules/backend-adapter.md`](docs/modules/backend-adapter.md)).
+- **Backend:** live on Cloudflare Workers (D1, KV, a Durable Object), deployed 2 Oct 2026 ([`docs/modules/backend-adapter.md`](docs/modules/backend-adapter.md)). Training contributions add an R2 bucket and need a deploy ([`docs/modules/training-contributions.md`](docs/modules/training-contributions.md)).
 - **Next:** more testing on real phones, translated names for the pack species (pl/de/es fall back to English today), choosing where the models are hosted, and store submission.
 
 ## Tech stack

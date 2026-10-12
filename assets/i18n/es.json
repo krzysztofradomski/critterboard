@@ -68,7 +68,7 @@
       "analyzing": "ANALIZANDO…",
       "scanning": "SIN RED · ESCANEANDO",
       "permissionTitle": "Acceso a la cámara",
-      "permissionAsk": "Pulsa permitir para que Critterboard vea el bicho. Las fotos nunca salen del dispositivo.",
+      "permissionAsk": "Pulsa permitir para que Critterboard vea el bicho. Las fotos se quedan en tu móvil, salvo que tú decidas compartir una.",
       "permissionDenied": "Cámara denegada. Actívala en Ajustes → Critterboard → Cámara.",
       "allowCamera": "Permitir cámara",
       "tapToSnap": "toca el bicho para la foto",
@@ -494,7 +494,7 @@
       "items": {
         "camera": {
           "title": "Cámara",
-          "desc": "Foto al bicho, ID al momento. Las fotos nunca salen del dispositivo.",
+          "desc": "Foto al bicho, ID al momento. Las fotos se quedan en tu móvil, salvo que tú decidas compartir una.",
           "b1": "ML solo en el dispositivo",
           "b2": "Sin subidas a la nube",
           "b3": "Sin compartir metadatos de foto"
@@ -1178,7 +1178,7 @@
         },
         "faq2": {
           "q": "¿Por qué tengo poca confianza en la ID?",
-          "a": "Suele ser una de tres: foto borrosa, el bicho ocupa menos de 1/4 del encuadre, o estás fuera de un pack regional instalado. Los escaneos por debajo de tu umbral de coincidencia (Cerebro, 33 % por defecto) no se pueden añadir. Prueba con un encuadre más cerrado, más luz y un perfil lateral."
+          "a": "Suele ser una de tres: foto borrosa, el bicho ocupa menos de 1/4 del encuadre, o estás fuera de un pack regional instalado. Los escaneos por debajo de tu umbral de coincidencia (Cerebro, 33 % por defecto) no se pueden añadir. Prueba con un encuadre más cerrado, más luz y un perfil lateral. Si aun así se equivoca, puedes ponerle nombre tú (mira abajo)."
         },
         "faq3": {
           "q": "¿Cómo funcionan los congeladores de racha?",
@@ -1203,6 +1203,14 @@
         "faq8": {
           "q": "¿De dónde salen el hábitat, el tamaño, la distribución y la dieta?",
           "a": "El hábitat y la dieta son típicos de la familia de la especie. El tamaño viene de Wikipedia y la distribución de registros de GBIF, así que algunas especies muestran la familia en lugar del tamaño. «Más en Wikipedia» abre el artículo completo."
+        },
+        "faq9": {
+          "q": "La app se equivocó con mi bicho. ¿Puedo corregirlo?",
+          "a": "Sí. Tras escanear, toca «¿No es? Ponle nombre tú» (o «Ponle nombre tú» si no hay coincidencia), búscalo por su nombre en español, inglés o latín, elígelo y añádelo. Entra en tu Dex, retos y racha, marcado como «nombre tuyo», pero no da XP ni se comparte en línea, así que nadie sube en la clasificación escribiendo nombres. Solo se encuentran especies del paquete de región instalado."
+        },
+        "faq10": {
+          "q": "¿Qué comparte «Ayuda a entrenar el modelo»?",
+          "a": "Nada hasta que lo actives en Cerebro (necesita Red). Entonces, al añadir un bicho, puedes compartir su foto para entrenar el próximo modelo de especies. Se envía: la foto (más pequeña, sin metadatos), la especie, lo que creyó el modelo y dónde está el bicho en la foto. Nunca se envía: tu ubicación ni datos del móvil. Las fotos se comparten con licencia CC BY 4.0 y con tu nombre de la app como crédito. Puedes guardarte cualquier foto, y «Borrar fotos compartidas» en Cerebro las quita todas (borrar tu cuenta también). Las fotos ya usadas en un modelo publicado se quedan en ese modelo."
         }
       },
       "contactTitle": "Ponte en contacto",
