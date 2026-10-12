@@ -81,7 +81,10 @@
       "modelLoading": "Cargando modelo…",
       "tipsTitle": "Consejos para la foto",
       "tipsSub": "Mejores fotos, mejores resultados.",
-      "tipsGotIt": "Entendido"
+      "tipsGotIt": "Entendido",
+      "modelMissingTitle": "Falta el modelo de especies en el móvil",
+      "modelMissingBody": "Tu paquete está instalado, pero falta el archivo del modelo. Vuelve a bajarlo en la página del paquete.",
+      "modelMissingCta": "Abrir el paquete"
     },
     "result": {
       "headTitle": "¡IDENTIFICADO!",
@@ -864,7 +867,8 @@
         "label": "Vibración",
         "on": "Toques, interruptores y pestañas dan una pequeña vibración.",
         "off": "Sin vibración."
-      }
+      },
+      "localLlmDeleteBtn": "Borrar del móvil ({size} GB)"
     },
     "regions": {
       "list": {
@@ -991,7 +995,16 @@
         "updateFailed": "La actualización falló. El modelo actual sigue funcionando.",
         "removeTitle": "¿Quitar este paquete?",
         "removeBody": "Borra el modelo, la lista de especies y el mapa sin conexión de este teléfono ({mb} MB). Tus capturas se quedan. Puedes volver a descargarlo en Ajustes.",
-        "removeCta": "Quitar"
+        "removeCta": "Quitar",
+        "unload": "Liberar memoria",
+        "unloaded": "Memoria liberada. El modelo se carga de nuevo en el próximo escaneo.",
+        "deleteModel": "🗑 Borrar el archivo del modelo ({mb} MB)",
+        "deleteModelTitle": "¿Borrar el archivo del modelo?",
+        "deleteModelBody": "Libera {mb} MB. Las especies, los datos, los iconos y el mapa se quedan. Para escanear necesitarás el modelo otra vez: lo puedes bajar aquí.",
+        "deleteModelCta": "Borrar",
+        "modelDeleted": "Archivo del modelo borrado",
+        "downloadModel": "⬇ Bajar el modelo ({mb} MB)",
+        "downloadFailed": "No se pudo bajar. Inténtalo con mejor conexión."
       }
     },
     "bugs": {

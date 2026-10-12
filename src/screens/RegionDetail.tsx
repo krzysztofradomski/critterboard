@@ -10,8 +10,10 @@ import { findBug } from '@/data/bugs';
 import { REGION_DETAILS, REGIONS } from '@/data/regions';
 import { removePackIcons } from '@/data/bugIcons';
 import {
-  fetchPackManifest, getModelPath, isPackOutdated, removeCachedPack, updatePack,
+  downloadPackModel, fetchPackManifest, getModelPath, getPackData, isPackOutdated, removeCachedPack, updatePack,
 } from '@/data/regionPacks';
+import { isVisionModelLoaded, unloadVisionModel } from '@/ai/executorchVision';
+import { visionModelActions } from '@/lib/modelActions';
 import { removeMapPack } from '@/map/mapPack';
 import { useT, useBugName } from '@/i18n/helpers';
 import { PB } from '@/tokens/pb';
@@ -35,6 +37,62 @@ export function RegionDetail() {
   // Newer pack in the manifest: its URL. Updating: download progress 0–100.
   const [updateUrl, setUpdateUrl] = useState<string | null>(null);
   const [updatePct, setUpdatePct] = useState<number | null>(null);
+  // The species model on its own: in memory now? its file on disk? (null = not checked yet)
+  const [modelLoaded, setModelLoaded] = useState(isVisionModelLoaded());
+  const [modelFile, setModelFile] = useState<boolean | null>(null);
+  const [modelPct, setModelPct] = useState<number | null>(null);
+
+  const checkModelFile = () => {
+    const dir = FileSystem.documentDirectory;
+    if (!installed || !dir) return;
+    void FileSystem.getInfoAsync(getModelPath(dir, r.id)).then(
+      (info) => setModelFile(info.exists),
+      () => setModelFile(false),
+    );
+  };
+  useEffect(checkModelFile, [installed, r.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const unloadModel = () => {
+    unloadVisionModel();
+    setModelLoaded(false);
+    showToast({ text: t('regions.detail.unloaded'), icon: r.emoji, bg: PB.green });
+  };
+
+  const deleteModelFile = () =>
+    Alert.alert(t('regions.detail.deleteModelTitle'), t('regions.detail.deleteModelBody', { mb: modelMb }), [
+      { text: t('common.cancel'), style: 'cancel' },
+      {
+        text: t('regions.detail.deleteModelCta'),
+        style: 'destructive',
+        onPress: () => {
+          const dir = FileSystem.documentDirectory;
+          if (!dir) return;
+          unloadVisionModel();
+          setModelLoaded(false);
+          void FileSystem.deleteAsync(getModelPath(dir, r.id), { idempotent: true }).then(() => {
+            setModelFile(false);
+            showToast({ text: t('regions.detail.modelDeleted'), icon: '🗑', bg: PB.ink });
+          });
+        },
+      },
+    ]);
+
+  const downloadModel = async () => {
+    const dir = FileSystem.documentDirectory;
+    const pack = getPackData(r.id);
+    if (!dir || !pack || modelPct !== null) return;
+    setModelPct(0);
+    try {
+      await downloadPackModel(dir, pack, (pct) => setModelPct(Math.floor(pct)));
+      setModelFile(true);
+    } catch {
+      showToast({ text: t('regions.detail.downloadFailed'), bg: '#e53935' });
+    } finally {
+      setModelPct(null);
+    }
+  };
+  const modelActions =
+    modelFile === null ? [] : visionModelActions({ installed, fileExists: modelFile, loaded: modelLoaded });
 
   useEffect(() => {
     if (!installed) return;
@@ -166,6 +224,23 @@ export function RegionDetail() {
           <Text style={styles.noteFoot}>{t('regions.detail.foot', { date: r.updated })}</Text>
         </Sticker>
 
+        {modelActions.map((a) => (
+          <Btn
+            key={a}
+            full
+            bg={a === 'download' ? PB.green : PB.cream}
+            color={a === 'download' ? PB.cream : undefined}
+            onPress={a === 'unload' ? unloadModel : a === 'deleteFile' ? deleteModelFile : () => void downloadModel()}
+          >
+            {a === 'unload'
+              ? t('regions.detail.unload')
+              : a === 'deleteFile'
+                ? t('regions.detail.deleteModel', { mb: modelMb })
+                : modelPct === null
+                  ? t('regions.detail.downloadModel', { mb: modelMb })
+                  : t('regions.detail.updating', { pct: modelPct })}
+          </Btn>
+        ))}
         {installed && updateUrl && (
           <Btn full bg={PB.green} color={PB.cream} onPress={update}>
             {updatePct === null

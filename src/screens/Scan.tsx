@@ -99,6 +99,8 @@ export function Scan() {
   const needsPack = USE_NATIVE_VISION && !isWeb && !activeRegionId;
   const modelLoading =
     USE_NATIVE_VISION && !isWeb && !!activeRegionId && !executorch.isReady && !executorch.error;
+  // The pack is installed but its model didn't load: usually its file was deleted in Region detail.
+  const modelMissing = USE_NATIVE_VISION && !isWeb && !!activeRegionId && !!executorch.error;
   const showToast = useAppStore((s) => s.showToast);
 
   const permission = useCameraPermission();
@@ -302,7 +304,7 @@ export function Scan() {
   /** Snap a photo; `tap` (a tap on the preview) aims the search, else the reticle does. */
   const shutter = async (tap: Point | null = null) => {
     if (phase !== 'aim') return;
-    if (needsPack) {
+    if (needsPack || modelMissing) {
       haptics.warning();
       return;
     }
@@ -362,7 +364,7 @@ export function Scan() {
 
   const pickFromGallery = async () => {
     if (phase !== 'aim') return;
-    if (needsPack) {
+    if (needsPack || modelMissing) {
       haptics.warning();
       return;
     }
@@ -481,6 +483,18 @@ export function Scan() {
             <Text style={styles.permissionDesc}>{t('scan.needPackBody')}</Text>
             <Btn full bg={PB.ink} color={PB.yellow} onPress={() => go('settings')} style={{ marginTop: 12 }}>
               {t('scan.needPackCta')}
+            </Btn>
+          </Sticker>
+        </View>
+      )}
+
+      {modelMissing && (
+        <View style={styles.permissionCard}>
+          <Sticker bg={PB.cream} rotate={-1} style={{ padding: 16 }}>
+            <Text style={styles.permissionTitle}>{t('scan.modelMissingTitle')}</Text>
+            <Text style={styles.permissionDesc}>{t('scan.modelMissingBody')}</Text>
+            <Btn full bg={PB.ink} color={PB.yellow} onPress={() => go('region', { id: activeRegionId })} style={{ marginTop: 12 }}>
+              {t('scan.modelMissingCta')}
             </Btn>
           </Sticker>
         </View>

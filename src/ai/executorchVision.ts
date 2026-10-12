@@ -90,6 +90,19 @@ function dropCache(): void {
   void entry.module.then((m) => m.delete(), () => undefined);
 }
 
+/** Is the species model in memory now? (Region detail offers "Unload" only then.) */
+export function isVisionModelLoaded(): boolean {
+  return cache !== null;
+}
+
+/**
+ * Free the species model's memory now instead of after the idle timeout. The next scan loads
+ * it again from its file. Safe while nothing is scanning; Region detail calls it, not Scan.
+ */
+export function unloadVisionModel(): void {
+  dropCache();
+}
+
 /** Get (loading if needed) the model for this file + label map. Pair with `releaseModel`. */
 export function acquireModel(
   source: string | number,

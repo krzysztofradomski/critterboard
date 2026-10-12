@@ -81,7 +81,10 @@
       "modelLoading": "Modell wird geladen…",
       "tipsTitle": "Foto-Tipps",
       "tipsSub": "Bessere Fotos, bessere Treffer.",
-      "tipsGotIt": "Verstanden"
+      "tipsGotIt": "Verstanden",
+      "modelMissingTitle": "Das Artenmodell fehlt auf dem Handy",
+      "modelMissingBody": "Dein Paket ist installiert, aber die Modelldatei fehlt. Lade sie auf der Seite des Pakets neu herunter.",
+      "modelMissingCta": "Paket öffnen"
     },
     "result": {
       "headTitle": "IDENTIFIZIERT!",
@@ -864,7 +867,8 @@
         "label": "Vibration",
         "on": "Taps, Schalter und Tabs geben ein kleines Brummen.",
         "off": "Keine Vibration."
-      }
+      },
+      "localLlmDeleteBtn": "Vom Handy löschen ({size} GB)"
     },
     "regions": {
       "list": {
@@ -991,7 +995,16 @@
         "updateFailed": "Aktualisierung fehlgeschlagen. Das aktuelle Modell funktioniert weiter.",
         "removeTitle": "Paket entfernen?",
         "removeBody": "Löscht Modell, Artenliste und Offline-Karte von diesem Telefon ({mb} MB). Deine Funde bleiben. Du kannst es in den Einstellungen erneut laden.",
-        "removeCta": "Entfernen"
+        "removeCta": "Entfernen",
+        "unload": "Aus dem Speicher nehmen",
+        "unloaded": "Modell entladen. Beim nächsten Scan lädt es wieder.",
+        "deleteModel": "🗑 Modelldatei löschen ({mb} MB)",
+        "deleteModelTitle": "Modelldatei löschen?",
+        "deleteModelBody": "Gibt {mb} MB frei. Arten, Fakten, Symbole und Karte bleiben. Zum Scannen brauchst du das Modell wieder – du kannst es hier herunterladen.",
+        "deleteModelCta": "Löschen",
+        "modelDeleted": "Modelldatei gelöscht",
+        "downloadModel": "⬇ Modell herunterladen ({mb} MB)",
+        "downloadFailed": "Download fehlgeschlagen. Versuch es mit einer besseren Verbindung."
       }
     },
     "bugs": {

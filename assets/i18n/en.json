@@ -81,7 +81,10 @@
       "modelLoading": "Loading model…",
       "tipsTitle": "Photo tips",
       "tipsSub": "Better photos, better matches.",
-      "tipsGotIt": "Got it"
+      "tipsGotIt": "Got it",
+      "modelMissingTitle": "The species model isn't on this phone",
+      "modelMissingBody": "Your pack is installed, but its model file is missing. Download it again in the pack's page.",
+      "modelMissingCta": "Open the pack"
     },
     "result": {
       "headTitle": "IDENTIFIED!",
@@ -864,7 +867,8 @@
         "label": "Vibration",
         "on": "Taps, toggles and tabs give a small buzz.",
         "off": "No vibration."
-      }
+      },
+      "localLlmDeleteBtn": "Delete from phone ({size} GB)"
     },
     "regions": {
       "list": {
@@ -991,7 +995,16 @@
         "updateFailed": "Update failed. The current model still works.",
         "removeTitle": "Remove this pack?",
         "removeBody": "Deletes the model, species list and offline map from this phone ({mb} MB). Your catches stay. You can download it again in Settings.",
-        "removeCta": "Remove"
+        "removeCta": "Remove",
+        "unload": "Unload from memory",
+        "unloaded": "Model unloaded. It loads again on your next scan.",
+        "deleteModel": "🗑 Delete model file ({mb} MB)",
+        "deleteModelTitle": "Delete the model file?",
+        "deleteModelBody": "Frees {mb} MB. Species, facts, icons and the map stay. Scanning needs the model again: you can download it here.",
+        "deleteModelCta": "Delete",
+        "modelDeleted": "Model file deleted",
+        "downloadModel": "⬇ Download model ({mb} MB)",
+        "downloadFailed": "Download failed. Try again on a better connection."
       }
     },
     "bugs": {

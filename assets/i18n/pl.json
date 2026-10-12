@@ -81,7 +81,10 @@
       "modelLoading": "Ładowanie modelu…",
       "tipsTitle": "Wskazówki do zdjęcia",
       "tipsSub": "Lepsze zdjęcia, trafniejsze wyniki.",
-      "tipsGotIt": "Jasne"
+      "tipsGotIt": "Jasne",
+      "modelMissingTitle": "Brakuje modelu gatunków",
+      "modelMissingBody": "Paczka jest zainstalowana, ale nie ma pliku modelu. Pobierz go ponownie na stronie paczki.",
+      "modelMissingCta": "Otwórz paczkę"
     },
     "result": {
       "headTitle": "ROZPOZNANO!",
@@ -864,7 +867,8 @@
         "label": "Wibracje",
         "on": "Dotknięcia, przełączniki i zakładki delikatnie wibrują.",
         "off": "Bez wibracji."
-      }
+      },
+      "localLlmDeleteBtn": "Usuń z telefonu ({size} GB)"
     },
     "regions": {
       "list": {
@@ -991,7 +995,16 @@
         "updateFailed": "Aktualizacja nie powiodła się. Obecny model nadal działa.",
         "removeTitle": "Usunąć ten pakiet?",
         "removeBody": "Usuwa model, listę gatunków i mapę offline z telefonu ({mb} MB). Twoje znaleziska zostają. Możesz pobrać go ponownie w Ustawieniach.",
-        "removeCta": "Usuń"
+        "removeCta": "Usuń",
+        "unload": "Zwolnij pamięć",
+        "unloaded": "Model zwolniony z pamięci. Wczyta się przy następnym skanie.",
+        "deleteModel": "🗑 Usuń plik modelu ({mb} MB)",
+        "deleteModelTitle": "Usunąć plik modelu?",
+        "deleteModelBody": "Zwalnia {mb} MB. Gatunki, ciekawostki, ikony i mapa zostają. Do skanowania model będzie znów potrzebny – pobierzesz go tutaj.",
+        "deleteModelCta": "Usuń",
+        "modelDeleted": "Plik modelu usunięty",
+        "downloadModel": "⬇ Pobierz model ({mb} MB)",
+        "downloadFailed": "Nie udało się pobrać. Spróbuj przy lepszym połączeniu."
       }
     },
     "bugs": {

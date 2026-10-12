@@ -37,6 +37,7 @@ import { isOffensiveName } from "@/lib/moderation";
 import { useAppStore } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
 import { haptics } from '@/lib/haptics';
+import { chatModelActions } from '@/lib/modelActions';
 
 const NAME_MAX = 18;
 
@@ -79,6 +80,16 @@ export function Settings() {
   const chatModel = useChatModel();
   const modelState = chatModel.status;
   const downloadPct = chatModel.pct;
+  // Deleting frees ~3 GB, but a re-download is slow: confirm. (Toggle off and the Delete button.)
+  const confirmDeleteChat = () =>
+    Alert.alert(
+      t("settings.localLlmDeleteTitle"),
+      t("settings.localLlmDeleteBody", { model: CHAT_MODEL.name, size: CHAT_MODEL.sizeGb }),
+      [
+        { text: t("common.cancel"), style: "cancel" },
+        { text: t("settings.localLlmDeleteCta"), style: "destructive", onPress: () => void deleteChatModel() },
+      ],
+    );
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [confirmMemoryWipe, setConfirmMemoryWipe] = useState(false);
   const [nameDraft, setNameDraft] = useState(profile.name);
@@ -467,34 +478,31 @@ export function Settings() {
                 );
                 return;
               }
-              // Turning chat off frees ~3 GB, but a re-download is slow: confirm.
-              Alert.alert(
-                t("settings.localLlmDeleteTitle"),
-                t("settings.localLlmDeleteBody", { model: CHAT_MODEL.name, size: CHAT_MODEL.sizeGb }),
-                [
-                  { text: t("common.cancel"), style: "cancel" },
-                  {
-                    text: t("settings.localLlmDeleteCta"),
-                    style: "destructive",
-                    onPress: () => void deleteChatModel(),
-                  },
-                ],
-              );
+              confirmDeleteChat();
             }}
             disabled={
               modelState === "unsupported" || modelState === "tooLittleRam" || modelState === "checking"
             }
           />
-          {modelState === 'ready' || modelState === 'ejected' ? (
+          {/* Memory and disk are separate choices; downloading is the toggle above. */}
+          {chatModelActions(modelState).filter((a) => a !== 'download').map((a) => (
             <Btn
+              key={a}
               full
-              bg={PB.cream}
-              onPress={() => void (modelState === 'ready' ? ejectChatModel() : loadChatModel())}
+              bg={a === 'delete' ? PB.red : PB.cream}
+              color={a === 'delete' ? PB.cream : undefined}
+              onPress={() =>
+                a === 'unload' ? void ejectChatModel() : a === 'load' ? void loadChatModel() : confirmDeleteChat()
+              }
               style={{ marginTop: 10 }}
             >
-              {t(modelState === 'ready' ? "settings.localLlmEject" : "settings.localLlmLoad")}
+              {a === 'unload'
+                ? t("settings.localLlmEject")
+                : a === 'load'
+                  ? t("settings.localLlmLoad")
+                  : t("settings.localLlmDeleteBtn", { size: CHAT_MODEL.sizeGb })}
             </Btn>
-          ) : null}
+          ))}
         </Sticker>
 
         <Sticker bg={PB.paper} style={{ padding: 0 }}>
