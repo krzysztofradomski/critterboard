@@ -263,11 +263,14 @@ export function Scan() {
           top.confidence >= Math.max(0.7, floor) &&
           (!second || top.confidence - second.confidence >= 0.15);
 
+        // The model's guesses go along, for "Name it yourself" ("The model thought: …").
+        const top3 = candidates.slice(0, 3).map((c) => c.bugId);
         if (confident && top) {
           haptics.success();
           go('result', {
             id: top.bugId,
             conf: Math.round(top.confidence * 100),
+            top3,
             ...(photoUri ? { photoUri } : {}),
           });
         } else if (viable.length >= 2) {
@@ -275,6 +278,7 @@ export function Scan() {
           go('disambiguate', {
             candidates: viable.map((c) => c.bugId),
             confs: viable.map((c) => Math.round(c.confidence * 100)),
+            top3,
             ...(photoUri ? { photoUri } : {}),
           });
         } else if (top) {
@@ -283,11 +287,12 @@ export function Scan() {
           go('result', {
             id: top.bugId,
             conf: Math.round(top.confidence * 100),
+            top3,
             ...(photoUri ? { photoUri } : {}),
           });
         } else {
           haptics.warning();
-          go('nomatch');
+          go('nomatch', { top3, ...(photoUri ? { photoUri } : {}) });
         }
       }, Math.max(0, minHold));
     })();

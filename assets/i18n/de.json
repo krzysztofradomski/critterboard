@@ -1311,6 +1311,19 @@
       "dev": "Entwicklungs-Abhängigkeiten",
       "devSub": "{n} Pakete für Tooling und Build",
       "footer": "Tippe auf ein Paket, um eine Google-Suche zu öffnen."
+    },
+    "nameIt": {
+      "title": "Selbst benennen",
+      "link": "Falsch? Selbst benennen",
+      "placeholder": "Nach Namen oder lateinischem Namen suchen",
+      "modelThought": "Das Modell dachte:",
+      "hint": "Gib einen Namen auf Deutsch, Englisch oder Latein ein.",
+      "noMatch": "Nicht in der Liste dieser Region.",
+      "confirmTitle": "In den Dex aufnehmen?",
+      "namedNote": "Von dir benannt: kommt in den Dex, bringt aber keine XP und wird nicht online geteilt.",
+      "back": "Zurück",
+      "addedToast": "{name} ist in deinem Dex. Von dir benannt, daher ohne XP.",
+      "tag": "von dir benannt"
     }
   }
 }

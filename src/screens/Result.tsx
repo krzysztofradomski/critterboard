@@ -1,4 +1,3 @@
-import * as Location from 'expo-location';
 import React from 'react';
 import { Alert, Platform, Pressable, ScrollView, Share, StyleSheet, Text, View } from 'react-native';
 
@@ -6,6 +5,7 @@ import { BugIcon } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
 import { CatchPhoto } from '@/components/CatchPhoto';
 import { IconBtn } from '@/components/IconBtn';
+import { NameItSheet } from '@/components/NameItSheet';
 import { PhotoLightbox } from '@/components/PhotoLightbox';
 import {
   Section,
@@ -20,25 +20,23 @@ import { BUGS, findBug } from '@/data/bugs';
 import { factTiles, orderKey } from '@/data/speciesFacts';
 import { useT, useBugName } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
-import { keepPhoto } from '@/lib/photos';
 import { latestPhotoFor } from '@/lib/streak';
 import { usePersona } from '@/personas/hooks';
 import { PB, RARITY_COLOR } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
-import { useNearbySightings, usePublishCatch } from '@/backend/hooks';
+import { useNearbySightings } from '@/backend/hooks';
+import { useAddCatch } from '@/lib/useAddCatch';
 
 export function Result() {
   const { go, back } = useNav();
   const persona = useAppStore((s) => s.persona);
-  const catchBug = useAppStore((s) => s.catchBug);
   const showToast = useAppStore((s) => s.showToast);
   const removeFromDex = useAppStore((s) => s.removeFromDex);
   const dex = useAppStore((s) => s.dex);
-  const locationShareOn = useAppStore((s) => s.profile.locationShareOn);
   const minConfidence = useAppStore((s) => s.profile.minConfidence);
   const route = useCurrentRoute();
-  const params = route.params as { id?: string; photoUri?: string; conf?: number } | undefined;
+  const params = route.params as { id?: string; photoUri?: string; conf?: number; top3?: string[] } | undefined;
   const id = params?.id ?? 'mona';
   const photoUri = params?.photoUri ?? null;
   const bug = findBug(id) ?? BUGS[0];
@@ -47,9 +45,10 @@ export function Result() {
   const catchLog = useAppStore((s) => s.catchLog);
   const nearby = useNearbySightings().filter((x) => x.bugId === id).length;
   const [lightboxOpen, setLightboxOpen] = React.useState(false);
+  const [nameItOpen, setNameItOpen] = React.useState(false);
   if (!bug) return null;
 
-  const publishCatch = usePublishCatch();
+  const addCatch = useAddCatch();
   const P = usePersona(persona);
   const alreadyCaught = dex.has(bug.id);
   // Only a fresh scan carries a model confidence; opening a bug from the Dex has none.
@@ -82,63 +81,7 @@ export function Result() {
       showToast({ text: t('result.tooUnsure', { min: minConfidence }), icon: '🤔', bg: PB.yellow });
       return;
     }
-    haptics.success();
-    showToast({
-      text: t('result.caughtToast', { xp: bug.xp, tier: bug.tier }),
-      icon: bug.emoji,
-      bg: PB.green,
-    });
-    setTimeout(() => go('dex'), 900);
-
-    // Capture coords in the background — never block the catch on a
-    // slow GPS fix. The store mutation lands immediately with the photo;
-    // when the location resolves we file a single follow-up edit via a
-    // second catchBug-shaped path? No — better: fire-and-forget the
-    // location read and pass coords to catchBug only after it lands.
-    // To avoid two store writes, we stage the catch atomically once
-    // the position is in (with a short timeout fallback for refusal).
-    const finalize = async (coords?: { lat: number; lng: number }) => {
-      const at = Date.now();
-      // Out of the cache folder, which the OS may empty, so the Dex keeps the photo.
-      const keptUri = photoUri ? await keepPhoto(photoUri) : null;
-      catchBug(bug.id, {
-        at,
-        ...(keptUri ? { photoUri: keptUri } : {}),
-        ...(coords ? { lat: coords.lat, lng: coords.lng } : {}),
-      });
-      // Coordinates leave the device only for users who opted in to sharing.
-      publishCatch(bug.id, at, locationShareOn ? coords?.lat : undefined, locationShareOn ? coords?.lng : undefined);
-    };
-
-    // The catch is pinned on the user's own (private) map whenever the OS
-    // location permission is granted; coordinates are only *published*
-    // when they opted in to sharing.
-    void (async () => {
-      const perm = await Location.getForegroundPermissionsAsync().catch(() => null);
-      if (!perm?.granted) {
-        void finalize();
-        return;
-      }
-      let settled = false;
-      const timer = setTimeout(() => {
-        if (settled) return;
-        settled = true;
-        void finalize();
-      }, 2500);
-      Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced })
-        .then((pos) => {
-          if (settled) return;
-          settled = true;
-          clearTimeout(timer);
-          void finalize({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-        })
-        .catch(() => {
-          if (settled) return;
-          settled = true;
-          clearTimeout(timer);
-          void finalize();
-        });
-    })();
+    addCatch(bug, photoUri);
   };
 
   const titleColor = bug.rarity === 'legendary' ? PB.cream : PB.ink;
@@ -153,6 +96,9 @@ export function Result() {
       </View>
 
       <PhotoLightbox uri={shownPhoto} visible={lightboxOpen} onClose={() => setLightboxOpen(false)} />
+      {photoUri && (
+        <NameItSheet visible={nameItOpen} photoUri={photoUri} top3={params?.top3} onClose={() => setNameItOpen(false)} />
+      )}
 
       <ScrollView contentContainerStyle={styles.scroll}>
         <Sticker bg={PB.cream} rotate={-1} style={styles.heroSticker}>
@@ -187,6 +133,9 @@ export function Result() {
           <View style={{ padding: 14 }}>
             <Text style={styles.bugName}>{localizedName}</Text>
             <Text style={styles.bugLatin}>{bug.latin}</Text>
+            {myCatch?.source === 'manual' && conf === undefined ? (
+              <Text style={styles.namedTag}>✍️ {t('nameIt.tag')}</Text>
+            ) : null}
             {order && (
               <Text style={styles.taxon}>
                 {t(order)}
@@ -279,6 +228,12 @@ export function Result() {
           >
             {alreadyCaught ? t('result.share') : conf !== undefined ? t('result.addToDex') : t('home.hunt')}
           </Btn>
+          {/* A fresh scan with a photo: the model may be wrong, so the player can name it. */}
+          {conf !== undefined && photoUri ? (
+            <Pressable accessibilityRole="button" style={styles.removeLink} onPress={() => setNameItOpen(true)}>
+              <Text style={styles.nameItText}>{t('nameIt.link')}</Text>
+            </Pressable>
+          ) : null}
           {alreadyCaught && conf === undefined ? (
             <Pressable
               accessibilityRole="button"
@@ -384,5 +339,7 @@ const styles = StyleSheet.create({
   catchDate: { fontSize: 15, fontWeight: '800', color: PB.ink },
   linkText: { fontSize: 13, fontWeight: '800', color: PB.ink, textDecorationLine: 'underline' },
   removeLink: { marginTop: 14, alignSelf: 'center', paddingVertical: 8, paddingHorizontal: 16 },
+  nameItText: { fontSize: 14, fontWeight: '700', color: PB.ink, textDecorationLine: 'underline' },
+  namedTag: { marginTop: 4, fontSize: 12, fontWeight: '700', color: PB.ink, opacity: 0.75 },
   removeText: { fontSize: 13, fontWeight: '800', color: PB.ink, opacity: 0.7, textDecorationLine: 'underline' },
 });

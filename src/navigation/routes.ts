@@ -15,7 +15,8 @@ export type RouteParamMap = {
   permissions: undefined;
   home: undefined;
   scan: { hint?: ScanHint } | undefined;
-  result: { id: string; photoUri?: string; conf?: number };
+  /** top3: the model's guesses (bug ids), offered first by "Name it yourself". */
+  result: { id: string; photoUri?: string; conf?: number; top3?: string[] };
   chat: { topic?: string } | undefined;
   dex: undefined;
   /** `focus`: open on this point (e.g. a catch from the species card) instead of framing all pins. */
@@ -24,8 +25,8 @@ export type RouteParamMap = {
   quests: undefined;
   leaderboard: undefined;
   settings: undefined;
-  disambiguate: { candidates?: string[]; confs?: number[]; photoUri?: string } | undefined;
-  nomatch: undefined;
+  disambiguate: { candidates?: string[]; confs?: number[]; photoUri?: string; top3?: string[] } | undefined;
+  nomatch: { photoUri?: string; top3?: string[] } | undefined;
   activity: undefined;
   region: { id: string };
   streak: undefined;

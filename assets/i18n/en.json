@@ -1311,6 +1311,19 @@
       "dev": "Development dependencies",
       "devSub": "{n} packages used in tooling/build",
       "footer": "Tap any package row to open a Google search."
+    },
+    "nameIt": {
+      "title": "Name it yourself",
+      "link": "Not right? Name it yourself",
+      "placeholder": "Search by name or Latin name",
+      "modelThought": "The model thought:",
+      "hint": "Type a name in English or in Latin.",
+      "noMatch": "Not in this region's list.",
+      "confirmTitle": "Add this to your Dex?",
+      "namedNote": "Named by you: it goes in your Dex, but earns no XP and isn't shared online.",
+      "back": "Back",
+      "addedToast": "{name} is in your Dex. Named by you, so no XP.",
+      "tag": "named by you"
     }
   }
 }

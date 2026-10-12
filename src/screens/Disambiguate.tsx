@@ -5,6 +5,7 @@ import { BugIcon } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
+import { NameItSheet } from '@/components/NameItSheet';
 import { Sticker } from '@/components/Sticker';
 import { findBug } from '@/data/bugs';
 import { useT, bugName } from '@/i18n/helpers';
@@ -20,7 +21,8 @@ export function Disambiguate() {
   const P = usePersona(persona);
   const t = useT();
   const route = useCurrentRoute();
-  const params = (route.params as { candidates?: string[]; confs?: number[]; photoUri?: string } | undefined) ?? {};
+  const params = (route.params as { candidates?: string[]; confs?: number[]; photoUri?: string; top3?: string[] } | undefined) ?? {};
+  const [nameItOpen, setNameItOpen] = React.useState(false);
   const candIds = params.candidates ?? [];
   const confs = params.confs ?? [];
   const photoUri = params.photoUri;
@@ -111,10 +113,28 @@ export function Disambiguate() {
           <Btn full bg={PB.cream} color={PB.ink} onPress={() => go('chat', { topic: t('disambiguate.thisMystery') })}>
             {t('disambiguate.askForHelp', { name: personaShort })}
           </Btn>
-          <Btn full bg={PB.red} color={PB.cream} onPress={() => go('nomatch')}>
+          {params.photoUri ? (
+            <Btn full bg={PB.green} color={PB.cream} onPress={() => setNameItOpen(true)}>
+              {t('nameIt.link')}
+            </Btn>
+          ) : null}
+          <Btn
+            full
+            bg={PB.red}
+            color={PB.cream}
+            onPress={() => go('nomatch', { top3: params.top3 ?? params.candidates, ...(params.photoUri ? { photoUri: params.photoUri } : {}) })}
+          >
             {t('disambiguate.noneOfThese')}
           </Btn>
         </View>
+        {params.photoUri ? (
+          <NameItSheet
+            visible={nameItOpen}
+            photoUri={params.photoUri}
+            top3={params.top3 ?? params.candidates}
+            onClose={() => setNameItOpen(false)}
+          />
+        ) : null}
 
         <Text style={styles.foot}>{t('disambiguate.foot')}</Text>
       </ScrollView>

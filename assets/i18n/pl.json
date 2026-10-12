@@ -1311,6 +1311,19 @@
       "dev": "Zależności deweloperskie",
       "devSub": "{n} pakietów używanych w narzędziach i buildzie",
       "footer": "Dotknij pakietu, by otworzyć wyszukiwanie w Google."
+    },
+    "nameIt": {
+      "title": "Nazwij go sam",
+      "link": "To nie to? Nazwij go sam",
+      "placeholder": "Szukaj po nazwie lub po łacinie",
+      "modelThought": "Model myślał, że to:",
+      "hint": "Wpisz nazwę po polsku, po angielsku albo po łacinie.",
+      "noMatch": "Nie ma go na liście tego regionu.",
+      "confirmTitle": "Dodać do Dexa?",
+      "namedNote": "Nazwany przez ciebie: trafia do Dexa, ale nie daje XP i nie idzie do sieci.",
+      "back": "Wróć",
+      "addedToast": "{name} jest w twoim Dexie. Nazwany przez ciebie, więc bez XP.",
+      "tag": "nazwany przez ciebie"
     }
   }
 }

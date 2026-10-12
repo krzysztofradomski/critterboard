@@ -1311,6 +1311,19 @@
       "dev": "Dependencias de desarrollo",
       "devSub": "{n} paquetes usados en herramientas y compilación",
       "footer": "Pulsa un paquete para abrir una búsqueda en Google."
+    },
+    "nameIt": {
+      "title": "Ponle nombre tú",
+      "link": "¿No es? Ponle nombre tú",
+      "placeholder": "Busca por nombre o por nombre en latín",
+      "modelThought": "El modelo pensó:",
+      "hint": "Escribe un nombre en español, en inglés o en latín.",
+      "noMatch": "No está en la lista de esta región.",
+      "confirmTitle": "¿Añadir a tu Dex?",
+      "namedNote": "Con nombre puesto por ti: entra en tu Dex, pero no da XP ni se comparte en línea.",
+      "back": "Volver",
+      "addedToast": "{name} ya está en tu Dex. Nombre puesto por ti, sin XP.",
+      "tag": "nombre tuyo"
     }
   }
 }

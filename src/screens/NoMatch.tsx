@@ -3,13 +3,14 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
+import { NameItSheet } from '@/components/NameItSheet';
 import { Sticker } from '@/components/Sticker';
 import { PHOTO_TIPS } from '@/data/photoTips';
 import { VISION_MODEL } from '@/data/visionModel';
 import { useT } from '@/i18n/helpers';
 import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
-import { useAppStore } from '@/store/useAppStore';
+import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 
 export function NoMatch() {
@@ -17,6 +18,9 @@ export function NoMatch() {
   const persona = useAppStore((s) => s.persona);
   const P = usePersona(persona);
   const t = useT();
+  const route = useCurrentRoute();
+  const params = (route.params as { photoUri?: string; top3?: string[] } | undefined) ?? {};
+  const [nameItOpen, setNameItOpen] = React.useState(false);
 
   return (
     <View style={styles.root}>
@@ -68,7 +72,13 @@ export function NoMatch() {
         </Sticker>
 
         <View style={{ marginTop: 16, gap: 10 }}>
-          <Btn full bg={PB.ink} color={PB.yellow} size="lg" onPress={() => go('scan')}>
+          {/* With a photo, naming it is the main way on: the model just didn't know. */}
+          {params.photoUri ? (
+            <Btn full bg={PB.green} color={PB.cream} size="lg" onPress={() => setNameItOpen(true)}>
+              {t('nameIt.title')}
+            </Btn>
+          ) : null}
+          <Btn full bg={PB.ink} color={PB.yellow} size={params.photoUri ? undefined : 'lg'} onPress={() => go('scan')}>
             {t('noMatch.tryAgain')}
           </Btn>
           <Btn full bg={PB.cream} color={PB.ink} onPress={() => go('home')}>
@@ -76,6 +86,9 @@ export function NoMatch() {
           </Btn>
         </View>
       </ScrollView>
+      {params.photoUri ? (
+        <NameItSheet visible={nameItOpen} photoUri={params.photoUri} top3={params.top3} onClose={() => setNameItOpen(false)} />
+      ) : null}
     </View>
   );
 }
