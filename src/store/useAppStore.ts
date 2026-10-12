@@ -158,6 +158,8 @@ export type CatchBugOptions = {
   photoUri?: string;
   lat?: number;
   lng?: number;
+  /** 'manual' for a species the player named themselves (see CatchEvent.source). */
+  source?: 'manual';
 };
 
 export type ChatMessage = {
@@ -669,6 +671,7 @@ export const useAppStore = create<AppStore>()(
             event.lat = opts.lat;
             event.lng = opts.lng;
           }
+          if (opts?.source === 'manual') event.source = 'manual';
 
           const nextDex = s.dex.has(id) ? s.dex : new Set(s.dex).add(id);
           const nextCatchLog = [...s.catchLog, event];

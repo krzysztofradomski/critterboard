@@ -23,7 +23,8 @@ export function pendingCatches(state: ReturnType<typeof useAppStore.getState>): 
 } {
   const { catchLog, online } = state;
   const done = new Set(online.uploaded);
-  const open = catchLog.filter((c) => !done.has(catchKey(c)));
+  // Self-named species never go online: no leaderboard XP, no feed, no shared sighting.
+  const open = catchLog.filter((c) => c.source !== 'manual' && !done.has(catchKey(c)));
   if (online.since === null) return { due: [], older: open };
   const isOlder = (c: CatchEvent) => c.at < (online.since as number);
   return {

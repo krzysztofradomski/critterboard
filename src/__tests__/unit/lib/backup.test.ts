@@ -77,3 +77,14 @@ describe('planRestore', () => {
     expect(patch.backendUserId).toBeUndefined();
   });
 });
+
+describe('backup: self-named catches', () => {
+  it('keeps source: manual through export and restore, and drops an unknown source', () => {
+    const b = buildBackup({ ...src, catchLog: [{ id: 'lady', at: 1000, source: 'manual' }, { id: 'hcat', at: 2000 }] }, { includeIdentity: false });
+    const back = parseBackup(JSON.stringify(b))!;
+    expect(back.catchLog).toEqual([{ id: 'lady', at: 1000, source: 'manual' }, { id: 'hcat', at: 2000 }]);
+    const forged = JSON.parse(JSON.stringify(b));
+    forged.catchLog[1].source = 'admin';
+    expect(parseBackup(JSON.stringify(forged))!.catchLog[1]).toEqual({ id: 'hcat', at: 2000 });
+  });
+});

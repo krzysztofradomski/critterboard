@@ -266,6 +266,9 @@ export function usePublishCatch(): (bugId: string, at: number, lat?: number, lng
   return useCallback(
     (bugId, at, lat, lng) => {
       if (!networkOn) return;
+      // A self-named species never goes online (the batch sync skips it too).
+      const ev = useAppStore.getState().catchLog.find((c) => c.id === bugId && c.at === at);
+      if (ev?.source === 'manual') return;
       const input =
         lat != null && lng != null ? { bugId, at, lat, lng } : { bugId, at };
       void backend

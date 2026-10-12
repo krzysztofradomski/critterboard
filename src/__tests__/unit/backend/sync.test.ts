@@ -10,12 +10,13 @@ import {
   settleOwedCleanups,
   syncCatches,
 } from '@/backend/sync';
+import type { CatchEvent } from '@/lib/streak';
 import { EMPTY_ONLINE, useAppStore } from '@/store/useAppStore';
 
 const log = (n: number, at0: number) =>
   Array.from({ length: n }, (_, i) => ({ id: `bug${i}`, at: at0 + i, lat: 50, lng: 19 }));
 
-function setup(over: { catchLog: ReturnType<typeof log>; online?: Partial<typeof EMPTY_ONLINE>; networkOn?: boolean; share?: boolean }) {
+function setup(over: { catchLog: CatchEvent[]; online?: Partial<typeof EMPTY_ONLINE>; networkOn?: boolean; share?: boolean }) {
   useAppStore.setState({
     catchLog: over.catchLog,
     online: { ...EMPTY_ONLINE, ...over.online },
@@ -31,6 +32,11 @@ function setup(over: { catchLog: ReturnType<typeof log>; online?: Partial<typeof
 beforeEach(() => vi.restoreAllMocks());
 
 describe('pendingCatches', () => {
+  it('never uploads a species the player named themselves', () => {
+    setup({ catchLog: [{ id: 'lady', at: 9_000, source: 'manual' }, { id: 'hcat', at: 9_100 }], online: { since: 5_000 } });
+    expect(pendingCatches(useAppStore.getState()).due.map((c) => c.id)).toEqual(['hcat']);
+  });
+
   it('holds earlier catches back until the user agrees', () => {
     setup({ catchLog: [...log(2, 1_000), ...log(1, 9_000)], online: { since: 5_000 } });
     const { due, older } = pendingCatches(useAppStore.getState());

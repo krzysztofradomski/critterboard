@@ -22,7 +22,7 @@ export type Backup = {
   exportedAt: string;
   dex: string[];
   /** `id` is the species id, as in the app's catch log. Photos are not included. */
-  catchLog: Array<{ id: string; at: number; lat?: number; lng?: number }>;
+  catchLog: Array<{ id: string; at: number; lat?: number; lng?: number; source?: 'manual' }>;
   questProgress: Record<string, number>;
   questCompletedAt: Record<string, number>;
   questClaimedAt: Record<string, number>;
@@ -58,6 +58,7 @@ export function buildBackup(src: Source, opts: { includeIdentity: boolean }, now
       id: c.id,
       at: c.at,
       ...(c.lat !== undefined && c.lng !== undefined ? { lat: c.lat, lng: c.lng } : {}),
+      ...(c.source === 'manual' ? { source: 'manual' as const } : {}),
     })),
     questProgress: src.questProgress,
     questCompletedAt: src.questCompletedAt,
@@ -110,7 +111,12 @@ export function parseBackup(text: string): Backup | null {
   for (const c of r.catchLog as Array<Record<string, unknown>>) {
     if (typeof c?.id !== 'string' || !ID_RE.test(c.id) || !isNum(c.at) || c.at < 0) return null;
     const hasLoc = isNum(c.lat) && isNum(c.lng) && Math.abs(c.lat) <= 90 && Math.abs(c.lng) <= 180;
-    catchLog.push({ id: c.id, at: c.at, ...(hasLoc ? { lat: c.lat as number, lng: c.lng as number } : {}) });
+    catchLog.push({
+      id: c.id,
+      at: c.at,
+      ...(hasLoc ? { lat: c.lat as number, lng: c.lng as number } : {}),
+      ...(c.source === 'manual' ? { source: 'manual' as const } : {}),
+    });
   }
   const questProgress = numMap(r.questProgress);
   const questCompletedAt = numMap(r.questCompletedAt);

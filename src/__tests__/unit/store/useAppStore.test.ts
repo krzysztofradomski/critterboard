@@ -503,3 +503,14 @@ describe('createCoalescedWriter', () => {
     }
   });
 });
+
+describe('catchBug source', () => {
+  it('records a self-named catch as manual and a model catch without a source', () => {
+    useAppStore.getState().catchBug('lady', { at: 10, source: 'manual' });
+    useAppStore.getState().catchBug('hcat', { at: 11 });
+    const log = useAppStore.getState().catchLog.filter((c) => c.at === 10 || c.at === 11);
+    expect(log.find((c) => c.id === 'lady')?.source).toBe('manual');
+    expect(log.find((c) => c.id === 'hcat')?.source).toBeUndefined();
+    expect(useAppStore.getState().dex.has('lady')).toBe(true);
+  });
+});

@@ -149,3 +149,18 @@ describe('rankFromXp', () => {
     expect(rankHigh).toBeLessThanOrEqual(rankLow);
   });
 });
+
+import { scoredSpecies } from '@/lib/level';
+
+describe('scoredSpecies', () => {
+  it('scores a species with a model catch, but not one only ever named by the player', () => {
+    const dex = new Set(['lady', 'hcat', 'mona']);
+    const log = [
+      { id: 'lady', at: 1, source: 'manual' as const },
+      { id: 'hcat', at: 2, source: 'manual' as const },
+      { id: 'hcat', at: 3 },
+    ];
+    // mona: in the Dex with no log entry (older data): still scored.
+    expect([...scoredSpecies(dex, log)].sort()).toEqual(['hcat', 'mona']);
+  });
+});

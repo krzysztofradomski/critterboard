@@ -18,6 +18,9 @@ export type CatchEvent = {
   photoUri?: string;
   lat?: number;
   lng?: number;
+  /** 'manual': the player named this species themselves ("Name it yourself"). Counts for the
+   * Dex, quests and streak, but is never uploaded and earns no leaderboard XP. */
+  source?: 'manual';
 };
 
 /** Calendar cell — what the Streak grid renders. */

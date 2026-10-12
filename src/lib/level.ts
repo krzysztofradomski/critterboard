@@ -52,6 +52,23 @@ export type LevelInfo = {
  * Unknown ids are silently skipped — the dex Set is the source of
  * truth, but the species registry is what knows how much XP each id is worth.
  */
+/**
+ * Dex species that earn XP: all but those only ever named by the player ("Name it yourself"),
+ * so the local level matches the server's, which only sees model catches. A species in the Dex
+ * with no catch log entry (older data) still counts.
+ */
+export function scoredSpecies(dex: Iterable<string>, catchLog: ReadonlyArray<{ id: string; source?: 'manual' }>): Set<string> {
+  const seen = new Set<string>();
+  const byModel = new Set<string>();
+  for (const c of catchLog) {
+    seen.add(c.id);
+    if (c.source !== 'manual') byModel.add(c.id);
+  }
+  const out = new Set<string>();
+  for (const id of dex) if (!seen.has(id) || byModel.has(id)) out.add(id);
+  return out;
+}
+
 export function xpFromDex(dex: Iterable<string>): number {
   let total = 0;
   for (const id of dex) {
@@ -135,8 +152,12 @@ export function formatXp(xp: number): string {
  */
 export function useXp(): number {
   const dex = useAppStore((s) => s.dex);
+  const catchLog = useAppStore((s) => s.catchLog);
   const claimed = useAppStore((s) => s.questClaimedAt);
-  return useMemo(() => xpFromDex(dex) + xpFromClaimedQuests(claimed), [dex, claimed]);
+  return useMemo(
+    () => xpFromDex(scoredSpecies(dex, catchLog)) + xpFromClaimedQuests(claimed),
+    [dex, catchLog, claimed],
+  );
 }
 
 export function useLevel(): LevelInfo {
