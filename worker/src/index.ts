@@ -15,19 +15,27 @@
  *   GET    /v1/sightings/nearby  Other players' shared catches nearest to ?lat&lng (anonymous)
  *   POST   /v1/follows/:userId   Follow
  *   DELETE /v1/follows/:userId   Unfollow
+ *   POST   /v1/training          Share a labelled photo for training (see training.ts)
+ *   GET    /v1/training/mine     Count, DELETE: remove, the caller's shared photos
+ *   GET    /v1/training/export   Developer export (TRAINING_ADMIN_TOKEN), signed photo links
  *
  * Storage:
  *   DB           — D1: users, follows, catches tables
  *   LEADERBOARD  — KV: cached global/weekly snapshots (refreshed by Cron every 5 min)
  *   FEED_INBOX   — Durable Object: per-user feed inbox, holds last 200 events
  *   JWT_SECRET   — Worker secret: HMAC-SHA256 signing key
+ *   TRAINING     — R2: shared training photos (critterboard-training); index rows in D1 `contributions`
  */
 
 import { SPECIES_XP } from './speciesXp';
+import {
+  deleteUserContributions, handleTrainingDeleteMine, handleTrainingExport, handleTrainingMine,
+  handleTrainingObject, handleTrainingUpload, type TrainingEnv,
+} from './training';
 
 // ── Environment ───────────────────────────────────────────────────────────────
 
-export interface Env {
+export interface Env extends TrainingEnv {
   DB: D1Database;
   LEADERBOARD: KVNamespace;
   FEED_INBOX: DurableObjectNamespace;
@@ -583,6 +591,8 @@ async function handleNearbySightings(userId: string, url: URL, env: Env): Promis
 }
 
 async function handleDeleteAccount(userId: string, env: Env): Promise<Response> {
+  // Shared training photos go too (R2 objects and their rows).
+  await deleteUserContributions(userId, env);
   // Feed events naming this user sit in their followers' inboxes (catches) and in the inboxes of
   // the people they followed ("followed you"): scrub both first, while we still know who they are.
   const linked = await env.DB.prepare(
@@ -903,6 +913,10 @@ async function routeRequest(request: Request, env: Env): Promise<Response> {
   const { pathname: path, method } = { pathname: url.pathname, method: request.method };
 
   if (method === 'POST' && path === '/v1/auth') return handleAuth(request, env);
+  // The developer's training export: its own token, not a player's JWT.
+  if (method === 'GET' && path === '/v1/training/export') return handleTrainingExport(request, url, env);
+  const objectMatch = /^\/v1\/training\/object\/(c_[0-9A-Za-z_-]{8,64})$/.exec(path);
+  if (method === 'GET' && objectMatch) return handleTrainingObject(objectMatch[1]!, url, env);
 
   const authResult = await authenticate(request, env);
   if (authResult instanceof Response) return authResult;
@@ -919,6 +933,9 @@ async function routeRequest(request: Request, env: Env): Promise<Response> {
   if (method === 'GET'  && path === '/v1/friends')    return handleFriends(userId, url, env);
   if (method === 'GET'  && path === '/v1/feed')       return handleFeed(userId, url, env);
   if (method === 'GET'  && path === '/v1/sightings/nearby') return handleNearbySightings(userId, url, env);
+  if (method === 'POST' && path === '/v1/training')   return handleTrainingUpload(userId, request, env);
+  if (method === 'GET'  && path === '/v1/training/mine') return handleTrainingMine(userId, env);
+  if (method === 'DELETE' && path === '/v1/training/mine') return handleTrainingDeleteMine(userId, env);
 
   const followMatch = /^\/v1\/follows\/([a-zA-Z0-9_-]{1,128})$/.exec(path);
   if (followMatch) {

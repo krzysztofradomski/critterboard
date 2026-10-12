@@ -12,7 +12,7 @@ const persist = mkdtempSync(join(tmpdir(), 'critterboard-smoke-'));
 const wrangler = (...args) => execFileSync('npx', ['wrangler', ...args], { stdio: 'pipe' });
 
 wrangler('d1', 'execute', 'critterboard', '--local', '--persist-to', persist, '--file=schema.sql');
-const dev = spawn('npx', ['wrangler', 'dev', '--port', String(PORT), '--persist-to', persist, '--var', 'JWT_SECRET:smoke-only-secret'], {
+const dev = spawn('npx', ['wrangler', 'dev', '--port', String(PORT), '--persist-to', persist, '--var', 'JWT_SECRET:smoke-only-secret', '--var', 'TRAINING_ADMIN_TOKEN:smoke-admin', '--var', 'TRAINING_DAILY_CAP:3'], {
   stdio: 'ignore',
 });
 
@@ -39,6 +39,24 @@ async function user(name, visible) {
 }
 
 const ids = (page) => page.body.entries.map((e) => e.userId);
+
+const JPEG = new Uint8Array([0xff, 0xd8, 0xff, 0xe0, ...new Array(200).fill(7)]);
+const PNG = new Uint8Array([0x89, 0x50, 0x4e, 0x47, ...new Array(200).fill(7)]);
+async function upload(token, meta, bytes = JPEG) {
+  const fd = new FormData();
+  fd.append('meta', JSON.stringify(meta));
+  fd.append('photo', new Blob([bytes], { type: 'image/jpeg' }), 'p.jpg');
+  const res = await fetch(BASE + '/v1/training', { method: 'POST', headers: token ? { Authorization: `Bearer ${token}` } : {}, body: fd });
+  return { status: res.status, body: await res.json().catch(() => null) };
+}
+const contribution = (id, over = {}) => ({
+  id, bug_id: 'adalia-bipunctata', latin: 'Adalia bipunctata', kind: 'manual', top3: [{ bug_id: 'coccinella-septempunctata', p: 0.4 }],
+  model_version: 7, pack_version: 14, aim: { tap: [0.5, 0.5] }, credit_name: 'Ann', licence: 'CC-BY-4.0', at: Date.now(), ...over,
+});
+const adminGet = async (path, token = 'smoke-admin') => {
+  const res = await fetch(BASE + path, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+  return { status: res.status, body: res.headers.get('Content-Type')?.includes('json') ? await res.json() : new Uint8Array(await res.arrayBuffer()) };
+};
 const NOW = Date.now();
 
 try {
@@ -115,8 +133,37 @@ try {
   assert.equal((await call('DELETE', '/v1/catches/locations', ann.token)).status, 204);
   assert.equal((await near(ben)).body.sightings.length, 0, 'cleared locations are gone');
 
+  // Training contributions: auth, validation, idempotency, daily cap, export, delete.
+  assert.equal((await upload(null, contribution('c_smokeAnn001'))).status, 401, 'training needs a login');
+  assert.equal((await upload(ann.token, contribution('c_smokeAnn001'))).status, 201, 'upload stored');
+  assert.equal((await upload(ann.token, contribution('c_smokeAnn001'))).status, 200, 'same id again: no-op');
+  assert.equal((await upload(ben.token, contribution('c_smokeAnn001'))).status, 409, "someone else's id refused");
+  assert.equal((await upload(ann.token, contribution('c_smokeBad001', { bug_id: 'not-a-species' }))).status, 400, 'unknown species');
+  assert.equal((await upload(ann.token, contribution('c_smokeBad002'), PNG)).status, 400, 'not a JPEG');
+  assert.equal((await upload(ann.token, contribution('c_smokeBad003', { kind: 'auto' }))).status, 400, 'bad kind');
+  assert.equal((await upload(ann.token, contribution('c_smokeAnn002', { kind: 'confirmed', aim: {} }))).status, 201);
+  assert.equal((await upload(ann.token, contribution('c_smokeAnn003', { aim: { reticle: [0.5, 0.46, 0.36] } }))).status, 201);
+  assert.equal((await upload(ann.token, contribution('c_smokeAnn004'))).status, 429, 'daily cap (3 in the smoke run)');
+  assert.deepEqual((await call('GET', '/v1/training/mine', ann.token)).body, { count: 3 });
+
+  assert.equal((await adminGet('/v1/training/export', null)).status, 401, 'export needs the admin token');
+  assert.equal((await adminGet('/v1/training/export', 'wrong')).status, 401);
+  const exp1 = await adminGet('/v1/training/export?since=0');
+  assert.equal(exp1.status, 200);
+  assert.equal(exp1.body.items.length, 3);
+  assert.ok(exp1.body.items.every((x) => x.object && x.contributor && x.user_id === undefined && x.lat === undefined), 'pseudonymous, no location');
+  const photo = await adminGet(exp1.body.items[0].object, null);
+  assert.equal(photo.status, 200, 'signed link serves the photo');
+  assert.deepEqual([...photo.body], [...JPEG], 'the same bytes');
+  assert.equal((await adminGet(exp1.body.items[0].object.replace(/sig=[0-9a-f]/, 'sig=0'), null)).status, 404, 'tampered link refused');
+
+  assert.equal((await upload(ben.token, contribution('c_smokeBen001', { credit_name: '' }))).status, 201);
+  assert.deepEqual((await call('DELETE', '/v1/training/mine', ben.token)).body, { deleted: 1 }, 'Delete my shared photos');
+  assert.deepEqual((await call('GET', '/v1/training/mine', ben.token)).body, { count: 0 });
+
   // 5: deleting Ann also scrubs Ann's "followed you" from Ben (someone she followed).
   assert.equal((await call('DELETE', '/v1/account', ann.token)).status, 204);
+  assert.equal((await adminGet('/v1/training/export?since=0')).body.items.length, 0, "account deletion removes the player's photos");
   const benAfter = await call('GET', '/v1/feed', ben.token);
   assert.ok(!benAfter.body.events.some((e) => e.actor.userId === ann.id), 'no events naming a deleted user');
 

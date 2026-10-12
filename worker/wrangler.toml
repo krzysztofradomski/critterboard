@@ -21,6 +21,12 @@ binding = "DB"
 database_name = "critterboard"
 database_id = "f4394676-b3d7-44fc-8480-c62708b9958a"
 
+# Shared training photos. Create once: wrangler r2 bucket create critterboard-training
+# Admin export token: wrangler secret put TRAINING_ADMIN_TOKEN
+[[r2_buckets]]
+binding = "TRAINING"
+bucket_name = "critterboard-training"
+
 [[kv_namespaces]]
 binding = "LEADERBOARD"
 id = "a1e478e448894a7fa03a960adf5656ba"
