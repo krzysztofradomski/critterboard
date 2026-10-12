@@ -26,7 +26,7 @@ import {
   type PackManifest, type RegionPack,
 } from "@/data/regionPacks";
 import { Btn } from "@/components/Btn";
-import { CHAT_MODEL, deleteChatModel, downloadChatModel, ejectChatModel, initChatModel, loadChatModel, type ChatModelStatus } from "@/ai";
+import { activeChatModel, deleteChatModel, downloadChatModel, ejectChatModel, initChatModel, loadChatModel, type ChatModelStatus } from "@/ai";
 import { useChatModel } from "@/lib/useChatModel";
 import { LANG_META, type LangId } from "@/i18n";
 import { useT } from "@/i18n/helpers";
@@ -38,6 +38,7 @@ import { useAppStore } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
 import { haptics } from '@/lib/haptics';
 import { chatModelActions } from '@/lib/modelActions';
+import { UpdatesCard } from '@/components/UpdatesCard';
 
 const NAME_MAX = 18;
 
@@ -45,7 +46,7 @@ function localLlmDesc(
   status: ChatModelStatus,
   t: (key: string, vars?: Record<string, string | number>) => string,
 ): string {
-  const vars = { model: CHAT_MODEL.name, size: CHAT_MODEL.sizeGb };
+  const vars = { model: activeChatModel().name, size: activeChatModel().sizeGb };
   if (status === 'unsupported') return t('settings.localLlmNoWeb', vars);
   if (status === 'tooLittleRam') return t('settings.localLlmTooLittleRam', vars);
   if (status === 'error') return t('settings.localLlmError', vars);
@@ -84,7 +85,7 @@ export function Settings() {
   const confirmDeleteChat = () =>
     Alert.alert(
       t("settings.localLlmDeleteTitle"),
-      t("settings.localLlmDeleteBody", { model: CHAT_MODEL.name, size: CHAT_MODEL.sizeGb }),
+      t("settings.localLlmDeleteBody", { model: activeChatModel().name, size: activeChatModel().sizeGb }),
       [
         { text: t("common.cancel"), style: "cancel" },
         { text: t("settings.localLlmDeleteCta"), style: "destructive", onPress: () => void deleteChatModel() },
@@ -405,13 +406,13 @@ export function Settings() {
           <ModelTile
             icon="🧠"
             color={PB.pink}
-            title={t("settings.model.larva", { model: CHAT_MODEL.name })}
+            title={t("settings.model.larva", { model: activeChatModel().name })}
             meta={t("settings.model.larvaMeta", {
-              size: CHAT_MODEL.sizeGb,
+              size: activeChatModel().sizeGb,
               state:
                 modelState === 'downloading'
                   ? t("settings.model.larvaDownloading", {
-                      done: ((CHAT_MODEL.sizeGb * downloadPct) / 100).toFixed(1),
+                      done: ((activeChatModel().sizeGb * downloadPct) / 100).toFixed(1),
                     })
                   : modelState === 'ready' || modelState === 'loading'
                     ? t("settings.model.larvaInstalled")
@@ -456,7 +457,7 @@ export function Settings() {
           <SettingToggle
             icon="📱"
             color={PB.pink}
-            label={t("settings.localLlmLabel", { model: CHAT_MODEL.name })}
+            label={t("settings.localLlmLabel", { model: activeChatModel().name })}
             desc={localLlmDesc(modelState, t)}
             value={
               modelState === 'downloading' || modelState === 'loading' || modelState === 'ready' || modelState === 'ejected'
@@ -470,7 +471,7 @@ export function Settings() {
                 // 4 GB phones: the model fits, but only just. Ask first.
                 Alert.alert(
                   t("settings.localLlmLowRamTitle"),
-                  t("settings.localLlmLowRamBody", { model: CHAT_MODEL.name, size: CHAT_MODEL.sizeGb }),
+                  t("settings.localLlmLowRamBody", { model: activeChatModel().name, size: activeChatModel().sizeGb }),
                   [
                     { text: t("common.cancel"), style: "cancel" },
                     { text: t("settings.localLlmLowRamCta"), onPress: () => void downloadChatModel() },
@@ -500,10 +501,12 @@ export function Settings() {
                 ? t("settings.localLlmEject")
                 : a === 'load'
                   ? t("settings.localLlmLoad")
-                  : t("settings.localLlmDeleteBtn", { size: CHAT_MODEL.sizeGb })}
+                  : t("settings.localLlmDeleteBtn", { size: activeChatModel().sizeGb })}
             </Btn>
           ))}
         </Sticker>
+
+        <UpdatesCard />
 
         <Sticker bg={PB.paper} style={{ padding: 0 }}>
           <View style={[styles.bandHeader, { backgroundColor: PB.blue }]}>

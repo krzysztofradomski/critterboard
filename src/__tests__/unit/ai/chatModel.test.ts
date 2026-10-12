@@ -8,6 +8,7 @@ const env = vi.hoisted(() => ({
   loadFails: false,
   loaded: null as string | null,
   mem: 6 * 1024 ** 3 as number | null,
+  json: new Map<string, string>(),
 }));
 
 vi.mock('react-native', () => ({ Platform: { OS: 'ios' } }));
@@ -22,6 +23,14 @@ vi.mock('expo-file-system/legacy', () => ({
   documentDirectory: 'file:///docs/',
   getInfoAsync: vi.fn(async (p: string) => ({ exists: env.files.has(p), size: env.size })),
   makeDirectoryAsync: vi.fn(async () => undefined),
+  readAsStringAsync: vi.fn(async (p: string) => {
+    const v = env.json.get(p);
+    if (v === undefined) throw new Error('no file');
+    return v;
+  }),
+  writeAsStringAsync: vi.fn(async (p: string, v: string) => {
+    env.json.set(p, v);
+  }),
   deleteAsync: vi.fn(async (p: string) => {
     env.deleted.push(p);
     env.files.delete(p);
@@ -70,6 +79,7 @@ describe('chatModel', () => {
     env.loadFails = false;
     env.loaded = null;
     env.mem = 6 * 1024 ** 3;
+    env.json.clear();
   });
 
   it('discards a download of the wrong size (cut off, or not the pinned file)', async () => {
@@ -179,5 +189,51 @@ describe('chatModel', () => {
     expect(m.chatModelState().status).toBe('ejected');
     await m.loadChatModel();
     expect(m.chatModelState().status).toBe('ready');
+  });
+
+  const V2 = 'file:///docs/models/Qwen3-1.7B-v2.gguf';
+  const entryV2 = () => ({
+    id: 'chat', name: 'Qwen3 1.7B', filename: 'Qwen3-1.7B-v2.gguf',
+    url: 'https://example.com/v2.gguf', bytes: env.size, sizeGb: 1.1, version: 2,
+  });
+
+  it('reports the downloaded model as installed, with its version', async () => {
+    const m = await fresh();
+    await m.initChatModel();
+    expect(m.installedChatModel()).toBeNull();
+    env.files.add(PATH);
+    const m2 = await fresh();
+    await m2.initChatModel();
+    expect(m2.installedChatModel()).toEqual({ version: 1 });
+  });
+
+  it('updates to a newer model: new file in, old file out, and it sticks after a restart', async () => {
+    env.files.add(PATH);
+    const m = await fresh();
+    await m.initChatModel();
+    expect(await m.updateChatModel(entryV2())).toBe(true);
+    expect(env.files.has(V2)).toBe(true);
+    expect(env.files.has(PATH)).toBe(false);
+    expect(env.loaded).toBe(V2);
+    expect(m.activeChatModel().version).toBe(2);
+    expect(m.chatModelState()).toMatchObject({ status: 'ready', updatePct: null });
+
+    const again = await fresh();
+    await again.initChatModel();
+    expect(again.activeChatModel().version).toBe(2);
+    expect(env.loaded).toBe(V2);
+  });
+
+  it('a failed update keeps the old model loaded and in use', async () => {
+    env.files.add(PATH);
+    const m = await fresh();
+    await m.initChatModel();
+    env.status = 500;
+    expect(await m.updateChatModel(entryV2())).toBe(false);
+    expect(env.files.has(PATH)).toBe(true);
+    expect(env.files.has(V2)).toBe(false);
+    expect(env.loaded).toBe(PATH);
+    expect(m.activeChatModel().version).toBe(1);
+    expect(m.chatModelState()).toMatchObject({ status: 'ready', updatePct: null });
   });
 });

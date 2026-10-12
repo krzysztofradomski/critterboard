@@ -4,6 +4,7 @@ import { Platform } from 'react-native';
 
 import { llamaRnRuntime } from '@/ai/llm';
 import { downloadFile } from '@/lib/download';
+import { isChatModelEntry, type ChatModelEntry } from '@/lib/updates';
 
 /**
  * The on-device chat model: Qwen3 1.7B instruct (Apache 2.0), 4-bit GGUF (ADR 008).
@@ -14,7 +15,8 @@ import { downloadFile } from '@/lib/download';
  * RAM: 4 GB phones download it directly, 3 GB phones must confirm first, and
  * smaller phones can't use chat (see memoryFit).
  */
-export const CHAT_MODEL = {
+export const CHAT_MODEL: ChatModelEntry = {
+  id: 'chat',
   name: 'Qwen3 1.7B',
   filename: 'Qwen3-1.7B-Q4_K_M.gguf',
   /**
@@ -27,7 +29,20 @@ export const CHAT_MODEL = {
   bytes: 1_107_409_472,
   /** Approximate download size, for the UI. */
   sizeGb: 1.1,
-} as const;
+  /** packs/manifest.json → chat.version; "Check for updates" offers anything newer. */
+  version: 1,
+};
+
+/**
+ * The model in use: CHAT_MODEL, or a newer one installed by "Check for updates" and saved in
+ * models/chat-model.json so it survives restarts.
+ */
+let _active: ChatModelEntry = CHAT_MODEL;
+let _activeRead = false;
+
+export function activeChatModel(): ChatModelEntry {
+  return _active;
+}
 
 /** Earlier chat models whose files are deleted on sight to free space. */
 const RETIRED_FILES = ['gemma-3-1b-it-q4_k_m.gguf', 'gemma-4-E2B-it-Q4_K_M.gguf'];
@@ -58,7 +73,8 @@ export type ChatModelStatus =
   | 'ejected' // file on disk, unloaded from memory by the user
   | 'error';
 
-export type ChatModelState = { status: ChatModelStatus; pct: number; fit: MemoryFit };
+/** `updatePct`: a newer model downloading in the background (0–100); null when not updating. */
+export type ChatModelState = { status: ChatModelStatus; pct: number; fit: MemoryFit; updatePct: number | null };
 
 const FIT: MemoryFit = memoryFit(Device.totalMemory);
 
@@ -71,6 +87,7 @@ let _state: ChatModelState = {
   status: Platform.OS === 'web' || FIT === 'tooLittle' ? idleStatus() : 'checking',
   pct: 0,
   fit: FIT,
+  updatePct: null,
 };
 const _listeners = new Set<() => void>();
 let _download: FileSystem.DownloadResumable | null = null;
@@ -97,7 +114,24 @@ function modelsDir(): string | null {
 
 export function chatModelPath(): string | null {
   const dir = modelsDir();
-  return dir ? `${dir}${CHAT_MODEL.filename}` : null;
+  return dir ? `${dir}${_active.filename}` : null;
+}
+
+async function readActiveEntry(dir: string): Promise<void> {
+  if (_activeRead) return;
+  _activeRead = true;
+  try {
+    const saved: unknown = JSON.parse(await FileSystem.readAsStringAsync(`${dir}chat-model.json`));
+    if (isChatModelEntry(saved) && saved.version >= CHAT_MODEL.version) _active = saved;
+  } catch {
+    // none saved yet: CHAT_MODEL
+  }
+}
+
+/** The downloaded chat model's version, or null when none is on the phone. */
+export function installedChatModel(): { version: number } | null {
+  const s = _state.status;
+  return s === 'ready' || s === 'ejected' || s === 'loading' ? { version: _active.version } : null;
 }
 
 async function load(path: string): Promise<void> {
@@ -116,8 +150,10 @@ async function load(path: string): Promise<void> {
  */
 export async function initChatModel(): Promise<void> {
   const dir = modelsDir();
+  if (!dir) return;
+  await readActiveEntry(dir);
   const path = chatModelPath();
-  if (!dir || !path) return;
+  if (!path) return;
   if (
     _state.status === 'ready' ||
     _state.status === 'loading' ||
@@ -132,7 +168,7 @@ export async function initChatModel(): Promise<void> {
     set({ status: 'tooLittleRam', pct: 0 });
     return;
   }
-  for (const f of RETIRED_FILES) {
+  for (const f of RETIRED_FILES.filter((x) => x !== _active.filename)) {
     await FileSystem.deleteAsync(`${dir}${f}`, { idempotent: true }).catch(() => undefined);
   }
   try {
@@ -157,8 +193,8 @@ export async function downloadChatModel(): Promise<void> {
   try {
     await FileSystem.makeDirectoryAsync(dir, { intermediates: true });
     // Throws on a non-2xx answer (e.g. a login page), a wrong size or a cancel; nothing is kept then.
-    await downloadFile(CHAT_MODEL.url, path, {
-      expect: { bytes: CHAT_MODEL.bytes },
+    await downloadFile(_active.url, path, {
+      expect: { bytes: _active.bytes },
       onProgress: (pct) => set({ pct }),
       onStart: (dl) => (_download = dl),
     });
@@ -192,4 +228,39 @@ export async function loadChatModel(): Promise<void> {
   const path = chatModelPath();
   if (!path || (_state.status !== 'ejected' && _state.status !== 'error')) return;
   await load(path);
+}
+
+/**
+ * Replace the downloaded model with a newer one (from "Check for updates"). The new file
+ * downloads next to the old while chat keeps working; only once it is complete and the right
+ * size does the old one go. Returns false (and changes nothing) if the download fails.
+ */
+export async function updateChatModel(entry: ChatModelEntry): Promise<boolean> {
+  const dir = modelsDir();
+  const oldPath = chatModelPath();
+  if (!dir || !oldPath || FIT === 'tooLittle' || _state.updatePct !== null) return false;
+  if (!isChatModelEntry(entry) || entry.version <= _active.version || !installedChatModel()) return false;
+  const newPath = `${dir}${entry.filename}`;
+  set({ updatePct: 0 });
+  try {
+    await downloadFile(entry.url, newPath, {
+      expect: { bytes: entry.bytes },
+      onProgress: (pct) => set({ updatePct: pct }),
+      onStart: (dl) => (_download = dl),
+    });
+  } catch {
+    _download = null;
+    set({ updatePct: null });
+    return false;
+  }
+  _download = null;
+  const wasEjected = _state.status === 'ejected';
+  await llamaRnRuntime.unload().catch(() => undefined);
+  if (newPath !== oldPath) await FileSystem.deleteAsync(oldPath, { idempotent: true }).catch(() => undefined);
+  _active = entry;
+  await FileSystem.writeAsStringAsync(`${dir}chat-model.json`, JSON.stringify(entry)).catch(() => undefined);
+  set({ updatePct: null });
+  if (wasEjected) set({ status: 'ejected' });
+  else await load(newPath);
+  return true;
 }

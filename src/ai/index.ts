@@ -36,6 +36,9 @@ export { llamaRnRuntime, buildMessages } from '@/ai/llm';
 export { localLlmChatAdapter } from '@/ai/chatAdapter';
 export {
   CHAT_MODEL,
+  activeChatModel,
+  installedChatModel,
+  updateChatModel,
   chatModelState,
   subscribeChatModel,
   initChatModel,

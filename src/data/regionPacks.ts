@@ -4,6 +4,7 @@ import * as FileSystem from 'expo-file-system/legacy';
 import { ensurePackIcons, type PackIcons } from '@/data/bugIcons';
 import { mergeBugs, type Bug } from '@/data/bugs';
 import { downloadFile } from '@/lib/download';
+import type { UpdateManifest } from '@/lib/updates';
 
 export type RegionPack = {
   id: string;
@@ -26,10 +27,8 @@ export type RegionPack = {
   mapMd5?: string;
 };
 
-export type PackManifest = {
-  manifest: 1;
-  packs: Partial<Record<string, { version: number; url: string }>>;
-};
+/** packs/manifest.json: pack versions, plus the chat model entry (see src/lib/updates.ts). */
+export type PackManifest = UpdateManifest;
 
 export const PACK_MANIFEST_URL =
   'https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/manifest.json';

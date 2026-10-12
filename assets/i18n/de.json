@@ -868,7 +868,21 @@
         "on": "Taps, Schalter und Tabs geben ein kleines Brummen.",
         "off": "Keine Vibration."
       },
-      "localLlmDeleteBtn": "Vom Handy löschen ({size} GB)"
+      "localLlmDeleteBtn": "Vom Handy löschen ({size} GB)",
+      "updatesTitle": "Updates",
+      "updatesCheck": "Nach Updates suchen",
+      "updatesChecking": "Suche…",
+      "updatesNone": "Alles ist aktuell.",
+      "updatesOffline": "Schalte Netzwerk ein, um nach Updates zu suchen.",
+      "updatesCheckFailed": "Gerade nicht erreichbar. Versuch es später noch mal.",
+      "updatesPack": "{name}: Version {version} ist da",
+      "updatesOpen": "Öffnen",
+      "updatesChat": "{model}: neue Version ({size} GB)",
+      "updatesUpdate": "Aktualisieren",
+      "updatesUpdating": "Aktualisiere · {pct}%",
+      "updatesChatDone": "Chatmodell aktualisiert",
+      "updatesFailed": "Update fehlgeschlagen. Das aktuelle Modell läuft weiter.",
+      "updatesFoot": "Chatmodell: {model}. Die neue Datei lädt neben der alten; die alte verschwindet erst, wenn die neue komplett ist."
     },
     "regions": {
       "list": {

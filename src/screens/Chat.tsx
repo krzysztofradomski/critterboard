@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 
 import {
-  CHAT_MODEL,
+  activeChatModel,
   guardedLocalLlmChatAdapter,
   initChatModel,
   loadChatModel,
@@ -327,7 +327,7 @@ export function Chat() {
 /** Shown instead of the input until the chat model is downloaded and loaded. */
 function ChatGate({ state, onOpenSettings }: { state: ChatModelState; onOpenSettings: () => void }) {
   const t = useT();
-  const vars = { model: CHAT_MODEL.name, size: CHAT_MODEL.sizeGb, pct: state.pct };
+  const vars = { model: activeChatModel().name, size: activeChatModel().sizeGb, pct: state.pct };
   const busy =
     state.status === 'checking' || state.status === 'loading' || state.status === 'downloading';
   const title =
