@@ -34,7 +34,7 @@ const REPO = 'https://github.com/krzysztofradomski/critterboard/blob/main';
 
 /**
  * Licence notices for the on-device models: species ID (eu-1k-field-v7),
- * species icons and the chat model (Gemma 4 E2B, Apache 2.0).
+ * species icons and the chat model (Qwen3 1.7B, Apache 2.0).
  * Apache 2.0 asks for the licence + a notice with redistributed weights;
  * CC BY asks for credit to the photographers whose photos trained it
  * (species icons are drawn from CC0 photos, credited as a courtesy).
@@ -66,9 +66,9 @@ const MODEL_CREDITS: readonly { name: string; detail: string; url: string }[] = 
     url: 'https://github.com/ggml-org/llama.cpp',
   },
   {
-    name: 'Chat model: Google Gemma 4 E2B',
-    detail: '© Google, Apache License 2.0. 4-bit GGUF conversion by Unsloth, downloaded when you turn on chat',
-    url: 'https://huggingface.co/google/gemma-4-E2B-it',
+    name: 'Chat model: Qwen3 1.7B',
+    detail: '© Alibaba Cloud (Qwen team), Apache License 2.0. 4-bit GGUF conversion by Unsloth, downloaded when you turn on chat',
+    url: 'https://huggingface.co/Qwen/Qwen3-1.7B',
   },
   {
     name: 'Species icons: drawn from iNaturalist photos',

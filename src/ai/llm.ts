@@ -2,13 +2,14 @@
  * On-device LLM runtime for chat.
  *
  * `llamaRnRuntime` wraps `llama.rn` (a `llama.cpp` port for React Native) and
- * runs Gemma 4 E2B (see chatModel.ts for the file and its download). Messages
+ * runs Qwen3 1.7B (see chatModel.ts for the file and its download). Messages
  * go through the chat template embedded in the GGUF (jinja), so the prompt
  * format always matches the model. Personas are system prompts; there are no
  * per-persona adapters. Metal on iOS, CPU/NEON on Android. There is no mock:
  * without the model, chat is disabled (see Chat.tsx).
  */
 
+import { createThinkFilter } from '@/ai/thinkFilter';
 import type { Persona } from '@/personas';
 
 export type LlmMessage = { role: 'system' | 'user' | 'assistant'; content: string };
@@ -27,7 +28,7 @@ export interface LlmRuntime {
   load(modelPath: string): Promise<void>;
   /** Streamed chat completion; yields text as the model produces it. */
   complete(messages: LlmMessage[], opts?: CompleteOpts): AsyncIterable<string>;
-  /** Free the model (~3 GB of RAM for Gemma 4 E2B). */
+  /** Free the model (~1.5 GB of RAM for Qwen3 1.7B). */
   unload(): Promise<void>;
   /** `true` after `load()` resolves. */
   ready(): boolean;
@@ -175,6 +176,8 @@ export const llamaRnRuntime: LlmRuntime = {
       ctx.stopCompletion().catch(() => {});
     });
 
+    // Qwen3 can open a reply with an empty <think></think> even with thinking off.
+    const think = createThinkFilter();
     while (!done || queue.length > 0) {
       if (queue.length === 0 && !done) {
         await new Promise<void>((r) => {
@@ -182,9 +185,12 @@ export const llamaRnRuntime: LlmRuntime = {
         });
       }
       while (queue.length > 0) {
-        yield queue.shift()!;
+        const text = think.push(queue.shift()!);
+        if (text) yield text;
       }
     }
+    const rest = think.end();
+    if (rest) yield rest;
 
     await completionPromise.catch(() => {});
     if (completionErr && !opts?.signal?.aborted) throw completionErr;

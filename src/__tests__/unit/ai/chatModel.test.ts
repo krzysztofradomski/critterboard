@@ -4,7 +4,7 @@ const env = vi.hoisted(() => ({
   files: new Set<string>(),
   deleted: [] as string[],
   status: 200,
-  size: 3_106_738_272,
+  size: 1_107_409_472,
   loadFails: false,
   loaded: null as string | null,
   mem: 6 * 1024 ** 3 as number | null,
@@ -54,7 +54,7 @@ vi.mock('@/ai/llm', () => ({
   },
 }));
 
-const PATH = 'file:///docs/models/gemma-4-E2B-it-Q4_K_M.gguf';
+const PATH = 'file:///docs/models/Qwen3-1.7B-Q4_K_M.gguf';
 
 async function fresh() {
   vi.resetModules();
@@ -66,7 +66,7 @@ describe('chatModel', () => {
     env.files.clear();
     env.deleted = [];
     env.status = 200;
-    env.size = 3_106_738_272;
+    env.size = 1_107_409_472;
     env.loadFails = false;
     env.loaded = null;
     env.mem = 6 * 1024 ** 3;
@@ -87,13 +87,14 @@ describe('chatModel', () => {
     const gib = (n: number) => n * 1024 ** 3;
     expect(memoryFit(gib(7.5))).toBe('ok'); // 8 GB phone
     expect(memoryFit(gib(5.6))).toBe('ok'); // 6 GB phone
-    expect(memoryFit(gib(3.7))).toBe('confirm'); // 4 GB phone
-    expect(memoryFit(gib(2.8))).toBe('tooLittle'); // 3 GB phone
+    expect(memoryFit(gib(3.7))).toBe('ok'); // 4 GB phone (iPhone 13 mini): Qwen3 1.7B needs ~1.5 GB
+    expect(memoryFit(gib(2.8))).toBe('confirm'); // 3 GB phone
+    expect(memoryFit(gib(1.8))).toBe('tooLittle'); // 2 GB phone
     expect(memoryFit(null)).toBe('confirm'); // unknown
   });
 
   it('disables chat on phones with too little memory, even if the file is there', async () => {
-    env.mem = 2.8 * 1024 ** 3;
+    env.mem = 1.8 * 1024 ** 3;
     env.files.add(PATH);
     const m = await fresh();
     expect(m.chatModelState()).toMatchObject({ status: 'tooLittleRam', fit: 'tooLittle' });
@@ -104,8 +105,8 @@ describe('chatModel', () => {
     expect(env.files.has(PATH)).toBe(false);
   });
 
-  it('marks 4 GB phones as needing confirmation but still allows the download', async () => {
-    env.mem = 3.7 * 1024 ** 3;
+  it('marks 3 GB phones as needing confirmation but still allows the download', async () => {
+    env.mem = 2.8 * 1024 ** 3;
     const m = await fresh();
     expect(m.chatModelState().fit).toBe('confirm');
     await m.initChatModel();
@@ -113,11 +114,12 @@ describe('chatModel', () => {
     expect(m.chatModelState().status).toBe('ready');
   });
 
-  it('is absent when the file is not on disk, and removes the retired Gemma 3 file', async () => {
+  it('is absent when the file is not on disk, and removes the retired Gemma files', async () => {
     const m = await fresh();
     await m.initChatModel();
     expect(m.chatModelState().status).toBe('absent');
     expect(env.deleted).toContain('file:///docs/models/gemma-3-1b-it-q4_k_m.gguf');
+    expect(env.deleted).toContain('file:///docs/models/gemma-4-E2B-it-Q4_K_M.gguf');
   });
 
   it('loads a model already on disk', async () => {

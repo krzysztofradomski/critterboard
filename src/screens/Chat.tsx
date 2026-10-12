@@ -40,7 +40,7 @@ import { useNav } from '@/store/useNav';
 
 type Msg = { who: 'me' | 'larva'; t: string };
 
-// Chat runs only on the on-device Gemma 4 model (downloaded in Settings).
+// Chat runs only on the on-device Qwen3 model (downloaded in Settings).
 // Until it's ready, the screen shows a gate instead of the input; there are
 // no scripted replies.
 function initialMessages(P: Persona, topic?: string): Msg[] {
@@ -141,7 +141,7 @@ export function Chat() {
   );
 
   /**
-   * Streamed completion: Gemma yields text as it generates, appended into
+   * Streamed completion: the model yields text as it generates, appended into
    * the last "larva" bubble so the answer materialises live.
    */
   const send = async () => {
@@ -324,7 +324,7 @@ export function Chat() {
   );
 }
 
-/** Shown instead of the input until Gemma 4 is downloaded and loaded. */
+/** Shown instead of the input until the chat model is downloaded and loaded. */
 function ChatGate({ state, onOpenSettings }: { state: ChatModelState; onOpenSettings: () => void }) {
   const t = useT();
   const vars = { model: CHAT_MODEL.name, size: CHAT_MODEL.sizeGb, pct: state.pct };

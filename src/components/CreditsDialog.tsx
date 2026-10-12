@@ -23,7 +23,7 @@ const CREDITS: CreditSection[] = [
     sectionKey: 'models',
     items: [
       { key: 'bugnet',   emoji: '👁️', color: PB.blue,   url: `${REPO}/training/vision/results/field-v7/MODEL_CARD.md` },
-      { key: 'larva',    emoji: '🤖', color: PB.pink,   url: 'https://huggingface.co/google/gemma-4-E2B-it' },
+      { key: 'larva',    emoji: '🤖', color: PB.pink,   url: 'https://huggingface.co/Qwen/Qwen3-1.7B' },
       { key: 'variants', emoji: '🌼', color: PB.yellow, url: `${REPO}/src/personas/index.ts` },
     ],
   },

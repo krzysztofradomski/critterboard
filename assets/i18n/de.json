@@ -313,7 +313,7 @@
         "webBody": "Die Guides nutzen ein KI-Modell auf dem Gerät ({model}), das die Web-Vorschau nicht ausführen kann. Öffne Critterboard auf iPhone oder Android, um zu chatten.",
         "cta": "Einstellungen öffnen",
         "ramTitle": "Chat ist auf diesem Handy nicht verfügbar",
-        "ramBody": "Die Guides laufen auf {model}, das ein Handy mit mindestens 4 GB Arbeitsspeicher braucht. Alles andere in Critterboard funktioniert wie gewohnt."
+        "ramBody": "Die Guides laufen auf {model}, das ein Handy mit mindestens 3 GB Arbeitsspeicher braucht. Alles andere in Critterboard funktioniert wie gewohnt."
       },
       "deleteTitle": "Nachricht löschen",
       "deleteBody": "Diese Nachricht aus dem Gespräch entfernen?"
@@ -789,9 +789,9 @@
       "localLlmDeleteTitle": "Chat ausschalten?",
       "localLlmDeleteBody": "Damit wird {model} vom Handy gelöscht und {size} GB werden frei. Der Chat bleibt aus, bis du das Modell erneut lädst.",
       "localLlmDeleteCta": "Modell löschen",
-      "localLlmTooLittleRam": "Braucht ein Handy mit mindestens 4 GB Arbeitsspeicher.",
-      "localLlmLowRamTitle": "Auf einem 4-GB-Handy laden?",
-      "localLlmLowRamBody": "Dieses Handy hat etwa 4 GB Arbeitsspeicher. {model} belegt beim Chatten etwa 3 GB, daher können Antworten langsam sein und die App kann sich schließen, wenn andere Apps offen sind. Der Download ist {size} GB groß.",
+      "localLlmTooLittleRam": "Braucht ein Handy mit mindestens 3 GB Arbeitsspeicher.",
+      "localLlmLowRamTitle": "Auf einem 3-GB-Handy laden?",
+      "localLlmLowRamBody": "Dieses Handy hat etwa 3 GB Arbeitsspeicher. {model} belegt beim Chatten etwa 1,5 GB, daher können Antworten langsam sein und die App kann sich schließen, wenn andere Apps offen sind. Der Download ist {size} GB groß.",
       "localLlmLowRamCta": "Trotzdem laden",
       "regionSoon": "BALD",
       "regionSoonSub": "Kommt bald",
@@ -1072,7 +1072,7 @@
     "personas": {
       "larva": {
         "name": "Prof. Larva",
-        "title": "gemma-4 · trocken",
+        "title": "qwen3 · trocken",
         "blurb": "Schnippisch. Hilfreich wider Willen.",
         "lines": {
           "intro": "\"Oh super, noch ein Trainer. Lass mich alles stehen lassen.\"",
@@ -1099,7 +1099,7 @@
       },
       "snail": {
         "name": "Dr. Schnecke",
-        "title": "gemma-4 · geduldig",
+        "title": "qwen3 · geduldig",
         "blurb": "Ruhig. Lehrt in deinem Tempo.",
         "lines": {
           "intro": "\"Willkommen. Lass dir Zeit — wir lernen gemeinsam.\"",
@@ -1126,7 +1126,7 @@
       },
       "maywind": {
         "name": "Assistent Mai",
-        "title": "gemma-4 · neugierig",
+        "title": "qwen3 · neugierig",
         "blurb": "Witzig. Fröhlich. Liebt jedes Insekt.",
         "lines": {
           "intro": "\"Hi hi! Notizbuch bereit, Stiefel geschnürt — los, suchen wir ein Tierchen!\"",
@@ -1261,12 +1261,12 @@
           "role": "Vision · {id} · {mb} MB · {n} Arten"
         },
         "larva": {
-          "name": "Gemma 4 E2B",
+          "name": "Qwen3 1.7B",
           "role": "Chat · 3,1 GB · Q4_K_M · Apache 2.0"
         },
         "variants": {
           "name": "Mai / Schnecke",
-          "role": "Personas: System-Prompts auf Gemma 4"
+          "role": "Personas: System-Prompts auf Qwen3"
         }
       },
       "data": {

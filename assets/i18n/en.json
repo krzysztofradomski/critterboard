@@ -313,7 +313,7 @@
         "webBody": "The guides use an on-device AI model ({model}) that the web preview can't run. Open Critterboard on iPhone or Android to chat.",
         "cta": "Open Settings",
         "ramTitle": "Chat isn't available on this phone",
-        "ramBody": "The guides run on {model}, which needs a phone with at least 4 GB of memory. Everything else in Critterboard works as usual."
+        "ramBody": "The guides run on {model}, which needs a phone with at least 3 GB of memory. Everything else in Critterboard works as usual."
       },
       "deleteTitle": "Delete message",
       "deleteBody": "Remove this message from the conversation?"
@@ -796,9 +796,9 @@
       "localLlmDeleteTitle": "Turn off chat?",
       "localLlmDeleteBody": "This deletes {model} from your phone and frees {size} GB. Chat stays disabled until you download it again.",
       "localLlmDeleteCta": "Delete model",
-      "localLlmTooLittleRam": "Needs a phone with at least 4 GB of memory.",
-      "localLlmLowRamTitle": "Download on a 4 GB phone?",
-      "localLlmLowRamBody": "This phone has about 4 GB of memory. {model} uses about 3 GB while you chat, so replies may be slow and the app may close if other apps are open. The download is {size} GB.",
+      "localLlmTooLittleRam": "Needs a phone with at least 3 GB of memory.",
+      "localLlmLowRamTitle": "Download on a 3 GB phone?",
+      "localLlmLowRamBody": "This phone has about 3 GB of memory. {model} uses about 1.5 GB while you chat, so replies may be slow and the app may close if other apps are open. The download is {size} GB.",
       "localLlmLowRamCta": "Download anyway",
       "regionSoon": "SOON",
       "regionSoonSub": "Coming soon",
@@ -1072,7 +1072,7 @@
     "personas": {
       "larva": {
         "name": "Prof. Larva",
-        "title": "gemma-4 · deadpan",
+        "title": "qwen3 · deadpan",
         "blurb": "Snarky. Helpful in spite of itself.",
         "lines": {
           "intro": "\"Oh great, another trainer. Let me drop everything.\"",
@@ -1099,7 +1099,7 @@
       },
       "snail": {
         "name": "Dr. Snail",
-        "title": "gemma-4 · patient",
+        "title": "qwen3 · patient",
         "blurb": "Calm. Teaches at your pace.",
         "lines": {
           "intro": "\"Welcome. Take your time — we'll learn together.\"",
@@ -1126,7 +1126,7 @@
       },
       "maywind": {
         "name": "R.A. Maywind",
-        "title": "gemma-4 · curious",
+        "title": "qwen3 · curious",
         "blurb": "Witty. Happy. Loves every bug.",
         "lines": {
           "intro": "\"Hi hi! Notebook ready, boots laced — let's find a critter!\"",
@@ -1261,12 +1261,12 @@
           "role": "Vision · {id} · {mb} MB · {n} species"
         },
         "larva": {
-          "name": "Gemma 4 E2B",
+          "name": "Qwen3 1.7B",
           "role": "Chat · 3.1 GB · Q4_K_M · Apache 2.0"
         },
         "variants": {
           "name": "Maywind / Snail",
-          "role": "Personas: system prompts on Gemma 4"
+          "role": "Personas: system prompts on Qwen3"
         }
       },
       "data": {

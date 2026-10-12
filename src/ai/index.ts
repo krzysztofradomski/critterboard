@@ -5,7 +5,7 @@
  *         `useExecutorchClassifier` hook). No pack → Scan asks the user to
  *         install one. The web preview can't run the model, so it uses the
  *         mock classifier as a clearly-labelled demo.
- * Chat:   Gemma 4 E2B via llama.rn, downloaded from Settings (chatModel.ts).
+ * Chat:   Qwen3 1.7B via llama.rn, downloaded from Settings (chatModel.ts).
  *         Without it, chat is disabled; there is no scripted fallback, and
  *         the web preview has no chat.
  *

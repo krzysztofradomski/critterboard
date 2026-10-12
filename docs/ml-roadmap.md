@@ -5,7 +5,7 @@ This is the master plan for swapping the mock AI seams in `src/ai/` with real on
 It has **three tracks**, executed in order:
 
 1. **MVP** — 20-species classifier + mocked LLM, end-to-end on a real iPhone.
-2. **Full training** — the 200/1000-species Kaggle pipeline + real on-device chat (now Gemma 4 E2B).
+2. **Full training** — the 200/1000-species Kaggle pipeline + real on-device chat (now Qwen3 1.7B, see [[decisions/008-qwen3-chat-model]]).
 3. **Out-of-scope placeholders** — social, online sync, real map tiles, localization. Stubbed for now, deferred until the ML core ships.
 
 Every step here maps to either a file in `training/` (Python) or a file in `src/ai/` (TypeScript). Nothing speculative — only work that produces a runnable artifact.
@@ -81,7 +81,7 @@ Anything slower than 250 ms feels laggy and is treated as a bug.
 
 ## Track 2 — Full training (weeks 2–4)
 
-> **Goal:** Same UX, 200 species instead of 20, plus a real on-device LLM for the persona chat (Gemma 4 E2B since Sep 2026).
+> **Goal:** Same UX, 200 species instead of 20, plus a real on-device LLM for the persona chat (Qwen3 1.7B since Oct 2026; Gemma 4 E2B Sep–Oct 2026).
 
 ### 2.1  Scale the classifier ⟶ `training/vision/` ✅ *(v3, Sep 2026)*
 
@@ -185,7 +185,7 @@ type LlmRuntime = {
 };
 ```
 
-> **Current state (Sep 2026):** chat runs only on **Gemma 4 E2B** (Apache 2.0) via `llama.rn`; there is no mock/scripted fallback and no web chat. See [[decisions/005-gemma-4-only-chat]]. The original plan below is kept for history where noted.
+> **Current state (Oct 2026):** chat runs only on **Qwen3 1.7B** (Apache 2.0, 1.1 GB, ~1.5 GB RAM) via `llama.rn`; there is no mock/scripted fallback and no web chat. It replaced Gemma 4 E2B (3.1 GB) to fit 4 GB phones; its replies are weaker on facts and in Polish/German. See [[decisions/008-qwen3-chat-model]] (and [[decisions/005-gemma-4-only-chat]] for the earlier choice). The original plan below is kept for history where noted.
 
 Implementation: `llamaRnRuntime` in `src/ai/llm.ts` wraps [`llama.rn`](https://github.com/mybigday/llama.rn). It streams `complete(messages)` through the chat template embedded in the GGUF (`jinja: true`, thinking off). `buildMessages()` builds the prompt: the persona `systemPrompt` plus "reply in the app language" and the topic, then the last 8 turns (normalised to alternate user/assistant) and the new message. `src/ai/chatModel.ts` owns the download, load, delete and eject (unload from RAM, keep the file; Chat and Settings offer "Load model" to bring it back, and the boot check does not auto-reload an ejected model).
 
@@ -208,7 +208,7 @@ Why Gemma 4 E2B (replacing Gemma 3 1B):
 ### 2.4  Exit criteria for full training
 
 - [ ] 200-species model ships in `assets/models/`, top-3 > 85% on held-out test
-- [ ] Gemma 4 E2B Q4_K_M loads in < 6 s on a 6 GB iPhone
+- [ ] Qwen3 1.7B Q4_K_M loads in < 6 s on a 4 GB iPhone (13 mini), no memory kill
 - [ ] First streamed token visible in < 600 ms
 - [ ] Behaviour on a 4 GB phone checked (no RAM gate; load may fail)
 

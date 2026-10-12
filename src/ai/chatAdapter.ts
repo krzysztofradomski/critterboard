@@ -49,7 +49,7 @@ export interface ChatAdapter {
 }
 
 /**
- * On-device chat with Gemma 4 (llama.rn). Chat.tsx only offers the input once
+ * On-device chat with Qwen3 1.7B (llama.rn). Chat.tsx only offers the input once
  * the model is ready, so a not-ready call is a programming error.
  */
 export const localLlmChatAdapter: ChatAdapter = {
