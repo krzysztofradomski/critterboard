@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { NameItSheet } from '@/components/NameItSheet';
+import type { Aim } from '@/ai/scanCrops';
 import { Sticker } from '@/components/Sticker';
 import { PHOTO_TIPS } from '@/data/photoTips';
 import { VISION_MODEL } from '@/data/visionModel';
@@ -19,7 +20,7 @@ export function NoMatch() {
   const P = usePersona(persona);
   const t = useT();
   const route = useCurrentRoute();
-  const params = (route.params as { photoUri?: string; top3?: string[] } | undefined) ?? {};
+  const params = (route.params as { photoUri?: string; top3?: string[]; top3p?: number[]; aim?: Aim } | undefined) ?? {};
   const [nameItOpen, setNameItOpen] = React.useState(false);
 
   return (
@@ -87,7 +88,7 @@ export function NoMatch() {
         </View>
       </ScrollView>
       {params.photoUri ? (
-        <NameItSheet visible={nameItOpen} photoUri={params.photoUri} top3={params.top3} onClose={() => setNameItOpen(false)} />
+        <NameItSheet visible={nameItOpen} photoUri={params.photoUri} top3={params.top3} top3p={params.top3p} aim={params.aim} onClose={() => setNameItOpen(false)} />
       ) : null}
     </View>
   );

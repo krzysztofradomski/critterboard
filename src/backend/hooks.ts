@@ -16,10 +16,13 @@
  * know which adapter is live.
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import * as FileSystem from 'expo-file-system/legacy';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { AppState } from 'react-native';
 
 import { backend, bindMockIdentity, BackendError } from '@/backend';
 import { syncCatches } from '@/backend/sync';
+import { clearQueue, loadQueue, processQueue, queueItems, subscribeQueue } from '@/backend/trainingQueue';
 import type {
   FeedPage,
   FriendScope,
@@ -341,4 +344,64 @@ export function useNearbySightings(): Sighting[] {
   }, [on, key]);
 
   return on ? data : [];
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Training contributions
+// ──────────────────────────────────────────────────────────────────────────
+
+const deleteLocal = (uri: string) => FileSystem.deleteAsync(uri, { idempotent: true });
+
+/**
+ * Drain the training upload queue while Network and "Help train the model" are both on: at once,
+ * every minute, and when the app comes back to the foreground. Mounted once, in App.
+ */
+export function useTrainingUploader(): void {
+  const networkOn = useAppStore((s) => s.profile.networkOn);
+  const shareOn = useAppStore((s) => s.profile.trainingShareOn);
+  useEffect(() => {
+    if (!networkOn || !shareOn) return;
+    const run = () =>
+      void processQueue({
+        upload: (meta, uri) => backend.uploadContribution(meta, uri),
+        fileExists: async (uri) => (await FileSystem.getInfoAsync(uri).catch(() => ({ exists: false }))).exists,
+        deleteFile: deleteLocal,
+        now: Date.now,
+      });
+    run();
+    const timer = setInterval(run, 60_000);
+    const sub = AppState.addEventListener('change', (st) => st === 'active' && run());
+    return () => {
+      clearInterval(timer);
+      sub.remove();
+    };
+  }, [networkOn, shareOn]);
+}
+
+/** Brains: photos waiting on the phone, photos already shared (null until known), and Delete. */
+export function useTrainingStats(): { waiting: number; shared: number | null; deleteAll: () => Promise<boolean> } {
+  const networkOn = useAppStore((s) => s.profile.networkOn);
+  const waiting = useSyncExternalStore(subscribeQueue, () => queueItems().length, () => 0);
+  const [shared, setShared] = useState<number | null>(null);
+  useEffect(() => {
+    void loadQueue();
+    if (!networkOn) return;
+    let live = true;
+    backend.fetchContributionCount().then((n) => live && setShared(n), () => undefined);
+    return () => {
+      live = false;
+    };
+  }, [networkOn, waiting]);
+  const deleteAll = useCallback(async () => {
+    await clearQueue(deleteLocal);
+    if (!networkOn) return false;
+    try {
+      await backend.deleteContributions();
+      setShared(0);
+      return true;
+    } catch {
+      return false;
+    }
+  }, [networkOn]);
+  return { waiting, shared, deleteAll };
 }

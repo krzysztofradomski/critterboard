@@ -4,7 +4,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import "@/lib/initExecutorch";
 import { AppState, StyleSheet, View } from "react-native";
 
-import { useBackendIdentityBridge, useSyncProfile } from "@/backend/hooks";
+import { useBackendIdentityBridge, useTrainingUploader, useSyncProfile } from "@/backend/hooks";
 import { settleOwedCleanups, syncCatches } from "@/backend/sync";
 import { Toast } from "@/components/Toast";
 import { hydrateCachedPacks, syncRemotePacks, isKnownLang } from "@/i18n";
@@ -32,6 +32,7 @@ export default function App() {
 
   // Keep the mock adapter's self-view in sync with live store state.
   useBackendIdentityBridge();
+  useTrainingUploader();
   // Push profile changes (name, leaderboard visibility, location share)
   // to the Cloudflare Worker whenever they change. Gated on networkOn.
   useSyncProfile();

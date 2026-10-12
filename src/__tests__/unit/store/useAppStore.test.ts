@@ -23,6 +23,7 @@ const BASE_STATE = {
     minConfidence: 33,
     hapticsOn: true,
     sightingsOn: false,
+    trainingShareOn: false,
   },
   hasOnboarded: false,
   toast: null,

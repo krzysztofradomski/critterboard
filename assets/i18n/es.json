@@ -1324,6 +1324,22 @@
       "back": "Volver",
       "addedToast": "{name} ya está en tu Dex. Nombre puesto por ti, sin XP.",
       "tag": "nombre tuyo"
+    },
+    "training": {
+      "label": "Ayuda a entrenar el modelo",
+      "needsNetwork": "Necesita Red. Comparte fotos etiquetadas para que el próximo modelo reconozca mejor las especies.",
+      "off": "Desactivado. Actívalo para compartir las fotos que etiquetes y entrenar el próximo modelo.",
+      "on": "Activado: puedes compartir las fotos que añadas, con crédito para {name} (CC BY 4.0).",
+      "tick": "Compartir esta foto para entrenar (CC BY 4.0, crédito: {name})",
+      "explainTitle": "¿Compartir fotos para entrenar?",
+      "explainBody": "Cuando añadas un bicho a tu Dex, puedes compartir su foto para entrenar el próximo modelo de especies.\n\nSe envía: la foto (más pequeña, sin metadatos), la especie, lo que creyó el modelo y dónde está el bicho en la foto.\nNunca se envía: tu ubicación ni datos del móvil.\n\nLas fotos se comparten con licencia CC BY 4.0 y con crédito para «{name}». Puedes guardarte cualquier foto y borrar aquí todo lo que compartiste. Las fotos ya usadas en un modelo publicado se quedan en ese modelo.",
+      "explainCta": "Compartir fotos",
+      "stats": "{shared} compartidas · {waiting} en espera",
+      "deleteTitle": "¿Borrar tus fotos compartidas?",
+      "deleteBody": "Quita de la colección de entrenamiento todas las fotos que compartiste y las que aún esperan en el móvil. Los modelos ya publicados conservan lo que aprendieron.",
+      "deleteCta": "Borrar fotos compartidas",
+      "deleted": "Fotos compartidas borradas",
+      "deleteFailed": "Ahora no se pudo. Activa Red e inténtalo otra vez."
     }
   }
 }

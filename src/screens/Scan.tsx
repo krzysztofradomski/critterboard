@@ -134,6 +134,8 @@ export function Scan() {
   const liveGuess = live.guess && live.guess.confidence >= LIVE_SHOW ? live.guess : null;
   // Screen size, to find the reticle in the photo. The preview fills this view.
   const view = useRef({ width: 0, height: 0 }).current;
+  // Where the last photo was searched (view coordinates), for a shared training photo.
+  const aimRef = useRef<Aim | undefined>(undefined);
   const onLayout = (e: LayoutChangeEvent) => Object.assign(view, e.nativeEvent.layout);
 
   // Tap the preview to focus there, snap and search around that spot; pinch to zoom. `zoom` is a
@@ -246,6 +248,7 @@ export function Scan() {
               ...(tap ? { tap } : {}),
             }
           : undefined;
+        aimRef.current = aim;
         const frame = photoUri && !isWeb ? await scanCrops(photoUri, aim) : photoUri;
         candidates = await classifyFn(frame, { hint, topK: 3 });
       } catch {
@@ -265,12 +268,16 @@ export function Scan() {
 
         // The model's guesses go along, for "Name it yourself" ("The model thought: …").
         const top3 = candidates.slice(0, 3).map((c) => c.bugId);
+        const top3p = candidates.slice(0, 3).map((c) => c.confidence);
+        const shotAim = aimRef.current;
         if (confident && top) {
           haptics.success();
           go('result', {
             id: top.bugId,
             conf: Math.round(top.confidence * 100),
             top3,
+            top3p,
+            ...(shotAim ? { aim: shotAim } : {}),
             ...(photoUri ? { photoUri } : {}),
           });
         } else if (viable.length >= 2) {
@@ -279,6 +286,8 @@ export function Scan() {
             candidates: viable.map((c) => c.bugId),
             confs: viable.map((c) => Math.round(c.confidence * 100)),
             top3,
+            top3p,
+            ...(shotAim ? { aim: shotAim } : {}),
             ...(photoUri ? { photoUri } : {}),
           });
         } else if (top) {
@@ -288,11 +297,13 @@ export function Scan() {
             id: top.bugId,
             conf: Math.round(top.confidence * 100),
             top3,
+            top3p,
+            ...(shotAim ? { aim: shotAim } : {}),
             ...(photoUri ? { photoUri } : {}),
           });
         } else {
           haptics.warning();
-          go('nomatch', { top3, ...(photoUri ? { photoUri } : {}) });
+          go('nomatch', { top3, top3p, ...(shotAim ? { aim: shotAim } : {}), ...(photoUri ? { photoUri } : {}) });
         }
       }, Math.max(0, minHold));
     })();

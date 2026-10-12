@@ -60,6 +60,27 @@ export function reticleInPhoto(photo: Size, view: Size, reticle: Reticle, fit: F
   };
 }
 
+/**
+ * Where the bug is, as fractions of the photo (for a shared training photo): the tap if there
+ * was one, else the reticle (its side as a share of the photo's short side); empty for a
+ * gallery photo, which is searched at its centre.
+ */
+export function aimFractions(
+  photo: Size,
+  aim: Aim | undefined,
+): { tap?: [number, number]; reticle?: [number, number, number] } {
+  if (!aim || photo.width <= 0 || photo.height <= 0) return {};
+  if (aim.tap) {
+    const p = reticleInPhoto(photo, aim.view, { cx: aim.tap.x, cy: aim.tap.y, side: 0 }, aim.fit);
+    return { tap: [p.cx / photo.width, p.cy / photo.height] };
+  }
+  if (aim.reticle) {
+    const p = reticleInPhoto(photo, aim.view, aim.reticle, aim.fit);
+    return { reticle: [p.cx / photo.width, p.cy / photo.height, p.side / Math.min(photo.width, photo.height)] };
+  }
+  return {};
+}
+
 /** A square of `side` centred on (cx, cy), shrunk to fit the image and shifted inside it. */
 export function squareAround(img: Size, cx: number, cy: number, side: number): CropRect {
   const s = Math.round(Math.min(side, img.width, img.height));

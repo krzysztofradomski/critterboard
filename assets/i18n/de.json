@@ -1324,6 +1324,22 @@
       "back": "Zurück",
       "addedToast": "{name} ist in deinem Dex. Von dir benannt, daher ohne XP.",
       "tag": "von dir benannt"
+    },
+    "training": {
+      "label": "Hilf, das Modell zu trainieren",
+      "needsNetwork": "Braucht Netzwerk. Teile beschriftete Fotos, damit das nächste Artenmodell besser wird.",
+      "off": "Aus. Schalte es ein, um von dir beschriftete Fotos fürs Training des nächsten Modells zu teilen.",
+      "on": "An: Fotos, die du hinzufügst, kannst du teilen, genannt als {name} (CC BY 4.0).",
+      "tick": "Dieses Foto fürs Training teilen (CC BY 4.0, genannt als {name})",
+      "explainTitle": "Fotos fürs Training teilen?",
+      "explainBody": "Wenn du ein Insekt in deinen Dex aufnimmst, kannst du sein Foto teilen, um das nächste Artenmodell zu trainieren.\n\nGesendet: das Foto (kleiner, ohne Metadaten), die Art, die Vermutungen des Modells und wo das Insekt im Bild ist.\nNie gesendet: dein Standort oder Gerätedaten.\n\nFotos stehen unter CC BY 4.0 und werden als „{name}“ genannt. Du kannst jedes Foto zurückhalten und alles Geteilte hier löschen. Fotos, die schon in einem veröffentlichten Modell stecken, bleiben darin.",
+      "explainCta": "Fotos teilen",
+      "stats": "{shared} geteilt · {waiting} wartend",
+      "deleteTitle": "Geteilte Fotos löschen?",
+      "deleteBody": "Entfernt alle deine geteilten Fotos aus der Trainingssammlung und die, die noch auf dem Handy warten. Bereits veröffentlichte Modelle behalten, was sie gelernt haben.",
+      "deleteCta": "Geteilte Fotos löschen",
+      "deleted": "Geteilte Fotos gelöscht",
+      "deleteFailed": "Gerade nicht möglich. Schalte Netzwerk ein und versuch es noch mal."
     }
   }
 }

@@ -4,6 +4,8 @@ import { FlatList, Modal, Pressable, StyleSheet, Text, TextInput, View } from 'r
 import { BugIcon } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
 import { CatchPhoto } from '@/components/CatchPhoto';
+import { ShareTick, useCanShareTraining } from '@/components/ShareTick';
+import type { Aim } from '@/ai/scanCrops';
 import { allBugs, findBug, type Bug } from '@/data/bugs';
 import { bugName, useT } from '@/i18n/helpers';
 import { searchSpecies } from '@/lib/speciesSearch';
@@ -22,12 +24,17 @@ export function NameItSheet({
   visible,
   photoUri,
   top3 = [],
+  top3p,
+  aim,
   onClose,
 }: {
   visible: boolean;
   photoUri: string;
   /** The model's guesses for this photo (bug ids), shown first before typing. */
   top3?: string[];
+  /** The model's scores for `top3`, and where the scan looked: sent with a shared photo. */
+  top3p?: number[];
+  aim?: Aim;
   onClose: () => void;
 }) {
   const t = useT();
@@ -35,6 +42,8 @@ export function NameItSheet({
   const addCatch = useAddCatch();
   const [query, setQuery] = useState('');
   const [picked, setPicked] = useState<Bug | null>(null);
+  const [share, setShare] = useState(true);
+  const canShare = useCanShareTraining();
 
   const nameOf = (b: Bug) => bugName(lang, b.id);
   const results = useMemo(() => searchSpecies(allBugs(), query, nameOf).slice(0, MAX_RESULTS), [query, lang]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -47,7 +56,11 @@ export function NameItSheet({
   };
   const confirm = () => {
     if (!picked) return;
-    addCatch(picked, photoUri, { source: 'manual', name: nameOf(picked) });
+    addCatch(picked, photoUri, {
+      source: 'manual',
+      name: nameOf(picked),
+      ...(canShare && share ? { share: { kind: 'manual' as const, top3, ...(top3p ? { top3p } : {}), ...(aim ? { aim } : {}) } } : {}),
+    });
     close();
   };
 
@@ -84,6 +97,7 @@ export function NameItSheet({
             <Text style={styles.pickName}>{nameOf(picked)}</Text>
             <Text style={styles.pickLatin}>{picked.latin}</Text>
             <Text style={styles.note}>{t('nameIt.namedNote')}</Text>
+            <ShareTick value={share} onChange={setShare} />
             <Btn full bg={PB.green} color={PB.cream} onPress={confirm}>{t('result.addToDex')}</Btn>
             <Btn full bg={PB.cream} onPress={() => setPicked(null)}>{t('nameIt.back')}</Btn>
           </View>

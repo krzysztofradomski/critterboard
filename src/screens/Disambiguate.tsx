@@ -6,6 +6,7 @@ import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
 import { NameItSheet } from '@/components/NameItSheet';
+import type { Aim } from '@/ai/scanCrops';
 import { Sticker } from '@/components/Sticker';
 import { findBug } from '@/data/bugs';
 import { useT, bugName } from '@/i18n/helpers';
@@ -21,7 +22,8 @@ export function Disambiguate() {
   const P = usePersona(persona);
   const t = useT();
   const route = useCurrentRoute();
-  const params = (route.params as { candidates?: string[]; confs?: number[]; photoUri?: string; top3?: string[] } | undefined) ?? {};
+  const params = (route.params as { candidates?: string[]; confs?: number[]; photoUri?: string; top3?: string[]; top3p?: number[]; aim?: Aim } | undefined) ?? {};
+  const scan = { ...(params.top3 ? { top3: params.top3 } : {}), ...(params.top3p ? { top3p: params.top3p } : {}), ...(params.aim ? { aim: params.aim } : {}) };
   const [nameItOpen, setNameItOpen] = React.useState(false);
   const candIds = params.candidates ?? [];
   const confs = params.confs ?? [];
@@ -85,7 +87,7 @@ export function Disambiguate() {
             return (
               <Pressable
                 key={c.id}
-                onPress={() => go('result', { id: c.id, conf: c.conf, ...(photoUri ? { photoUri } : {}) })}
+                onPress={() => go('result', { id: c.id, conf: c.conf, ...scan, ...(photoUri ? { photoUri } : {}) })}
                 style={styles.candidate}
               >
                 <View style={[styles.candidateArt, { backgroundColor: c.color || PB.cream2 }]}>
@@ -122,7 +124,7 @@ export function Disambiguate() {
             full
             bg={PB.red}
             color={PB.cream}
-            onPress={() => go('nomatch', { top3: params.top3 ?? params.candidates, ...(params.photoUri ? { photoUri: params.photoUri } : {}) })}
+            onPress={() => go('nomatch', { ...scan, top3: params.top3 ?? params.candidates, ...(params.photoUri ? { photoUri: params.photoUri } : {}) })}
           >
             {t('disambiguate.noneOfThese')}
           </Btn>
@@ -132,6 +134,8 @@ export function Disambiguate() {
             visible={nameItOpen}
             photoUri={params.photoUri}
             top3={params.top3 ?? params.candidates}
+            top3p={params.top3p}
+            aim={params.aim}
             onClose={() => setNameItOpen(false)}
           />
         ) : null}

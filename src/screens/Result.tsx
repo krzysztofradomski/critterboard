@@ -6,6 +6,8 @@ import { Btn } from '@/components/Btn';
 import { CatchPhoto } from '@/components/CatchPhoto';
 import { IconBtn } from '@/components/IconBtn';
 import { NameItSheet } from '@/components/NameItSheet';
+import { ShareTick, useCanShareTraining } from '@/components/ShareTick';
+import type { Aim } from '@/ai/scanCrops';
 import { PhotoLightbox } from '@/components/PhotoLightbox';
 import {
   Section,
@@ -36,7 +38,7 @@ export function Result() {
   const dex = useAppStore((s) => s.dex);
   const minConfidence = useAppStore((s) => s.profile.minConfidence);
   const route = useCurrentRoute();
-  const params = route.params as { id?: string; photoUri?: string; conf?: number; top3?: string[] } | undefined;
+  const params = route.params as { id?: string; photoUri?: string; conf?: number; top3?: string[]; top3p?: number[]; aim?: Aim } | undefined;
   const id = params?.id ?? 'mona';
   const photoUri = params?.photoUri ?? null;
   const bug = findBug(id) ?? BUGS[0];
@@ -46,6 +48,8 @@ export function Result() {
   const nearby = useNearbySightings().filter((x) => x.bugId === id).length;
   const [lightboxOpen, setLightboxOpen] = React.useState(false);
   const [nameItOpen, setNameItOpen] = React.useState(false);
+  const [shareTraining, setShareTraining] = React.useState(true);
+  const canShare = useCanShareTraining();
   if (!bug) return null;
 
   const addCatch = useAddCatch();
@@ -81,7 +85,11 @@ export function Result() {
       showToast({ text: t('result.tooUnsure', { min: minConfidence }), icon: '🤔', bg: PB.yellow });
       return;
     }
-    addCatch(bug, photoUri);
+    addCatch(bug, photoUri, {
+      ...(canShare && shareTraining && photoUri
+        ? { share: { kind: 'confirmed' as const, top3: params?.top3, top3p: params?.top3p, aim: params?.aim } }
+        : {}),
+    });
   };
 
   const titleColor = bug.rarity === 'legendary' ? PB.cream : PB.ink;
@@ -97,7 +105,7 @@ export function Result() {
 
       <PhotoLightbox uri={shownPhoto} visible={lightboxOpen} onClose={() => setLightboxOpen(false)} />
       {photoUri && (
-        <NameItSheet visible={nameItOpen} photoUri={photoUri} top3={params?.top3} onClose={() => setNameItOpen(false)} />
+        <NameItSheet visible={nameItOpen} photoUri={photoUri} top3={params?.top3} top3p={params?.top3p} aim={params?.aim} onClose={() => setNameItOpen(false)} />
       )}
 
       <ScrollView contentContainerStyle={styles.scroll}>
@@ -217,6 +225,7 @@ export function Result() {
         <SpeciesLifeCycle bug={bug} />
 
         <View style={{ marginTop: 14 }}>
+          {conf !== undefined && photoUri && !alreadyCaught ? <ShareTick value={shareTraining} onChange={setShareTraining} /> : null}
           {/* Only a scan (which always has a confidence) can add a species. Opened from a
               sighting, a region sample or the like, an uncaught species is something to hunt. */}
           <Btn

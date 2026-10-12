@@ -25,6 +25,7 @@
  *    safe to call when already in/out of state).
  */
 
+import type { ContributionMeta } from '@/lib/contributions';
 import type {
   BackendUser,
   FeedPage,
@@ -78,6 +79,18 @@ export interface BackendAdapter {
 
   /** Delete this user and everything stored for them (profile, catches, follows, feed). */
   deleteAccount(): Promise<void>;
+
+  /**
+   * Share one labelled photo for training (CC BY 4.0). Resolves to the HTTP status, 0 when
+   * there was no answer, so the upload queue can tell retry from drop.
+   */
+  uploadContribution(meta: ContributionMeta, photoUri: string): Promise<number>;
+
+  /** How many photos this user has shared for training. */
+  fetchContributionCount(): Promise<number>;
+
+  /** Delete every photo this user shared for training. */
+  deleteContributions(): Promise<void>;
 
   /**
    * Up to ~100 other players' shared catches nearest to a point, from the last 12 months

@@ -76,3 +76,25 @@ describe('scanCrops geometry', () => {
     expect(m.b).toBeCloseTo(0.7);
   });
 });
+
+import { aimFractions } from '@/ai/scanCrops';
+
+describe('aimFractions', () => {
+  const photo = { width: 3024, height: 4032 };
+  const view = { width: 375, height: 812 };
+  it('maps the camera reticle to photo fractions (side as a share of the short side)', () => {
+    const a = aimFractions(photo, { view, fit: 'cover', reticle: { cx: 187.5, cy: 0.46 * 812, side: 220 } });
+    expect(a.reticle![0]).toBeCloseTo(0.5, 4);
+    expect(a.reticle![1]).toBeCloseTo(0.46, 4);
+    expect(a.reticle![2]).toBeCloseTo(1092.41 / 3024, 3);
+  });
+  it('prefers the tap, and maps it through the same cover fit', () => {
+    const a = aimFractions(photo, { view, fit: 'cover', reticle: { cx: 187.5, cy: 373.5, side: 220 }, tap: { x: 187.5, y: 406 } });
+    expect(a.reticle).toBeUndefined();
+    expect(a.tap![0]).toBeCloseTo(0.5, 4);
+    expect(a.tap![1]).toBeCloseTo(0.5, 2);
+  });
+  it('is empty without an aim (gallery photo searched at its centre)', () => {
+    expect(aimFractions(photo, undefined)).toEqual({});
+  });
+});

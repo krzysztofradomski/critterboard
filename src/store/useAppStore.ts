@@ -11,6 +11,7 @@ import { DEFAULT_LANG, coerceLang, t, type LangId } from '@/i18n';
 import { type PersonaId, getPersonaName } from '@/personas';
 import { ME_SUB_ALIAS, type RouteName, type RouteParamMap, isMainTab } from '@/navigation/routes';
 import { getPackData } from '@/data/regionPacks';
+import { clearQueue } from '@/backend/trainingQueue';
 import { currentStreak, type CatchEvent } from '@/lib/streak';
 import {
   buildConversationMemoryEntry,
@@ -44,6 +45,11 @@ export type Profile = {
   hapticsOn: boolean;
   /** Show other players' shared sightings on the map (needs Network). Off on first run. */
   sightingsOn: boolean;
+  /**
+   * Help train the model: share labelled photos (CC BY 4.0) for the next species model.
+   * Needs Network. Off on first run; each photo can still be held back.
+   */
+  trainingShareOn: boolean;
 };
 
 export const DEFAULT_MIN_CONFIDENCE = 33;
@@ -414,11 +420,12 @@ type PersistedWire = {
   // `crashReportingOn` was added after the first ship, so legacy blobs
   // won't have it. `localLlmOn` existed until chat became Gemma-only (the
   // model file on disk now decides); older blobs may still carry it.
-  profile: Omit<Profile, 'crashReportingOn' | 'minConfidence' | 'hapticsOn' | 'sightingsOn'> & {
+  profile: Omit<Profile, 'crashReportingOn' | 'minConfidence' | 'hapticsOn' | 'sightingsOn' | 'trainingShareOn'> & {
     crashReportingOn?: boolean;
     minConfidence?: number;
     hapticsOn?: boolean;
     sightingsOn?: boolean;
+    trainingShareOn?: boolean;
     localLlmOn?: boolean;
   };
   hasOnboarded?: boolean;
@@ -542,7 +549,7 @@ const wireStorage: PersistStorage<Persisted> = {
         // flag existed. Defaulting to false keeps the opt-in invariant
         // intact — upgrading the app should never start sending crash
         // reports without an explicit user action.
-        profile: (({ localLlmOn: _retired, ...p }) => ({ crashReportingOn: false, minConfidence: DEFAULT_MIN_CONFIDENCE, hapticsOn: true, sightingsOn: false, ...p }))(
+        profile: (({ localLlmOn: _retired, ...p }) => ({ crashReportingOn: false, minConfidence: DEFAULT_MIN_CONFIDENCE, hapticsOn: true, sightingsOn: false, trainingShareOn: false, ...p }))(
           wrapped.state.profile,
         ),
         hasOnboarded: Boolean(wrapped.state.hasOnboarded),
@@ -599,6 +606,7 @@ export const useAppStore = create<AppStore>()(
         minConfidence: DEFAULT_MIN_CONFIDENCE,
         hapticsOn: true,
         sightingsOn: false,
+        trainingShareOn: false,
       },
       hasOnboarded: false,
       toast: null,
@@ -1021,6 +1029,9 @@ export const useAppStore = create<AppStore>()(
         // Drop a not-yet-written save of the old data before deleting it.
         persistWriter.cancel();
         await AsyncStorage.removeItem('critterboard:v1');
+        // Photos waiting to be shared for training go too (already-shared ones stay on the server
+        // unless deleted in Brains first; Delete account removes them).
+        await clearQueue((u) => FileSystem.deleteAsync(u, { idempotent: true })).catch(() => undefined);
         // Reset every persisted slice back to a brand-new install.
         set({
           stack: [{ name: 'onboarding', params: undefined }],
@@ -1037,6 +1048,7 @@ export const useAppStore = create<AppStore>()(
             minConfidence: DEFAULT_MIN_CONFIDENCE,
             hapticsOn: true,
             sightingsOn: false,
+            trainingShareOn: false,
           },
           hasOnboarded: false,
           toast: null,

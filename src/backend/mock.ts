@@ -42,6 +42,9 @@ import {
   type UserId,
 } from '@/backend/types';
 
+/** Training photos "shared" with the mock: a count only, nothing is kept. */
+let mockContributions = 0;
+
 // ──────────────────────────────────────────────────────────────────────────
 // Identity binding
 // ──────────────────────────────────────────────────────────────────────────
@@ -307,6 +310,20 @@ export const mockAdapter: BackendAdapter = {
 
   async deleteAccount() {
     /* the mock keeps nothing */
+  },
+
+  // Training contributions: counted in memory only, so the Brains row has something to show.
+  async uploadContribution() {
+    mockContributions += 1;
+    return 201;
+  },
+
+  async fetchContributionCount() {
+    return mockContributions;
+  },
+
+  async deleteContributions() {
+    mockContributions = 0;
   },
 
   async fetchNearbySightings(_lat: number, _lng: number) {

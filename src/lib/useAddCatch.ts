@@ -6,6 +6,8 @@ import type { Bug } from '@/data/bugs';
 import { useT } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
 import { keepPhoto } from '@/lib/photos';
+import { shareForTraining } from '@/lib/shareTraining';
+import type { Aim } from '@/ai/scanCrops';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
@@ -15,6 +17,8 @@ export type AddCatchOpts = {
   source?: 'manual';
   /** Toast name for a manual catch (the localized species name). */
   name?: string;
+  /** Also share the photo for training ("Help train the model" tick); needs a photo. */
+  share?: { kind: 'manual' | 'confirmed'; top3?: string[]; top3p?: number[]; aim?: Aim };
 };
 
 /**
@@ -53,6 +57,9 @@ export function useAddCatch(): (bug: Bug, photoUri: string | null, opts?: AddCat
           ...(coords ? { lat: coords.lat, lng: coords.lng } : {}),
           ...(manual ? { source: 'manual' as const } : {}),
         });
+        if (opts.share && photoUri) {
+          void shareForTraining({ bugId: bug.id, latin: bug.latin, photoUri: keptUri ?? photoUri, ...opts.share });
+        }
         if (!manual) {
           publishCatch(bug.id, at, locationShareOn ? coords?.lat : undefined, locationShareOn ? coords?.lng : undefined);
         }

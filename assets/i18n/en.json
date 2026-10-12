@@ -1324,6 +1324,22 @@
       "back": "Back",
       "addedToast": "{name} is in your Dex. Named by you, so no XP.",
       "tag": "named by you"
+    },
+    "training": {
+      "label": "Help train the model",
+      "needsNetwork": "Needs Network. Share labelled photos to make the next species model better.",
+      "off": "Off. Turn on to share photos you label, to train the next model.",
+      "on": "On: photos you add can be shared, credited as {name} (CC BY 4.0).",
+      "tick": "Share this photo for training (CC BY 4.0, credited as {name})",
+      "explainTitle": "Share photos for training?",
+      "explainBody": "When you add a bug to your Dex, you can share its photo to train the next species model.\n\nSent: the photo (smaller, without its metadata), the species, the model's guesses and where the bug is in the photo.\nNever sent: your location or device details.\n\nPhotos are shared under CC BY 4.0 and credited as \"{name}\". You can hold back any photo and delete everything you shared here. Photos already used in a released model stay in that model.",
+      "explainCta": "Share photos",
+      "stats": "{shared} shared · {waiting} waiting",
+      "deleteTitle": "Delete your shared photos?",
+      "deleteBody": "Removes every photo you shared from the training collection, and those still waiting on this phone. Models already released keep what they learned.",
+      "deleteCta": "Delete shared photos",
+      "deleted": "Shared photos deleted",
+      "deleteFailed": "Couldn't delete right now. Turn on Network and try again."
     }
   }
 }

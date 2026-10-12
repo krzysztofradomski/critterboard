@@ -128,7 +128,8 @@ async function authedFetch(path: string, init?: RequestInit): Promise<Response> 
       resp = await fetchWithTimeout(`${base}${path}`, {
         ...init,
         headers: {
-          'Content-Type': 'application/json',
+          // Multipart bodies set their own Content-Type (with the boundary).
+          ...(init?.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
           ...(init?.headers as Record<string, string> | undefined),
           Authorization: `Bearer ${token}`,
         },
@@ -188,6 +189,33 @@ export const cloudflareAdapter: BackendAdapter = {
 
   async clearLocations(): Promise<void> {
     await authedFetch('/v1/catches/locations', { method: 'DELETE' });
+  },
+
+  async uploadContribution(meta, photoUri) {
+    const form = new FormData();
+    form.append('meta', JSON.stringify(meta));
+    // React Native's FormData takes a file as { uri, name, type }.
+    form.append('photo', { uri: photoUri, name: `${meta.id}.jpg`, type: 'image/jpeg' } as unknown as Blob);
+    try {
+      return (await authedFetch('/v1/training', { method: 'POST', body: form })).status;
+    } catch (e) {
+      if (e instanceof BackendError) {
+        if (e.kind === 'offline') return 0;
+        if (e.kind === 'rate-limited') return 429;
+        const m = /HTTP (\d+)/.exec(e.message);
+        return m ? Number(m[1]) : 0;
+      }
+      return 0;
+    }
+  },
+
+  async fetchContributionCount() {
+    const resp = await authedFetch('/v1/training/mine');
+    return ((await resp.json()) as { count: number }).count;
+  },
+
+  async deleteContributions() {
+    await authedFetch('/v1/training/mine', { method: 'DELETE' });
   },
 
   async deleteAccount(): Promise<void> {

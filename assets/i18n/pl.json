@@ -1324,6 +1324,22 @@
       "back": "Wróć",
       "addedToast": "{name} jest w twoim Dexie. Nazwany przez ciebie, więc bez XP.",
       "tag": "nazwany przez ciebie"
+    },
+    "training": {
+      "label": "Pomóż uczyć model",
+      "needsNetwork": "Wymaga Sieci. Udostępniaj opisane zdjęcia, żeby kolejny model lepiej rozpoznawał gatunki.",
+      "off": "Wyłączone. Włącz, żeby udostępniać opisane przez ciebie zdjęcia do nauki kolejnego modelu.",
+      "on": "Włączone: dodawane zdjęcia możesz udostępnić, podpisane jako {name} (CC BY 4.0).",
+      "tick": "Udostępnij to zdjęcie do nauki (CC BY 4.0, podpis: {name})",
+      "explainTitle": "Udostępniać zdjęcia do nauki?",
+      "explainBody": "Dodając owada do Dexa, możesz udostępnić jego zdjęcie, żeby nauczyć kolejny model rozpoznawania gatunków.\n\nWysyłamy: zdjęcie (mniejsze, bez metadanych), gatunek, podpowiedzi modelu i miejsce owada na zdjęciu.\nNigdy: twojej lokalizacji ani danych telefonu.\n\nZdjęcia są na licencji CC BY 4.0, podpisane jako „{name}”. Każde zdjęcie możesz zatrzymać, a wszystko, co udostępniłeś, usunąć tutaj. Zdjęcia użyte już w wydanym modelu zostają w tym modelu.",
+      "explainCta": "Udostępniaj",
+      "stats": "Udostępnione: {shared} · czeka: {waiting}",
+      "deleteTitle": "Usunąć udostępnione zdjęcia?",
+      "deleteBody": "Usuwa z kolekcji do nauki wszystkie twoje zdjęcia i te, które jeszcze czekają w telefonie. Wydane już modele zachowują to, czego się nauczyły.",
+      "deleteCta": "Usuń udostępnione",
+      "deleted": "Udostępnione zdjęcia usunięte",
+      "deleteFailed": "Teraz się nie udało. Włącz Sieć i spróbuj ponownie."
     }
   }
 }

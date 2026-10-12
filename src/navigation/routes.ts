@@ -1,3 +1,4 @@
+import type { Aim as ScanAim } from '@/ai/scanCrops';
 /**
  * Type-safe route table for Critterboard.
  *
@@ -15,8 +16,11 @@ export type RouteParamMap = {
   permissions: undefined;
   home: undefined;
   scan: { hint?: ScanHint } | undefined;
-  /** top3: the model's guesses (bug ids), offered first by "Name it yourself". */
-  result: { id: string; photoUri?: string; conf?: number; top3?: string[] };
+  /**
+   * top3/top3p: the model's guesses (bug ids) and their scores, offered first by "Name it yourself"
+   * and sent with a shared training photo; aim: where the scan looked (view coordinates).
+   */
+  result: { id: string; photoUri?: string; conf?: number; top3?: string[]; top3p?: number[]; aim?: ScanAim };
   chat: { topic?: string } | undefined;
   dex: undefined;
   /** `focus`: open on this point (e.g. a catch from the species card) instead of framing all pins. */
@@ -25,8 +29,8 @@ export type RouteParamMap = {
   quests: undefined;
   leaderboard: undefined;
   settings: undefined;
-  disambiguate: { candidates?: string[]; confs?: number[]; photoUri?: string; top3?: string[] } | undefined;
-  nomatch: { photoUri?: string; top3?: string[] } | undefined;
+  disambiguate: { candidates?: string[]; confs?: number[]; photoUri?: string; top3?: string[]; top3p?: number[]; aim?: ScanAim } | undefined;
+  nomatch: { photoUri?: string; top3?: string[]; top3p?: number[]; aim?: ScanAim } | undefined;
   activity: undefined;
   region: { id: string };
   streak: undefined;

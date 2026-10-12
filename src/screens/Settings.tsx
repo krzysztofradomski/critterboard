@@ -39,6 +39,7 @@ import { useNav } from "@/store/useNav";
 import { haptics } from '@/lib/haptics';
 import { chatModelActions } from '@/lib/modelActions';
 import { UpdatesCard } from '@/components/UpdatesCard';
+import { TrainingCard } from '@/components/TrainingCard';
 
 const NAME_MAX = 18;
 
@@ -397,6 +398,7 @@ export function Settings() {
                 onChange={online.setCrashReporting}
                 disabled={!profile.networkOn}
               />
+              <TrainingCard />
               <SyncPanel />
             </View>
           </View>
