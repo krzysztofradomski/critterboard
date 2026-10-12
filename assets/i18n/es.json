@@ -110,7 +110,9 @@
       "seasonNote": "Registros en Europa por mes (GBIF)",
       "lifeTitle": "CICLO DE VIDA",
       "safetyTitle": "SEGURIDAD",
-      "nearby": "👀 Visto {n}× cerca de ti en el último año"
+      "nearby": "👀 Visto {n}× cerca de ti en el último año",
+      "openPhoto": "Abrir la foto a pantalla completa",
+      "closePhoto": "Cerrar la foto"
     },
     "facts": {
       "habitat": "Hábitat",

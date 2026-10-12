@@ -6,6 +6,7 @@ import { BugIcon } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
 import { CatchPhoto } from '@/components/CatchPhoto';
 import { IconBtn } from '@/components/IconBtn';
+import { PhotoLightbox } from '@/components/PhotoLightbox';
 import {
   Section,
   SpeciesAbout,
@@ -45,6 +46,7 @@ export function Result() {
   const localizedName = useBugName(bug?.id ?? 'lady');
   const catchLog = useAppStore((s) => s.catchLog);
   const nearby = useNearbySightings().filter((x) => x.bugId === id).length;
+  const [lightboxOpen, setLightboxOpen] = React.useState(false);
   if (!bug) return null;
 
   const publishCatch = usePublishCatch();
@@ -150,18 +152,29 @@ export function Result() {
         <View style={{ width: 38 }} />
       </View>
 
+      <PhotoLightbox uri={shownPhoto} visible={lightboxOpen} onClose={() => setLightboxOpen(false)} />
+
       <ScrollView contentContainerStyle={styles.scroll}>
         <Sticker bg={PB.cream} rotate={-1} style={styles.heroSticker}>
           <View style={styles.heroImage}>
-            {/* The photo, else the species' sticker icon (or its emoji when there is no icon). */}
-            <CatchPhoto
-              uri={shownPhoto}
-              fallback={
-                <View style={styles.heroIcon}>
-                  <BugIcon bug={bug} size={168} />
-                </View>
-              }
-            />
+            {/* The photo, else the species' sticker icon (or its emoji when there is no icon).
+                Tapping the photo opens it full screen. */}
+            <Pressable
+              style={StyleSheet.absoluteFill}
+              disabled={!shownPhoto}
+              onPress={() => setLightboxOpen(true)}
+              accessibilityRole={shownPhoto ? 'imagebutton' : 'image'}
+              accessibilityLabel={shownPhoto ? t('result.openPhoto') : undefined}
+            >
+              <CatchPhoto
+                uri={shownPhoto}
+                fallback={
+                  <View style={styles.heroIcon}>
+                    <BugIcon bug={bug} size={168} />
+                  </View>
+                }
+              />
+            </Pressable>
             <View style={[styles.tierBadge, { backgroundColor: RARITY_COLOR[bug.rarity] }]}>
               <Text style={styles.tierText}>
                 {bug.tier} {t(`dex.filter.${bug.rarity}`).toUpperCase()}

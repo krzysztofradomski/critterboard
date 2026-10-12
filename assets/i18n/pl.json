@@ -110,7 +110,9 @@
       "seasonNote": "Obserwacje w Europie wg miesięcy (GBIF)",
       "lifeTitle": "CYKL ŻYCIA",
       "safetyTitle": "BEZPIECZEŃSTWO",
-      "nearby": "👀 Widziany {n}× w pobliżu w ostatnim roku"
+      "nearby": "👀 Widziany {n}× w pobliżu w ostatnim roku",
+      "openPhoto": "Otwórz zdjęcie na pełnym ekranie",
+      "closePhoto": "Zamknij zdjęcie"
     },
     "facts": {
       "habitat": "Siedlisko",

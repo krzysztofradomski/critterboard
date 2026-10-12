@@ -110,7 +110,9 @@
       "seasonNote": "Records in Europe per month (GBIF)",
       "lifeTitle": "LIFE CYCLE",
       "safetyTitle": "SAFETY",
-      "nearby": "👀 Spotted {n}× near you in the last year"
+      "nearby": "👀 Spotted {n}× near you in the last year",
+      "openPhoto": "Open photo full screen",
+      "closePhoto": "Close photo"
     },
     "facts": {
       "habitat": "Habitat",

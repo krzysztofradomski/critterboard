@@ -110,7 +110,9 @@
       "seasonNote": "Funde in Europa pro Monat (GBIF)",
       "lifeTitle": "LEBENSZYKLUS",
       "safetyTitle": "SICHERHEIT",
-      "nearby": "👀 {n}× in deiner Nähe gesehen (letztes Jahr)"
+      "nearby": "👀 {n}× in deiner Nähe gesehen (letztes Jahr)",
+      "openPhoto": "Foto im Vollbild öffnen",
+      "closePhoto": "Foto schließen"
     },
     "facts": {
       "habitat": "Lebensraum",
