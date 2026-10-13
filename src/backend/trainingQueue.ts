@@ -19,9 +19,12 @@ export type QueueDeps = {
 };
 
 const KEY = 'critterboard:training-queue:v1';
+/** Species with a photo the server accepted, for the Dex and species-page marker. */
+const SHARED_KEY = 'critterboard:training-shared:v1';
 const MAX_ITEMS = 300;
 
 let _items: QueueItem[] = [];
+let _shared: string[] = [];
 let _loading: Promise<void> | null = null;
 let _running = false;
 const _listeners = new Set<() => void>();
@@ -35,6 +38,11 @@ async function save(): Promise<void> {
   emit();
 }
 
+async function saveShared(): Promise<void> {
+  await AsyncStorage.setItem(SHARED_KEY, JSON.stringify(_shared)).catch(() => undefined);
+  emit();
+}
+
 /** Read the stored queue once; every caller waits for the same read, so nothing queued meanwhile is lost. */
 export function loadQueue(): Promise<void> {
   _loading ??= (async () => {
@@ -45,6 +53,13 @@ export function loadQueue(): Promise<void> {
     } catch {
       _items = [];
     }
+    try {
+      const raw = await AsyncStorage.getItem(SHARED_KEY);
+      const parsed: unknown = raw ? JSON.parse(raw) : [];
+      if (Array.isArray(parsed)) _shared = parsed.filter((x): x is string => typeof x === 'string');
+    } catch {
+      _shared = [];
+    }
     emit();
   })();
   return _loading;
@@ -52,6 +67,21 @@ export function loadQueue(): Promise<void> {
 
 export function queueItems(): QueueItem[] {
   return _items;
+}
+
+/** Species with a photo already shared for training (kept until forgotten below). */
+export function sharedBugIds(): string[] {
+  return _shared;
+}
+
+/**
+ * Forget the shared marks: one species (removed from the Dex) or all of them (shared photos
+ * deleted on the server, online data deleted, app wiped).
+ */
+export async function forgetShared(bugId?: string): Promise<void> {
+  await loadQueue();
+  _shared = bugId ? _shared.filter((b) => b !== bugId) : [];
+  await saveShared();
 }
 
 export function subscribeQueue(listener: () => void): () => void {
@@ -98,7 +128,13 @@ export async function processQueue(deps: QueueDeps): Promise<{ sent: number }> {
         continue;
       }
       const outcome = uploadOutcome(await deps.upload(item.meta, item.photoUri).catch(() => 0));
-      if (outcome === 'done') sent += 1;
+      if (outcome === 'done') {
+        sent += 1;
+        if (!_shared.includes(item.meta.bug_id)) {
+          _shared = [..._shared, item.meta.bug_id];
+          await saveShared();
+        }
+      }
       if (outcome === 'retry') {
         _items = _items.map((i) =>
           i.meta.id === item.meta.id ? { ...i, tries: i.tries + 1, nextAt: nextRetryAt(i.tries, now) } : i,

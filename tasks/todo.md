@@ -801,4 +801,6 @@ Why: on the iPhone 13 mini Qwen3 1.7B overheated, froze and wrote poor Polish. A
 - [ ] Phone check on the 13 mini: no chat buttons, Brains says chat needs iPhone 15 Pro+, the 1.1 GB file is gone
 
 **Review:** typecheck clean, all tests pass; Swift typechecked against the iOS 27 SDK (Swift 5 and 6 modes). On this Mac `supportsLocale` confirmed en/de/es ✓, pl ✗. Not yet built into an app (disk full).
+- [x] Dex entries show whether their photo went to training (asked twice): 🎓 green "Shared for training" / ⏳ yellow "Waiting to share" as a Dex tile corner badge and a band along the bottom of the species-page photo. Top-right corners already hold the XP badge and the rarity pill, so the marker sits at the bottom
+- [x] Text links ("Show on map", "Remove from Dex", "Name it yourself", "Read more", "I have a backup") use a drawn underline (`UNDERLINE` in `src/tokens/pb.ts`); iOS clipped `textDecorationLine` on the 13 mini
 

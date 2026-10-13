@@ -10,7 +10,7 @@ import { useT } from '@/i18n/helpers';
 import { isOffensiveName } from '@/lib/moderation';
 import { useBackupActions } from '@/lib/useBackupActions';
 import { PERSONA_IDS } from '@/personas';
-import { PB } from '@/tokens/pb';
+import { PB, UNDERLINE } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 import { haptics } from '@/lib/haptics';
@@ -201,6 +201,6 @@ const styles = StyleSheet.create({
   nameError: { marginTop: 4, fontSize: 11, fontWeight: '700', color: PB.red },
   footer: { marginTop: 'auto', gap: 10 },
   restoreLink: { alignSelf: 'center', paddingVertical: 4 },
-  restoreText: { fontSize: 13, fontWeight: '800', color: PB.ink, textDecorationLine: 'underline' },
+  restoreText: { fontSize: 13, fontWeight: '800', color: PB.ink, ...UNDERLINE },
   legal: { textAlign: 'center', fontSize: 12, color: PB.ink, fontWeight: '600' },
 });

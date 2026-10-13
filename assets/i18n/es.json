@@ -1323,7 +1323,13 @@
       "deleteBody": "Quita de la colección de entrenamiento todas las fotos que compartiste y las que aún esperan en el móvil. Los modelos ya publicados conservan lo que aprendieron.",
       "deleteCta": "Borrar fotos compartidas",
       "deleted": "Fotos compartidas borradas",
-      "deleteFailed": "Ahora no se pudo. Activa Red e inténtalo otra vez."
+      "deleteFailed": "Ahora no se pudo. Activa Red e inténtalo otra vez.",
+      "mark": {
+        "shared": "Compartida para entrenar",
+        "waiting": "Pendiente de compartir",
+        "sharedA11y": "Foto compartida para entrenar el modelo",
+        "waitingA11y": "Foto pendiente de compartir para entrenar el modelo"
+      }
     }
   }
 }

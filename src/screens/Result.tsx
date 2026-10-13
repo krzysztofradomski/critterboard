@@ -26,10 +26,10 @@ import { useT, useBugName } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
 import { latestPhotoFor } from '@/lib/streak';
 import { usePersona } from '@/personas/hooks';
-import { PB, RARITY_COLOR } from '@/tokens/pb';
+import { PB, RARITY_COLOR, UNDERLINE } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
-import { useNearbySightings } from '@/backend/hooks';
+import { useNearbySightings, useTrainingMarks } from '@/backend/hooks';
 import { resultAction } from '@/lib/resultAction';
 import { useAddCatch } from '@/lib/useAddCatch';
 
@@ -52,6 +52,7 @@ export function Result() {
   const [lightboxOpen, setLightboxOpen] = React.useState(false);
   // The persona's line stays; asking it more only where chat can run (Apple Intelligence).
   const canChat = chatOffered(useChatAvailability());
+  const trainingMarkFor = useTrainingMarks();
   const [nameItOpen, setNameItOpen] = React.useState(false);
   const [shareTraining, setShareTraining] = React.useState(true);
   const canShare = useCanShareTraining();
@@ -72,6 +73,8 @@ export function Result() {
   // Only ever named by the player: no XP yet, and a fresh model scan may still add it.
   const manualOnly = alreadyCaught && mine.length > 0 && mine.every((e) => e.source === 'manual');
   const namedOnly = manualOnly && conf === undefined;
+  // Only on a Dex entry: a fresh scan's photo isn't the one that was shared.
+  const trainingMark = alreadyCaught && conf === undefined ? trainingMarkFor(bug.id) : null;
   const action = resultAction({ inDex: alreadyCaught, manualOnly, fresh: conf !== undefined });
   const shownPhoto = photoUri ?? (alreadyCaught ? latestPhotoFor(catchLog, bug.id) ?? null : null);
 
@@ -148,6 +151,16 @@ export function Result() {
                 <Text style={styles.xpText}>+{bug.xp} XP</Text>
               </View>
             )}
+            {trainingMark ? (
+              <View
+                style={[styles.trainBand, { backgroundColor: trainingMark === 'shared' ? PB.green : PB.yellow }]}
+                accessibilityLabel={t(`training.mark.${trainingMark}A11y`)}
+              >
+                <Text style={[styles.trainText, { color: trainingMark === 'shared' ? PB.cream : PB.ink }]}>
+                  {trainingMark === 'shared' ? '🎓' : '⏳'} {t(`training.mark.${trainingMark}`)}
+                </Text>
+              </View>
+            ) : null}
           </View>
           <View style={{ padding: 14 }}>
             <Text style={styles.bugName}>{localizedName}</Text>
@@ -224,7 +237,7 @@ export function Result() {
               <Pressable
                 accessibilityRole="button"
                 onPress={() => go('map', { focus: { lat: myCatch.lat!, lng: myCatch.lng! } })}
-                style={{ marginTop: 6 }}
+                style={{ marginTop: 6, alignSelf: 'flex-start' }}
               >
                 <Text style={styles.linkText}>{t('result.showOnMap')}</Text>
               </Pressable>
@@ -358,9 +371,20 @@ const styles = StyleSheet.create({
   familyNote: { marginTop: 8, fontSize: 11, color: PB.ink, opacity: 0.7, textAlign: 'center' },
   taxon: { fontSize: 12, fontWeight: '800', color: PB.ink, marginTop: 6 },
   catchDate: { fontSize: 15, fontWeight: '800', color: PB.ink },
-  linkText: { fontSize: 13, fontWeight: '800', color: PB.ink, textDecorationLine: 'underline' },
+  linkText: { fontSize: 13, fontWeight: '800', color: PB.ink, ...UNDERLINE },
   removeLink: { marginTop: 14, alignSelf: 'center', paddingVertical: 8, paddingHorizontal: 16 },
-  nameItText: { fontSize: 14, fontWeight: '700', color: PB.ink, textDecorationLine: 'underline' },
+  nameItText: { fontSize: 14, fontWeight: '700', color: PB.ink, ...UNDERLINE },
+  trainBand: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    paddingVertical: 6,
+    borderTopWidth: 2,
+    borderColor: PB.ink,
+    alignItems: 'center',
+  },
+  trainText: { fontSize: 12, fontWeight: '800', letterSpacing: 0.3 },
   namedTag: { marginTop: 4, fontSize: 12, fontWeight: '700', color: PB.ink, opacity: 0.75 },
-  removeText: { fontSize: 13, lineHeight: 20, fontWeight: '800', color: PB.ink, opacity: 0.7, textDecorationLine: 'underline' },
+  removeText: { fontSize: 13, fontWeight: '800', color: PB.ink, opacity: 0.7, ...UNDERLINE },
 });

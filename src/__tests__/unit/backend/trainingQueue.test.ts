@@ -57,6 +57,22 @@ describe('training upload queue', () => {
     expect(deleted).toEqual(['file:///a.jpg', 'file:///b.jpg']);
   });
 
+  it('marks a species shared only once the server accepts it, survives a restart, and forgets on request', async () => {
+    const q = await fresh();
+    await q.enqueueContribution(meta('c_aaaaaaaaaa'), 'file:///a.jpg', NOW);
+    await q.processQueue(deps([503]).d); // retry: still waiting, not shared
+    expect(q.sharedBugIds()).toEqual([]);
+    const later = deps([201]);
+    later.setNow(NOW + 3_600_000);
+    await q.processQueue(later.d);
+    expect(q.sharedBugIds()).toEqual(['harl']);
+    const again = await fresh();
+    await again.loadQueue();
+    expect(again.sharedBugIds()).toEqual(['harl']);
+    await again.forgetShared('harl');
+    expect(again.sharedBugIds()).toEqual([]);
+  });
+
   it('keeps a photo for later on a rate limit or server error, with backoff', async () => {
     const q = await fresh();
     await q.enqueueContribution(meta('c_aaaaaaaaaa'), 'file:///a.jpg', NOW);

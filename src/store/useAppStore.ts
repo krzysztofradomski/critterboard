@@ -11,7 +11,7 @@ import { DEFAULT_LANG, coerceLang, t, type LangId } from '@/i18n';
 import { type PersonaId, getPersonaName } from '@/personas';
 import { ME_SUB_ALIAS, type RouteName, type RouteParamMap, isMainTab } from '@/navigation/routes';
 import { getPackData } from '@/data/regionPacks';
-import { clearQueue } from '@/backend/trainingQueue';
+import { clearQueue, forgetShared } from '@/backend/trainingQueue';
 import { currentStreak, type CatchEvent } from '@/lib/streak';
 import {
   buildConversationMemoryEntry,
@@ -974,6 +974,8 @@ export const useAppStore = create<AppStore>()(
           if (e.id !== bugId || !e.photoUri) continue;
           await FileSystem.deleteAsync(photoFileUri(e.photoUri), { idempotent: true }).catch(() => undefined);
         }
+        // A later catch of this species starts unmarked (the shared photo stays on the server).
+        void forgetShared(bugId);
         set((s) => {
           const dex = new Set(s.dex);
           dex.delete(bugId);
@@ -1035,6 +1037,7 @@ export const useAppStore = create<AppStore>()(
         // Photos waiting to be shared for training go too (already-shared ones stay on the server
         // unless deleted in Brains first; Delete account removes them).
         await clearQueue((u) => FileSystem.deleteAsync(u, { idempotent: true })).catch(() => undefined);
+        await forgetShared();
         // Reset every persisted slice back to a brand-new install.
         set({
           stack: [{ name: 'onboarding', params: undefined }],

@@ -65,3 +65,10 @@ export const HARD_SHADOW_MEDIUM = {
   shadowRadius: 0,
   elevation: 4,
 } as const;
+
+/**
+ * Underline for a standalone text link, drawn as a border below the text box. iOS puts
+ * `textDecorationLine` tight under the baseline and clips it on smaller text boxes.
+ * The link's container must hug the text (alignSelf), or the line runs full width.
+ */
+export const UNDERLINE = { borderBottomWidth: 1.5, borderBottomColor: PB.ink, paddingBottom: 1 } as const;

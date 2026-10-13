@@ -1323,7 +1323,13 @@
       "deleteBody": "Removes every photo you shared from the training collection, and those still waiting on this phone. Models already released keep what they learned.",
       "deleteCta": "Delete shared photos",
       "deleted": "Shared photos deleted",
-      "deleteFailed": "Couldn't delete right now. Turn on Network and try again."
+      "deleteFailed": "Couldn't delete right now. Turn on Network and try again.",
+      "mark": {
+        "shared": "Shared for training",
+        "waiting": "Waiting to share",
+        "sharedA11y": "Photo shared for training",
+        "waitingA11y": "Photo waiting to be shared for training"
+      }
     }
   }
 }

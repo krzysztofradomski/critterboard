@@ -1323,7 +1323,13 @@
       "deleteBody": "Entfernt alle deine geteilten Fotos aus der Trainingssammlung und die, die noch auf dem Handy warten. Bereits veröffentlichte Modelle behalten, was sie gelernt haben.",
       "deleteCta": "Geteilte Fotos löschen",
       "deleted": "Geteilte Fotos gelöscht",
-      "deleteFailed": "Gerade nicht möglich. Schalte Netzwerk ein und versuch es noch mal."
+      "deleteFailed": "Gerade nicht möglich. Schalte Netzwerk ein und versuch es noch mal.",
+      "mark": {
+        "shared": "Fürs Training geteilt",
+        "waiting": "Wartet aufs Teilen",
+        "sharedA11y": "Foto fürs Training geteilt",
+        "waitingA11y": "Foto wartet darauf, fürs Training geteilt zu werden"
+      }
     }
   }
 }

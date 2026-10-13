@@ -1323,7 +1323,13 @@
       "deleteBody": "Usuwa z kolekcji do nauki wszystkie twoje zdjęcia i te, które jeszcze czekają w telefonie. Wydane już modele zachowują to, czego się nauczyły.",
       "deleteCta": "Usuń udostępnione",
       "deleted": "Udostępnione zdjęcia usunięte",
-      "deleteFailed": "Teraz się nie udało. Włącz Sieć i spróbuj ponownie."
+      "deleteFailed": "Teraz się nie udało. Włącz Sieć i spróbuj ponownie.",
+      "mark": {
+        "shared": "Udostępnione do nauki",
+        "waiting": "Czeka na wysłanie",
+        "sharedA11y": "Zdjęcie udostępnione do nauki modelu",
+        "waitingA11y": "Zdjęcie czeka na wysłanie do nauki modelu"
+      }
     }
   }
 }

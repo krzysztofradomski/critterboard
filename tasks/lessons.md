@@ -233,3 +233,24 @@ One `git commit -qam` swept another session's uncommitted outreach notes (index 
 2. Stage named files only (`git add <paths>`); never `-a` or `add .` while others' edits are present.
 3. Outreach material (names, contact details, draft messages) never goes into this repo: it is public.
 
+## Write every UI request into tasks/todo.md the moment it's made
+
+**Session:** Apple Intelligence chat + simulator checks (2026-10-13).
+
+The user had already asked for a "shared for training" marker on Dex entries. It was never written down, so it was lost between sessions, and they had to ask again.
+
+**Rules:**
+1. When the user asks for a change, even in passing or mid-task, add an unchecked item to `tasks/todo.md` before continuing.
+2. Before closing a session, check that every request made in it is either done or listed as open.
+
+
+## Explain developer-only terms to ordinary readers
+
+**Session:** Email terminology correction (2026-10-13).
+
+The invitation assumed recipients knew TestFlight, and repeated its name without explaining the experience.
+
+**Rules:**
+1. Explain unfamiliar developer services at first mention in plain language; do not assume the audience has built an app.
+2. Mention the term once where possible, state the relevant device and describe what happens next.
+3. Audit the whole message for unexplained jargon and repeated product names before handing it back.

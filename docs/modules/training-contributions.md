@@ -55,6 +55,12 @@ flowchart LR
 - `useTrainingUploader` (mounted in `App.tsx`) drains it one photo at a time.
 - Sent, refused (4xx), expired (7 days) or missing-file items are dropped, together with their local copy.
 - "Wipe everything" clears the queue. "Delete shared photos" clears it and calls `DELETE /v1/training/mine`.
+- **Marker on the Dex entry.** Every caught species with a photo in training shows a marker: a corner badge on its Dex tile, and a band along the bottom of the photo on its species page.
+  - Green 🎓 "Shared for training": the server accepted a photo of this species.
+  - Yellow ⏳ "Waiting to share": a photo is queued on the phone.
+  - The shared marks are species ids, saved next to the queue (`critterboard:training-shared:v1`, `sharedBugIds` in `src/backend/trainingQueue.ts`) and read through `useTrainingMarks`.
+  - They are forgotten when shared photos are deleted on the server, online data is deleted, the app is wiped, or that species is removed from the Dex.
+  - Photos shared before this marker existed (13 Oct 2026) aren't marked: the server only reports a count.
 
 **On the worker** (`worker/src/training.ts`):
 

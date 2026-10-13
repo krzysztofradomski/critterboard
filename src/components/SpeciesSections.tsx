@@ -18,7 +18,7 @@ import {
 } from '@/data/speciesFacts';
 import type { LangId } from '@/i18n';
 import { useT } from '@/i18n/helpers';
-import { PB } from '@/tokens/pb';
+import { PB, UNDERLINE } from '@/tokens/pb';
 
 type Props = { bug: Bug; lang: LangId };
 
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   note: { fontSize: 11, color: PB.ink, opacity: 0.65, marginTop: 4 },
   link: { fontWeight: '800', textDecorationLine: 'underline' },
   readMore: { marginTop: 12, alignSelf: 'center', paddingVertical: 6, paddingHorizontal: 12 },
-  readMoreText: { fontSize: 12, fontWeight: '800', color: PB.ink, textDecorationLine: 'underline' },
+  readMoreText: { fontSize: 12, fontWeight: '800', color: PB.ink, ...UNDERLINE },
   barLabel: { fontSize: 12, fontWeight: '700', color: PB.ink, marginBottom: 3 },
   bar: { height: 12, borderColor: PB.ink, borderWidth: 2, borderRadius: 99 },
   months: { flexDirection: 'row', gap: 3, marginTop: 10 },

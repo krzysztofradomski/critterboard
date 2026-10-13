@@ -22,7 +22,7 @@ import { AppState } from 'react-native';
 
 import { backend, bindMockIdentity, BackendError } from '@/backend';
 import { syncCatches } from '@/backend/sync';
-import { clearQueue, loadQueue, processQueue, queueItems, subscribeQueue } from '@/backend/trainingQueue';
+import { clearQueue, forgetShared, loadQueue, processQueue, queueItems, sharedBugIds, subscribeQueue } from '@/backend/trainingQueue';
 import type {
   FeedPage,
   FriendScope,
@@ -384,6 +384,23 @@ export function useTrainingUploader(): void {
 }
 
 /** Brains: photos waiting on the phone, photos already shared (null until known), and Delete. */
+/** A Dex entry's training state: a photo already shared, one waiting on the phone, or neither. */
+export type TrainingMark = 'shared' | 'waiting' | null;
+
+const marksKey = () => `${queueItems().map((i) => i.meta.bug_id).join(',')}|${sharedBugIds().join(',')}`;
+
+/** The training mark for any species, kept current as the queue uploads (Dex tiles, species page). */
+export function useTrainingMarks(): (bugId: string) => TrainingMark {
+  const key = useSyncExternalStore(subscribeQueue, marksKey, () => '|');
+  useEffect(() => {
+    void loadQueue();
+  }, []);
+  return useMemo(() => {
+    const [waiting, shared] = key.split('|').map((part) => new Set(part ? part.split(',') : []));
+    return (bugId) => (shared!.has(bugId) ? 'shared' : waiting!.has(bugId) ? 'waiting' : null);
+  }, [key]);
+}
+
 export function useTrainingStats(): { waiting: number; shared: number | null; deleteAll: () => Promise<boolean> } {
   const networkOn = useAppStore((s) => s.profile.networkOn);
   const waiting = useSyncExternalStore(subscribeQueue, () => queueItems().length, () => 0);
@@ -403,6 +420,7 @@ export function useTrainingStats(): { waiting: number; shared: number | null; de
     try {
       await backend.deleteContributions();
       setShared(0);
+      await forgetShared();
       return true;
     } catch {
       return false;

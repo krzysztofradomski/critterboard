@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { FlatList, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
+import { useTrainingMarks } from '@/backend/hooks';
 import { BugIcon } from '@/components/BugIcon';
 import { Sticker } from '@/components/Sticker';
 import { TabBar } from '@/components/TabBar';
@@ -69,9 +70,11 @@ export function Dex() {
         ? { key: 'half', bg: PB.purple, rotate: 1.5 }
         : null;
 
+  const trainingMarkFor = useTrainingMarks();
   const renderCell = useCallback(
     ({ item: b }: { item: Bug }) => {
       const isCaught = dex.has(b.id);
+      const mark = isCaught ? trainingMarkFor(b.id) : null;
       return (
         <Pressable
           onPress={() => {
@@ -92,6 +95,14 @@ export function Dex() {
           </View>
           <View style={[styles.cellArt, { backgroundColor: isCaught ? '#fff' : PB.cream2 }]}>
             <BugIcon bug={b} size={70} silhouette={!isCaught} />
+            {mark ? (
+              <View
+                style={[styles.trainDot, { backgroundColor: mark === 'shared' ? PB.green : PB.yellow }]}
+                accessibilityLabel={t(`training.mark.${mark}A11y`)}
+              >
+                <Text style={styles.trainDotText}>{mark === 'shared' ? '🎓' : '⏳'}</Text>
+              </View>
+            ) : null}
           </View>
           <Text style={styles.cellName} numberOfLines={2}>
             {isCaught ? bugName(language, b.id) : t('dex.uncaughtName')}
@@ -100,7 +111,7 @@ export function Dex() {
         </Pressable>
       );
     },
-    [dex, catchLog, go, language, t, numberOf],
+    [dex, catchLog, go, language, t, numberOf, trainingMarkFor],
   );
 
   const header = (
@@ -333,6 +344,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  trainDot: {
+    position: 'absolute',
+    right: 4,
+    bottom: 4,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: PB.ink,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  trainDotText: { fontSize: 12 },
   cellName: { marginTop: 8, fontSize: 13, fontWeight: '800', color: PB.ink, lineHeight: 14 },
   cellId: { marginTop: 2, fontSize: 10, color: PB.ink, opacity: 0.55 },
   empty: { padding: 32, alignItems: 'center' },
