@@ -21,6 +21,11 @@ export interface TrainingEnv {
   TRAINING_ADMIN_TOKEN?: string;
   /** Uploads per player per 24 h (default 200). */
   TRAINING_DAILY_CAP?: string;
+  /**
+   * Key for the export's per-player pseudonym (train/test split). Set once and never rotate it:
+   * a new key reshuffles every player's split. Falls back to TRAINING_ADMIN_TOKEN.
+   */
+  TRAINING_PSEUDONYM_SECRET?: string;
 }
 
 const MAX_PHOTO_BYTES = 2 * 1024 * 1024;
@@ -96,10 +101,18 @@ export async function handleTrainingMine(userId: string, env: TrainingEnv): Prom
 
 /** Delete every photo and row of a player (Delete my shared photos, and account deletion). */
 export async function deleteUserContributions(userId: string, env: TrainingEnv): Promise<number> {
-  const rows = await env.DB.prepare('SELECT r2_key FROM contributions WHERE user_id = ?').bind(userId).all<{ r2_key: string }>();
-  const keys = (rows.results ?? []).map((r) => r.r2_key);
+  const rows = (
+    await env.DB.prepare('SELECT id, r2_key FROM contributions WHERE user_id = ?').bind(userId).all<{ id: string; r2_key: string }>()
+  ).results ?? [];
+  const keys = rows.map((r) => r.r2_key);
   for (let i = 0; i < keys.length; i += 1000) await env.TRAINING.delete(keys.slice(i, i + 1000));
-  await env.DB.prepare('DELETE FROM contributions WHERE user_id = ?').bind(userId).run();
+  // Tombstones first, then the rows: the export lists deletions so pulled copies go too.
+  const now = Date.now();
+  const stmts = rows.map((r) =>
+    env.DB.prepare('INSERT OR IGNORE INTO deleted_contributions (id, deleted_at) VALUES (?, ?)').bind(r.id, now),
+  );
+  stmts.push(env.DB.prepare('DELETE FROM contributions WHERE user_id = ?').bind(userId));
+  await env.DB.batch(stmts);
   return keys.length;
 }
 
@@ -127,7 +140,7 @@ export async function handleTrainingExport(request: Request, url: URL, env: Trai
   for (const r of rows) {
     items.push({
       id: r.id,
-      contributor: await contributorId(token, r.user_id),
+      contributor: await contributorId(env.TRAINING_PSEUDONYM_SECRET ?? token, r.user_id),
       bug_id: r.bug_id,
       latin: r.latin,
       kind: r.kind,
@@ -144,7 +157,11 @@ export async function handleTrainingExport(request: Request, url: URL, env: Trai
     });
   }
   const last = rows[rows.length - 1];
-  return json({ items, next: rows.length === limit && last ? last.created_at : null });
+  const deleted = (
+    await env.DB.prepare('SELECT id, deleted_at FROM deleted_contributions WHERE deleted_at > ? ORDER BY deleted_at ASC LIMIT 5000')
+      .bind(since).all<{ id: string; deleted_at: number }>()
+  ).results ?? [];
+  return json({ items, deleted, next: rows.length === limit && last ? last.created_at : null });
 }
 
 export async function handleTrainingObject(id: string, url: URL, env: TrainingEnv): Promise<Response> {

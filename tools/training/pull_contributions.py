@@ -36,9 +36,10 @@ def get(url: str, token: str | None = None) -> bytes:
 def pull(base: str, token: str, since: int, out: Path, latin_to_taxon: dict, fetch=get) -> dict:
     root = out / "contrib"
     root.mkdir(parents=True, exist_ok=True)
-    rows, skipped, newest = [], 0, since
+    rows, skipped, newest, deleted = [], 0, since, set()
     while True:
         page = json.loads(fetch(f"{base}/v1/training/export?since={since}&limit=500", token))
+        deleted.update(d["id"] for d in page.get("deleted", []))
         for it in page["items"]:
             newest = max(newest, it["created_at"])
             taxon = latin_to_taxon.get(it["latin"])
@@ -53,6 +54,7 @@ def pull(base: str, token: str, since: int, out: Path, latin_to_taxon: dict, fet
         if page.get("next") is None:
             break
         since = page["next"]
+    removed = prune(root, deleted)
     new_file = not (root / "manifest.csv").exists()
     with (root / "manifest.csv").open("a", newline="") as f:
         w = csv.writer(f)
@@ -67,7 +69,24 @@ def pull(base: str, token: str, since: int, out: Path, latin_to_taxon: dict, fet
             w.writerow(["photo_id", "credit_name", "licence", "species"])
         for it in rows:
             w.writerow([it["id"], it["credit_name"], it["licence"], it["latin"]])
-    return {"downloaded": len(rows), "skipped_unknown_species": skipped, "newest": newest}
+    return {"downloaded": len(rows), "skipped_unknown_species": skipped, "removed": removed, "newest": newest}
+
+
+def prune(root: Path, ids: set) -> int:
+    """Players deleted these: remove the local photos and their manifest/credits rows."""
+    if not ids:
+        return 0
+    removed = 0
+    for photo in root.glob("*/*/*.jpg"):
+        if photo.stem in ids:
+            photo.unlink()
+            removed += 1
+    for name in ("manifest.csv", "credits.csv"):
+        f = root / name
+        if f.exists():
+            lines = f.read_text().splitlines(keepends=True)
+            f.write_text("".join(lines[:1] + [l for l in lines[1:] if l.split(",", 1)[0] not in ids]))
+    return removed
 
 
 def selftest() -> None:
@@ -92,8 +111,16 @@ def selftest() -> None:
         return jpeg
 
     with tempfile.TemporaryDirectory() as d:
+        # A photo pulled earlier whose player has since deleted it.
+        old = Path(d) / "contrib" / "train" / "48484" / "c_old.jpg"
+        old.parent.mkdir(parents=True)
+        old.write_bytes(jpeg)
+        (Path(d) / "contrib" / "credits.csv").write_text("photo_id,credit_name,licence,species\nc_old,Zed,CC-BY-4.0,Harmonia axyridis\n")
+        pages[0]["deleted"] = [{"id": "c_old", "deleted_at": 15}]
         r = pull("https://w", "tok", 0, Path(d), {"Harmonia axyridis": "48484"}, fetch=fake)
-        assert r == {"downloaded": 1, "skipped_unknown_species": 1, "newest": 20}, r
+        assert r == {"downloaded": 1, "skipped_unknown_species": 1, "removed": 1, "newest": 20}, r
+        assert not old.exists(), "a deleted contribution is removed locally"
+
         photo = Path(d) / "contrib" / split_of("p1") / "48484" / "c_a.jpg"
         assert photo.read_bytes() == jpeg
         credits = (Path(d) / "contrib" / "credits.csv").read_text().splitlines()

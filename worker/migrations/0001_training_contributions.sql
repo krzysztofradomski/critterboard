@@ -20,3 +20,9 @@ CREATE TABLE IF NOT EXISTS contributions (
 );
 CREATE INDEX IF NOT EXISTS contributions_user ON contributions(user_id, created_at);
 CREATE INDEX IF NOT EXISTS contributions_created ON contributions(created_at);
+-- Deleted contributions (ids only), so the developer's pulled copies can be removed too.
+CREATE TABLE IF NOT EXISTS deleted_contributions (
+  id TEXT PRIMARY KEY,
+  deleted_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS deleted_contributions_at ON deleted_contributions(deleted_at);

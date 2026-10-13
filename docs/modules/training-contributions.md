@@ -64,12 +64,13 @@ flowchart LR
 | `GET /v1/training/mine` | player | `{ count }` |
 | `DELETE /v1/training/mine` | player | deletes the player's photos and rows |
 | `DELETE /v1/account` | player | also deletes them |
-| `GET /v1/training/export` | developer (`TRAINING_ADMIN_TOKEN`) | rows with a pseudonymous `contributor` and 1-hour signed photo links |
+| `GET /v1/training/export` | developer (`TRAINING_ADMIN_TOKEN`) | rows with a pseudonymous `contributor` (keyed by `TRAINING_PSEUDONYM_SECRET`: set once, never rotate) and 1-hour signed photo links, plus `deleted` ids (tombstones) |
 
 **For training** (`tools/training/pull_contributions.py`):
 - Downloads into `contrib/<split>/<taxon_id>/<id>.jpg`.
 - The split comes from the contributor pseudonym, so one player never straddles train and test.
 - Writes `manifest.csv`, and `credits.csv` for the next model's `ATTRIBUTION.md` (CC BY needs credit).
+- Removes photos and CSV rows of contributions players deleted since the last pull (the export's tombstones), so a delete reaches the local dataset too.
 
 ## Deploy (the developer's call)
 
@@ -78,6 +79,7 @@ cd worker
 wrangler r2 bucket create critterboard-training
 wrangler d1 execute critterboard --remote --file=migrations/0001_training_contributions.sql
 wrangler secret put TRAINING_ADMIN_TOKEN
+wrangler secret put TRAINING_PSEUDONYM_SECRET   # once; never rotate (it keys the train/test split)
 wrangler deploy
 ```
 

@@ -155,11 +155,14 @@ try {
   const photo = await adminGet(exp1.body.items[0].object, null);
   assert.equal(photo.status, 200, 'signed link serves the photo');
   assert.deepEqual([...photo.body], [...JPEG], 'the same bytes');
-  assert.equal((await adminGet(exp1.body.items[0].object.replace(/sig=[0-9a-f]/, 'sig=0'), null)).status, 404, 'tampered link refused');
+  const tampered = exp1.body.items[0].object.replace(/sig=([0-9a-f])/, (_, c) => `sig=${c === '0' ? '1' : '0'}`);
+  assert.equal((await adminGet(tampered, null)).status, 404, 'tampered link refused');
 
   assert.equal((await upload(ben.token, contribution('c_smokeBen001', { credit_name: '' }))).status, 201);
   assert.deepEqual((await call('DELETE', '/v1/training/mine', ben.token)).body, { deleted: 1 }, 'Delete my shared photos');
   assert.deepEqual((await call('GET', '/v1/training/mine', ben.token)).body, { count: 0 });
+  const afterDelete = await adminGet('/v1/training/export?since=0');
+  assert.ok(afterDelete.body.deleted.some((d) => d.id === 'c_smokeBen001'), 'deletions are listed so pulled copies can be removed');
 
   // 5: deleting Ann also scrubs Ann's "followed you" from Ben (someone she followed).
   assert.equal((await call('DELETE', '/v1/account', ann.token)).status, 204);
