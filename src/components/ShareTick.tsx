@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { useT } from '@/i18n/helpers';
-import { DEFAULT_CREDIT } from '@/lib/contributions';
+import { creditNameFor } from '@/lib/contributions';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 
@@ -17,7 +17,7 @@ export function ShareTick({ value, onChange }: { value: boolean; onChange: (v: b
   const can = useCanShareTraining();
   const name = useAppStore((s) => s.profile.name);
   if (!can) return null;
-  const credit = !name || name.trim().toLowerCase() === 'you' ? DEFAULT_CREDIT : name.trim();
+  const credit = creditNameFor(name ?? '');
   return (
     <Pressable
       onPress={() => onChange(!value)}

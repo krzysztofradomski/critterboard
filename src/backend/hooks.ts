@@ -367,6 +367,11 @@ export function useTrainingUploader(): void {
         fileExists: async (uri) => (await FileSystem.getInfoAsync(uri).catch(() => ({ exists: false }))).exists,
         deleteFile: deleteLocal,
         now: Date.now,
+        // Switching Network or Help train off stops a pass already under way.
+        shouldContinue: () => {
+          const p = useAppStore.getState().profile;
+          return p.networkOn && p.trainingShareOn;
+        },
       });
     run();
     const timer = setInterval(run, 60_000);

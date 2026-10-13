@@ -1,3 +1,5 @@
+import { isOffensiveName } from '@/lib/moderation';
+
 /**
  * Training contributions on the phone: the metadata sent with a shared photo, and the upload
  * retry rules. Pure. The worker validates the same shape (worker/src/trainingRules.ts).
@@ -22,8 +24,14 @@ export type ContributionMeta = {
 export type Aim = { tap?: [number, number]; reticle?: [number, number, number] };
 
 export const DEFAULT_CREDIT = 'Critterboard player';
-/** The profile's default name: credit as the generic player instead. */
-const UNSET_NAMES = new Set(['', 'you']);
+/** The profile's default name in each app language (common.you): credit as the generic player. */
+const UNSET_NAMES = new Set(['', 'you', 'ty', 'du', 'tú']);
+
+/** The CC BY credit for a player: their in-app name, unless it's unset or fails the name filter. */
+export function creditNameFor(name: string): string {
+  const n = name.trim().slice(0, 40);
+  return UNSET_NAMES.has(n.toLowerCase()) || isOffensiveName(n) ? DEFAULT_CREDIT : n;
+}
 
 const frac = (x: number) => Math.min(1, Math.max(0, Number.isFinite(x) ? x : 0));
 const round4 = (x: number) => Math.round(x * 10_000) / 10_000;
@@ -46,7 +54,6 @@ export function buildContribution(c: {
     const [x, y, s] = c.aim.reticle;
     aim.reticle = [round4(frac(x)), round4(frac(y)), round4(Math.max(0.0001, frac(s)))];
   }
-  const name = c.creditName.trim().slice(0, 40);
   return {
     id: c.id,
     bug_id: c.bugId,
@@ -56,7 +63,7 @@ export function buildContribution(c: {
     model_version: c.modelVersion,
     pack_version: c.packVersion,
     aim,
-    credit_name: UNSET_NAMES.has(name.toLowerCase()) ? DEFAULT_CREDIT : name,
+    credit_name: creditNameFor(c.creditName),
     licence: 'CC-BY-4.0',
     at: c.at,
   };
@@ -77,7 +84,8 @@ export function nextRetryAt(tries: number, now: number): number {
 /** What to do with a queued photo after an upload attempt (status 0 = no answer). */
 export function uploadOutcome(status: number): 'done' | 'retry' | 'drop' {
   if (status >= 200 && status < 300) return 'done';
-  if (status === 0 || status === 429 || status >= 500) return 'retry';
+  // 404: the route isn't deployed yet (app out before the worker); keep the photo until it is.
+  if (status === 0 || status === 404 || status === 429 || status >= 500) return 'retry';
   return 'drop'; // a bad request won't get better
 }
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { buildContribution, isExpired, nextRetryAt, uploadOutcome } from '@/lib/contributions';
+import { buildContribution, creditNameFor, isExpired, nextRetryAt, uploadOutcome } from '@/lib/contributions';
 
 const NOW = Date.UTC(2026, 9, 12, 12);
 
@@ -43,6 +43,8 @@ describe('upload retries', () => {
     expect(uploadOutcome(200)).toBe('done');
     expect(uploadOutcome(400)).toBe('drop');
     expect(uploadOutcome(409)).toBe('drop');
+    // No such route yet (app out before the worker deploy): keep the photo for later.
+    expect(uploadOutcome(404)).toBe('retry');
     expect(uploadOutcome(429)).toBe('retry');
     expect(uploadOutcome(503)).toBe('retry');
     expect(uploadOutcome(0)).toBe('retry'); // network error
@@ -50,5 +52,15 @@ describe('upload retries', () => {
   it('expires items after 7 days', () => {
     expect(isExpired({ addedAt: NOW - 6 * 86_400_000 }, NOW)).toBe(false);
     expect(isExpired({ addedAt: NOW - 8 * 86_400_000 }, NOW)).toBe(true);
+  });
+});
+
+describe('creditNameFor', () => {
+  it('uses the generic credit for any language default name', () => {
+    for (const n of ['you', 'ty', 'du', 'tú', 'Tú', '', '  ']) expect(creditNameFor(n)).toBe('Critterboard player');
+  });
+  it('keeps a real name, trimmed and capped at 40', () => {
+    expect(creditNameFor('  Krzysztof ')).toBe('Krzysztof');
+    expect(creditNameFor('x'.repeat(50))).toHaveLength(40);
   });
 });

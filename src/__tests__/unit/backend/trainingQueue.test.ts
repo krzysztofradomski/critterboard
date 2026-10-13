@@ -39,6 +39,7 @@ function deps(statuses: number[], files = new Set(['file:///a.jpg', 'file:///b.j
         files.delete(u);
       }),
       now: () => t,
+      shouldContinue: () => true,
     },
   };
 }
@@ -97,5 +98,27 @@ describe('training upload queue', () => {
     await q.clearQueue(d.deleteFile);
     expect(q.queueItems()).toEqual([]);
     expect(deleted).toEqual(['file:///a.jpg']);
+  });
+
+  it('stops mid-pass when Network or Help train is switched off', async () => {
+    const q = await fresh();
+    await q.enqueueContribution(meta('c_aaaaaaaaaa'), 'file:///a.jpg', NOW);
+    await q.enqueueContribution(meta('c_bbbbbbbbbb'), 'file:///b.jpg', NOW);
+    const { d } = deps([201, 201]);
+    let on = true;
+    d.upload.mockImplementation(async () => {
+      on = false; // the player switches sharing off during the first upload
+      return 201;
+    });
+    expect(await q.processQueue({ ...d, shouldContinue: () => on })).toEqual({ sent: 1 });
+    expect(q.queueItems().map((i) => i.meta.id)).toEqual(['c_bbbbbbbbbb']);
+  });
+
+  it('does not lose an item queued while the stored queue is still loading', async () => {
+    const first = await fresh();
+    await first.enqueueContribution(meta('c_aaaaaaaaaa'), 'file:///a.jpg', NOW);
+    const q = await fresh();
+    await Promise.all([q.loadQueue(), q.enqueueContribution(meta('c_bbbbbbbbbb'), 'file:///b.jpg', NOW)]);
+    expect(q.queueItems().map((i) => i.meta.id)).toEqual(['c_aaaaaaaaaa', 'c_bbbbbbbbbb']);
   });
 });

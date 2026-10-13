@@ -5,7 +5,7 @@ import { useTrainingStats } from '@/backend/hooks';
 import { Btn } from '@/components/Btn';
 import { SettingToggle } from '@/components/SettingToggle';
 import { useT } from '@/i18n/helpers';
-import { DEFAULT_CREDIT } from '@/lib/contributions';
+import { creditNameFor } from '@/lib/contributions';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
 
@@ -21,7 +21,7 @@ export function TrainingCard() {
   const showToast = useAppStore((s) => s.showToast);
   const { waiting, shared, deleteAll } = useTrainingStats();
   const on = profile.trainingShareOn && profile.networkOn;
-  const credit = !profile.name || profile.name.trim().toLowerCase() === 'you' ? DEFAULT_CREDIT : profile.name.trim();
+  const credit = creditNameFor(profile.name ?? '');
 
   const change = (v: boolean) => {
     if (!v) {

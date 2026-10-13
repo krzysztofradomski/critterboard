@@ -14,13 +14,15 @@ export type QueueDeps = {
   fileExists: (uri: string) => Promise<boolean>;
   deleteFile: (uri: string) => Promise<void>;
   now: () => number;
+  /** Checked before every upload: false once Network or "Help train the model" is switched off. */
+  shouldContinue: () => boolean;
 };
 
 const KEY = 'critterboard:training-queue:v1';
 const MAX_ITEMS = 300;
 
 let _items: QueueItem[] = [];
-let _loaded = false;
+let _loading: Promise<void> | null = null;
 let _running = false;
 const _listeners = new Set<() => void>();
 
@@ -33,17 +35,19 @@ async function save(): Promise<void> {
   emit();
 }
 
-export async function loadQueue(): Promise<void> {
-  if (_loaded) return;
-  _loaded = true;
-  try {
-    const raw = await AsyncStorage.getItem(KEY);
-    const parsed: unknown = raw ? JSON.parse(raw) : [];
-    if (Array.isArray(parsed)) _items = parsed.filter((x) => x && typeof x.photoUri === 'string' && x.meta?.id);
-  } catch {
-    _items = [];
-  }
-  emit();
+/** Read the stored queue once; every caller waits for the same read, so nothing queued meanwhile is lost. */
+export function loadQueue(): Promise<void> {
+  _loading ??= (async () => {
+    try {
+      const raw = await AsyncStorage.getItem(KEY);
+      const parsed: unknown = raw ? JSON.parse(raw) : [];
+      if (Array.isArray(parsed)) _items = parsed.filter((x) => x && typeof x.photoUri === 'string' && x.meta?.id);
+    } catch {
+      _items = [];
+    }
+    emit();
+  })();
+  return _loading;
 }
 
 export function queueItems(): QueueItem[] {
@@ -81,6 +85,7 @@ export async function processQueue(deps: QueueDeps): Promise<{ sent: number }> {
   let sent = 0;
   try {
     for (const item of [..._items]) {
+      if (!deps.shouldContinue()) break;
       const now = deps.now();
       if (item.nextAt > now) continue;
       const drop = async () => {
