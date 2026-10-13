@@ -1331,7 +1331,8 @@
       "namedNote": "Named by you: it goes in your Dex, but earns no XP and isn't shared online.",
       "back": "Back",
       "addedToast": "{name} is in your Dex. Named by you, so no XP.",
-      "tag": "named by you"
+      "tag": "named by you",
+      "already": "{name} is already in your Dex."
     },
     "training": {
       "label": "Help train the model",

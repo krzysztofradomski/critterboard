@@ -1331,7 +1331,8 @@
       "namedNote": "Con nombre puesto por ti: entra en tu Dex, pero no da XP ni se comparte en línea.",
       "back": "Volver",
       "addedToast": "{name} ya está en tu Dex. Nombre puesto por ti, sin XP.",
-      "tag": "nombre tuyo"
+      "tag": "nombre tuyo",
+      "already": "{name} ya está en tu Dex."
     },
     "training": {
       "label": "Ayuda a entrenar el modelo",

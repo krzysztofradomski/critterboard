@@ -9,6 +9,7 @@ import type { Aim } from '@/ai/scanCrops';
 import { allBugs, findBug, type Bug } from '@/data/bugs';
 import { bugName, useT } from '@/i18n/helpers';
 import { searchSpecies } from '@/lib/speciesSearch';
+import { shareForTraining } from '@/lib/shareTraining';
 import { useAddCatch } from '@/lib/useAddCatch';
 import { PB } from '@/tokens/pb';
 import { useAppStore } from '@/store/useAppStore';
@@ -56,6 +57,15 @@ export function NameItSheet({
   };
   const confirm = () => {
     if (!picked) return;
+    // Already in the Dex: no second catch (catchBug ignores it), but the label can still be shared.
+    if (useAppStore.getState().dex.has(picked.id)) {
+      if (canShare && share) {
+        void shareForTraining({ bugId: picked.id, latin: picked.latin, kind: 'manual', photoUri, top3, ...(top3p ? { top3p } : {}), ...(aim ? { aim } : {}) });
+      }
+      useAppStore.getState().showToast({ text: t('nameIt.already', { name: nameOf(picked) }), icon: picked.emoji, bg: PB.yellow });
+      close();
+      return;
+    }
     addCatch(picked, photoUri, {
       source: 'manual',
       name: nameOf(picked),

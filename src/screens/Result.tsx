@@ -28,6 +28,7 @@ import { PB, RARITY_COLOR } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
 import { useNav } from '@/store/useNav';
 import { useNearbySightings } from '@/backend/hooks';
+import { resultAction } from '@/lib/resultAction';
 import { useAddCatch } from '@/lib/useAddCatch';
 
 export function Result() {
@@ -64,7 +65,10 @@ export function Result() {
   const myCatch = alreadyCaught ? catchLog.find((e) => e.id === bug.id) : undefined;
   // Opened from a map pin or a sighting there's no photo param; show and share the catch's own.
   const mine = catchLog.filter((e) => e.id === bug.id);
-  const namedOnly = alreadyCaught && conf === undefined && mine.length > 0 && mine.every((e) => e.source === 'manual');
+  // Only ever named by the player: no XP yet, and a fresh model scan may still add it.
+  const manualOnly = alreadyCaught && mine.length > 0 && mine.every((e) => e.source === 'manual');
+  const namedOnly = manualOnly && conf === undefined;
+  const action = resultAction({ inDex: alreadyCaught, manualOnly, fresh: conf !== undefined });
   const shownPhoto = photoUri ?? (alreadyCaught ? latestPhotoFor(catchLog, bug.id) ?? null : null);
 
   const share = () => {
@@ -230,7 +234,7 @@ export function Result() {
         <SpeciesLifeCycle bug={bug} />
 
         <View style={{ marginTop: 14 }}>
-          {conf !== undefined && photoUri && !alreadyCaught ? <ShareTick value={shareTraining} onChange={setShareTraining} /> : null}
+          {action === 'add' && photoUri ? <ShareTick value={shareTraining} onChange={setShareTraining} /> : null}
           {/* Only a scan (which always has a confidence) can add a species. Opened from a
               sighting, a region sample or the like, an uncaught species is something to hunt. */}
           <Btn
@@ -238,9 +242,9 @@ export function Result() {
             bg={PB.ink}
             color={PB.yellow}
             size="lg"
-            onPress={alreadyCaught ? share : conf !== undefined ? onAdd : () => go('scan', { hint: bug.id })}
+            onPress={action === 'share' ? share : action === 'add' ? onAdd : () => go('scan', { hint: bug.id })}
           >
-            {alreadyCaught ? t('result.share') : conf !== undefined ? t('result.addToDex') : t('home.hunt')}
+            {action === 'share' ? t('result.share') : action === 'add' ? t('result.addToDex') : t('home.hunt')}
           </Btn>
           {/* A fresh scan with a photo: the model may be wrong, so the player can name it. */}
           {conf !== undefined && photoUri ? (

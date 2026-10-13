@@ -515,3 +515,21 @@ describe('catchBug source', () => {
     expect(useAppStore.getState().dex.has('lady')).toBe(true);
   });
 });
+
+describe('self-named catches: once per species', () => {
+  it('ignores naming a species again that is already in the Dex (no extra catch, no quest progress)', () => {
+    useAppStore.getState().catchBug('mona', { at: 20, source: 'manual' });
+    const before = useAppStore.getState();
+    const logLen = before.catchLog.length;
+    const progress = { ...before.questProgress };
+    useAppStore.getState().catchBug('mona', { at: 21, source: 'manual' });
+    expect(useAppStore.getState().catchLog.length).toBe(logLen);
+    expect(useAppStore.getState().questProgress).toEqual(progress);
+  });
+  it('still lets the model catch a species that was only named', () => {
+    useAppStore.getState().catchBug('hcat', { at: 30, source: 'manual' });
+    const n = useAppStore.getState().catchLog.length;
+    useAppStore.getState().catchBug('hcat', { at: 31 });
+    expect(useAppStore.getState().catchLog.length).toBe(n + 1);
+  });
+});

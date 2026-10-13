@@ -1331,7 +1331,8 @@
       "namedNote": "Von dir benannt: kommt in den Dex, bringt aber keine XP und wird nicht online geteilt.",
       "back": "Zurück",
       "addedToast": "{name} ist in deinem Dex. Von dir benannt, daher ohne XP.",
-      "tag": "von dir benannt"
+      "tag": "von dir benannt",
+      "already": "{name} ist schon in deinem Dex."
     },
     "training": {
       "label": "Hilf, das Modell zu trainieren",

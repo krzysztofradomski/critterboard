@@ -671,6 +671,9 @@ export const useAppStore = create<AppStore>()(
        */
       catchBug: (id, opts) =>
         set((s) => {
+          // A self-named species counts once: naming it again would farm quests (the model
+          // path is one catch per species too). A later model catch is still recorded.
+          if (opts?.source === 'manual' && s.dex.has(id)) return {};
           const at = opts?.at ?? Date.now();
           const photoUri = opts?.photoUri;
           const event: CatchEvent = { id, at };

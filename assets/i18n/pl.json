@@ -1331,7 +1331,8 @@
       "namedNote": "Nazwany przez ciebie: trafia do Dexa, ale nie daje XP i nie idzie do sieci.",
       "back": "Wróć",
       "addedToast": "{name} jest w twoim Dexie. Nazwany przez ciebie, więc bez XP.",
-      "tag": "nazwany przez ciebie"
+      "tag": "nazwany przez ciebie",
+      "already": "{name} już jest w twoim Dexie."
     },
     "training": {
       "label": "Pomóż uczyć model",
