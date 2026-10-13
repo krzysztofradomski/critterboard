@@ -101,6 +101,17 @@ describe('syncCatches', () => {
 });
 
 describe('deleteOnlineData', () => {
+  it('turns training sharing off and empties the queue, so nothing earlier goes up later', async () => {
+    setup({ catchLog: log(1, 1), online: { since: 1, hasData: true } });
+    useAppStore.getState().setProfile({ trainingShareOn: true });
+    const q = await import('@/backend/trainingQueue');
+    const clear = vi.spyOn(q, 'clearQueue').mockResolvedValue();
+    vi.spyOn(backend, 'deleteAccount').mockResolvedValue();
+    expect(await deleteOnlineData()).toBe(true);
+    expect(useAppStore.getState().profile.trainingShareOn).toBe(false);
+    expect(clear).toHaveBeenCalled();
+  });
+
   it('resets the bookkeeping after the server deleted everything', async () => {
     setup({ catchLog: log(1, 1), online: { since: 1, hasData: true, uploaded: ['x:1'] } });
     vi.spyOn(backend, 'deleteAccount').mockResolvedValue();

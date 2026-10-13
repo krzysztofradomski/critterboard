@@ -1,8 +1,10 @@
+import * as FileSystem from 'expo-file-system/legacy';
 import { backend } from '@/backend';
 import { resetBackendSession } from '@/backend/cloudflare';
 import type { PublishCatchInput } from '@/backend/types';
 import type { CatchEvent } from '@/lib/streak';
 import { EMPTY_ONLINE, newBackendIdentity, useAppStore } from '@/store/useAppStore';
+import { clearQueue } from '@/backend/trainingQueue';
 
 /**
  * Local -> server sync for catches, plus the two ways back out (hide, delete).
@@ -135,6 +137,10 @@ export async function deleteOnlineData(): Promise<boolean> {
   resetBackendSession();
   const s = useAppStore.getState();
   s.setOnline(EMPTY_ONLINE); // nothing is owed for an account that no longer exists
+  // Photos waiting to be shared would go up under the new identity: drop them, and sharing
+  // stays off until the player turns it on again.
+  s.setProfile({ trainingShareOn: false });
+  await clearQueue((u) => FileSystem.deleteAsync(u, { idempotent: true })).catch(() => undefined);
   s.setSyncStatus({ phase: 'idle', done: 0, total: 0 });
   return true;
 }
