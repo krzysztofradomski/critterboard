@@ -770,30 +770,6 @@ Reported: seeded user data on a new install, fake people/leaderboard/credits, pa
 - [x] Pack eu-ce v13 published: model eu-1k-household-v3 (model v6), 108 new species with names, facts and icons (icons v2)
 - [ ] Verify on a phone: tap-to-focus, 1× lens, live guess + auto snap (VisionCamera; the simulator has no camera)
 
-## European naturalist outreach research (2026-10-11)
-
-Scope: a few dozen Europe-based insect specialists, photographers and educators with a public audience; prioritize relevant expertise and published professional contact routes. Audience size is not assumed; no messages will be sent.
-
-- [x] Research candidates across UK/Ireland, central/northern Europe and southern/western Europe
-- [x] Verify source links, remove duplicates, separate expert/photo fit from audience fit
-- [x] Save a sourced shortlist and CSV with verification dates and outreach priorities
-- [x] Review coverage, confidence and limitations; present first outreach targets
-
-**Plan check:** Research only; each prospect needs public evidence of relevant work and an identifiable contact route. Do not infer willingness to contribute or photo permissions.
-
-**Review (2026-10-11):** Delivered 42 unique people and a first wave of 12 in `docs/outreach/european-naturalists.md` and `.csv`; docs index updated. Primary/self-authored source evidence checked, with older contact routes and uncertain social evidence flagged. No follower or deliverability claims; no outreach sent. CSV schema, row count, unique names and source URL syntax verified.
-
-## Personal outreach drafts for all 42 candidates (2026-10-11)
-
-- [x] Draft one individually tailored first email per candidate, using the sourced shortlist
-- [x] Include all contact routes and sources; flag social-only and older addresses
-- [x] Assemble a single file with personal iCloud sender guidance and all 42 drafts
-- [x] Verify count, names, factual personalization and one clear ask per draft
-
-**Plan check:** Drafting only. Use Krzysztof as signature; no sender address supplied. No messages sent.
-
-**Review:** Saved `docs/outreach/personal-outreach-42.md`, with every sourced candidate, 42 distinct first messages, contact caveats, subjects and tracking fields. Checked complete roster, unique numbers/names, single ask and website link per body, grounded personalization, and no invented sender address. Sender preference recorded with Apple’s actual iCloud bulk-mail restriction. Docs index updated; no messages sent.
-
 ## Now — Spec items 2026-10-09 (2026-10-12)
 
 Plan: [[docs/superpowers/plans/2026-10-12-spec-items]] · spec: [[docs/superpowers/specs/2026-10-09-name-it-yourself-and-training-contributions-design]]

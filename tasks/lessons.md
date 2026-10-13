@@ -221,3 +221,15 @@ support a staff-level job search.
    isn't already clear.
 4. Never call the author's statements "your claim" or hand evidence-gathering back to
    them. If a point needs an example, find it in git history or docs and add it.
+
+## Never `git commit -a` when the tree holds someone else's edits
+
+**Session**: spec items (2026-10-11 to 13).
+
+One `git commit -qam` swept another session's uncommitted outreach notes (index rows, todo sections) into a spec commit, and they were pushed to the public repo. They held no personal data, but they were meant to stay out of the repo.
+
+**Rules:**
+1. Before any commit, check `git status --short` for files I didn't change in this task.
+2. Stage named files only (`git add <paths>`); never `-a` or `add .` while others' edits are present.
+3. Outreach material (names, contact details, draft messages) never goes into this repo: it is public.
+

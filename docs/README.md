@@ -10,8 +10,6 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 |---|---|
 | [[handoff]] | **Start here locally** — what to run on your Mac to finish the app: simulator, iPhone, map spike, Cloudflare, store. |
 | [[architecture]] | App map — folders, native modules, network touchpoints, top-level diagram. |
-| [[outreach/personal-outreach-42]] | All 42 tailored first outreach messages, contact routes, sources and tracking fields. |
-| [[outreach/european-naturalists]] | Sourced European insect specialists and creators for expert testing, photo collaboration and audience outreach; accompanying CSV. |
 | [[ml-roadmap]] | On-device ML plan — MVP, full training, deferred placeholders. The master "what's next". |
 | [[modules/training-contributions]] | Name it yourself (search the pack's species, self-named catches never go online) and Help train the model (opt-in CC BY photo sharing: queue, worker R2 + D1, export, pull script). |
 | [[articles/vision-pipeline-article]] | Groundwork for a public article on the vision training pipeline: angle, outline, fact sheet, visuals, gaps. |
