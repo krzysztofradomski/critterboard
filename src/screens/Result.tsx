@@ -115,26 +115,24 @@ export function Result() {
       )}
 
       <ScrollView contentContainerStyle={styles.scroll}>
+        {/* Tapping anywhere on the card opens the photo full screen. */}
+        <Pressable
+          disabled={!shownPhoto}
+          onPress={() => setLightboxOpen(true)}
+          accessibilityRole={shownPhoto ? 'imagebutton' : undefined}
+          accessibilityLabel={shownPhoto ? t('result.openPhoto') : undefined}
+        >
         <Sticker bg={PB.cream} rotate={-1} style={styles.heroSticker}>
           <View style={styles.heroImage}>
-            {/* The photo, else the species' sticker icon (or its emoji when there is no icon).
-                Tapping the photo opens it full screen. */}
-            <Pressable
-              style={StyleSheet.absoluteFill}
-              disabled={!shownPhoto}
-              onPress={() => setLightboxOpen(true)}
-              accessibilityRole={shownPhoto ? 'imagebutton' : 'image'}
-              accessibilityLabel={shownPhoto ? t('result.openPhoto') : undefined}
-            >
-              <CatchPhoto
-                uri={shownPhoto}
-                fallback={
-                  <View style={styles.heroIcon}>
-                    <BugIcon bug={bug} size={168} />
-                  </View>
-                }
-              />
-            </Pressable>
+            {/* The photo, else the species' sticker icon (or its emoji when there is no icon). */}
+            <CatchPhoto
+              uri={shownPhoto}
+              fallback={
+                <View style={styles.heroIcon}>
+                  <BugIcon bug={bug} size={168} />
+                </View>
+              }
+            />
             <View style={[styles.tierBadge, { backgroundColor: RARITY_COLOR[bug.rarity] }]}>
               <Text style={styles.tierText}>
                 {bug.tier} {t(`dex.filter.${bug.rarity}`).toUpperCase()}
@@ -172,6 +170,7 @@ export function Result() {
             )}
           </View>
         </Sticker>
+        </Pressable>
 
         <SpeciesBadges bug={bug} />
 
@@ -359,5 +358,5 @@ const styles = StyleSheet.create({
   removeLink: { marginTop: 14, alignSelf: 'center', paddingVertical: 8, paddingHorizontal: 16 },
   nameItText: { fontSize: 14, fontWeight: '700', color: PB.ink, textDecorationLine: 'underline' },
   namedTag: { marginTop: 4, fontSize: 12, fontWeight: '700', color: PB.ink, opacity: 0.75 },
-  removeText: { fontSize: 13, fontWeight: '800', color: PB.ink, opacity: 0.7, textDecorationLine: 'underline' },
+  removeText: { fontSize: 13, lineHeight: 20, fontWeight: '800', color: PB.ink, opacity: 0.7, textDecorationLine: 'underline' },
 });
