@@ -78,7 +78,7 @@ export function buildPrompt(opts: {
   const lang = LANGUAGE_NAMES[opts.language] ?? 'English';
   const instructions = [
     opts.persona.systemPrompt,
-    `Always reply in ${lang}. Keep replies short: two or three sentences.`,
+    `Always reply in ${lang}. Keep replies short: two or three sentences. Plain text only, no markdown.`,
     opts.topic ? `The conversation is about: ${opts.topic}.` : '',
   ]
     .filter(Boolean)
@@ -103,6 +103,7 @@ export async function* streamApple(
   mod: AppleChatNative,
   input: { instructions: string; prompt: string },
   signal?: AbortSignal,
+  // 0.4: at 0.8 Apple's model invented facts in German and looped in Spanish (ADR 009).
   opts: { temperature?: number; maxTokens?: number } = {},
 ): AsyncGenerator<string> {
   const id = `r${++seq}`;
@@ -138,7 +139,7 @@ export async function* streamApple(
   const onAbort = () => mod.stop(id);
   signal?.addEventListener('abort', onAbort);
   try {
-    mod.start(id, input.instructions, input.prompt, opts.temperature ?? 0.8, opts.maxTokens ?? 300);
+    mod.start(id, input.instructions, input.prompt, opts.temperature ?? 0.4, opts.maxTokens ?? 300);
     for (;;) {
       while (queue.length) {
         const text = queue.shift()!;

@@ -33,7 +33,7 @@
 - **One fresh session per reply.**
   - The persona, the reply language and the topic go in the instructions.
   - The last 8 turns go into the prompt as text.
-  - Replies are capped at 300 tokens, at temperature 0.8.
+  - Replies are capped at 300 tokens, at temperature 0.4, in plain text (the bubbles don't render markdown).
 - **Errors map to short codes** (`guardrail`, `language`, `context`, `other`), shown as friendly persona-voice lines.
 
 ## Evidence (13 Oct 2026, M1 Mac, macOS 26.6)
@@ -41,6 +41,11 @@
 - `supportsLocale`: en ✓, de ✓, es ✓, **pl ✗**.
 - Apple's list (support.apple.com/121115, 14 Sep 2026) also has no Polish.
 - Devices (same page): iPhone 15 Pro / Pro Max, iPhone 16 and later, iPhone Air.
+- Reply quality on this Mac (Apple's model, macOS 26.6), real persona prompts, 3 runs each:
+  - At 0.8 or the default temperature, German answers rambled or made things up. Two harmless ones ("why are ladybirds red?") were blocked by Apple's safety filter, and one Spanish reply looped on "¡¡¡" until the token cap.
+  - At **0.4**: German was correct 3/3 (warning colour), Spanish was short and on topic, with no loops and no blocks.
+  - First word after 7–15 s on the M1, including model load.
+- The iOS 27 simulator forwards to the Mac's model (`host-inference`) and reports "not ready" on a macOS 26 host. Most likely a version mismatch (not confirmed), so replies were tested on the Mac with the module's exact calls, not in the simulator.
 
 ## Consequences
 
