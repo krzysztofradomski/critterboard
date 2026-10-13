@@ -84,7 +84,9 @@
       "tipsGotIt": "Got it",
       "modelMissingTitle": "The species model isn't on this phone",
       "modelMissingBody": "Your pack is installed, but its model file is missing. Download it again in the pack's page.",
-      "modelMissingCta": "Open the pack"
+      "modelMissingCta": "Open the pack",
+      "webOnlyTitle": "Scanning runs in the phone app",
+      "webOnlyBody": "Identifying bugs needs the phone's camera and the on-device model. Open Critterboard on iPhone or Android to scan; the rest of the web preview works as usual."
     },
     "result": {
       "headTitle": "IDENTIFIED!",

@@ -84,7 +84,9 @@
       "tipsGotIt": "Verstanden",
       "modelMissingTitle": "Das Artenmodell fehlt auf dem Handy",
       "modelMissingBody": "Dein Paket ist installiert, aber die Modelldatei fehlt. Lade sie auf der Seite des Pakets neu herunter.",
-      "modelMissingCta": "Paket öffnen"
+      "modelMissingCta": "Paket öffnen",
+      "webOnlyTitle": "Scannen geht in der Handy-App",
+      "webOnlyBody": "Zum Bestimmen braucht es die Kamera des Telefons und das Modell auf dem Gerät. Öffne Critterboard auf dem iPhone oder unter Android, um zu scannen; der Rest der Web-Vorschau funktioniert wie gewohnt."
     },
     "result": {
       "headTitle": "IDENTIFIZIERT!",

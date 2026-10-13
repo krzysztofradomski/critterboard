@@ -84,7 +84,9 @@
       "tipsGotIt": "Entendido",
       "modelMissingTitle": "Falta el modelo de especies en el móvil",
       "modelMissingBody": "Tu paquete está instalado, pero falta el archivo del modelo. Vuelve a bajarlo en la página del paquete.",
-      "modelMissingCta": "Abrir el paquete"
+      "modelMissingCta": "Abrir el paquete",
+      "webOnlyTitle": "El escaneo funciona en la app del teléfono",
+      "webOnlyBody": "Identificar bichos necesita la cámara del teléfono y el modelo en el dispositivo. Abre Critterboard en iPhone o Android para escanear; el resto de la vista web funciona como siempre."
     },
     "result": {
       "headTitle": "¡IDENTIFICADO!",

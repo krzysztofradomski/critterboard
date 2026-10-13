@@ -84,7 +84,9 @@
       "tipsGotIt": "Jasne",
       "modelMissingTitle": "Brakuje modelu gatunków",
       "modelMissingBody": "Paczka jest zainstalowana, ale nie ma pliku modelu. Pobierz go ponownie na stronie paczki.",
-      "modelMissingCta": "Otwórz paczkę"
+      "modelMissingCta": "Otwórz paczkę",
+      "webOnlyTitle": "Skanowanie działa w aplikacji na telefon",
+      "webOnlyBody": "Rozpoznawanie owadów potrzebuje aparatu telefonu i modelu w urządzeniu. Aby skanować, otwórz Critterboard na iPhonie lub Androidzie; reszta podglądu w przeglądarce działa normalnie."
     },
     "result": {
       "headTitle": "ROZPOZNANO!",
