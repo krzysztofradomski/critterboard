@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as FileSystem from 'expo-file-system/legacy';
 import {
-  Alert,
   Platform,
   Pressable,
   ScrollView,
@@ -26,8 +25,7 @@ import {
   type PackManifest, type RegionPack,
 } from "@/data/regionPacks";
 import { Btn } from "@/components/Btn";
-import { activeChatModel, deleteChatModel, downloadChatModel, ejectChatModel, initChatModel, loadChatModel, type ChatModelStatus } from "@/ai";
-import { useChatModel } from "@/lib/useChatModel";
+import { useChatAvailability } from "@/lib/useChatAvailability";
 import { LANG_META, type LangId } from "@/i18n";
 import { useT } from "@/i18n/helpers";
 import { PERSONA_IDS } from "@/personas";
@@ -37,24 +35,10 @@ import { isOffensiveName } from "@/lib/moderation";
 import { useAppStore } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
 import { haptics } from '@/lib/haptics';
-import { chatModelActions } from '@/lib/modelActions';
 import { UpdatesCard } from '@/components/UpdatesCard';
 import { TrainingCard } from '@/components/TrainingCard';
 
 const NAME_MAX = 18;
-
-function localLlmDesc(
-  status: ChatModelStatus,
-  t: (key: string, vars?: Record<string, string | number>) => string,
-): string {
-  const vars = { model: activeChatModel().name, size: activeChatModel().sizeGb };
-  if (status === 'unsupported') return t('settings.localLlmNoWeb', vars);
-  if (status === 'tooLittleRam') return t('settings.localLlmTooLittleRam', vars);
-  if (status === 'error') return t('settings.localLlmError', vars);
-  if (status === 'ejected') return t('settings.localLlmEjected', vars);
-  if (status === 'absent' || status === 'checking') return t('settings.localLlmOff', vars);
-  return t('settings.localLlmOn', vars);
-}
 
 export function Settings() {
   const { go } = useNav();
@@ -79,19 +63,7 @@ export function Settings() {
   const P = usePersona(persona);
   const t = useT();
 
-  const chatModel = useChatModel();
-  const modelState = chatModel.status;
-  const downloadPct = chatModel.pct;
-  // Deleting frees ~3 GB, but a re-download is slow: confirm. (Toggle off and the Delete button.)
-  const confirmDeleteChat = () =>
-    Alert.alert(
-      t("settings.localLlmDeleteTitle"),
-      t("settings.localLlmDeleteBody", { model: activeChatModel().name, size: activeChatModel().sizeGb }),
-      [
-        { text: t("common.cancel"), style: "cancel" },
-        { text: t("settings.localLlmDeleteCta"), style: "destructive", onPress: () => void deleteChatModel() },
-      ],
-    );
+  const chatAvail = useChatAvailability();
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [confirmMemoryWipe, setConfirmMemoryWipe] = useState(false);
   const [nameDraft, setNameDraft] = useState(profile.name);
@@ -118,11 +90,6 @@ export function Settings() {
   useEffect(() => {
     setNameDraft(profile.name);
   }, [profile.name]);
-
-  // Pick up a chat model already on disk (loads it) or mark it absent.
-  useEffect(() => {
-    void initChatModel();
-  }, []);
 
   useEffect(
     () => () => {
@@ -405,107 +372,20 @@ export function Settings() {
         </Sticker>
 
         <Sticker bg={PB.paper} style={{ padding: 14 }}>
+          {/* Chat runs on Apple Intelligence: nothing to download, only a status (ADR 009). */}
           <ModelTile
             icon="🧠"
             color={PB.pink}
-            title={t("settings.model.larva", { model: activeChatModel().name })}
-            meta={t("settings.model.larvaMeta", {
-              size: activeChatModel().sizeGb,
-              state:
-                modelState === 'downloading'
-                  ? t("settings.model.larvaDownloading", {
-                      done: ((activeChatModel().sizeGb * downloadPct) / 100).toFixed(1),
-                    })
-                  : modelState === 'ready' || modelState === 'loading'
-                    ? t("settings.model.larvaInstalled")
-                    : modelState === 'unsupported'
-                      ? t("settings.model.larvaPhoneOnly")
-                      : modelState === 'tooLittleRam'
-                        ? t("settings.model.larvaTooLittleRam")
-                        : t("settings.model.larvaIdle"),
-            })}
+            title={t("settings.chat.title")}
+            meta={t(`settings.chat.${chatAvail}`)}
             statusText={
-              modelState === 'ready'
-                ? t("settings.model.ready")
-                : modelState === 'downloading'
-                  ? t("settings.model.downloading", { pct: downloadPct })
-                  : modelState === 'loading'
-                    ? t("settings.model.loading")
-                    : modelState === 'error'
-                      ? t("settings.model.error")
-                      : modelState === 'unsupported'
-                        ? t("settings.model.phoneOnly")
-                        : modelState === 'tooLittleRam'
-                          ? t("settings.model.notSupported")
-                          : t("settings.model.get")
+              chatAvail === "available" ? t("settings.model.ready")
+                : chatAvail === "notEnabled" || chatAvail === "notReady" ? t("settings.chat.statusSetup")
+                : t("settings.model.notSupported")
             }
-            statusBg={
-              modelState === 'ready' ? PB.green
-                : modelState === 'error' ? PB.red
-                : modelState === 'downloading' || modelState === 'loading' ? PB.yellow
-                : PB.cream2
-            }
-            statusFg={
-              modelState === 'ready' || modelState === 'error' ? PB.cream : PB.ink
-            }
-            progressPct={
-              modelState === 'downloading' ? downloadPct
-                : modelState === 'loading' || modelState === 'ready' ? 100
-                : undefined
-            }
-            progressColor={PB.pink}
+            statusBg={chatAvail === "available" ? PB.green : PB.cream2}
+            statusFg={chatAvail === "available" ? PB.cream : PB.ink}
           />
-          <View style={{ height: 12 }} />
-          <SettingToggle
-            icon="📱"
-            color={PB.pink}
-            label={t("settings.localLlmLabel", { model: activeChatModel().name })}
-            desc={localLlmDesc(modelState, t)}
-            value={
-              modelState === 'downloading' || modelState === 'loading' || modelState === 'ready' || modelState === 'ejected'
-            }
-            onChange={(v) => {
-              if (v) {
-                if (chatModel.fit !== 'confirm') {
-                  void downloadChatModel();
-                  return;
-                }
-                // 4 GB phones: the model fits, but only just. Ask first.
-                Alert.alert(
-                  t("settings.localLlmLowRamTitle"),
-                  t("settings.localLlmLowRamBody", { model: activeChatModel().name, size: activeChatModel().sizeGb }),
-                  [
-                    { text: t("common.cancel"), style: "cancel" },
-                    { text: t("settings.localLlmLowRamCta"), onPress: () => void downloadChatModel() },
-                  ],
-                );
-                return;
-              }
-              confirmDeleteChat();
-            }}
-            disabled={
-              modelState === "unsupported" || modelState === "tooLittleRam" || modelState === "checking"
-            }
-          />
-          {/* Memory and disk are separate choices; downloading is the toggle above. */}
-          {chatModelActions(modelState).filter((a) => a !== 'download').map((a) => (
-            <Btn
-              key={a}
-              full
-              bg={a === 'delete' ? PB.red : PB.cream}
-              color={a === 'delete' ? PB.cream : undefined}
-              onPress={() =>
-                a === 'unload' ? void ejectChatModel() : a === 'load' ? void loadChatModel() : confirmDeleteChat()
-              }
-              style={{ marginTop: 10 }}
-            >
-              {a === 'unload'
-                ? t("settings.localLlmEject")
-                : a === 'load'
-                  ? t("settings.localLlmLoad")
-                  : t("settings.localLlmDeleteBtn", { size: activeChatModel().sizeGb })}
-            </Btn>
-          ))}
         </Sticker>
 
         <UpdatesCard />
@@ -873,8 +753,6 @@ function ModelTile({
   statusText,
   statusBg,
   statusFg,
-  progressPct,
-  progressColor,
 }: {
   icon: string;
   color: string;
@@ -883,8 +761,6 @@ function ModelTile({
   statusText: string;
   statusBg: string;
   statusFg: string;
-  progressPct?: number;
-  progressColor?: string;
 }) {
   return (
     <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 12 }}>
@@ -907,17 +783,6 @@ function ModelTile({
           </View>
         </View>
         <Text style={styles.modelMeta}>{meta}</Text>
-        {typeof progressPct === "number" && (
-          <View style={styles.modelBar}>
-            <View
-              style={{
-                width: `${progressPct}%`,
-                height: "100%",
-                backgroundColor: progressColor ?? PB.pink,
-              }}
-            />
-          </View>
-        )}
       </View>
     </View>
   );
@@ -1055,15 +920,6 @@ const styles = StyleSheet.create({
   },
   modelStatusText: { fontSize: 10, fontWeight: "800" },
   modelMeta: { fontSize: 11, color: PB.ink, opacity: 0.65, marginTop: 2 },
-  modelBar: {
-    marginTop: 10,
-    height: 12,
-    backgroundColor: PB.cream2,
-    borderColor: PB.ink,
-    borderWidth: 2,
-    borderRadius: 99,
-    overflow: "hidden",
-  },
   regionMetaPill: {
     paddingVertical: 3,
     paddingHorizontal: 8,

@@ -17,7 +17,7 @@ flowchart TB
     Screens --> AI[ai/* seam]
     Screens --> Hooks[backend/hooks]
     AI --> Vision[ExecuTorch .pte from region pack<br/>no pack → install prompt]
-    AI --> Chat[llama.rn Gemma 4 E2B GGUF<br/>no model → chat disabled]
+    AI --> Chat[Apple Intelligence<br/>modules/apple-chat<br/>unsupported phone or language → no chat]
     Hooks --> Adapter{backend/index}
     Adapter -->|no URL| Mock[mockAdapter]
     Adapter -->|EXPO_PUBLIC_BACKEND_URL| CF[cloudflareAdapter]
@@ -27,14 +27,12 @@ flowchart TB
   subgraph Remote["🌐 Remote (all optional)"]
     Worker[worker/ Cloudflare Worker<br/>D1 · KV · Durable Object · Cron]
     GH[GitHub raw + Releases<br/>packs/*.json, eu-ce.pte]
-    HF[Hugging Face<br/>Gemma 4 E2B GGUF]
     Sentry[Sentry<br/>opt-in]
   end
 
   CF -->|JWT, networkOn only| Worker
   App -->|region + i18n packs| GH
   Vision -. model download .-> GH
-  Chat -. model download .-> HF
   App -. if opted in .-> Sentry
 ```
 
@@ -63,7 +61,7 @@ flowchart TB
 These modules have native code, so the app **cannot run in Expo Go** and needs an EAS development build:
 
 - `react-native-executorch` (vision; its podspec pins iOS **17.0**)
-- `llama.rn` (on-device LLM; postinstall downloads `rnllama.xcframework`)
+- `modules/apple-chat` (our own Expo module: chat on Apple's on-device model, iOS 26+, [[decisions/009-apple-intelligence-chat]])
 - `@maplibre/maplibre-react-native` (offline map)
 - `@sentry/react-native`, `expo-camera`, `expo-location`, `expo-notifications`, `expo-image-picker`, Reanimated/Worklets
 
@@ -76,6 +74,5 @@ Everything below is optional. Without it the app degrades to bundled or mock beh
 | Region pack + `.pte` model + species icon atlas ([[modules/species-icons]]) | User installs a pack; refreshed on boot (model only if its URL or pinned MD5 changed), or by hand with **Update model** on the region screen, which appears when the manifest has a newer pack. Both go through `updatePack`, which shares one download if they overlap. **Remove pack** on the same screen deletes the model, pack, icons and map; Settings downloads it again. Every file is checked against the size/MD5 pinned in the pack JSON ([[decisions/007-download-integrity]]) | `packs/manifest.json` → GitHub raw / Releases |
 | Translation packs | Boot, best-effort | `src/i18n/loader.ts` |
 | Map pack (PMTiles) | Once, when the Map tab first opens (spike: `EXPO_PUBLIC_MAP_PACK_URL`) | `src/map/mapPack.ts` |
-| Gemma 4 E2B GGUF (3.1 GB) | User turns on chat in Settings | Hugging Face (`unsloth/gemma-4-E2B-it-GGUF`), pinned to one commit and checked for its exact size |
 | Cloudflare Worker | `profile.networkOn` **and** `EXPO_PUBLIC_BACKEND_URL` set | `src/backend/cloudflare.ts` |
 | Sentry | `profile.crashReportingOn` **and** DSN set | `src/lib/crashReporting.ts` |

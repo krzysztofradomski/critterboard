@@ -34,7 +34,7 @@ const REPO = 'https://github.com/krzysztofradomski/critterboard/blob/main';
 
 /**
  * Licence notices for the on-device models: species ID (eu-1k-field-v7),
- * species icons and the chat model (Qwen3 1.7B, Apache 2.0).
+ * and species icons. (Chat runs on Apple Intelligence, part of iOS: nothing to credit.)
  * Apache 2.0 asks for the licence + a notice with redistributed weights;
  * CC BY asks for credit to the photographers whose photos trained it
  * (species icons are drawn from CC0 photos, credited as a courtesy).
@@ -59,16 +59,6 @@ const MODEL_CREDITS: readonly { name: string; detail: string; url: string }[] = 
     name: 'Model runtime: PyTorch ExecuTorch',
     detail: '© Meta Platforms, BSD 3-Clause. Runs the species model on your phone with the XNNPACK kernels (© Google, BSD 3-Clause), via react-native-executorch (Software Mansion, MIT)',
     url: 'https://github.com/pytorch/executorch',
-  },
-  {
-    name: 'Chat runtime: llama.cpp',
-    detail: '© the ggml authors, MIT. Runs the chat model on your phone, via llama.rn (MIT)',
-    url: 'https://github.com/ggml-org/llama.cpp',
-  },
-  {
-    name: 'Chat model: Qwen3 1.7B',
-    detail: '© Alibaba Cloud (Qwen team), Apache License 2.0. 4-bit GGUF conversion by Unsloth, downloaded when you turn on chat',
-    url: 'https://huggingface.co/Qwen/Qwen3-1.7B',
   },
   {
     name: 'Species icons: drawn from iNaturalist photos',

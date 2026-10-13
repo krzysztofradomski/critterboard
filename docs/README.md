@@ -29,9 +29,11 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 | [[decisions/001-crash-reporting-opt-in]] | ADR — why crash reporting is opt-in and why Sentry. |
 | [[decisions/002-backend-adapter-seam]] | ADR — single adapter seam for leaderboard / friends / feed, targeting Cloudflare Workers. |
 | [[decisions/004-remove-cloud-gemini]] | ADR — why the cloud Gemini fallback was removed; what scan and chat do instead. |
-| [[decisions/005-gemma-4-only-chat]] | ADR — chat runs only on Gemma 4 E2B (Apache 2.0); no scripted fallback, no web chat; alternatives considered. |
+| [[decisions/005-gemma-4-only-chat]] | ADR — (model superseded) chat on-device only, no scripted fallback, no web chat; Gemma 4 E2B and alternatives considered. |
 | [[decisions/006-fresh-start-no-seed-data]] | ADR — new installs start empty; no invented people; one source for model/version/region facts. |
-| [[decisions/007-download-integrity]] | ADR — every download goes to a `.part` file and is checked against a size/MD5 pinned in the pack JSON; the chat model is pinned to a Hugging Face commit. |
+| [[decisions/007-download-integrity]] | ADR — every download goes to a `.part` file and is checked against a size/MD5 pinned in the pack JSON. |
+| [[decisions/008-qwen3-chat-model]] | ADR — (superseded) chat on a downloaded Qwen3 1.7B for 4 GB phones; measured quality per language. |
+| [[decisions/009-apple-intelligence-chat]] | ADR — chat runs on Apple Intelligence (Apple's on-device model) via our own Expo module; no download; off on older iPhones, Android and in Polish. |
 | [[decisions/003-offline-map-maplibre-pmtiles]] | ADR — why an offline MapLibre + PMTiles map instead of Leaflet or the globe. |
 
 ## Conventions

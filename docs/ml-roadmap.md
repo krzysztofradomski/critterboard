@@ -5,7 +5,7 @@ This is the master plan for swapping the mock AI seams in `src/ai/` with real on
 It has **three tracks**, executed in order:
 
 1. **MVP** — 20-species classifier + mocked LLM, end-to-end on a real iPhone.
-2. **Full training** — the 200/1000-species Kaggle pipeline + real on-device chat (now Qwen3 1.7B, see [[decisions/008-qwen3-chat-model]]).
+2. **Full training** — the 200/1000-species Kaggle pipeline + real on-device chat (now Apple Intelligence, see [[decisions/009-apple-intelligence-chat]]).
 3. **Out-of-scope placeholders** — social, online sync, real map tiles, localization. Stubbed for now, deferred until the ML core ships.
 
 Every step here maps to either a file in `training/` (Python) or a file in `src/ai/` (TypeScript). Nothing speculative — only work that produces a runnable artifact.
@@ -81,7 +81,7 @@ Anything slower than 250 ms feels laggy and is treated as a bug.
 
 ## Track 2 — Full training (weeks 2–4)
 
-> **Goal:** Same UX, 200 species instead of 20, plus a real on-device LLM for the persona chat (Qwen3 1.7B since Oct 2026; Gemma 4 E2B Sep–Oct 2026).
+> **Goal:** Same UX, 200 species instead of 20, plus a real on-device LLM for the persona chat (Apple Intelligence since 13 Oct 2026; before that the downloaded Qwen3 1.7B and Gemma 4 E2B).
 
 ### 2.1  Scale the classifier ⟶ `training/vision/` ✅ *(v3, Sep 2026)*
 
@@ -185,18 +185,14 @@ type LlmRuntime = {
 };
 ```
 
-> **Current state (Oct 2026):** chat runs only on **Qwen3 1.7B** (Apache 2.0, 1.1 GB, ~1.5 GB RAM) via `llama.rn`; there is no mock/scripted fallback and no web chat. It replaced Gemma 4 E2B (3.1 GB) to fit 4 GB phones; its replies are weaker on facts and in Polish/German. See [[decisions/008-qwen3-chat-model]] (and [[decisions/005-gemma-4-only-chat]] for the earlier choice). The original plan below is kept for history where noted.
+> **Current state (13 Oct 2026):** chat runs only on **Apple Intelligence**, Apple's on-device model (Foundation Models, iOS 26+), through our own module `modules/apple-chat`. No model download, no mock or scripted fallback, no web chat. It is off on iPhones without Apple Intelligence (including the 13 mini), Android, and in Polish (Apple doesn't support it yet). See [[decisions/009-apple-intelligence-chat]]; the downloaded models it replaced are in [[decisions/008-qwen3-chat-model]] (Qwen3 1.7B) and [[decisions/005-gemma-4-only-chat]] (Gemma 4 E2B). The original plan below is kept for history where noted.
 
-Implementation: `llamaRnRuntime` in `src/ai/llm.ts` wraps [`llama.rn`](https://github.com/mybigday/llama.rn). It streams `complete(messages)` through the chat template embedded in the GGUF (`jinja: true`, thinking off). `buildMessages()` builds the prompt: the persona `systemPrompt` plus "reply in the app language" and the topic, then the last 8 turns (normalised to alternate user/assistant) and the new message. `src/ai/chatModel.ts` owns the download, load, delete and eject (unload from RAM, keep the file; Chat and Settings offer "Load model" to bring it back, and the boot check does not auto-reload an ejected model).
+Implementation: `src/ai/appleChat.ts`.
+- `buildPrompt()` puts the persona `systemPrompt`, "reply in the app language" and the topic into the session instructions, and the last 8 turns plus the new message into the prompt.
+- `streamApple()` turns the module's cumulative snapshots into streamed deltas, with stop on abort.
+- `chatAvailability()` says whether chat can run here (`available`, `notEnabled`, `notReady`, `language`, `device`).
 
-Model: `gemma-4-E2B-it-Q4_K_M.gguf` (3.1 GB download, about 3 GB RAM), from `https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF`.
-
-Why Gemma 4 E2B (replacing Gemma 3 1B):
-- **Apache 2.0** instead of the Gemma Terms of Use.
-- Much stronger multilingual output (140+ languages; the app ships in EN/PL/DE/ES).
-- No smaller Gemma 4 exists. Smaller non-Gemma options lacked Polish or had licence or quality issues (see ADR 005).
-
-*Historical:* LoRA adapters per persona were planned on top of a 1B model (`training/personas/`); none ship. The pipeline now targets Gemma 4 E2B but is untested on it, and the app has no adapter loading yet. The planned "lite mode" mock fallback for low-RAM phones was dropped: chat is simply unavailable when the model can't load.
+*Historical:* LoRA adapters per persona were planned on top of a 1B model (`training/personas/`); none ship. Apple's model can't take our LoRA adapters (only Apple's own adapter format), so this pipeline is parked. The planned "lite mode" mock fallback for low-RAM phones was dropped: chat is simply unavailable when the model can't load.
 
 ### 2.3  Persona-aware streaming chat
 
@@ -208,7 +204,7 @@ Why Gemma 4 E2B (replacing Gemma 3 1B):
 ### 2.4  Exit criteria for full training
 
 - [ ] 200-species model ships in `assets/models/`, top-3 > 85% on held-out test
-- [ ] Qwen3 1.7B Q4_K_M loads in < 6 s on a 4 GB iPhone (13 mini), no memory kill
+- [ ] Chat on Apple Intelligence answers in EN/DE/ES on an iPhone 15 Pro or later (simulator first)
 - [ ] First streamed token visible in < 600 ms
 - [ ] Behaviour on a 4 GB phone checked (no RAM gate; load may fail)
 
@@ -293,6 +289,6 @@ docs/
 | 2 · Commercial 1,000-species model (`eu-1k-commercial-v1`) | ✅ done and shipped as pack `eu-ce` v4 — ViT-S/16 (Apache 2.0), CC0/CC-BY photos only, 78.2% top-1 / 90.1% top-3. Re-exported at 256 px for pack v11 (model v5): 80.5% / 92.2%, same weights; see its MODEL_CARD |
 | 2 · 200-species EU model (`eu-ce` v3) | ⛔ retired — ConvNeXt-nano, 83.7% top-1. Trained on NC/ND/SA photos and ImageNet-1k weights, so the file was deleted; see `NOTICE.md` |
 | 2 · Photographer-grouped split | ✅ scripts fixed (`training/vision/splits.py`); ⏳ retrain `eu-1k-commercial-v1` on it for an honest test score |
-| 2 · `llama.rn` integration | ✅ Gemma 4 E2B, phone check pending |
+| 2 · On-device chat | ✅ Apple Intelligence (ADR 009); llama.rn removed |
 | 2 · `training/personas/` scaffold | ✅ done — run when system-prompt drift > 10% |
 | 3 · Placeholder surfaces | 🅿️ deliberately paused |

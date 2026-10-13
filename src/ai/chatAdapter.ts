@@ -1,4 +1,3 @@
-import { buildMessages, llamaRnRuntime } from '@/ai/llm';
 import type { Persona } from '@/personas';
 
 export type ChatHistoryTurn = {
@@ -47,27 +46,3 @@ export interface ChatAdapter {
   streamReply(params: ChatReplyParams): AsyncIterable<string>;
   ready(): boolean;
 }
-
-/**
- * On-device chat with Qwen3 1.7B (llama.rn). Chat.tsx only offers the input once
- * the model is ready, so a not-ready call is a programming error.
- */
-export const localLlmChatAdapter: ChatAdapter = {
-  async *streamReply(params) {
-    if (!llamaRnRuntime.ready()) throw new Error('chat model not loaded');
-    const messages = buildMessages({
-      persona: params.persona,
-      userText: params.userText,
-      language: params.userContext.language,
-      topic: params.topic,
-      history: params.history,
-    });
-    for await (const chunk of llamaRnRuntime.complete(messages, { signal: params.signal })) {
-      if (params.signal?.aborted) return;
-      yield chunk;
-    }
-  },
-  ready() {
-    return llamaRnRuntime.ready();
-  },
-};

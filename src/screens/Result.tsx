@@ -9,6 +9,8 @@ import { NameItSheet } from '@/components/NameItSheet';
 import { ShareTick, useCanShareTraining } from '@/components/ShareTick';
 import type { Aim } from '@/ai/scanCrops';
 import { PhotoLightbox } from '@/components/PhotoLightbox';
+import { chatOffered } from '@/ai/appleChat';
+import { useChatAvailability } from '@/lib/useChatAvailability';
 import {
   Section,
   SpeciesAbout,
@@ -48,6 +50,8 @@ export function Result() {
   const catchLog = useAppStore((s) => s.catchLog);
   const nearby = useNearbySightings().filter((x) => x.bugId === id).length;
   const [lightboxOpen, setLightboxOpen] = React.useState(false);
+  // The persona's line stays; asking it more only where chat can run (Apple Intelligence).
+  const canChat = chatOffered(useChatAvailability());
   const [nameItOpen, setNameItOpen] = React.useState(false);
   const [shareTraining, setShareTraining] = React.useState(true);
   const canShare = useCanShareTraining();
@@ -178,7 +182,7 @@ export function Result() {
           bg={P.cardBg}
           rotate={1.5}
           style={{ marginTop: 14, paddingVertical: 10, paddingHorizontal: 12 }}
-          onPress={() => go('chat', { topic: localizedName })}
+          onPress={canChat ? () => go('chat', { topic: localizedName }) : undefined}
         >
           <View style={styles.snarkRow}>
             <View style={[styles.snarkAvatar, { backgroundColor: PB.cream }]}>
@@ -186,7 +190,7 @@ export function Result() {
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.snarkLine}>{snarkLine}</Text>
-              <Text style={styles.snarkCta}>{t('result.askCta', { name: personaShort })}</Text>
+              {canChat ? <Text style={styles.snarkCta}>{t('result.askCta', { name: personaShort })}</Text> : null}
             </View>
           </View>
         </Sticker>

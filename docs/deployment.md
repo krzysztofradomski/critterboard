@@ -107,9 +107,10 @@ a direct dependency for dev-client/runtime builds. `@expo/dom-webview@57.0.0`
 is pinned to satisfy Expo 57's log-box peer graph; `expo-modules-core` should
 stay transitive through Expo modules rather than being listed directly.
 
-`llama.rn` is listed in `pnpm.onlyBuiltDependencies` because its postinstall
-script downloads the native `rnllama.xcframework` EAS needs for iOS. If pnpm
-ignores that script, Xcode later fails with missing `rnllama` headers.
+Chat is our own local Expo module, `modules/apple-chat` (Apple's Foundation
+Models, iOS 26+). Autolinking picks it up from `modules/`; it needs an Xcode
+with the iOS 26 SDK or newer (EAS `image: latest`). There is no chat dependency
+to install.
 
 ## Build profiles (`eas.json`)
 

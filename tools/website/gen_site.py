@@ -56,7 +56,7 @@ CONTENT = {
    "There are no accounts. Your phone creates a random private key on first use; it is how the server recognises your device. If you reinstall the app or wipe your data you start over as a new trainer.",
  ]),
  ("chat", "Chat and the guides", [
-   "The chat guides (Prof. Larva, Dr. Snail and R.A. Maywind) run on your phone with the Gemma 4 E2B model. It is an optional download (about 3.1 GB, Wi-Fi recommended) in <b>Me → Brains</b>. Without it, chat is off and everything else still works.",
+   "The chat guides (Prof. Larva, Dr. Snail and R.A. Maywind) run on Apple Intelligence, Apple's on-device model built into iOS: nothing to download, and what you type stays on the phone. Chat needs an iPhone 15 Pro or later with iOS 26+, Apple Intelligence turned on, and the app in English, German or Spanish (Apple doesn't support Polish yet). Elsewhere chat is off and everything else still works.",
  ]),
  ("trouble", "Troubleshooting", [
    ("ul", [
@@ -112,7 +112,7 @@ CONTENT = {
    "Nie ma kont. Telefon tworzy przy pierwszym użyciu losowy prywatny klucz, po którym serwer rozpoznaje urządzenie. Po ponownej instalacji lub wymazaniu danych zaczynasz jako nowy trener.",
  ]),
  ("chat", "Czat i przewodnicy", [
-   "Przewodnicy czatu (Prof. Larwa, Dr Ślimak i Asystent Maj) działają na twoim telefonie z modelem Gemma 4 E2B. To opcjonalne pobranie (ok. 3,1 GB, zalecane Wi-Fi) w <b>Ja → Mózg</b>. Bez niego czat jest wyłączony, a reszta aplikacji działa normalnie.",
+   "Przewodnicy czatu (Prof. Larwa, Dr Ślimak i Asystent Maj) działają na Apple Intelligence, modelu Apple wbudowanym w iOS i działającym na telefonie: nic nie trzeba pobierać, a to, co wpiszesz, zostaje na telefonie. Czat wymaga iPhone'a 15 Pro lub nowszego z iOS 26+, włączonego Apple Intelligence i aplikacji po angielsku, niemiecku lub hiszpańsku (Apple nie obsługuje jeszcze polskiego). W innych przypadkach czat jest wyłączony, a reszta aplikacji działa normalnie.",
  ]),
  ("trouble", "Rozwiązywanie problemów", [
    ("ul", [
@@ -168,7 +168,7 @@ CONTENT = {
    "Es gibt keine Konten. Dein Telefon erzeugt bei der ersten Nutzung einen zufälligen privaten Schlüssel, an dem der Server dein Gerät erkennt. Nach Neuinstallation oder Löschen deiner Daten startest du als neuer Trainer.",
  ]),
  ("chat", "Chat und die Guides", [
-   "Die Chat-Guides (Prof. Larva, Dr. Schnecke und Assistent Mai) laufen mit dem Modell Gemma 4 E2B auf deinem Telefon. Es ist ein optionaler Download (etwa 3,1 GB, WLAN empfohlen) in <b>Ich → Hirn</b>. Ohne ihn ist der Chat aus und alles andere funktioniert weiter.",
+   "Die Chat-Guides (Prof. Larva, Dr. Schnecke und Assistent Mai) laufen auf Apple Intelligence, Apples in iOS integriertem Modell direkt auf dem Gerät: nichts herunterzuladen, und was du tippst, bleibt auf dem Telefon. Der Chat braucht ein iPhone 15 Pro oder neuer mit iOS 26+, eingeschaltetes Apple Intelligence und die App auf Englisch, Deutsch oder Spanisch (Polnisch unterstützt Apple noch nicht). Sonst ist der Chat aus und alles andere funktioniert weiter.",
  ]),
  ("trouble", "Fehlerbehebung", [
    ("ul", [
@@ -224,7 +224,7 @@ CONTENT = {
    "No hay cuentas. Tu teléfono crea una clave privada aleatoria la primera vez que se usa y con ella el servidor reconoce tu dispositivo. Si reinstalas la app o borras tus datos, empiezas como un entrenador nuevo.",
  ]),
  ("chat", "Chat y guías", [
-   "Las guías del chat (Prof. Larva, Dr. Caracol y Asistente Mayo) funcionan en tu teléfono con el modelo Gemma 4 E2B. Es una descarga opcional (unos 3,1 GB, mejor con Wi-Fi) en <b>Yo → Cerebro</b>. Sin él, el chat está desactivado y todo lo demás sigue funcionando.",
+   "Las guías del chat (Prof. Larva, Dr. Caracol y Asistente Mayo) funcionan con Apple Intelligence, el modelo de Apple integrado en iOS que corre en el propio teléfono: nada que descargar, y lo que escribes se queda en el teléfono. El chat necesita un iPhone 15 Pro o posterior con iOS 26+, Apple Intelligence activado y la app en inglés, alemán o español (Apple aún no admite el polaco). En los demás casos el chat está desactivado y todo lo demás sigue funcionando.",
  ]),
  ("trouble", "Solución de problemas", [
    ("ul", [

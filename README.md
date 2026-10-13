@@ -31,7 +31,7 @@ Point the camera at an insect (or pick a photo) and the phone names it. Nothing 
 - **Dex:** every species as a sticker icon drawn from a real photo, with habitat, size, range and diet. Uncaught species show as silhouettes.
 - **Hunt & level up:** XP per species by rarity, daily and weekly quests, badges, levels and day streaks (with freezes that cover a missed day).
 - **Offline map:** a map of Europe that works with no signal, with your catches as pins, and (if you turn it on) other players' nearby sightings.
-- **Guides:** three personas (snarky Prof. Larva, calm Dr. Snail, cheerful R.A. Maywind) to chat with about what you found, run entirely on the phone by Qwen3 1.7B (a 1.1 GB download).
+- **Guides:** three personas (snarky Prof. Larva, calm Dr. Snail, cheerful R.A. Maywind) to chat with about what you found, run on the phone by Apple Intelligence (iPhone 15 Pro or later, iOS 26+; not in Polish yet). Nothing to download.
 - **4 languages:** English, Polski, Deutsch, Español.
 - **Your data stays yours:** backup and restore to a file, clear scan photos, wipe everything. Models can be unloaded from memory or deleted, and Brains checks for newer packs and models.
 - **Help train the model (opt-in):** share labelled photos, without location or metadata, under CC BY 4.0 so the next model gets better on real phone photos. Delete them any time.
@@ -46,7 +46,6 @@ The app itself is small. Species and the map come as a **region pack**, download
 | --- | --- | --- |
 | Central Europe pack: species model | 88 MB | Scan |
 | Central Europe pack: offline map of Europe | 56 MB | Map |
-| Gemma 4 E2B chat model (optional) | 3.1 GB | Chatting with the guides (phones with 4 GB of RAM ask first; smaller phones can't chat) |
 
 ### Optional social (opt-in)
 
@@ -57,7 +56,7 @@ Bug ID and chat always stay on-device. If you turn **Network** on in Brains, the
 Status lives in [`tasks/todo.md`](tasks/todo.md), the living checklist of what's shipped and what's next.
 
 - **Vision:** `eu-1k-field-v7`, 1,004 European insects and spiders, 82.4% top-1 and 92.7% top-3 on held-out photos, and trained on fake phone shots so small bugs in real photos are found about twice as often as before. Runs through `react-native-executorch`. Licence-clean for commercial use: trained only on CC0/CC-BY photos on Google's Apache-2.0 base. See [`training/vision/README.md`](training/vision/README.md) and the [model card](training/vision/results/field-v7/MODEL_CARD.md).
-- **Chat:** Qwen3 1.7B (Apache 2.0) through `llama.rn`, small enough for 4 GB phones; weaker on facts than the Gemma 4 E2B it replaced ([ADR 008](docs/decisions/008-qwen3-chat-model.md)). No scripted fallback and no web chat. Personas are system prompts; a LoRA pipeline for per-persona adapters is in [`training/personas/`](training/personas/), not shipped.
+- **Chat:** Apple's on-device model (Foundation Models, Apple Intelligence) through our own Expo module in [`modules/apple-chat`](modules/apple-chat/). It replaced the downloaded Qwen3 1.7B, which overheated and froze a 4 GB iPhone ([ADR 009](docs/decisions/009-apple-intelligence-chat.md)). Chat is off on older iPhones, Android, web and in Polish. No scripted fallback. Personas are system prompts; a LoRA pipeline for per-persona adapters is in [`training/personas/`](training/personas/), not shipped.
 - **Map:** MapLibre Native drawing a local PMTiles file in the app's sticker style ([`docs/modules/offline-map.md`](docs/modules/offline-map.md)).
 - **Backend:** live on Cloudflare Workers (D1, KV, a Durable Object), deployed 2 Oct 2026 ([`docs/modules/backend-adapter.md`](docs/modules/backend-adapter.md)). Training contributions add an R2 bucket and need a deploy ([`docs/modules/training-contributions.md`](docs/modules/training-contributions.md)).
 - **Next:** more testing on real phones, translated names for the pack species (pl/de/es fall back to English today), choosing where the models are hosted, and store submission.
@@ -67,7 +66,7 @@ Status lives in [`tasks/todo.md`](tasks/todo.md), the living checklist of what's
 | Area | What |
 | --- | --- |
 | App | Expo SDK 57, React Native 0.86 (New Architecture), TypeScript, Zustand |
-| On-device ML | `react-native-executorch` (vision `.pte`), `llama.rn` (Gemma 4 E2B GGUF) |
+| On-device ML | `react-native-executorch` (vision `.pte`), Apple Foundation Models (chat, `modules/apple-chat`) |
 | Map | `@maplibre/maplibre-react-native` + PMTiles (Protomaps basemap) |
 | Backend | Cloudflare Workers + D1 + KV + Durable Objects ([`worker/`](worker/)) |
 | Training | PyTorch, `timm`, ExecuTorch export ([`training/vision/`](training/vision/)) |

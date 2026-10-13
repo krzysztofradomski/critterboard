@@ -5,15 +5,5 @@
       "version": 14,
       "url": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/eu-ce.json"
     }
-  },
-  "chat": {
-    "id": "chat",
-    "name": "Qwen3 1.7B",
-    "filename": "Qwen3-1.7B-Q4_K_M.gguf",
-    "url": "https://huggingface.co/unsloth/Qwen3-1.7B-GGUF/resolve/d7f544eead698dbd1f15126ef60b45a1e1933222/Qwen3-1.7B-Q4_K_M.gguf",
-    "bytes": 1107409472,
-    "sizeGb": 1.1,
-    "version": 1,
-    "sha256": "b139949c5bd74937ad8ed8c8cf3d9ffb1e99c866c823204dc42c0d91fa181897"
   }
 }

@@ -782,5 +782,21 @@ Plan: [[docs/superpowers/plans/2026-10-12-spec-items]] · spec: [[docs/superpowe
 - [x] 5 Name it yourself (self-named catches: Dex/quests/streak, no XP, never uploaded)
 - [x] 6 Help train the model (opt-in CC BY sharing; worker R2 + D1; pull script)
 - [x] 7 FAQ, privacy page, README, docs
-- [ ] Deploy the worker (R2 bucket, D1 migration 0001, TRAINING_ADMIN_TOKEN secret), then an app build
-- [ ] Phone check: Qwen3 speed/RAM on the 13 mini; lightbox gestures; Name it yourself; sharing round trip
+- [x] Deploy the worker (R2 bucket, D1 migration 0001, TRAINING_ADMIN_TOKEN secret), then an app build
+- [ ] Phone check: lightbox gestures; Name it yourself; sharing round trip (Qwen3 check dropped: chat moved to Apple Intelligence, below)
+
+## Chat on Apple Intelligence (2026-10-13)
+
+Why: on the iPhone 13 mini Qwen3 1.7B overheated, froze and wrote poor Polish. ADR: [[docs/decisions/009-apple-intelligence-chat]]. Polish: chat hidden (Apple doesn't support it).
+
+- [x] Own Expo module `modules/apple-chat` (Swift, Foundation Models): availability, streamed reply, stop, error codes
+- [x] `src/ai/appleChat.ts`: ChatAdapter on Apple's model, `buildPrompt`, `streamApple`, `chatAvailability`; tests
+- [x] Removed `llama.rn`, the chat model download/eject/delete, its update entry and manifest entry; old `.gguf` files deleted at start
+- [x] Chat gate, Brains status tile; chat buttons hidden where chat can't run (older iPhones, Android, Polish)
+- [x] Copy in 4 languages; credits; privacy + support pages (dated 13 Oct); README, architecture, roadmap, handoff, deployment docs
+- [x] UI fixes from the 13 mini: padded weekly podium labels, whole photo card opens the lightbox, "Send to friends", Remove from Dex underline
+- [ ] Simulator check (needs ~10 GB free disk, and Apple Intelligence on in macOS): EN/DE/ES replies, Stop, Polish gate
+- [ ] Phone check on the 13 mini: no chat buttons, Brains says chat needs iPhone 15 Pro+, the 1.1 GB file is gone
+
+**Review:** typecheck clean, all tests pass; Swift typechecked against the iOS 27 SDK (Swift 5 and 6 modes). On this Mac `supportsLocale` confirmed en/de/es ✓, pl ✗. Not yet built into an app (disk full).
+

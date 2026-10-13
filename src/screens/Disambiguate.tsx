@@ -6,10 +6,12 @@ import { Btn } from '@/components/Btn';
 import { CameraScene } from '@/components/CameraScene';
 import { IconBtn } from '@/components/IconBtn';
 import { NameItSheet } from '@/components/NameItSheet';
+import { chatOffered } from '@/ai/appleChat';
 import type { Aim } from '@/ai/scanCrops';
 import { Sticker } from '@/components/Sticker';
 import { findBug } from '@/data/bugs';
 import { useT, bugName } from '@/i18n/helpers';
+import { useChatAvailability } from '@/lib/useChatAvailability';
 import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
@@ -21,6 +23,7 @@ export function Disambiguate() {
   const language = useAppStore((s) => s.language);
   const P = usePersona(persona);
   const t = useT();
+  const canChat = chatOffered(useChatAvailability());
   const route = useCurrentRoute();
   const params = (route.params as { candidates?: string[]; confs?: number[]; photoUri?: string; top3?: string[]; top3p?: number[]; aim?: Aim } | undefined) ?? {};
   const scan = { ...(params.top3 ? { top3: params.top3 } : {}), ...(params.top3p ? { top3p: params.top3p } : {}), ...(params.aim ? { aim: params.aim } : {}) };
@@ -112,9 +115,11 @@ export function Disambiguate() {
         </View>
 
         <View style={{ marginTop: 16, gap: 8 }}>
-          <Btn full bg={PB.cream} color={PB.ink} onPress={() => go('chat', { topic: t('disambiguate.thisMystery') })}>
-            {t('disambiguate.askForHelp', { name: personaShort })}
-          </Btn>
+          {canChat ? (
+            <Btn full bg={PB.cream} color={PB.ink} onPress={() => go('chat', { topic: t('disambiguate.thisMystery') })}>
+              {t('disambiguate.askForHelp', { name: personaShort })}
+            </Btn>
+          ) : null}
           {params.photoUri ? (
             <Btn full bg={PB.green} color={PB.cream} onPress={() => setNameItOpen(true)}>
               {t('nameIt.link')}

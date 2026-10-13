@@ -300,23 +300,23 @@
       "clearCta": "Borrar chat",
       "lockedStatus": "○ chat desactivado · {title}",
       "gate": {
-        "title": "Descarga {model} para chatear",
-        "body": "Tus guías funcionan por completo en este teléfono con el modelo {model} de Google: una descarga única de {size} GB (se recomienda Wi-Fi). Nada de lo que escribes sale del dispositivo.",
-        "errorBody": "La descarga de {model} no terminó. Revisa tu conexión y el espacio libre ({size} GB) y vuelve a intentarlo en Ajustes.",
-        "busyBody": "El chat se abrirá en cuanto el modelo esté listo. Mientras tanto puedes seguir usando la app.",
-        "ejectedTitle": "{model} está expulsado",
-        "ejectedBody": "El modelo sigue en el móvil pero no está cargado, así que no usa memoria. Cárgalo para chatear.",
-        "loadCta": "Cargar modelo",
-        "loadingTitle": "Despertando a {model}…",
-        "downloadingTitle": "Descargando {model}… {pct}%",
-        "webTitle": "El chat funciona en la app del teléfono",
-        "webBody": "Los guías usan un modelo de IA en el dispositivo ({model}) que la vista previa web no puede ejecutar. Abre Critterboard en iPhone o Android para chatear.",
-        "cta": "Abrir Ajustes",
-        "ramTitle": "El chat no está disponible en este teléfono",
-        "ramBody": "Los guías funcionan con {model}, que necesita un teléfono con al menos 3 GB de memoria. El resto de Critterboard funciona con normalidad."
+        "notEnabledTitle": "Activa Apple Intelligence para chatear",
+        "notEnabledBody": "Los guías funcionan con el modelo de Apple en el propio iPhone. Activa Apple Intelligence en Ajustes de iOS → Apple Intelligence y Siri y vuelve. Nada de lo que escribes sale del teléfono.",
+        "notReadyTitle": "El modelo de Apple aún se está descargando",
+        "notReadyBody": "iOS está preparando Apple Intelligence en este iPhone. El chat se abrirá solo cuando termine; deja el teléfono con wifi y cargando.",
+        "languageTitle": "El chat aún no está disponible en este idioma",
+        "languageBody": "Los guías funcionan con Apple Intelligence, que aún no admite este idioma. Cambia la app a inglés, alemán o español para chatear. Todo lo demás funciona como siempre.",
+        "deviceTitle": "El chat no está disponible en este teléfono",
+        "deviceBody": "Los guías funcionan con Apple Intelligence: iPhone 15 Pro o posterior con iOS 26 o posterior. Todo lo demás en Critterboard funciona como siempre."
       },
       "deleteTitle": "Eliminar mensaje",
-      "deleteBody": "¿Quitar este mensaje de la conversación?"
+      "deleteBody": "¿Quitar este mensaje de la conversación?",
+      "error": {
+        "guardrail": "No puedo responder a eso. Prueba a preguntar sobre bichos de otra forma.",
+        "language": "De momento solo puedo chatear en inglés, alemán o español.",
+        "context": "Esta conversación se ha hecho demasiado larga para mí. Bórrala con 🗑 y empieza de nuevo.",
+        "other": "Algo salió mal. Inténtalo de nuevo en un momento."
+      }
     },
     "activity": {
       "title": "Zumbido",
@@ -744,19 +744,7 @@
       "crashOff": "No sale ningún dato de errores de tu dispositivo.",
       "crashNeeds": "Requiere acceso a la red.",
       "model": {
-        "larva": "{model} (Q4)",
-        "larvaMeta": "Modelo de chat · {size} GB · {state}",
-        "larvaInstalled": "instalado",
         "ready": "LISTO",
-        "downloading": "↓ {pct}%",
-        "loading": "CARGANDO",
-        "error": "ERROR",
-        "get": "↓ GET",
-        "larvaIdle": "no en dispositivo",
-        "larvaDownloading": "{done} GB descargados",
-        "larvaPhoneOnly": "solo en la app del teléfono",
-        "phoneOnly": "SOLO MÓVIL",
-        "larvaTooLittleRam": "necesita 4 GB de memoria",
         "notSupported": "NO COMPATIBLE",
         "visionMeta": "{id} · {mb} MB · {n} especies",
         "noPack": "SIN PACK"
@@ -778,21 +766,6 @@
       "creditsSub": "Hecho con cariño para quienes aman los escarabajos.",
       "viewCredits": "VER CRÉDITOS →",
       "guideToast": "Guía: {name}",
-      "localLlmLabel": "Chat en el dispositivo ({model})",
-      "localLlmOn": "El chat funciona en tu dispositivo con {model}. Privado y sin conexión.",
-      "localLlmOff": "Desactivado: el chat no está disponible. Actívalo para descargar {model} ({size} GB, se recomienda Wi-Fi).",
-      "localLlmNoWeb": "El chat necesita la app de iPhone o Android.",
-      "localLlmError": "La descarga falló. Actívalo para intentarlo de nuevo ({size} GB).",
-      "localLlmEjected": "El modelo de chat está expulsado: sigue en el móvil pero no usa memoria.",
-      "localLlmEject": "Expulsar de la memoria (conservar el archivo)",
-      "localLlmLoad": "Cargar en la memoria",
-      "localLlmDeleteTitle": "¿Desactivar el chat?",
-      "localLlmDeleteBody": "Esto borra {model} del teléfono y libera {size} GB. El chat seguirá desactivado hasta que lo descargues de nuevo.",
-      "localLlmDeleteCta": "Borrar modelo",
-      "localLlmTooLittleRam": "Necesita un teléfono con al menos 3 GB de memoria.",
-      "localLlmLowRamTitle": "¿Descargar en un teléfono de 3 GB?",
-      "localLlmLowRamBody": "Este teléfono tiene unos 3 GB de memoria. {model} usa unos 1,5 GB mientras chateas, así que las respuestas pueden ser lentas y la app puede cerrarse si hay otras apps abiertas. La descarga es de {size} GB.",
-      "localLlmLowRamCta": "Descargar igualmente",
       "regionSoon": "PRONTO",
       "regionSoonSub": "Próximamente",
       "regionActive": "● ACTIVO",
@@ -868,7 +841,6 @@
         "on": "Toques, interruptores y pestañas dan una pequeña vibración.",
         "off": "Sin vibración."
       },
-      "localLlmDeleteBtn": "Borrar del móvil ({size} GB)",
       "updatesTitle": "Actualizaciones",
       "updatesCheck": "Buscar actualizaciones",
       "updatesChecking": "Buscando…",
@@ -877,12 +849,15 @@
       "updatesCheckFailed": "Ahora no se pudo comprobar. Inténtalo más tarde.",
       "updatesPack": "{name}: ya está la versión {version}",
       "updatesOpen": "Abrir",
-      "updatesChat": "{model}: nueva versión ({size} GB)",
-      "updatesUpdate": "Actualizar",
-      "updatesUpdating": "Actualizando · {pct}%",
-      "updatesChatDone": "Modelo de chat actualizado",
-      "updatesFailed": "La actualización falló. El modelo actual sigue funcionando.",
-      "updatesFoot": "Modelo de chat: {model}. El archivo nuevo se baja junto al viejo, que solo se borra cuando el nuevo está completo."
+      "chat": {
+        "title": "Chat: Apple Intelligence",
+        "available": "Los guías funcionan con el modelo de Apple en el iPhone. Privado y sin conexión, nada que descargar.",
+        "notEnabled": "Activa Apple Intelligence en Ajustes de iOS para chatear con los guías.",
+        "notReady": "iOS aún está descargando el modelo de Apple. El chat se abrirá cuando esté listo.",
+        "language": "Apple Intelligence aún no admite este idioma, así que el chat está desactivado. Cambia la app a inglés, alemán o español para chatear.",
+        "device": "El chat necesita Apple Intelligence: iPhone 15 Pro o posterior con iOS 26+.",
+        "statusSetup": "CONFIGURAR"
+      }
     },
     "regions": {
       "list": {
@@ -1086,7 +1061,7 @@
     "personas": {
       "larva": {
         "name": "Prof. Larva",
-        "title": "qwen3 · seca",
+        "title": "seca",
         "blurb": "Sarcástica. Útil a su pesar.",
         "lines": {
           "intro": "\"Genial, otra entrenadora. Déjame soltarlo todo.\"",
@@ -1113,7 +1088,7 @@
       },
       "snail": {
         "name": "Dr. Caracol",
-        "title": "qwen3 · paciente",
+        "title": "paciente",
         "blurb": "Calmado. Enseña a tu ritmo.",
         "lines": {
           "intro": "\"Bienvenido. Tómate tu tiempo — aprenderemos juntos.\"",
@@ -1140,7 +1115,7 @@
       },
       "maywind": {
         "name": "Asistente Mayo",
-        "title": "qwen3 · curiosa",
+        "title": "curiosa",
         "blurb": "Ingeniosa. Alegre. Adora cada bicho.",
         "lines": {
           "intro": "\"¡Hola hola! Libreta lista, botas atadas — ¡a buscar bichos!\"",
@@ -1283,12 +1258,12 @@
           "role": "Visión · {id} · {mb} MB · {n} especies"
         },
         "larva": {
-          "name": "Qwen3 1.7B",
-          "role": "Chat · 3,1 GB · Q4_K_M · Apache 2.0"
+          "name": "Apple Intelligence",
+          "role": "Chat · modelo de Apple en el dispositivo, integrado en iOS"
         },
         "variants": {
           "name": "Mayo / Caracol",
-          "role": "Personajes: prompts de sistema sobre Qwen3"
+          "role": "Personajes: prompts de sistema sobre Apple Intelligence"
         }
       },
       "data": {

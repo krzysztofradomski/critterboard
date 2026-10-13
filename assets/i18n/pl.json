@@ -300,23 +300,23 @@
       "clearCta": "Wyczyść czat",
       "lockedStatus": "○ czat wyłączony · {title}",
       "gate": {
-        "title": "Pobierz {model}, żeby czatować",
-        "body": "Twoi przewodnicy działają w całości na tym telefonie dzięki modelowi {model} od Google: jednorazowe pobranie {size} GB (zalecane Wi-Fi). Nic, co piszesz, nie opuszcza urządzenia.",
-        "errorBody": "Pobieranie {model} nie zostało ukończone. Sprawdź połączenie i wolne miejsce ({size} GB), a potem spróbuj ponownie w Ustawieniach.",
-        "busyBody": "Czat otworzy się, gdy model będzie gotowy. W tym czasie możesz dalej korzystać z aplikacji.",
-        "ejectedTitle": "{model} jest wysunięty",
-        "ejectedBody": "Model nadal jest na telefonie, ale nie jest wczytany, więc nie zajmuje pamięci. Wczytaj go, żeby czatować.",
-        "loadCta": "Wczytaj model",
-        "loadingTitle": "Budzę {model}…",
-        "downloadingTitle": "Pobieranie {model}… {pct}%",
-        "webTitle": "Czat działa w aplikacji na telefon",
-        "webBody": "Przewodnicy używają modelu AI na urządzeniu ({model}), którego wersja webowa nie uruchomi. Otwórz Critterboard na iPhonie lub Androidzie, żeby czatować.",
-        "cta": "Otwórz Ustawienia",
-        "ramTitle": "Czat nie jest dostępny na tym telefonie",
-        "ramBody": "Przewodnicy działają na modelu {model}, który wymaga telefonu z co najmniej 3 GB pamięci. Reszta Critterboard działa normalnie."
+        "notEnabledTitle": "Włącz Apple Intelligence, aby czatować",
+        "notEnabledBody": "Przewodnicy działają na modelu Apple w telefonie. Włącz Apple Intelligence w Ustawieniach iOS → Apple Intelligence i Siri, a potem wróć. Nic, co wpiszesz, nie opuszcza telefonu.",
+        "notReadyTitle": "Model Apple wciąż się pobiera",
+        "notReadyBody": "iOS przygotowuje Apple Intelligence na tym telefonie. Czat otworzy się sam, gdy skończy; zostaw telefon na Wi-Fi i ładowarce.",
+        "languageTitle": "Czat nie jest jeszcze dostępny po polsku",
+        "languageBody": "Przewodnicy działają na Apple Intelligence, które nie obsługuje jeszcze polskiego. Aby czatować, przełącz aplikację na angielski, niemiecki lub hiszpański. Reszta działa jak zwykle.",
+        "deviceTitle": "Czat nie jest dostępny na tym telefonie",
+        "deviceBody": "Przewodnicy działają na Apple Intelligence: iPhone 15 Pro lub nowszy z iOS 26 lub nowszym. Reszta Critterboard działa jak zwykle."
       },
       "deleteTitle": "Usuń wiadomość",
-      "deleteBody": "Usunąć tę wiadomość z rozmowy?"
+      "deleteBody": "Usunąć tę wiadomość z rozmowy?",
+      "error": {
+        "guardrail": "Na to nie odpowiem. Spróbuj zapytać o owady inaczej.",
+        "language": "Na razie mogę czatować tylko po angielsku, niemiecku lub hiszpańsku.",
+        "context": "Ta rozmowa jest dla mnie za długa. Wyczyść ją przyciskiem 🗑 i zacznij od nowa.",
+        "other": "Coś poszło nie tak. Spróbuj za chwilę."
+      }
     },
     "activity": {
       "title": "Brzęczenie",
@@ -744,19 +744,7 @@
       "crashOff": "Żadne dane o awariach nie opuszczają urządzenia.",
       "crashNeeds": "Wymaga dostępu do sieci.",
       "model": {
-        "larva": "{model} (Q4)",
-        "larvaMeta": "Model czatu · {size} GB · {state}",
-        "larvaInstalled": "zainstalowany",
         "ready": "GOTOWE",
-        "downloading": "↓ {pct}%",
-        "loading": "ŁADOWANIE",
-        "error": "BŁĄD",
-        "get": "↓ GET",
-        "larvaIdle": "nie na urządzeniu",
-        "larvaDownloading": "pobrano {done} GB",
-        "larvaPhoneOnly": "tylko w aplikacji na telefon",
-        "phoneOnly": "TYLKO TELEFON",
-        "larvaTooLittleRam": "wymaga 4 GB pamięci",
         "notSupported": "NIEOBSŁUGIWANE",
         "visionMeta": "{id} · {mb} MB · {n} gatunków",
         "noPack": "BRAK PACZKI"
@@ -778,21 +766,6 @@
       "creditsSub": "Zrobione z miłością dla ludzi, którzy lubią chrząszcze.",
       "viewCredits": "ZOBACZ TWÓRCÓW →",
       "guideToast": "Przewodnik: {name}",
-      "localLlmLabel": "Czat na urządzeniu ({model})",
-      "localLlmOn": "Czat działa na Twoim urządzeniu z {model}. Prywatnie i offline.",
-      "localLlmOff": "Wyłączone: czat jest niedostępny. Włącz, aby pobrać {model} ({size} GB, zalecane Wi-Fi).",
-      "localLlmNoWeb": "Czat wymaga aplikacji na iPhone lub Androida.",
-      "localLlmError": "Pobieranie nie powiodło się. Włącz, aby spróbować ponownie ({size} GB).",
-      "localLlmEjected": "Model czatu jest wysunięty: zostaje na telefonie, ale nie zajmuje pamięci.",
-      "localLlmEject": "Wysuń z pamięci (zachowaj plik)",
-      "localLlmLoad": "Wczytaj do pamięci",
-      "localLlmDeleteTitle": "Wyłączyć czat?",
-      "localLlmDeleteBody": "To usunie {model} z telefonu i zwolni {size} GB. Czat pozostanie wyłączony, dopóki nie pobierzesz modelu ponownie.",
-      "localLlmDeleteCta": "Usuń model",
-      "localLlmTooLittleRam": "Wymaga telefonu z co najmniej 3 GB pamięci.",
-      "localLlmLowRamTitle": "Pobrać na telefonie z 3 GB?",
-      "localLlmLowRamBody": "Ten telefon ma około 3 GB pamięci. {model} zużywa około 1,5 GB podczas czatu, więc odpowiedzi mogą być wolne, a aplikacja może się zamknąć, gdy działają inne aplikacje. Pobranie ma {size} GB.",
-      "localLlmLowRamCta": "Pobierz mimo to",
       "regionSoon": "WKRÓTCE",
       "regionSoonSub": "Wkrótce",
       "regionActive": "● AKTYWNY",
@@ -868,7 +841,6 @@
         "on": "Dotknięcia, przełączniki i zakładki delikatnie wibrują.",
         "off": "Bez wibracji."
       },
-      "localLlmDeleteBtn": "Usuń z telefonu ({size} GB)",
       "updatesTitle": "Aktualizacje",
       "updatesCheck": "Sprawdź aktualizacje",
       "updatesChecking": "Sprawdzam…",
@@ -877,12 +849,15 @@
       "updatesCheckFailed": "Nie udało się sprawdzić. Spróbuj później.",
       "updatesPack": "{name}: jest wersja {version}",
       "updatesOpen": "Otwórz",
-      "updatesChat": "{model}: nowa wersja ({size} GB)",
-      "updatesUpdate": "Aktualizuj",
-      "updatesUpdating": "Aktualizuję · {pct}%",
-      "updatesChatDone": "Model czatu zaktualizowany",
-      "updatesFailed": "Aktualizacja się nie udała. Obecny model dalej działa.",
-      "updatesFoot": "Model czatu: {model}. Nowy plik pobiera się obok starego, a stary znika dopiero, gdy nowy jest kompletny."
+      "chat": {
+        "title": "Czat: Apple Intelligence",
+        "available": "Przewodnicy działają na modelu Apple w telefonie. Prywatnie i offline, nic do pobrania.",
+        "notEnabled": "Włącz Apple Intelligence w Ustawieniach iOS, aby czatować z przewodnikami.",
+        "notReady": "iOS wciąż pobiera model Apple. Czat otworzy się, gdy będzie gotowy.",
+        "language": "Apple Intelligence nie obsługuje jeszcze polskiego, więc czat jest wyłączony. Aby czatować, przełącz aplikację na angielski, niemiecki lub hiszpański.",
+        "device": "Czat wymaga Apple Intelligence: iPhone 15 Pro lub nowszy z iOS 26+.",
+        "statusSetup": "DO WŁĄCZENIA"
+      }
     },
     "regions": {
       "list": {
@@ -1086,7 +1061,7 @@
     "personas": {
       "larva": {
         "name": "Prof. Larwa",
-        "title": "qwen3 · z kamienną twarzą",
+        "title": "z kamienną twarzą",
         "blurb": "Sarkastyczna. Pomocna wbrew sobie.",
         "lines": {
           "intro": "\"O super, kolejny tropiciel. Pozwól, że wszystko rzucę.\"",
@@ -1113,7 +1088,7 @@
       },
       "snail": {
         "name": "Dr Ślimak",
-        "title": "qwen3 · cierpliwy",
+        "title": "cierpliwy",
         "blurb": "Spokojny. Uczy w twoim tempie.",
         "lines": {
           "intro": "\"Witaj. Nie spiesz się — nauczymy się razem.\"",
@@ -1140,7 +1115,7 @@
       },
       "maywind": {
         "name": "Asystent Maj",
-        "title": "qwen3 · ciekawska",
+        "title": "ciekawska",
         "blurb": "Dowcipna. Wesoła. Kocha każdego owada.",
         "lines": {
           "intro": "\"Cześć cześć! Notes gotowy, buty zasznurowane — szukamy stworków!\"",
@@ -1283,12 +1258,12 @@
           "role": "Wizja · {id} · {mb} MB · {n} gatunków"
         },
         "larva": {
-          "name": "Qwen3 1.7B",
-          "role": "Czat · 3,1 GB · Q4_K_M · Apache 2.0"
+          "name": "Apple Intelligence",
+          "role": "Czat · model Apple w telefonie, wbudowany w iOS"
         },
         "variants": {
           "name": "Maj / Ślimak",
-          "role": "Persony: prompty systemowe na Qwen3"
+          "role": "Persony: prompty systemowe na Apple Intelligence"
         }
       },
       "data": {

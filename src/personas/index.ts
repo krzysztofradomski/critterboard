@@ -14,8 +14,8 @@ export type PersonaMeta = {
   avatarBg: string;
   cardBg: string;
   /**
-   * Tone pin for the on-device chat model (Qwen3 1.7B). Kept in English;
-   * `buildMessages` adds "reply in <app language>" so the reply follows the
+   * Tone pin for the chat model (Apple Intelligence). Kept in English;
+   * `buildPrompt` adds "reply in <app language>" so the reply follows the
    * user's language.
    */
   systemPrompt: string;

@@ -14,7 +14,7 @@ What to run locally to finish Critterboard, in order. Everything below assumes t
 | Vision | 1,000-species model `eu-1k-commercial-v1`, 256 px export (pack `eu-ce` v11, model v5) live: 80.5% top-1 / 92.2% top-3 on held-out photos; Scan classifies 3 reticle crops; licence-clean for commercial use; downloads on pack install | On-device check (load time, latency) |
 | Species icons | Photo-based sticker icon for all 1,000 pack species (one 9.1 MB file, split on the phone; emoji fallback). Checked only in a headless browser | Phone check (§3) |
 | Map | Offline MapLibre + PMTiles map of Europe (56 MB), part of the `eu-ce` pack, downloaded on demand; catch pins as a map layer | Check pins on a phone with geotagged catches |
-| Chat | Gemma 4 E2B (Apache 2.0) via `llama.rn`, 3.1 GB download from Settings. Without it chat is disabled (no scripted replies, no web chat); regex guardrails (ADR 005) | Download, speed and memory check (§3) |
+| Chat | Apple Intelligence (Apple's on-device model, iOS 26+) via our own module `modules/apple-chat`; nothing to download. Off on older iPhones, Android, web and in Polish (no scripted replies); regex guardrails (ADR 009) | Replies in EN/DE/ES on an iPhone 15 Pro+ or the simulator (§3) |
 | Backend | Live at `critterboard-api.stronginarm.workers.dev` since 2026-10-02 (§5); URL baked into every EAS profile | Custom domain (optional) |
 | Store | EAS profiles ready; `submit.production` placeholders unfilled | Apple / Play accounts |
 
@@ -33,7 +33,7 @@ What to run locally to finish Critterboard, in order. Everything below assumes t
 
 ```bash
 git checkout main && git pull
-pnpm install                 # also downloads llama.rn's iOS framework (postinstall)
+pnpm install
 cp .env.example .env         # fill in only what you need, see below
 pnpm run check               # typecheck + tests, should be green
 ```
@@ -52,14 +52,14 @@ pnpm run check               # typecheck + tests, should be green
 pnpm ios:sim                 # expo run:ios — generates ios/, pod install, builds, launches, starts Metro
 ```
 
-The first build takes a while (CocoaPods + MapLibre + ExecuTorch + llama.rn). After that, JS changes hot-reload. Re-run the command after changing `app.json`, plugins or native deps.
+The first build takes a while (CocoaPods + MapLibre + ExecuTorch). After that, JS changes hot-reload. Re-run the command after changing `app.json`, plugins or native deps.
 
 **Smoke test in the simulator:**
 
 1. **Onboarding → Home** renders.
 2. **Vision:** Settings → On-device Brains → Regional packs → install **Central Europe**. It downloads the pack JSON, the 88 MB model and the 9.1 MB icon file from GitHub. Afterwards the **Dex** shows sticker icons: caught species in colour, the rest as ink silhouettes. Then open Scan and use the **photo picker**, because the simulator has no camera. Try a photo of a peacock butterfly, a ladybird or a bumblebee; the result should name the species. If it falls back to mock or "no match", check the Metro log for ExecuTorch load errors.
 3. **Map:** see §4.
-4. **Chat:** before the model is downloaded, Chat shows a "Download Gemma 4 to chat" card instead of the input. Settings → On-device chat downloads it (3.1 GB). The simulator may be too slow to chat; the phone check below is the real test.
+4. **Chat:** runs on Apple Intelligence. In the simulator it works only when Apple Intelligence is on in macOS (System Settings → Apple Intelligence & Siri) and the app is in English, German or Spanish. Otherwise Chat shows why it's off.
 5. **No pack installed:** Scan shows an "install the Central Europe pack" card instead of results.
 
 The simulator's on-device ML may be slow or unsupported. Treat vision/LLM speed as phone-only measurements.
@@ -79,7 +79,6 @@ The simulator's on-device ML may be slow or unsupported. Treat vision/LLM speed 
 **On the phone, check and note down:**
 - Time for the model download plus the first scan (cold load), then a second scan (warm).
 - That a real camera shot of a common garden insect is identified.
-- Memory: nothing crashes when Gemma 4 loads in chat (it needs about 3 GB of RAM).
 
 **Species icons (new in pack v5):**
 - **First install:** after the model finishes, time how long until the Dex shows icons. The app downloads one 9.1 MB file and splits it into 1,000 small files; the split is the unknown. Under ~10 s is fine. If it's much slower, tell me and I'll batch it differently.
@@ -90,14 +89,12 @@ The simulator's on-device ML may be slow or unsupported. Treat vision/LLM speed 
 - **Uninstall:** remove the pack in Settings. The Dex falls back to emoji and nothing crashes.
 - **Credits:** Settings → Open source libraries → On-device models → "Species icons" opens the credits page.
 
-**Chat (Gemma 4 E2B, new):**
-- **Gate:** before downloading, open Chat. The input is replaced by a "Download Gemma 4 to chat" card that opens Settings.
-- **Download:** Settings → On-device chat → on. On Wi-Fi, note how long the 3.1 GB download takes. The file comes from Hugging Face (`unsloth/gemma-4-E2B-it-GGUF`). If it fails straight away (an anonymous download refused), the gate shows an error. Tell me, and I'll host the file ourselves (GitHub Releases or R2).
-- **Load and speed:** time from opening Chat to the input appearing (model load), then time to the first word of a reply and a rough words-per-second figure.
-- **Memory:** chat for a few minutes, switch personas, go to Scan and back. Note any crash or the app restarting.
-- **Memory tiers:** on a 6 GB+ iPhone, turning chat on downloads straight away. On a 4 GB iPhone (iPhone 12 or older non-Pro), it first asks "Download on a 4 GB phone?"; say yes and note whether chat works or the app closes. On a 3 GB phone, the toggle is disabled ("not supported") and Chat says it isn't available. If you can't test a phone in a tier, say so and I'll note it as untested.
-- **Tone:** switch the app language to Polish, German and Spanish and send a message in each. Replies should come in that language, stay short and match the persona.
-- **Turn off:** Settings → On-device chat → off → confirm. Chat shows the gate again and 3.1 GB is freed (Settings → General → iPhone Storage).
+**Chat (Apple Intelligence, new):**
+- **Older iPhone (e.g. the 13 mini):** no chat buttons on Result or Disambiguate; Brains says chat needs an iPhone 15 Pro or later. Settings → General → iPhone Storage: the old 1.1 GB chat model is gone after the first start.
+- **iPhone 15 Pro or later, Apple Intelligence off:** chat buttons show; Chat explains how to turn it on. Turn it on, come back: chat opens.
+- **Replies:** in English, German and Spanish, send a message to each persona. Replies stream, stay short, match the persona and come in the app language. Note the time to the first word.
+- **Polish:** switch the app to Polish. The chat buttons go away and Brains says chat isn't available in Polish yet.
+- **Stop:** leave Chat mid-reply, or clear the thread; nothing keeps generating (no heat).
 
 ## 4. Offline map spike
 
@@ -179,7 +176,7 @@ Needs the Apple Developer Program, and the app record created in App Store Conne
 | 10 | ~~Dex: list all pack species~~ | Done | Virtualised grid over bundled + pack species; caught species first |
 | 11 | ~~Photo-based species icons~~ | Done | Pack `eu-ce` v5; see [[modules/species-icons]] |
 | 12 | Phone check: icon download/split time, Dex scrolling (§3) | You → me | If the split is slow, I'll batch it or ship per-species files |
-| 13 | Gemma 4 chat on a phone: download, load time, speed, memory tiers, tone in 4 languages (§3) | You → me | If the download is refused, I'll host the GGUF; if 4 GB phones crash even after confirming, disable chat there too |
+| 13 | Chat on Apple Intelligence: replies in EN/DE/ES, Polish shows "not available yet", an older iPhone shows no chat buttons (§3) | You → me | Needs an iPhone 15 Pro+ tester or the simulator with Apple Intelligence on |
 | 14 | Better icons for bumblebees and mining bees | Me | Weakest group: fuzzy outlines come out as blobs |
 | 8 | `react-native-executorch` 0.10 migration | Me | 0.10 rewrote the API; pinned to 0.9.3 until then |
 | 9 | Fill `eas.json` submit config, store listings | You | Needs your Apple / Google accounts |
@@ -202,7 +199,7 @@ training/vision/stream_photos.sh && python training/vision/download.py --data $D
 - **Model not yet loaded on a device.** The exporter (`executorch` 1.0.1) was chosen to match the app's ET12 runtime, and all operators are supported kernels, but only a phone run proves it.
 - **88 MB model download** on pack install, plus the 9.1 MB icon file. A static-int8 build (22.8 MB) did not load in the ExecuTorch runtime.
 - **Icon split on the device** (1,000 small file writes) is untested on a phone; see §3.
-- **Gemma 4 chat** needs a 3.1 GB download and about 3 GB of RAM. 4 GB phones must confirm first and may still close the app under memory pressure; below 4 GB chat is disabled (ADR 005). The file comes from a community Hugging Face repo; if that ever needs a login, host it ourselves. Licence: Apache 2.0.
-- **Licence notices:** the model's Apache-2.0 notice and CC-BY photo credits (and the Gemma 4 chat model credit) are linked from Settings → Open source libraries → On-device models. Keep them there if you fork the app.
+- **Chat** needs Apple Intelligence: iPhone 15 Pro or later, iOS 26+, turned on, app not in Polish (ADR 009). Nothing to download or license.
+- **Licence notices:** the model's Apache-2.0 notice and CC-BY photo credits are linked from Settings → Open source libraries → On-device models. Keep them there if you fork the app.
 - **Guardrails are regex-only** since the Node-only library was removed. They are fine for obvious cases, not a full moderation system.
 - **Licences:** the shipped model uses only CC0/CC-BY photos and Google's Apache-2.0 base weights. The residual risk is the base weights' ImageNet-21k pretraining; see `training/vision/results/commercial-1k-v1/MODEL_CARD.md`. The older v3 model (NonCommercial photos) is no longer referenced by the pack.

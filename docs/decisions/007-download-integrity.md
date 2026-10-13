@@ -1,5 +1,7 @@
 # ADR 007 — Download integrity: pinned size + MD5, commit-pinned URLs
 
+> Since [[009-apple-intelligence-chat]] (13 Oct 2026) there is no chat model download; the chat-model parts below are history.
+
 `#decision` `#security` `#networking`
 
 ## Context

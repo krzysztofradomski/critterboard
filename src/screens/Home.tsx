@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
+import { chatOffered } from "@/ai/appleChat";
 import { BugIcon } from "@/components/BugIcon";
 import { CameraScene } from "@/components/CameraScene";
 import { IconBtn } from "@/components/IconBtn";
@@ -18,6 +19,7 @@ import {
 import { usePersona } from "@/personas/hooks";
 import { PB } from "@/tokens/pb";
 import { latestPhotoFor } from "@/lib/streak";
+import { useChatAvailability } from "@/lib/useChatAvailability";
 import { useAppStore } from "@/store/useAppStore";
 import { useNav } from "@/store/useNav";
 
@@ -31,6 +33,8 @@ export function Home() {
   const catchLog = useAppStore((s) => s.catchLog);
   const P = usePersona(persona);
   const t = useT();
+  // The persona line stays; tapping through to chat only where chat can run (Apple Intelligence).
+  const canChat = chatOffered(useChatAvailability());
 
   // Today's hero bug — same calendar day → same pick, so a user
   // closing and reopening the app doesn't see the card flicker.
@@ -179,7 +183,7 @@ export function Home() {
           bg={personaStickerBg}
           rotate={1}
           style={{ marginTop: 14, padding: 12 }}
-          onPress={() => go("chat")}
+          onPress={canChat ? () => go("chat") : undefined}
         >
           <View style={styles.chatRow}>
             <View style={[styles.chatAvatar, { backgroundColor: P.avatarBg }]}>
@@ -189,9 +193,11 @@ export function Home() {
               <Text style={[styles.chatLine, { color: personaTextColor }]}>
                 {personaLine}
               </Text>
-              <Text style={[styles.chatCta, { color: personaTextColor }]}>
-                {t("home.chatCta", { name: P.name.toUpperCase() })}
-              </Text>
+              {canChat ? (
+                <Text style={[styles.chatCta, { color: personaTextColor }]}>
+                  {t("home.chatCta", { name: P.name.toUpperCase() })}
+                </Text>
+              ) : null}
             </View>
           </View>
         </Sticker>

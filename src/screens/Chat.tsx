@@ -15,14 +15,11 @@ import {
 } from 'react-native';
 
 import {
-  activeChatModel,
-  guardedLocalLlmChatAdapter,
-  initChatModel,
-  loadChatModel,
+  AppleChatError,
+  guardedChatAdapter,
+  type ChatAvailability,
   type ChatHistoryTurn,
-  type ChatModelState,
 } from '@/ai';
-import { Btn } from '@/components/Btn';
 import { IconBtn } from '@/components/IconBtn';
 import { Sticker } from '@/components/Sticker';
 import { allBugs, findBug } from '@/data/bugs';
@@ -30,7 +27,7 @@ import { bugName, useT } from '@/i18n/helpers';
 import { xpFromClaimedQuests, xpFromDex } from '@/lib/level';
 import { currentStreak } from '@/lib/streak';
 import { haptics } from '@/lib/haptics';
-import { useChatModel } from '@/lib/useChatModel';
+import { useChatAvailability } from '@/lib/useChatAvailability';
 import { searchConversationMemories } from '@/lib/conversationMemory';
 import { PERSONA_META, PERSONA_IDS, type Persona } from '@/personas';
 import { usePersona } from '@/personas/hooks';
@@ -40,15 +37,15 @@ import { useNav } from '@/store/useNav';
 
 type Msg = { who: 'me' | 'larva'; t: string };
 
-// Chat runs only on the on-device Qwen3 model (downloaded in Settings).
-// Until it's ready, the screen shows a gate instead of the input; there are
-// no scripted replies.
+// Chat runs only on Apple Intelligence (Apple's on-device model). Where it
+// can't run, the screen shows a gate instead of the input; there are no
+// scripted replies.
 function initialMessages(P: Persona, topic?: string): Msg[] {
   return [{ who: 'larva', t: topic ? P.lines.topicHello(topic) : P.lines.chatHello }];
 }
 
 export function Chat() {
-  const { back, go } = useNav();
+  const { back } = useNav();
   const persona = useAppStore((s) => s.persona);
   const setPersona = useAppStore((s) => s.setPersona);
   const language = useAppStore((s) => s.language);
@@ -70,8 +67,8 @@ export function Chat() {
   const storedThread = useAppStore((s) => s.chatThreads[threadId]);
 
   const { width } = useWindowDimensions();
-  const model = useChatModel();
-  const chatReady = model.status === 'ready';
+  const availability = useChatAvailability();
+  const chatReady = availability === 'available';
 
   const [msgs, setMsgs] = useState<Msg[]>(
     () =>
@@ -96,12 +93,6 @@ export function Chat() {
         : initialMessages(P, topic)) as Msg[],
     );
   }, [threadId, P, topic]);
-
-  // Load the model if its file is on disk (no-op when already loaded/absent),
-  // so the first message doesn't wait for a cold start.
-  useEffect(() => {
-    void initChatModel();
-  }, []);
 
   useEffect(() => {
     // No animation per streamed token: a new one would restart it every few ms.
@@ -184,7 +175,7 @@ export function Chat() {
     }));
 
     try {
-      for await (const chunk of guardedLocalLlmChatAdapter.streamReply({
+      for await (const chunk of guardedChatAdapter.streamReply({
         persona: P,
         topic,
         userText: text,
@@ -213,13 +204,11 @@ export function Chat() {
         });
       }
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'unknown error';
+      const code = err instanceof AppleChatError ? err.code : 'other';
+      const known = ['guardrail', 'language', 'context'].includes(code);
       setMsgs((m) => {
         const copy = m.slice();
-        copy[copy.length - 1] = {
-          who: 'larva',
-          t: `LLM error: ${message}.`,
-        };
+        copy[copy.length - 1] = { who: 'larva', t: t(`chat.error.${known ? code : 'other'}`) };
         return copy;
       });
     } finally {
@@ -300,7 +289,7 @@ export function Chat() {
       </ScrollView>
 
       {!chatReady ? (
-        <ChatGate state={model} onOpenSettings={() => go('settings')} />
+        <ChatGate state={availability} />
       ) : (
         <View style={styles.inputRow}>
           <TextInput
@@ -324,41 +313,15 @@ export function Chat() {
   );
 }
 
-/** Shown instead of the input until the chat model is downloaded and loaded. */
-function ChatGate({ state, onOpenSettings }: { state: ChatModelState; onOpenSettings: () => void }) {
+/** Shown instead of the input when chat can't run here (see ChatAvailability). */
+function ChatGate({ state }: { state: ChatAvailability }) {
   const t = useT();
-  const vars = { model: activeChatModel().name, size: activeChatModel().sizeGb, pct: state.pct };
-  const busy =
-    state.status === 'checking' || state.status === 'loading' || state.status === 'downloading';
-  const title =
-    state.status === 'unsupported' ? t('chat.gate.webTitle')
-    : state.status === 'tooLittleRam' ? t('chat.gate.ramTitle')
-    : state.status === 'downloading' ? t('chat.gate.downloadingTitle', vars)
-    : state.status === 'ejected' ? t('chat.gate.ejectedTitle', vars)
-    : busy ? t('chat.gate.loadingTitle', vars)
-    : t('chat.gate.title', vars);
-  const body =
-    state.status === 'unsupported' ? t('chat.gate.webBody', vars)
-    : state.status === 'tooLittleRam' ? t('chat.gate.ramBody', vars)
-    : state.status === 'error' ? t('chat.gate.errorBody', vars)
-    : state.status === 'ejected' ? t('chat.gate.ejectedBody', vars)
-    : busy ? t('chat.gate.busyBody', vars)
-    : t('chat.gate.body', vars);
+  const key = state === 'available' ? 'notReady' : state;
   return (
     <View style={styles.gate}>
       <Sticker bg={PB.cream} rotate={-1} style={{ padding: 16 }}>
-        <Text style={styles.gateTitle}>{title}</Text>
-        <Text style={styles.gateBody}>{body}</Text>
-        {state.status === 'ejected' ? (
-          <Btn full bg={PB.ink} color={PB.yellow} onPress={() => void loadChatModel()} style={{ marginTop: 12 }}>
-            {t('chat.gate.loadCta')}
-          </Btn>
-        ) : null}
-        {state.status === 'absent' || state.status === 'error' ? (
-          <Btn full bg={PB.ink} color={PB.yellow} onPress={onOpenSettings} style={{ marginTop: 12 }}>
-            {t('chat.gate.cta')}
-          </Btn>
-        ) : null}
+        <Text style={styles.gateTitle}>{t(`chat.gate.${key}Title`)}</Text>
+        <Text style={styles.gateBody}>{t(`chat.gate.${key}Body`)}</Text>
       </Sticker>
     </View>
   );

@@ -300,23 +300,23 @@
       "clearCta": "Clear chat",
       "lockedStatus": "○ chat off · {title}",
       "gate": {
-        "title": "Download {model} to chat",
-        "body": "Your guides run entirely on this phone with Google's {model} model: a one-time {size} GB download (Wi-Fi recommended). Nothing you type leaves the device.",
-        "errorBody": "The {model} download didn't finish. Check your connection and free space ({size} GB), then try again in Settings.",
-        "busyBody": "Chat opens as soon as the model is ready. You can keep using the app meanwhile.",
-        "ejectedTitle": "{model} is ejected",
-        "ejectedBody": "The model is still on your phone but not loaded, so it uses no memory. Load it to chat.",
-        "loadCta": "Load model",
-        "loadingTitle": "Waking up {model}…",
-        "downloadingTitle": "Downloading {model}… {pct}%",
-        "webTitle": "Chat runs in the phone app",
-        "webBody": "The guides use an on-device AI model ({model}) that the web preview can't run. Open Critterboard on iPhone or Android to chat.",
-        "cta": "Open Settings",
-        "ramTitle": "Chat isn't available on this phone",
-        "ramBody": "The guides run on {model}, which needs a phone with at least 3 GB of memory. Everything else in Critterboard works as usual."
+        "notEnabledTitle": "Turn on Apple Intelligence to chat",
+        "notEnabledBody": "The guides run on Apple's on-device model. Turn on Apple Intelligence in iOS Settings → Apple Intelligence & Siri, then come back. Nothing you type leaves the phone.",
+        "notReadyTitle": "Apple's model is still downloading",
+        "notReadyBody": "iOS is getting Apple Intelligence ready on this phone. Chat opens by itself once it's done; keep the phone on Wi-Fi and charging.",
+        "languageTitle": "Chat isn't available in this language yet",
+        "languageBody": "The guides run on Apple Intelligence, which doesn't support this language yet. Switch the app to English, German or Spanish to chat. Everything else works as usual.",
+        "deviceTitle": "Chat isn't available on this phone",
+        "deviceBody": "The guides run on Apple Intelligence: iPhone 15 Pro or later with iOS 26 or newer. Everything else in Critterboard works as usual."
       },
       "deleteTitle": "Delete message",
-      "deleteBody": "Remove this message from the conversation?"
+      "deleteBody": "Remove this message from the conversation?",
+      "error": {
+        "guardrail": "I can't answer that one. Try asking about bugs a different way.",
+        "language": "I can only chat in English, German or Spanish for now.",
+        "context": "This chat got too long for me. Clear it with 🗑 and start again.",
+        "other": "Something went wrong. Try again in a moment."
+      }
     },
     "activity": {
       "title": "Buzz",
@@ -744,27 +744,11 @@
       "crashOff": "No crash data leaves your device.",
       "crashNeeds": "Requires network access.",
       "model": {
-        "larva": "{model} (Q4)",
-        "larvaMeta": "Chat model · {size} GB · {state}",
-        "larvaInstalled": "installed",
         "ready": "READY",
-        "downloading": "↓ {pct}%",
-        "loading": "LOADING",
-        "error": "ERROR",
-        "get": "↓ GET",
-        "larvaIdle": "not on device",
-        "larvaDownloading": "{done} GB downloaded",
-        "larvaPhoneOnly": "phone app only",
-        "phoneOnly": "PHONE ONLY",
-        "larvaTooLittleRam": "needs 4 GB of memory",
         "notSupported": "NOT SUPPORTED",
         "visionMeta": "{id} · {mb} MB · {n} species",
         "noPack": "NO PACK"
       },
-      "localLlmLabel": "On-device chat ({model})",
-      "localLlmOn": "Chat runs on your device with {model}. Private & offline.",
-      "localLlmOff": "Off: chat is disabled. Turn on to download {model} ({size} GB, Wi-Fi recommended).",
-      "localLlmNoWeb": "Chat needs the iPhone or Android app.",
       "regionsBand": "Regional packs · one active at a time",
       "regionsSub": "Boosts ID accuracy where you actually are.",
       "regionMeta": "{installed}/{total} · {mb} MB",
@@ -789,17 +773,6 @@
       "creditsSub": "Built with love for people who really like beetles.",
       "viewCredits": "VIEW CREDITS →",
       "guideToast": "Guide: {name}",
-      "localLlmError": "Download failed. Turn on to try again ({size} GB).",
-      "localLlmEjected": "Chat model is ejected: it stays on your phone but is not using memory.",
-      "localLlmEject": "Eject from memory (keep the file)",
-      "localLlmLoad": "Load into memory",
-      "localLlmDeleteTitle": "Turn off chat?",
-      "localLlmDeleteBody": "This deletes {model} from your phone and frees {size} GB. Chat stays disabled until you download it again.",
-      "localLlmDeleteCta": "Delete model",
-      "localLlmTooLittleRam": "Needs a phone with at least 3 GB of memory.",
-      "localLlmLowRamTitle": "Download on a 3 GB phone?",
-      "localLlmLowRamBody": "This phone has about 3 GB of memory. {model} uses about 1.5 GB while you chat, so replies may be slow and the app may close if other apps are open. The download is {size} GB.",
-      "localLlmLowRamCta": "Download anyway",
       "regionSoon": "SOON",
       "regionSoonSub": "Coming soon",
       "regionActive": "● ACTIVE",
@@ -868,7 +841,6 @@
         "on": "Taps, toggles and tabs give a small buzz.",
         "off": "No vibration."
       },
-      "localLlmDeleteBtn": "Delete from phone ({size} GB)",
       "updatesTitle": "Updates",
       "updatesCheck": "Check for updates",
       "updatesChecking": "Checking…",
@@ -877,12 +849,15 @@
       "updatesCheckFailed": "Couldn't check right now. Try again later.",
       "updatesPack": "{name}: version {version} is out",
       "updatesOpen": "Open",
-      "updatesChat": "{model}: a new version ({size} GB)",
-      "updatesUpdate": "Update",
-      "updatesUpdating": "Updating · {pct}%",
-      "updatesChatDone": "Chat model updated",
-      "updatesFailed": "Update failed. The current model still works.",
-      "updatesFoot": "Chat model: {model}. A new file downloads next to the old one, which goes only once the new one is complete."
+      "chat": {
+        "title": "Chat: Apple Intelligence",
+        "available": "Guides run on Apple's on-device model. Private and offline, nothing to download.",
+        "notEnabled": "Turn on Apple Intelligence in iOS Settings to chat with the guides.",
+        "notReady": "iOS is still downloading Apple's model. Chat opens once it's ready.",
+        "language": "Apple Intelligence doesn't support this language yet, so chat is off. Switch the app to English, German or Spanish to chat.",
+        "device": "Chat needs Apple Intelligence: iPhone 15 Pro or later with iOS 26+.",
+        "statusSetup": "SET UP"
+      }
     },
     "regions": {
       "list": {
@@ -1086,7 +1061,7 @@
     "personas": {
       "larva": {
         "name": "Prof. Larva",
-        "title": "qwen3 · deadpan",
+        "title": "deadpan",
         "blurb": "Snarky. Helpful in spite of itself.",
         "lines": {
           "intro": "\"Oh great, another trainer. Let me drop everything.\"",
@@ -1113,7 +1088,7 @@
       },
       "snail": {
         "name": "Dr. Snail",
-        "title": "qwen3 · patient",
+        "title": "patient",
         "blurb": "Calm. Teaches at your pace.",
         "lines": {
           "intro": "\"Welcome. Take your time — we'll learn together.\"",
@@ -1140,7 +1115,7 @@
       },
       "maywind": {
         "name": "R.A. Maywind",
-        "title": "qwen3 · curious",
+        "title": "curious",
         "blurb": "Witty. Happy. Loves every bug.",
         "lines": {
           "intro": "\"Hi hi! Notebook ready, boots laced — let's find a critter!\"",
@@ -1283,12 +1258,12 @@
           "role": "Vision · {id} · {mb} MB · {n} species"
         },
         "larva": {
-          "name": "Qwen3 1.7B",
-          "role": "Chat · 3.1 GB · Q4_K_M · Apache 2.0"
+          "name": "Apple Intelligence",
+          "role": "Chat · Apple's on-device model, built into iOS"
         },
         "variants": {
           "name": "Maywind / Snail",
-          "role": "Personas: system prompts on Qwen3"
+          "role": "Personas: system prompts on Apple Intelligence"
         }
       },
       "data": {

@@ -4,6 +4,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import "@/lib/initExecutorch";
 import { AppState, StyleSheet, View } from "react-native";
 
+import { removeOldChatModels } from "@/ai/appleChat";
 import { useBackendIdentityBridge, useTrainingUploader, useSyncProfile } from "@/backend/hooks";
 import { settleOwedCleanups, syncCatches } from "@/backend/sync";
 import { Toast } from "@/components/Toast";
@@ -54,6 +55,11 @@ export default function App() {
   // A hide or location removal that failed offline is owed: retry it once per launch.
   useEffect(() => {
     void settleOwedCleanups();
+  }, []);
+
+  // Chat now runs on Apple Intelligence: free the space an earlier build's chat model took.
+  useEffect(() => {
+    void removeOldChatModels();
   }, []);
 
   // On first launch, seed the language from the device locale so users

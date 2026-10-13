@@ -2,7 +2,7 @@
 
 `#adr` `#ml` `#chat`
 
-**Status:** superseded for the model choice by [[008-qwen3-chat-model]] (Oct 2026: Qwen3 1.7B). On-device only, no fallback and no web chat still hold. Replaces the chat part of [[004-remove-cloud-gemini]].
+**Status:** superseded for the model choice by [[008-qwen3-chat-model]] (Oct 2026: Qwen3 1.7B), then [[009-apple-intelligence-chat]] (13 Oct 2026: Apple Intelligence). On-device only, no fallback and no web chat still hold. Replaces the chat part of [[004-remove-cloud-gemini]].
 
 ## Context
 

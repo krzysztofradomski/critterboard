@@ -2,7 +2,7 @@
 
 `#adr` `#ml` `#chat`
 
-**Status:** accepted (Oct 2026). Supersedes [[005-gemma-4-only-chat]] for the model choice. Its other decisions stay: chat is on-device only, with no scripted fallback and no web chat.
+**Status:** superseded by [[009-apple-intelligence-chat]] (13 Oct 2026: on the iPhone 13 mini it overheated, froze and wrote poor Polish; chat now runs on Apple Intelligence). Earlier: accepted (Oct 2026), superseding [[005-gemma-4-only-chat]] for the model choice. Its other decisions stay: chat is on-device only, with no scripted fallback and no web chat.
 
 ## Context
 

@@ -54,7 +54,6 @@
     "expo-sharing": "~57.0.22",
     "expo-status-bar": "~57.0.1",
     "expo-updates": "~57.0.24",
-    "llama.rn": "^0.12.9",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-native": "0.86.3",
@@ -86,9 +85,6 @@
     "vitest": "^5.0.2"
   },
   "pnpm": {
-    "onlyBuiltDependencies": [
-      "llama.rn"
-    ],
     "overrides": {
       "@xmldom/xmldom@>=0.8.0 <0.9.0": "^0.8.15",
       "@xmldom/xmldom@>=0.9.0 <0.10.0": "^0.9.12",
