@@ -36,7 +36,7 @@ PRIVACY = {
  ("Your rights and contact", ["Depending on where you live, you may have the right to access, correct or delete the data we hold about you, or to object to its use. Email hello@critterboard.app and we will help. Support correspondence is kept while we resolve your request. Please send only what is needed."]),
  ("Changes", ["If this policy changes in a meaningful way, we will update the date above and, where it matters, tell you in the app."]),
  ]),
-"pl": ("TWOJE OWADY, TWOJE", "Prywatność, po prostu.", "Ostatnia aktualizacja: 3 października 2026",
+"pl": ("TWOJE OWADY, TWOJE", "Prywatność, po prostu.", "Ostatnia aktualizacja: 12 października 2026",
  "Critterboard to darmowa gra do rozpoznawania owadów. Nie ma kont, reklam, zakupów ani analityki. Działa w pełni offline, a twoja kolekcja jest przechowywana na telefonie.",
  [
  ("Na twoim telefonie", ["Twój Dex, obserwacje, zdjęcia, ustawienia i historia czatu są przechowywane na urządzeniu. Rozpoznawanie owadów i rozmowy z przewodnikami odbywają się na telefonie. Zdjęcia, które robisz lub wybierasz, nigdy nie są wysyłane, chyba że włączysz „Pomóż uczyć model” i udostępnisz zdjęcie (niżej). Pozostają na urządzeniu, dopóki ich nie usuniesz lub nie wymażesz danych aplikacji. Mogą mieć zastosowanie także ustawienia kopii zapasowej twojego telefonu."]),
@@ -65,7 +65,7 @@ PRIVACY = {
  ("Twoje prawa i kontakt", ["W zależności od miejsca zamieszkania możesz mieć prawo dostępu do danych, które o tobie przechowujemy, ich poprawiania, usunięcia lub sprzeciwu wobec ich wykorzystania. Napisz na hello@critterboard.app, a pomożemy. Korespondencję przechowujemy do czasu załatwienia sprawy. Prosimy o przesyłanie tylko tego, co potrzebne."]),
  ("Zmiany", ["Jeśli polityka istotnie się zmieni, zaktualizujemy datę powyżej i, gdy to ważne, poinformujemy cię w aplikacji."]),
  ]),
-"de": ("DEINE INSEKTEN, DEINE DATEN", "Datenschutz, einfach erklärt.", "Zuletzt aktualisiert: 3. Oktober 2026",
+"de": ("DEINE INSEKTEN, DEINE DATEN", "Datenschutz, einfach erklärt.", "Zuletzt aktualisiert: 12. Oktober 2026",
  "Critterboard ist ein kostenloses Spiel zum Bestimmen von Insekten. Es gibt keine Konten, Werbung, Käufe oder Analysen. Es funktioniert komplett offline, und deine Sammlung liegt auf deinem Telefon.",
  [
  ("Auf deinem Telefon", ["Dein Dex, Sichtungen, Fotos, Einstellungen und Chatverlauf werden auf deinem Gerät gespeichert. Die Bestimmung eines Insekts und der Chat mit den Guides laufen auf deinem Telefon. Fotos, die du aufnimmst oder auswählst, werden nie hochgeladen, außer du schaltest „Hilf, das Modell zu trainieren“ ein und teilst eines (unten). Sie bleiben auf deinem Gerät, bis du sie löschst oder die App-Daten löschst. Auch die Backup-Einstellungen deines Telefons können gelten."]),
@@ -94,7 +94,7 @@ PRIVACY = {
  ("Deine Rechte und Kontakt", ["Je nachdem, wo du lebst, hast du möglicherweise das Recht auf Auskunft, Berichtigung oder Löschung der über dich gespeicherten Daten oder auf Widerspruch gegen ihre Nutzung. Schreibe an hello@critterboard.app, wir helfen dir. Korrespondenz bewahren wir auf, bis dein Anliegen geklärt ist. Bitte sende nur, was nötig ist."]),
  ("Änderungen", ["Wenn sich diese Erklärung wesentlich ändert, aktualisieren wir das Datum oben und informieren dich, wo es wichtig ist, in der App."]),
  ]),
-"es": ("TUS BICHOS, TUYOS", "Privacidad, sin rodeos.", "Última actualización: 3 de octubre de 2026",
+"es": ("TUS BICHOS, TUYOS", "Privacidad, sin rodeos.", "Última actualización: 12 de octubre de 2026",
  "Critterboard es un juego gratuito para identificar bichos. No tiene cuentas, publicidad, compras ni analítica. Funciona totalmente sin conexión y tu colección se guarda en tu teléfono.",
  [
  ("En tu teléfono", ["Tu Dex, avistamientos, fotos, ajustes e historial de chat se guardan en tu dispositivo. Identificar un bicho y charlar con las guías ocurre en tu teléfono. Las fotos que haces o eliges nunca se suben, salvo que actives «Ayuda a entrenar el modelo» y compartas una (abajo). Permanecen en tu dispositivo hasta que las borres o borres los datos de la app. También pueden aplicarse los ajustes de copia de seguridad de tu teléfono."]),
