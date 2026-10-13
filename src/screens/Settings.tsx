@@ -772,10 +772,12 @@ function ModelTile({
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-            alignItems: "baseline",
+            alignItems: "flex-start",
+            gap: 8,
           }}
         >
-          <Text style={styles.modelTitle}>{title}</Text>
+          {/* The title wraps so a long status pill (e.g. Polish "NIEOBSŁUGIWANE") keeps its room. */}
+          <Text style={[styles.modelTitle, { flex: 1 }]}>{title}</Text>
           <View style={[styles.modelStatus, { backgroundColor: statusBg }]}>
             <Text style={[styles.modelStatusText, { color: statusFg }]}>
               {statusText}

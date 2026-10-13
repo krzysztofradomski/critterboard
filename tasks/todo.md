@@ -795,7 +795,8 @@ Why: on the iPhone 13 mini Qwen3 1.7B overheated, froze and wrote poor Polish. A
 - [x] Chat gate, Brains status tile; chat buttons hidden where chat can't run (older iPhones, Android, Polish)
 - [x] Copy in 4 languages; credits; privacy + support pages (dated 13 Oct); README, architecture, roadmap, handoff, deployment docs
 - [x] UI fixes from the 13 mini: padded weekly podium labels, whole photo card opens the lightbox, "Send to friends", Remove from Dex underline
-- [ ] Simulator check (needs ~10 GB free disk, and Apple Intelligence on in macOS): EN/DE/ES replies, Stop, Polish gate
+- [x] Simulator check (iPhone 17, Release): old .gguf/.part/chat-model.json deleted at start, pack kept; Chat gate; Brains tile; Polish hides chat (fixed: language was skipped while Apple's model downloads; Polish pill overflowed the tile)
+- [ ] Replies in EN/DE/ES and Stop: needs Apple Intelligence on in macOS (or an iPhone 15 Pro+)
 - [ ] Phone check on the 13 mini: no chat buttons, Brains says chat needs iPhone 15 Pro+, the 1.1 GB file is gone
 
 **Review:** typecheck clean, all tests pass; Swift typechecked against the iOS 27 SDK (Swift 5 and 6 modes). On this Mac `supportsLocale` confirmed en/de/es ✓, pl ✗. Not yet built into an app (disk full).

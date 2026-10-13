@@ -21,15 +21,14 @@ public class AppleChatModule: Module {
       #if canImport(FoundationModels)
       if #available(iOS 26.0, *) {
         let model = SystemLanguageModel.default
+        // An unsupported language wins over every state the player could fix (off, downloading).
+        if model.availability == .unavailable(.deviceNotEligible) { return "device" }
+        if !model.supportsLocale(Locale(identifier: lang)) { return "language" }
         switch model.availability {
-        case .available:
-          return model.supportsLocale(Locale(identifier: lang)) ? "available" : "language"
-        case .unavailable(.appleIntelligenceNotEnabled):
-          return model.supportsLocale(Locale(identifier: lang)) ? "notEnabled" : "language"
-        case .unavailable(.modelNotReady):
-          return "notReady"
-        default:
-          return "device"
+        case .available: return "available"
+        case .unavailable(.appleIntelligenceNotEnabled): return "notEnabled"
+        case .unavailable(.modelNotReady): return "notReady"
+        default: return "device"
         }
       }
       #endif
