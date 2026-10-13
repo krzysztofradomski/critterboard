@@ -63,6 +63,8 @@ export function Result() {
   // One catch per species (a re-scan doesn't add another): its date and, when known, its place.
   const myCatch = alreadyCaught ? catchLog.find((e) => e.id === bug.id) : undefined;
   // Opened from a map pin or a sighting there's no photo param; show and share the catch's own.
+  const mine = catchLog.filter((e) => e.id === bug.id);
+  const namedOnly = alreadyCaught && conf === undefined && mine.length > 0 && mine.every((e) => e.source === 'manual');
   const shownPhoto = photoUri ?? (alreadyCaught ? latestPhotoFor(catchLog, bug.id) ?? null : null);
 
   const share = () => {
@@ -134,9 +136,12 @@ export function Result() {
                 {bug.tier} {t(`dex.filter.${bug.rarity}`).toUpperCase()}
               </Text>
             </View>
-            <View style={styles.xpBadge}>
-              <Text style={styles.xpText}>+{bug.xp} XP</Text>
-            </View>
+            {/* A species only ever named by the player earns no XP (scoredSpecies). */}
+            {namedOnly ? null : (
+              <View style={styles.xpBadge}>
+                <Text style={styles.xpText}>+{bug.xp} XP</Text>
+              </View>
+            )}
           </View>
           <View style={{ padding: 14 }}>
             <Text style={styles.bugName}>{localizedName}</Text>
