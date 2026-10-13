@@ -37,6 +37,7 @@ export { localLlmChatAdapter } from '@/ai/chatAdapter';
 export {
   CHAT_MODEL,
   activeChatModel,
+  deviceRamGb,
   installedChatModel,
   updateChatModel,
   chatModelState,

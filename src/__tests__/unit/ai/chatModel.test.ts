@@ -9,6 +9,7 @@ const env = vi.hoisted(() => ({
   loaded: null as string | null,
   mem: 6 * 1024 ** 3 as number | null,
   json: new Map<string, string>(),
+  failPath: null as string | null,
 }));
 
 vi.mock('react-native', () => ({ Platform: { OS: 'ios' } }));
@@ -54,7 +55,7 @@ vi.mock('expo-file-system/legacy', () => ({
 vi.mock('@/ai/llm', () => ({
   llamaRnRuntime: {
     load: vi.fn(async (p: string) => {
-      if (env.loadFails) throw new Error('bad gguf');
+      if (env.loadFails || p === env.failPath) throw new Error('bad gguf');
       env.loaded = p;
     }),
     unload: vi.fn(async () => {
@@ -80,6 +81,7 @@ describe('chatModel', () => {
     env.loaded = null;
     env.mem = 6 * 1024 ** 3;
     env.json.clear();
+    env.failPath = null;
   });
 
   it('discards a download of the wrong size (cut off, or not the pinned file)', async () => {
@@ -235,5 +237,28 @@ describe('chatModel', () => {
     expect(env.loaded).toBe(PATH);
     expect(m.activeChatModel().version).toBe(1);
     expect(m.chatModelState()).toMatchObject({ status: 'ready', updatePct: null });
+  });
+
+  it('a new model that will not load is removed and the old one keeps working', async () => {
+    env.files.add(PATH);
+    const m = await fresh();
+    await m.initChatModel();
+    env.failPath = V2;
+    expect(await m.updateChatModel(entryV2())).toBe(false);
+    expect(env.files.has(PATH)).toBe(true);
+    expect(env.files.has(V2)).toBe(false);
+    expect(env.loaded).toBe(PATH);
+    expect(m.activeChatModel().version).toBe(1);
+    expect(m.chatModelState().status).toBe('ready');
+  });
+
+  it('skips an update that needs more memory than this phone has', async () => {
+    env.files.add(PATH);
+    env.mem = 6 * 1024 ** 3;
+    const m = await fresh();
+    await m.initChatModel();
+    expect(await m.updateChatModel({ ...entryV2(), minRamGb: 8 })).toBe(false);
+    expect(env.files.has(V2)).toBe(false);
+    expect(env.loaded).toBe(PATH);
   });
 });

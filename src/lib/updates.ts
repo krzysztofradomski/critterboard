@@ -14,8 +14,10 @@ export type ChatModelEntry = {
   bytes: number;
   /** Approximate size, for the UI. */
   sizeGb: number;
-  /** Bumped whenever the file changes. */
+  /** Bumped whenever the file changes (with a new filename, so the old file is never overwritten). */
   version: number;
+  /** Phones reporting less RAM than this (GiB) aren't offered it. */
+  minRamGb?: number;
 };
 
 export type UpdateManifest = {
@@ -39,11 +41,13 @@ export function isChatModelEntry(e: unknown): e is ChatModelEntry {
     typeof c.url === 'string' && c.url.startsWith('https://') &&
     Number.isInteger(c.bytes) && c.bytes > 0 &&
     Number.isInteger(c.version) && c.version > 0 &&
-    typeof c.name === 'string' && typeof c.sizeGb === 'number'
+    typeof c.name === 'string' && typeof c.sizeGb === 'number' &&
+    (c.minRamGb === undefined || (typeof c.minRamGb === 'number' && c.minRamGb > 0))
   );
 }
 
-export function pendingUpdates(manifest: UpdateManifest | null, installed: Installed): Update[] {
+/** `ramGb`: this phone's memory (GiB), to skip a chat model it can't run; null when unknown. */
+export function pendingUpdates(manifest: UpdateManifest | null, installed: Installed, ramGb: number | null = null): Update[] {
   if (!manifest) return [];
   const out: Update[] = [];
   for (const [id, have] of Object.entries(installed.packs)) {
@@ -53,8 +57,23 @@ export function pendingUpdates(manifest: UpdateManifest | null, installed: Insta
     }
   }
   const chat = manifest.chat;
-  if (installed.chat && isChatModelEntry(chat) && chat.version > installed.chat.version) {
+  const fits = (c: ChatModelEntry) => !c.minRamGb || ramGb === null || ramGb >= c.minRamGb;
+  if (installed.chat && isChatModelEntry(chat) && chat.version > installed.chat.version && fits(chat)) {
     out.push({ kind: 'chat', entry: chat });
   }
   return out;
+}
+
+/**
+ * Which chat model to use at start: the one saved by an update if it's at least as new as the
+ * app's compiled one; otherwise the compiled one, and the older saved file is stale (to delete,
+ * unless it is the compiled file itself).
+ */
+export function pickActiveChatModel(
+  saved: unknown,
+  compiled: ChatModelEntry,
+): { active: ChatModelEntry; staleFile: string | null } {
+  if (!isChatModelEntry(saved)) return { active: compiled, staleFile: null };
+  if (saved.version >= compiled.version) return { active: saved, staleFile: null };
+  return { active: compiled, staleFile: saved.filename === compiled.filename ? null : saved.filename };
 }

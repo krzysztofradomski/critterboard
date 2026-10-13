@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { activeChatModel, installedChatModel, updateChatModel } from '@/ai';
+import { activeChatModel, deviceRamGb, installedChatModel, updateChatModel } from '@/ai';
 import { Btn } from '@/components/Btn';
 import { Sticker } from '@/components/Sticker';
 import { fetchPackManifest } from '@/data/regionPacks';
@@ -38,7 +38,7 @@ export function UpdatesCard() {
         ? pendingUpdates(manifest, {
             packs: Object.fromEntries(installedRegions.map((id) => [id, installedPackVersions[id] ?? 0])),
             chat: installedChatModel(),
-          })
+          }, deviceRamGb())
         : null,
     );
     setChecking(false);
@@ -79,7 +79,7 @@ export function UpdatesCard() {
         ) : (
           <View key="chat" style={styles.row}>
             <Text style={styles.rowText}>{t('settings.updatesChat', { model: u.entry.name, size: u.entry.sizeGb })}</Text>
-            <Btn bg={PB.green} color={PB.cream} onPress={() => void updateChat(u)}>
+            <Btn bg={PB.green} color={PB.cream} onPress={() => chat.updatePct === null && void updateChat(u)}>
               {chat.updatePct === null
                 ? t('settings.updatesUpdate')
                 : t('settings.updatesUpdating', { pct: Math.floor(chat.updatePct) })}
