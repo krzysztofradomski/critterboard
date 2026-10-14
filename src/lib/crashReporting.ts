@@ -50,12 +50,11 @@ function loadSentry(): SentryLike | null {
 }
 
 function resolveDsn(): string | undefined {
-  // Expo inlines `EXPO_PUBLIC_*` at bundle time, so this is safe in the
-  // RN runtime where `process.env` isn't otherwise populated. The cast
-  // sidesteps `@types/node`'s empty default for `process.env`.
-  const env = ((typeof process !== 'undefined' ? process.env : undefined) ??
-    {}) as Record<string, string | undefined>;
-  return env.EXPO_PUBLIC_SENTRY_DSN || env.SENTRY_DSN || undefined;
+  // Expo inlines `EXPO_PUBLIC_*` at bundle time only for the literal
+  // `process.env.EXPO_PUBLIC_X` expression. Reading it through an alias
+  // works in dev (process.env is populated) but ships an empty DSN in
+  // production bundles, so keep this access literal.
+  return process.env.EXPO_PUBLIC_SENTRY_DSN || undefined;
 }
 
 /**
