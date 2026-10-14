@@ -52,6 +52,15 @@ Three layers of safety. Any one of them being false means crash reports stay loc
 2. **DSN presence.** `EXPO_PUBLIC_SENTRY_DSN` unset → `initCrashReporting` returns early, never touches the SDK. Common dev case.
 3. **SDK availability.** `require('@sentry/react-native')` is wrapped in try/catch. In Expo Go (no native module) the wrapper falls back to a `__DEV__`-only `console.warn`, and the toggle still flips so the UI is honest.
 
+## Current setup
+
+- **Project:** Sentry, **EU data region** (Frankfurt, `ingest.de.sentry.io`). The region is fixed per Sentry org.
+- **Local dev:** DSN in the gitignored `.env`.
+- **EAS builds:** DSN in `eas.json` → `preview` and `production` env (EAS doesn't upload the gitignored `.env`). The DSN ships inside the app bundle anyway, so committing it there is fine.
+- **Environments:** events are tagged `development` (`__DEV__`) or `production`, so dev noise stays filterable.
+- **Not yet:** source-map / dSYM upload. The `@sentry/react-native/expo` plugin's Xcode step fails Release builds without `SENTRY_AUTH_TOKEN`, so it stays out of `app.json` until a token is in EAS secrets. Until then, production JS stack traces are minified.
+- **Web preview:** `Alert.alert` is a no-op on react-native-web, so the confirm-gated Network/crash toggles can't be flipped there. The SDK itself does send from web (falls back to fetch transport).
+
 ## Setup checklist (for a real build)
 
 1. `pnpm install` — `@sentry/react-native` is declared in `package.json`.

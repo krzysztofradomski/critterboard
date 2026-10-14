@@ -42,7 +42,8 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_BACKEND_URL": "https://critterboard-api.stronginarm.workers.dev"
+        "EXPO_PUBLIC_BACKEND_URL": "https://critterboard-api.stronginarm.workers.dev",
+        "EXPO_PUBLIC_SENTRY_DSN": "https://8ca3ab8b0327440bca5535493b5fa988@o4512251439349760.ingest.de.sentry.io/4512251445968976"
       }
     },
     "production": {
@@ -55,7 +56,8 @@
         "buildType": "app-bundle"
       },
       "env": {
-        "EXPO_PUBLIC_BACKEND_URL": "https://critterboard-api.stronginarm.workers.dev"
+        "EXPO_PUBLIC_BACKEND_URL": "https://critterboard-api.stronginarm.workers.dev",
+        "EXPO_PUBLIC_SENTRY_DSN": "https://8ca3ab8b0327440bca5535493b5fa988@o4512251439349760.ingest.de.sentry.io/4512251445968976"
       }
     }
   },

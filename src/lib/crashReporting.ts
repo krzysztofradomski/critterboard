@@ -88,7 +88,12 @@ export function initCrashReporting(enabled: boolean): void {
     initialized = true;
     return;
   }
-  sdk.init({
+  sdk.init(initOptions(dsn));
+  initialized = true;
+}
+
+function initOptions(dsn: string): Record<string, unknown> {
+  return {
     dsn,
     enabled: true,
     // Don't ship PII. Default for the RN SDK is already false but make
@@ -97,8 +102,9 @@ export function initCrashReporting(enabled: boolean): void {
     // Modest sampling; this is a hobby-scale app and we never want
     // performance traces to cost more than the crash signal itself.
     tracesSampleRate: 0,
-  });
-  initialized = true;
+    // Keeps dev-machine noise out of the production issues feed.
+    environment: __DEV__ ? 'development' : 'production',
+  };
 }
 
 /**
@@ -118,7 +124,7 @@ export function setCrashReportingEnabled(enabled: boolean): void {
       dsn = resolveDsn();
       if (!dsn) return;
     }
-    sdk.init({ dsn, enabled: true, sendDefaultPii: false, tracesSampleRate: 0 });
+    sdk.init(initOptions(dsn));
   } else {
     void sdk.close();
   }
