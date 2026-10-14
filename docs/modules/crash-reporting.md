@@ -58,7 +58,7 @@ Three layers of safety. Any one of them being false means crash reports stay loc
 - **Local dev:** DSN in the gitignored `.env`.
 - **EAS builds:** DSN in `eas.json` → `preview` and `production` env (EAS doesn't upload the gitignored `.env`). The DSN ships inside the app bundle anyway, so committing it there is fine.
 - **Environments:** events are tagged `development` (`__DEV__`) or `production`, so dev noise stays filterable.
-- **Not yet:** source-map / dSYM upload. The `@sentry/react-native/expo` plugin's Xcode step fails Release builds without `SENTRY_AUTH_TOKEN`, so it stays out of `app.json` until a token is in EAS secrets. Until then, production JS stack traces are minified.
+- **No source-map / dSYM upload, by choice.** Minified traces are acceptable: Hermes keeps function names and error messages, which is usually enough to find the spot in the codebase. For an exact mapping, check out the release commit and regenerate the map with `npx expo export --dump-sourcemap`. (The `@sentry/react-native/expo` plugin would also need `SENTRY_AUTH_TOKEN` at build time, or its Xcode step fails Release builds.)
 - **Web preview:** `Alert.alert` is a no-op on react-native-web, so the confirm-gated Network/crash toggles can't be flipped there. The SDK itself does send from web (falls back to fetch transport).
 
 ## Setup checklist (for a real build)
