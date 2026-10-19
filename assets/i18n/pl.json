@@ -721,6 +721,7 @@
       "title": "Mózg na urządzeniu",
       "sub": "Wszystko działa na twoim telefonie. Słowo.",
       "guideTitle": "Twój przewodnik",
+      "guideNoChatHint": "Czat nie działa na tym telefonie, więc przewodnik zmienia tylko teksty w grze.",
       "profileBand": "Profil i prywatność",
       "profileLeaks": "Część danych może opuścić telefon.",
       "profileSafe": "Żadne dane nie opuszczają telefonu.",

@@ -721,6 +721,7 @@
       "title": "On-device Brains",
       "sub": "Everything runs on your phone. Promise.",
       "guideTitle": "Your guide",
+      "guideNoChatHint": "Chat isn't supported on this phone, so your guide only changes the in-game lines.",
       "profileBand": "Profile & Privacy",
       "profileLeaks": "Some data may leave your device.",
       "profileSafe": "Zero data leaves your device.",

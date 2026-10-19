@@ -721,6 +721,7 @@
       "title": "Cerebro en el dispositivo",
       "sub": "Todo corre en tu teléfono. Palabra.",
       "guideTitle": "Tu guía",
+      "guideNoChatHint": "El chat no es compatible con este teléfono, así que tu guía solo cambia las frases del juego.",
       "profileBand": "Perfil y privacidad",
       "profileLeaks": "Algunos datos podrían salir del dispositivo.",
       "profileSafe": "Cero datos salen del dispositivo.",

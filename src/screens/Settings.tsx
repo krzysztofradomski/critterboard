@@ -214,30 +214,6 @@ export function Settings() {
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll}>
-        <Sticker bg={PB.paper} style={{ padding: 14 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 12,
-              marginBottom: 12,
-            }}
-          >
-            <View style={[styles.avatarBig, { backgroundColor: P.avatarBg }]}>
-              <Text style={{ fontSize: 22 }}>{P.emoji}</Text>
-            </View>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.cardTitle}>{t("settings.guideTitle")}</Text>
-              <Text style={styles.cardSub}>{P.title}</Text>
-            </View>
-          </View>
-          <View style={{ gap: 8 }}>
-            {PERSONA_IDS.map((pid) => (
-              <PersonaPick key={pid} pid={pid} compact />
-            ))}
-          </View>
-        </Sticker>
-
         <Sticker bg={PB.paper} style={{ padding: 0 }}>
           <View
             style={[
@@ -386,6 +362,32 @@ export function Settings() {
             statusBg={chatAvail === "available" ? PB.green : PB.cream2}
             statusFg={chatAvail === "available" ? PB.cream : PB.ink}
           />
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 12,
+              marginTop: 14,
+              marginBottom: 12,
+            }}
+          >
+            <View style={[styles.avatarBig, { backgroundColor: P.avatarBg }]}>
+              <Text style={{ fontSize: 22 }}>{P.emoji}</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.cardTitle}>{t("settings.guideTitle")}</Text>
+              <Text style={styles.cardSub}>{P.title}</Text>
+            </View>
+          </View>
+          {/* The guide also speaks in-game lines; where chat can't run, that's all it changes. */}
+          {(chatAvail === "device" || chatAvail === "language") && (
+            <Text style={[styles.nameHint, { marginTop: 0, marginBottom: 10 }]}>{t("settings.guideNoChatHint")}</Text>
+          )}
+          <View style={{ gap: 8 }}>
+            {PERSONA_IDS.map((pid) => (
+              <PersonaPick key={pid} pid={pid} compact />
+            ))}
+          </View>
         </Sticker>
 
         <UpdatesCard />
