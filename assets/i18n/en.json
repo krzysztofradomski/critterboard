@@ -71,7 +71,10 @@
       "permissionAsk": "Tap allow to let Critterboard see the bug. Photos stay on your device unless you choose to share one.",
       "permissionDenied": "Camera was denied. Enable it in Settings → Critterboard → Camera.",
       "allowCamera": "Allow camera",
-      "tapToSnap": "tap the bug to snap",
+      "previewGestures": "Tap to focus · Double-tap to snap",
+      "zoomLevel": "Zoom {zoom}×",
+      "resetZoom": "Resets zoom to 1×",
+      "takePhoto": "Take photo",
       "matching": "matching…",
       "needPackTitle": "Get the species pack",
       "needPackBody": "Bug ID runs on your phone. Install the Central Europe pack (1,000+ species and the offline map, ~145 MB) once to start scanning.",
@@ -274,6 +277,11 @@
       "saveAndHome": "Save & back to home"
     },
     "dex": {
+      "sort": {
+        "date": "Newest",
+        "name": "A–Z",
+        "label": "Sort order is {order}"
+      },
       "title": "My Dex",
       "caughtOf": "{caught} of {total} caught",
       "searchPlaceholder": "Search by name, latin, rarity…",

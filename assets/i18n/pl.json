@@ -71,7 +71,10 @@
       "permissionAsk": "Pozwól Critterboardowi zobaczyć owada. Zdjęcia zostają w telefonie, chyba że sam któreś udostępnisz.",
       "permissionDenied": "Aparat zablokowany. Włącz w Ustawienia → Critterboard → Aparat.",
       "allowCamera": "Zezwól aparatowi",
-      "tapToSnap": "dotknij owada, by zrobić zdjęcie",
+      "previewGestures": "Dotknij, by wyostrzyć · Dwa razy, by zrobić zdjęcie",
+      "zoomLevel": "Zoom {zoom}×",
+      "resetZoom": "Przywraca zoom 1×",
+      "takePhoto": "Zrób zdjęcie",
       "matching": "dopasowuję…",
       "needPackTitle": "Pobierz paczkę gatunków",
       "needPackBody": "Rozpoznawanie działa na Twoim telefonie. Zainstaluj raz paczkę Europa Środkowa (1000+ gatunków i mapa offline, ok. 145 MB), aby zacząć skanować.",
@@ -274,6 +277,11 @@
       "saveAndHome": "Zapisz i wróć"
     },
     "dex": {
+      "sort": {
+        "date": "Najnowsze",
+        "name": "A–Z",
+        "label": "Kolejność sortowania to {order}"
+      },
       "title": "Mój Dex",
       "caughtOf": "{caught} z {total} złapanych",
       "searchPlaceholder": "Szukaj po nazwie, łacinie, rzadkości…",

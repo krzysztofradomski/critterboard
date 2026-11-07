@@ -1,6 +1,6 @@
 {
   "id": "eu-ce",
-  "version": 14,
+  "version": 16,
   "mapUrl": "https://raw.githubusercontent.com/krzysztofradomski/critterboard/main/packs/maps/europe.pmtiles",
   "mapBytes": 55624156,
   "mapMd5": "ddba235fc14911cbb519a40eec19771f",
@@ -552,6 +552,11 @@
           "es": "La mosca verde botella común es una mosca de la familia Calliphoridae encontrada en la mayoría de las áreas del mundo y la más conocida de las numerosas especies de moscas verde botella.",
           "pl": "Mucha zielona, padlinówka skórnica, lucilia skórnica, – gatunek muchówki z rodziny plujkowatych."
         }
+      },
+      "names": {
+        "de": "Goldfliege",
+        "es": "Mosca verde botella común",
+        "pl": "Padlinówka skórnica"
       }
     },
     {
@@ -861,6 +866,11 @@
           "es": "La cucaracha americana, también llamada cucaracha roja, es una especie de insecto blatodeo de la familia Blattidae con distribución mundial.",
           "pl": "Przybyszka amerykańska, karaluch amerykański, karaczan amerykański – gatunek synantropijny z rzędu karaczanów, rodziny karaczanowatych, wbrew swojej nazwie wywodzący się z Azji południowo-wschodniej, skąd za pośrednictwem człowieka przedostał się na cały świat, z wyjątkiem rejonów polarnych."
         }
+      },
+      "names": {
+        "de": "Amerikanische Großschabe",
+        "es": "Cucaracha americana",
+        "pl": "Przybyszka amerykańska"
       }
     },
     {
@@ -975,6 +985,11 @@
           "es": "La mosca doméstica o común es una especie de insecto díptero braquícero de la familia Muscidae. Es la mosca más común y habitual en la mayoría de los climas de la Tierra.",
           "pl": "Mucha domowa – pospolity gatunek owada występujący na całym świecie."
         }
+      },
+      "names": {
+        "de": "Stubenfliege",
+        "es": "Mosca doméstica",
+        "pl": "Mucha domowa"
       }
     },
     {
@@ -1010,6 +1025,10 @@
           "en": "Calliphora vicina is a member of the family Calliphoridae, which includes blow flies and bottle flies. These flies are important in the field of forensic entomology, being used to estimate the time of a person's death when a corpse is found and then examined.",
           "pl": "Plujka pospolita, nazywana też muchą niebieską – gatunek muchówki z rodziny plujkowatych, nekrofag."
         }
+      },
+      "names": {
+        "de": "Blaue Schmeißfliege",
+        "pl": "Plujka pospolita"
       }
     },
     {
@@ -1024,7 +1043,8 @@
       "traits": [],
       "names": {
         "de": "Große Fettspinne",
-        "es": "Falsa viuda negra doméstica"
+        "es": "Falsa viuda negra doméstica",
+        "pl": "Fałszywa czarna wdowa"
       },
       "facts": {
         "o": "Araneae",
@@ -1083,6 +1103,10 @@
           "en": "Parasteatoda tepidariorum, the common house spider or American house spider, is a spider species of the genus Parasteatoda with a cosmopolitan distribution. Common house spiders are synanthropic and live in and near human dwellings.",
           "es": "La araña de patas largas de casa común o araña común de, también referida internacionalmente como araña casera americana es una araña de la familia de los terídidos. Es una especie cosmopolita que se distribuye en gran parte del mundo; a pesar de ello, no resulta peligrosa para las personas."
         }
+      },
+      "names": {
+        "de": "Gewächshaus-Mondspinne",
+        "es": "Araña casera americana"
       }
     },
     {
@@ -1193,6 +1217,10 @@
           "en": "Aedes albopictus, from the mosquito family, also known as the tiger mosquito or forest mosquito, is a species of mosquito native to the tropical and subtropical areas of Southeast Asia.",
           "es": "El mosquito tigre es una especie de díptero nematócero perteneciente a la familia Culicidae. Se caracteriza por su coloración negra con ornamentación blanca en el tórax y el abdomen, patas a bandas negras y blancas y una conspicua línea blanca longitudinal central en tórax y cabeza."
         }
+      },
+      "names": {
+        "de": "Asiatische Tigermücke",
+        "es": "Mosquito tigre"
       }
     },
     {
@@ -1333,6 +1361,9 @@
           "de": "Das Papierfischchen ist ein Fischchen aus der Familie der Lepismatidae. Die heute weltweit verbreitete Art ist überall nur synanthrop, in menschlichen Behausungen, nachgewiesen; ihre eigentliche Heimat ist unbekannt.",
           "en": "Ctenolepisma longicaudatum, generally known as the gray silverfish, long-tailed silverfish or paper silverfish, is a species of Zygentoma in the family Lepismatidae."
         }
+      },
+      "names": {
+        "de": "Papierfischchen"
       }
     },
     {
@@ -1402,6 +1433,10 @@
           "en": "The marsh crane fly is a species of cranefly found throughout the Palaearctic and parts of the Nearctic. Its specific name oleracea means \"related to vegetables/herbs\" in Latin and is a form of holeraceus.",
           "pl": "Koziułka warzywna, komarnica warzywna, koziułkowiec – gatunek owada z rodziny koziułkowatych, nieszkodliwy dla ludzi. Występuje na glebach podmokłych i wilgotnych, gdzie wyrządza szkody przez podgryzanie korzeni i młodych roślin."
         }
+      },
+      "names": {
+        "de": "Kohlschnake",
+        "pl": "Koziułka warzywna"
       }
     },
     {
@@ -1438,6 +1473,10 @@
           "es": "Tegenaria domestica es una araña araneomorfa de la familia Agelenidae. Es cosmopolita.",
           "pl": "Kątnik domowy, kątnik domowy mniejszy – gatunek pająka z rodziny lejkowcowatych."
         }
+      },
+      "names": {
+        "de": "Kleine Hauswinkelspinne",
+        "pl": "Kątnik domowy mniejszy"
       }
     },
     {
@@ -1515,6 +1554,11 @@
           "es": "La cucaracha rubia o alemana, también conocida como chiripa es una especie de insecto blatodeo de la familia Blattellidae. Los ejemplares miden aproximadamente de 1,3 a 1,6 cm.",
           "pl": "Karaczan prusak – gatunek karaczana z rodziny zadomkowatych i podrodziny Blattellinae."
         }
+      },
+      "names": {
+        "de": "Deutsche Schabe",
+        "es": "Cucaracha rubia",
+        "pl": "Karaczan prusak"
       }
     },
     {
@@ -1551,6 +1595,10 @@
           "en": "Stomoxys calcitrans is known by the common names stable fly, barn fly, biting house fly, dog fly, and power mower fly. Unlike most members of the family Muscidae, Stomoxys calcitrans and others of its genus suck blood from mammals.",
           "es": "La mosca de los establos o mosca picadora es una mosca de distribución cosmopolita y de origen euroasiático que pertenece a la familia Muscidae."
         }
+      },
+      "names": {
+        "de": "Wadenstecher",
+        "es": "Mosca de los establos"
       }
     },
     {
@@ -1582,6 +1630,11 @@
           "es": "La hormiga negra de jardín es una hormiga de la subfamilia Formicinae, del género Lasius que se encuentra en toda Europa y en algunas partes de América del Norte, América del Sur y Asia. Las obreras son de color negro con reflejos grises y medida de 3 a 5 mm y la reina puede ser de hasta 11 mm.",
           "pl": "Hurtnica pospolita, hurtnica zwyczajna, hurtnica czarna – gatunek błonkówki z rodziny mrówkowatych. Pierwotnie palearktyczny, ale zawleczony do Nearktyki."
         }
+      },
+      "names": {
+        "de": "Schwarze Wegameise",
+        "es": "Hormiga negra de jardín",
+        "pl": "Hurtnica pospolita"
       }
     },
     {
@@ -1617,6 +1670,10 @@
           "en": "The lesser house fly, commonly known as little house fly, is a species of fly. It is somewhat smaller than the common housefly and is best known for its habit of entering buildings and flying in jagged patterns in the middle of a room.",
           "pl": "Zgniłówka pokojowa, muszka jesienna – gatunek muchówki z rodziny zgniłówkowatych. Owad kosmopolityczny, pospolity, tworzący populacje synantropijne."
         }
+      },
+      "names": {
+        "de": "Kleine Stubenfliege",
+        "pl": "Zgniłówka pokojowa"
       }
     },
     {
@@ -1687,6 +1744,10 @@
           "en": "Myrmica rubra, also known in the UK as the common red ant or in the USA as the European fire ant, is a species of ant of the genus Myrmica. It is found across Europe and is now invasive in some parts of North America and Asia.",
           "pl": "Wścieklica zwyczajna – gatunek mrówki z podrodziny Myrmicinae, o północnopalearktycznym zasięgu występowania."
         }
+      },
+      "names": {
+        "de": "Rote Gartenameise",
+        "pl": "Wścieklica zwyczajna"
       }
     },
     {
@@ -1724,6 +1785,10 @@
           "de": "Die Große Rosenblattlaus ist eine Blattlaus aus der Gattung Macrosiphum der Familie der Röhrenblattläuse. Sie ernährt sich vom Pflanzensaft verschiedener Rosenarten, Karden- und Baldriangewächse.",
           "en": "Macrosiphum rosae, the rose aphid, is a species of sap-sucking aphids in the subfamily Aphidinae. They have a world-wide distribution and infest rosebushes as the main host in spring and early summer, congregating on the tips of shoots and around new buds."
         }
+      },
+      "names": {
+        "de": "Große Rosenblattlaus",
+        "es": "Pulgón del rosal"
       }
     },
     {
@@ -1757,6 +1822,11 @@
           "es": "El pulgón Aphis fabae es un pequeño insecto del género Aphis, familia Aphididae. En los meses cálidos se lo encuentra en gran número en el revés de las hojas de las plantas huéspedes, que incluyen muchas plantas cultivadas.",
           "pl": "Mszyca burakowa – gatunek pluskwiaka piersiodziobego z rodziny mszycowatych."
         }
+      },
+      "names": {
+        "de": "Schwarze Bohnenlaus",
+        "es": "Pulgón negro de las habas",
+        "pl": "Mszyca burakowa"
       }
     },
     {
@@ -1785,6 +1855,10 @@
           "es": "El mosquito común o mosquito trompetero es una especie de mosquito que se alimenta de plantas, de la familia Culicidae. Es el vector transmisor de varias enfermedades víricas, como la encefalitis japonesa o la fiebre del nilo occidental.",
           "pl": "Komar brzęczący, komar pospolity – występujący w krajach klimatu tropikalnego i subtropikalnego, także w klimacie umiarkowanym, gatunek owada z rodziny komarowatych, rzędu muchówek. Obok widliszka, najbardziej rozpowszechniony komar na terenie Polski."
         }
+      },
+      "names": {
+        "es": "Mosquito trompetero",
+        "pl": "Komar brzęczący"
       }
     },
     {
@@ -1820,6 +1894,10 @@
           "es": "Lasius flavus es una especie de hormiga de la familia Formicidae que está muy extendida en Europa, pero también se encuentra en Asia, África del norte y el este de América del Norte. Las poblaciones de Norteaméria son consideradas ahora una especie diferente, Lasius brevicornis.",
           "pl": "Podziemnica zwyczajna – gatunek mrówek z podrodziny Formicinae. Występuje pospolicie w Europie i Ameryce Północnej."
         }
+      },
+      "names": {
+        "de": "Gelbe Wiesenameise",
+        "pl": "Podziemnica zwyczajna"
       }
     },
     {
@@ -1854,6 +1932,11 @@
           "es": "La polilla común de la ropa o polilla de la ropa, es una especie de lepidóptero de la familia Tineidae, subfamilia Tineinae. Es la especie tipo de su género Tineola y fue descrita por primera vez por el entomólogo sueco Arvid David Hummel en 1823.",
           "pl": "Mól włosienniczek – mały motyl nocny z rodziny molowatych, szkodnik niszczący ubrania, powszechnie znany jako mól odzieżowy albo mól ubraniowy."
         }
+      },
+      "names": {
+        "de": "Kleidermotte",
+        "es": "Polilla de la ropa",
+        "pl": "Mól włosienniczek"
       }
     },
     {
@@ -1889,6 +1972,11 @@
           "es": "Tanto en Europa como en América del Norte, el escarabajo común del espárrago Crioceris asparagi es una plaga importante de los cultivos de espárragos. Y solo ataca el espárrago.",
           "pl": "Poskrzypka szparagowa – gatunek chrząszcza z rodziny stonkowatych."
         }
+      },
+      "names": {
+        "de": "Gemeines Spargelhähnchen",
+        "es": "Escarabajo común del espárrago",
+        "pl": "Poskrzypka szparagowa"
       }
     },
     {
@@ -1956,6 +2044,10 @@
           "en": "The drugstore beetle, also known as the bread beetle, biscuit beetle, and misnamed as the biscuit weevil, is a small brown beetle that infests a wide variety of dried plant products, where it is among the most common non-weevils. It is the only living member of the genus Stegobium.",
           "pl": "Żywiak chlebowiec – niewielki chrząszcz z rodziny kołatkowatych."
         }
+      },
+      "names": {
+        "de": "Brotkäfer",
+        "pl": "Żywiak chlebowiec"
       }
     },
     {
@@ -1982,6 +2074,9 @@
           "de": "Die Ringelmücke oder Große Hausmücke ist eine vor allem in Nordeuropa weitverbreitete Stechmücke. Verglichen mit anderen Arten ist die Ringelmücke groß und kräftig.",
           "en": "Culiseta annulata is a species of mosquito in the family Culicidae. It is found in the Palearctic."
         }
+      },
+      "names": {
+        "de": "Ringelmücke"
       }
     },
     {
@@ -2015,6 +2110,10 @@
           "en": "Trialeurodes vaporariorum, commonly known as the glasshouse whitefly or greenhouse whitefly, is an insect that inhabits the world's temperate regions. Like various other whiteflies, it is a primary insect pest of many fruit, vegetable and ornamental crops.",
           "es": "Trialeurodes vaporariorum, conocida vulgarmente como mosca blanca o mosca blanca de los invernaderos, es una especie de insecto hemíptero de la familia Aleyrodidae que habita en las regiones cálidas de la Tierra."
         }
+      },
+      "names": {
+        "de": "Gewächshausmottenschildlaus",
+        "es": "Mosca blanca de los invernaderos"
       }
     },
     {
@@ -2047,6 +2146,11 @@
           "es": "La pulga del gato es una especie de insecto sifonáptero de la familia Pulicidae, una de las más abundantes y de mayor distribución mundial.",
           "pl": "Pchła kocia – owad z rodziny Pulicidae. Pasożyt zewnętrzny kota."
         }
+      },
+      "names": {
+        "de": "Katzenfloh",
+        "es": "Pulga del gato",
+        "pl": "Pchła kocia"
       }
     },
     {
@@ -2081,6 +2185,11 @@
           "es": "Cimex lectularius, popularmente conocido como chinche o chinche de las camas, es un insecto hemíptero de la familia Cimicidae. Su alimentación es hematófaga, es decir, se nutre con sangre de humanos y otros animales de sangre caliente.",
           "pl": "Pluskwa domowa – gatunek owada należący do podrzędu pluskwiaków różnoskrzydłych, rodziny pluskwowatych. Żywi się krwią zwierząt ciepłokrwistych, głównie człowieka."
         }
+      },
+      "names": {
+        "de": "Bettwanze",
+        "es": "Chinche de las camas",
+        "pl": "Pluskwa domowa"
       }
     },
     {
@@ -2137,6 +2246,9 @@
           "de": "Die Grüne Pfirsichblattlaus ist eine Blattlaus aus der Gattung Myzus in der Familie der Röhrenblattläuse. Die Tiere sind Schädlinge.",
           "en": "Myzus persicae, known as the green peach aphid, greenfly, or the peach-potato aphid, is a small green aphid belonging to the order Hemiptera. It is the most significant aphid pest of peach trees, causing decreased growth, shrivelling of the leaves and the death of various tissues."
         }
+      },
+      "names": {
+        "de": "Grüne Pfirsichblattlaus"
       }
     },
     {
@@ -2176,6 +2288,11 @@
           "es": "La hormiga faraón es una hormiga pequeña y de color amarillo o marrón claro, casi transparente, notoria por ser una importante plaga en interiores, especialmente en hospitales.",
           "pl": "Mrówka faraona, faraonka – gatunek mrówek z podrodziny Myrmicinae. Gatunek kosmopolityczny, synantropijny, pochodzący prawdopodobnie z Afryki Zachodniej lub Indonezji."
         }
+      },
+      "names": {
+        "de": "Pharaoameise",
+        "es": "Hormiga faraón",
+        "pl": "Mrówka faraona"
       }
     },
     {
@@ -2213,6 +2330,11 @@
           "es": "Drosophila melanogaster, también llamada mosca del vinagre o mosca de la fruta, es una especie de díptero braquícero de la familia Drosophilidae. Recibe su nombre debido a que se alimenta de frutas en proceso de fermentación tales como manzanas, bananas, uvas, etc.",
           "pl": "Wywilżna karłowata, drozofila karłówka, muszka owocowa, wywilżnia, wywilżanka, drozofila, octówka – niewielki owad z rzędu muchówek. Jest gatunkiem należącym do bezkręgowych organizmów modelowych."
         }
+      },
+      "names": {
+        "de": "Kleine Essigfliege",
+        "es": "Mosca del vinagre",
+        "pl": "Wywilżna karłowata"
       }
     },
     {
@@ -2975,7 +3097,8 @@
       "traits": [],
       "names": {
         "de": "Europäische Gottesanbeterin",
-        "pl": "Modliszka zwyczajna"
+        "pl": "Modliszka zwyczajna",
+        "es": "Santateresa"
       },
       "facts": {
         "o": "Mantodea",
@@ -4268,7 +4391,8 @@
       "traits": [],
       "names": {
         "de": "Jakobskrautbär",
-        "pl": "Proporzyca marzymłódka"
+        "pl": "Proporzyca marzymłódka",
+        "es": "Polilla cinabrio"
       },
       "facts": {
         "o": "Lepidoptera",
@@ -5096,7 +5220,8 @@
       ],
       "names": {
         "de": "Blauer Erlenblattkäfer",
-        "pl": "Hurmak olchowiec"
+        "pl": "Hurmak olchowiec",
+        "es": "Escarabajo de la hoja del aliso"
       },
       "facts": {
         "o": "Coleoptera",
@@ -5447,7 +5572,8 @@
       "traits": [],
       "names": {
         "de": "Gitterspanner",
-        "pl": "Witalnik nostrzak"
+        "pl": "Witalnik nostrzak",
+        "es": "Polilla reticulada"
       },
       "facts": {
         "o": "Lepidoptera",
@@ -5519,7 +5645,8 @@
       "traits": [],
       "names": {
         "de": "Graubinden-Labkrautspanner",
-        "pl": "Paśnik zmiennik"
+        "pl": "Paśnik zmiennik",
+        "es": "Alfombra común"
       },
       "facts": {
         "o": "Lepidoptera",
@@ -5743,7 +5870,8 @@
       ],
       "names": {
         "de": "Rothalsbock",
-        "pl": "Zmorsznik czerwony"
+        "pl": "Zmorsznik czerwony",
+        "es": "Cerambícido rojo"
       },
       "facts": {
         "o": "Coleoptera",
@@ -8026,7 +8154,8 @@
       ],
       "names": {
         "de": "Feld-Sandlaufkäfer",
-        "pl": "Trzyszcz polny"
+        "pl": "Trzyszcz polny",
+        "es": "Cicindela campestre"
       },
       "facts": {
         "o": "Coleoptera",
@@ -8677,7 +8806,8 @@
       "traits": [],
       "names": {
         "de": "Feldgrille",
-        "pl": "Świerszcz polny"
+        "pl": "Świerszcz polny",
+        "es": "Grillo campestre"
       },
       "facts": {
         "o": "Orthoptera",
@@ -9382,7 +9512,8 @@
       "traits": [],
       "names": {
         "de": "Märzfliege",
-        "pl": "Leń marcowy"
+        "pl": "Leń marcowy",
+        "es": "Mosca de San Marcos"
       },
       "facts": {
         "o": "Diptera",
@@ -9420,7 +9551,8 @@
       ],
       "names": {
         "de": "Zehnpunkt-Marienkäfer",
-        "pl": "Biedronka dziesięciokropka"
+        "pl": "Biedronka dziesięciokropka",
+        "es": "Mariquita de diez puntos"
       },
       "facts": {
         "o": "Coleoptera",
@@ -9865,7 +9997,8 @@
       ],
       "names": {
         "de": "Pappelblattkäfer",
-        "pl": "Rynnica topolowa"
+        "pl": "Rynnica topolowa",
+        "es": "Escarabajo de la hoja del álamo"
       },
       "facts": {
         "o": "Coleoptera",
@@ -12073,6 +12206,9 @@
           "en": "Transcaucasian Giant Mantis is a species of praying mantis in the family Mantidae.",
           "es": "Hierodula transcaucasica es una especie de mantis de la familia Mantidae."
         }
+      },
+      "names": {
+        "de": "Transkaukasische Gottesanbeterin"
       }
     },
     {
@@ -13111,7 +13247,8 @@
       "traits": [],
       "names": {
         "de": "Kiefernschwärmer",
-        "pl": "Zawisak borowiec"
+        "pl": "Zawisak borowiec",
+        "es": "Esfinge del pino"
       },
       "facts": {
         "o": "Lepidoptera",
@@ -14419,7 +14556,8 @@
       ],
       "names": {
         "de": "Gemeine Binsenjungfer",
-        "pl": "Pałątka pospolita"
+        "pl": "Pałątka pospolita",
+        "es": "Lestes norteño"
       },
       "facts": {
         "o": "Odonata",
@@ -14489,7 +14627,8 @@
       "traits": [],
       "names": {
         "de": "Vierfleckkreuzspinne",
-        "pl": "Krzyżak łąkowy"
+        "pl": "Krzyżak łąkowy",
+        "es": "Araña de cuatro puntos"
       },
       "facts": {
         "o": "Araneae",
@@ -14749,7 +14888,8 @@
       ],
       "names": {
         "de": "Moschusbock",
-        "pl": "Wonnica piżmówka"
+        "pl": "Wonnica piżmówka",
+        "es": "Capricornio oloroso"
       },
       "facts": {
         "o": "Coleoptera",
@@ -14947,6 +15087,10 @@
           "en": "Lygus pratensis is a species of plant bug belonging to the family Miridae.",
           "pl": "Zmienik ziemniaczak – owad z rzędu pluskwiaków, zaliczany do rodziny tasznikowatych."
         }
+      },
+      "names": {
+        "de": "Gemeine Wiesenwanze",
+        "pl": "Zmienik ziemniaczak"
       }
     },
     {
@@ -15670,7 +15814,8 @@
       "traits": [],
       "names": {
         "de": "Weiße Winden-Federmotte",
-        "pl": "Piórolotek pięciopiór"
+        "pl": "Piórolotek pięciopiór",
+        "es": "Penacho de cinco plumas"
       },
       "facts": {
         "o": "Lepidoptera",
@@ -16027,7 +16172,8 @@
       "traits": [],
       "names": {
         "de": "Nonne",
-        "pl": "Brudnica mniszka"
+        "pl": "Brudnica mniszka",
+        "es": "Monja"
       },
       "facts": {
         "o": "Lepidoptera",
@@ -17603,7 +17749,8 @@
       ],
       "names": {
         "de": "Kleiner Eichenbock",
-        "pl": "Kozioróg bukowiec"
+        "pl": "Kozioróg bukowiec",
+        "es": "Pequeño capricornio"
       },
       "facts": {
         "o": "Coleoptera",
@@ -17729,6 +17876,9 @@
           "en": "Yponomeuta cagnagella, the spindle ermine, is a moth from the family Yponomeutidae, the ermine moths. The wingspan of the moth ranges from 19 to 26 millimetres.",
           "es": "Yponomeuta cagnagella es una especie de polilla del género Yponomeuta, familia Yponomeutidae, orden Lepidoptera. Fue descrita científicamente por Hübner en 1813."
         }
+      },
+      "names": {
+        "de": "Pfaffenhütchen-Gespinstmotte"
       }
     },
     {
@@ -19094,6 +19244,10 @@
           "en": "Oedemera lurida is a species of beetle belonging to the family Oedemeridae subfamily Oedemerinae.",
           "pl": "Zalęszczyca drobna – gatunek chrząszcza z rodziny zalęszczycowatych."
         }
+      },
+      "names": {
+        "de": "Grünlicher Scheinbockkäfer",
+        "pl": "Zalęszczyca drobna"
       }
     },
     {
@@ -20572,6 +20726,9 @@
           "de": "Die Getreide-Halmeule ist ein Schmetterling aus der Familie der Eulenfalter.",
           "en": "Mesapamea secalis, the common rustic, is a moth of the family Noctuidae. The species was first described by Carl Linnaeus in his 1758 10th edition of Systema Naturae."
         }
+      },
+      "names": {
+        "de": "Getreide-Halmeule"
       }
     },
     {
@@ -21329,6 +21486,10 @@
           "es": "La araña lobo moteada es una especie de araña araneomorfa del género Pardosa, familia Lycosidae. Fue descrita científicamente por Carl Alexander Clerck en 1757.",
           "pl": "Wałęsak zwyczajny – gatunek małego pająka z rodziny pogońcowatych."
         }
+      },
+      "names": {
+        "de": "Gebänderte Wolfspinne",
+        "pl": "Wałęsak zwyczajny"
       }
     },
     {
@@ -21831,7 +21992,8 @@
       "traits": [],
       "names": {
         "de": "Goldafter",
-        "pl": "Kuprówka rudnica"
+        "pl": "Kuprówka rudnica",
+        "es": "Mariposa lagarta cola parda"
       },
       "facts": {
         "o": "Lepidoptera",
@@ -21938,7 +22100,8 @@
       "traits": [],
       "names": {
         "de": "Abendpfauenauge",
-        "pl": "Nastrosz półpawik"
+        "pl": "Nastrosz półpawik",
+        "es": "Esfinge ocelada"
       },
       "facts": {
         "o": "Lepidoptera",
@@ -22521,6 +22684,9 @@
           "de": "Der Kleine Rauch-Sackträger ist eine der etwa dreißig in Mitteleuropa vorkommenden Arten der Echten Sackträger. Der Kleine Sackträger hat, wie für diese Familie typisch, keine flugfähigen Weibchen und gehört zu den Nachtfaltern.",
           "en": "Psyche casta is a nocturnal moth from the family Psychidae, the bagworm moths. The wingspan of the males ranges from 12 to 15 millimeters."
         }
+      },
+      "names": {
+        "de": "Kleiner Rauch-Sackträger"
       }
     },
     {
@@ -22588,6 +22754,10 @@
           "es": "Enoplognatha ovata es una especie de araña araneomorfa del género Enoplognatha, familia Theridiidae. Fue descrita científicamente por Clerck en 1757.",
           "pl": "Zawijak żółtawy – gatunek niewielkiego pająka z rodziny omatnikowatych. Występuje w Europie, a także w Ameryce Północnej, gdzie został sztucznie introdukowany."
         }
+      },
+      "names": {
+        "de": "Gewöhnliche Ovalspinne",
+        "pl": "Zawijak żółtawy"
       }
     },
     {
@@ -22760,6 +22930,10 @@
           "es": "Cloeon dipterum es un insecto del orden de las efímeras con una distribución holártica. Es la efímera más común en los lagunas de las islas británicas y la única efímera ovovivípara en Europa.",
           "pl": "Murzyłka dwuskrzydła – gatunek owada z rodziny murzyłkowatych z rzędu jętek. Występują w niemal całej Europie i w znacznej części strefy umiarkowanej Azji."
         }
+      },
+      "names": {
+        "de": "Fliegenhaft",
+        "pl": "Murzyłka dwuskrzydła"
       }
     },
     {
@@ -23366,6 +23540,9 @@
         "ab": {
           "de": "Die Gemeine Raubfliege ist eine Art der Raubfliegen und paläarktisch verbreitet. In Deutschland ist sie in den meisten Gegenden die häufigste Raubfliege."
         }
+      },
+      "names": {
+        "de": "Gemeine Raubfliege"
       }
     },
     {
@@ -23382,7 +23559,8 @@
       ],
       "names": {
         "de": "Fichtenrüsselkäfer",
-        "pl": "Szeliniak sosnowy"
+        "pl": "Szeliniak sosnowy",
+        "es": "Gorgojo del pino"
       },
       "facts": {
         "o": "Coleoptera",
@@ -23750,6 +23928,9 @@
           "de": "Die Rote Mordwanze ist eine auffällig schwarz-rot gezeichnete Wanzenart aus der Familie der Raubwanzen.",
           "en": "Rhynocoris iracundus is an assassin bug belonging to the family Reduviidae, subfamily Harpactorinae. The species was first described by Nikolaus Poda von Neuhaus in 1761."
         }
+      },
+      "names": {
+        "de": "Rote Mordwanze"
       }
     },
     {
@@ -23763,7 +23944,8 @@
       "color": "#5a9a50",
       "traits": [],
       "names": {
-        "de": "Vierfleckige Ameisenjungfer"
+        "de": "Vierfleckige Ameisenjungfer",
+        "pl": "Mrówkolew średni"
       },
       "facts": {
         "o": "Neuroptera",
@@ -23951,6 +24133,10 @@
           "de": "Die Gemeine Sandbiene, auch Gewöhnliche Bindensandbiene genannt, ist eine Biene aus der Gattung der Sandbienen.",
           "pl": "Pszczolinka pospolita – gatunek samotnej pszczoły z rodziny pszczolinkowatych."
         }
+      },
+      "names": {
+        "de": "Gewöhnliche Bindensandbiene",
+        "pl": "Pszczolinka pospolita"
       }
     },
     {
@@ -24192,7 +24378,8 @@
       "traits": [],
       "names": {
         "de": "Braune Mosaikjungfer",
-        "pl": "Żagnica wielka"
+        "pl": "Żagnica wielka",
+        "es": "Libélula parda"
       },
       "facts": {
         "o": "Odonata",
@@ -24247,6 +24434,10 @@
           "en": "Tetragnatha extensa is a species of spider found across the Northern Hemisphere. It has an elongate body, up to 11 mm long, and adopts a straight line posture when alarmed.",
           "pl": "Kwadratnik trzcinowy – gatunek pająka z rodziny kwadratnikowatych i podrodziny Tetragnathinae. Pospolity w Palearktyce i Ameryce Północnej."
         }
+      },
+      "names": {
+        "de": "Gemeine Streckerspinne",
+        "pl": "Kwadratnik trzcinowy"
       }
     },
     {
@@ -24315,6 +24506,9 @@
           "de": "Byturus ochraceus, auch Nelkenwurzkäfer genannt, ist ein Käfer aus der Familie der Blütenfresser. Die Gattung Byturus ist in Europa außer mit Byturus ochraceus nur noch mit der sehr ähnlichen Art Byturus tomentosus vertreten.",
           "en": "Byturus ochraceus is a species of beetle in the fruitworm family Byturidae."
         }
+      },
+      "names": {
+        "de": "Nelkenwurzkäfer"
       }
     },
     {
@@ -25469,6 +25663,9 @@
           "en": "Exosoma lusitanicum, the daffodil leaf beetle, is a species of skeletonizing leaf beetles belonging to the family Chrysomelidae, subfamily Galerucinae.",
           "es": "La galeruca de los narcisos es una especie de insecto coleóptero de la familia Chrysomelidae. Se distribuye por el Paleártico: sur de Europa, norte de África y Oriente Próximo."
         }
+      },
+      "names": {
+        "es": "Galeruca de los narcisos"
       }
     },
     {
@@ -25680,6 +25877,9 @@
           "en": "Mythimna impura, the smoky wainscot, is a moth of the family Noctuidae. The species was first described by Jacob Hübner in 1808.",
           "es": "Mythimna impura es una polilla de la familia Noctuidae. Se distribuye en toda Europa."
         }
+      },
+      "names": {
+        "de": "Stumpfflügel-Graseule"
       }
     },
     {
@@ -25712,6 +25912,9 @@
           "de": "Die Bienenjagende Knotenwespe ist ein Hautflügler aus der Familie der Crabronidae. Die Art ist nicht gefährdet.",
           "en": "Cerceris rybyensis, the ornate tailed digger wasp, is a Palearctic species of solitary wasp from the family Philanthidae which specialised in hunting small to medium-sized mining bees. It is the type species of the genus Cerceris and was named as Sphex rybyensis by Carl Linnaeus in 1771."
         }
+      },
+      "names": {
+        "de": "Bienenjagende Knotenwespe"
       }
     },
     {
@@ -25880,6 +26083,10 @@
           "en": "The common flowerbug is a common minute pirate or flower bug.",
           "pl": "Dziubałek gajowy – gatunek drapieżnego owada z podrzędu pluskwiaków różnoskrzydłych, z rodziny dziubałkowatych. Występuje w prawie całej Europie, w wielu miejscach pospolity."
         }
+      },
+      "names": {
+        "de": "Wahlloser Lausjäger",
+        "pl": "Dziubałek gajowy"
       }
     },
     {
@@ -25949,6 +26156,9 @@
           "de": "Die Schilfradspinne, auch Gewöhnliche Schilfradspinne genannt, ist eine Spinnenart aus der Familie der Echten Radnetzspinnen.",
           "en": "Larinioides cornutus, the furrow spider, furrow orb spider, or foliate spider is an orb-weaver spider with Holarctic distribution."
         }
+      },
+      "names": {
+        "de": "Gewöhnliche Schilfradspinne"
       }
     },
     {
@@ -26838,6 +27048,10 @@
           "en": "Metellina segmentata is a spider in the family Tetragnathidae with a Palaearctic distribution. This spider's name is often shortened to Meta segmentata, and some even call it Araneus segmentatus simply meaning, orb weaving spiders.",
           "pl": "Czaik jesienny – gatunek pająka z rodziny kwadratnikowatych."
         }
+      },
+      "names": {
+        "de": "Echte Herbstspinne",
+        "pl": "Czaik jesienny"
       }
     },
     {
@@ -27146,6 +27360,9 @@
           "de": "Die Gefleckte Wiesenschnake ist eine Schnake aus der Gattung der Krähenschnaken in der Ordnung der Zweiflügler.",
           "en": "Nephrotoma appendiculata, the spotted crane fly, is a species of crane fly."
         }
+      },
+      "names": {
+        "de": "Gefleckte Wiesenschnake"
       }
     },
     {
@@ -27215,6 +27432,9 @@
           "de": "Die Gemeine Baldachinspinne, auch Gewöhnliche Baldachinspinne genannt, ist eine Spinnenart aus der Familie der Baldachinspinnen. Im Gegensatz zu vielen anderen Vertretern der Familie ist diese Art aufgrund ihrer auffallenden Zeichnung auf dem Vorderkörper leicht zu identifizieren.",
           "en": "Linyphia triangularis is a European species of spider in the family Linyphiidae first described by Carl Alexander Clerck in his 1758 Svenska Spindlar."
         }
+      },
+      "names": {
+        "de": "Gemeine Baldachinspinne"
       }
     },
     {
@@ -27315,6 +27535,11 @@
           "es": "La blanca esbelta es una especie de mariposa de la familia Pieridae. Se encuentra distribuida en Europa, hacia el este a través del Cáucaso, Asia Menor, Oriente Medio, Kazajistán y desde el sur de Siberia a la región de los montes Baikal.",
           "pl": "Wietek gorczycznik – gatunek motyla dziennego z rodziny bielinkowatych."
         }
+      },
+      "names": {
+        "de": "Leguminosen-Weißling",
+        "es": "Blanca esbelta",
+        "pl": "Wietek gorczycznik"
       }
     },
     {
@@ -27349,6 +27574,10 @@
           "es": "Cryptocephalus sericeus es una especie de insecto coleóptero de la familia Chrysomelidae. Fue descrita científicamente en 1758 por Carolus Linnaeus.",
           "pl": "Zmróżka złotawa – gatunek chrząszcza z rodziny stonkowatych."
         }
+      },
+      "names": {
+        "de": "Seidiger Fallkäfer",
+        "pl": "Zmróżka złotawa"
       }
     },
     {
@@ -27966,6 +28195,10 @@
           "en": "The common horse fly, also known as the notch-horned cleg fly, or simply cleg in Scotland and northern parts of Ireland, is a fly species belonging to the family Tabanidae subfamily Tabaninae.",
           "pl": "Jusznica deszczowa – gatunek muchówki z podrzędu krótkoczułkich i rodziny bąkowatych, rozsiedlony w prawie całej Palearktyce. Larwy są geofilne, czyli przechodzą rozwój w glebie."
         }
+      },
+      "names": {
+        "de": "Regenbremse",
+        "pl": "Jusznica deszczowa"
       }
     },
     {
@@ -28065,6 +28298,9 @@
           "de": "Das Striegel-Halmeulchen oder Halmeulchen ist ein Schmetterling aus der Familie der Eulenfalter.",
           "en": "The marbled minor is a moth of the family Noctuidae. The species was first described by Carl Linnaeus in his 1758 10th edition of Systema Naturae."
         }
+      },
+      "names": {
+        "de": "Striegel-Halmeulchen"
       }
     },
     {
@@ -28119,7 +28355,8 @@
         "bug"
       ],
       "names": {
-        "de": "Weißpunkt-Bodenwanze"
+        "de": "Weißpunkt-Bodenwanze",
+        "pl": "Szkarłatnik ciemiężykowiec"
       },
       "facts": {
         "o": "Hemiptera",
@@ -28320,6 +28557,10 @@
           "en": "Brassicogethes aeneus, the common pollen beetle, is a species of pollen beetle in the family Nitidulidae. Other common names include the rape pollen beetle and rape blossom beetle.",
           "es": "Brassicogethes aeneus es una especie de escarabajo del polen de la familia Nitidulidae. Es conocido como escarabajo del polen de la colza o el escarabajo de la flor de la colza."
         }
+      },
+      "names": {
+        "de": "Rapsglanzkäfer",
+        "es": "Escarabajo del polen de la colza"
       }
     },
     {
@@ -28415,6 +28656,9 @@
           "de": "Die Gelbe Schlupfwespe ist eine Schlupfwespe aus der Unterfamilie der Ichneumoninae, Tribus Ichneumonini.",
           "en": "Amblyteles armatorius is a species of parasitic wasp in the family Ichneumonidae first described by Johann Reinhold Forster in 1771."
         }
+      },
+      "names": {
+        "de": "Gelbe Schlupfwespe"
       }
     },
     {
@@ -28513,6 +28757,10 @@
           "en": "Tabanus sudeticus, also known as the dark giant horsefly, is a species of biting horse fly. It is the heaviest fly in Europe.",
           "pl": "Bąk brązowy – gatunek owada z rodziny bąkowatych. Jest największym krajowym przedstawicielem tej rodziny."
         }
+      },
+      "names": {
+        "de": "Pferdebremse",
+        "pl": "Bąk brązowy"
       }
     },
     {
@@ -28617,6 +28865,10 @@
           "en": "Hipparchia fagi, the woodland grayling, is a butterfly of the family Nymphalidae.",
           "pl": "Hipparchia fagi, skalnik hermiona – gatunek motyla z rodziny rusałkowatych, podobny do Hipparchia syriaca oraz do skalnika alcyone, z którym jest często mylony."
         }
+      },
+      "names": {
+        "de": "Großer Waldportier",
+        "pl": "Skalnik hermiona"
       }
     },
     {
@@ -28745,7 +28997,8 @@
       "traits": [],
       "names": {
         "de": "Linienschwärmer",
-        "pl": "Zmrocznik liguryjski"
+        "pl": "Zmrocznik liguryjski",
+        "es": "Esfinge rayada"
       },
       "facts": {
         "o": "Lepidoptera",
@@ -28933,6 +29186,9 @@
           "de": "Das Dunkle Halmeulchen, auch als Bergheiden-Graseulchen bezeichnet, ist ein Schmetterling aus der Familie der Eulenfalter.",
           "en": "Oligia latruncula, the tawny marbled minor, is a species of moth belonging to the family Noctuidae. The species was first described by Michael Denis and Ignaz Schiffermüller in 1775."
         }
+      },
+      "names": {
+        "de": "Dunkles Halmeulchen"
       }
     },
     {
@@ -29102,6 +29358,9 @@
           "en": "The brindled pug is a moth of the family Geometridae found in Europe including the British Isles as well as further east to the Baltic States, Armenia, Turkey and the Caucasus. South it reaches North Africa.",
           "es": "Eupithecia abbreviata o polilla del roble, es una especie de insectos lepidópteros, más concretamente de polillas, perteneciente a la familia de geométridos. La especie fue descrita por James Francis Stephens, habiendo sido descrita en 1831."
         }
+      },
+      "names": {
+        "de": "Eichen-Blütenspanner"
       }
     },
     {
@@ -29165,6 +29424,9 @@
           "de": "Die Heide-Feldwespe ist ein Hautflügler aus der Familie der Faltenwespen.",
           "en": "Polistes nimpha is a eusocial paper wasp found all over Europe, with particular sightings in Turkey, Finland, Estonia, and Latvia. It is also found in northern Africa, Pakistan, Iran, India, Kazakhstan, Mongolia, and China."
         }
+      },
+      "names": {
+        "de": "Heide-Feldwespe"
       }
     },
     {
@@ -29232,6 +29494,10 @@
           "de": "Die Hottentottenfliege ist eine Fliege aus der Familie der Wollschweber.",
           "pl": "Słońcówka sówkówka – gatunek muchówki z rodziny bujankowatych i podrodziny Exoprosopinae. Zamieszkuje Palearktykę od Półwyspu Iberyjskiego po Syberię i Chiny."
         }
+      },
+      "names": {
+        "de": "Hottentottenfliege",
+        "pl": "Słońcówka sówkówka"
       }
     },
     {
@@ -29432,6 +29698,11 @@
           "es": "Chrysoperla carnea, denominada vulgarmente como crisopa, es un insecto de la familia Chrysopidae. Se encuentra en muchas partes de América, Europa y Asia.",
           "pl": "Chrysoperla carnea – w szerokim znaczeniu grupa gatunków kryptycznych, a w wąskim znaczeniu gatunek owada z rodziny złotookowatych. W języku polskim był opisywany w literaturze pod zwyczajową nazwą złotook zwyczajny lub złotook drapieżny."
         }
+      },
+      "names": {
+        "de": "Gemeine Florfliege",
+        "es": "Crisopa",
+        "pl": "Złotook drapieżny"
       }
     },
     {
@@ -29527,6 +29798,10 @@
           "es": "Araniella cucurbitina es una especie de araña de la familia Araneidae.",
           "pl": "Krzyżak zielony – pająk z rodzaju Araniella, należący do rodziny krzyżakowatych."
         }
+      },
+      "names": {
+        "de": "Gewöhnliche Kürbisspinne",
+        "pl": "Krzyżak zielony"
       }
     },
     {
@@ -29541,7 +29816,8 @@
       "traits": [],
       "names": {
         "de": "Mittelmeer-Gottesanbeterin",
-        "pl": "Modliszka wspaniała"
+        "pl": "Modliszka wspaniała",
+        "es": "Mantis mediterránea"
       },
       "facts": {
         "o": "Mantodea",
@@ -29615,7 +29891,8 @@
       ],
       "names": {
         "de": "Gestreifter Blattrandkäfer",
-        "pl": "Oprzędzik pręgowany"
+        "pl": "Oprzędzik pręgowany",
+        "es": "Gorgojo de la hoja del guisante"
       },
       "facts": {
         "o": "Coleoptera",
@@ -29672,6 +29949,11 @@
           "es": "La hormiga roja de la madera u hormiga roja europea es una especie de insecto himenóptero de la familia Formicidae que se encuentra comúnmente en la mayor parte de Europa, especialmente en los bosques de coníferas y de árboles frondosos, así como en los parques arbolados.",
           "pl": "Mrówka rudnica – gatunek mrówki z podrodziny Formicinae."
         }
+      },
+      "names": {
+        "de": "Rote Waldameise",
+        "es": "Hormiga roja de la madera",
+        "pl": "Mrówka rudnica"
       }
     },
     {
@@ -30267,7 +30549,8 @@
       "traits": [],
       "names": {
         "de": "Eichen-Prozessionsspinner",
-        "pl": "Korowódka dębówka"
+        "pl": "Korowódka dębówka",
+        "es": "Procesionaria del roble"
       },
       "facts": {
         "o": "Lepidoptera",
@@ -30455,6 +30738,9 @@
           "de": "Die Kleine Mausspinne, oft vereinfacht und wie die Gattung auch als Mausspinne bezeichnet, ist eine Spinne aus der Familie der Plattbauchspinnen. Die einst lediglich paläarktisch verbreitete Art wurde auch in Nordamerika sowie Peru eingeführt, wo sie sich etablieren konnte.",
           "en": "Scotophaeus blackwalli, also known as the mouse spider, is a species of spider belonging to the family Gnaphosidae."
         }
+      },
+      "names": {
+        "de": "Kleine Mausspinne"
       }
     },
     {
@@ -30893,6 +31179,9 @@
           "de": "Der Helle Rostfarben-Blattspanner, auch als Gebänderter Labkraut-Blattspanner bezeichnet, ist ein Schmetterling aus der Familie der Spanner.",
           "en": "Xanthorhoe spadicearia, the red twin-spot carpet, is a moth of the genus Xanthorhoe in the family Geometridae. The species was first described by Michael Denis and Ignaz Schiffermüller in 1775."
         }
+      },
+      "names": {
+        "de": "Heller Rostfarben-Blattspanner"
       }
     },
     {
@@ -31251,6 +31540,9 @@
           "de": "Die Skabiosen-Langhornmotte ist ein Schmetterling aus der Familie der Langhornmotten.",
           "en": "Nemophora metallica is a moth of the family Adelidae. It is found in Europe."
         }
+      },
+      "names": {
+        "de": "Skabiosen-Langhornmotte"
       }
     },
     {
@@ -31302,7 +31594,8 @@
       ],
       "names": {
         "de": "Staubwanze",
-        "pl": "Zajadek domowy"
+        "pl": "Zajadek domowy",
+        "es": "Cazador enmascarado"
       },
       "facts": {
         "o": "Hemiptera",
@@ -31358,6 +31651,9 @@
           "de": "Lygus rugulipennis, auch Behaarte Wiesenwanze genannt, ist eine Wanzenart aus der Familie der Weichwanzen.",
           "en": "Lygus rugulipennis, the European tarnished plant bug, is a species of plant bugs of the family Miridae."
         }
+      },
+      "names": {
+        "de": "Behaarte Wiesenwanze"
       }
     },
     {
@@ -31385,6 +31681,9 @@
           "en": "Mellinus arvensis, the field digger wasp, is a species of solitary wasp. The wasp can commonly be found from July to late September or October in sandy places.",
           "pl": "Miodwa łąkowa – gatunek owada z rodziny grzebaczowatych."
         }
+      },
+      "names": {
+        "pl": "Miodwa łąkowa"
       }
     },
     {
@@ -31449,6 +31748,9 @@
           "de": "Der Gemeine Blütenspanner ist ein Schmetterling aus der Familie der Spanner. Das Artepitheton basiert auf dem lateinischen Wort vulgatus mit der Bedeutung „allgemein bekannt“ und bezieht sich auf das häufige Vorkommen der Art.",
           "en": "The common pug is a moth of the family Geometridae. It is a common species across the Palearctic region, including the Near East and North Africa."
         }
+      },
+      "names": {
+        "de": "Gemeiner Blütenspanner"
       }
     },
     {
@@ -31463,7 +31765,8 @@
       "traits": [],
       "names": {
         "de": "Grünes Blatt",
-        "pl": "Miernik zieleniak"
+        "pl": "Miernik zieleniak",
+        "es": "Gran geómetra del abedul"
       },
       "facts": {
         "o": "Lepidoptera",
@@ -31831,6 +32134,9 @@
           "de": "Stictopleurus punctatonervosus, auch Gewöhnliche Glasflügelwanze genannt, ist eine Wanze aus der Familie der Glasflügelwanzen.",
           "en": "Stictopleurus punctatonervosus is a species of scentless plant bugs belonging to the family Rhopalidae, subfamily Rhopalinae."
         }
+      },
+      "names": {
+        "de": "Gewöhnliche Glasflügelwanze"
       }
     },
     {
@@ -32048,7 +32354,8 @@
       "traits": [],
       "names": {
         "de": "Schwarze Soldatenfliege",
-        "es": "Mosca soldado negra"
+        "es": "Mosca soldado negra",
+        "pl": "Czarna mucha żołnierska"
       },
       "facts": {
         "o": "Diptera",
@@ -32172,6 +32479,9 @@
           "de": "Idaea filicata ist ein Schmetterling aus der Familie der Spanner.",
           "en": "Idaea filicata is a moth of the family Geometridae. It is found in Southern Europe and the Near East."
         }
+      },
+      "names": {
+        "de": "Glänzender Südlicher Zwergspanner"
       }
     },
     {
@@ -32270,6 +32580,10 @@
           "es": "Empis livida es una especie de mosca la familia Empididae.",
           "pl": "Wujek żółtaczek – muchówka z rodziny wujkowatych."
         }
+      },
+      "names": {
+        "de": "Helle Tanzfliege",
+        "pl": "Wujek żółtaczek"
       }
     },
     {
@@ -32699,6 +33013,9 @@
           "es": "Harpalus affinis es una especie de escarabajo del género Harpalus, familia Carabidae. Fue descrita científicamente por Schrank en 1781.",
           "pl": "Dzier kruszcowy – gatunek chrząszcza z rodziny biegaczowatych."
         }
+      },
+      "names": {
+        "pl": "Dzier kruszcowy"
       }
     },
     {
@@ -32761,6 +33078,10 @@
           "es": "El escarabajo de la menta es un coleóptero de la familia Chrysomelidae. Se encuentra en Europa, el Cáucaso, Turquía y el occidente del Asia central.",
           "pl": "Złotka miętówka – gatunek chrząszcza z rodziny stonkowatych."
         }
+      },
+      "names": {
+        "es": "Escarabajo de la menta",
+        "pl": "Złotka miętówka"
       }
     },
     {
@@ -32882,7 +33203,8 @@
       "traits": [],
       "names": {
         "de": "Große Zangenlibelle",
-        "es": "Alguacil-gancho"
+        "es": "Alguacil-gancho",
+        "pl": "Smaglec niebieskooki"
       },
       "facts": {
         "o": "Odonata",
@@ -32932,6 +33254,9 @@
           "es": "El cola azul ibérico es una especie de odonato zigóptero de la familia Coenagrionidae. Se distribuyen por el sudoeste de Europa y el norte de África.",
           "pl": "Ischnura graellsii – gatunek ważki z rodziny łątkowatych."
         }
+      },
+      "names": {
+        "es": "Cola azul ibérico"
       }
     },
     {
@@ -33069,6 +33394,10 @@
           "es": "La avispa excavadora asiática o avispa de arena común es una especie de avispa perteneciente a la familia de los esfécidos.",
           "pl": "Szczerklina piaskowa – gatunek błonkówki z rodziny grzebaczowatych."
         }
+      },
+      "names": {
+        "de": "Gemeine Sandwespe",
+        "pl": "Szczerklina piaskowa"
       }
     },
     {
@@ -33095,6 +33424,9 @@
         "ab": {
           "de": "Der Graugrüne Schenkelkäfer ist ein Käfer aus der Familie der Scheinbockkäfer."
         }
+      },
+      "names": {
+        "de": "Graugrüner Schenkelkäfer"
       }
     },
     {
@@ -33187,6 +33519,9 @@
           "de": "Die Wiesenzecke, auch Auwaldzecke, Buntzecke oder Winterzecke genannt, ist ein Vertreter der Gattung der Buntzecken.",
           "en": "Dermacentor reticulatus, also known as the ornate cow tick, ornate dog tick, meadow tick, and marsh tick, is a species of tick from the family Ixodidae. It is the type species for the genus Dermacentor."
         }
+      },
+      "names": {
+        "de": "Auwaldzecke"
       }
     },
     {
@@ -33218,6 +33553,10 @@
           "en": "Malacosoma castrense, the ground lackey, is a moth of the family Lasiocampidae. It is a tent caterpillar found in Europe.",
           "pl": "Barczatka wilczomleczówka lub barczatka castrensis Malacosoma castrense lub Malacosoma castrensis – motyl z rodziny barczatkowatych. W Polsce dość powszechny."
         }
+      },
+      "names": {
+        "de": "Wolfsmilch-Ringelspinner",
+        "pl": "Barczatka wilczomleczówka"
       }
     },
     {
@@ -33287,6 +33626,9 @@
           "en": "Crepidodera aurata also known as willow flea beetle, is a species of flea beetles from the Chrysomelidae family, described by Marsham in 1802. It can be found in Palearctic realm and to the east of Korea.",
           "es": "Crepidodera aurata es una especie de insecto coleóptero de la familia Chrysomelidae. Fue descrita científicamente en 1802 por Marsham."
         }
+      },
+      "names": {
+        "de": "Weiden-Erdfloh"
       }
     },
     {
@@ -33522,6 +33864,10 @@
           "es": "La araña florentina es una especie de araña araneomorfa de la familia Segestriidae. Es la araña europea más grande de su familia, y especie tipo tanto de su género como de su familia.",
           "pl": "Segestria florentina – gatunek pająka z rodziny czyhakowatych. Pierwotnie zamieszkiwał Europę, zachodnią Azję i Afrykę Północną, ale zawleczony został także do innych części świata."
         }
+      },
+      "names": {
+        "de": "Mächtige Fischernetzspinne",
+        "es": "Araña florentina"
       }
     },
     {
@@ -33590,6 +33936,9 @@
           "en": "Philodromus cespitum is a species of running crab spider in the family Philodromidae. It is found in North America, Europe, North Africa, and parts of the Middle East and Asia.",
           "es": "Philodromus cespitum es una especie de araña cangrejo corredora de la familia Philodromidae. Se encuentra en América del Norte, Europa, Norte de África, Turquía, Caucaso, franja de Rusia, Kazajistán, China, Corea, y Japón."
         }
+      },
+      "names": {
+        "de": "Graubrauner Flachstrecker"
       }
     },
     {
@@ -33887,6 +34236,10 @@
           "en": "Dioryctria abietella is a moth of the family Pyralidae. It is found in Europe.",
           "pl": "Szyszeń pospolity, omacnica szyszkówka – gatunek motyli z rodziny omacnicowatych. Zasiedla krainę palearktyczną, od Hiszpanii na zachodzie po Rosyjski Daleki Wschód na wschodzie."
         }
+      },
+      "names": {
+        "de": "Fichtenzapfenzünsler",
+        "pl": "Szyszeń pospolity"
       }
     },
     {
@@ -33957,6 +34310,9 @@
           "de": "Die Schwarze Schlupfwespe ist eine Schlupfwespe aus der Unterfamilie der Pimplinae. Der Namenszusatz rufipes leitet sich vom Griechischen und Lateinischen ab: rufus = „rot“ und pes = „Fuß“.",
           "en": "Pimpla rufipes, the black slip wasp, is a species of wasp belonging to the family Ichneumonidae. It is distributed across Europe, Asia, and northern Africa."
         }
+      },
+      "names": {
+        "de": "Schwarze Schlupfwespe"
       }
     },
     {
@@ -34024,6 +34380,10 @@
           "en": "Heterotoma planicornis is a species of bug from Miridae family.",
           "pl": "Pierzak miejski – gatunek pluskwiaka z rodziny tasznikowatych i podrodziny Mirinae."
         }
+      },
+      "names": {
+        "de": "Dickfühlerweichwanze",
+        "pl": "Pierzak miejski"
       }
     },
     {
@@ -34248,7 +34608,8 @@
       "traits": [],
       "names": {
         "de": "Bergkronwicken-Widderchen",
-        "es": "Cigena"
+        "es": "Cigena",
+        "pl": "Kraśnik cieciorkowiec"
       },
       "facts": {
         "o": "Lepidoptera",
@@ -34291,6 +34652,9 @@
         "ab": {
           "de": "Der Gemeine Staubkäfer ist ein Käfer aus der Familie der Schwarzkäfer und ist einer der häufigsten Vertreter dieser Familie in Mitteleuropa."
         }
+      },
+      "names": {
+        "de": "Gemeiner Staubkäfer"
       }
     },
     {
@@ -34382,6 +34746,9 @@
           "en": "Amara aenea is a ground beetle common in almost the whole of Europe and Northern Asia. Its range covers also parts of Northern Africa.",
           "es": "Amara aenea es un escarabajo de tierra perteneciente a la familia Carabidae. Es una especie común en casi toda Europa y norte de Asia."
         }
+      },
+      "names": {
+        "de": "Erzfarbener Kanalkäfer"
       }
     },
     {
@@ -34547,6 +34914,10 @@
           "es": "Pyrgus armoricanus es una especie de mariposa del género Pyrgus, categorizada en la tribu Pyrgini, de la subfamilia Pyrginae. Fue descrita por Charles Oberthür en 1910.",
           "pl": "Powszelatek armorykański – motyl dzienny z rodziny powszelatkowatych."
         }
+      },
+      "names": {
+        "de": "Zweibrütiger Würfel-Dickkopffalter",
+        "pl": "Powszelatek armorykański"
       }
     },
     {
@@ -34611,6 +34982,9 @@
           "en": "Dilophus febrilis is a species of fever fly in the family Bibionidae. It is found in the Palearctic.",
           "es": "Dilophus febrilis es una especie de mosca de la familia Bibionidae."
         }
+      },
+      "names": {
+        "de": "Dunkelflügelige Haarmücke"
       }
     },
     {
@@ -34671,6 +35045,10 @@
           "es": "Amaurobius ferox es una especie de araña del género Amaurobius, familia Amaurobiidae. Fue descrita científicamente por Walckenaer en 1830.",
           "pl": "Sidlisz piwniczny – gatunek pająka z rodziny sidliszowatych. Występuje na terenie holarktyki."
         }
+      },
+      "names": {
+        "de": "Keller-Finsterspinne",
+        "pl": "Sidlisz piwniczny"
       }
     },
     {
@@ -34814,7 +35192,8 @@
       "color": "#8a7050",
       "traits": [],
       "names": {
-        "de": "Blattköcherfliege"
+        "de": "Blattköcherfliege",
+        "pl": "Chruścik wyrzynek"
       },
       "facts": {
         "o": "Trichoptera",
@@ -34899,6 +35278,9 @@
           "de": "Andrena scotica ist eine kommunale Wildbiene aus der Familie der Sandbienen.",
           "en": "Andrena scotica, the chocolate mining bee or hawthorn bee, is a species of mining bee from the family Andrenidae. It occurs in western Europe and is one of the most frequently encountered mining bees found in Great Britain, where it had been previously misidentified as Andrena carantonica."
         }
+      },
+      "names": {
+        "de": "Gesellige Sandbiene"
       }
     },
     {
@@ -34967,6 +35349,10 @@
           "en": "Dolichovespula saxonica, also known as the Saxon wasp, is a common social wasp found in the Palearctic region, specifically in large parts of Europe and in northern and central Asia.",
           "pl": "Osa saksońska – palearktyczny gatunek owada z rodziny osowatych. Podobna do Dolichovespula adulterina, która u niej pasożytuje."
         }
+      },
+      "names": {
+        "de": "Sächsische Wespe",
+        "pl": "Osa saksońska"
       }
     },
     {
@@ -35063,6 +35449,10 @@
           "es": "Nebria brevicollis es una especie de escarabajo del género Nebria, familia Carabidae. Fue descrita científicamente por Fabricius en 1792.",
           "pl": "Lesz truskawczak – gatunek chrząszcza z rodziny biegaczowatych i podrodziny leszowych. Zamieszkuje Europę, zachodnią i północną część Azji, zachód Afryki Północnej, a jako zawleczony także Amerykę Północną."
         }
+      },
+      "names": {
+        "de": "Gewöhnlicher Dammläufer",
+        "pl": "Lesz truskawczak"
       }
     },
     {
@@ -35096,6 +35486,10 @@
           "en": "Sphecodes albilabris is a solitary parasitic bee that is endemic to Central and Western Europe. It also occurs in North Africa and is thought to have been introduced to the United States and Australia by accident.",
           "pl": "Nęczyn lepiarkowiec – gatunek błonkówki z rodziny smuklikowatych."
         }
+      },
+      "names": {
+        "de": "Riesen-Blutbiene",
+        "pl": "Nęczyn lepiarkowiec"
       }
     },
     {
@@ -35183,6 +35577,9 @@
         "ab": {
           "de": "Andrena nitida, ist eine solitäre Wildbiene aus der Gattung der Sandbienen. Sie ist eine solitäre, nestbauende Biene, die jährlich eine Generation hat und in Deutschland von Mitte April bis Anfang Juni fliegt."
         }
+      },
+      "names": {
+        "de": "Glänzende Düstersandbiene"
       }
     },
     {
@@ -35710,7 +36107,8 @@
       ],
       "names": {
         "de": "Marienprachtkäfer",
-        "pl": "Miedziak sosnowiec"
+        "pl": "Miedziak sosnowiec",
+        "es": "Gran bupréstido"
       },
       "facts": {
         "o": "Coleoptera",
@@ -36852,7 +37250,8 @@
         "pollinator"
       ],
       "names": {
-        "es": "Cuerquera"
+        "es": "Cuerquera",
+        "de": "Südlicher Eichen-Zipfelfalter"
       },
       "facts": {
         "o": "Lepidoptera",
@@ -36918,7 +37317,8 @@
       "traits": [],
       "names": {
         "de": "Europäische Maulwurfsgrille",
-        "pl": "Turkuć podjadek"
+        "pl": "Turkuć podjadek",
+        "es": "Grillo topo"
       },
       "facts": {
         "o": "Orthoptera",
@@ -37733,7 +38133,8 @@
         "beetle"
       ],
       "names": {
-        "pl": "Omarlica smutna"
+        "pl": "Omarlica smutna",
+        "de": "Trauriger Aaskäfer"
       },
       "facts": {
         "o": "Coleoptera",
@@ -37997,7 +38398,8 @@
       ],
       "names": {
         "de": "Bäckerbock",
-        "pl": "Żerdzianka sosnówka"
+        "pl": "Żerdzianka sosnówka",
+        "es": "Longicornio del pino"
       },
       "facts": {
         "o": "Coleoptera",

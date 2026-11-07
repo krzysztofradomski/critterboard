@@ -1,5 +1,5 @@
 import * as ImagePicker from 'expo-image-picker';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions, type GestureResponderEvent, type LayoutChangeEvent } from 'react-native';
 import {
   Camera,
@@ -24,6 +24,7 @@ import { TabBar } from '@/components/TabBar';
 import { useLiveGuess } from '@/ai/useLiveGuess';
 import { bugName, useT } from '@/i18n/helpers';
 import { haptics } from '@/lib/haptics';
+import { isScanDoubleTap, type Point, type ScanTap } from '@/lib/scanTap';
 import { usePersona } from '@/personas/hooks';
 import { PB } from '@/tokens/pb';
 import { useAppStore, useCurrentRoute } from '@/store/useAppStore';
@@ -31,7 +32,6 @@ import { useNav } from '@/store/useNav';
 
 type Phase = 'aim' | 'flash' | 'analyzing';
 type Shot = { uri: string; fromCamera: boolean };
-type Point = { x: number; y: number };
 
 /** Live guess: shown from this confidence; snaps on its own when the same species stays this sure. */
 const LIVE_SHOW = 0.3;
@@ -43,7 +43,9 @@ const MAX_ZOOM = 10;
 const FOCUS_WAIT_MS = 800;
 /** A touch that moves less than this (pt) is a tap, not a drag. */
 const TAP_SLOP = 10;
-/** Bottom of the top bar and height of the shutter row + tab bar (pt): taps there don't snap. */
+const TAP_MAX_MS = 300;
+const FOCUS_RING_MS = 1000;
+/** Bottom of the top bar and height of the shutter row + tab bar (pt). */
 const TOP_BAR_BOTTOM = 96;
 const CONTROLS_HEIGHT = 210;
 /** Reticle size (pt) and centre height (fraction of the screen). The classifier crops around it. */
@@ -111,7 +113,15 @@ export function Scan() {
   const [phase, setPhase] = useState<Phase>('aim');
   const [shot, setShot] = useState<Shot | null>(null);
   const [tapPoint, setTapPoint] = useState<Point | null>(null);
+  const [focusPoint, setFocusPoint] = useState<Point | null>(null);
+  const manualFocus = useRef(false);
+  const captureInFlight = useRef(false);
   const [tipsOpen, setTipsOpen] = useState(false);
+  useEffect(() => {
+    if (!focusPoint) return;
+    const id = setTimeout(() => setFocusPoint(null), FOCUS_RING_MS);
+    return () => clearTimeout(id);
+  }, [focusPoint]);
   // The guide's hint is a greeting, not a status: show it on arrival, then get out of the way.
   const [tipVisible, setTipVisible] = useState(true);
   useEffect(() => {
@@ -138,13 +148,20 @@ export function Scan() {
   const aimRef = useRef<Aim | undefined>(undefined);
   const onLayout = (e: LayoutChangeEvent) => Object.assign(view, e.nativeEvent.layout);
 
-  // Tap the preview to focus there, snap and search around that spot; pinch to zoom. `zoom` is a
-  // multiple of the 1× lens, so a pinch scales it by the fingers' spread at any zoom level.
+  // Zoom is relative to the 1× lens, so pinching scales it consistently on multi-lens devices.
   const [zoom, setZoom] = useState(1);
+  const zoomFormat = useMemo(() => new Intl.NumberFormat(language, { maximumFractionDigits: 1 }), [language]);
+  const zoomLabel = zoomFormat.format(zoom);
   const base = device ? oneX(device) : 1;
   const minZoom = device ? device.minZoom / base : 1;
   const maxZoom = device ? Math.min(MAX_ZOOM, device.maxZoom / base) : 1;
-  const gesture = useRef({ startDist: 0, startZoom: 1, zoom: 1, min: 1, max: 1, pinched: false, onTap: (_p: Point) => {} }).current;
+  const gesture = useRef({
+    startDist: 0, startZoom: 1, zoom: 1, min: 1, max: 1,
+    startedAt: null as number | null,
+    tapCancelled: false,
+    firstTap: null as ScanTap | null,
+    onTap: (_point: Point, _startedAt: number) => {},
+  }).current;
   Object.assign(gesture, { zoom, min: minZoom, max: maxZoom });
   // A zoom changes what the reticle covers: map it onto the camera again.
   useEffect(() => live.onPreviewStarted(), [zoom, live.onPreviewStarted]);
@@ -155,14 +172,19 @@ export function Scan() {
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: (e) => e.nativeEvent.touches.length === 2,
       onPanResponderGrant: (e) => {
-        gesture.pinched = false;
+        gesture.startedAt = performance.now();
+        gesture.tapCancelled = e.nativeEvent.touches.length > 1;
         gesture.startDist = touchDistance(e);
         gesture.startZoom = gesture.zoom;
       },
-      onPanResponderMove: (e) => {
+      onPanResponderStart: (e) => {
+        if (e.nativeEvent.touches.length > 1) gesture.tapCancelled = true;
+      },
+      onPanResponderMove: (e, g) => {
+        if (Math.hypot(g.dx, g.dy) >= TAP_SLOP) gesture.tapCancelled = true;
         const dist = touchDistance(e);
         if (!dist) return;
-        gesture.pinched = true;
+        gesture.tapCancelled = true;
         // A second finger that lands after the grant starts the pinch here.
         if (!gesture.startDist) {
           gesture.startDist = dist;
@@ -173,12 +195,20 @@ export function Scan() {
         setZoom(Math.min(gesture.max, Math.max(gesture.min, next)));
       },
       onPanResponderRelease: (_e, g) => {
+        const startedAt = gesture.startedAt;
+        gesture.startedAt = null;
         gesture.startDist = 0;
         // The root fills the screen, so page coordinates are view coordinates.
-        if (!gesture.pinched && Math.hypot(g.dx, g.dy) < TAP_SLOP) gesture.onTap({ x: g.x0, y: g.y0 });
+        if (!gesture.tapCancelled && startedAt !== null && performance.now() - startedAt <= TAP_MAX_MS) {
+          gesture.onTap({ x: g.x0, y: g.y0 }, startedAt);
+        } else {
+          gesture.firstTap = null;
+        }
       },
       onPanResponderTerminate: () => {
         gesture.startDist = 0;
+        gesture.startedAt = null;
+        gesture.firstTap = null;
       },
     }),
   ).current;
@@ -235,6 +265,7 @@ export function Scan() {
           showToast({ text: t('scan.modelNotReady'), icon: '⏳', bg: PB.yellow });
           setShot(null);
           setTapPoint(null);
+          captureInFlight.current = false;
           setPhase('aim');
           return;
         }
@@ -317,22 +348,29 @@ export function Scan() {
     classifyAndRoute(next.uri, next.fromCamera, tap);
   };
 
-  /** Snap a photo; `tap` (a tap on the preview) aims the search, else the reticle does. */
+  const focusAt = (point: Point) =>
+    device?.supportsFocusMetering ? cameraRef.current?.focusTo(point).catch(() => undefined) : undefined;
+
+  /** Snap a photo. A double tap aims the search at that point. The shutter uses the reticle. */
   const shutter = async (tap: Point | null = null) => {
-    if (phase !== 'aim') return;
+    if (phase !== 'aim' || captureInFlight.current || tipsOpen) return;
+    gesture.firstTap = null;
     if (needsPack || modelMissing) {
       haptics.warning();
       return;
     }
+    captureInFlight.current = true;
     haptics.tap();
     setPhase('flash');
+    setFocusPoint(null);
     setTapPoint(tap);
 
     // Focus on the tapped bug first (continuous autofocus likes the leaf behind a small one), but
     // never hold the shot for long: a focus that can't settle still beats a missed bug.
-    if (tap && device?.supportsFocusMetering) {
+    const focus = tap ? focusAt(tap) : undefined;
+    if (focus) {
       await Promise.race([
-        cameraRef.current?.focusTo(tap).catch(() => undefined),
+        focus,
         new Promise((resolve) => setTimeout(resolve, FOCUS_WAIT_MS)),
       ]);
     }
@@ -354,13 +392,13 @@ export function Scan() {
       return;
     }
     setPhase('analyzing');
-    classifyAndRoute(photoUri, true);
+    classifyAndRoute(photoUri, true, tap);
   };
   // The same species, sure enough, on consecutive live guesses: snap it without a tap.
   const streak = useRef({ bugId: '', count: 0 }).current;
   useEffect(() => {
     const g = live.guess;
-    if (!g || g.confidence < AUTO_SNAP) {
+    if (manualFocus.current || gesture.startedAt !== null || tipsOpen || !g || g.confidence < AUTO_SNAP) {
       streak.count = 0;
       return;
     }
@@ -373,17 +411,33 @@ export function Scan() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [live.guess]);
 
-  // Taps on the top bar or the shutter row / tab bar background aren't aimed at a bug.
-  gesture.onTap = (p) => {
-    if (p.y > TOP_BAR_BOTTOM && p.y < view.height - CONTROLS_HEIGHT) void shutter(p);
+  gesture.onTap = (point, startedAt) => {
+    const firstTap = gesture.firstTap;
+    gesture.firstTap = null;
+    if (phase !== 'aim' || captureInFlight.current || tipsOpen) return;
+    if (point.y <= TOP_BAR_BOTTOM || point.y >= view.height - CONTROLS_HEIGHT) return;
+
+    if (isScanDoubleTap(firstTap, point, startedAt)) {
+      void shutter(point);
+      return;
+    }
+    // Manual aiming gives the user control over when to capture for this Scan visit.
+    manualFocus.current = true;
+    gesture.firstTap = { point, at: performance.now() };
+    if (device?.supportsFocusMetering) {
+      setFocusPoint(point);
+      void focusAt(point);
+    }
   };
 
   const pickFromGallery = async () => {
-    if (phase !== 'aim') return;
+    if (phase !== 'aim' || captureInFlight.current) return;
+    gesture.firstTap = null;
     if (needsPack || modelMissing) {
       haptics.warning();
       return;
     }
+    captureInFlight.current = true;
     // The system photo picker needs no library permission (iOS PHPicker, Android photo
     // picker); asking first made a once-denied prompt silently kill this button.
     try {
@@ -392,7 +446,10 @@ export function Scan() {
         quality: 0.85,
         allowsEditing: false,
       });
-      if (result.canceled || !result.assets?.length) return;
+      if (result.canceled || !result.assets?.length) {
+        captureInFlight.current = false;
+        return;
+      }
       const photoUri = result.assets[0]?.uri ?? null;
       haptics.tap();
       if (photoUri && !isWeb) {
@@ -402,6 +459,7 @@ export function Scan() {
       setPhase('analyzing');
       classifyAndRoute(photoUri, false);
     } catch {
+      captureInFlight.current = false;
       haptics.warning();
       showToast({ text: t('scan.galleryFailed'), icon: '⚠️', bg: PB.red });
     }
@@ -447,16 +505,28 @@ export function Scan() {
         </View>
       )}
 
-      {Math.abs(zoom - 1) > 0.01 && phase === 'aim' && (
-        // Zoomed in (or out to the ultra-wide): a tap goes back to 1×.
+      {cameraReady && device && phase === 'aim' && (
         <View style={styles.zoomWrap} pointerEvents="box-none">
-          <Pressable onPress={() => setZoom(1)} style={styles.zoomChip}>
-            <Text style={styles.zoomText}>↺ 1×</Text>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t('scan.zoomLevel', { zoom: zoomLabel })}
+            accessibilityHint={t('scan.resetZoom')}
+            onPress={() => {
+              gesture.firstTap = null;
+              setFocusPoint(null);
+              setZoom(1);
+            }}
+            style={styles.zoomChip}
+          >
+            <Text style={styles.zoomText}>{zoomLabel}×</Text>
           </Pressable>
         </View>
       )}
 
       {phase === 'analyzing' && <View style={styles.tint} />}
+      {focusPoint && phase === 'aim' && (
+        <View pointerEvents="none" style={[styles.tapRing, styles.focusRing, { left: focusPoint.x - 36, top: focusPoint.y - 36 }]} />
+      )}
       {tapPoint && <View pointerEvents="none" style={[styles.tapRing, { left: tapPoint.x - 36, top: tapPoint.y - 36 }]} />}
       {flash && <View style={styles.flash} />}
 
@@ -544,7 +614,7 @@ export function Scan() {
       >
         <View style={styles.focusTag}>
           <Text style={styles.focusTagText}>
-            {phase === 'analyzing' ? t('scan.matching') : t('scan.tapToSnap')}
+            {phase === 'analyzing' ? t('scan.matching') : t('scan.previewGestures')}
           </Text>
         </View>
       </Animated.View>
@@ -578,10 +648,18 @@ export function Scan() {
 
       <View style={styles.bottomRow}>
         <IconBtn size={48} fs={22} onPress={pickFromGallery}>🖼️</IconBtn>
-        <Pressable onPress={() => void shutter()} style={[styles.shutter, phase !== 'aim' && styles.shutterPressed]}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t('scan.takePhoto')}
+          onPress={() => void shutter()}
+          style={[styles.shutter, phase !== 'aim' && styles.shutterPressed]}
+        >
           <View style={styles.shutterInner} />
         </Pressable>
-        <IconBtn size={48} fs={22} onPress={() => setTipsOpen(true)} accessibilityLabel={t('scan.tipsTitle')}>💡</IconBtn>
+        <IconBtn size={48} fs={22} onPress={() => {
+          gesture.firstTap = null;
+          setTipsOpen(true);
+        }} accessibilityLabel={t('scan.tipsTitle')}>💡</IconBtn>
       </View>
 
       <PhotoTipsDialog visible={tipsOpen} onClose={() => setTipsOpen(false)} />
@@ -655,6 +733,7 @@ const styles = StyleSheet.create({
     borderStyle: 'dashed',
     borderColor: PB.pink,
   },
+  focusRing: { borderColor: PB.yellow, borderStyle: 'solid', zIndex: 1 },
   reticle: {
     position: 'absolute',
     left: '50%',

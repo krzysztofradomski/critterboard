@@ -10,6 +10,39 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 > Local runbook for everything below: [[docs/handoff]].
 
+## Localization follow-up (2026-11-07)
+
+- [x] Match Dex rarity searches against the same translated labels shown on the filter chips. Preserve English keywords and existing filters.
+- [x] Review the remaining Polish, German and Spanish species leads. Add the names supported by the source for each species and regenerate the pack and manifest.
+- [x] Verify the Dex search path, localized name lookup, and pack compatibility. Update [[docs/i18n]] with the revised coverage.
+
+**Review.** Pack v16 adds 136 names across 106 species. All existing names and other pack data match v15. A screen-level check verified Polish, German and Spanish rarity searches, English keywords and Dex-number search.
+
+## Scan camera controls (2026-11-07)
+
+- [x] Keep the current zoom visible on the live preview, with a tap to reset it to 1×.
+- [x] Focus and show a marker on the first tap. A second tap within 300 ms and 32 points captures and searches around that point. Pinches, drags and taps outside the preview break the pair.
+- [x] Keep manual focus in control for the rest of the Scan visit. Preserve the shutter, gallery and automatic capture before manual focus.
+- [x] Verify gesture boundaries, capture routing and translations. Update [[docs/ml-roadmap]].
+
+**Review.** Typecheck and 496 tests passed. A screen-level test verified focus without capture, pinch zoom, and one capture aimed at the second tap. The iOS and Android bundles exported successfully. Physical lens behavior needs an on-device check.
+
+## Species names (2026-11-07)
+
+- [x] Review missing Polish, German and Spanish common names against exact-species sources, starting with the crane fly and lacewing.
+- [x] Add the reviewed names to the region-pack pipeline and refresh the pack manifest.
+- [x] Verify runtime lookup, coverage and pack compatibility. Update [[docs/i18n]].
+
+**Review.** Central Europe pack v15 adds 72 names across 34 species. Existing names and all non-name pack data match v14. Tests confirm the reported species display their Polish names after the pack loads.
+
+## Dex sorting (2026-11-07)
+
+- [x] Sort caught species by first capture date, newest first, or by the displayed name in the app language. Keep uncaught placeholders after the caught entries and use Dex number for ties or missing dates.
+- [x] Add a localized sort pill at the start of the rarity row. Default to capture date and keep the selection while switching tabs.
+- [x] Verify ordering, legacy entries, filter composition, and translation parity. Document the behavior in [[docs/modules/ui-performance]].
+
+**Review.** Typecheck and 494 tests passed. A screen-level smoke test exercised both sort modes, rarity filtering, and text and Dex-number searches. The iOS bundle built and launched with sample catches. Simulator tap testing was unavailable.
+
 ## Now — Field-robust vision model v7 (2026-10-08)
 
 Wrong species and low confidence on real iPhone photos: the model learned from tightly framed iNaturalist shots, but the app feeds it small, soft crops on busy backgrounds. Full plan: [[docs/superpowers/plans/2026-10-08-field-robust-vision]]. Kindwise distillation was rejected (cost, top-k only, licence grey area).

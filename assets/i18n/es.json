@@ -71,7 +71,10 @@
       "permissionAsk": "Pulsa permitir para que Critterboard vea el bicho. Las fotos se quedan en tu móvil, salvo que tú decidas compartir una.",
       "permissionDenied": "Cámara denegada. Actívala en Ajustes → Critterboard → Cámara.",
       "allowCamera": "Permitir cámara",
-      "tapToSnap": "toca el bicho para la foto",
+      "previewGestures": "Toca para enfocar · Doble toque para capturar",
+      "zoomLevel": "Zoom {zoom}×",
+      "resetZoom": "Restablece el zoom a 1×",
+      "takePhoto": "Tomar foto",
       "matching": "buscando coincidencia…",
       "needPackTitle": "Descarga el paquete de especies",
       "needPackBody": "La identificación funciona en tu teléfono. Instala una vez el paquete Europa Central (1.000+ especies y el mapa sin conexión, unos 145 MB) para empezar a escanear.",
@@ -274,6 +277,11 @@
       "saveAndHome": "Guardar y volver"
     },
     "dex": {
+      "sort": {
+        "date": "Más recientes",
+        "name": "A–Z",
+        "label": "Orden actual {order}"
+      },
       "title": "Mi Dex",
       "caughtOf": "{caught} de {total} capturados",
       "searchPlaceholder": "Buscar por nombre, latín, rareza…",

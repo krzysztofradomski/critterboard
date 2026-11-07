@@ -87,13 +87,13 @@ Anything slower than 250 ms feels laggy and is treated as a bug.
 
 Done without Kaggle: `training/vision/` streams the iNaturalist open-data dumps, fine-tunes ConvNeXt-nano on a CPU and exports an XNNPACK `.pte`. Result: 200 species, 83.7% top-1 / 94.0% top-3. Full write-up in `training/vision/README.md`. The Kaggle notebook below stays as the GPU route for 1000+ species.
 
-#### Scan preprocessing: tap to snap, auto search, crops *(Oct 2026)*
+#### Scan preprocessing: aimed capture, auto search, crops
 
 Phone tests showed busy backgrounds and damaged bugs were hard to identify. A main cause: the whole 12 MP photo was squashed to 224×224, so a bug inside the reticle ended up a few dozen pixels wide. That is far from the tightly framed iNaturalist photos the model learned from.
 
-`src/ai/scanCrops.ts` now feeds the model square crops instead. **Tapping the bug on the live preview** focuses the camera there, takes the photo and searches around the tap at once. The shutter button and gallery picks auto search straight away. (An earlier version froze the photo for 5 s to be tapped; phone tests found the wait annoying.)
+`src/ai/scanCrops.ts` feeds the model square crops. Tap the bug on the live preview to focus. Double-tap the same spot to take the photo and search around the second tap. The shutter button searches around the reticle, and gallery picks search around the photo centre.
 
-- **Tapped (tap to snap):** three squares around the tap, at 12%, 25% and 50% of the photo's short side (fruit fly to butterfly). The most confident one wins, since the tap says where the bug is but not how big.
+- **Aimed capture:** three squares around the second tap, at 12%, 25% and 50% of the photo's short side (fruit fly to butterfly). The most confident one wins, since the tap marks the bug's location.
 - **Shutter or gallery:** auto search. A 3×3 grid of tiles, each 0.4× the reticle, finds a small bug anywhere in it. The most confident tile is averaged with three squares centred on the reticle (1×, 1.6× and the full short side), which keep big bugs whole. Gallery picks search the photo centre and also add the untouched photo.
 - **Combining:** crops come in groups. `useExecutorchClassifier().classify` keeps the most confident crop of each group and averages the groups (`combineScores`).
 
@@ -136,9 +136,9 @@ Clean iNaturalist test photos: 82.4% top-1 (v3: 82.8%).
 - **EXIF:** OpenCV's `imread` in react-native-executorch already applies EXIF orientation. The crops come out of the manipulator upright anyway.
 - **Camera:** VisionCamera v5 (since Oct 2026; expo-camera before). The photo is the whole sensor frame and the preview shows it `cover`ed, so the on-screen reticle and a tap map onto the photo with `fit: 'cover'` (gallery photos are shown whole, `fit: 'contain'`).
 - **Cost:** tapped, 3 inferences; auto search, 12 (about 1.3 s on a phone, mostly inside the 2.2 s analysing hold).
-- **Focus:** a tap calls `focusTo()` on that point and snaps once focus settles (0.8 s at most): continuous autofocus tends to pick the leaf behind a small bug. expo-camera couldn't do this (no focus point on iOS; a fixed metering point on Android).
-- **Lens:** Scan keeps the multi-lens back camera, so iPhones can switch to the ultra-wide for macro up close, and starts it at the main lens (its first switch-over zoom factor).
-- **Live guess** (`src/ai/useLiveGuess.ts`): every 0.5 s a preview frame is cropped to the reticle, turned upright, resized to 256 px and classified; Scan shows the top guess under the reticle (from 30%) and snaps by itself when the same species scores 85% or more twice in a row. It doesn't use react-native-executorch's `runOnFrame`, which classifies the whole frame squashed (the approach that lost small bugs). The crop runs on VisionCamera's async runner; the RGB bytes go to the JS thread, where the photo search also runs, so a photo waits for a guess in flight.
+- **Focus:** a single tap calls `focusTo()` and briefly shows the focus point on cameras that support it. A second tap within 300 ms and 32 points focuses at the second point, then captures after focus settles or 0.8 s passes. Pinches, drags and long presses break the tap pair.
+- **Lens:** Scan keeps the multi-lens back camera, so iPhones can switch to the ultra-wide for macro up close. The main lens is the 1× baseline. The preview pill shows the current pinch zoom and resets it to 1× when tapped.
+- **Live guess** (`src/ai/useLiveGuess.ts`): every 0.5 s a preview frame is cropped to the reticle, turned upright, resized to 256 px and classified. Scan shows the top guess from 30% confidence and can capture automatically when the same species scores at least 85% twice in a row. After a focus tap, live guesses continue and the shutter or a double tap controls capture for the rest of that Scan visit. The crop runs on VisionCamera's async runner, and photo search waits for any live guess already in flight.
 - **Physical limit:** without a macro lens, a phone captures a fruit fly at about 100 px at best. Enough for "fruit fly", not for telling *Drosophila* species apart.
 
 #### Kaggle route (still valid for bigger runs) ⟶ `training/kaggle/insect_classifier_training.ipynb`

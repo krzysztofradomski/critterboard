@@ -7,6 +7,7 @@ import { Sticker } from '@/components/Sticker';
 import { TabBar } from '@/components/TabBar';
 import type { Bug } from '@/data/bugs';
 import { useT, bugName } from '@/i18n/helpers';
+import { sortDexEntries, type DexSort } from '@/lib/dexSort';
 import { latestPhotoFor } from '@/lib/streak';
 import { useBugs } from '@/lib/useBugs';
 import { PB, RARITY_COLOR } from '@/tokens/pb';
@@ -24,22 +25,28 @@ export function Dex() {
   const language = useAppStore((s) => s.language);
   const t = useT();
   const [filter, setFilter] = useState<FilterKey>('all');
+  const [sort, setSort] = useState<DexSort>('date');
   const [query, setQuery] = useState('');
   // Bundled + installed pack species (1,000 with the eu-ce pack).
   const bugs = useBugs();
   // Dex number (#001…) = position in the registry; a map keeps lookups O(1).
   const numberOf = useMemo(() => new Map(bugs.map((b, i) => [b.id, i + 1])), [bugs]);
+  const sorted = useMemo(
+    () => sortDexEntries(bugs, dex, catchLog, sort, language, (id) => bugName(language, id)),
+    [bugs, dex, catchLog, sort, language],
+  );
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const matches = bugs.filter((b) => {
+    return sorted.filter((b) => {
       if (filter !== 'all' && b.rarity !== filter) return false;
       if (!q) return true;
       if (dex.has(b.id)) {
         return (
           bugName(language, b.id).toLowerCase().includes(q) ||
           b.latin.toLowerCase().includes(q) ||
-          b.rarity.includes(q)
+          b.rarity.includes(q) ||
+          t(`dex.filter.${b.rarity}`).toLowerCase().includes(q)
         );
       }
       if (q.startsWith('?')) {
@@ -49,10 +56,7 @@ export function Dex() {
       }
       return false;
     });
-    // Caught species first so they aren't buried among hundreds of "???"
-    // cells; stable sort keeps dex-number order within each group.
-    return matches.sort((a, b) => Number(dex.has(b.id)) - Number(dex.has(a.id)));
-  }, [bugs, numberOf, filter, query, dex, language]);
+  }, [sorted, numberOf, filter, query, dex, language, t]);
 
   const total = bugs.length;
   // Only count catches of species that are listed (a removed pack's species
@@ -60,6 +64,7 @@ export function Dex() {
   const caught = useMemo(() => bugs.reduce((n, b) => n + (dex.has(b.id) ? 1 : 0), 0), [bugs, dex]);
   const pct = Math.round((100 * caught) / total);
   const rarities = FILTER_KEYS.slice(1).map((k) => t(`dex.filter.${k}`).toLowerCase()).join(', ');
+  const sortLabel = t(`dex.sort.${sort}`);
 
   // Celebratory ribbon at 50 % and 100 %. The 100 % case wins over 50 %
   // — once the dex is full we never re-show the halfway line.
@@ -149,6 +154,17 @@ export function Dex() {
         </View>
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 10 }} contentContainerStyle={{ gap: 8, paddingRight: 16 }}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t('dex.sort.label', { order: sortLabel })}
+            onPress={() => {
+              haptics.select();
+              setSort((current) => current === 'date' ? 'name' : 'date');
+            }}
+            style={[styles.filterChip, { backgroundColor: PB.paper, shadowOpacity: 1 }]}
+          >
+            <Text style={styles.filterText}>↕ {sortLabel}</Text>
+          </Pressable>
           {FILTER_KEYS.map((c) => (
             <Pressable
               key={c}

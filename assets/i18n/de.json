@@ -71,7 +71,10 @@
       "permissionAsk": "Tipp auf Erlauben, damit Critterboard das Insekt sieht. Fotos bleiben auf deinem Gerät, außer du teilst selbst eines.",
       "permissionDenied": "Kamera abgelehnt. Aktivieren unter Einstellungen → Critterboard → Kamera.",
       "allowCamera": "Kamera erlauben",
-      "tapToSnap": "Insekt antippen zum Knipsen",
+      "previewGestures": "Tippen zum Fokussieren · Doppeltippen fürs Foto",
+      "zoomLevel": "Zoom {zoom}×",
+      "resetZoom": "Setzt den Zoom auf 1× zurück",
+      "takePhoto": "Foto aufnehmen",
       "matching": "vergleiche…",
       "needPackTitle": "Artenpaket holen",
       "needPackBody": "Die Bestimmung läuft auf deinem Handy. Installiere einmal das Paket Mitteleuropa (1.000+ Arten und die Offline-Karte, ca. 145 MB), um loszulegen.",
@@ -274,6 +277,11 @@
       "saveAndHome": "Speichern und zurück"
     },
     "dex": {
+      "sort": {
+        "date": "Neueste",
+        "name": "A–Z",
+        "label": "Sortierung nach {order}"
+      },
       "title": "Mein Dex",
       "caughtOf": "{caught} von {total} gefangen",
       "searchPlaceholder": "Suche nach Name, Latein, Seltenheit…",

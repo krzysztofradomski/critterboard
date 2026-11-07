@@ -53,6 +53,7 @@ sequenceDiagram
 - **Map pins:** one GeoJSON source with a symbol layer (`assets/map/pin-catch.png`, from `tools/map/gen_pixel_icons.py`) and a circle layer for "you", instead of a React view with an SVG per pin.
 - **Streak math:** `streakSummary` does one freeze replay for current/best/freezes. Day-based memos include today's date, so a kept screen rolls over at midnight on its next render.
 - **i18n:** `bugName` uses `lookupFor` (no missing-key warning) because most pack species have no i18n key; the warning made Dex slow in dev builds.
+- **Dex sorting:** The sort pill switches between first capture date (newest first) and the displayed name in the app language. The list orders caught entries before uncaught slots, which stay in Dex number order. Caught entries with no recorded date follow dated catches in date mode. The screen memoizes the order separately from search and rarity filters, so typing or changing rarity does not replay the catch log. The selected order stays with the mounted Dex tab.
 
 ## Not done
 
