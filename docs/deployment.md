@@ -4,6 +4,15 @@
 
 How Critterboard ships to **iOS TestFlight** and **Google Play internal testing** via [EAS](https://docs.expo.dev/eas/) (Expo Application Services). Managed workflow — no `ios/` or `android/` folders are committed; EAS prebuilds in the cloud.
 
+## Visual search TestFlight release — 15 November 2026
+
+- App version **1.4.0**, iOS build **26**; source commit `03554511de063671a02598e3280f680073fb8bb5` on `main`.
+- [EAS build](https://expo.dev/accounts/stronginarm/projects/critterboard/builds/eeab3a73-9d16-4729-9473-19d4deeaf234) finished successfully; [submission](https://expo.dev/accounts/stronginarm/projects/critterboard/submissions/912cf75c-6ba5-43a7-a902-3a90a51afe89) was accepted by Apple.
+- Verified in App Store Connect: processing **VALID**, internal state **IN_BETA_TESTING**, not expired. External state **READY_FOR_BETA_SUBMISSION**; no external beta review or public App Store release was requested.
+- Typecheck and all 529 tests passed. Native iOS/Android bundles exported; browser uploads to Google Lens and Bing returned photo-search results. Test each native CTA on a real phone using this build.
+- The matching privacy pages (English, Polish, German and Spanish) were published to `critterboard.app`; homepage and all four privacy pages matched committed content when fetched. Website deployment version: `628a0ac2-a68f-4f9b-83ac-cbf24dc4f9e0`.
+- No save schema, model pack or backend migration. Previous internal TestFlight build 25 remains the rollback candidate.
+
 ## TL;DR
 
 `eas-cli` is pinned as a dev dependency, so after `pnpm install` you don't

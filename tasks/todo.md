@@ -13,11 +13,13 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 ## Visual search TestFlight release (2026-11-15)
 
 - [x] Verify the feature, translations, photo-upload tests and current production build configuration.
-- [ ] Commit and push only the visual-search work, preserving unrelated article edits.
-- [ ] Build iOS with the production EAS profile and submit the exact build to TestFlight.
-- [ ] Verify Apple processing and internal testing availability; record the build and submission results.
+- [x] Commit and push only the visual-search work, preserving unrelated article edits.
+- [x] Build iOS with the production EAS profile and submit the exact build to TestFlight.
+- [x] Verify Apple processing and internal testing availability; record the build and submission results.
 
 **Plan.** Keep app version 1.4.0 and let EAS increment its remote iOS build number. Build the committed app sources; upload only that build to the existing App Store Connect app. Check the final TestFlight status rather than treating a queued submission as delivery. No store production release is requested.
+
+**Review.** Source commit `03554511de063671a02598e3280f680073fb8bb5` was pushed to `origin/main`. EAS production build `eeab3a73-9d16-4729-9473-19d4deeaf234` created version **1.4.0 (26)**; submission `912cf75c-6ba5-43a7-a902-3a90a51afe89` finished successfully. App Store Connect confirms **VALID**, **IN_BETA_TESTING**, not expired. The updated homepage/privacy pages are live and matched committed content. All 529 tests and typecheck passed. Unrelated article/index/lesson/todo changes remain uncommitted. See [[docs/deployment]].
 
 ## Dex automatic visual search (2026-11-15)
 
