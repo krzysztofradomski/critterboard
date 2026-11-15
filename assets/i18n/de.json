@@ -1320,6 +1320,19 @@
       "tag": "von dir benannt",
       "already": "{name} ist schon in deinem Dex."
     },
+    "imageSearch": {
+      "title": "Bestimmung überprüfen",
+      "subtitle": "Suche online nach ähnlichen Bildern und vergleiche die Ergebnisse.",
+      "send": "Mit {provider} suchen",
+      "sendHint": "Sendet dieses Foto an den gewählten Anbieter und öffnet die Ergebnisse im Browser.",
+      "browser": "Foto senden und suchen",
+      "sending": "Foto wird gesendet…",
+      "privacy": "Wenn du auf eine Suchschaltfläche tippst, wird eine verkleinerte Kopie dieses Fotos je nach Auswahl an Google oder Microsoft gesendet. Dabei gilt die Datenschutzerklärung des gewählten Anbieters. Deine anderen Fotos bleiben auf deinem Gerät.",
+      "missing": "Dieses Foto ist nicht mehr auf deinem Gerät.",
+      "error": "Die Suche mit diesem Foto ist fehlgeschlagen. Prüfe deine Internetverbindung und versuche es erneut.",
+      "openError": "Das Foto wurde gesendet, aber die Ergebnisse konnten nicht geöffnet werden. Bitte versuche es erneut.",
+      "blocked": "Erlaube Pop-ups für Critterboard und versuche es erneut."
+    },
     "training": {
       "label": "Hilf, das Modell zu trainieren",
       "needsNetwork": "Braucht Netzwerk. Teile beschriftete Fotos, damit das nächste Artenmodell besser wird.",

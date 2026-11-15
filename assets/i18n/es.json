@@ -1320,6 +1320,19 @@
       "tag": "nombre tuyo",
       "already": "{name} ya está en tu Dex."
     },
+    "imageSearch": {
+      "title": "Comprueba la identificación",
+      "subtitle": "Busca imágenes similares en internet y compara los resultados.",
+      "send": "Buscar con {provider}",
+      "sendHint": "Envía esta foto al proveedor elegido y abre los resultados en el navegador.",
+      "browser": "Enviar foto y buscar",
+      "sending": "Enviando foto…",
+      "privacy": "Al tocar un botón de búsqueda, se envía una copia de tamaño reducido de esta foto a Google o Microsoft, según tu elección y conforme a sus políticas de privacidad. Las demás fotos permanecen en tu dispositivo.",
+      "missing": "Esta foto ya no está en tu dispositivo.",
+      "error": "No se ha podido buscar con esta foto. Comprueba tu conexión e inténtalo de nuevo.",
+      "openError": "La foto se ha enviado, pero no se han podido abrir los resultados. Inténtalo de nuevo.",
+      "blocked": "Permite las ventanas emergentes de Critterboard e inténtalo de nuevo."
+    },
     "training": {
       "label": "Ayuda a entrenar el modelo",
       "needsNetwork": "Necesita Red. Comparte fotos etiquetadas para que el próximo modelo reconozca mejor las especies.",

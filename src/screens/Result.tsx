@@ -5,6 +5,7 @@ import { BugIcon } from '@/components/BugIcon';
 import { Btn } from '@/components/Btn';
 import { CatchPhoto } from '@/components/CatchPhoto';
 import { IconBtn } from '@/components/IconBtn';
+import { ImageSearchCard } from '@/components/ImageSearchCard';
 import { NameItSheet } from '@/components/NameItSheet';
 import { ShareTick, useCanShareTraining } from '@/components/ShareTick';
 import type { Aim } from '@/ai/scanCrops';
@@ -248,6 +249,8 @@ export function Result() {
         <SpeciesSize bug={bug} lang={language} name={localizedName} />
         <SpeciesSeason bug={bug} lang={language} nearby={nearby} />
         <SpeciesLifeCycle bug={bug} />
+
+        {alreadyCaught && conf === undefined && shownPhoto ? <ImageSearchCard photoUri={shownPhoto} /> : null}
 
         <View style={{ marginTop: 14 }}>
           {action === 'add' && photoUri ? <ShareTick value={shareTraining} onChange={setShareTraining} /> : null}

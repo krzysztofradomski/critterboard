@@ -254,3 +254,15 @@ The invitation assumed recipients knew TestFlight, and repeated its name without
 1. Explain unfamiliar developer services at first mention in plain language; do not assume the audience has built an app.
 2. Mention the term once where possible, state the relevant device and describe what happens next.
 3. Audit the whole message for unexplained jargon and repeated product names before handing it back.
+
+## Visual search must carry the selected photo
+
+**Session:** Dex visual search (2026-11-15).
+
+The initial implementation opened a provider home page and required saving then uploading the photo. The user clarified that tapping the visual-search CTA should send the selected photo automatically.
+
+**Rules:**
+1. A visual-search action on a stored photo must carry that photo into the search, without a manual export/import round trip.
+2. Verify an actual upload-to-results flow before treating a provider link as a completed integration.
+3. Explain photo transmission clearly next to the CTA; the deliberate tap initiates the upload.
+4. Absence of a public API does not prove manual upload is required. Inspect first-party browser upload code and test the actual provider flow before settling on that limitation.

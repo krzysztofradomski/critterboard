@@ -28,12 +28,14 @@ flowchart TB
     Worker[worker/ Cloudflare Worker<br/>D1 · KV · Durable Object · Cron]
     GH[GitHub raw + Releases<br/>packs/*.json, eu-ce.pte]
     Sentry[Sentry<br/>opt-in]
+    Search[Google Lens / Bing<br/>photo search on tap]
   end
 
   CF -->|JWT, networkOn only| Worker
   App -->|region + i18n packs| GH
   Vision -. model download .-> GH
   App -. if opted in .-> Sentry
+  Screens -->|explicit photo-search tap| Search
 ```
 
 ## Folders
@@ -75,4 +77,5 @@ Everything below is optional. Without it the app degrades to bundled or mock beh
 | Translation packs | Boot, best-effort | `src/i18n/loader.ts` |
 | Map pack (PMTiles) | Once, when the Map tab first opens (spike: `EXPO_PUBLIC_MAP_PACK_URL`) | `src/map/mapPack.ts` |
 | Cloudflare Worker | `profile.networkOn` **and** `EXPO_PUBLIC_BACKEND_URL` set | `src/backend/cloudflare.ts` |
+| Google Lens / Bing Visual Search ([[modules/species-facts]]) | User taps a Dex photo-search button; sends only a resized, re-encoded copy directly to the chosen provider and opens results. Independent of the Critterboard social/training settings. No app backend or photo hosting. | `src/lib/searchPhoto.ts` / `.web.ts`, `src/lib/imageSearch.ts` |
 | Sentry | `profile.crashReportingOn` **and** DSN set | `src/lib/crashReporting.ts` |

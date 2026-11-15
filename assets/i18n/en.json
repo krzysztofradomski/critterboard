@@ -1320,6 +1320,19 @@
       "tag": "named by you",
       "already": "{name} is already in your Dex."
     },
+    "imageSearch": {
+      "title": "Check this ID",
+      "subtitle": "Compare your photo with an online image search.",
+      "send": "Search with {provider}",
+      "sendHint": "Sends this photo to the selected provider and opens the results in your browser.",
+      "browser": "Send photo & search",
+      "sending": "Sending photo…",
+      "privacy": "Tapping a search button sends a resized copy of this photo to Google or Microsoft, depending on your choice, under their privacy policies. Your other photos stay on your device.",
+      "missing": "This photo is no longer on your device.",
+      "error": "Could not search this photo. Check your connection and try again.",
+      "openError": "The photo was sent, but the results could not be opened. Please try again.",
+      "blocked": "Allow pop-ups for Critterboard, then try again."
+    },
     "training": {
       "label": "Help train the model",
       "needsNetwork": "Needs Network. Share labelled photos to make the next species model better.",

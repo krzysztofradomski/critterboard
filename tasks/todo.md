@@ -10,6 +10,39 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 > Local runbook for everything below: [[docs/handoff]].
 
+## Visual search TestFlight release (2026-11-15)
+
+- [x] Verify the feature, translations, photo-upload tests and current production build configuration.
+- [ ] Commit and push only the visual-search work, preserving unrelated article edits.
+- [ ] Build iOS with the production EAS profile and submit the exact build to TestFlight.
+- [ ] Verify Apple processing and internal testing availability; record the build and submission results.
+
+**Plan.** Keep app version 1.4.0 and let EAS increment its remote iOS build number. Build the committed app sources; upload only that build to the existing App Store Connect app. Check the final TestFlight status rather than treating a queued submission as delivery. No store production release is requested.
+
+## Dex automatic visual search (2026-11-15)
+
+- [x] Verify direct photo upload into Google Lens / Bing results, with no manual download/upload.
+- [x] Replace the export flow with a single-tap upload and results handoff, accurate privacy copy and loading/error states.
+- [x] Verify upload routing, errors, translations, mobile bundles and rendered card; update species docs and review results.
+- [ ] Phone follow-up: tap each provider on a real Dex photo and verify the browser results on iOS/Android.
+
+**Plan.** Re-encode the selected photo as a JPEG (long edge ≤1600 px) after a deliberate tap. Upload directly to Google Lens using Chromium’s current multipart flow, then open its validated results redirect. Implement Bing only with a verified photo-to-results route. Web submits the prepared file directly as a browser form; native uses Expo fetch with manual redirects. Remove photo export and its instructions, add a busy state and honest failure handling, and state that the chosen provider receives the photo. No Critterboard backend, hosting, paid API, or new native dependency.
+
+**Review.** Typecheck and all 529 tests passed (54 files). iOS and Android bundles exported successfully. Actual browser actions sent the bundled flower test icon directly to both providers; Lens displayed the uploaded image and visual matches. Verified translated cards at a 320 px content width with no overflow, and saved a 390 px preview. Native transport, redirect validation, preparation cleanup, blocked popups, missing photos and network/browser failures are covered by tests; on-phone native upload verification remains outstanding. Updated [[docs/modules/species-facts]], [[docs/architecture]], privacy-page source and generated pages, and the correction in [[tasks/lessons]]. Qualified the landing page’s no-upload claim to describe on-device identification.
+
+## Dex photo image search (2026-11-14)
+
+> The manual export design below was superseded by automatic visual search on 2026-11-15.
+
+- [x] Verify supported browser handoff for Google Lens and an alternative image search.
+- [x] Add a matching card between Life cycle and Share for entries with a photo; include both providers, photo export, upload instructions, and a privacy footnote in all four languages.
+- [x] Verify photo export and failure paths, translations, typecheck, tests, and the rendered layout.
+- [x] Update species-card documentation and record verification results.
+
+**Design.** Open Google Images (Lens) and Bing Images with the same external-link mechanism as Wikipedia. Their browser upload controls require a user-selected image; do not promise automatic transfer or host private photos. Offer the saved catch photo through the OS share sheet (download on web) so users can save it before selecting it. Links send no photo or species query. Uploading on the provider site sends the selected photo to Google or Microsoft under their terms. No provider API or new dependency.
+
+**Review.** Typecheck and all 514 tests passed (51 files). Browser fixture verified English, Polish, German and Spanish at 320/390 px with no horizontal overflow; local PNG download and both fixed external search URLs worked. The only console warning came from the existing shared Sticker shadow styles. iOS and Android production bundles exported successfully. Physical-device share-sheet and third-party upload checks remain manual. Updated [[docs/modules/species-facts]] and the docs index.
+
 ## Localization follow-up (2026-11-07)
 
 - [x] Match Dex rarity searches against the same translated labels shown on the filter chips. Preserve English keywords and existing filters.
