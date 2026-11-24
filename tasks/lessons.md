@@ -233,6 +233,19 @@ One `git commit -qam` swept another session's uncommitted outreach notes (index 
 2. Stage named files only (`git add <paths>`); never `-a` or `add .` while others' edits are present.
 3. Outreach material (names, contact details, draft messages) never goes into this repo: it is public.
 
+
+## Outreach needs discovery context and shared purpose
+
+**Session:** Naturalist outreach copy correction (2026-10-13).
+
+The first drafts named specialties but often omitted how each person was found. The user found this creepy.
+
+**Rules:**
+1. Name the actual discovery source in every first message and connect the relevant detail to a shared purpose.
+2. Do not claim prior familiarity, following, or shared credentials.
+3. Make TestFlight an explicit optional invitation, not just an app-status statement.
+4. Review how the message feels to receive, as well as its brevity.
+
 ## Write every UI request into tasks/todo.md the moment it's made
 
 **Session:** Apple Intelligence chat + simulator checks (2026-10-13).
@@ -255,6 +268,25 @@ The invitation assumed recipients knew TestFlight, and repeated its name without
 2. Mention the term once where possible, state the relevant device and describe what happens next.
 3. Audit the whole message for unexplained jargon and repeated product names before handing it back.
 
+## Prefer audience-friendly category words
+
+**Session:** TestFlight wording correction (2026-10-13).
+
+The phrase “app for testing apps” was repetitive. The user prefers “tool for testing apps.”
+
+**Rule:** Describe unfamiliar services with a simple category word that explains their purpose without repeating the surrounding noun; preserve the user’s chosen wording consistently across languages and saved drafts.
+
+## Separate technical review from app-testing outreach
+
+**Session:** Vision training review draft (2026-10-21).
+
+The user clarified that cold emails have not been sent because an Android test release is not ready.
+
+**Rules:**
+1. Treat drafted outreach and sent outreach as separate states; never infer sending from the existence of drafts.
+2. A technical document can invite model/pipeline feedback before an installable Android build exists. Keep its call to action focused on review; defer app-testing invitations until the release is ready.
+
+
 ## Visual search must carry the selected photo
 
 **Session:** Dex visual search (2026-11-15).
@@ -266,3 +298,15 @@ The initial implementation opened a provider home page and required saving then 
 2. Verify an actual upload-to-results flow before treating a provider link as a completed integration.
 3. Explain photo transmission clearly next to the CTA; the deliberate tap initiates the upload.
 4. Absence of a public API does not prove manual upload is required. Inspect first-party browser upload code and test the actual provider flow before settling on that limitation.
+
+
+## Verify native photo uploads before a TestFlight release
+
+**Session:** Google Lens failure on build 26 (2026-11-15).
+
+Google search passed a browser test and tests that mocked native transport, but failed on the user's iPhone before opening results.
+
+**Rules:**
+1. Exercise the actual native photo preparation, multipart encoding and redirect response before calling a mobile upload integration verified.
+2. A browser form or curl success does not validate an Expo/native networking path.
+3. Keep transport regression tests representative of the real SDK boundary; do not mock away the part most likely to differ by platform.

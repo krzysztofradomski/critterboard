@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { imageSearchResultsUrl } from '@/lib/imageSearch';
+import { imageSearchResultsUrl, imageSearchUploadUrl } from '@/lib/imageSearch';
 
 describe('image search results handoff', () => {
   it('accepts real results from the selected provider only', () => {
@@ -16,5 +16,13 @@ describe('image search results handoff', () => {
     'https://www.bing.com/images/search?insightsToken=sample',
   ])('rejects an unrelated or unsafe Lens redirect: %s', (url) => {
     expect(imageSearchResultsUrl('google', url)).toBeNull();
+  });
+});
+
+
+describe('Google upload route', () => {
+  it('uses the results-producing upload route for native iOS requests as well as browsers', () => {
+    expect(imageSearchUploadUrl('google', 'pl')).toBe('https://lens.google.com/upload?hl=pl');
+    expect(imageSearchUploadUrl('google', 'en', 'browser')).toBe('https://lens.google.com/upload?hl=en');
   });
 });

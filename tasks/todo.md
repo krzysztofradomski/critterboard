@@ -10,6 +10,15 @@ Living checklist of what's shipped and what's left. Treat this as the source of 
 
 > Local runbook for everything below: [[docs/handoff]].
 
+## Google Lens native upload failure (2026-11-15)
+
+- [ ] Reproduce the TestFlight 26 failure through the native upload path and identify the failing boundary.
+- [ ] Add a regression test and fix the demonstrated cause without changing the one-tap photo flow.
+- [ ] Verify the actual native flow, run checks, and update the species module/release notes.
+- [ ] Commit, push and deliver the verified fix to TestFlight.
+
+**Plan.** Inspect preparation, actual Expo multipart encoding, the provider response and redirect handling separately. Use a bundled test image rather than personal catch photos. Browser success and mocked transport are insufficient proof of the iOS path. Preserve unrelated article changes.
+
 ## Visual search TestFlight release (2026-11-15)
 
 - [x] Verify the feature, translations, photo-upload tests and current production build configuration.
@@ -872,3 +881,18 @@ Why: on the iPhone 13 mini Qwen3 1.7B overheated, froze and wrote poor Polish. A
 - [x] Dex entries show whether their photo went to training (asked twice): 🎓 green "Shared for training" / ⏳ yellow "Waiting to share" as a Dex tile corner badge and a band along the bottom of the species-page photo. Top-right corners already hold the XP badge and the rarity pill, so the marker sits at the bottom
 - [x] Text links ("Show on map", "Remove from Dex", "Name it yourself", "Read more", "I have a backup") use a drawn underline (`UNDERLINE` in `src/tokens/pb.ts`); iOS clipped `textDecorationLine` on the 13 mini
 
+
+## Vision training review draft (2026-10-21)
+
+Purpose: assemble the existing training documentation into a technical draft that invites useful model/pipeline reviews and introduces Critterboard. The user confirms cold emails have not been sent; the Android test release is not prepared yet. Document review can proceed independently of app testing.
+
+- [x] Inventory existing article material, model cards, run reports and training code.
+- [x] Assemble a sourced Markdown draft with methods, comparable results, limitations and focused reviewer questions.
+- [x] Prepare a lightweight review/distribution plan outside the public repository; no publishing or messaging in this task.
+- [x] Audit numerical claims and links, update the docs index, and record review results.
+- [ ] Follow-up: prepare an Android test release before the planned cold-email app-testing outreach (not part of this drafting task).
+
+**Review (2026-10-22):** Created `docs/articles/vision-pipeline-draft.md` (about 2,100 words) and `docs/articles/vision-training-evidence.md`; replaced the index's missing article links. Reviewed cards, scripts, archived run artifacts and credits manifests. Recomputed the manifest intersection: 6,971 later test records and 4,210 validation records also occur in commercial-v1's training manifest; the draft discloses the warm-start lineage and treats scores as development results. Synthetic table values and direct-result counts match `field.json`. All local Markdown links in the two new files resolve; code fences balance; `git diff --check` passes. No model training, inference, publishing, commits or messages were performed. Review/distribution notes are saved outside the public repository at `/Users/krzysztofradomski/.codex/outputs/critterboard/vision-training-review-plan-2026-10-22.md`.
+
+- [ ] Follow-up: audit actual training-image lineage, reconcile run inventory counts, and update the older model-card evaluation claims accordingly; design an untouched evaluation set before a performance announcement.
+- [ ] Follow-up: author reviews the draft, then share the approved document and collect external technical feedback. No reviews have been solicited yet.

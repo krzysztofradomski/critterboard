@@ -12,8 +12,8 @@ Architecture notes, decisions, and module guides. Written for skimming in Obsidi
 | [[architecture]] | App map — folders, native modules, network touchpoints, top-level diagram. |
 | [[ml-roadmap]] | On-device ML plan — MVP, full training, deferred placeholders. The master "what's next". |
 | [[modules/training-contributions]] | Name it yourself (search the pack's species, self-named catches never go online) and Help train the model (opt-in CC BY photo sharing: queue, worker R2 + D1, export, pull script). |
-| [[articles/vision-pipeline-article]] | Groundwork for a public article on the vision training pipeline: angle, outline, fact sheet, visuals, gaps. |
-| [[articles/vision-pipeline-draft]] | Full draft of that article: "Ready for spring: building on-device insect ID on a laptop". |
+| [[articles/vision-pipeline-draft]] | Technical review draft: offline insect model training, synthetic results, evaluation limitations and questions for reviewers. |
+| [[articles/vision-training-evidence]] | Draft evidence audit: checkpoint ancestry, manifest overlap, checked metrics and publication follow-ups. |
 | [[../NOTICE|NOTICE]] | Licences of the models, photos and icons (the MIT `LICENSE` covers code only). |
 | [[deployment]] | Shipping to iOS TestFlight & Google Play via EAS — build profiles, credentials, submit config. |
 | [[i18n]] | i18n architecture — bundled JSON packs, `t()` helper, remote OTA pack manifest, App Store notes. |
